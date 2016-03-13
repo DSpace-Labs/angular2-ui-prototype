@@ -1,0 +1,47 @@
+{
+  "name": "dspace-angular2-ui",
+  "version": "0.0.1",
+  "description": "Bootstrapped Webpacked DSpace Angular 2 in TypeScript",
+  "main": "server.js",
+  "author": {
+    "name": "William Welling",
+    "email": "wwelling@outlook.com"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "concurrently \"webpack -w\" \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
+	"test": "concurrently \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
+    "postinstall": "tsd install"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.8",
+    "angular2-websocket": "^0.6.2",
+    "bootstrap-sass": "^3.3.6",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "jquery": "^2.2.1",
+    "prerender-node": "^2.2.0",
+    "reflect-metadata": "^0.1.2",
+    "rxjs": "^5.0.0-beta.0",
+    "zone.js": "^0.5.15"
+  },
+  "devDependencies": {
+    "tsd": "^0.6.5",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "concurrently": "^2.0.0",
+    "nodejs-websocket": "^1.5.0",
+    "typescript": "^1.8.5",
+    "webpack": "^1.12.11",
+    "ts-loader": "^0.8.1",
+    "file-loader": "^0.8.5",
+    "url-loader": "^0.5.7",
+    "imports-loader": "^0.6.5",
+    "css-loader": "^0.23.1",
+    "node-loader": "^0.5.0",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "bootstrap-sass-loader": "^1.0.10"
+  }
+}
