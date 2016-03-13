@@ -1,5 +1,6 @@
 ﻿import {Component, Input, View} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {ListComponent} from './list.component';
 
@@ -7,7 +8,7 @@ import {ListComponent} from './list.component';
     selector: 'tree'
 })
 @View({
-     directives: [CORE_DIRECTIVES, TreeComponent, ListComponent],
+    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, TreeComponent, ListComponent],
     template: `
                 <ul class="list-group">
                     <li *ngFor="#directory of directories" class="list-group-item">
@@ -21,7 +22,7 @@ import {ListComponent} from './list.component';
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
 
                         
-                        <span (click)="select($event)" class="clickable">{{ directory.name }}</span>
+                        <a (click)="select(directory)" class="clickable">{{ directory.name }}</a>
 
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         
@@ -45,8 +46,8 @@ export class TreeComponent {
 
     constructor() { }
 
-    select(event) {
-        console.log(event);
+    select(directory) {
+        console.log(directory);
     }
 
 }

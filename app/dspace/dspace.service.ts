@@ -111,12 +111,14 @@ export class DSpaceService {
                         this.expanded = !this.expanded;
                     };
 
-                    dspace.fetchItems(collection).subscribe(items => {
-                        items.forEach(item => {
-                            item.parentCollection = collection;
+                    if (collection.numberItems > 0) {
+                        dspace.fetchItems(collection).subscribe(items => {
+                            items.forEach(item => {
+                                item.parentCollection = collection;
+                            });
+                            collection.items = items;
                         });
-                        collection.items = items;
-                    });
+                    }
 
                 });
 

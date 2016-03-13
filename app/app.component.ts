@@ -5,6 +5,7 @@ import {HomeComponent} from './home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
+import {DSpaceObjectComponent} from './dspace/dspace.component';
 
 import {HttpService} from './utils/http.service';
 import {LoginService} from './login/login.service';
@@ -19,7 +20,8 @@ import {LoginDirective} from './login/login.directive';
     { path: "/home",      name: "Home",      component: HomeComponent, useAsDefault: true },
     { path: "/register",  name: "Register",  component: RegisterComponent },
     { path: "/login",     name: "Login",     component: LoginComponent },
-    { path: "/dashboard", name: "Dashboard", component: DashboardComponent }
+    { path: "/dashboard", name: "Dashboard", component: DashboardComponent },
+    { path: "/tdl-rest/{level}/{id}",  name: "Tdl-rest",  component: DSpaceObjectComponent }
 ])
 @View({
     directives: [ROUTER_DIRECTIVES, LoginDirective, LoginComponent],

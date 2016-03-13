@@ -2,12 +2,13 @@
 import {Observable} from 'rxjs/Rx';
 
 import {DirectoryComponent} from './dspace/directory.component';
+import {BreadcrumbComponent} from './dspace/breadcrumb.component';
 
 @Component({
     selector: "dashboard"
 })
 @View({
-    directives: [DirectoryComponent],
+    directives: [BreadcrumbComponent, DirectoryComponent],
     template: `
                 <div class="container"
                     (document:keydown)="onKeyDown($event)"
@@ -18,7 +19,11 @@ import {DirectoryComponent} from './dspace/directory.component';
                     (mouseenter)="onMouseEnter($event)"
                     (mouseleave)="onMouseLeave($event)">
                     
+
+                    <breadcrumb></breadcrumb>
+
                     <h2>Dashboard</h2>
+
                     <directory></directory>
 
                 </div>
