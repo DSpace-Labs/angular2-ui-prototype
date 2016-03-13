@@ -22,5 +22,5 @@ npm install
  
 # Issues
 
-CORS are not being handled correctly on the client side or they are not being provided from the REST API on the response.
-Prerender requires middleware service.
+ - CORS are not being handled correctly on the client side or they are not being provided from the REST API on the response.
+ - Prerender requires middleware service.
