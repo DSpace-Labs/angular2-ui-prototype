@@ -1,6 +1,8 @@
 ﻿import {Component, View} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+
+import {BreadcrumbService} from './breadcrumb.service';
 
 @Component({
     selector: 'breadcrumb'
@@ -19,7 +21,7 @@ export class BreadcrumbComponent {
 
     trail: Object;
     
-    constructor() {
+    constructor(private breadCrumbService: BreadcrumbService) {
 
         this.trail = [
             { name: 'Dashboard', link: 'Dashboard' }
@@ -27,8 +29,6 @@ export class BreadcrumbComponent {
 
     }
 
-    ngAfterViewInit() {
-        console.log("Breadcrumb initialized.");
-    }
+    ngAfterViewInit() { }
 
 }

@@ -49,7 +49,6 @@ export class DSpaceService {
 
     // resolve top level communities as soon as possible
     getDirectory() {
-        console.log("Building Community/Collection Tree.");
         let dspace = this;
         return new Promise(function (resolve, reject) {
             if (dspace.directory['ready']) {

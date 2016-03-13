@@ -20,15 +20,16 @@ export class DirectoryComponent {
 
     constructor(private dSpaceService: DSpaceService) {
 
+    }
+
+    ngOnInit() {
         this.dSpaceService.getDirectory().then(directory => {
             this.directory = directory;
-            console.log(this.directory);
         });
-
     }
 
     ngAfterViewInit() {
-        console.log("Directory initialized.");
+
     }
 
 }

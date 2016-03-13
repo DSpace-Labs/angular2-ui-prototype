@@ -20,8 +20,8 @@ export class HttpService {
 
     post(request) {
 
-        console.log('POST');
-        console.log(request);
+        //console.log('POST');
+        //console.log(request);
 
         let body = JSON.stringify(request.data);
         
@@ -57,8 +57,8 @@ export class HttpService {
         
         let options = new RequestOptions({ headers: headers });
 
-        console.log('GET');
-        console.log(request);
+        //console.log('GET');
+        //console.log(request);
 
         let subscription = this.http
             .get(request.url, options)
@@ -72,7 +72,7 @@ export class HttpService {
                     console.log(err);
                 },
                 () => {
-                    console.log('Finished');
+                    //console.log('Finished');
                 }
         );
 

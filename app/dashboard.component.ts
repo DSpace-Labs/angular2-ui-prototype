@@ -19,11 +19,8 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
                     (mouseenter)="onMouseEnter($event)"
                     (mouseleave)="onMouseLeave($event)">
                     
-
                     <breadcrumb></breadcrumb>
-
                     <h2>Dashboard</h2>
-
                     <directory></directory>
 
                 </div>
@@ -39,7 +36,7 @@ export class DashboardComponent {
     }
 
     ngAfterViewInit() {
-        console.log("Dashboard initialized.");
+
     }
 
     onKeyDown(event) {

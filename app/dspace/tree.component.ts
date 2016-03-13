@@ -1,6 +1,6 @@
 ﻿import {Component, Input, View} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
 import {ListComponent} from './list.component';
 
@@ -20,7 +20,6 @@ import {ListComponent} from './list.component';
                         <span *ngIf="directory.type == 'collection' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
 
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
-
                         
                         <a (click)="select(directory)" class="clickable">{{ directory.name }}</a>
 
@@ -49,5 +48,5 @@ export class TreeComponent {
     select(directory) {
         console.log(directory);
     }
-
+    
 }

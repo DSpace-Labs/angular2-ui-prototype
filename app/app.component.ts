@@ -1,27 +1,33 @@
 ﻿import {Component, View} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
-import {DSpaceObjectComponent} from './dspace/dspace.component';
+
+import {CommunityComponent} from './dspace/community.component';
+import {CollectionComponent} from './dspace/collection.component';
+import {ItemComponent} from './dspace/item.component';
 
 import {HttpService} from './utils/http.service';
 import {LoginService} from './login/login.service';
+import {BreadcrumbService} from './dspace/breadcrumb.service';
 
 import {LoginDirective} from './login/login.directive';
 
 @Component({
     selector: 'dspace',
-    providers: [HttpService, LoginService]
+    providers: [HttpService, LoginService, BreadcrumbService]
 })
 @RouteConfig([
-    { path: "/home",      name: "Home",      component: HomeComponent, useAsDefault: true },
-    { path: "/register",  name: "Register",  component: RegisterComponent },
-    { path: "/login",     name: "Login",     component: LoginComponent },
-    { path: "/dashboard", name: "Dashboard", component: DashboardComponent },
-    { path: "/tdl-rest/{level}/{id}",  name: "Tdl-rest",  component: DSpaceObjectComponent }
+    { path: "/dashboard",        name: "Dashboard",   component: DashboardComponent, useAsDefault: true },
+    { path: "/home",             name: "Home",        component: HomeComponent},
+    { path: "/register",         name: "Register",    component: RegisterComponent },
+    { path: "/login",            name: "Login",       component: LoginComponent },
+    { path: "/communities/{id}", name: "Communities", component: CommunityComponent },
+    { path: "/collections/{id}", name: "Collections", component: CollectionComponent },
+    { path: "/items/{id}",       name: "Items",       component: ItemComponent }
 ])
 @View({
     directives: [ROUTER_DIRECTIVES, LoginDirective, LoginComponent],
