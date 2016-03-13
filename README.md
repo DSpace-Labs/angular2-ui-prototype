@@ -16,9 +16,9 @@ The packaging consists of app, vendor, styles, and bootstrap.
 
 npm install
 
- - npm run build => Builds the project. Required when typescript is changed.
- - npm run test => Runs node server and starts chrome in app mode with web security disabled.
- - npm run watch => Builds, runs, and watches for changes to build again.
+ - `npm run build` => Builds the project. Required when typescript is changed.
+ - `npm run test`  => Runs node server and starts chrome in app mode with web security disabled.
+ - `npm run watch` => Builds, runs, and watches for changes to build again.
  
 # Issues
 
