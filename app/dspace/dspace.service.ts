@@ -10,10 +10,14 @@ export class DSpaceService {
 
     directory: {};
 
+    items: {};
+
     topCommunities: {};
         
     constructor(private httpService: HttpService) {
         this.url = 'https://training-ir.tdl.org/tdl-rest';
+
+        this.items = {};
 
         this.directory = {
             data: null,
@@ -35,6 +39,14 @@ export class DSpaceService {
                 password: password
             }
         }); 
+    }
+
+    getItem(itemId) {
+        console.log(itemId);
+        return new Promise(function (resolve, reject) {
+            
+
+        });
     }
 
     // resolve top level communities as soon as possible

@@ -5,14 +5,14 @@ import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './dspace/breadcrumb.service';
 
 import {TreeComponent} from './dspace/tree.component';
-
+import {ContextComponent} from './dspace/context.component';
 import {BreadcrumbComponent} from './dspace/breadcrumb.component';
 
 @Component({
     selector: "dashboard"
 })
 @View({
-    directives: [BreadcrumbComponent, TreeComponent],
+    directives: [ContextComponent, BreadcrumbComponent, TreeComponent],
     template: `
                 <div class="container"
                     (document:keydown)="onKeyDown($event)"
@@ -24,10 +24,14 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
                     (mouseleave)="onMouseLeave($event)">
                     
                     <breadcrumb></breadcrumb>
-                    
-                    <h2>Dashboard</h2>
 
-                    <tree [directories]="directory"></tree>
+                    <div class="col-md-4">
+                        <context [context]="dashboard"></context>
+                    </div>
+
+                    <div class="col-md-8">
+                        <tree [directories]="directory"></tree>
+                    </div>
 
                 </div>
               `
@@ -39,8 +43,14 @@ export class DashboardComponent {
 
     directory: Object;
 
+    dashboard: {};
+
     constructor(elementRef: ElementRef, private dSpaceService: DSpaceService, private breadcrumbService: BreadcrumbService) {
         this.elementRef = elementRef;
+        this.dashboard = {
+            name: 'Dashboard',
+            type: 'dashboard'
+        }
         this.dSpaceService.getDirectory().then(directory => {
             this.directory = directory;
         });

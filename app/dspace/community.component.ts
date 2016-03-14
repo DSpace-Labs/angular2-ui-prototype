@@ -1,32 +1,41 @@
 ﻿import {Component, View} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {TreeComponent} from './tree.component';
-
-import {BreadcrumbComponent} from './breadcrumb.component';
-
 import {BreadcrumbService} from './breadcrumb.service';
+
+import {TreeComponent} from './tree.component';
+import {ContextComponent} from './context.component';
+import {BreadcrumbComponent} from './breadcrumb.component';
 
 @Component({
     selector: 'dspace-object'
 })
 @View({
-    directives: [BreadcrumbComponent, TreeComponent],
+    directives: [ContextComponent, BreadcrumbComponent, TreeComponent],
     template: ` 
                 <div class="container">
+                    
                     <breadcrumb></breadcrumb>
-                    <h1>Community</h1>
-                    <tree [directories]="community"></tree>
-                    <div *ngFor='#key of keys'>
-                        <span>{{key}}</span>: <span>{{community[0][key]}}</span>
+                    
+                    <div class="col-md-4">
+                        <context [context]="community[0]"></context>
                     </div>
+
+                    <div class="col-md-8">
+                        <tree [directories]="community"></tree>
+                        <div class="jumbotron">
+                            <div class="container">
+                                
+                            </div>
+                        </div>                        
+                    </div>
+                    
                 </div>
               `
 })
 export class CommunityComponent {
 
     community: Array<Object>;
-    keys: any;
 
     subscription: any;
 
@@ -37,7 +46,6 @@ export class CommunityComponent {
     setCommunity(community) {
         this.community = new Array<Object>();
         this.community.push(community);
-        this.keys = Object.keys(this.community[0]);
     }
 
     ngOnInit() {

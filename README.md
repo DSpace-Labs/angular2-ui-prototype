@@ -12,7 +12,7 @@ The packaging consists of app, vendor, styles, and bootstrap.
  - styles are css you write. 
  - bootstrap is the combination of jquery and bootstrap.
 
-# Deployment
+# Development
 
 npm install
 

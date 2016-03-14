@@ -1,32 +1,41 @@
 ﻿import {Component, View} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {TreeComponent} from './tree.component';
-
-import {BreadcrumbComponent} from './breadcrumb.component';
-
 import {BreadcrumbService} from './breadcrumb.service';
+
+import {TreeComponent} from './tree.component';
+import {ContextComponent} from './context.component';
+import {BreadcrumbComponent} from './breadcrumb.component';
 
 @Component({
     selector: 'dspace-object'
 })
 @View({
-    directives: [BreadcrumbComponent, TreeComponent],
+    directives: [ContextComponent, BreadcrumbComponent, TreeComponent],
     template: ` 
                 <div class="container">
+                    
                     <breadcrumb></breadcrumb>
-                    <h2>Collection</h2>
-                    <tree [directories]="collection"></tree>
-                    <div *ngFor='#key of keys'>
-                        <span>{{key}}</span>: <span>{{collection[0][key]}}</span>
+
+                    <div class="col-md-4">
+                        <context [context]="collection[0]"></context>
                     </div>
+
+                    <div class="col-md-8">
+                        <tree [directories]="collection"></tree>
+                        <div class="jumbotron">
+                            <div class="container">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
               `
 })
 export class CollectionComponent {
 
     collection: Array<Object>;
-    keys: any;
 
     subscription: any;
 
@@ -37,7 +46,6 @@ export class CollectionComponent {
     setCollection(collection) {
         this.collection = new Array<Object>();
         this.collection.push(collection);
-        this.keys = Object.keys(this.collection[0]);
     }
 
     ngOnInit() {

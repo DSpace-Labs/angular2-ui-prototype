@@ -1,39 +1,50 @@
 ﻿import {Component, View} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {BreadcrumbComponent} from './breadcrumb.component';
-
+import {DSpaceService} from './dspace.service';
 import {BreadcrumbService} from './breadcrumb.service';
+
+import {ContextComponent} from './context.component';
+import {BreadcrumbComponent} from './breadcrumb.component';
 
 @Component({
     selector: 'dspace-object'
 })
 @View({
-    directives: [BreadcrumbComponent],
+    directives: [ContextComponent, BreadcrumbComponent],
     template: `
                 <div class="container">
+                    
                     <breadcrumb></breadcrumb>
-                    <h1>Item</h1>
-                    <div *ngFor='#key of keys'>
-                        <span>{{key}}</span>: <span>{{item[key]}}</span>
+                    
+                    <div class="col-md-4">
+                        <context [context]="item"></context>
                     </div>
+
+                    <div class="col-md-8">
+                        <div class="jumbotron">
+                            <div class="container">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
               `
 })
 export class ItemComponent {
 
     item: any;
-    keys: any;
 
     subscription: any;
 
-    constructor(private breadcrumbService: BreadcrumbService) {
+    constructor(private breadcrumbService: BreadcrumbService, private dspaceService: DSpaceService) {
        this.setItem(this.breadcrumbService.getBreadcrumb());
     }
 
     setItem(item) {
         this.item = item;
-        this.keys = Object.keys(this.item);
+        this.dspaceService.getItem(item.id);
     }
 
     ngOnInit() {
