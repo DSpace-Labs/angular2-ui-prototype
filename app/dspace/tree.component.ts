@@ -1,6 +1,5 @@
 ﻿import {Component, Input, View} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {Router} from 'angular2/router';
 
 import {ListComponent} from './list.component';
 
@@ -10,7 +9,7 @@ import {BreadcrumbService} from './breadcrumb.service';
     selector: 'tree'
 })
 @View({
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, TreeComponent, ListComponent],
+    directives: [TreeComponent, ListComponent],
     template: `
                 <ul class="list-group">
                     <li *ngFor="#directory of directories" class="list-group-item">
@@ -23,11 +22,8 @@ import {BreadcrumbService} from './breadcrumb.service';
 
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
                         
-                        
                         <!-- Router Link -->
                         <a (click)="select(directory)" class="clickable">{{ directory.name }}</a>
-
-
 
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         
@@ -51,7 +47,10 @@ export class TreeComponent {
 
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) { }
 
-    select(directory) {        
+    select(directory) {
+
+        this.breadcrumbService.visit(directory);
+
         let link = directory.link;
         let start = 0;
         if ((start = link.indexOf('/communities')) > 0) {
@@ -65,8 +64,6 @@ export class TreeComponent {
         }
 
         this.router.navigate([link]);
-
-        this.breadcrumbService.visit(directory);
     }
     
 }

@@ -2,6 +2,7 @@
 import {Observable} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace/dspace.service';
+import {BreadcrumbService} from './dspace/breadcrumb.service';
 
 import {TreeComponent} from './dspace/tree.component';
 
@@ -38,18 +39,52 @@ export class DashboardComponent {
 
     directory: Object;
 
-    constructor(elementRef: ElementRef, private dSpaceService: DSpaceService) {
+    constructor(elementRef: ElementRef, private dSpaceService: DSpaceService, private breadcrumbService: BreadcrumbService) {
         this.elementRef = elementRef;
-
-        console.log('DASHBOARD');
         this.dSpaceService.getDirectory().then(directory => {
             this.directory = directory;
         });
+    }
 
+    ngOnInit() {
+        // Properties are resolved and things like
+        // this.mapWindow and this.mapControls
+        // had a chance to resolve from the
+        // two child components <map-window> and <map-controls>
+    }
+
+    ngOnDestroy() {
+        // Speak now or forever hold your peace
+    }
+
+    ngDoCheck() {
+        // Custom change detection
+    }
+
+    ngOnChanges(changes) {
+        // Called right after our bindings have been checked but only
+        // if one of our bindings has changed.
+        //
+        // changes is an object of the format:
+        // {
+        //   'prop': PropertyUpdate
+        // }
+    }
+
+    ngAfterContentInit() {
+        // Component content has been initialized
+    }
+
+    ngAfterContentChecked() {
+        // Component content has been Checked
     }
 
     ngAfterViewInit() {
-        
+        // Component views are initialized
+    }
+
+    ngAfterViewChecked() {
+        // Component views have been checked
     }
 
     onKeyDown(event) {

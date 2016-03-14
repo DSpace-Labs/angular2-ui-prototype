@@ -1,6 +1,5 @@
 ﻿import {Component, Input, View} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {Router} from 'angular2/router';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -8,7 +7,6 @@ import {BreadcrumbService} from './breadcrumb.service';
     selector: 'list'
 })
 @View({
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
     template: `
                 <ul class="list-group">
                     <li *ngFor="#item of items" class="list-group-item">
@@ -26,6 +24,9 @@ export class ListComponent {
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) { }
 
     select(item) {
+
+        this.breadcrumbService.visit(item);
+
         let link = item.link;
         let start = 0;
         if ((start = link.indexOf('/items')) > 0) {
@@ -34,9 +35,8 @@ export class ListComponent {
         else {
             console.log('doh');
         }
-        this.router.navigate([link]);
 
-        this.breadcrumbService.visit(item);
+        this.router.navigate([link]);
     }
 
 }

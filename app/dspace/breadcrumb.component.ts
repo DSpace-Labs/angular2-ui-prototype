@@ -1,6 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {Router} from 'angular2/router';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -8,46 +7,68 @@ import {BreadcrumbService} from './breadcrumb.service';
     selector: 'breadcrumb'
 })
 @View({
-    directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES],
     template: ` 
                 <ul class="list-inline breadcrumb">
                     <li *ngFor="#page of trail">
-                        <a [routerLink]="[ '/' + page.link ]">{{page.name}}</a>
+                        <a (click)="select(page)" class="clickable">{{page.name}}</a>
                     </li>
                 </ul>
               `
 })
 export class BreadcrumbComponent {
 
-    trail: Object;
+    trail: Array<{}>;
+            
+    constructor(private router: Router, private breadcrumbService: BreadcrumbService) {
+        this.trail = new Array<{}>();
+        this.dropBreadcrumb(this.breadcrumbService.getBreadcrumb());
+        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: null });
+    }
+
+    select(breadcrumb) {
+
+        this.breadcrumbService.visit(breadcrumb.context);
+
+        this.trail = new Array<{}>();
+        
+        if (breadcrumb.context != null) {
+            this.dropBreadcrumb(breadcrumb.context);            
+        }
+
+        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: null });        
+
+        this.router.navigate([breadcrumb.link]);
+
+    }
     
-    subscription: any;
-    
-    constructor(private breadcrumbService: BreadcrumbService) {
-
-        this.trail = [
-            { name: 'Dashboard', link: 'Dashboard' }
-        ];
-
-        this.buildTrail(this.breadcrumbService.getBreadcrumb());
-                
+    dropBreadcrumb(context) {
+        if (context != undefined) {
+            this.trail.unshift({ name: context.name, link: this.filterLink(context.link), context: context });            
+            if (context.parentCommunity) {
+                this.dropBreadcrumb(context.parentCommunity);
+            }
+            if (context.parentCollection) {
+                this.dropBreadcrumb(context.parentCollection);
+            }
+        }
     }
 
-    buildTrail(context) {
-        console.log(context);
-        console.log('build trail');
-    }
-
-    ngOnInit() {
-        console.log('subscribing');
-        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            this.buildTrail(context);
-        });
-    }
-
-    ngOnDestroy() {
-        console.log('unsubscribing');
-        this.subscription.unsubscribe();
+    filterLink(badLink) {
+        let goodLink = badLink;
+        let start = 0;
+        if ((start = goodLink.indexOf('/communities')) > 0) {
+            goodLink = '/Communities' + goodLink.substring(start + 12, goodLink.length);
+        }
+        else if ((start = goodLink.indexOf('/collections')) > 0) {
+            goodLink = '/Collections' + goodLink.substring(start + 12, goodLink.length);
+        }
+        else if ((start = goodLink.indexOf('/items')) > 0) {
+            goodLink = '/Items' + goodLink.substring(start + 6, goodLink.length);
+        }
+        else {
+            console.log('doh');
+        }
+        return goodLink;
     }
 
 }

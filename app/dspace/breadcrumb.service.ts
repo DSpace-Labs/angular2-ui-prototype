@@ -13,10 +13,10 @@ export class BreadcrumbService {
     }
 
     visit(context) {
-        this.emitter.next(context);
         this.breadcrumb = context;
+        this.emitter.next(this.breadcrumb);
     }
-
+    
     getBreadcrumb() {
         return this.breadcrumb;
     }
