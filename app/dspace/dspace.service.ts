@@ -27,6 +27,16 @@ export class DSpaceService {
 
     }
 
+    login(email, password) {
+        this.httpService.post({
+            url: this.url + '/login',
+            data: {
+                email: email,
+                password: password
+            }
+        }); 
+    }
+
     // resolve top level communities as soon as possible
     getDirectory() {
         let dspace = this;

@@ -41,9 +41,7 @@ export class DashboardComponent {
 
     constructor(elementRef: ElementRef, private dSpaceService: DSpaceService, private breadcrumbService: BreadcrumbService) {
         this.elementRef = elementRef;
-        console.log('get directory')
         this.dSpaceService.getDirectory().then(directory => {
-            console.log('got directory')
             this.directory = directory;
         });
     }

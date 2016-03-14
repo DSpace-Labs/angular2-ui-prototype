@@ -9,6 +9,7 @@ export class BreadcrumbService {
     breadcrumb: any;
                 
     constructor() {
+        this.breadcrumb = {};
         this.emitter = new EventEmitter<Object>();
     }
 

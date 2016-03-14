@@ -18,6 +18,8 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent {
 
     trail: Array<{}>;
+
+    subscription: any;
             
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) {
         this.buildTrail(this.breadcrumbService.getBreadcrumb());
@@ -25,28 +27,35 @@ export class BreadcrumbComponent {
 
     buildTrail(context) {
         this.trail = new Array<{}>();
-        if(context) {
-            this.dropBreadcrumb(context);
-        }        
-        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: null });
+        this.dropBreadcrumb(context);
+        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: {} });
     }
 
     select(breadcrumb) {
-        if (breadcrumb.context != null) {
-            this.breadcrumbService.visit(breadcrumb.context);
-            this.buildTrail(breadcrumb.context);
-        }
+        this.breadcrumbService.visit(breadcrumb.context);        
         this.router.navigate([breadcrumb.link]);
     }
     
     dropBreadcrumb(context) {
-        this.trail.unshift({ name: context.name, link: context.link, context: context });
-        if (context.parentCommunity) {
-            this.dropBreadcrumb(context.parentCommunity);
+        if(context && context.name && context.link) {
+            this.trail.unshift({ name: context.name, link: context.link, context: context });
+            if (context.parentCommunity) {
+                this.dropBreadcrumb(context.parentCommunity);
+            }
+            if (context.parentCollection) {
+                this.dropBreadcrumb(context.parentCollection);
+            }
         }
-        if (context.parentCollection) {
-            this.dropBreadcrumb(context.parentCollection);
-        }
+    }
+
+    ngOnInit() {
+        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
+            this.buildTrail(context);
+        });
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
 }
