@@ -5,6 +5,8 @@ import {EventEmitter} from 'angular2/core';
 export class BreadcrumbService {
 
     emitter: EventEmitter<Object>;
+
+    breadcrumb: any;
                 
     constructor() {
         this.emitter = new EventEmitter<Object>();
@@ -12,6 +14,11 @@ export class BreadcrumbService {
 
     visit(context) {
         this.emitter.next(context);
+        this.breadcrumb = context;
+    }
+
+    getBreadcrumb() {
+        return this.breadcrumb;
     }
 
 }

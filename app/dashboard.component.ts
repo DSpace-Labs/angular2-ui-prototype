@@ -1,14 +1,17 @@
 ﻿import {Component, View, ElementRef} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 
-import {DirectoryComponent} from './dspace/directory.component';
+import {DSpaceService} from './dspace/dspace.service';
+
+import {TreeComponent} from './dspace/tree.component';
+
 import {BreadcrumbComponent} from './dspace/breadcrumb.component';
 
 @Component({
     selector: "dashboard"
 })
 @View({
-    directives: [BreadcrumbComponent, DirectoryComponent],
+    directives: [BreadcrumbComponent, TreeComponent],
     template: `
                 <div class="container"
                     (document:keydown)="onKeyDown($event)"
@@ -20,8 +23,10 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
                     (mouseleave)="onMouseLeave($event)">
                     
                     <breadcrumb></breadcrumb>
+                    
                     <h2>Dashboard</h2>
-                    <directory></directory>
+
+                    <tree [directories]="directory"></tree>
 
                 </div>
               `
@@ -31,12 +36,20 @@ export class DashboardComponent {
     // template element
     elementRef: ElementRef;
 
-    constructor(elementRef: ElementRef) {
+    directory: Object;
+
+    constructor(elementRef: ElementRef, private dSpaceService: DSpaceService) {
         this.elementRef = elementRef;
+
+        console.log('DASHBOARD');
+        this.dSpaceService.getDirectory().then(directory => {
+            this.directory = directory;
+        });
+
     }
 
     ngAfterViewInit() {
-
+        
     }
 
     onKeyDown(event) {

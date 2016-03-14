@@ -2,12 +2,14 @@
 
 import {BreadcrumbComponent} from './breadcrumb.component';
 
+import {BreadcrumbService} from './breadcrumb.service';
+
 @Component({
     selector: 'dspace-object'
 })
 @View({
     directives: [BreadcrumbComponent],
-    template: ` 
+    template: `
                 <div class="container">
                     <breadcrumb></breadcrumb>
                     <h1>Item</h1>
@@ -15,9 +17,11 @@ import {BreadcrumbComponent} from './breadcrumb.component';
               `
 })
 export class ItemComponent {
-    
-    constructor() { }
 
-    ngAfterViewInit() { }
+    item: any;
+
+    constructor(private breadcrumbService: BreadcrumbService) {
+        this.item = this.breadcrumbService.getBreadcrumb();
+    }
 
 }

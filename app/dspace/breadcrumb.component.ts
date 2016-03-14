@@ -21,14 +21,33 @@ export class BreadcrumbComponent {
 
     trail: Object;
     
-    constructor(private breadCrumbService: BreadcrumbService) {
+    subscription: any;
+    
+    constructor(private breadcrumbService: BreadcrumbService) {
 
         this.trail = [
             { name: 'Dashboard', link: 'Dashboard' }
         ];
 
+        this.buildTrail(this.breadcrumbService.getBreadcrumb());
+                
     }
 
-    ngAfterViewInit() { }
+    buildTrail(context) {
+        console.log(context);
+        console.log('build trail');
+    }
+
+    ngOnInit() {
+        console.log('subscribing');
+        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
+            this.buildTrail(context);
+        });
+    }
+
+    ngOnDestroy() {
+        console.log('unsubscribing');
+        this.subscription.unsubscribe();
+    }
 
 }

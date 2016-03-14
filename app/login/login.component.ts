@@ -32,6 +32,7 @@ export class LoginComponent {
     timer: number;
 
     email: string;
+
     password: string;
 
     constructor(private loginService: LoginService) {
