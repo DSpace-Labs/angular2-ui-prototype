@@ -10,10 +10,11 @@
   "scripts": {
     "build": "webpack",
     "watch": "concurrently \"webpack -w\" \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
-	  "test": "concurrently \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
+    "test": "concurrently \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
     "mac-watch": "concurrently \"webpack -w\" \"node server\" \"chrome.sh\"",
     "mac-test": "concurrently \"node server\" \"chrome.sh\"",
-    "postinstall": "tsd install"
+    "preinstall": "npm install typings -g",
+    "postinstall": "typings install"
   },
   "dependencies": {
     "angular2": "2.0.0-beta.8",
@@ -28,11 +29,11 @@
     "zone.js": "^0.5.15"
   },
   "devDependencies": {
-    "tsd": "^0.6.5",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "concurrently": "^2.0.0",
     "nodejs-websocket": "^1.5.0",
+    "typings": "^0.7.8",
     "typescript": "^1.8.5",
     "webpack": "^1.12.11",
     "ts-loader": "^0.8.1",
