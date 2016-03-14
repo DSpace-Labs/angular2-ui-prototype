@@ -8,35 +8,14 @@ export class DSpaceService {
 
     url: string;
 
-    items: {};
-
     directory: {};
-
-    collections: {};
-
-    communities: {};
 
     topCommunities: {};
         
     constructor(private httpService: HttpService) {
         this.url = 'https://training-ir.tdl.org/tdl-rest';
 
-        this.items = {
-            data: null,
-            ready: false
-        }
-
         this.directory = {
-            data: null,
-            ready: false
-        }
-
-        this.collections = {
-            data: null,
-            ready: false
-        }
-
-        this.communities = {
             data: null,
             ready: false
         }
@@ -45,6 +24,7 @@ export class DSpaceService {
             data: null,
             ready: false
         }
+
     }
 
     // resolve top level communities as soon as possible
@@ -64,6 +44,28 @@ export class DSpaceService {
         });
     }
 
+    getTopCommunities() {
+        let dspace = this;
+        return new Promise(function (resolve, reject) {
+            if (dspace.topCommunities['ready']) {
+                resolve(dspace.topCommunities['data']);
+            }
+            else {
+                dspace.fetchTopCommunities().subscribe((data) => {
+                    dspace.topCommunities['data'] = JSON.parse(data);
+                    resolve(dspace.topCommunities['data']);
+                    dspace.topCommunities['ready'] = true;
+                });;
+            }
+        });
+    }
+
+    fetchTopCommunities() {
+        return this.httpService.get({
+            url: this.url + '/communities/top-communities'
+        });
+    }
+
     // build and populate directory asynchronously
     buildDirectory() {
         let dspace = this;
@@ -80,6 +82,8 @@ export class DSpaceService {
             for (let i in communities) {
                 let subCommunities = communities[i];
                 let parentCommunity = communityArray[i];
+
+                parentCommunity.link = dspace.filterLink(parentCommunity.link);
 
                 parentCommunity.expanded = false;
                 parentCommunity.toggle = function () {
@@ -105,6 +109,8 @@ export class DSpaceService {
                 communityCollections.forEach(collection => {
                     collection.parentCommunity = parentCommunity;
 
+                    collection.link = dspace.filterLink(collection.link);
+
                     collection.expanded = false;
                     collection.toggle = function () {
                         this.expanded = !this.expanded;
@@ -113,6 +119,9 @@ export class DSpaceService {
                     if (collection.numberItems > 0) {
                         dspace.fetchItems(collection).subscribe(items => {
                             items.forEach(item => {
+
+                                item.link = dspace.filterLink(item.link);
+
                                 item.parentCollection = collection;
                             });
                             collection.items = items;
@@ -166,74 +175,22 @@ export class DSpaceService {
         });
     }
 
-    getUrl() {
-        return this.url;
-    }
-
-    fetchTopCommunities() {
-        return this.httpService.get({
-            url: this.url + '/communities/top-communities'
-        });
-    }
-
-    getTopCommunities() {
-        let dspace = this;
-        return new Promise(function (resolve, reject) {
-            if (dspace.topCommunities['ready']) {
-                resolve(dspace.topCommunities['data']);
-            }
-            else {
-                dspace.fetchTopCommunities().subscribe((data) => {
-                    dspace.topCommunities['data'] = JSON.parse(data);
-                    resolve(dspace.topCommunities['data']);
-                    dspace.topCommunities['ready'] = true;
-                });;
-            }
-        });
-    }
-
-    fetchCommunities() {
-        return this.httpService.get({
-            url: this.url + '/communities'
-        });
-    }
-
-    getCommunities() {
-        let dspace = this;
-        return new Promise(function (resolve, reject) {
-            if (dspace.communities['ready']) {
-                resolve(dspace.communities['data']);
-            }
-            else {
-                dspace.fetchCommunities().subscribe((data) => {
-                    dspace.communities['data'] = JSON.parse(data);
-                    resolve(dspace.communities['data']);
-                    dspace.communities['ready'] = true;
-                });;
-            }
-        });
-    }
-
-    fetchCollections() {
-        return this.httpService.get({
-            url: this.url + '/collections'
-        });
-    }
-
-    getCollections() {
-        let dspace = this;
-        return new Promise(function (resolve, reject) {
-            if (dspace.collections['ready']) {
-                resolve(dspace.collections['data']);
-            }
-            else {
-                dspace.fetchCollections().subscribe((data) => {
-                    dspace.collections['data'] = JSON.parse(data);
-                    resolve(dspace.collections['data']);
-                    dspace.collections['ready'] = true;
-                });;
-            }
-        });
+    filterLink(badLink) {
+        let goodLink = badLink;
+        let start = 0;
+        if ((start = goodLink.indexOf('/communities')) > 0) {
+            goodLink = '/Communities' + goodLink.substring(start + 12, goodLink.length);
+        }
+        else if ((start = goodLink.indexOf('/collections')) > 0) {
+            goodLink = '/Collections' + goodLink.substring(start + 12, goodLink.length);
+        }
+        else if ((start = goodLink.indexOf('/items')) > 0) {
+            goodLink = '/Items' + goodLink.substring(start + 6, goodLink.length);
+        }
+        else {
+            console.log('doh');
+        }
+        return goodLink;
     }
 
 }

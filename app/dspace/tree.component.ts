@@ -48,22 +48,8 @@ export class TreeComponent {
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) { }
 
     select(directory) {
-
         this.breadcrumbService.visit(directory);
-
-        let link = directory.link;
-        let start = 0;
-        if ((start = link.indexOf('/communities')) > 0) {
-            link = '/Communities' + link.substring(start + 12, link.length);
-        }
-        else if ((start = link.indexOf('/collections')) > 0) {
-            link = '/Collections' + link.substring(start + 12, link.length);
-        }
-        else {
-            console.log('doh');
-        }
-
-        this.router.navigate([link]);
+        this.router.navigate([directory.link]);
     }
     
 }

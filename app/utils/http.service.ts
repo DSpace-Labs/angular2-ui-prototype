@@ -19,9 +19,7 @@ export class HttpService {
 
 
     post(request) {
-
-        //console.log('POST');
-        //console.log(request);
+        console.log(request)
 
         let body = JSON.stringify(request.data);
         
@@ -32,24 +30,11 @@ export class HttpService {
 
         let options = new RequestOptions({ headers: headers });
 
-        let subscription = this.http
-            .post(request.url, body, options)
-            .map(response => response.text());
-            
-        subscription.subscribe(
-                data => {
-                    console.log(data);                    
-                },
-                err => {
-                    console.log(err);
-                },
-                () => console.log('Complete')
-        );
-
-        return subscription;
+        return this.http.post(request.url, body, options).map(response => response.text());
     }
 
     get(request) {
+        console.log(request)
 
         let headers = this.buildHeaders([
             { key: 'Content-Type', value: 'application/json' }
@@ -57,26 +42,7 @@ export class HttpService {
         
         let options = new RequestOptions({ headers: headers });
 
-        //console.log('GET');
-        //console.log(request);
-
-        let subscription = this.http
-            .get(request.url, options)
-            .map(response => response.text());
-
-        subscription.subscribe(
-                data => {
-                    //console.log(JSON.parse(data));
-                },
-                err => {
-                    console.log(err);
-                },
-                () => {
-                    //console.log('Finished');
-                }
-        );
-
-        return subscription;
+        return this.http.get(request.url, options).map(response => response.text());
     }
 
 }

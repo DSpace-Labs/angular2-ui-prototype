@@ -11,7 +11,7 @@ import {BreadcrumbService} from './breadcrumb.service';
                 <ul class="list-group">
                     <li *ngFor="#item of items" class="list-group-item">
 
-                        <!-- Router Link -->                    
+                        <!-- Router Link -->
                         <a (click)="select(item)" class="clickable">{{ item.name }}</a>
                     </li>
                 </ul>
@@ -24,19 +24,8 @@ export class ListComponent {
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) { }
 
     select(item) {
-
         this.breadcrumbService.visit(item);
-
-        let link = item.link;
-        let start = 0;
-        if ((start = link.indexOf('/items')) > 0) {
-            link = '/Items' + link.substring(start + 6, link.length);
-        }
-        else {
-            console.log('doh');
-        }
-
-        this.router.navigate([link]);
+        this.router.navigate([item.link]);
     }
 
 }

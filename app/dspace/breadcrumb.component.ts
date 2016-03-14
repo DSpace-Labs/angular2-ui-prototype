@@ -20,55 +20,33 @@ export class BreadcrumbComponent {
     trail: Array<{}>;
             
     constructor(private router: Router, private breadcrumbService: BreadcrumbService) {
+        this.buildTrail(this.breadcrumbService.getBreadcrumb());
+    }
+
+    buildTrail(context) {
         this.trail = new Array<{}>();
-        this.dropBreadcrumb(this.breadcrumbService.getBreadcrumb());
+        if(context) {
+            this.dropBreadcrumb(context);
+        }        
         this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: null });
     }
 
     select(breadcrumb) {
-
-        this.breadcrumbService.visit(breadcrumb.context);
-
-        this.trail = new Array<{}>();
-        
         if (breadcrumb.context != null) {
-            this.dropBreadcrumb(breadcrumb.context);            
+            this.breadcrumbService.visit(breadcrumb.context);
+            this.buildTrail(breadcrumb.context);
         }
-
-        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: null });        
-
         this.router.navigate([breadcrumb.link]);
-
     }
     
     dropBreadcrumb(context) {
-        if (context != undefined) {
-            this.trail.unshift({ name: context.name, link: this.filterLink(context.link), context: context });            
-            if (context.parentCommunity) {
-                this.dropBreadcrumb(context.parentCommunity);
-            }
-            if (context.parentCollection) {
-                this.dropBreadcrumb(context.parentCollection);
-            }
+        this.trail.unshift({ name: context.name, link: context.link, context: context });
+        if (context.parentCommunity) {
+            this.dropBreadcrumb(context.parentCommunity);
         }
-    }
-
-    filterLink(badLink) {
-        let goodLink = badLink;
-        let start = 0;
-        if ((start = goodLink.indexOf('/communities')) > 0) {
-            goodLink = '/Communities' + goodLink.substring(start + 12, goodLink.length);
+        if (context.parentCollection) {
+            this.dropBreadcrumb(context.parentCollection);
         }
-        else if ((start = goodLink.indexOf('/collections')) > 0) {
-            goodLink = '/Collections' + goodLink.substring(start + 12, goodLink.length);
-        }
-        else if ((start = goodLink.indexOf('/items')) > 0) {
-            goodLink = '/Items' + goodLink.substring(start + 6, goodLink.length);
-        }
-        else {
-            console.log('doh');
-        }
-        return goodLink;
     }
 
 }
