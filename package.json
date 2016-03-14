@@ -10,7 +10,9 @@
   "scripts": {
     "build": "webpack",
     "watch": "concurrently \"webpack -w\" \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
-	"test": "concurrently \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
+	  "test": "concurrently \"node server\" \"chrome --disable-web-security -app=http://localhost:3000\"",
+    "mac-watch": "concurrently \"webpack -w\" \"node server\" \"chrome.sh\"",
+    "mac-test": "concurrently \"node server\" \"chrome.sh\"",
     "postinstall": "tsd install"
   },
   "dependencies": {
