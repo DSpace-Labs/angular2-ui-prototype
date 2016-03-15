@@ -49,6 +49,7 @@ export class DashboardComponent {
         this.elementRef = elementRef;
         this.dashboard = {
             name: 'Dashboard',
+            path: '/Dashboard',
             type: 'dashboard'
         }
         this.dSpaceService.getDirectory().then(directory => {

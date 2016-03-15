@@ -1,5 +1,4 @@
 ﻿import {Component, View} from 'angular2/core';
-import {Router} from 'angular2/router';
 
 import {DSpaceService} from './dspace.service';
 import {BreadcrumbService} from './breadcrumb.service';

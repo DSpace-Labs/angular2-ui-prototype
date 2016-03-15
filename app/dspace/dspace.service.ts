@@ -13,7 +13,7 @@ export class DSpaceService {
     
     topCommunities: {};
         
-    constructor(private httpService: HttpService) {
+    constructor(private window: Window, private httpService: HttpService) {
         this.url = 'https://training-ir.tdl.org/tdl-rest';
         
         this.directory = {
@@ -77,8 +77,21 @@ export class DSpaceService {
             else {
                 dspace.getTopCommunities().then(topCommunities => {
                     dspace.directory['data'] = topCommunities;
+
+                    // dont like crafting paths
+                    dspace.directory['data'].forEach(dir => {
+                        dir.path = dspace.craftPath(dir.type);
+                    })
+
                     resolve(dspace.directory['data']);
-                    dspace.buildDirectory();
+
+                    dspace.buildDirectory().then(() => {
+                        console.log('DIRECTORY LOADED');
+                        this.window.prerenderReady = true;
+                    });
+
+                    
+
                 });
             }
         });
@@ -113,19 +126,23 @@ export class DSpaceService {
         let dspace = this;
         return new Promise(function (resolve, reject) {
             dspace.directory['ready'] = true;
-            dspace.recursiveBuild(dspace.directory['data']);
+            dspace.recursiveBuild(resolve, dspace.directory['data']);
         });
     }
 
     // Recursively build directory.
-    recursiveBuild(communityArray) {
+    recursiveBuild(resolve, communityArray) {
         let dspace = this;
+
+
         this.combineSubCommunities(communityArray).subscribe((communities) => {
             for (let i in communities) {
                 let subCommunities = communities[i];
                 let parentCommunity = communityArray[i];
 
-                parentCommunity.link = dspace.filterLink(parentCommunity.link);
+                // dont like crafting paths
+                parentCommunity.path = this.craftPath(parentCommunity.type);
+
                 parentCommunity.expanded = false;
                 parentCommunity.toggle = function () {
                     this.expanded = !this.expanded;
@@ -139,12 +156,16 @@ export class DSpaceService {
 
                 if (subCommunities.length > 0) {
                     // recursion
-                    dspace.recursiveBuild(subCommunities);
+                    dspace.recursiveBuild(resolve, subCommunities);
+                }
+                else {
+                    //TODO: should actually resolve when both subscriptions are complete
+                    resolve();
                 }
             }
         });
-        // TODO: this is optional, but definitely should not be called if empty. 
-        // Check items in community.
+
+
         this.combineCommunityCollections(communityArray).subscribe((collections) => {
             for (let i in collections) {
                 let communityCollections = collections[i];
@@ -152,8 +173,9 @@ export class DSpaceService {
 
                 communityCollections.forEach(collection => {
                     collection.parentCommunity = parentCommunity;
-
-                    collection.link = dspace.filterLink(collection.link);
+                    
+                    // dont like crafting paths
+                    collection.path = this.craftPath(collection.type);
 
                     collection.expanded = false;
                     collection.toggle = function () {
@@ -164,7 +186,8 @@ export class DSpaceService {
                         dspace.fetchItems(collection).subscribe(items => {
                             items.forEach(item => {
 
-                                item.link = dspace.filterLink(item.link);
+                                // dont like crafting paths
+                                item.path = this.craftPath(item.type);
 
                                 item.parentCollection = collection;
                             });
@@ -177,6 +200,15 @@ export class DSpaceService {
                 parentCommunity.collections = communityCollections;
             }
         });
+    }
+
+    craftPath(dsoType) {
+        switch (dsoType) {
+            case 'community': return '/Communities';
+            case 'collection': return '/Collections';
+            case 'item': return '/Items';
+            default: return '/Home';
+        }
     }
 
     fetchItems(collection) {
@@ -217,24 +249,6 @@ export class DSpaceService {
         }).map(res => {
             return JSON.parse(res);
         });
-    }
-
-    filterLink(badLink) {
-        let goodLink = badLink;
-        let start = 0;
-        if ((start = goodLink.indexOf('/communities')) > 0) {
-            goodLink = '/Communities' + goodLink.substring(start + 12, goodLink.length);
-        }
-        else if ((start = goodLink.indexOf('/collections')) > 0) {
-            goodLink = '/Collections' + goodLink.substring(start + 12, goodLink.length);
-        }
-        else if ((start = goodLink.indexOf('/items')) > 0) {
-            goodLink = '/Items' + goodLink.substring(start + 6, goodLink.length);
-        }
-        else {
-            console.log('doh');
-        }
-        return goodLink;
     }
 
 }

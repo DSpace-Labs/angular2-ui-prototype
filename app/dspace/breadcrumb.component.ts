@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -7,10 +7,11 @@ import {BreadcrumbService} from './breadcrumb.service';
     selector: 'breadcrumb'
 })
 @View({
+    directives: [ROUTER_DIRECTIVES],
     template: ` 
                 <ul class="list-inline breadcrumb">
-                    <li *ngFor="#page of trail">
-                        <a (click)="select(page)" class="clickable">{{page.name}}</a>
+                    <li *ngFor="#breadcrumb of trail">
+                        <a [routerLink]="[breadcrumb.path, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
               `
@@ -21,24 +22,23 @@ export class BreadcrumbComponent {
 
     subscription: any;
             
-    constructor(private router: Router, private breadcrumbService: BreadcrumbService) {
+    constructor(private breadcrumbService: BreadcrumbService) {
         this.buildTrail(this.breadcrumbService.getBreadcrumb());
     }
 
     buildTrail(context) {
         this.trail = new Array<{}>();
         this.dropBreadcrumb(context);
-        this.trail.unshift({ name: 'Dashboard', link: 'Dashboard', context: {} });
+        this.trail.unshift({ name: 'Dashboard', path: '/Dashboard', context: {} });
     }
 
     select(breadcrumb) {
-        this.breadcrumbService.visit(breadcrumb.context);        
-        this.router.navigate([breadcrumb.link]);
+        this.breadcrumbService.visit(breadcrumb.context);
     }
-    
+        
     dropBreadcrumb(context) {
         if(context && context.name && context.link) {
-            this.trail.unshift({ name: context.name, link: context.link, context: context });
+            this.trail.unshift({ name: context.name, path: context.path, context: context });
             if (context.parentCommunity) {
                 this.dropBreadcrumb(context.parentCommunity);
             }

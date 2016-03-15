@@ -52,19 +52,25 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.set('port', 8081);
+
 app.use('/dist', express.static(__dirname + '/dist'));
 
 app.use('/resources', express.static(__dirname + '/resources'));
 
+/*
+ * Prerender service
+ * 
+ */ 
 // reference https://prerender.io/
-app.use(require('prerender-node'));
+app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3000'));
 
 app.get('/*', function (req, res) {    
     res.sendFile(__dirname + '/app/view/index.html');    
 });
 
-app.listen(3000, function () { 
-    console.log("Running at Port 3000");
+app.listen(app.get('port'), function () { 
+    console.log("Running at Port " + app.get('port'));
 });
 
 //var request = require("request");

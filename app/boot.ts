@@ -1,5 +1,7 @@
 ﻿import {bootstrap}    from 'angular2/platform/browser';
 
+import {provide} from 'angular2/core';
+
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
 
@@ -12,6 +14,7 @@ import {HttpService} from './utils/http.service';
 import {WebSocketService} from './utils/websocket.service';
 
 bootstrap(AppComponent, [
+    provide(Window, { useValue: window }),
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     DSpaceService,

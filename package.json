@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "watch": "concurrently \"webpack -w\" \"node server\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" -app=http://localhost:3000\"",
-    "test": "concurrently \"node server\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\"  -app=http://localhost:3000\"",
+    "watch": "concurrently \"webpack -w\" \"node server\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:8081\"",
+    "test": "concurrently \"node server\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:8081\"",
     "mac-watch": "concurrently \"webpack -w\" \"node server\" \"chrome.sh\"",
     "mac-test": "concurrently \"node server\" \"chrome.sh\"",
     "preinstall": "npm install typings -g",
@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "angular2": "2.0.0-beta.8",
-    "angular2-websocket": "^0.6.2",    
+    "angular2-websocket": "^0.6.2",
     "es6-promise": "^3.0.2",
-    "es6-shim": "^0.33.3",
+    "es6-shim": "^0.33.3",    
     "jquery": "^2.2.1",
     "reflect-metadata": "^0.1.2",
     "rxjs": "^5.0.0-beta.0",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "cors": "^2.7.1",
     "express": "^4.13.4",
+	"express-generator": "^4.13.1",
     "concurrently": "^2.0.0",
     "prerender-node": "^2.2.0",
     "nodejs-websocket": "^1.5.0",
@@ -45,7 +46,7 @@
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "bootstrap-sass": "^3.3.6",
-	"bootstrap-loader": "^1.0.9",
+    "bootstrap-loader": "^1.0.9",
     "bootstrap-sass-loader": "^1.0.10"
   }
 }

@@ -21,13 +21,13 @@ import {LoginDirective} from './login/login.directive';
     providers: [HttpService, LoginService, BreadcrumbService]
 })
 @RouteConfig([
-    { path: "/dashboard",        name: "Dashboard",   component: DashboardComponent, useAsDefault: true },
-    { path: "/home",             name: "Home",        component: HomeComponent},
-    { path: "/register",         name: "Register",    component: RegisterComponent },
-    { path: "/login",            name: "Login",       component: LoginComponent },
-    { path: "/communities/{id}", name: "Communities", component: CommunityComponent },
-    { path: "/collections/{id}", name: "Collections", component: CollectionComponent },
-    { path: "/items/{id}",       name: "Items",       component: ItemComponent }
+    { path: "/dashboard",       name: "Dashboard",   component: DashboardComponent, useAsDefault: true },
+    { path: "/home",            name: "Home",        component: HomeComponent},
+    { path: "/register",        name: "Register",    component: RegisterComponent },
+    { path: "/login",           name: "Login",       component: LoginComponent },
+    { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+    { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+    { path: "/items/:id",       name: "Items",       component: ItemComponent }
 ])
 @View({
     directives: [ROUTER_DIRECTIVES, LoginDirective, LoginComponent],

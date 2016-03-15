@@ -1,5 +1,4 @@
 ﻿import {Component, View} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
 
 import {DSpaceService} from './dspace.service';
 
@@ -19,17 +18,9 @@ export class DirectoryComponent {
     directory: Object;
 
     constructor(private dSpaceService: DSpaceService) {
-
-    }
-
-    ngOnInit() {
         this.dSpaceService.getDirectory().then(directory => {
             this.directory = directory;
         });
-    }
-
-    ngAfterViewInit() {
-
     }
 
 }
