@@ -8,17 +8,14 @@ export class DSpaceService {
 
     url: string;
 
+    // maintain heirachy and content
     directory: {};
-
-    items: {};
-
+    
     topCommunities: {};
         
     constructor(private httpService: HttpService) {
         this.url = 'https://training-ir.tdl.org/tdl-rest';
-
-        this.items = {};
-
+        
         this.directory = {
             data: null,
             ready: false
@@ -28,7 +25,6 @@ export class DSpaceService {
             data: null,
             ready: false
         }
-
     }
 
     login(email, password) {
@@ -41,15 +37,37 @@ export class DSpaceService {
         }); 
     }
 
-    getItem(itemId) {
-        console.log(itemId);
+    getItem(item) {
+        let dspace = this;
         return new Promise(function (resolve, reject) {
-            
-
+            if (item['second']) {
+                resolve(item);
+            }
+            else {
+                dspace.fetchItem(item.id).subscribe((data) => {
+                    // TODO: Copy what is needed. Don't just overwrite.
+                    // like angular.extend, custom relations made on client side
+                    item['metadata'] = data.metadata;
+                    console.log(data);
+                    item['bitstreams'] = data.bitstreams;
+                    console.log(item);
+                    resolve(item);
+                    item['second'] = true;
+                });
+            }
         });
     }
 
-    // resolve top level communities as soon as possible
+    // Expand metadata. Request bitstreams later.
+    fetchItem(itemId) {
+        return this.httpService.get({
+            url: this.url + '/items/' + itemId + '?expand=metadata,bitstreams'
+        }).map(res => {
+            return JSON.parse(res);
+        });
+    }
+
+    // Resolve top level communities as soon as possible.
     getDirectory() {
         let dspace = this;
         return new Promise(function (resolve, reject) {
@@ -74,10 +92,10 @@ export class DSpaceService {
             }
             else {
                 dspace.fetchTopCommunities().subscribe((data) => {
-                    dspace.topCommunities['data'] = JSON.parse(data);
+                    dspace.topCommunities['data'] = data;
                     resolve(dspace.topCommunities['data']);
                     dspace.topCommunities['ready'] = true;
-                });;
+                });
             }
         });
     }
@@ -85,10 +103,12 @@ export class DSpaceService {
     fetchTopCommunities() {
         return this.httpService.get({
             url: this.url + '/communities/top-communities'
+        }).map(res => {
+            return JSON.parse(res);
         });
     }
 
-    // build and populate directory asynchronously
+    // Build and populate directory asynchronously.
     buildDirectory() {
         let dspace = this;
         return new Promise(function (resolve, reject) {
@@ -97,7 +117,7 @@ export class DSpaceService {
         });
     }
 
-    // recursively build directory
+    // Recursively build directory.
     recursiveBuild(communityArray) {
         let dspace = this;
         this.combineSubCommunities(communityArray).subscribe((communities) => {
@@ -106,7 +126,6 @@ export class DSpaceService {
                 let parentCommunity = communityArray[i];
 
                 parentCommunity.link = dspace.filterLink(parentCommunity.link);
-
                 parentCommunity.expanded = false;
                 parentCommunity.toggle = function () {
                     this.expanded = !this.expanded;
@@ -119,10 +138,13 @@ export class DSpaceService {
                 parentCommunity.subcommunities = subCommunities;
 
                 if (subCommunities.length > 0) {
+                    // recursion
                     dspace.recursiveBuild(subCommunities);
                 }
             }
         });
+        // TODO: this is optional, but definitely should not be called if empty. 
+        // Check items in community.
         this.combineCommunityCollections(communityArray).subscribe((collections) => {
             for (let i in collections) {
                 let communityCollections = collections[i];

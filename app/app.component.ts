@@ -40,7 +40,7 @@ import {LoginDirective} from './login/login.directive';
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span> 
                             </button>
-                            <a class="navbar-brand" [routerLink]="['/Home']">Angular DSpace UI</a>
+                            <a class="navbar-brand" [routerLink]="['/Home']">TAMU DSpace UI</a>
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">

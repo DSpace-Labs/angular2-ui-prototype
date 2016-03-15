@@ -50,7 +50,9 @@ export class CommunityComponent {
 
     ngOnInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            this.setCommunity(context);
+            if (context.type == 'community') {
+                this.setCommunity(context);
+            }
         });
     }
 

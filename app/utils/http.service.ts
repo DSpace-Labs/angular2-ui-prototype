@@ -19,7 +19,7 @@ export class HttpService {
 
 
     post(request) {
-        console.log(request)
+        //console.log(request)
 
         let body = JSON.stringify(request.data);
         
@@ -34,7 +34,7 @@ export class HttpService {
     }
 
     get(request) {
-        console.log(request)
+        //console.log(request)
 
         let headers = this.buildHeaders([
             { key: 'Content-Type', value: 'application/json' }

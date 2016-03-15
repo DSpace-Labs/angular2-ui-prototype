@@ -11,16 +11,20 @@ import {Router} from 'angular2/router';
 				    	<h3 class="panel-title">{{context.name}}</h3>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'dashboard'">
-				    	is the dashboard
+				    	{{context}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
-				    	is a community
+				    	{{context}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
-				    	is a collection
+				    	{{context}}
 				  	</div>
-				  	<div class="panel-body" *ngIf="context.type == 'item'">
-				    	is an item
+				  	<div class="panel-body" *ngIf="context.type == 'item' && context.second">
+                        <ul>
+                            <li *ngFor="#bitstream of context.bitstreams">
+                                <a (click)="select(bitstream)" class="clickable">{{bitstream.name}}</a>
+                            </li>
+                        </ul>
 				  	</div>
 				</div>
               `
@@ -30,5 +34,20 @@ export class ContextComponent {
     @Input() context: Object;
 
     constructor(private router: Router) { }
+
+    select(object) {
+        switch (this.context['type']) {
+            case 'community': {
+            } break;
+            case 'collection': {
+            } break;
+            case 'item': {
+
+                console.log(object);
+
+            } break;
+            default: { } break;
+        }
+    }
 
 }

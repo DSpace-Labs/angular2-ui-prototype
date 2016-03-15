@@ -40,7 +40,7 @@ export class CollectionComponent {
     subscription: any;
 
     constructor(private breadcrumbService: BreadcrumbService) {
-        this.setCollection(this.breadcrumbService.getBreadcrumb())
+        this.setCollection(this.breadcrumbService.getBreadcrumb());
     }
 
     setCollection(collection) {
@@ -50,7 +50,9 @@ export class CollectionComponent {
 
     ngOnInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            this.setCollection(context);
+            if (context.type == 'collection') {
+                this.setCollection(context);
+            }
         });
     }
 
