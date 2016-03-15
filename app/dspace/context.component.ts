@@ -1,5 +1,4 @@
 import {Component, Input, View} from 'angular2/core';
-import {Router} from 'angular2/router';
 
 @Component({
     selector: 'context'
@@ -33,7 +32,9 @@ export class ContextComponent {
 
     @Input() context: Object;
 
-    constructor(private router: Router) { }
+    constructor() {
+
+    }
 
     select(object) {
         switch (this.context['type']) {

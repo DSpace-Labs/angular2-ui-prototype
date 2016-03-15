@@ -1,4 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
+import {Observable, Observer} from 'rxjs/Rx';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -36,27 +37,9 @@ export class CommunityComponent {
 
     community: Array<Object>;
 
-    subscription: any;
-
     constructor(private breadcrumbService: BreadcrumbService) {
-        this.setCommunity(this.breadcrumbService.getBreadcrumb());
-    }
-
-    setCommunity(community) {
         this.community = new Array<Object>();
-        this.community.push(community);
-    }
-
-    ngOnInit() {
-        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            if (context.type == 'community') {
-                this.setCommunity(context);
-            }
-        });
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
+        this.community.push(this.breadcrumbService.getBreadcrumb());
     }
 
 }

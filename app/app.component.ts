@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login/login.component';
@@ -9,6 +9,8 @@ import {DashboardComponent} from './dashboard.component';
 import {CommunityComponent} from './dspace/community.component';
 import {CollectionComponent} from './dspace/collection.component';
 import {ItemComponent} from './dspace/item.component';
+
+import {DSpaceService} from './dspace/dspace.service';
 
 import {HttpService} from './utils/http.service';
 import {LoginService} from './login/login.service';
@@ -58,4 +60,11 @@ import {LoginDirective} from './login/login.directive';
                 <router-outlet></router-outlet>
              `
 })
-export class AppComponent { }
+export class AppComponent {
+
+    constructor(private location: Location, private dspaceService: DSpaceService) {
+        console.log('Starting App!');
+        console.log(location.path());
+        this.dspaceService.initDirectory();
+    }
+}

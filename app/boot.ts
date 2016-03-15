@@ -13,8 +13,12 @@ import {BreadcrumbService} from './dspace/breadcrumb.service';
 import {HttpService} from './utils/http.service';
 import {WebSocketService} from './utils/websocket.service';
 
+import {enableProdMode} from 'angular2/core';
+
+enableProdMode();
+
 bootstrap(AppComponent, [
-    provide(Window, { useValue: window }),
+    //provide(Window, { useValue: window }),
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     DSpaceService,

@@ -1,4 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
+import {Observable, Observer} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace.service';
 import {BreadcrumbService} from './breadcrumb.service';
@@ -48,32 +49,13 @@ import {BreadcrumbComponent} from './breadcrumb.component';
 })
 export class ItemComponent {
 
-    item: any;
-
-    subscription: any;
+    item: Object;
 
     constructor(private breadcrumbService: BreadcrumbService, private dspaceService: DSpaceService) {
-       this.setItem(this.breadcrumbService.getBreadcrumb());
-    }
-
-    // Ready available data, get more data.
-    setItem(item) {
-        this.item = item;
-        this.dspaceService.getItem(item).then(itemWithMetadata => {
+        this.item = this.breadcrumbService.getBreadcrumb();
+        this.dspaceService.getItem(this.item).then(itemWithMetadata => {
             this.item = itemWithMetadata;
         });
     }
-
-    ngOnInit() {
-        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            if (context.type == 'item') {
-                this.setItem(context);
-            }
-        });
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
+    
 }

@@ -1,5 +1,6 @@
 ﻿import {Component, Input, View} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Observable} from 'rxjs/Rx';
 
 import {ListComponent} from './list.component';
 
@@ -45,7 +46,9 @@ export class TreeComponent {
 
     @Input() directories: Array<Object>;
 
-    constructor(private breadcrumbService: BreadcrumbService) { }
+    constructor(private breadcrumbService: BreadcrumbService) {
+        
+    }
 
     select(directory) {
         this.breadcrumbService.visit(directory);

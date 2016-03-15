@@ -1,1 +1,1 @@
-open "/Applications/Google Chrome.app"  --args --disable-web-security --user-data-dir=\"./chrome-dev\" -app=http://localhost:8081
+open "/Applications/Google Chrome.app"  --args --disable-web-security http://localhost:3001

@@ -1,8 +1,7 @@
-﻿import {Component, View, ElementRef} from 'angular2/core';
+﻿import {Component, View} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace/dspace.service';
-import {BreadcrumbService} from './dspace/breadcrumb.service';
 
 import {TreeComponent} from './dspace/tree.component';
 import {ContextComponent} from './dspace/context.component';
@@ -12,16 +11,9 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
     selector: "dashboard"
 })
 @View({
-    directives: [ContextComponent, BreadcrumbComponent, TreeComponent],
+    directives: [TreeComponent, ContextComponent, BreadcrumbComponent],
     template: `
-                <div class="container"
-                    (document:keydown)="onKeyDown($event)"
-                    (window:resize)="onResize($event)" 
-                    (mousedown)="onMouseDown($event)" 
-                    (mousemove)="onMouseMove($event)" 
-                    (mouseup)="onMouseUp($event)"
-                    (mouseenter)="onMouseEnter($event)"
-                    (mouseleave)="onMouseLeave($event)">
+                <div class="container">
                     
                     <breadcrumb></breadcrumb>
 
@@ -38,94 +30,23 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
 })
 export class DashboardComponent {
 
-    // template element
-    elementRef: ElementRef;
+    directory: Object[];
 
-    directory: Object;
+    dashboard = {
+        name: 'Dashboard',
+        path: '/Dashboard',
+        type: 'dashboard'
+    };
 
-    dashboard: {};
-
-    constructor(elementRef: ElementRef, private dSpaceService: DSpaceService, private breadcrumbService: BreadcrumbService) {
-        this.elementRef = elementRef;
-        this.dashboard = {
-            name: 'Dashboard',
-            path: '/Dashboard',
-            type: 'dashboard'
-        }
-        this.dSpaceService.getDirectory().then(directory => {
-            this.directory = directory;
-        });
-    }
-
-    ngOnInit() {
-        // Properties are resolved and things like
-        // this.mapWindow and this.mapControls
-        // had a chance to resolve from the
-        // two child components <map-window> and <map-controls>
-    }
-
-    ngOnDestroy() {
-        // Speak now or forever hold your peace
-    }
-
-    ngDoCheck() {
-        // Custom change detection
-    }
-
-    ngOnChanges(changes) {
-        // Called right after our bindings have been checked but only
-        // if one of our bindings has changed.
-        //
-        // changes is an object of the format:
-        // {
-        //   'prop': PropertyUpdate
-        // }
-    }
-
-    ngAfterContentInit() {
-        // Component content has been initialized
-    }
-
-    ngAfterContentChecked() {
-        // Component content has been Checked
-    }
-
-    ngAfterViewInit() {
-        // Component views are initialized
-    }
-
-    ngAfterViewChecked() {
-        // Component views have been checked
-    }
-
-    onKeyDown(event) {
-
-    }
-
-    onResize(event) {
-
-    }
-
-    onMouseDown(event) {
+    constructor(private dspaceService: DSpaceService) {
         
     }
 
-    onMouseMove(event) {
-
+    ngAfterViewInit() {
+        this.directory = this.dspaceService.getDirectory();
+        this.dspaceService.directory.subscribe(directory => {
+            this.directory = directory;
+        });
     }
-
-    onMouseUp(event) {
-
-    }
-
-    onMouseEnter(event) {
-
-    }
-
-    onMouseLeave(event) {
-
-    }
-
-    
     
 }

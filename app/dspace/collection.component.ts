@@ -1,4 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
+import {Observable, Observer} from 'rxjs/Rx';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -36,27 +37,9 @@ export class CollectionComponent {
 
     collection: Array<Object>;
 
-    subscription: any;
-
     constructor(private breadcrumbService: BreadcrumbService) {
-        this.setCollection(this.breadcrumbService.getBreadcrumb());
-    }
-
-    setCollection(collection) {
         this.collection = new Array<Object>();
-        this.collection.push(collection);
+        this.collection.push(this.breadcrumbService.getBreadcrumb());
     }
-
-    ngOnInit() {
-        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            if (context.type == 'collection') {
-                this.setCollection(context);
-            }
-        });
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
+    
 }

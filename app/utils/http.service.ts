@@ -30,7 +30,9 @@ export class HttpService {
 
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(request.url, body, options).map(response => response.text());
+        return this.http.post(request.url, body, options).map(response => {
+            return response.json();
+        });;
     }
 
     get(request) {
@@ -42,7 +44,9 @@ export class HttpService {
         
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(request.url, options).map(response => response.text());
+        return this.http.get(request.url, options).map(response => {
+            return response.json();
+        });;
     }
 
 }
