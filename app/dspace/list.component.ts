@@ -14,7 +14,7 @@ import {BreadcrumbService} from './breadcrumb.service';
                     <li *ngFor="#item of items" class="list-group-item">
 
                         <!-- Router Link -->
-                        <a [routerLink]="[item.path, {id:item.id}]" (click)="select(item)" class="clickable">{{ item.name }}</a>
+                        <a [routerLink]="[item.path, item.component, {id:item.id}]" (click)="select(item)" class="clickable">{{ item.name }}</a>
                     </li>
                 </ul>
               `

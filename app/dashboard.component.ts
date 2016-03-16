@@ -15,8 +15,6 @@ import {BreadcrumbComponent} from './dspace/breadcrumb.component';
     template: `
                 <div class="container">
                     
-                    <breadcrumb></breadcrumb>
-
                     <div class="col-md-4">
                         <context [context]="dashboard"></context>
                     </div>

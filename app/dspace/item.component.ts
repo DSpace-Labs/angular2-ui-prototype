@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {Observable, Observer} from 'rxjs/Rx';
+import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig} from 'angular2/router';
 
 import {DSpaceService} from './dspace.service';
 import {BreadcrumbService} from './breadcrumb.service';
@@ -10,11 +10,13 @@ import {BreadcrumbComponent} from './breadcrumb.component';
 @Component({
     selector: 'dspace-object'
 })
+@RouteConfig([    
+        new AsyncRoute({ path: './:id', loader: () => Promise.resolve(ItemComponent), name: 'Items' })
+])
 @View({
     directives: [ContextComponent, BreadcrumbComponent],
     template: `
-                <div class="container">                    
-                    <breadcrumb></breadcrumb>                    
+                <div class="container">
                     <div class="col-md-4">
                         <context [context]="item"></context>
                     </div>
@@ -51,11 +53,30 @@ export class ItemComponent {
 
     item: Object;
 
+    subscription: any;
+
     constructor(private breadcrumbService: BreadcrumbService, private dspaceService: DSpaceService) {
-        this.item = this.breadcrumbService.getBreadcrumb();
-        this.dspaceService.getItem(this.item).then(itemWithMetadata => {
+        this.setItem(this.breadcrumbService.getBreadcrumb());
+    }
+
+    // Ready available data, get more data.
+    setItem(item) {
+        this.item = item;
+        this.dspaceService.getItem(item).then(itemWithMetadata => {
             this.item = itemWithMetadata;
         });
+    }
+
+    ngOnInit() {
+        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
+            if (context.type == 'item') {
+                this.setItem(context);
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
     
 }

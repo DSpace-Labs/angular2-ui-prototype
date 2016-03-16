@@ -24,7 +24,7 @@ import {BreadcrumbService} from './breadcrumb.service';
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
                         
                         <!-- Router Link -->
-                        <a [routerLink]="[directory.path, {id:directory.id}]" (click)="select(directory)" class="clickable">{{ directory.name }}</a>
+                        <a [routerLink]="[directory.path, directory.component, {id:directory.id}]" (click)="select(directory)" class="clickable">{{ directory.name }}</a>
 
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         

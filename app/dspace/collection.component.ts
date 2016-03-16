@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {Observable, Observer} from 'rxjs/Rx';
+import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig} from 'angular2/router';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -10,13 +10,14 @@ import {BreadcrumbComponent} from './breadcrumb.component';
 @Component({
     selector: 'dspace-object'
 })
+@RouteConfig([
+        new AsyncRoute({ path: './:id', loader: () => Promise.resolve(CollectionComponent), name: 'Collections' })
+])
 @View({
     directives: [ContextComponent, BreadcrumbComponent, TreeComponent],
     template: ` 
                 <div class="container">
                     
-                    <breadcrumb></breadcrumb>
-
                     <div class="col-md-4">
                         <context [context]="collection[0]"></context>
                     </div>
@@ -37,9 +38,27 @@ export class CollectionComponent {
 
     collection: Array<Object>;
 
+    subscription: any;
+
     constructor(private breadcrumbService: BreadcrumbService) {
+        this.setCollection(this.breadcrumbService.getBreadcrumb());
+    }
+
+    setCollection(collection) {
         this.collection = new Array<Object>();
-        this.collection.push(this.breadcrumbService.getBreadcrumb());
+        this.collection.push(collection);
+    }
+
+    ngOnInit() {
+        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
+            if (context.type == 'collection') {
+                this.setCollection(context);
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
     
 }

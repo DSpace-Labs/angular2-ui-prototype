@@ -1,14 +1,16 @@
 ﻿import {Injectable} from 'angular2/core';
 import {EventEmitter} from 'angular2/core';
 
+import {DSpaceService} from './dspace.service';
+
 @Injectable()
 export class BreadcrumbService {
 
     emitter: EventEmitter<Object>;
-
+    
     breadcrumb: any;
-                
-    constructor() {
+                        
+    constructor(private dspaceService: DSpaceService) {
         this.breadcrumb = {};
         this.emitter = new EventEmitter<Object>();
     }
@@ -20,6 +22,13 @@ export class BreadcrumbService {
     
     getBreadcrumb() {
         return this.breadcrumb;
+    }
+    
+    loadTrail(path) {
+        let bs = this;
+        this.dspaceService.buildTrail(path).then(trail => {
+            console.log(trail);
+        });
     }
 
 }

@@ -1,11 +1,12 @@
 ﻿import {Component, View} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
+import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig, Router} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
 
+import {BreadcrumbComponent} from './dspace/breadcrumb.component';
 import {CommunityComponent} from './dspace/community.component';
 import {CollectionComponent} from './dspace/collection.component';
 import {ItemComponent} from './dspace/item.component';
@@ -23,16 +24,16 @@ import {LoginDirective} from './login/login.directive';
     providers: [HttpService, LoginService, BreadcrumbService]
 })
 @RouteConfig([
-    { path: "/dashboard",       name: "Dashboard",   component: DashboardComponent, useAsDefault: true },
-    { path: "/home",            name: "Home",        component: HomeComponent},
-    { path: "/register",        name: "Register",    component: RegisterComponent },
-    { path: "/login",           name: "Login",       component: LoginComponent },
-    { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-    { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-    { path: "/items/:id",       name: "Items",       component: ItemComponent }
+        { path: "/dashboard", name: "Dashboard", component: DashboardComponent, useAsDefault: true },
+        { path: "/home", name: "Home", component: HomeComponent },
+        { path: "/register", name: "Register", component: RegisterComponent },
+        { path: "/login", name: "Login", component: LoginComponent },
+        { path: "/communities/...", name: "Communities", component: CommunityComponent },
+        { path: "/collections/...", name: "Collections", component: CollectionComponent },
+        { path: "/items/...", name: "Items", component: ItemComponent }
 ])
 @View({
-    directives: [ROUTER_DIRECTIVES, LoginDirective, LoginComponent],
+    directives: [ROUTER_DIRECTIVES, LoginDirective, BreadcrumbComponent, LoginComponent],
     template: `
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
@@ -57,14 +58,35 @@ import {LoginDirective} from './login/login.directive';
                     </div>
                 </nav>
                 <login></login>
+                <breadcrumb></breadcrumb>
                 <router-outlet></router-outlet>
              `
 })
 export class AppComponent {
 
-    constructor(private location: Location, private dspaceService: DSpaceService) {
+    private asyncPaths = ['/communities', '/collections', '/items'];
+
+    constructor(private router: Router,
+                private location: Location,
+                private dspaceService: DSpaceService,
+                private breadcrumbService: BreadcrumbService) {
+
         console.log('Starting App!');
-        console.log(location.path());
+
+        console.log('Initialize directory!');
+
         this.dspaceService.initDirectory();
+
+        let path = location.path();
+        if (path) this.checkAsyncPath(path);
+    }
+
+    checkAsyncPath(path) {
+        console.log(path);
+        this.asyncPaths.forEach(asyncPath => {
+            if (path.indexOf(asyncPath) >= 0) {
+                this.breadcrumbService.loadTrail(path);
+            }
+        });
     }
 }

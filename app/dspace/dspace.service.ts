@@ -8,6 +8,8 @@ export class DSpaceService {
 
     directory: Observable<Object[]>;
 
+    private REST: string;
+
     private url: String;
 
     private listing: Observer<Object[]>;
@@ -17,13 +19,10 @@ export class DSpaceService {
     };
 
     constructor(private httpService: HttpService) {
-        this.url = 'https://training-ir.tdl.org/tdl-rest';
+        this.REST = '/tdl-rest';
+        this.url = 'https://training-ir.tdl.org';
         this.directory = new Observable(observer => this.listing = observer).share();
         this.store = { directory: [] };
-    }
-
-    getDirectory() {
-        return this.store.directory;
     }
 
     initDirectory() {
@@ -35,18 +34,105 @@ export class DSpaceService {
             // dont like crafting paths
             this.store.directory.forEach(dir => {
                 dir['path'] = this.craftPath(dir['type']);
+                dir['component'] = this.craftComponent(dir['type']);
             })
 
-            this.listing.next(this.store.directory);
+            if(this.listing) this.listing.next(this.store.directory);
 
             this.recursiveBuild(this.store.directory);   
 
         });
     }
 
+    getDirectory() {
+        return this.store.directory;
+    }
+
+    buildTrail(path) {
+        let trail = new Array<Object>();
+        let restPath = this.REST + path.charAt(0) + path.charAt(1).toLowerCase() + path.substring(2, path.length);
+        return this.chainRequestPath(trail, restPath);
+    }
+
+    // build trail and get details
+    chainRequestPath(trail, path) {
+        let dspace = this;
+        return new Promise(function (resolve, reject) {
+            dspace.fetch(path).subscribe((dso) => {
+                trail.push(dso);
+                if (dso.parentCommunity) {                    
+                    resolve(dspace.chainRequestPath(trail, dso.parentCommunity['link']));
+                }
+                resolve(trail);
+            });
+
+        })
+    }
+
+
+    // still have to wait for the directory to complete
+    find(target, dsoList) {
+        console.log(dsoList);
+
+        for (let i in dsoList) {
+            let dso = dsoList[i];
+
+            console.log(dso['id'] + ' ' + dso['type'])
+            if (dso['id'] == target.id && dso['type'] == target.type) {
+                console.log('>>>>>>>>>>>>>>>>> MATCH 1')
+                console.log(dso);
+                return dso;
+            }
+
+
+            console.log(dso['collections'].length)
+
+            for (let j in dso['collections']) {
+                let collection = dso['collections'][j];
+
+                console.log(collection['id'] + ' ' + collection['type'])
+                if (collection['id'] == target.id && collection['type'] == target.type) {
+                    console.log('>>>>>>>>>>>>>>>>>>> MATCH 2')
+                    console.log(collection);
+                    return collection;
+                }
+
+                console.log(collection['numberItems']);
+                if (collection['numberItems'] > 0) {
+                    for (let k in collection['items']) {
+                        let item = collection['items'][k];
+                        console.log(item['id'] + ' ' + item['type'])
+                        if (item['id'] == target.id && item['type'] == target.type) {
+                            console.log('>>>>>>>>>>>>>>>>>>>>> MATCH 3')
+                            collection(item)
+                            return item;
+                        }
+                    }
+                }
+            }
+
+
+
+            if (dso['subcommunities'].length > 0) {
+                return this.find(target, dso['subcommunities']);
+            }
+
+
+        }
+        console.log('DOH!!!!!!!!!!!!!!!!')
+        return null;
+    }
+
+    
+    fetch(path) {
+        return this.httpService.get({
+            url: this.url + path + '?expand=parentCommunity'
+        });
+    }
+
     fetchTopCommunities() {
         return this.httpService.get({
-            url: this.url + '/communities/top-communities'
+            url: this.url + this.REST + '/communities/top-communities'
         });
     }
 
@@ -67,8 +153,11 @@ export class DSpaceService {
                     let subCommunities = communities[i];
                     let parentCommunity = communityArray[i];
 
+
                     // dont like crafting paths
                     parentCommunity.path = this.craftPath(parentCommunity.type);
+                    parentCommunity.component = this.craftComponent(parentCommunity.type);
+
 
                     parentCommunity.expanded = false;
                     parentCommunity.toggle = function () {
@@ -96,9 +185,12 @@ export class DSpaceService {
 
                     communityCollections.forEach(collection => {
                         collection.parentCommunity = parentCommunity;
-                        
+
+
                         // dont like crafting paths
                         collection.path = this.craftPath(collection.type);
+                        collection.component = this.craftComponent(collection.type);
+
 
                         collection.expanded = false;
                         collection.toggle = function () {
@@ -110,8 +202,11 @@ export class DSpaceService {
                             this.fetchItems(collection).subscribe(items => {
                                 items.forEach(item => {
 
+
                                     // dont like crafting paths
                                     item.path = this.craftPath(item.type);
+                                    item.component = this.craftComponent(item.type);
+
 
                                     item.parentCollection = collection;
                                 });
@@ -139,7 +234,7 @@ export class DSpaceService {
 
     fetchCommunitySubCommunities(communityId) {
         return this.httpService.get({
-            url: this.url + '/communities/' + communityId + '/communities'
+            url: this.url + this.REST + '/communities/' + communityId + '/communities'
         });
     }
 
@@ -154,14 +249,14 @@ export class DSpaceService {
 
     fetchCommunityCollections(communityId) {
         return this.httpService.get({
-            url: this.url + '/communities/' + communityId + '/collections'
+            url: this.url + this.REST + '/communities/' + communityId + '/collections'
         });
     }
 
 
     fetchItems(collection) {
         return this.httpService.get({
-            url: this.url + '/collections/' + collection.id + '/items'
+            url: this.url + this.REST + '/collections/' + collection.id + '/items'
         });
     }
 
@@ -184,14 +279,14 @@ export class DSpaceService {
     // Expand metadata. Request bitstreams later.
     fetchItem(itemId) {
         return this.httpService.get({
-            url: this.url + '/items/' + itemId + '?expand=metadata,bitstreams'
+            url: this.url + this.REST + '/items/' + itemId + '?expand=metadata,bitstreams'
         });
     }
 
 
     login(email, password) {
         this.httpService.post({
-            url: this.url + '/login',
+            url: this.url + this.REST + '/login',
             data: {
                 email: email,
                 password: password
@@ -199,6 +294,7 @@ export class DSpaceService {
         }); 
     }
 
+    //TODO: do something about these
 
     craftPath(dsoType) {
         switch (dsoType) {
@@ -206,6 +302,16 @@ export class DSpaceService {
             case 'collection': return '/Collections';
             case 'item': return '/Items';
             default: return '/Home';
+        }
+    }
+
+
+    craftComponent(dsoType) {
+        switch (dsoType) {
+            case 'community': return 'Communities';
+            case 'collection': return 'Collections';
+            case 'item': return 'Items';
+            default: return 'Home';
         }
     }
 

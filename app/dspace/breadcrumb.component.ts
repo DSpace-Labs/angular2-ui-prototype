@@ -11,7 +11,8 @@ import {BreadcrumbService} from './breadcrumb.service';
     template: ` 
                 <ul class="list-inline breadcrumb">
                     <li *ngFor="#breadcrumb of trail">
-                        <a [routerLink]="[breadcrumb.path, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
+                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.path, breadcrumb.component, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
+                        <a *ngIf="!breadcrumb.component" [routerLink]="[breadcrumb.path, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
               `
@@ -23,7 +24,7 @@ export class BreadcrumbComponent {
     subscription: any;
             
     constructor(private breadcrumbService: BreadcrumbService) {
-        this.buildTrail(this.breadcrumbService.getBreadcrumb());
+
     }
 
     buildTrail(context) {
@@ -38,7 +39,12 @@ export class BreadcrumbComponent {
         
     dropBreadcrumb(context) {
         if(context && context.name && context.link) {
-            this.trail.unshift({ name: context.name, path: context.path, context: context });
+            this.trail.unshift({
+                name: context.name,
+                path: context.path,
+                component: context.component,
+                context: context
+            });
             if (context.parentCommunity) {
                 this.dropBreadcrumb(context.parentCommunity);
             }
@@ -49,7 +55,19 @@ export class BreadcrumbComponent {
     }
 
     ngOnInit() {
+
+        let breadcrumb = this.breadcrumbService.getBreadcrumb();
+        if (breadcrumb) {
+            this.buildTrail(breadcrumb);
+        }
+        else {
+            console.log('no breadcrumb!!');
+        }
+    }
+
+    ngAfterViewInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
+            console.log(context)
             this.buildTrail(context);
         });
     }
