@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig, Router} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login/login.component';
@@ -66,27 +66,34 @@ export class AppComponent {
 
     private asyncPaths = ['/communities', '/collections', '/items'];
 
-    constructor(private router: Router,
-                private location: Location,
+    constructor(private location: Location,
                 private dspaceService: DSpaceService,
                 private breadcrumbService: BreadcrumbService) {
-
         console.log('Starting App!');
+        this.checkAsyncPath(location.path()).then(() => {
+            
+            console.log('Initialize directory!');
+            this.dspaceService.initDirectory();
 
-        console.log('Initialize directory!');
-
-        this.dspaceService.initDirectory();
-
-        let path = location.path();
-        if (path) this.checkAsyncPath(path);
+        });
     }
 
     checkAsyncPath(path) {
-        console.log(path);
-        this.asyncPaths.forEach(asyncPath => {
-            if (path.indexOf(asyncPath) >= 0) {
-                this.breadcrumbService.loadTrail(path);
+        let ac = this;
+        return new Promise(function(resolve, reject) {
+            console.log(path);
+            let hasAsync = false;   
+            ac.asyncPaths.forEach(asyncPath => {                          
+                if (path.indexOf(asyncPath) >= 0) {
+                    hasAsync = true;
+                    ac.breadcrumbService.loadAsyncPath(path).then(() => {
+                        resolve();
+                    })
+                }                
+            });
+            if(!hasAsync) {
+                resolve();
             }
-        });
+        })
     }
 }

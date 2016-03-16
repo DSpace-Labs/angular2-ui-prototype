@@ -24,11 +24,14 @@ export class BreadcrumbService {
         return this.breadcrumb;
     }
     
-    loadTrail(path) {
-        let bs = this;
-        this.dspaceService.buildTrail(path).then(trail => {
-            console.log(trail);
-        });
+    loadAsyncPath(path) {
+
+        this.dspaceService.emitter.subscribe(context => {
+            console.log(context)
+            this.visit(context)
+        })
+
+        return this.dspaceService.buildPath(path);
     }
 
 }

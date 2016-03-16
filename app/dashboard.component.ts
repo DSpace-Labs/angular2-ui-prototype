@@ -1,5 +1,4 @@
 ﻿import {Component, View} from 'angular2/core';
-import {Observable} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace/dspace.service';
 

@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig} from 'angular2/router';
+import {AsyncRoute, RouteConfig} from 'angular2/router';
 
 import {DSpaceService} from './dspace.service';
 import {BreadcrumbService} from './breadcrumb.service';
@@ -70,9 +70,14 @@ export class ItemComponent {
     ngOnInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
             if (context.type == 'item') {
+                console.log(context);
                 this.setItem(context);
             }
         });
+    }
+
+    ngAfterViewInit() {        
+        console.log(this.item);
     }
 
     ngOnDestroy() {

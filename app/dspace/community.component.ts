@@ -1,5 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
-import {ROUTER_DIRECTIVES, AsyncRoute, Location, RouteConfig} from 'angular2/router';
+import {AsyncRoute, RouteConfig} from 'angular2/router';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
@@ -52,9 +52,14 @@ export class CommunityComponent {
     ngOnInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
             if (context.type == 'community') {
+                console.log(context);
                 this.setCommunity(context);
             }
         });
+    }
+
+    ngAfterViewInit() {        
+        console.log(this.community);
     }
 
     ngOnDestroy() {

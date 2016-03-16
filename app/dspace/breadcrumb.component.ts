@@ -55,7 +55,6 @@ export class BreadcrumbComponent {
     }
 
     ngOnInit() {
-
         let breadcrumb = this.breadcrumbService.getBreadcrumb();
         if (breadcrumb) {
             this.buildTrail(breadcrumb);

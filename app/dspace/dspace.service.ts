@@ -1,4 +1,4 @@
-﻿import {Injectable} from 'angular2/core';
+﻿import {EventEmitter, Injectable} from 'angular2/core';
 import {Observable, Observer} from 'rxjs/Rx';
 
 import {HttpService} from '../utils/http.service';
@@ -6,30 +6,49 @@ import {HttpService} from '../utils/http.service';
 @Injectable()
 export class DSpaceService {
 
-    directory: Observable<Object[]>;
-
     private REST: string;
 
     private url: String;
 
     private listing: Observer<Object[]>;
     
-    private store: {
-        directory: Object[]
-    };
+    private store: { directory: Object[] };
+
+    directory: Observable<Object[]>;
+
+    emitter: EventEmitter<Object>;
 
     constructor(private httpService: HttpService) {
         this.REST = '/tdl-rest';
         this.url = 'https://training-ir.tdl.org';
-        this.directory = new Observable(observer => this.listing = observer).share();
         this.store = { directory: [] };
+        this.directory = new Observable(observer => this.listing = observer).share();
+        this.emitter = new EventEmitter<Object>();
     }
 
     initDirectory() {
         
-        this.fetchTopCommunities().subscribe(data => {
+        this.fetchTopCommunities().subscribe(communities => {
+            
+            let prefetched = this.store.directory[0];
+
+            if(prefetched) {
+                for(let i in communities) {
+                    let community = communities[i];
+                    if(community['id'] == prefetched['id']) {
+                        if(prefetched['subcommunities'].length > 0) {
+                            community['subcommunities'] = prefetched['subcommunities'];
+                        }
+                        if(prefetched['collections'].length > 0) {
+                            community['collections'] = prefetched['collections'];
+                        }
+                        this.emitTarget(community);
+                        break;
+                    }
+                }
+            }
            
-            this.store.directory = data;
+            this.store.directory = communities;
 
             // dont like crafting paths
             this.store.directory.forEach(dir => {
@@ -37,96 +56,122 @@ export class DSpaceService {
                 dir['component'] = this.craftComponent(dir['type']);
             })
 
-            if(this.listing) this.listing.next(this.store.directory);
+            if(this.listing) {
+                this.listing.next(this.store.directory);
+            }
 
             this.recursiveBuild(this.store.directory);   
 
         });
     }
 
+    emitTarget(context) {
+        while(true) {
+            if(context['type'] == 'community') {
+                if(context['subcommunities'].length > 0) {
+                    context = context['subcommunities'][0];
+                }
+                else if(context['collections'].length > 0) {
+                    context = context['collections'][0];
+                }
+                else {
+                    this.emitter.next(context);
+                    return;
+                }
+            }
+            else if(context['type'] == 'collection') {
+                if(context['items'].length > 0) {
+                    context = context['items'][0];
+                }
+                else {
+                    this.emitter.next(context);
+                    return;
+                }
+            }
+            else if(context['type'] == 'item') {
+                this.emitter.next(context);
+                return;
+            }
+            else {
+                console.log('DOH!');
+                return;
+            }
+        }
+    }
+
     getDirectory() {
         return this.store.directory;
     }
 
-    buildTrail(path) {
-        let trail = new Array<Object>();
+    buildPath(path) {
         let restPath = this.REST + path.charAt(0) + path.charAt(1).toLowerCase() + path.substring(2, path.length);
-        return this.chainRequestPath(trail, restPath);
+        return this.chainRequestPath({ target: null, previous: null, resolves: new Array<Object>() }, restPath);
     }
 
-    // build trail and get details
-    chainRequestPath(trail, path) {
+    chainRequestPath(dsort, path) {
         let dspace = this;
-        return new Promise(function (resolve, reject) {
-            dspace.fetch(path).subscribe((dso) => {
-                trail.push(dso);
-                if (dso.parentCommunity) {                    
-                    resolve(dspace.chainRequestPath(trail, dso.parentCommunity['link']));
+        return new Promise(function(res, rej) {
+            
+            dspace.fetch(path).subscribe(context => {
+
+                console.log(context);
+
+                // dont like crafting paths
+                context['path'] = dspace.craftPath(context['type']);
+                context['component'] = dspace.craftComponent(context['type']);
+
+                context.expanded = false;
+                context.toggle = function () {
+                    this.expanded = !this.expanded;
+                };
+                
+                if(dsort.resolves.length == 0) {
+                    dsort.target = context;
                 }
-                resolve(trail);
+                
+                dsort.resolves.push(res);
+
+                if(dsort.prev) {
+
+                    if(context.type == 'community') {
+                        dsort.prev.parentCommunity = context;
+                        context.subcommunities.push(dsort.prev);
+                    }
+                    else {
+                        dsort.prev.parentCollection = context;
+                        context.items.push(dsort.prev);
+                    }
+
+                }
+
+                dsort.prev = context;
+
+                if (context.parentCommunity) {
+                    return dspace.chainRequestPath(dsort, context.parentCommunity['link']);
+                }
+                else if(context.parentCollection) {                    
+                    return dspace.chainRequestPath(dsort, context.parentCollection['link']);                    
+                }
+                else {
+                    dspace.store.directory.push(context);
+
+                    dsort.resolves.forEach(resolve => {
+                        resolve();
+                    });
+                }
+                
             });
 
-        })
-    }
 
 
-    // still have to wait for the directory to complete
-    find(target, dsoList) {
-        console.log(dsoList);
-
-        for (let i in dsoList) {
-            let dso = dsoList[i];
-
-            console.log(dso['id'] + ' ' + dso['type'])
-            if (dso['id'] == target.id && dso['type'] == target.type) {
-                console.log('>>>>>>>>>>>>>>>>> MATCH 1')
-                console.log(dso);
-                return dso;
-            }
-
-
-            console.log(dso['collections'].length)
-
-            for (let j in dso['collections']) {
-                let collection = dso['collections'][j];
-
-                console.log(collection['id'] + ' ' + collection['type'])
-                if (collection['id'] == target.id && collection['type'] == target.type) {
-                    console.log('>>>>>>>>>>>>>>>>>>> MATCH 2')
-                    console.log(collection);
-                    return collection;
-                }
-
-                console.log(collection['numberItems']);
-                if (collection['numberItems'] > 0) {
-                    for (let k in collection['items']) {
-                        let item = collection['items'][k];
-                        console.log(item['id'] + ' ' + item['type'])
-                        if (item['id'] == target.id && item['type'] == target.type) {
-                            console.log('>>>>>>>>>>>>>>>>>>>>> MATCH 3')
-                            collection(item)
-                            return item;
-                        }
-                    }
-                }
-            }
+        });
+    };
 
 
 
-            if (dso['subcommunities'].length > 0) {
-                return this.find(target, dso['subcommunities']);
-            }
-
-
-        }
-        console.log('DOH!!!!!!!!!!!!!!!!')
-        return null;
-    }
-
-    
     fetch(path) {
         return this.httpService.get({
-            url: this.url + path + '?expand=parentCommunity'
+            url: this.url + path + '?expand=parentCommunity,parentCollection'
         });
     }
 
@@ -171,7 +216,6 @@ export class DSpaceService {
                     parentCommunity.subcommunities = subCommunities;
 
                     if (subCommunities.length > 0) {
-                        // recursion
                         this.recursiveBuild(subCommunities);
                     }
                 }
