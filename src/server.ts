@@ -24,7 +24,6 @@ enableProdMode();
 
 
 var PORT = 3000;
-var HOST = 'localhost';
 
 var options = {
     key: fs.readFileSync('./ssl/key.pem'),
@@ -38,6 +37,10 @@ var options = {
 let app = express();
 
 let root = path.join(path.resolve(__dirname, '..'));
+
+
+require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
+
 
 // might need cors at some point
 app.use(function (req, res, next) {

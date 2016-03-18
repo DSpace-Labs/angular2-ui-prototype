@@ -42,7 +42,6 @@ export class HttpService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(request.url, options).map(response => {
-            console.log('response received');
             return response.json();
         });
     }

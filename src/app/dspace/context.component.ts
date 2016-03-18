@@ -1,9 +1,7 @@
-import {Component, Input, View} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
 @Component({
-    selector: 'context'
-})
-@View({
+    selector: 'context',
     template: ``
 })
 export class ContextComponent {

@@ -1,10 +1,8 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {NgClass, NgForm} from 'angular2/common';
 
 @Component({
-    selector: 'login'
-})
-@View({
+    selector: 'login',
     template: `
                 <div>
                     <h2>Login</h2>

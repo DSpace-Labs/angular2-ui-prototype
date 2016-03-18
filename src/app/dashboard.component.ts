@@ -1,19 +1,22 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
+
+import {DSpaceService} from './dspace/dspace.service';
 
 @Component({
-    selector: "dashboard"
-})
-@View({
+    selector: "dashboard",
     template: `
                 <div>
                     <h2>Dashboard</h2>
+                    <ul>
+                        
+                    </ul>
                 </div>
               `
 })
 export class DashboardComponent {
 
-    constructor() {
-
+    constructor(private dspaceService: DSpaceService) {
+        console.log(dspaceService);
     }
 
 }

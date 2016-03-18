@@ -1,14 +1,11 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 
 @Component({
-
-})
-@View({
+    selector: 'settings',
     template: `
                 <div>
                     <h2>Settings</h2>
                 </div>
               `
 })
-
 export class SettingsComponent { }

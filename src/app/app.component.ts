@@ -1,4 +1,4 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
@@ -15,20 +15,7 @@ import {ItemComponent} from './dspace/item.component';
 import {DSpaceService} from './dspace/dspace.service';
 
 @Component({
-    selector: 'dspace'
-})
-@RouteConfig([
-        { path: "/dashboard", name: "Dashboard", component: DashboardComponent, useAsDefault: true },
-        { path: "/home", name: "Home", component: HomeComponent },
-        { path: "/settings", name: "Settings", component: SettingsComponent },
-        { path: "/setup", name: "Setup", component: SetupComponent },
-        { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent },
-        { path: "/communities/...", name: "Communities", component: CommunityComponent },
-        { path: "/collections/...", name: "Collections", component: CollectionComponent },
-        { path: "/items/...", name: "Items", component: ItemComponent }
-])
-@View({
+    selector: 'dspace',
     directives: [ROUTER_DIRECTIVES],
     template: `
                 <div>
@@ -44,11 +31,22 @@ import {DSpaceService} from './dspace/dspace.service';
                 <router-outlet></router-outlet>
               `
 })
+@RouteConfig([
+        { path: "/dashboard", name: "Dashboard", component: DashboardComponent, useAsDefault: true },
+        { path: "/home", name: "Home", component: HomeComponent },
+        { path: "/settings", name: "Settings", component: SettingsComponent },
+        { path: "/setup", name: "Setup", component: SetupComponent },
+        { path: "/register", name: "Register", component: RegisterComponent },
+        { path: "/login", name: "Login", component: LoginComponent },
+        { path: "/communities/...", name: "Communities", component: CommunityComponent },
+        { path: "/collections/...", name: "Collections", component: CollectionComponent },
+        { path: "/items/...", name: "Items", component: ItemComponent }
+])
 export class AppComponent {
 
     constructor(private dspaceService: DSpaceService) {
         console.log();
-        console.log('Starting App!');
+        console.log('Starting App!');       
         dspaceService.initialize();
     }
 

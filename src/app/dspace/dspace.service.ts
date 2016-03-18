@@ -33,10 +33,10 @@ export class DSpaceService {
         this.REST = '/rest';
         this.url = 'https://demo.dspace.org';
         this.store = {
-            item: null,
-            collection: null,
-            community: null,
-            directory: null
+            item: new Object(),
+            collection: new Array<Object>(),
+            community: new Array<Object>(),
+            directory: new Array<Object>()
         };
         this.item = new Observable(observer => this.observer.item = observer).share();
         this.collection = new Observable(observer => this.observer.collection = observer).share();
@@ -46,17 +46,24 @@ export class DSpaceService {
 
     initialize() {
         console.log('Initializing DSpace Service!');
+
+        console.log(this.store);
+        console.log(this.observer);
+
         this.fetchTopCommunities().subscribe(
             topCommunities => {
-                console.log(JSON.stringify(topCommunities, null, 4));
+                console.log(topCommunities);
+                this.store.directory = topCommunities;
+                this.observer.directory.next(this.store.directory);
             },
             error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
+                console.error('Error: ' + error);
             },
             () => {
                 console.log('finished');
             }
         );
+
     }
 
     fetch(path) {

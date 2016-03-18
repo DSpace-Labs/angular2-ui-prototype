@@ -1,9 +1,7 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 
 @Component({
-
-})
-@View({
+    selector: 'home',
     template: `
                 <div>
                     <h2>Home</h2>
@@ -13,7 +11,6 @@
                 </div>
               `
 })
-
 export class HomeComponent {
     serverTemplating = ["Hello, World!", "This is server side templating", "Blah blah blah"];
 }

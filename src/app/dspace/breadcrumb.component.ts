@@ -1,10 +1,8 @@
-﻿import {Component, View} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
-    selector: 'breadcrumb'
-})
-@View({
+    selector: 'breadcrumb',
     template: ``
 })
 export class BreadcrumbComponent {
