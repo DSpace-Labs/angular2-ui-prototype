@@ -6,6 +6,7 @@
     "webpack": "registry:npm/webpack#1.12.9+20160219013405"
   },
   "ambientDependencies": {
+    "browserify": "registry:dt/browserify#12.0.1+20160317120654",
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160215162030",
     "express": "registry:dt/express#4.0.0+20160208031452",
     "jasmine": "registry:dt/jasmine#2.2.0+20160308082659",
