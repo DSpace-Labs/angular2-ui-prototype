@@ -48,7 +48,8 @@ import {DSpaceService} from './dspace/dspace.service';
 export class AppComponent {
 
     constructor(private dspaceService: DSpaceService) {
-        console.log('Starting App!');        
+        console.log('Starting App!');
+        dspaceService.initialize();
     }
 
 }

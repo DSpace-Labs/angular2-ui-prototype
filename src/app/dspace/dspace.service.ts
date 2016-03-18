@@ -30,8 +30,8 @@ export class DSpaceService {
     directory: Observable<Object[]>;
     
     constructor(private httpService: HttpService) {
-        this.REST = '/tdl-rest';
-        this.url = 'http://training-ir.tdl.org';
+        this.REST = '/rest';
+        this.url = 'https://demo.dspace.org';
         this.store = {
             item: null,
             collection: null,
@@ -42,6 +42,22 @@ export class DSpaceService {
         this.collection = new Observable(observer => this.observer.collection = observer).share();
         this.community = new Observable(observer => this.observer.community = observer).share();
         this.directory = new Observable(observer => this.observer.directory = observer).share();
+    }
+
+    initialize() {
+        console.log('Initializing DSpace Service!');
+        this.fetchTopCommunities().subscribe(
+            topCommunities => {
+                console.log(JSON.stringify(topCommunities, null, 4));
+            },
+            error => {
+                console.error('Error: ' + JSON.stringify(error, null, 4));
+                
+            },
+            () => {
+                console.log('finished');
+            }
+        );
     }
 
     fetch(path) {

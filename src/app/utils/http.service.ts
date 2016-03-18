@@ -29,13 +29,11 @@ export class HttpService {
 
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(request.url, body, options).map(response => {
-            return response.json();
-        });;
+        return this.http.post(request.url, body, options);
     }
 
     get(request) {
-        //console.log(request)
+        console.log(request);
 
         let headers = this.buildHeaders([
             { key: 'Content-Type', value: 'application/json' }
@@ -44,8 +42,9 @@ export class HttpService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(request.url, options).map(response => {
+            console.log('response received');
             return response.json();
-        });;
+        });
     }
 
 }

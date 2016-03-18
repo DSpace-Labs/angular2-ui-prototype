@@ -1,7 +1,5 @@
 ﻿import {Component, View} from 'angular2/core';
 
-import {DSpaceService} from './dspace/dspace.service';
-
 @Component({
     selector: "dashboard"
 })
@@ -14,12 +12,8 @@ import {DSpaceService} from './dspace/dspace.service';
 })
 export class DashboardComponent {
 
-    constructor(private dspaceService: DSpaceService) {
-        
-    }
-
-    ngAfterViewInit() {
+    constructor() {
 
     }
-    
+
 }

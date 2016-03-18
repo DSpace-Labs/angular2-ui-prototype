@@ -1,5 +1,9 @@
-﻿import * as path from 'path';
+﻿import * as fs from 'fs';
+import * as path from 'path';
 import * as express from 'express';
+import * as https from 'https';
+
+let forceSSL = require('express-force-ssl');
 
 
 // Angular 2
@@ -18,13 +22,33 @@ import {WebSocketService} from './app/utils/websocket.service';
 // Serverside
 import {TitleComponent} from './server/title.component';
 
-var httpPort = 3001;
-var prerenderPort = 3000;
-
-let app = express();
-let root = path.join(path.resolve(__dirname, '..'));
 
 enableProdMode();
+
+
+var PORT = 3000;
+var HOST = 'localhost';
+
+var options = {
+    key: fs.readFileSync('./ssl/key.pem'),
+    cert: fs.readFileSync('./ssl/cert.pem'),
+};
+
+
+let app = express();
+
+let root = path.join(path.resolve(__dirname, '..'));
+
+app.use(forceSSL);
+
+// might need cors at some point
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:' + PORT);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 
 // Express View
 app.engine('.html', expressEngine);
@@ -35,6 +59,7 @@ app.set('view engine', 'html');
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
+    console.log('url: ' + url);
     res.render('index', {
         directives: [AppComponent, TitleComponent],
         providers: [
@@ -55,7 +80,6 @@ app.use(express.static(root));
 
 app.get('/**', ngApp);
 
-app.listen(httpPort, () => {
-    console.log("Running at Port " + httpPort);
-    console.log("Prerender at Port " + prerenderPort);
+https.createServer(options, app).listen(PORT, () => {
+    console.log('Started');
 });
