@@ -1,19 +1,20 @@
 {
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.2.1+20160211005852",
+    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958",
     "source-map": "registry:npm/source-map#0.4.0+20160211003958",
     "webpack": "registry:npm/webpack#1.12.9+20160219013405"
   },
   "ambientDependencies": {
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160215162030",
     "express": "registry:dt/express#4.0.0+20160208031452",
-	"mime": "registry:dt/mime#0.0.0+20151204023458",
-    "node": "registry:dt/node#4.0.0+20160311162451",
-	"serve-static": "registry:dt/serve-static#0.0.0+20160104095738",
     "jasmine": "registry:dt/jasmine#2.2.0+20160308082659",
     "karma": "registry:dt/karma#0.13.9+20151121143311",
     "karma-jasmine": "registry:dt/karma-jasmine#0.0.0+20150625071724",
     "log4js": "registry:dt/log4js#0.0.0+20160115192620",
+    "mime": "registry:dt/mime#0.0.0+20151204023458",
+    "node": "registry:dt/node#4.0.0+20160311162451",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160104095738",
     "uglify-js": "registry:dt/uglify-js#2.6.1+20160106153543"
   }
 }

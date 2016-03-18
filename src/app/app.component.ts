@@ -27,7 +27,6 @@ import {DSpaceService} from './dspace/dspace.service';
         { path: "/communities/...", name: "Communities", component: CommunityComponent },
         { path: "/collections/...", name: "Collections", component: CollectionComponent },
         { path: "/items/...", name: "Items", component: ItemComponent }
-
 ])
 @View({
     directives: [ROUTER_DIRECTIVES],
@@ -48,6 +47,7 @@ import {DSpaceService} from './dspace/dspace.service';
 export class AppComponent {
 
     constructor(private dspaceService: DSpaceService) {
+        console.log();
         console.log('Starting App!');
         dspaceService.initialize();
     }

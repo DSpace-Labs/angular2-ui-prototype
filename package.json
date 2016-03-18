@@ -19,15 +19,14 @@
     "dep": "npm install --global typescript typings webpack nodemon",
     "prebuild": "rimraf dist",
     "build": "webpack",
-    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
-    "test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" https://localhost:3000\"",
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" https://localhost:3000\"",
     "mac-watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
     "mac-test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
     "preinstall": "npm install typings -g",
     "postinstall": "typings install"
   },
   "dependencies": {
-    "agentkeepalive": "^2.0.5",
     "angular2": "2.0.0-beta.9",
     "angular2-universal-preview": "~0.70.8",
     "angular2-websocket": "^0.6.2",

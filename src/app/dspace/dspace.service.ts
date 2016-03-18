@@ -52,7 +52,6 @@ export class DSpaceService {
             },
             error => {
                 console.error('Error: ' + JSON.stringify(error, null, 4));
-                
             },
             () => {
                 console.log('finished');

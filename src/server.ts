@@ -3,9 +3,6 @@ import * as path from 'path';
 import * as express from 'express';
 import * as https from 'https';
 
-let forceSSL = require('express-force-ssl');
-
-
 // Angular 2
 import 'angular2-universal-preview/polyfills';
 
@@ -31,7 +28,10 @@ var HOST = 'localhost';
 
 var options = {
     key: fs.readFileSync('./ssl/key.pem'),
+    ca: fs.readFileSync('./ssl/csr.pem'),
     cert: fs.readFileSync('./ssl/cert.pem'),
+    requestCert: true,
+    rejectUnauthorized: false
 };
 
 
@@ -39,11 +39,9 @@ let app = express();
 
 let root = path.join(path.resolve(__dirname, '..'));
 
-app.use(forceSSL);
-
 // might need cors at some point
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:' + PORT);
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -59,6 +57,7 @@ app.set('view engine', 'html');
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
+
     console.log('url: ' + url);
     res.render('index', {
         directives: [AppComponent, TitleComponent],
@@ -74,11 +73,22 @@ function ngApp(req, res) {
         ],
         preboot: true
     });
+
 }
 
 app.use(express.static(root));
 
-app.get('/**', ngApp);
+app.get('/', ngApp);
+app.get('/dashboard', ngApp);
+app.get('/home', ngApp);
+app.get('/settings', ngApp);
+app.get('/setup', ngApp);
+app.get('/register', ngApp);
+app.get('/login', ngApp);
+
+app.get('/communities/**', ngApp);
+app.get('/collections/**', ngApp);
+app.get('/items/**', ngApp);
 
 https.createServer(options, app).listen(PORT, () => {
     console.log('Started');
