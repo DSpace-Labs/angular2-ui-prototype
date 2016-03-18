@@ -7,47 +7,60 @@
     "name": "William Welling",
     "email": "wwelling@outlook.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wellingWilliam/Angular2DSpaceUIPrototype.git"
+  },
+  "license": "MIT",
+  "contributors": [
+    "William Welling <wwelling@outlook.com>"
+  ],
   "scripts": {
+    "dep": "npm install --global typescript typings webpack nodemon",
+    "prebuild": "rimraf dist",
     "build": "webpack",
-    "watch": "concurrently \"webpack -w\" \"node server --max_old_space_size=2000000\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3001\"",
-    "test": "concurrently \"node server --max_old_space_size=2000000\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3001\"",
-    "mac-watch": "concurrently \"webpack -w\" \"node server --max_old_space_size=2000000\" \"chrome.sh\"",
-    "mac-test": "concurrently \"node server --max_old_space_size=2000000\" \"chrome.sh\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3001\"",
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3001\"",
+    "mac-watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
+    "mac-test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
     "preinstall": "npm install typings -g",
     "postinstall": "typings install"
   },
   "dependencies": {
     "angular2": "2.0.0-beta.9",
+    "angular2-universal-preview": "~0.70.8",
     "angular2-websocket": "^0.6.2",
-    "es6-promise": "^3.0.2",
-    "es6-shim": "^0.35.0",
-    "jquery": "^2.2.1",    
+    "css": "2.2.1",
+    "es6-shim": "^0.33.3",
+    "express": "^4.13.3",
+    "parse5": "^1.5.0",
+    "preboot": "~1.1.0",
     "reflect-metadata": "^0.1.2",
-    "rxjs": "^5.0.0-beta.0",
-    "zone.js": "^0.6.4"
+    "rxjs": "^5.0.0-beta.2",    
+    "xhr2": "^0.1.3",
+    "zone.js": "^0.5.15"
   },
   "devDependencies": {
+	"ws": "^1.0.1",
     "cors": "^2.7.1",
-    "express": "^4.13.4",
-    "express-generator": "^4.13.1",
-    "concurrently": "^2.0.0",
-    "preboot": "^2.0.3",
+    "nodemon": "^1.8.1",
+    "rimraf": "^2.5.0",
     "prerender-node": "^2.2.0",
-    "nodejs-websocket": "^1.5.0",
     "typings": "^0.7.8",
     "typescript": "^1.8.5",
-    "webpack": "^1.12.11",
+    "webpack": "^1.12.10",
+    "webpack-merge": "^0.7.1",
+    "webpack-dev-server": "^1.14.0",
+    "concurrently": "^2.0.0",
     "ts-loader": "^0.8.1",
     "file-loader": "^0.8.5",
     "url-loader": "^0.5.7",
+    "resolve-url-loader": "^1.4.3",
     "imports-loader": "^0.6.5",
     "css-loader": "^0.23.1",
     "node-loader": "^0.5.0",
     "node-sass": "^3.4.2",
     "sass-loader": "^3.1.2",
-    "style-loader": "^0.13.0",
-    "bootstrap-sass": "^3.3.6",
-    "bootstrap-loader": "^1.0.9",
-    "bootstrap-sass-loader": "^1.0.10"
+    "style-loader": "^0.13.0"
   }
 }

@@ -5,10 +5,10 @@
 })
 @View({
     template: `
-                <div class="container">
-                    <h2>Settings</h2>
+                <div>
+                    <h2>Home</h2>
                 </div>
               `
 })
 
-export class SettingsComponent { }
+export class HomeComponent { }

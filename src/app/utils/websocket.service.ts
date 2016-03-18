@@ -12,7 +12,7 @@ export class WebSocketService {
 
     emitter: EventEmitter<string>;
 
-    resolveMap: Map<{}, {}>;
+    resolveMap: Map<Object, Object>;
 
     isReady: boolean;
 
@@ -26,7 +26,7 @@ export class WebSocketService {
 
         this.emitter = new EventEmitter<string>();
 
-        this.resolveMap = new Map();
+        this.resolveMap = new Map<Object, Object>();
 
         this.webSocket.onerror = ((event) => {
             console.log(event);
@@ -51,8 +51,8 @@ export class WebSocketService {
         this.emitter.subscribe((event) => {
             let data = JSON.parse(event.data);
             let resolve = this.resolveMap.get(data.file);
+            console.log(data.content);
             console.log(resolve);
-            //resolve(data.content)
         });
 
     }
@@ -70,8 +70,7 @@ export class WebSocketService {
     }
 
     getJson(file) {
-        // annotation would be acceptable
-        let wss = this; //localize to put on scope on nonblocking promise
+        let wss = this;
         return new Promise(function (resolve, reject) {
             wss.ready().then(function () {
                 wss.webSocket.send(file);
@@ -90,36 +89,4 @@ export class WebSocketService {
         return Observable.forkJoin(observableBatch);
     }
 
-    // get to render procedural usage based html
-    getHtml() {
-
-    }
-
-    // get game change events
-    // in planets VGA is only done once per turn per player
-    getEvents() {
-
-    }
-
 }
-
-/*
-import {Injectable} from 'angular2/core';
-
-@Injectable()
-export class WebSocketService {
-
-    constructor() {
-
-    }
-
-    getJson(file) {
-        return file;
-    }
-
-    getManyJson(files) {        
-        return files;
-    }
-
-}
-*/
