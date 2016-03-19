@@ -1,7 +1,8 @@
 ﻿import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
-import * as https from 'https';
+
+//import * as https from 'https';
 
 // Angular 2
 import 'angular2-universal-preview/polyfills';
@@ -77,6 +78,20 @@ function ngApp(req, res) {
     });
 }
 
+
+
+//app.use('/dist', express.static(__dirname + '/dist'));
+//
+//app.use('/resources', express.static(__dirname + '/resources'));
+//
+//app.get('/*', function (req, res) {
+//    console.log(__dirname + '/app/view/index.html')
+//    res.sendFile(__dirname + '/app/view/index.html');
+//});
+
+
+app.enable('trust proxy');
+
 app.use(express.static(root));
 
 app.get('/', ngApp);
@@ -95,8 +110,6 @@ app.get('/items/**', ngApp);
 app.listen(PORT, () => {
     console.log('Started');
 });
-
-//app.enable('trust proxy');
 
 //https.createServer(options, app).listen(PORT, () => {
 //    console.log('Started');

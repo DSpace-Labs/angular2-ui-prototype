@@ -8,7 +8,9 @@ import {DSpaceService} from './dspace/dspace.service';
                 <div>
                     <h2>Dashboard</h2>
                     <ul>
-                        
+                        <li *ngFor="#topCommunity of dspaceService.directory | async" >
+                            {{ topCommunity.name }}
+                        </li>
                     </ul>
                 </div>
               `
@@ -21,6 +23,3 @@ export class DashboardComponent {
 
 }
 
-//<li *ngFor="#topCommunity of dspaceService.directory | async" >
-//    {{ topCommunity.name }}
-//</li>
