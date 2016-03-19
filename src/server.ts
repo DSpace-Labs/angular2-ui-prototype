@@ -30,15 +30,15 @@ let app = express();
 let root = path.join(path.resolve(__dirname, '..'));
 
 
-var options = {
-    key: fs.readFileSync('./ssl/key.pem'),
-    ca: fs.readFileSync('./ssl/csr.pem'),
-    cert: fs.readFileSync('./ssl/cert.pem'),
-    requestCert: true,
-    rejectUnauthorized: false
-};
+//var options = {
+//    key: fs.readFileSync('./ssl/key.pem'),
+//    ca: fs.readFileSync('./ssl/csr.pem'),
+//    cert: fs.readFileSync('./ssl/cert.pem'),
+//    requestCert: true,
+//    rejectUnauthorized: false
+//};
 
-require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
+//require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
 
 
 
@@ -92,8 +92,12 @@ app.get('/collections/**', ngApp);
 app.get('/items/**', ngApp);
 
 
-app.enable('trust proxy');
-
-https.createServer(options, app).listen(PORT, () => {
+app.listen(PORT, () => {
     console.log('Started');
 });
+
+//app.enable('trust proxy');
+
+//https.createServer(options, app).listen(PORT, () => {
+//    console.log('Started');
+//});
