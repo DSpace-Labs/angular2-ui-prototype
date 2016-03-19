@@ -50,14 +50,13 @@ export class DSpaceService {
         console.log(this.store);
         console.log(this.observer);
 
-        this.fetchTopCommunities().subscribe(
-            topCommunities => {
+        this.fetchTopCommunities().subscribe(topCommunities => {
                 console.log(topCommunities);
                 this.store.directory = topCommunities;
                 this.observer.directory.next(this.store.directory);
             },
             error => {
-                console.error('Error: ' + error);
+                console.error('Error: ' + JSON.stringify(error, null, 4));
             },
             () => {
                 console.log('finished');

@@ -36,11 +36,12 @@ export class HttpService {
         console.log(request);
 
         let headers = this.buildHeaders([
-            { key: 'Content-Type', value: 'application/json' }
+            { key: 'Content-Type', value: 'application/json' },
+            { key: 'Accept', value: 'application/json' }
         ]);
         
         let options = new RequestOptions({ headers: headers });
-
+        
         return this.http.get(request.url, options).map(response => {
             return response.json();
         });

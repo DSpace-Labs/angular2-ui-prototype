@@ -11,8 +11,6 @@ import {DSpaceService} from './dspace/dspace.service';
 import {HttpService} from './utils/http.service';
 import {WebSocketService} from './utils/websocket.service';
 
-import 'rxjs/add/operator/map';
-
 enableProdMode();
 
 bootstrap(AppComponent, [

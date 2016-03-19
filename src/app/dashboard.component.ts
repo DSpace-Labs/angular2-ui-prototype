@@ -16,7 +16,11 @@ import {DSpaceService} from './dspace/dspace.service';
 export class DashboardComponent {
 
     constructor(private dspaceService: DSpaceService) {
-        console.log(dspaceService);
+        //console.log(dspaceService.directory)
     }
 
 }
+
+//<li *ngFor="#topCommunity of dspaceService.directory | async" >
+//    {{ topCommunity.name }}
+//</li>

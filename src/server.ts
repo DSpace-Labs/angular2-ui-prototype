@@ -25,6 +25,11 @@ enableProdMode();
 
 var PORT = 3000;
 
+let app = express();
+
+let root = path.join(path.resolve(__dirname, '..'));
+
+
 var options = {
     key: fs.readFileSync('./ssl/key.pem'),
     ca: fs.readFileSync('./ssl/csr.pem'),
@@ -33,13 +38,8 @@ var options = {
     rejectUnauthorized: false
 };
 
-
-let app = express();
-
-let root = path.join(path.resolve(__dirname, '..'));
-
-
 require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
+
 
 
 // might need cors at some point
@@ -60,7 +60,6 @@ app.set('view engine', 'html');
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
-
     console.log('url: ' + url);
     res.render('index', {
         directives: [AppComponent, TitleComponent],
@@ -76,7 +75,6 @@ function ngApp(req, res) {
         ],
         preboot: true
     });
-
 }
 
 app.use(express.static(root));
@@ -92,6 +90,9 @@ app.get('/login', ngApp);
 app.get('/communities/**', ngApp);
 app.get('/collections/**', ngApp);
 app.get('/items/**', ngApp);
+
+
+app.enable('trust proxy');
 
 https.createServer(options, app).listen(PORT, () => {
     console.log('Started');

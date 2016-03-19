@@ -46,8 +46,8 @@ export class AppComponent {
 
     constructor(private dspaceService: DSpaceService) {
         console.log();
-        console.log('Starting App!');       
-        dspaceService.initialize();
+        console.log('Starting App!');
+        //dspaceService.initialize();
     }
 
 }
