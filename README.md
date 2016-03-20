@@ -1,8 +1,6 @@
 # DSpaceUIAngular2Prototype
 
-A DSpace UI Prototype using Angular2 deployed and developed using webpack. 
-
-Intended to be isomorphic if client does not run JavaScript it will be rendered on the server.
+An Angular Universal DSpace UI Prototype. 
 
 Webpack is used to transpile Angular 2 Typescript into es5, packaging, run node server, and provide 'watch' development. 
 The packaging consists of app, styles, and material. 
