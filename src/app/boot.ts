@@ -1,6 +1,12 @@
 ﻿import 'angular2-universal-preview/polyfills';
-
 import {prebootComplete} from 'angular2-universal-preview';
+
+
+//import 'es6-shim';
+//import 'es6-promise';
+//import 'reflect-metadata';
+//import 'angular2/bundles/angular2-polyfills';
+
 
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS} from 'angular2/http';

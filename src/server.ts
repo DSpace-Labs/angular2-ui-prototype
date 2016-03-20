@@ -7,7 +7,7 @@ import * as express from 'express';
 // Angular 2
 import 'angular2-universal-preview/polyfills';
 
-import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_HTTP_PROVIDERS} from 'angular2-universal-preview';
+import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_PRELOAD_CACHE_HTTP_PROVIDERS } from 'angular2-universal-preview';
 import {provide, enableProdMode} from 'angular2/core';
 import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 
@@ -49,7 +49,7 @@ var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
     res.header('Access-Control-Allow-Credentials', 'true');
     if ('OPTIONS' == req.method) {
-            console.log('OPTIONS');
+        console.log('OPTIONS');
         res.send(200);
     }
     else {
@@ -65,8 +65,12 @@ app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
 // Static Resources
-app.use(express.static(root));
+app.use(express.static(root, { index: false })); 
 
+// Port
+app.set('port', PORT);
+
+// Serverside Angular
 function ngApp(req, res) {    
 
     let baseUrl = '/';
@@ -82,23 +86,23 @@ function ngApp(req, res) {
             provide(REQUEST_URL, { useValue: url }),
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
-            NODE_HTTP_PROVIDERS,
+            NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
             DSpaceService,
             HttpService,
             WebSocketService
         ],
-        preboot: true
+        async: true, 
+        preboot: false
     });
 
 }
 
-//app.use('/dist', express.static(__dirname + '/dist'));
-//
-//app.use('/resources', express.static(__dirname + '/resources'));
-//
 //app.get('/*', function (req, res) {
-//    console.log(__dirname + '/app/view/index.html')
-//    res.sendFile(__dirname + '/app/view/index.html');
+//    res.sendFile('/app/view/index.html', { "root": __dirname });
+//});
+//
+//app.listen(PORT, function () {
+//    console.log("Running at Port " + PORT);
 //});
 
 
@@ -119,6 +123,11 @@ app.listen(PORT, () => {
     console.log('Started');
 });
 
+
 //https.createServer(options, app).listen(PORT, () => {
 //    console.log('Started');
 //});
+
+
+
+

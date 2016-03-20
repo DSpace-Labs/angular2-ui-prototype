@@ -9,7 +9,7 @@ import {DSpaceService} from './dspace/dspace.service';
                 <div>
                     <h2>Dashboard</h2>
                     <ul>
-                        <li *ngFor="#topCommunity of directory" >
+                        <li *ngFor="#topCommunity of dspaceService.directory | async" >
                             {{ topCommunity.name }}
                         </li>
                     </ul>
@@ -18,22 +18,8 @@ import {DSpaceService} from './dspace/dspace.service';
 })
 export class DashboardComponent {
 
-    directory: Object[];
-
     constructor(private dspaceService: DSpaceService) {
-        
-    }
-
-    ngOnInit() {
-        let db = this;
-
-        this.dspaceService.getDirectory().then(directory => {
-            db.directory = directory;
-        });
-    }
-
-    ngAfterViewInit() {
-        console.log('after view init');
+        dspaceService.loadDirectory();
     }
 
 }

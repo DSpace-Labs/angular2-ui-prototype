@@ -23,14 +23,13 @@ var defaultConfig = {
 
 var commonConfig = {
     resolve: {
-        extensions: ['', '.css', '.scss', '.webpack.js', '.web.js', '.js', '.ts']
+        extensions: ['', '.css', '.scss', '.js', '.ts']
     },
     module: {
         loaders: [
             {
                 test: /\.ts$/, 
-                loader: 'ts-loader', 
-                exclude: [/node_modules/]
+                loader: 'ts-loader'
             }
         ]
     },

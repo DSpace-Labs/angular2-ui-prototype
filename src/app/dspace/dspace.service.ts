@@ -52,9 +52,7 @@ export class DSpaceService {
     directory: Observable<Object[]>;
     
     constructor(private httpService: HttpService) {
-
-        let dspace = this;
-
+        
         this.REST = '/tdl-rest';
 
         this.url = 'https://training-ir.tdl.org';
@@ -101,50 +99,22 @@ export class DSpaceService {
         this.loadDirectory();
     }
 
-    getDirectory() {
-        let dspace = this;
-        return new Promise(function (resolve, reject) {
-
-            dspace.fetchTopCommunities().subscribe(topCommunities => {
-               resolve(topCommunities);
-            },
-                error => {
-                    console.error('Error: ' + JSON.stringify(error, null, 4));
-                },
-                () => {
-                    dspace.store.directory.ready = true;
-                    dspace.store.directory.loading = false;
-                    console.log('finished fetching top communities');
-                }
-            );
-
-        })
-    }
-
-    loadDirectory() {
-        if (this.store.directory.ready || this.store.directory.loading) {
-            console.log('directory already loading');
-
-
-
-        }
-        else {
-            console.log('directory loading');
-            this.store.directory.loading = true;
-            this.fetchTopCommunities().subscribe(topCommunities => {
-                    this.store.directory.context = topCommunities;
-                    //this.store.directory.observer.next(this.store.directory.context);                    
-                },
-                error => {
-                    console.error('Error: ' + JSON.stringify(error, null, 4));
-                },
-                () => {
-                    this.store.directory.ready = true;
-                    this.store.directory.loading = false;
-                    console.log('finished fetching top communities');
-                }
-            );
-        }
+    loadDirectory() {        
+        console.log('directory loading');
+        this.store.directory.loading = true;
+        this.fetchTopCommunities().subscribe(topCommunities => {
+            //console.log(topCommunities);
+            this.store.directory.context = topCommunities;
+            this.store.directory.observer.next(this.store.directory.context);
+        },
+        error => {
+            console.error('Error: ' + JSON.stringify(error, null, 4));
+        },
+        () => {
+            this.store.directory.ready = true;
+            this.store.directory.loading = false;
+            console.log('finished fetching top communities');
+        });
     }
 
     loadCommunity(id) {

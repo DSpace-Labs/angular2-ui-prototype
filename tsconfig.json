@@ -15,10 +15,6 @@
     "typings/main.d.ts",
     "typings/main"
   ],
-  "filesGlob": [
-    "app/**/*.ts",
-    "typings/**/*.ts"
-  ],
   "compileOnSave": false,
   "buildOnSave": false,
   "atom": { "rewriteTsconfig": false }
