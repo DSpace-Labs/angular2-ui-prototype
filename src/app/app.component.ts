@@ -12,8 +12,6 @@ import {CommunityComponent} from './dspace/community.component';
 import {CollectionComponent} from './dspace/collection.component';
 import {ItemComponent} from './dspace/item.component';
 
-import {DSpaceService} from './dspace/dspace.service';
-
 @Component({
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES],
@@ -44,10 +42,9 @@ import {DSpaceService} from './dspace/dspace.service';
 ])
 export class AppComponent {
 
-    constructor(private dspaceService: DSpaceService) {
+    constructor() {
         console.log();
         console.log('Starting App!');
-        //dspaceService.initialize();
     }
 
 }

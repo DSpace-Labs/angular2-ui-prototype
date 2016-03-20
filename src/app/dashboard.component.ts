@@ -1,4 +1,5 @@
 ﻿import {Component} from 'angular2/core';
+import {Observable} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace/dspace.service';
 
@@ -8,7 +9,7 @@ import {DSpaceService} from './dspace/dspace.service';
                 <div>
                     <h2>Dashboard</h2>
                     <ul>
-                        <li *ngFor="#topCommunity of dspaceService.directory | async" >
+                        <li *ngFor="#topCommunity of directory | async" >
                             {{ topCommunity.name }}
                         </li>
                     </ul>
@@ -17,8 +18,14 @@ import {DSpaceService} from './dspace/dspace.service';
 })
 export class DashboardComponent {
 
+    directory: Observable<Object[]>;
+
     constructor(private dspaceService: DSpaceService) {
-        //console.log(dspaceService.directory)
+        this.directory = this.dspaceService.directory;
+    }
+
+    ngOnInit() {        
+        this.dspaceService.loadDirectory();
     }
 
 }

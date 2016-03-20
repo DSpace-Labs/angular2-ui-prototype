@@ -1,5 +1,5 @@
 ﻿import {Injectable} from 'angular2/core';
-import {Http, Headers, RequestOptions, Response} from 'angular2/http';
+import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
 @Injectable()
 export class HttpService {
@@ -36,15 +36,24 @@ export class HttpService {
         console.log(request);
 
         let headers = this.buildHeaders([
-            { key: 'Content-Type', value: 'application/json' },
+            { key: 'Content-Type', value: 'text/plain' },
             { key: 'Accept', value: 'application/json' }
         ]);
+
+        var options = new RequestOptions({
+            method: RequestMethod.Get,
+            url: request.url,
+            headers: headers
+        });
         
-        let options = new RequestOptions({ headers: headers });
-        
-        return this.http.get(request.url, options).map(response => {
+        return this.http.request(new Request(options)).map(response => {
             return response.json();
         });
+        
+        
+        //return this.http.get(request.url, options).map(response => {
+        //    return response.json();
+        //});
     }
 
 }

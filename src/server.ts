@@ -38,44 +38,67 @@ let root = path.join(path.resolve(__dirname, '..'));
 //    requestCert: true,
 //    rejectUnauthorized: false
 //};
-
+//
 //require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
 
 
 
-// might need cors at some point
-app.use(function (req, res, next) {
+var allowCrossDomain = function (req, res, next) {    
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
+    if ('OPTIONS' == req.method) {
+            console.log('OPTIONS');
+        res.send(200);
+    }
+    else {
+        next();
+    }
+};
+
+app.use(allowCrossDomain);
+
+
+app.set('trust proxy', 'loopback, 50.17.201.82');
+
+
+app.enable('trust proxy');
+
 
 // Express View
 app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
+// Static Resources
+app.use(express.static(root));
+
 
 function ngApp(req, res) {
-    let baseUrl = '/';
-    let url = req.originalUrl || '/';
-    console.log('url: ' + url);
-    res.render('index', {
-        directives: [AppComponent, TitleComponent],
-        providers: [
-            provide(APP_BASE_HREF, { useValue: baseUrl }),
-            provide(REQUEST_URL, { useValue: url }),
-            ROUTER_PROVIDERS,
-            NODE_LOCATION_PROVIDERS,
-            NODE_HTTP_PROVIDERS,
-            DSpaceService,
-            HttpService,
-            WebSocketService
-        ],
-        preboot: true
-    });
+    
+        let baseUrl = '/';
+
+        let url = req.originalUrl || '/';
+            
+        console.log('url: ' + url);
+
+        res.render('index', {
+            directives: [AppComponent, TitleComponent],
+            providers: [
+                provide(APP_BASE_HREF, { useValue: baseUrl }),
+                provide(REQUEST_URL, { useValue: url }),
+                ROUTER_PROVIDERS,
+                NODE_LOCATION_PROVIDERS,
+                NODE_HTTP_PROVIDERS,
+                DSpaceService,
+                HttpService,
+                WebSocketService
+            ],
+            preboot: true
+
+        });
+    
+
 }
 
 
@@ -90,9 +113,7 @@ function ngApp(req, res) {
 //});
 
 
-app.enable('trust proxy');
 
-app.use(express.static(root));
 
 app.get('/', ngApp);
 app.get('/dashboard', ngApp);
