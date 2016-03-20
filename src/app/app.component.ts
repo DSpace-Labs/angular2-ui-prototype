@@ -12,6 +12,8 @@ import {CommunityComponent} from './dspace/community.component';
 import {CollectionComponent} from './dspace/collection.component';
 import {ItemComponent} from './dspace/item.component';
 
+import {DSpaceService} from './dspace/dspace.service';
+
 @Component({
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES],
@@ -26,6 +28,9 @@ import {ItemComponent} from './dspace/item.component';
                         <li><a [routerLink]="['/Login']">Login</a></li>
                     </ul>
                 </div>
+                <li *ngFor="#topCommunity of directory" >
+                    {{ topCommunity.name }}
+                </li>
                 <router-outlet></router-outlet>
               `
 })
@@ -42,9 +47,22 @@ import {ItemComponent} from './dspace/item.component';
 ])
 export class AppComponent {
 
-    constructor() {
-        console.log();
-        console.log('Starting App!');
+    directory: Object[];
+
+    constructor(private dspaceService: DSpaceService) {
+        console.log('Starting App!');        
+    }
+    
+
+    ngOnInit() {
+        let db = this;
+        this.dspaceService.getDirectory().then(directory => {
+            db.directory = directory;
+        });
+    }
+
+    ngAfterViewInit() {
+        console.log('after view init');
     }
 
 }

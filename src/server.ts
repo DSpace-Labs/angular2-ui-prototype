@@ -47,6 +47,7 @@ var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
+    res.header('Access-Control-Allow-Credentials', 'true');
     if ('OPTIONS' == req.method) {
             console.log('OPTIONS');
         res.send(200);
@@ -58,13 +59,6 @@ var allowCrossDomain = function (req, res, next) {
 
 app.use(allowCrossDomain);
 
-
-app.set('trust proxy', 'loopback, 50.17.201.82');
-
-
-app.enable('trust proxy');
-
-
 // Express View
 app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
@@ -73,35 +67,30 @@ app.set('view engine', 'html');
 // Static Resources
 app.use(express.static(root));
 
+function ngApp(req, res) {    
 
-function ngApp(req, res) {
-    
-        let baseUrl = '/';
+    let baseUrl = '/';
 
-        let url = req.originalUrl || '/';
-            
-        console.log('url: ' + url);
+    let url = req.originalUrl || '/';            
 
-        res.render('index', {
-            directives: [AppComponent, TitleComponent],
-            providers: [
-                provide(APP_BASE_HREF, { useValue: baseUrl }),
-                provide(REQUEST_URL, { useValue: url }),
-                ROUTER_PROVIDERS,
-                NODE_LOCATION_PROVIDERS,
-                NODE_HTTP_PROVIDERS,
-                DSpaceService,
-                HttpService,
-                WebSocketService
-            ],
-            preboot: true
+    console.log('url: ' + url);
 
-        });
-    
+    res.render('index', {
+        directives: [AppComponent, TitleComponent],
+        providers: [
+            provide(APP_BASE_HREF, { useValue: baseUrl }),
+            provide(REQUEST_URL, { useValue: url }),
+            ROUTER_PROVIDERS,
+            NODE_LOCATION_PROVIDERS,
+            NODE_HTTP_PROVIDERS,
+            DSpaceService,
+            HttpService,
+            WebSocketService
+        ],
+        preboot: true
+    });
 
 }
-
-
 
 //app.use('/dist', express.static(__dirname + '/dist'));
 //
@@ -111,8 +100,6 @@ function ngApp(req, res) {
 //    console.log(__dirname + '/app/view/index.html')
 //    res.sendFile(__dirname + '/app/view/index.html');
 //});
-
-
 
 
 app.get('/', ngApp);

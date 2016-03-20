@@ -12,7 +12,7 @@ export class DSpaceService {
 
     private url: string;
 
-    private store: {
+    store: {
         directory: {
             context: Object[],
             observer: Observer<Object[]>,
@@ -55,9 +55,9 @@ export class DSpaceService {
 
         let dspace = this;
 
-        this.REST = '/rest';
+        this.REST = '/tdl-rest';
 
-        this.url = 'https://demo.dspace.org';
+        this.url = 'https://training-ir.tdl.org';
         
         this.store = {
             directory: {
@@ -97,27 +97,54 @@ export class DSpaceService {
         
     }
 
+    initialize() {
+        this.loadDirectory();
+    }
+
+    getDirectory() {
+        let dspace = this;
+        return new Promise(function (resolve, reject) {
+
+            dspace.fetchTopCommunities().subscribe(topCommunities => {
+               resolve(topCommunities);
+            },
+                error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    dspace.store.directory.ready = true;
+                    dspace.store.directory.loading = false;
+                    console.log('finished fetching top communities');
+                }
+            );
+
+        })
+    }
 
     loadDirectory() {
-        console.log('loading directory')    
-        this.fetchTopCommunities().subscribe(topCommunities => {
-                    
-                this.store.directory.context = topCommunities;
+        if (this.store.directory.ready || this.store.directory.loading) {
+            console.log('directory already loading');
 
-                this.store.directory.observer.next(this.store.directory.context);
 
-                console.log(this.store.directory.context)
 
-                this.store.directory.ready = true;
-            },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                console.log('finished fetching top communities');
-            }
-        );
-
+        }
+        else {
+            console.log('directory loading');
+            this.store.directory.loading = true;
+            this.fetchTopCommunities().subscribe(topCommunities => {
+                    this.store.directory.context = topCommunities;
+                    //this.store.directory.observer.next(this.store.directory.context);                    
+                },
+                error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    this.store.directory.ready = true;
+                    this.store.directory.loading = false;
+                    console.log('finished fetching top communities');
+                }
+            );
+        }
     }
 
     loadCommunity(id) {
