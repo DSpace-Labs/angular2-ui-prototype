@@ -102,9 +102,12 @@ export class DSpaceService {
     loadDirectory() {
         console.log('directory loading');
         this.store.directory.loading = true;
-        this.fetchTopCommunities().subscribe(topCommunities => {
-            console.log(topCommunities);
+        this.fetchTopCommunities().subscribe(topCommunities => {            
             this.store.directory.context = topCommunities;
+
+            //TODO: remove log
+            console.log(this.store.directory.context);
+
             this.store.directory.observer.next(this.store.directory.context);
         },
         error => {

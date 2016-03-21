@@ -15,6 +15,7 @@ import {ItemComponent} from './dspace/item.component';
 @Component({
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES],
+    styles: [],
     template: `
                 <div>
                     <ul>
