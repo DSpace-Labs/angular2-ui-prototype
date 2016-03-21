@@ -1,13 +1,13 @@
-# DSpaceUIAngular2Prototype
+# AngularUniversalDSpaceUIPrototype
 
 An Angular Universal DSpace UI Prototype. 
 
 Webpack is used to transpile Angular 2 Typescript into es5, packaging, run node server, and provide 'watch' development. 
-The packaging consists of app, styles, and material. 
+The packaging consists of app, styles, and bootstrap. 
 
  - app is the typescript you write. 
  - styles are css you write. 
- - material will eventually be angular material.
+ - bootstrap with jQuery plugin.
 
 # Requirements
 
