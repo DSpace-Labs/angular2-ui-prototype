@@ -12,13 +12,17 @@ import {provide, enableProdMode} from 'angular2/core';
 import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 
 
-// Serverside
+// App Component
+import {AppComponent} from './app/app.component';
+
+// Server Components
 import {ServerAppComponent} from './server/html.component';
 import {TitleComponent} from './server/title.component';
 
-
 // App Injectables
-
+import {DSpaceService} from './app/dspace/dspace.service';
+import {HttpService} from './app/utils/http.service';
+import {WebSocketService} from './app/utils/websocket.service';
 
 
 enableProdMode();
@@ -80,16 +84,19 @@ function ngApp(req, res) {
     console.log('url: ' + url);
 
     res.render('index', {
-        directives: [ServerAppComponent, TitleComponent],
+        directives: [AppComponent, TitleComponent],
         providers: [
             provide(APP_BASE_HREF, { useValue: baseUrl }),
             provide(REQUEST_URL, { useValue: url }),
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
-            NODE_PRELOAD_CACHE_HTTP_PROVIDERS
+            NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            DSpaceService,
+            HttpService,
+            WebSocketService
         ],
-        async: false, 
-        preboot: false
+        async: true, 
+        preboot: true
     });
 
 }
