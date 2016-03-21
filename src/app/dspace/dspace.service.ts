@@ -95,29 +95,34 @@ export class DSpaceService {
         
     }
 
-    initialize() {
-        this.loadDirectory();
-    }
-
     loadDirectory() {
-        console.log('directory loading');
-        this.store.directory.loading = true;
-        this.fetchTopCommunities().subscribe(topCommunities => {            
-            this.store.directory.context = topCommunities;
+        if (this.store.directory.ready) {
+            this.directory = Observable.create(observer => {
+                this.store.directory.observer = observer;
+                this.store.directory.observer.next(this.store.directory.context);
+            });
+        }
+        else {
+            if (!this.store.directory.loading) {
+                this.store.directory.loading = true;
+                this.fetchTopCommunities().subscribe(topCommunities => {
+                    this.store.directory.context = topCommunities;
 
-            //TODO: remove log
-            console.log(this.store.directory.context);
+                    //TODO: remove log
+                    console.log(this.store.directory.context);
 
-            this.store.directory.observer.next(this.store.directory.context);
-        },
-        error => {
-            console.error('Error: ' + JSON.stringify(error, null, 4));
-        },
-        () => {
-            this.store.directory.ready = true;
-            this.store.directory.loading = false;
-            console.log('finished fetching top communities');
-        });
+                    this.store.directory.observer.next(this.store.directory.context);
+                },
+                error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    this.store.directory.ready = true;
+                    this.store.directory.loading = false;
+                    console.log('finished fetching top communities');
+                });
+            }
+        }
     }
 
     loadCommunity(id) {
