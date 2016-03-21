@@ -7,7 +7,7 @@ import * as express from 'express';
 // Angular 2
 import 'angular2-universal-preview/polyfills';
 
-import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_PRELOAD_CACHE_HTTP_PROVIDERS } from 'angular2-universal-preview';
+import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_HTTP_PROVIDERS, NODE_PRELOAD_CACHE_HTTP_PROVIDERS } from 'angular2-universal-preview';
 import {provide, enableProdMode} from 'angular2/core';
 import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 
@@ -91,11 +91,11 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            NODE_HTTP_PROVIDERS,
             DSpaceService,
             HttpService,
             WebSocketService
         ],
-        async: true, 
         preboot: true
     });
 
