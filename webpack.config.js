@@ -33,7 +33,8 @@ var commonConfig = {
         ]
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(true)
+        new webpack.optimize.OccurenceOrderPlugin(true),
+        new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" })
     ]
 };
 
@@ -45,7 +46,9 @@ var clientConfig = {
         "styles": [
             "./resources/styles/main.scss"
         ],
-        "material": []
+        "bootstrap": [
+            "bootstrap-sass!./resources/bootstrap-sass.config.js"
+        ]
     },
     output: {
         path: __dirname,
@@ -57,6 +60,14 @@ var clientConfig = {
             {
                 test: /\.scss$/,
                 loader: 'style!css!sass'
+            },
+            {
+                test: /bootstrap\/js\//, 
+                loader: 'imports?jQuery=jquery'
+            },
+            {
+                test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+                loader: 'url-loader'
             }
         ]
     }

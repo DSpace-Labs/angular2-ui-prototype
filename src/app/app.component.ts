@@ -17,16 +17,28 @@ import {ItemComponent} from './dspace/item.component';
     directives: [ROUTER_DIRECTIVES],
     styles: [],
     template: `
-                <div>
-                    <ul>
-                        <li><a [routerLink]="['/Home']">Home</a></li>
-                        <li><a [routerLink]="['/Dashboard']">Dashboard</a></li>
-                        <li><a [routerLink]="['/Settings']">Settings</a></li>
-                        <li><a [routerLink]="['/Setup']">Setup</a></li>
-                        <li><a [routerLink]="['/Register']">Register</a></li>
-                        <li><a [routerLink]="['/Login']">Login</a></li>
-                    </ul>
-                </div>
+                <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span> 
+                            </button>
+                            <a class="navbar-brand" [routerLink]="['/Home']">TAMU DSpace UI</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                                <li><a [routerLink]="['/Home']">Home</a></li>
+                                <li><a [routerLink]="['/Dashboard']">Dashboard</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>Register</a></li>
+                                <li><a [routerLink]="['/Login']"><span class="glyphicon glyphicon-log-in space-right"></span>Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <router-outlet></router-outlet>
               `
 })
