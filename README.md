@@ -1,8 +1,8 @@
 # AngularUniversalDSpaceUIPrototype
 
-An Angular Universal DSpace UI Prototype. 
+An Angular Universal DSpace UI Prototype. The server side rendering will accommodate SEO requirments of Google Scholar.
 
-Webpack is used to transpile Angular 2 Typescript into es5, packaging, run node server, and provide 'watch' development. 
+Webpack is used to transpile Angular 2 Typescript into es5, package bundles, run node server, and provide 'watch' development. 
 The packaging consists of app, styles, and bootstrap. 
 
  - app is the typescript you write. 
@@ -26,4 +26,3 @@ npm install
 
  - CORS are not being provided from the DSpace REST API in the response.
  - Angular2, Angular Universal, and rxjs are in Beta.
- - angular-universal-preview node_http.js not using appropriate node server for https.
