@@ -11,7 +11,7 @@ The packaging consists of app, styles, and material.
 
 # Requirements
 
- - Node
+ - Node.js
  
 # Development
 
@@ -24,6 +24,6 @@ npm install
  
 # Issues
 
- - CORS are not being handled correctly on the client side or they are not being provided from the REST API on the response.
- - Angular Universal in Beta.
+ - CORS are not being provided from the DSpace REST API in the response.
+ - Angular2, Angular Universal, and rxjs are in Beta.
  - angular-universal-preview node_http.js not using appropriate node server for https.
