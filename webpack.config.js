@@ -2,7 +2,6 @@
 var webpack = require('webpack');
 var path = require('path');
 
-
 var defaultConfig = {
     module: {
         noParse: [

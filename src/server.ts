@@ -46,7 +46,6 @@ let root = path.join(path.resolve(__dirname, '..'));
 //require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
 
 
-
 var allowCrossDomain = function (req, res, next) {    
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -75,14 +74,14 @@ app.use(express.static(root, { index: false }));
 app.set('port', PORT);
 
 // Serverside Angular
-function ngApp(req, res) {    
+function ngApp(req, res) {
 
     let baseUrl = '/';
-
+        
     let url = req.originalUrl || '/';            
 
     console.log('url: ' + url);
-
+    
     res.render('index', {
         directives: [AppComponent, TitleComponent],
         providers: [
@@ -91,15 +90,17 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
-            NODE_HTTP_PROVIDERS,
             DSpaceService,
             HttpService,
             WebSocketService
         ],
-        preboot: true
+        async: true,
+        preboot: true,
+        precache: true,
     });
 
 }
+
 
 //app.get('/*', function (req, res) {
 //    res.sendFile('/app/view/index.html', { "root": __dirname });
