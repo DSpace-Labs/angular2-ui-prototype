@@ -3,7 +3,7 @@
 @Component({
     selector: 'home',
     template: `
-                <div>
+                <div class="container">
                     <h2>Home</h2>
                     <ul>
                         <li *ngFor="#template of serverTemplating">{{template}}</li>
@@ -12,5 +12,5 @@
               `
 })
 export class HomeComponent {
-    serverTemplating = ["Hello, World!", "This is server side templating", "Blah blah blah"];
+    serverTemplating = ["Hello, World!", "This is server side templated.", "SEO and Javascript."];
 }

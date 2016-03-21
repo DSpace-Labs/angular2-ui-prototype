@@ -21,6 +21,7 @@ import {TitleComponent} from './server/title.component';
 
 // App Injectables
 import {DSpaceService} from './app/dspace/dspace.service';
+import {BreadcrumbService} from './app/dspace/breadcrumb.service';
 import {HttpService} from './app/utils/http.service';
 import {WebSocketService} from './app/utils/websocket.service';
 
@@ -90,6 +91,7 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            BreadcrumbService,
             DSpaceService,
             HttpService,
             WebSocketService

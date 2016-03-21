@@ -3,7 +3,7 @@
 @Component({
     selector: 'setup',
     template: `
-                <div>
+                <div class="container">
                     <h2>Setup</h2>
                 </div>
               `

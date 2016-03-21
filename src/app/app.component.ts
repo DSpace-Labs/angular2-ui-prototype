@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
+import {BreadcrumbComponent} from './dspace/breadcrumb.component';
+
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
 import {RegisterComponent} from './register.component';
@@ -14,7 +16,7 @@ import {ItemComponent} from './dspace/item.component';
 
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, BreadcrumbComponent],
     styles: [],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -39,6 +41,7 @@ import {ItemComponent} from './dspace/item.component';
                         </div>
                     </div>
                 </nav>
+                <breadcrumb></breadcrumb>
                 <router-outlet></router-outlet>
               `
 })

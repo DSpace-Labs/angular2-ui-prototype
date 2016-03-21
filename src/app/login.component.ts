@@ -4,7 +4,7 @@ import {NgClass, NgForm} from 'angular2/common';
 @Component({
     selector: 'login',
     template: `
-                <div>
+                <div class="container">
                     <h2>Login</h2>
                 </div>
               `
