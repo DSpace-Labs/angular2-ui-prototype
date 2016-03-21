@@ -11,14 +11,14 @@ import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_PRELOAD_CACHE_
 import {provide, enableProdMode} from 'angular2/core';
 import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 
-// Application
-import {AppComponent} from './app/app.component';
-import {DSpaceService} from './app/dspace/dspace.service';
-import {HttpService} from './app/utils/http.service';
-import {WebSocketService} from './app/utils/websocket.service';
 
 // Serverside
+import {ServerAppComponent} from './server/html.component';
 import {TitleComponent} from './server/title.component';
+
+
+// App Injectables
+
 
 
 enableProdMode();
@@ -80,18 +80,15 @@ function ngApp(req, res) {
     console.log('url: ' + url);
 
     res.render('index', {
-        directives: [AppComponent, TitleComponent],
+        directives: [ServerAppComponent, TitleComponent],
         providers: [
             provide(APP_BASE_HREF, { useValue: baseUrl }),
             provide(REQUEST_URL, { useValue: url }),
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
-            NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
-            DSpaceService,
-            HttpService,
-            WebSocketService
+            NODE_PRELOAD_CACHE_HTTP_PROVIDERS
         ],
-        async: true, 
+        async: false, 
         preboot: false
     });
 

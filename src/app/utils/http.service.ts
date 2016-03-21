@@ -16,7 +16,6 @@ export class HttpService {
         return headers;
     }
 
-
     post(request) {
         //console.log(request)
 

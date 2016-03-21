@@ -99,11 +99,11 @@ export class DSpaceService {
         this.loadDirectory();
     }
 
-    loadDirectory() {        
+    loadDirectory() {
         console.log('directory loading');
         this.store.directory.loading = true;
         this.fetchTopCommunities().subscribe(topCommunities => {
-            //console.log(topCommunities);
+            console.log(topCommunities);
             this.store.directory.context = topCommunities;
             this.store.directory.observer.next(this.store.directory.context);
         },
