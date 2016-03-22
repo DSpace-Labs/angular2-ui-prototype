@@ -13,7 +13,7 @@ import {BreadcrumbService} from './breadcrumb.service';
                     <li *ngFor="#directory of directories" class="list-group-item">
                         
                         <!-- Router link -->
-                        <a (click)="select(directory)" class="clickable">{{ directory.name }}</a>
+                        <a [routerLink]="[directory.path, directory.component, {id:directory.id}]" (click)="select(directory)" class="clickable">{{ directory.name }}</a>
                         
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         
@@ -37,5 +37,3 @@ export class TreeComponent {
     }
 
 }
-
-//  [routerLink]="[directory.path, directory.component, {id:directory.id}]" 

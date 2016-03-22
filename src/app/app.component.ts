@@ -52,9 +52,11 @@ import {ItemComponent} from './dspace/components/item.component';
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
+
         { path: "/communities/...", name: "Communities", component: CommunityComponent },
         { path: "/collections/...", name: "Collections", component: CollectionComponent },
         { path: "/items/...", name: "Items", component: ItemComponent }
+
 ])
 export class AppComponent {
 

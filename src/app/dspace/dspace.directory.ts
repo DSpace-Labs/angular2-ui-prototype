@@ -65,15 +65,28 @@ export class DSpaceDirectory {
 
     prepare(communities) {
         communities.forEach(community => {
-            let app = this.dspaceService.getApp();
-            let route = community.link.substring(app.length, community.link.length);
-            community.path = '/' + route.charAt(1).toUpperCase() + route.substring(2, route.length);
+            community.path = this.getPath(community.type);
+            community.component = this.getComponent(community.type);
         });
         return communities;
     }
+    
+    getPath(type) {
+        switch (type) {
+            case 'community': return '/Communities';
+            case 'collection': return '/Collections';
+            case 'item': return '/Items';
+            default: { }
+        }
+    }
 
-    gather() {
-
+    getComponent(type) {
+        switch (type) {
+            case 'community': return 'Communities';
+            case 'collection': return 'Collections';
+            case 'item': return 'Items';
+            default: { }
+        }
     }
 
 }
