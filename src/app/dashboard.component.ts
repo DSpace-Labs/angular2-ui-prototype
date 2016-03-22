@@ -1,9 +1,14 @@
 ﻿import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
+
+import {CommunityComponent} from './dspace/components/community.component';
+import {CollectionComponent} from './dspace/components/collection.component';
+import {ItemComponent} from './dspace/components/item.component';
 
 @Component({
     selector: "dashboard",

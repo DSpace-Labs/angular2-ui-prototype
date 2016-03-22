@@ -33,6 +33,9 @@ export class TreeComponent {
 
     select(directory) {
         this.breadcrumbService.visit(directory);
+        console.log(this.directories)
     }
 
 }
+
+//  [routerLink]="[directory.path, directory.component, {id:directory.id}]" 

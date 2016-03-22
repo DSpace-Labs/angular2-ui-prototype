@@ -20,7 +20,7 @@ export class DSpaceDirectory {
 
     directory: Observable<Object[]>;
 
-    constructor(private dSpaceService: DSpaceService) {
+    constructor(private dspaceService: DSpaceService) {
         this.store = {
             directory: {
                 context: new Array<Object>(),
@@ -43,8 +43,8 @@ export class DSpaceDirectory {
         else {
             if (!this.store.directory.loading) {
                 this.store.directory.loading = true;
-                this.dSpaceService.fetchTopCommunities().subscribe(topCommunities => {
-                    this.store.directory.context = topCommunities;
+                this.dspaceService.fetchTopCommunities().subscribe(topCommunities => {
+                    this.store.directory.context = this.prepare(topCommunities);
                     this.store.directory.observer.next(this.store.directory.context);
                 },
                 error => {
@@ -60,6 +60,19 @@ export class DSpaceDirectory {
     }
 
     addToDirectory() {
+
+    }
+
+    prepare(communities) {
+        communities.forEach(community => {
+            let app = this.dspaceService.getApp();
+            let route = community.link.substring(app.length, community.link.length);
+            community.path = '/' + route.charAt(1).toUpperCase() + route.substring(2, route.length);
+        });
+        return communities;
+    }
+
+    gather() {
 
     }
 

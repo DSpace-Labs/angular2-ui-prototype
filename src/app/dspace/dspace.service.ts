@@ -14,6 +14,10 @@ export class DSpaceService {
         this.url = 'https://training-ir.tdl.org';
     }
 
+    getApp() {
+        return this.REST;
+    }
+
     fetch(path) {
         return this.httpService.get({
             url: this.url + path + '?expand=parentCommunity,parentCollection'

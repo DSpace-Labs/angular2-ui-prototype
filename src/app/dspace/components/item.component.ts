@@ -5,8 +5,8 @@ import {AsyncRoute, RouteConfig} from 'angular2/router';
     selector: 'item',
     template: ``
 })
-@RouteConfig([    
-        new AsyncRoute({ path: './:id', loader: () => Promise.resolve(ItemComponent), name: 'Items' })
+@RouteConfig([
+    new AsyncRoute({ path: './:id', loader: () => Promise.resolve(ItemComponent), name: 'Items' })
 ])
 export class ItemComponent {
 
