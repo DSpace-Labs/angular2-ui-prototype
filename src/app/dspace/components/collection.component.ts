@@ -6,7 +6,7 @@ import {AsyncRoute, RouteConfig} from 'angular2/router';
     template: ``
 })
 @RouteConfig([
-    new AsyncRoute({ path: './:id', loader: () => Promise.resolve(CollectionComponent), name: 'Collections' })
+    new AsyncRoute({ path: '/:id', loader: () => Promise.resolve(CollectionComponent), name: 'Collections' })
 ])
 export class CollectionComponent {
 
