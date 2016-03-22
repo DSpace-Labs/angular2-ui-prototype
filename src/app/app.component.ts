@@ -1,7 +1,7 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {BreadcrumbComponent} from './dspace/breadcrumb.component';
+import {BreadcrumbComponent} from './navigation/breadcrumb.component';
 
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
@@ -10,9 +10,9 @@ import {DashboardComponent} from './dashboard.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
 
-import {CommunityComponent} from './dspace/community.component';
-import {CollectionComponent} from './dspace/collection.component';
-import {ItemComponent} from './dspace/item.component';
+import {CommunityComponent} from './dspace/components/community.component';
+import {CollectionComponent} from './dspace/components/collection.component';
+import {ItemComponent} from './dspace/components/item.component';
 
 @Component({
     selector: 'dspace',

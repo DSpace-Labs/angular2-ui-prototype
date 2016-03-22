@@ -16,14 +16,20 @@ import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 import {AppComponent} from './app/app.component';
 
 // Server Components
-import {ServerAppComponent} from './server/html.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
 import {DSpaceService} from './app/dspace/dspace.service';
-import {BreadcrumbService} from './app/dspace/breadcrumb.service';
-import {HttpService} from './app/utils/http.service';
-import {WebSocketService} from './app/utils/websocket.service';
+
+import {DSpaceDirectory} from './app/dspace/dspace.directory';
+import {DSpaceCommunities} from './app/dspace/dspace.communities';
+import {DSpaceCollections} from './app/dspace/dspace.collections';
+import {DSpaceItems} from './app/dspace/dspace.items';
+
+import {HttpService} from './app/utilities/http.service';
+import {WebSocketService} from './app/utilities/websocket.service';
+import {BreadcrumbService} from './app/navigation/breadcrumb.service';
+
 
 
 enableProdMode();
@@ -76,13 +82,9 @@ app.set('port', PORT);
 
 // Serverside Angular
 function ngApp(req, res) {
-
-    let baseUrl = '/';
-        
-    let url = req.originalUrl || '/';            
-
+    let baseUrl = '/';        
+    let url = req.originalUrl || '/';
     console.log('url: ' + url);
-    
     res.render('index', {
         directives: [AppComponent, TitleComponent],
         providers: [
@@ -91,16 +93,19 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
-            BreadcrumbService,
             DSpaceService,
+            DSpaceDirectory,
+            DSpaceCommunities,
+            DSpaceCollections,
+            DSpaceItems,
             HttpService,
-            WebSocketService
+            WebSocketService,
+            BreadcrumbService
         ],
         async: true,
         preboot: true,
         precache: true,
     });
-
 }
 
 

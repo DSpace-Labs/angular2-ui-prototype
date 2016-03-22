@@ -1,35 +1,39 @@
 ﻿import {Component} from 'angular2/core';
 
-import {DSpaceService} from './dspace/dspace.service';
+import {DSpaceDirectory} from './dspace/dspace.directory';
 
-import {TreeComponent} from './dspace/tree.component';
-import {ContextComponent} from './dspace/context.component';
+import {TreeComponent} from './navigation/tree.component';
+import {ContextComponent} from './navigation/context.component';
 
 @Component({
     selector: "dashboard",
     directives: [TreeComponent, ContextComponent],
     template: `
-                <div class="container">                    
+                <div class="container">
                     <div class="col-md-4">
                         <context [context]="dashboard"></context>
                     </div>
                     <div class="col-md-8">
-                        <tree [directories]="dspaceService.directory | async"></tree>
+                        <tree [directories]="dspace.directory | async"></tree>
                     </div>
                 </div>
               `
 })
 export class DashboardComponent {
 
-     dashboard = {
-        name: 'Dashboard',
-        path: '/Dashboard',
-        type: 'dashboard'
+    private dashboard: {
+        name: string,
+        path: string,
+        type: string
     };
 
-    constructor(private dspaceService: DSpaceService) {
-        dspaceService.loadDirectory();
+    constructor(private dspace: DSpaceDirectory) {
+        this.dashboard = {
+            name: 'Dashboard',
+            path: '/Dashboard',
+            type: 'dashboard'
+        };
+        dspace.loadDirectory();
     }
 
 }
-

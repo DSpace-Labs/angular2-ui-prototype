@@ -2,11 +2,7 @@
   "name": "dspace-angular2-ui",
   "version": "0.0.1",
   "description": "Angular Universal DSpace",
-  "main": "server.js",
-  "author": {
-    "name": "William Welling",
-    "email": "wwelling@outlook.com"
-  },
+  "main": "server.js",  
   "repository": {
     "type": "git",
     "url": "https://github.com/wellingWilliam/Angular2DSpaceUIPrototype.git"
@@ -32,7 +28,7 @@
     "express": "^4.13.4",
     "jquery": "^2.2.1",
     "preboot": "^2.0.5",
-    "rxjs": "5.0.0-beta.2"    
+    "rxjs": "5.0.0-beta.3"    
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.9",

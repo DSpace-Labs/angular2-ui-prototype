@@ -19,7 +19,6 @@ var defaultConfig = {
     }
 }
 
-
 var commonConfig = {
     resolve: {
         extensions: ['', '.css', '.scss', '.js', '.ts']
