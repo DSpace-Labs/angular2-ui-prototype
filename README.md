@@ -4,6 +4,8 @@ This project represents the "extended prototype" featuring [Angular 2](https://a
 
 The goal of this extended prototype is to evaluate the Angular 2 framework as a plausible DSpace UI platform. This includes evaluating whether it meets the SEO needs of Google Scholar.
 
+**[Project Board (waffle.io)](https://waffle.io/DSpace-Labs/angular2-ui-prototype)**
+
 ## Implementation Details
 
 Initial implementation / project structure is based on wwelling's proof-of-concept at: https://github.com/wellingWilliam/AngularUniversalDSpaceUIPrototype
@@ -24,7 +26,7 @@ The packaging consists of app, styles, and bootstrap.
  - (Optional) An external DSpace 5.x site. At this time, the prototype simply points at https://training-ir.tdl.org/
      - REST API location can be changed in [dspace.service.ts](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/src/app/dspace/dspace.service.ts)
  
-# Development
+## Getting Started
 
 npm install
 
@@ -33,6 +35,18 @@ npm install
  - `npm run test` Runs node server and starts chrome in app mode with web security disabled.
  - `npm run watch` Builds, runs, and watches for changes to build again.
  
+# Collaboration
+
+**[Project Board (waffle.io)](https://waffle.io/DSpace-Labs/angular2-ui-prototype)**
+* Project tasks are managed as GitHub issues using a [Waffle.io](https://github.com/waffleio/waffle.io) project board.
+* Tasks can be moved between states via drag-and-drop on Project Board above (or manually using Github issue labels)
+* More info on using Waffle.io at https://github.com/waffleio/waffle.io/wiki/FAQs
+
+Other "best practices" to note:
+* All code changes via PRs please (anyone can submit them)
+* Have someone else approve/accept your PR (no self-approval unless it's a completely obvious bug fix)
+* If you have a question or topic of discussion, consider adding it as a GitHub issue. That way we can track the final answer / decision (which will make it easier to document later on)
+
 # Known Issues
 
  - Not currently a full implementation of DSpace. Currently this project is simply an Angular 2 UI against an existing DSpace REST API.
