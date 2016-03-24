@@ -1,15 +1,28 @@
 ﻿import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
-
 //import * as https from 'https';
 
-// Angular 2
 import 'angular2-universal-preview/polyfills';
 
-import {expressEngine, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_HTTP_PROVIDERS, NODE_PRELOAD_CACHE_HTTP_PROVIDERS } from 'angular2-universal-preview';
-import {provide, enableProdMode} from 'angular2/core';
-import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
+
+import {
+    expressEngine,
+    REQUEST_URL,
+    NODE_LOCATION_PROVIDERS,
+    NODE_HTTP_PROVIDERS,
+    NODE_PRELOAD_CACHE_HTTP_PROVIDERS
+} from 'angular2-universal-preview';
+
+import {
+    provide,
+    enableProdMode
+} from 'angular2/core';
+
+import {
+    APP_BASE_HREF,
+    ROUTER_PROVIDERS
+} from 'angular2/router';
 
 
 // App Component
@@ -50,6 +63,7 @@ let root = path.join(path.resolve(__dirname, '..'));
 //};
 //
 //require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
+
 
 
 var allowCrossDomain = function (req, res, next) {    
@@ -113,8 +127,9 @@ function ngApp(req, res) {
 //});
 //
 //app.listen(PORT, function () {
-//    console.log("Running at Port " + PORT);
+//    console.log("Running at port " + PORT);
 //});
+
 
 
 app.get('/', ngApp);
@@ -131,12 +146,12 @@ app.get('/items/**', ngApp);
 
 
 app.listen(PORT, () => {
-    console.log('Started');
+    console.log("Running at port " + PORT);
 });
 
 
 //https.createServer(options, app).listen(PORT, () => {
-//    console.log('Started');
+//    console.log("Running at port " + PORT);
 //});
 
 

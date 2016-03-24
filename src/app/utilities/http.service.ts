@@ -32,7 +32,7 @@ export class HttpService {
     }
 
     get(request) {
-        console.log(request);
+        //console.log(request);
 
         let headers = this.buildHeaders([
             { key: 'Content-Type', value: 'application/json' },
