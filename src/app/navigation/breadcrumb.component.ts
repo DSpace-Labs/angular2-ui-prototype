@@ -9,8 +9,8 @@ import {BreadcrumbService} from './breadcrumb.service';
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="#breadcrumb of trail">
-                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.path, breadcrumb.component, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
-                        <a *ngIf="!breadcrumb.component" [routerLink]="[breadcrumb.path, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
+                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.component, {id:breadcrumb.context.id}]" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>                        
+                        <a *ngIf="!breadcrumb.component" [routerLink]="['/Dashboard']" (click)="select(breadcrumb)" class="clickable">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
     		  `
@@ -28,15 +28,15 @@ export class BreadcrumbComponent {
     buildTrail(context) {
         this.trail = new Array<{}>();
         this.dropBreadcrumb(context);
-        this.trail.unshift({ name: 'Dashboard', path: '/Dashboard', context: {} });
+        this.trail.unshift({ name: 'Dashboard', context: {} });
     }
 
     select(breadcrumb) {
         this.breadcrumbService.visit(breadcrumb.context);
     }
         
-    dropBreadcrumb(context) {
-        if(context && context.name && context.link) {
+    dropBreadcrumb(context) {        
+        if (context && context.name && context.link) {
             this.trail.unshift({
                 name: context.name,
                 path: context.path,
@@ -58,7 +58,7 @@ export class BreadcrumbComponent {
             this.buildTrail(breadcrumb);
         }
         else {
-            console.log('no breadcrumb!!');
+            console.log('why no breadcrumb?');
         }
     }
 

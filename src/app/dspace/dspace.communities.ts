@@ -33,8 +33,12 @@ export class DSpaceCommunities {
         this.communities = new Observable<Object[]>(observer => this.store.communities.observer = observer).share();
     }
 
-    loadCommunities() {
+    ngOnInit() {
+        console.log(this.store);
+    }
 
+    loadCommunities(parentCommunityId) {
+        
     }
 
     loadCommunity(id) {

@@ -33,6 +33,10 @@ export class DSpaceCollections {
         this.collections = new Observable<Object[]>(observer => this.store.collections.observer = observer).share();
     }
 
+    ngOnInit() {
+        console.log(this.store);
+    }
+
     loadCollections() {
 
     }

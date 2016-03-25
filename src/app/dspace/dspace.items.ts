@@ -33,6 +33,10 @@ export class DSpaceItems {
         this.items = new Observable(observer => this.store.items.observer = observer).share();
     }
 
+    ngOnInit() {
+        console.log(this.store);
+    }
+
     loadItems() {
 
     }
