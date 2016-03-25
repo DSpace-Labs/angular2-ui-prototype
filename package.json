@@ -17,8 +17,8 @@
     "build": "webpack",
     "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
-    "mac-watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
-    "mac-test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome.sh\"",
+    "mac-watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"./chrome.sh\"",
+    "mac-test": "concurrently \"nodemon dist/server/bundle.js\" \"./chrome.sh\"",
     "postinstall": "typings install"
   },
   "dependencies": {
