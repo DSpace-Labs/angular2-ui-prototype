@@ -13,9 +13,6 @@ import {HttpService} from './utilities/http.service';
 import {WebSocketService} from './utilities/websocket.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
-import {DSpaceCommunities} from './dspace/dspace.communities';
-import {DSpaceCollections} from './dspace/dspace.collections';
-import {DSpaceItems} from './dspace/dspace.items';
 
 enableProdMode();
 
@@ -24,9 +21,6 @@ bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     DSpaceService,
     DSpaceDirectory,
-    DSpaceCommunities,
-    DSpaceCollections,
-    DSpaceItems,
     HttpService,
     WebSocketService,
     BreadcrumbService

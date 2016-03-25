@@ -35,9 +35,6 @@ import {TitleComponent} from './server/title.component';
 import {DSpaceService} from './app/dspace/dspace.service';
 
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceCommunities} from './app/dspace/dspace.communities';
-import {DSpaceCollections} from './app/dspace/dspace.collections';
-import {DSpaceItems} from './app/dspace/dspace.items';
 
 import {HttpService} from './app/utilities/http.service';
 import {WebSocketService} from './app/utilities/websocket.service';
@@ -108,9 +105,6 @@ function ngApp(req, res) {
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
             DSpaceService,
             DSpaceDirectory,
-            DSpaceCommunities,
-            DSpaceCollections,
-            DSpaceItems,
             HttpService,
             WebSocketService,
             BreadcrumbService
