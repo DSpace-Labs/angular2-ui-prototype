@@ -10,8 +10,8 @@ export class DSpaceService {
     private url: string;
 
     constructor(private httpService: HttpService) {
-        this.REST = '/tdl-rest';
-        this.url = 'https://training-ir.tdl.org';
+        this.REST = '/rest';
+        this.url = 'http://localhost:5050';
     }
 
     getApp() {

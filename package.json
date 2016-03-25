@@ -2,7 +2,7 @@
   "name": "dspace-angular2-ui",
   "version": "0.0.1",
   "description": "Angular Universal DSpace",
-  "main": "server.js",  
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/wellingWilliam/Angular2DSpaceUIPrototype.git"
@@ -15,10 +15,8 @@
     "dep": "npm install --global typescript typings webpack nodemon",
     "prebuild": "rimraf dist",
     "build": "webpack",
-    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
-    "test": "concurrently \"nodemon dist/server/bundle.js\" \"chrome --disable-web-security --user-data-dir=\"C:\\Google\\Chrome\\Development\" http://localhost:3000\"",
-    "mac-watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"./chrome.sh\"",
-    "mac-test": "concurrently \"nodemon dist/server/bundle.js\" \"./chrome.sh\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "postinstall": "typings install"
   },
   "dependencies": {
@@ -28,25 +26,27 @@
     "express": "^4.13.4",
     "jquery": "^2.2.1",
     "preboot": "^2.0.5",
-    "rxjs": "5.0.0-beta.3"    
+    "rxjs": "5.0.0-beta.3"
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.9",
     "bootstrap-sass": "^3.3.6",
     "bootstrap-sass-loader": "^1.0.10",
+    "commander": "^2.9.0",
     "concurrently": "^2.0.0",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
-    "nodemon": "^1.9.1",
+    "http-proxy": "^1.13.2",
     "node-sass": "^3.4.2",
+    "nodemon": "^1.9.1",
     "resolve-url-loader": "^1.4.3",
     "rimraf": "^2.5.2",
     "sass-loader": "^3.2.0",
     "ssl-root-cas": "^1.1.10",
     "style-loader": "^0.13.0",
     "ts-loader": "^0.8.1",
-    "typings": "^0.7.9",
     "typescript": "^1.8.9",
+    "typings": "^0.7.9",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
