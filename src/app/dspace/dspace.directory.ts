@@ -118,7 +118,7 @@ export class DSpaceDirectory {
     }
     
     loadSubCommunities(context) {
-        if (!context.ready) { }
+        if (context.ready) { }
         else {
             this.dspaceService.fetchCommunitySubCommunities(context.id).subscribe(subcommunities => {
                 context.subcommunities = this.prepare(context, subcommunities);
