@@ -34,16 +34,12 @@ export class CommunityComponent {
 
     community: Object;
     
-    constructor(private params: RouteParams, private dspace: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Community ' + params.get("id"));
-        dspace.community.subscribe(community => {
+        directory.loadObj('community', params.get("id")).then(community => {
             this.community = community;
             breadcrumb.visit(this.community);
-        })
-    }
-
-    ngOnInit() {
-        this.dspace.loadCommunity(this.params.get("id"));
+        });
     }
 
 }

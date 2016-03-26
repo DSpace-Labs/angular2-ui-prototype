@@ -26,13 +26,13 @@ export class DSpaceService {
         });
     }
 
-    fetchCommunitySubCommunities(communityId) {
+    fetchCommunities(communityId) {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + communityId + '/communities'
         });
     }
 
-    fetchCommunityCollections(communityId) {
+    fetchCollections(communityId) {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + communityId + '/collections'
         });

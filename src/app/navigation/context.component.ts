@@ -30,21 +30,13 @@ export class ContextComponent {
 
 	@Input() context: Object;
 
-    constructor() {
+    constructor() { }
 
-    }
-
-    select(object) {
+    select(object) {        
         switch (this.context['type']) {
-            case 'community': {
-            } break;
-            case 'collection': {
-            } break;
-            case 'item': {
-
-                console.log(object);
-
-            } break;
+            case 'community': { } break;
+            case 'collection': { } break;
+            case 'item': { } break;
             default: { } break;
         }
     }

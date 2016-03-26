@@ -13,16 +13,20 @@ import {HttpService} from './utilities/http.service';
 import {WebSocketService} from './utilities/websocket.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
+import {DSpaceStore} from './dspace/dspace.store';
+import {DSpaceKeys} from './dspace/dspace.keys';
 
 enableProdMode();
 
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
-    DSpaceService,
+    BreadcrumbService,
     DSpaceDirectory,
+    DSpaceKeys,
+    DSpaceService,
+    DSpaceStore,
     HttpService,
-    WebSocketService,
-    BreadcrumbService
+    WebSocketService
 ])
 .then(prebootComplete);

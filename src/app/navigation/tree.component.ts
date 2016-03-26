@@ -18,7 +18,7 @@ import {ListComponent} from './list.component';
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
 
                         <!-- Router link -->
-                        <a [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
+                        <a [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }} {{ directory.id }}</a>
                         
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         

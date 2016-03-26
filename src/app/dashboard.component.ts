@@ -5,6 +5,7 @@ import {DSpaceDirectory} from './dspace/dspace.directory';
 
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
+import {BreadcrumbService} from './navigation/breadcrumb.service';
 
 @Component({
     selector: "directory",
@@ -27,12 +28,14 @@ export class DashboardComponent {
         type: string
     };
 
-    constructor(private location: Location, private dspace: DSpaceDirectory) {
+    constructor(private location: Location,
+                private dspace: DSpaceDirectory,
+                private breadcrumb: BreadcrumbService) {
         this.dashboard = {
             name: 'Dashboard',
             type: 'dashboard'
         };
-       
+        breadcrumb.visit(this.dashboard);
     }
 
     ngOnInit() {

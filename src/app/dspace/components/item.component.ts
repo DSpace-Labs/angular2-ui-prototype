@@ -54,16 +54,12 @@ export class ItemComponent {
 
     item: Object;
     
-    constructor(private params: RouteParams, private dspace: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Item ' + params.get("id"));
-        dspace.item.subscribe(item => {
+        directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
-        })
-    }
-    
-    ngOnInit() {
-        this.dspace.loadItem(this.params.get("id"));
+        });
     }
 
 }

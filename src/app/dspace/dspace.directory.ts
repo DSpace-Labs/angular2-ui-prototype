@@ -1,39 +1,17 @@
 ﻿import {EventEmitter, Injectable} from 'angular2/core';
 import {Observable, Observer} from 'rxjs/Rx';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/map';
 
 import {DSpaceService} from './dspace.service';
+import {DSpaceStore} from './dspace.store';
+import {DSpaceKeys} from './dspace.keys';
 
 @Injectable()
 export class DSpaceDirectory {
 
-    store: {
+    private store: {
         directory: {
             context: Object,
             observer: Observer<Object>,
-            loader: Function,
-            loading: boolean,
-            ready: boolean
-        },
-        item: {
-            context: Object,
-            observer: Observer<Object>,
-            loader: Function,
-            loading: boolean,
-            ready: boolean
-        },
-        collection: {
-            context: Object,
-            observer: Observer<Object>,
-            loader: Function,
-            loading: boolean,
-            ready: boolean
-        },
-        community: {
-            context: Object,
-            observer: Observer<Object>,
-            loader: Function,
             loading: boolean,
             ready: boolean
         }
@@ -41,62 +19,26 @@ export class DSpaceDirectory {
 
     directory: Observable<Object>;
 
-    item: Observable<Object>;
-    collection: Observable<Object>;
-    community: Observable<Object>;
-
-    emitter: EventEmitter<Object>;
-
-    constructor(private dspaceService: DSpaceService) {
+    constructor(private dspaceService: DSpaceService,
+                private dspaceStore: DSpaceStore,
+                private dspaceKeys: DSpaceKeys) {
         this.store = {
             directory: {
                 context: new Array<Object>(),
                 observer: null,
-                loader: this.loadDirectory,
-                loading: false,
-                ready: false
-            },
-            community: {
-                context: new Array<Object>(),
-                observer: null,
-                loader: this.loadDirectory,
-                loading: false,
-                ready: false
-            },
-            collection: {
-                context: new Array<Object>(),
-                observer: null,
-                loader: this.loadDirectory,
-                loading: false,
-                ready: false
-            },
-            item: {
-                context: {},
-                observer: null,
-                loader: this.loadDirectory,
                 loading: false,
                 ready: false
             }
         };
-        this.directory = new Observable<Object>(observer => this.store.directory.observer = observer).share();
-
-        this.item = new Observable<Object>(observer => this.store.item.observer = observer).share();
-        this.collection = new Observable<Object>(observer => this.store.collection.observer = observer).share();
-        this.community = new Observable<Object>(observer => this.store.community.observer = observer).share();
-
-        this.emitter = new EventEmitter<Object>();
-    }
-
-    refreshDirectory() {
-        this.directory = Observable.create(observer => {
-            this.store.directory.observer = observer;
-            this.store.directory.observer.next(this.store.directory.context);
-        });
+        this.directory = new Observable<Object>(observer => this.store.directory.observer = observer).share();        
     }
 
     loadDirectory() {
         if (this.store.directory.ready) {
-            this.refreshDirectory();
+            this.directory = Observable.create(observer => {
+                this.store.directory.observer = observer;
+                this.store.directory.observer.next(this.store.directory.context);
+            });
         }
         else {
             if (!this.store.directory.loading) {
@@ -116,167 +58,96 @@ export class DSpaceDirectory {
             }
         }
     }
-    
-    loadSubCommunities(context) {
-        if (context.ready) { }
+
+    loadNav(type, context) {
+        if (context.ready) {
+            console.log('already ready')
+        }
         else {
-            this.dspaceService.fetchCommunitySubCommunities(context.id).subscribe(subcommunities => {
-                context.subcommunities = this.prepare(context, subcommunities);
+            this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context.id).subscribe(nav => {
+                context[this.dspaceKeys[type].DSPACE] = this.prepare(context, nav);
                 context.ready = true;
             },
             error => {
                 console.error('Error: ' + JSON.stringify(error, null, 4));
             },
             () => {
-                console.log('finished fetching subcommunities of ' + context.name);
+                console.log('finished fetching ' + this.dspaceKeys[type].DSPACE + ' of ' + context.name);
             });
         }
     }
 
-    loadCollections(context) {
-        if (context.ready) { }
-        else {
-            this.dspaceService.fetchCommunityCollections(context.id).subscribe(collections => {
-                context.collections = this.prepare(context, collections);
-                context.ready = true;
-            },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                console.log('finished fetching collections of ' + context.name);
-            });
-        }
-    }
-
-    loadItems(context) {
-        if (context.ready) { }
-        else {
-            this.dspaceService.fetchItems(context.id).subscribe(items => {
-                context.items = this.prepare(context, items);
-                context.ready = true;
-            },
+    loadObj(type, id) {
+        let directory = this;
+        return new Promise(function (resolve, reject) {
+            let obj;
+            if ((obj = directory.dspaceStore.get(directory.dspaceKeys[type].PLURAL, id))) {
+                resolve(obj);
+            }
+            else {
+                directory.dspaceService['fetch' + directory.dspaceKeys[type].METHOD](id).subscribe(obj => {
+                    obj = directory.prepare(null, obj);
+                    obj.ready = true;
+                    directory.dspaceStore.add(directory.dspaceKeys[type].PLURAL, obj);
+                    resolve(obj);
+                },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
                 },
                 () => {
-                    console.log('finished fetching items of ' + context.name);
+                    console.log('finished fetching ' + type + ' ' + id);
                 });
-        }
-    }
-
-    // TODO: put in and retrieve from directory
-    loadCommunity(id) {
-        this.dspaceService.fetchCommunity(id).subscribe(community => {
-            this.store.community.context = this.prepare(null, community);
-            this.store.community.observer.next(this.store.community.context);
-        },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                this.store.community.ready = true;
-                this.store.community.loading = false;
-                console.log('finished fetching community ' + id);
-            });
-    }
-
-    // TODO: put in and retrieve from directory
-    loadCollection(id) {
-        this.dspaceService.fetchCollection(id).subscribe(collection => {
-            this.store.collection.context = this.prepare(null, collection);
-            this.store.collection.observer.next(this.store.collection.context);
-        },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                this.store.collection.ready = true;
-                this.store.collection.loading = false;
-                console.log('finished fetching collection ' + id);
-            });
-    }
-
-    // TODO: put in and retrieve from directory
-    loadItem(id) {
-        this.dspaceService.fetchItem(id).subscribe(item => {
-            this.store.item.context = this.prepare(null, item);
-            this.store.item.observer.next(this.store.item.context);
-        },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                this.store.item.ready = true;
-                this.store.item.loading = false;
-                console.log('finished fetching item ' + id);
-            });
+            }
+        });
     }
 
     prepare(context, obj) {
-
-        let directory = this;
-
         if (Object.prototype.toString.call(obj) !== '[object Array]') {
-            if (obj.type == 'item') {
+            this.enhance(obj);
+            if (obj.type == 'item')
                 return obj;
-            }
-            if (obj.type == 'collection') {
+            else if (obj.type == 'collection')
                 obj.list = obj.items;
-            }
-            if (obj.type == 'community') {
+            else if (obj.type == 'community')
                 obj.list = obj.collections.concat(obj.subcommunities);
-            }
+            else console.log('Object has no type!')
+            this.process(context, obj.list);
+            return obj;
         }
-        else {
-            obj.list = obj;
-        }
+        return this.process(context, obj);
+    }
 
-        obj.list.forEach(current => {
+    process(context, list) {
+        let directory = this;
+        list.forEach(current => {
             if (context) {
-                if (current.type != 'item') {
+                if (current.type == 'item')
+                    current.parentCollection = context;
+                else
                     current.parentCommunity = context;
-                }
             }
-            current.ready = false;
-            current.path = this.getPath(current.type);
-            current.component = this.getComponent(current.type);
-
+            directory.enhance(current);
             if (current.type != 'item') {
                 current.expanded = false;
                 current.toggle = function () {
                     this.expanded = !this.expanded;
                     if (this.expanded) {
-                        directory.loadSubCommunities(this);
-                        directory.loadCollections(this);
-                        if (this.type == 'collection') {
-                            directory.loadItems(this);
+                        if (this.type == 'collection')
+                            directory.loadNav('item', this);
+                        else {
+                            directory.loadNav('collection', this);
+                            directory.loadNav('community', this);
                         }
                     }
                 }
             }
-
         });
+        return list;
+    }
 
-        return obj;
+    enhance(obj) {
+        obj.ready = false;
+        obj.component = this.dspaceKeys[obj.type].COMPONENT;
     }
     
-    getPath(type) {
-        switch (type) {
-            case 'community': return '/Communities';
-            case 'collection': return '/Collections';
-            case 'item': return '/Items';
-            default: { }
-        }
-    }
-
-    getComponent(type) {
-        switch (type) {
-            case 'community': return 'Communities';
-            case 'collection': return 'Collections';
-            case 'item': return 'Items';
-            default: { }
-        }
-    }
-
 }
