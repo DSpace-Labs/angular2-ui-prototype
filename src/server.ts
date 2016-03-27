@@ -110,19 +110,19 @@ function ngApp(req, res) {
             HttpService,
             WebSocketService
         ],
-	preboot: {
-	    //listen: any,
-	    replay: 'hydrate',
-	    //freeze: any,
-	    appRoot: 'AppComponent',
-	    //pauseEvent: string,
-	    //resumeEvent: string,
-	    //completeEvent: string,
-	    //presets: any,
-	    uglify: false,
-	    buffer: true,
-	    debug: false	
-	},
+        preboot: {
+            //listen: any,
+            replay: 'hydrate',
+            //freeze: any,
+            appRoot: 'AppComponent',
+            //pauseEvent: string,
+            //resumeEvent: string,
+            //completeEvent: string,
+            //presets: any,
+            uglify: true,
+            buffer: true,
+            debug: false
+        },
         async: true,
         precache: true
     });

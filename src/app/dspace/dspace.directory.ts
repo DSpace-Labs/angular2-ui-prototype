@@ -61,7 +61,7 @@ export class DSpaceDirectory {
 
     loadNav(type, context) {
         if (context.ready) {
-            console.log('already ready')
+            console.log(context.name + ' already ready')
         }
         else {
             this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context.id).subscribe(nav => {
@@ -107,11 +107,12 @@ export class DSpaceDirectory {
             if (obj.type == 'item')
                 return obj;
             else if (obj.type == 'collection')
-                obj.list = obj.items;
-            else if (obj.type == 'community')
-                obj.list = obj.collections.concat(obj.subcommunities);
-            else console.log('Object has no type!')
-            this.process(context, obj.list);
+                this.prepare(context, obj.items);
+            else if (obj.type == 'community') {
+                this.prepare(context, obj.collections);
+                this.prepare(context, obj.subcommunities);
+            }
+            else console.log('Object has no type!');
             return obj;
         }
         return this.process(context, obj);
@@ -135,8 +136,8 @@ export class DSpaceDirectory {
                         if (this.type == 'collection')
                             directory.loadNav('item', this);
                         else {
-                            directory.loadNav('collection', this);
                             directory.loadNav('community', this);
+                            directory.loadNav('collection', this);
                         }
                     }
                 }

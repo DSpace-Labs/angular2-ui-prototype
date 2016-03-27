@@ -29,12 +29,9 @@ import {ListComponent} from './list.component';
                             <tree [directories]="directory.subcommunities.concat(directory.collections)"></tree>
                         </div>
 
-
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
                             <list [items]="directory.items"></list>
                         </div>
-
-                        
                         
                     </li>
                 </ul>

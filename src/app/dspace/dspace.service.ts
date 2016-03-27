@@ -46,7 +46,7 @@ export class DSpaceService {
 
     fetchCommunity(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subcommunities,parentCommunity'
+            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity'
         });
     }
 

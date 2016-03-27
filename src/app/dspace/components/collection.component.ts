@@ -19,7 +19,7 @@ import {ContextComponent} from '../../navigation/context.component';
                     </div>  
                     
                     <div class="col-md-8">
-                        <tree [directories]="collection.list"></tree>
+                        <tree [directories]="collection.items"></tree>
                         <div class="jumbotron">
                             <div class="container">
                                 

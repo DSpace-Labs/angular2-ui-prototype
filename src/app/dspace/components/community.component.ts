@@ -19,7 +19,7 @@ import {ContextComponent} from '../../navigation/context.component';
                     </div>     
                     
                     <div class="col-md-8">
-                        <tree [directories]="community.list"></tree>
+                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
                         <div class="jumbotron">
                             <div class="container">
                                 
