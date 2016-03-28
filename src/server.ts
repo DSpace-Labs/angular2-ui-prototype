@@ -114,7 +114,7 @@ function ngApp(req, res) {
             //listen: any,
             replay: 'hydrate',
             //freeze: any,
-            appRoot: 'AppComponent',
+            appRoot: 'dspace',
             //pauseEvent: string,
             //resumeEvent: string,
             //completeEvent: string,
