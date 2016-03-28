@@ -32,17 +32,13 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
-import {DSpaceService} from './app/dspace/dspace.service';
-
+import {BreadcrumbService} from './app/navigation/breadcrumb.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceCommunities} from './app/dspace/dspace.communities';
-import {DSpaceCollections} from './app/dspace/dspace.collections';
-import {DSpaceItems} from './app/dspace/dspace.items';
-
+import {DSpaceKeys} from './app/dspace/dspace.keys';
+import {DSpaceService} from './app/dspace/dspace.service';
+import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {WebSocketService} from './app/utilities/websocket.service';
-import {BreadcrumbService} from './app/navigation/breadcrumb.service';
-
 
 enableProdMode();
 
@@ -106,18 +102,29 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
-            DSpaceService,
+            BreadcrumbService,
             DSpaceDirectory,
-            DSpaceCommunities,
-            DSpaceCollections,
-            DSpaceItems,
+            DSpaceKeys,
+            DSpaceService,
+            DSpaceStore,
             HttpService,
-            WebSocketService,
-            BreadcrumbService
+            WebSocketService
         ],
+        preboot: {
+            //listen: any,
+            replay: 'hydrate',
+            //freeze: any,
+            appRoot: 'dspace',
+            //pauseEvent: string,
+            //resumeEvent: string,
+            //completeEvent: string,
+            //presets: any,
+            uglify: true,
+            buffer: true,
+            debug: false
+        },
         async: true,
-        preboot: true,
-        precache: true,
+        precache: true
     });
 }
 

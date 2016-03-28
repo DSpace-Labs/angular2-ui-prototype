@@ -14,10 +14,6 @@ export class DSpaceService {
         this.url = 'https://training-ir.tdl.org';
     }
 
-    getApp() {
-        return this.REST;
-    }
-
     fetch(path) {
         return this.httpService.get({
             url: this.url + path + '?expand=parentCommunity,parentCollection'
@@ -30,30 +26,39 @@ export class DSpaceService {
         });
     }
 
-
-    fetchCommunitySubCommunities(communityId) {
+    fetchCommunities(communityId) {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + communityId + '/communities'
         });
     }
 
-
-    fetchCommunityCollections(communityId) {
+    fetchCollections(communityId) {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + communityId + '/collections'
         });
     }
 
-
-    fetchItems(collection) {
+    fetchItems(collectionId) {
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + collection.id + '/items'
+            url: this.url + this.REST + '/collections/' + collectionId + '/items'
         });
     }
 
-    fetchItem(itemId) {
+    fetchCommunity(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/items/' + itemId + '?expand=metadata,bitstreams'
+            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity'
+        });
+    }
+
+    fetchCollection(id) {
+        return this.httpService.get({
+            url: this.url + this.REST + '/collections/' + id + '?expand=items,parentCommunity'
+        });
+    }
+
+    fetchItem(id) {
+        return this.httpService.get({
+            url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
         });
     }
 

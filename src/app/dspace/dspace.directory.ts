@@ -1,36 +1,36 @@
 ﻿import {EventEmitter, Injectable} from 'angular2/core';
 import {Observable, Observer} from 'rxjs/Rx';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/map';
 
 import {DSpaceService} from './dspace.service';
+import {DSpaceStore} from './dspace.store';
+import {DSpaceKeys} from './dspace.keys';
 
 @Injectable()
 export class DSpaceDirectory {
 
-    store: {
+    private store: {
         directory: {
-            context: Object[],
-            observer: Observer<Object[]>,
-            loader: Function,
+            context: Object,
+            observer: Observer<Object>,
             loading: boolean,
             ready: boolean
         }
     };
 
-    directory: Observable<Object[]>;
+    directory: Observable<Object>;
 
-    constructor(private dspaceService: DSpaceService) {
+    constructor(private dspaceService: DSpaceService,
+                private dspaceStore: DSpaceStore,
+                private dspaceKeys: DSpaceKeys) {
         this.store = {
             directory: {
                 context: new Array<Object>(),
                 observer: null,
-                loader: this.loadDirectory,
                 loading: false,
                 ready: false
             }
         };
-        this.directory = new Observable<Object[]>(observer => this.store.directory.observer = observer).share();
+        this.directory = new Observable<Object>(observer => this.store.directory.observer = observer).share();        
     }
 
     loadDirectory() {
@@ -44,7 +44,7 @@ export class DSpaceDirectory {
             if (!this.store.directory.loading) {
                 this.store.directory.loading = true;
                 this.dspaceService.fetchTopCommunities().subscribe(topCommunities => {
-                    this.store.directory.context = this.prepare(topCommunities);
+                    this.store.directory.context = this.prepare(null, topCommunities);
                     this.store.directory.observer.next(this.store.directory.context);
                 },
                 error => {
@@ -59,34 +59,96 @@ export class DSpaceDirectory {
         }
     }
 
-    addToDirectory() {
-
+    loadNav(type, context) {
+        if (context.ready) {
+            console.log(context.name + ' already ready')
+        }
+        else {
+            this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context.id).subscribe(nav => {
+                context[this.dspaceKeys[type].DSPACE] = this.prepare(context, nav);
+                context.ready = true;
+            },
+            error => {
+                console.error('Error: ' + JSON.stringify(error, null, 4));
+            },
+            () => {
+                console.log('finished fetching ' + this.dspaceKeys[type].DSPACE + ' of ' + context.name);
+            });
+        }
     }
 
-    prepare(communities) {
-        communities.forEach(community => {
-            community.path = this.getPath(community.type);
-            community.component = this.getComponent(community.type);
+    loadObj(type, id) {
+        let directory = this;
+        return new Promise(function (resolve, reject) {
+            let obj;
+            if ((obj = directory.dspaceStore.get(directory.dspaceKeys[type].PLURAL, id))) {
+                resolve(obj);
+            }
+            else {
+                directory.dspaceService['fetch' + directory.dspaceKeys[type].METHOD](id).subscribe(obj => {
+                    obj = directory.prepare(null, obj);
+                    obj.ready = true;
+                    directory.dspaceStore.add(directory.dspaceKeys[type].PLURAL, obj);
+                    resolve(obj);
+                },
+                error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    console.log('finished fetching ' + type + ' ' + id);
+                });
+            }
         });
-        return communities;
+    }
+
+    prepare(context, obj) {
+        if (Object.prototype.toString.call(obj) !== '[object Array]') {
+            this.enhance(obj);
+            if (obj.type == 'item')
+                return obj;
+            else if (obj.type == 'collection')
+                this.prepare(context, obj.items);
+            else if (obj.type == 'community') {
+                this.prepare(context, obj.collections);
+                this.prepare(context, obj.subcommunities);
+            }
+            else console.log('Object has no type!');
+            return obj;
+        }
+        return this.process(context, obj);
+    }
+
+    process(context, list) {
+        let directory = this;
+        list.forEach(current => {
+            if (context) {
+                if (current.type == 'item')
+                    current.parentCollection = context;
+                else
+                    current.parentCommunity = context;
+            }
+            directory.enhance(current);
+            if (current.type != 'item') {
+                current.expanded = false;
+                current.toggle = function () {
+                    this.expanded = !this.expanded;
+                    if (this.expanded) {
+                        if (this.type == 'collection')
+                            directory.loadNav('item', this);
+                        else {
+                            directory.loadNav('community', this);
+                            directory.loadNav('collection', this);
+                        }
+                    }
+                }
+            }
+        });
+        return list;
+    }
+
+    enhance(obj) {
+        obj.ready = false;
+        obj.component = this.dspaceKeys[obj.type].COMPONENT;
     }
     
-    getPath(type) {
-        switch (type) {
-            case 'community': return '/Communities';
-            case 'collection': return '/Collections';
-            case 'item': return '/Items';
-            default: { }
-        }
-    }
-
-    getComponent(type) {
-        switch (type) {
-            case 'community': return 'Communities';
-            case 'collection': return 'Collections';
-            case 'item': return 'Items';
-            default: { }
-        }
-    }
-
 }

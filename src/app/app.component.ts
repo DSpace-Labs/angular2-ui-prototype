@@ -46,16 +46,16 @@ import {ItemComponent} from './dspace/components/item.component';
               `
 })
 @RouteConfig([
-        { path: "/dashboard", name: "Dashboard", component: DashboardComponent, useAsDefault: true },
-        { path: "/home", name: "Home", component: HomeComponent },
+    
+        { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
+        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+        { path: "/items/:id", name: "Items", component: ItemComponent },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent },
-
-        { path: "/communities/...", name: "Communities", component: CommunityComponent },
-        { path: "/collections/...", name: "Collections", component: CollectionComponent },
-        { path: "/items/...", name: "Items", component: ItemComponent }
+        { path: "/login", name: "Login", component: LoginComponent }
 
 ])
 export class AppComponent {

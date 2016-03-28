@@ -1,15 +1,19 @@
 {
-  "name": "dspace-angular2-ui",
+  "name": "angular2-dspace-ui-prototype",
   "version": "0.0.1",
-  "description": "Angular Universal DSpace",
+  "description": "Angular Universal extended DSpace UI prototype",
   "main": "server.js",  
   "repository": {
     "type": "git",
-    "url": "https://github.com/wellingWilliam/Angular2DSpaceUIPrototype.git"
+    "url": "https://github.com/DSpace-Labs/angular2-ui-prototype.git"
   },
-  "license": "MIT",
+  "license": "Copyright (c) 2002-2013, DuraSpace",
   "contributors": [
-    "William Welling <wwelling@outlook.com>"
+	"Tim Donohue <tdonohue@duraspace.org>",
+	"Art Lowel <art@atmire.com>",
+	"Andrea Bollini <a.bollini@cineca.it>",
+	"James Creel <jcreel@library.tamu.edu>",
+    "William Welling <wwelling@library.tamu.edu>"
   ],
   "scripts": {
     "dep": "npm install --global typescript typings webpack nodemon",
@@ -23,15 +27,15 @@
   },
   "dependencies": {
     "angular2": "2.0.0-beta.12",
-    "angular2-universal-preview": "~0.82.1",
+    "angular2-universal-preview": "~0.84.0",
     "angular2-websocket": "^0.6.2",
     "express": "^4.13.4",
-    "jquery": "^2.2.1",
+    "jquery": "^2.2.2",
     "preboot": "^2.0.5",
     "rxjs": "5.0.0-beta.3"    
   },
   "devDependencies": {
-    "bootstrap-loader": "^1.0.9",
+    "bootstrap-loader": "^1.0.10",
     "bootstrap-sass": "^3.3.6",
     "bootstrap-sass-loader": "^1.0.10",
     "concurrently": "^2.0.0",
@@ -43,7 +47,7 @@
     "rimraf": "^2.5.2",
     "sass-loader": "^3.2.0",
     "ssl-root-cas": "^1.1.10",
-    "style-loader": "^0.13.0",
+    "style-loader": "^0.13.1",
     "ts-loader": "^0.8.1",
     "typings": "^0.7.9",
     "typescript": "^1.8.9",
