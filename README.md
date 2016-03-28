@@ -33,9 +33,12 @@ Overview of all the parts of the UI prototype:
     * Our [Webpack configuration](https://webpack.github.io/docs/configuration.html) is at [`webpack.config.js`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/webpack.config.js)
 * [Typings](https://github.com/typings/typings) is used to manage/install Typescript definitions
     * Here's a good explanation as to why Typings is useful and how it lets you pull in external module Typescript definitions: https://github.com/typings/typings/blob/master/docs/external-modules.md
-    * Our Typings config files is at [`typings.json`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/typings.json)
+    * Our Typings config file is at [`typings.json`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/typings.json)
+    * We also have to provide custom Typescript definitions for modules that don't provide it. Those are at: [`src/typings.d.ts`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/src/typings.d.ts)
 * [NPM (Node Package Manager)](https://www.npmjs.com/) is used to build/run the project (see below)
     * Our [NPM configuration](https://docs.npmjs.com/files/package.json) is at [`package.json`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/package.json)
+* [nodemon](http://nodemon.io/) is used to automatically restart the server when source code changes.
+    * Our [nodemon configuration](https://github.com/remy/nodemon#config-files) is at [`nodemon.json`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/nodemon.json)
 
 Here's where various parts of the codebase are located: 
  - `src/app/` is the client-side typescript that drives application
