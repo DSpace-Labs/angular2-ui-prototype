@@ -1,1 +1,1 @@
-open "/Applications/Google Chrome.app" --args --disable-web-security http://localhost:3000
+open "/Applications/Google Chrome.app" --args --user-data-dir="$HOME/.chrome_dev_session" --disable-web-security http://localhost:3000
