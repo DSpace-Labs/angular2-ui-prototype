@@ -7,12 +7,12 @@
     "type": "git",
     "url": "https://github.com/DSpace-Labs/angular2-ui-prototype.git"
   },
-  "license": "Copyright (c) 2002-2013, DuraSpace",
+  "license": "BSD-3-Clause",
   "contributors": [
-	"Tim Donohue <tdonohue@duraspace.org>",
-	"Art Lowel <art@atmire.com>",
-	"Andrea Bollini <a.bollini@cineca.it>",
-	"James Creel <jcreel@library.tamu.edu>",
+    "Tim Donohue <tdonohue@duraspace.org>",
+    "Art Lowel <art@atmire.com>",
+    "Andrea Bollini <a.bollini@cineca.it>",
+    "James Creel <jcreel@library.tamu.edu>",
     "William Welling <wwelling@library.tamu.edu>"
   ],
   "scripts": {
@@ -32,7 +32,8 @@
     "express": "^4.13.4",
     "jquery": "^2.2.2",
     "preboot": "^2.0.5",
-    "rxjs": "5.0.0-beta.3"    
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "~0.6.6"
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.10",
