@@ -1,16 +1,22 @@
+## Ignore build target / distribution folder (contains final compiled JS)
 dist/
+
+## Ignore NPM folder (where node modules are stored)
 node_modules/
-typings/
+## Ignore NPM debug log
 npm-debug.log
 
-.ntvs_analysis.dat
-Angular2DSpaceUIPrototype.njsproj
+## Ignore typings work folder (where type definitions are saved)
+typings/
 
 ## Ignore project files created by IntelliJ IDEA
 *.iml
 *.ipr
 *.iws
 .idea/
+
+## Ignore project files created by NetBeans
+nbproject/
 
 ##Mac noise
 .DS_Store
