@@ -1,17 +1,17 @@
-﻿{
+{
   "compilerOptions": {
     "target": "ES5",
     "module": "commonjs",
     "moduleResolution": "node",    
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-	"sourceMap": true,
+    "sourceMap": true,
     "removeComments": true,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": false
   },
   "exclude": [
-	"node_modules",
+    "node_modules",
     "typings/main.d.ts",
     "typings/main"
   ],
