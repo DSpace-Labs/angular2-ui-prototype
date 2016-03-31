@@ -7,24 +7,22 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
+import {ContainerHomeComponent} from "./container-home.component";
+import {Collection} from "../models/collection.model";
 
 @Component({
     selector: 'collection',
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
     template: ` 
                 <div class="container" *ngIf="collection">
 
                     <div class="col-md-4">
-                        <context [context]="collection"></context>
+                        <context [context]="collectionJSON"></context>
                     </div>  
                     
                     <div class="col-md-8">
-                        <tree [directories]="collection.items"></tree>
-                        <div class="jumbotron">
-                            <div class="container">
-                                
-                            </div>
-                        </div>
+                        <container-home [container]=collection></container-home>
+                        <tree [directories]="collectionJSON.items"></tree>
                     </div>
                     
                 </div>
@@ -32,13 +30,16 @@ import {ContextComponent} from '../../navigation/context.component';
 })
 export class CollectionComponent {
 
-    collection: Object;
+    collection: Collection;
+    //TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
+    collectionJSON: Object;
 
     constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Collection ' + params.get("id"));
-        directory.loadObj('collection', params.get("id")).then(collection => {
-            this.collection = collection;
-            breadcrumb.visit(this.collection);
+        directory.loadObj('collection', params.get("id")).then(collectionJSON => {
+            this.collectionJSON = collectionJSON;
+            this.collection = new Collection(collectionJSON);
+            breadcrumb.visit(this.collectionJSON);
         });
     }
 
