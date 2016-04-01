@@ -1,7 +1,6 @@
 import {DSpaceObject} from "./dspaceobject.model";
-// import * as _ from 'underscore';
-const _ = require('underscore'); //see: https://github.com/preboot/angular2-webpack/issues/9#issuecomment-170404632
-const s = require("underscore.string");
+import * as _ from 'underscore';
+import * as s from 'underscore.string';
 
 export class Metadatum {
     schema: string;

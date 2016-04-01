@@ -1,7 +1,6 @@
 import {Collection} from "./collection.model";
 import {DSOContainer} from "./dso-container.model";
-// import * as _ from 'underscore';
-const _ = require('underscore'); //see: https://github.com/preboot/angular2-webpack/issues/9#issuecomment-170404632
+import * as _ from 'underscore';
 
 export class Community extends DSOContainer {
     collections: Collection[];
