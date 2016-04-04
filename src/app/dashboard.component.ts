@@ -42,7 +42,7 @@ export class DashboardComponent {
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private directory: DSpaceDirectory,
+    constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
         this.dashboard = {
             name: 'Dashboard',
@@ -55,7 +55,7 @@ export class DashboardComponent {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        this.directory.loadDirectory();
+        this.dspace.loadDirectory();
     }
 
 }
