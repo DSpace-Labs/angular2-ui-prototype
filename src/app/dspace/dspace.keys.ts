@@ -1,7 +1,7 @@
 ﻿import {Injectable} from 'angular2/core';
 
 /**
- * 
+ * Some constants.
  */
 @Injectable()
 export class DSpaceKeys {
@@ -9,7 +9,7 @@ export class DSpaceKeys {
     // TODO: think of good refactoring
 
     /**
-     * 
+     * Constants for items
      */
     item = {
         'PLURAL': 'items',
@@ -20,7 +20,7 @@ export class DSpaceKeys {
     };
 
     /**
-     * 
+     * Constants for collections
      */
     collection = {
         'PLURAL': 'collections',
@@ -31,7 +31,7 @@ export class DSpaceKeys {
     };
 
     /**
-     * 
+     * Constants for communities
      */
     community = {
         'PLURAL': 'communities',
