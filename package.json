@@ -2,7 +2,7 @@
   "name": "angular2-dspace-ui-prototype",
   "version": "0.0.1",
   "description": "Angular Universal extended DSpace UI prototype",
-  "main": "server.js",  
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/DSpace-Labs/angular2-ui-prototype.git"
@@ -16,9 +16,9 @@
     "William Welling <wwelling@library.tamu.edu>"
   ],
   "scripts": {
-    "global": "npm install --global http-proxy nodemon typescript typings webpack",
+    "global": "npm install --global http-proxy nodemon typedoc typescript typings webpack",
     "build": "webpack",
-      "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist",
     "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "postinstall": "typings install"
@@ -50,6 +50,7 @@
     "ssl-root-cas": "^1.1.10",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.1",
+    "typedoc": "^0.3.12",
     "typescript": "^1.8.9",
     "typings": "^0.7.11",
     "url-loader": "^0.5.7",
