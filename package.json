@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "global": "npm install --global http-proxy nodemon typedoc typescript typings webpack",
+    "docs": "typedoc --options typedoc.json ./src",
     "build": "webpack",
     "prebuild": "rimraf dist",
     "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",

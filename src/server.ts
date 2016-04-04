@@ -67,7 +67,6 @@ var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
     res.header('Access-Control-Allow-Credentials', 'true');
     if ('OPTIONS' == req.method) {
-        console.log('OPTIONS');
         res.send(200);
     }
     else {
