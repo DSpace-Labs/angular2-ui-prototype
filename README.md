@@ -58,6 +58,7 @@ Here's how you can install the current prototype:
 
  - `npm install` Installs local dependencies.
  - `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from commandline)
+ - `npm run docs` Generates the TypeDoc documentation in the docs directory. *Should be run and update to gh-pages when typescript is changed.*
  - `npm run build` Builds the project. *Required when typescript is changed.*
  - `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
      - Alternatively, `npm run test` Runs node server and a proxy to work around cors and security issues of DSpace REST API. Visit http://localhost:3000/
