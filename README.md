@@ -57,7 +57,7 @@ Here's where various parts of the codebase are located:
 Here's how you can install the current prototype:
 
  - `npm install` Installs local dependencies.
- - `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from commandline)
+ - `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from command line)
  - `npm run docs` Generates the TypeDoc documentation in the docs directory. *Should be run and update to gh-pages when typescript is changed.*
  - `npm run build` Builds the project. *Required when typescript is changed.*
  - `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
