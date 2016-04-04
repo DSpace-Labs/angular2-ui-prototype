@@ -17,7 +17,7 @@ export class Community extends DSOContainer {
 
             }
             if (_.isArray(json.subcommunities)) {
-                this.subCommunities = _.map(json.collections, (subCommunityJSON) => {
+                this.subCommunities = _.map(json.subcommunities, (subCommunityJSON) => {
                     return new Community(subCommunityJSON);
                 })
             }
