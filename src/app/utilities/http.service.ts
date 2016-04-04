@@ -2,15 +2,22 @@
 import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
 /**
- * 
+ * Injectable service to be used to make xhr requests. Basic functionality.
  */
 @Injectable()
 export class HttpService {
     
+    /**
+     * @param http
+     *      Http is an Angular2 service for making xhr requests.
+     */
     constructor(private http: Http) {}
 
     /**
-     * 
+     * Convinience method to instantiate and assign headers.
+     *
+     * @param hdrsArr
+     *      an array of objects, {key: string, value: string}, containing headers
      */
     buildHeaders(hdrsArr) {
         let headers = new Headers();
@@ -21,7 +28,10 @@ export class HttpService {
     }
 
     /**
-     * 
+     * Method to make a http POST request.
+     *
+     * @param request
+     *      an object, {uri: string, data: Object}, used to POST
      */
     post(request) {
         //console.log(request)
@@ -39,7 +49,11 @@ export class HttpService {
     }
 
     /**
-     * 
+     * Method to make http GET request. This method maps a serialized response
+     * to a json object.
+     *
+     * @param request
+     *      an object, {uri: string}, used to GET
      */
     get(request) {
         //console.log(request);
@@ -57,8 +71,7 @@ export class HttpService {
         
         return this.http.request(new Request(options)).map(response => {
             return response.json();
-        });
-        
+        });        
     }
 
 }
