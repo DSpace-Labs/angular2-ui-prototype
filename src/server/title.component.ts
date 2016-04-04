@@ -9,7 +9,7 @@ export class TitleComponent {
     title: string;
 
     constructor() {
-        this.title = 'TAMU DSpace UI';
+        this.title = 'DSpace UI';
     }
 
     setTitle(title) {
