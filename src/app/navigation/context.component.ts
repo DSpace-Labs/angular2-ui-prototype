@@ -1,5 +1,8 @@
 import {Component, Input} from 'angular2/core';
 
+/**
+ * 
+ */
 @Component({
     selector: 'context',
     template: `
@@ -28,10 +31,14 @@ import {Component, Input} from 'angular2/core';
 })
 export class ContextComponent {
 
+    /**
+     * 
+     */
 	@Input() context: Object;
 
-    constructor() { }
-
+    /**
+     * 
+     */
     select(object) {        
         switch (this.context['type']) {
             case 'community': { } break;

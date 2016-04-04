@@ -1,13 +1,17 @@
 ﻿import {Injectable} from 'angular2/core';
 import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
+/**
+ * 
+ */
 @Injectable()
 export class HttpService {
     
-    constructor(private http: Http) {
+    constructor(private http: Http) {}
 
-    }
-
+    /**
+     * 
+     */
     buildHeaders(hdrsArr) {
         let headers = new Headers();
         hdrsArr.forEach((header) => {
@@ -16,6 +20,9 @@ export class HttpService {
         return headers;
     }
 
+    /**
+     * 
+     */
     post(request) {
         //console.log(request)
 
@@ -31,6 +38,9 @@ export class HttpService {
         return this.http.post(request.url, body, options);
     }
 
+    /**
+     * 
+     */
     get(request) {
         //console.log(request);
 

@@ -10,7 +10,6 @@ import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
 import {HttpService} from './utilities/http.service';
-import {WebSocketService} from './utilities/websocket.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
@@ -26,7 +25,6 @@ bootstrap(AppComponent, [
     DSpaceKeys,
     DSpaceService,
     DSpaceStore,
-    HttpService,
-    WebSocketService
+    HttpService
 ])
 .then(prebootComplete);

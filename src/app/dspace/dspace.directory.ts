@@ -5,9 +5,15 @@ import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
 import {DSpaceKeys} from './dspace.keys';
 
+/**
+ * 
+ */
 @Injectable()
 export class DSpaceDirectory {
 
+    /**
+     * 
+     */
     private store: {
         directory: {
             context: Object,
@@ -17,8 +23,14 @@ export class DSpaceDirectory {
         }
     };
 
+    /**
+     * 
+     */
     directory: Observable<Object>;
 
+    /**
+     * 
+     */
     constructor(private dspaceService: DSpaceService,
                 private dspaceStore: DSpaceStore,
                 private dspaceKeys: DSpaceKeys) {
@@ -33,6 +45,9 @@ export class DSpaceDirectory {
         this.directory = new Observable<Object>(observer => this.store.directory.observer = observer).share();        
     }
 
+    /**
+     * 
+     */
     loadDirectory() {
         if (this.store.directory.ready) {
             this.directory = Observable.create(observer => {
@@ -59,6 +74,9 @@ export class DSpaceDirectory {
         }
     }
 
+    /**
+     * 
+     */
     loadNav(type, context) {
         if (context.ready) {
             console.log(context.name + ' already ready')
@@ -77,6 +95,9 @@ export class DSpaceDirectory {
         }
     }
 
+    /**
+     * 
+     */
     loadObj(type, id) {
         let directory = this;
         return new Promise(function (resolve, reject) {
@@ -101,6 +122,9 @@ export class DSpaceDirectory {
         });
     }
 
+    /**
+     * 
+     */
     prepare(context, obj) {
         if (Object.prototype.toString.call(obj) !== '[object Array]') {
             this.enhance(obj);
@@ -118,6 +142,9 @@ export class DSpaceDirectory {
         return this.process(context, obj);
     }
 
+    /**
+     * 
+     */
     process(context, list) {
         let directory = this;
         list.forEach(current => {
@@ -146,6 +173,9 @@ export class DSpaceDirectory {
         return list;
     }
 
+    /**
+     * 
+     */
     enhance(obj) {
         obj.ready = false;
         obj.component = this.dspaceKeys[obj.type].COMPONENT;

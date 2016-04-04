@@ -14,6 +14,9 @@ import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
+/**
+ * 
+ */
 @Component({
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES, BreadcrumbComponent],

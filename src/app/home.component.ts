@@ -1,5 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 
+/**
+ * 
+ */
 @Component({
     selector: 'home',
     template: `
@@ -12,5 +15,10 @@
               `
 })
 export class HomeComponent {
+
+    /**
+     * 
+     */
     serverTemplating = ["Hello, World!", "This is server side templated.", "SEO and Javascript."];
+
 }

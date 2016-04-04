@@ -1,7 +1,11 @@
 ﻿import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {ListComponent} from './list.component';
+import {ListComponent } from './list.component';
+
+/**
+ * 
+ */
 @Component({
     selector: 'tree',
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent],
@@ -39,8 +43,9 @@ import {ListComponent} from './list.component';
 })
 export class TreeComponent {
 
+    /**
+     * 
+     */
 	@Input() directories: Array<Object>;
-
-    constructor() { }
-
+    
 }

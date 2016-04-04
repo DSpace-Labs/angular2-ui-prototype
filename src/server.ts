@@ -38,7 +38,6 @@ import {DSpaceKeys} from './app/dspace/dspace.keys';
 import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
-import {WebSocketService} from './app/utilities/websocket.service';
 
 enableProdMode();
 
@@ -107,8 +106,7 @@ function ngApp(req, res) {
             DSpaceKeys,
             DSpaceService,
             DSpaceStore,
-            HttpService,
-            WebSocketService
+            HttpService
         ],
         preboot: {
             //listen: any,

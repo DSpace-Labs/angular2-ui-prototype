@@ -1,6 +1,9 @@
 ﻿import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
+/**
+ * 
+ */
 @Component({
     selector: 'list',
     directives: [ROUTER_DIRECTIVES],
@@ -15,8 +18,9 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 })
 export class ListComponent {
 
+    /**
+     * 
+     */
  	@Input() items: Array<Object>;
-
-    constructor() { }
 
 }

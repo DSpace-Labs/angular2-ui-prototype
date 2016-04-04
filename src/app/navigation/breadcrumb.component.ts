@@ -1,10 +1,13 @@
-﻿ import {Component} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace/dspace.directory';
 
 import {BreadcrumbService} from './breadcrumb.service';
 
+/**
+ * 
+ */
 @Component({
     selector: 'breadcrumb',
     directives: [ROUTER_DIRECTIVES],
@@ -19,14 +22,26 @@ import {BreadcrumbService} from './breadcrumb.service';
 })
 export class BreadcrumbComponent {
 
-    trail: Array<{}>;
+    /**
+     * 
+     */
+    trail: Array<Object>;
 
+    /**
+     * 
+     */
     subscription: any;
-            
+
+    /**
+     * 
+     */
     constructor(private breadcrumbService: BreadcrumbService, private directory: DSpaceDirectory) { }
 
+    /**
+     * 
+     */
     buildTrail(context) {
-        this.trail = new Array<{}>();
+        this.trail = new Array<Object>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
                 this.trail.unshift({ name: 'Dashboard', context: {} });
@@ -37,6 +52,9 @@ export class BreadcrumbComponent {
         }
     }
 
+    /**
+     * 
+     */
     dropBreadcrumb(context) {
         let bc = this;
         return new Promise(function (resolve, reject) { 
@@ -71,6 +89,9 @@ export class BreadcrumbComponent {
         });
     }
 
+    /**
+     * 
+     */
     ngOnInit() {
         let breadcrumb = this.breadcrumbService.getBreadcrumb();
         if (breadcrumb)
@@ -79,12 +100,18 @@ export class BreadcrumbComponent {
             console.log('why no breadcrumb?');
     }
 
+    /**
+     * 
+     */
     ngAfterViewInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(context => {
             this.buildTrail(context);
         });
     }
 
+    /**
+     * 
+     */
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }

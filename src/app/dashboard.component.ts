@@ -7,6 +7,9 @@ import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
 
+/**
+ * 
+ */
 @Component({
     selector: "directory",
     directives: [TreeComponent, ContextComponent],
@@ -23,6 +26,9 @@ import {BreadcrumbService} from './navigation/breadcrumb.service';
 })
 export class DashboardComponent {
 
+    /**
+     * 
+     */
     private dashboard: {
         name: string,
         type: string
