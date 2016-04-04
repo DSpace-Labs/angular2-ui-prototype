@@ -1,6 +1,6 @@
 import {Collection} from "./collection.model";
 import {DSOContainer} from "./dso-container.model";
-import * as _ from 'underscore';
+import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 export class Community extends DSOContainer {
     collections: Collection[];
@@ -9,15 +9,15 @@ export class Community extends DSOContainer {
     constructor(json?: any) {
         super(json);
 
-        if (json) {
-            if (_.isArray(json.collections)) {
-                this.collections = _.map(json.collections, (collectionJSON) => {
+        if (ObjectUtil.isNotEmpty(json)) {
+            if (Array.isArray(json.collections)) {
+                this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
                 })
 
             }
-            if (_.isArray(json.subcommunities)) {
-                this.subCommunities = _.map(json.subcommunities, (subCommunityJSON) => {
+            if (Array.isArray(json.subcommunities)) {
+                this.subCommunities = json.subcommunities.map((subCommunityJSON) => {
                     return new Community(subCommunityJSON);
                 })
             }

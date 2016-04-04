@@ -1,6 +1,6 @@
 import {Item} from "./item.model";
 import {DSOContainer} from "./dso-container.model";
-import * as _ from 'underscore';
+import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 export class Collection extends DSOContainer {
     items: Item[];
@@ -9,8 +9,8 @@ export class Collection extends DSOContainer {
     constructor(json:any) {
         super(json);
 
-        if(json && _.isArray(json.items)) {
-            this.items = _.map(json.items, (itemJSON) => {
+        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
+            this.items = json.items.map((itemJSON) => {
                 return new Item(itemJSON);
             });
         }

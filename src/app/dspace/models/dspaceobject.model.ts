@@ -1,5 +1,5 @@
 import {Metadatum} from "./metadatum.model";
-import * as _ from 'underscore';
+import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 export class DSpaceObject {
     id: string;
@@ -10,14 +10,14 @@ export class DSpaceObject {
     metadata: Metadatum[];
 
     constructor(json?: any) {
-        if (json) {
-            this.id = json.id || null;
-            this.name = json.name || null;
-            this.handle = json.handle || null;
-            this.link = json.link || null;
-            this.type = json.type || null;
-            if (_.isArray(json.metadata)) {
-                this.metadata = _.map(json.metadata, (metadatumJSON) => {
+        if (ObjectUtil.isNotEmpty(json)) {
+            this.id = json.id;
+            this.name = json.name;
+            this.handle = json.handle;
+            this.link = json.link;
+            this.type = json.type;
+            if (Array.isArray(json.metadata)) {
+                this.metadata = json.metadata.map((metadatumJSON) => {
                     return new Metadatum(this, metadatumJSON);
                 })
             }

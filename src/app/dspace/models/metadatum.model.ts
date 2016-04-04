@@ -1,6 +1,6 @@
 import {DSpaceObject} from "./dspaceobject.model";
-import * as _ from 'underscore';
-import * as s from 'underscore.string';
+import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {StringUtil} from "../../utilities/commons/string.util.ts";
 
 export class Metadatum {
     schema: string;
@@ -11,26 +11,26 @@ export class Metadatum {
     dso: DSpaceObject;
 
     constructor(dso: DSpaceObject, json?: any) {
-        if (json) {
+        if (ObjectUtil.isNotEmpty(json)) {
             this.setKey(json.key);
-            this.value = json.value || null;
-            this.language = json.language || null;
+            this.value = json.value;
+            this.language = json.language;
         }
         this.dso = dso;
     }
 
     getKey() {
-        return _.filter([this.schema, this.element, this.qualifier], (value) => {
-            return !s.isBlank(value);
+        return [this.schema, this.element, this.qualifier].filter((value: string) => {
+            return StringUtil.isNotBlank(value);
         }).join('.');
     }
 
     setKey(key: string) {
-        if (s.isBlank(key)) {
+        if (StringUtil.isBlank(key)) {
             this.schema = this.element = this.qualifier = null;
         }
         else {
-            let keyArray = s.words(key, '.');
+            let keyArray = key.split('.');
             this.schema = keyArray[0];
             this.element = keyArray[1];
             this.qualifier = keyArray[2];
