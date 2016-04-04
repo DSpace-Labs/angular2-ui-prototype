@@ -38,7 +38,6 @@ import {DSpaceKeys} from './app/dspace/dspace.keys';
 import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
-import {WebSocketService} from './app/utilities/websocket.service';
 
 enableProdMode();
 
@@ -68,7 +67,6 @@ var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
     res.header('Access-Control-Allow-Credentials', 'true');
     if ('OPTIONS' == req.method) {
-        console.log('OPTIONS');
         res.send(200);
     }
     else {
@@ -107,8 +105,7 @@ function ngApp(req, res) {
             DSpaceKeys,
             DSpaceService,
             DSpaceStore,
-            HttpService,
-            WebSocketService
+            HttpService
         ],
         preboot: {
             //listen: any,

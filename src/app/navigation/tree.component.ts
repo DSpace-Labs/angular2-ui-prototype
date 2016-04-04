@@ -1,7 +1,15 @@
 ﻿import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {ListComponent} from './list.component';
+import {ListComponent } from './list.component';
+
+/**
+ * Tree component for navigation through the dspace index of 
+ * communities, collections, and items. Keys off an enhanced property
+ * on the given context named expanded. Displays +/- glyphicon for communities
+ * and a open/closed folder for collections. The title of the given context is 
+ * a link.
+ */
 @Component({
     selector: 'tree',
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent],
@@ -39,8 +47,12 @@ import {ListComponent} from './list.component';
 })
 export class TreeComponent {
 
+    /**
+     * An input variable that is passed into the component [directories]. 
+     * Represents the current level of the index hierarchy. The children navigation 
+     * is loaded upon selecting a given context. The subsequent children navigation
+     * are lazy loaded.
+     */
 	@Input() directories: Array<Object>;
-
-    constructor() { }
-
+    
 }

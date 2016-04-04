@@ -57,10 +57,11 @@ Here's where various parts of the codebase are located:
 Here's how you can install the current prototype:
 
  - `npm install` Installs local dependencies.
- - `npm run dep` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from commandline)
+ - `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from command line)
+ - `npm run docs` Generates the TypeDoc documentation in the docs directory. *Should be run and update to gh-pages when typescript is changed.*
  - `npm run build` Builds the project. *Required when typescript is changed.*
  - `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
-     - Alternatively, `npm run test` Runs node server and starts chrome in app mode with web security disabled. Visit http://localhost:3000/
+     - Alternatively, `npm run test` Runs node server and a proxy to work around cors and security issues of DSpace REST API. Visit http://localhost:3000/
  
 # Collaboration
 
@@ -80,5 +81,6 @@ Other "best practices" to note:
  - Not currently a full implementation of DSpace. Currently this project is simply an Angular 2 UI against an existing DSpace REST API.
      - Currently expects DSpace 5.x REST API (not updated for 6.x)
      - Eventually needs to be packaged via Spring Boot alongside REST API and other server-side interfaces (OAI, SWORD, ect)
+ - Requires proxy to work around security issues: invalid certificates and absent CORS headers.
  - CORS are not being provided from the DSpace REST API in the response.
  - Angular2, Angular Universal, and rxjs are in Beta.

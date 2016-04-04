@@ -7,6 +7,10 @@ import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
 
+/**
+ * The dashboard component is the main index for browsing. Layout contains a 
+ * sidebar context along with the community/collection/item tree.
+ */
 @Component({
     selector: "directory",
     directives: [TreeComponent, ContextComponent],
@@ -23,13 +27,22 @@ import {BreadcrumbService} from './navigation/breadcrumb.service';
 })
 export class DashboardComponent {
 
+    /**
+     * Object to resemble the dashboard breadcrumb.
+     */
     private dashboard: {
         name: string,
         type: string
     };
 
-    constructor(private location: Location,
-                private dspace: DSpaceDirectory,
+    /**
+     *
+     * @param dspace 
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component 
+     */
+    constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
         this.dashboard = {
             name: 'Dashboard',
@@ -38,6 +51,9 @@ export class DashboardComponent {
         breadcrumb.visit(this.dashboard);
     }
 
+    /**
+     * Method provided by Angular2. Invoked after the constructor.
+     */
     ngOnInit() {
         this.dspace.loadDirectory();
     }
