@@ -48,9 +48,9 @@ import {ListComponent } from './list.component';
 export class TreeComponent {
 
     /**
-     * An input variable that is passed into the component [directories]. Represents
-     * the current level of the index hierarchy. The children navigation is
-     * loaded upon selecting a given context. The subsequent children navigation
+     * An input variable that is passed into the component [directories]. 
+     * Represents the current level of the index hierarchy. The children navigation 
+     * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
 	@Input() directories: Array<Object>;
