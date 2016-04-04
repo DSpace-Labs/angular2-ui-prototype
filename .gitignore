@@ -1,8 +1,12 @@
 ## Ignore build target / distribution folder (contains final compiled JS)
 dist/
 
+## Ignore TypeDoc generated documentation
+docs/
+
 ## Ignore NPM folder (where node modules are stored)
 node_modules/
+
 ## Ignore NPM debug log
 npm-debug.log
 
@@ -17,6 +21,10 @@ typings/
 
 ## Ignore project files created by NetBeans
 nbproject/
+
+## Ignore project files created by Visual Studios
+.ntvs_analysis.dat
+angular2-ui-prototype.njsproj
 
 ##Mac noise
 .DS_Store

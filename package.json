@@ -2,7 +2,7 @@
   "name": "angular2-dspace-ui-prototype",
   "version": "0.0.1",
   "description": "Angular Universal extended DSpace UI prototype",
-  "main": "server.js",  
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/DSpace-Labs/angular2-ui-prototype.git"
@@ -16,22 +16,23 @@
     "William Welling <wwelling@library.tamu.edu>"
   ],
   "scripts": {
-    "dep": "npm install --global typescript typings webpack nodemon",
-    "prebuild": "rimraf dist",
+    "global": "npm install --global http-proxy nodemon typedoc typescript typings webpack",
+    "docs": "typedoc --options typedoc.json ./src",
     "build": "webpack",
+    "prebuild": "rimraf dist",
     "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "postinstall": "typings install"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.12",
-    "angular2-universal-preview": "~0.84.0",
+    "angular2": "2.0.0-beta.13",
+    "angular2-universal-preview": "~0.85.1",
     "angular2-websocket": "^0.6.2",
     "express": "^4.13.4",
     "jquery": "^2.2.2",
     "preboot": "^2.0.5",
-    "rxjs": "5.0.0-beta.2",
-    "zone.js": "~0.6.6"
+    "rxjs": "5.0.0-beta.4",
+    "zone.js": "~0.6.8"
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.10",
@@ -50,8 +51,9 @@
     "ssl-root-cas": "^1.1.10",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.1",
+    "typedoc": "^0.3.12",
     "typescript": "^1.8.9",
-    "typings": "^0.7.9",
+    "typings": "^0.7.12",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",

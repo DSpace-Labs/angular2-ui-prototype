@@ -1,5 +1,9 @@
 import {Component, Input} from 'angular2/core';
 
+/**
+ * Context aware component for displaying information/functionality of
+ * the current context. Can be either a community, colleciton, or an item.
+ */
 @Component({
     selector: 'context',
     template: `
@@ -19,7 +23,8 @@ import {Component, Input} from 'angular2/core';
 				  	<div class="panel-body" *ngIf="context.type == 'item' && context.second">
                         <ul>
                             <li *ngFor="#bitstream of context.bitstreams">
-                                <a (click)="select(bitstream)" class="clickable">{{bitstream.name}}</a>
+                                <!-- TODO: make a link to download the items bitstream -->
+                                <span>{{bitstream.name}}</span>
                             </li>
                         </ul>
 				  	</div>
@@ -28,17 +33,10 @@ import {Component, Input} from 'angular2/core';
 })
 export class ContextComponent {
 
+    /**
+     * An input variable that is passed into the component [context].
+     * Represents the current context.
+     */
 	@Input() context: Object;
-
-    constructor() { }
-
-    select(object) {        
-        switch (this.context['type']) {
-            case 'community': { } break;
-            case 'collection': { } break;
-            case 'item': { } break;
-            default: { } break;
-        }
-    }
 
 }

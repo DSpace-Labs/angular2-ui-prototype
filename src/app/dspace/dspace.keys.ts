@@ -1,10 +1,16 @@
 ﻿import {Injectable} from 'angular2/core';
 
+/**
+ * 
+ */
 @Injectable()
 export class DSpaceKeys {
 
     // TODO: think of good refactoring
 
+    /**
+     * 
+     */
     item = {
         'PLURAL': 'items',
         'PATH': '/Items',
@@ -13,6 +19,9 @@ export class DSpaceKeys {
         'DSPACE': 'items'
     };
 
+    /**
+     * 
+     */
     collection = {
         'PLURAL': 'collections',
         'PATH': '/Collection',
@@ -21,6 +30,9 @@ export class DSpaceKeys {
         'DSPACE': 'collections'
     };
 
+    /**
+     * 
+     */
     community = {
         'PLURAL': 'communities',
         'PATH': '/Communities',
@@ -28,7 +40,5 @@ export class DSpaceKeys {
         'METHOD': 'Community',
         'DSPACE': 'subcommunities'
     };
-
-    constructor() {}
 
 }

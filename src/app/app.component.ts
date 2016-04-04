@@ -14,6 +14,11 @@ import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
+/**
+ * The main app component. Layout with navbar, breadcrumb, and router-outlet.
+ * This component is server-side rendered and either replayed or hydrated on client side.
+ * Also, defines the parent routes.
+ */
 @Component({
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES, BreadcrumbComponent],
@@ -27,7 +32,7 @@ import {ItemComponent} from './dspace/components/item.component';
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span> 
                             </button>
-                            <a class="navbar-brand" [routerLink]="['/Home']">TAMU DSpace UI</a>
+                            <a class="navbar-brand" [routerLink]="['/Home']">DSpace UI</a>
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">

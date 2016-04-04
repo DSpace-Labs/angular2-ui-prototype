@@ -8,6 +8,9 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
 
+/**
+ * 
+ */
 @Component({
     selector: 'collection',
     directives: [TreeComponent, ContextComponent],
@@ -32,8 +35,14 @@ import {ContextComponent} from '../../navigation/context.component';
 })
 export class CollectionComponent {
 
+    /**
+     * 
+     */
     collection: Object;
 
+    /**
+     * 
+     */
     constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Collection ' + params.get("id"));
         directory.loadObj('collection', params.get("id")).then(collection => {
