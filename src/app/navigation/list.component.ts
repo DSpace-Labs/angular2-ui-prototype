@@ -27,6 +27,8 @@ export class ListComponent {
      * 
      * The dspace service will have to be adjusted when requesting items
      * from the API using limit and offset query parameters.
+     *
+     * TODO: replace Object with inheritance model e.g. item extends dspaceObject
      */
  	@Input() items: Array<Object>;
 

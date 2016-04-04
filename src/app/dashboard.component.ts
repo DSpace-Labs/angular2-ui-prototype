@@ -37,12 +37,12 @@ export class DashboardComponent {
 
     /**
      *
-     * @param dspace 
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory
+     * @param directory 
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component 
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private dspace: DSpaceDirectory,
+    constructor(private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
         this.dashboard = {
             name: 'Dashboard',
@@ -55,7 +55,7 @@ export class DashboardComponent {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        this.dspace.loadDirectory();
+        this.directory.loadDirectory();
     }
 
 }

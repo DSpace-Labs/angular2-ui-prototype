@@ -9,7 +9,8 @@ import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
 
 /**
- * 
+ * Community component for displaying the current community.
+ * View contains sidebar context and tree hierarchy below current community.
  */
 @Component({
     selector: 'community',
@@ -36,14 +37,24 @@ import {ContextComponent} from '../../navigation/context.component';
 export class CommunityComponent {
 
     /**
-     * 
+     * An object that represents the current community.
+     *
+     * TODO: replace object with inheritance model. e.g. community extends dspaceObject
      */
     community: Object;
     
-    /**
-     * 
+   /**
+     *
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param directory 
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, 
+                private directory: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService) {
         console.log('Community ' + params.get("id"));
         directory.loadObj('community', params.get("id")).then(community => {
             this.community = community;
