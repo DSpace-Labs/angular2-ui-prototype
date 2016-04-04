@@ -18,5 +18,9 @@ typings/
 ## Ignore project files created by NetBeans
 nbproject/
 
+## Ignore project files created by Visual Studios
+.ntvs_analysis.dat
+angular2-ui-prototype.njsproj
+
 ##Mac noise
 .DS_Store
