@@ -6,13 +6,21 @@ import {DSpaceStore} from './dspace.store';
 import {DSpaceKeys} from './dspace.keys';
 
 /**
- * 
+ * Injectable service to provide navigation and context. Provides
+ * session caching to eliminate requesting content already received.
+ *
+ * TODO: Create caching service which leverages local storage.
+ *
+ * The idea is to cache the directory and store in localStorage to
+ * have immediate response when navigating and visiting context which has
+ * been visited before. Would require synchronization to keep up to date.
+ * Could also leverage webworkers to populate cache of unvisited context.
  */
 @Injectable()
 export class DSpaceDirectory {
 
     /**
-     * 
+     * Object to represent visited portions of the index hierarchy.
      */
     private store: {
         directory: {
@@ -24,12 +32,18 @@ export class DSpaceDirectory {
     };
 
     /**
-     * 
+     * An Observable to perform binding to the components.
      */
     directory: Observable<Object>;
 
     /**
      * 
+     * @param dspaceService 
+     *      DSpaceService is a singleton service to interact with the dspace REST API.
+     * @param dspaceStore 
+     *      DSpaceStore is a singleton service to cache context which have already been requested.
+     * @param dspaceKeys 
+     *      DSpaceKeys is a singleton service with constants.
      */
     constructor(private dspaceService: DSpaceService,
                 private dspaceStore: DSpaceStore,
@@ -46,7 +60,8 @@ export class DSpaceDirectory {
     }
 
     /**
-     * 
+     * Method to perform initial loading of the directory.
+     * Calls prepare with the top community results.
      */
     loadDirectory() {
         if (this.store.directory.ready) {
@@ -75,7 +90,13 @@ export class DSpaceDirectory {
     }
 
     /**
-     * 
+     * Method to load hierarchy navigation relations.
+     * Calls prepare with the context received.
+     *
+     * @param type
+     *      string: community, collection, or item
+     * @param context
+     *      current context in which needing to load navigation relations.
      */
     loadNav(type, context) {
         if (context.ready) {
@@ -96,9 +117,16 @@ export class DSpaceDirectory {
     }
 
     /**
-     * 
+     * Method to load context details.
+     * Calls prepare with the context received.
+     *
+     * @param type
+     *      string: community, collection, or item
+     * @param id
+     *      current context id which needing to load context details.
      */
     loadObj(type, id) {
+        // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
             let obj;
@@ -123,7 +151,15 @@ export class DSpaceDirectory {
     }
 
     /**
+     * Method to determine how to process.
+     * Recursively calls prepare on arrays of the given object.
+     *
+     * @param context
+     *      current context in which needing to process relations.
+     * @param obj
+     *     The context list: items, collections, subcommunities or the context itself
      * 
+     * TODO: refactor method name to something more meaningful
      */
     prepare(context, obj) {
         if (Array.isArray(obj)) 
@@ -144,9 +180,19 @@ export class DSpaceDirectory {
     }
 
     /**
+     * Method to make relationships with provided context and 
+     * place expanded property and toggle methods on a given context 
+     * if not an item.
+     * Sets the parent community or collection if applicable.
+     * 
+     * @param context
+     *      current context in which needing to process relations.
+     * @param list
+     *     The context list: items, collections, subcommunities or the context itself
      * 
      */
     process(context, list) {
+        // needed to be used within scope of forEach
         let directory = this;
         list.forEach(current => {
             if (context) {
@@ -175,11 +221,14 @@ export class DSpaceDirectory {
     }
 
     /**
-     * 
+     * Adds properties to the object.
+     *
+     * @param context
+     *      current context.
      */
-    enhance(obj) {
-        obj.ready = false;
-        obj.component = this.dspaceKeys[obj.type].COMPONENT;
+    enhance(context) {
+        context.ready = false;
+        context.component = this.dspaceKeys[context.type].COMPONENT;
     }
     
 }
