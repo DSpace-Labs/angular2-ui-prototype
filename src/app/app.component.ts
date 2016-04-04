@@ -15,7 +15,9 @@ import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
 /**
- * 
+ * The main app component. Layout with navbar, breadcrumb, and router-outlet.
+ * This component is server-side rendered and either replayed or hydrated on client side.
+ * Also, defines the parent routes.
  */
 @Component({
     selector: 'dspace',
