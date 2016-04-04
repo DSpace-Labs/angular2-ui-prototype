@@ -126,7 +126,9 @@ export class DSpaceDirectory {
      * 
      */
     prepare(context, obj) {
-        if (Object.prototype.toString.call(obj) !== '[object Array]') {
+        if (Array.isArray(obj)) 
+            return this.process(context, obj);
+        else {
             this.enhance(obj);
             if (obj.type == 'item')
                 return obj;
@@ -139,7 +141,6 @@ export class DSpaceDirectory {
             else console.log('Object has no type!');
             return obj;
         }
-        return this.process(context, obj);
     }
 
     /**
