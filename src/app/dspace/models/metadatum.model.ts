@@ -56,7 +56,7 @@ export class Metadatum {
     }
 
     /**
-     * Get the key for this Metadataum as a single string
+     * Get the key for this Metadatum as a single string
      * 
      * @returns {string}
      *      schema.element.qualifier
