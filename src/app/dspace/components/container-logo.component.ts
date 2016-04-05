@@ -1,6 +1,9 @@
 import {Component, Input} from "angular2/core";
 import {Bitstream} from "../models/bitstream.model";
 
+/**
+ * A Component to render a logo
+ */
 @Component({
     selector: 'container-logo',
     template: `
@@ -9,5 +12,9 @@ import {Bitstream} from "../models/bitstream.model";
 })
 
 export class ContainerLogoComponent {
-    @Input() logo: Bitstream;
+    /**
+     * The Bitstream representing the logo
+     */
+    @Input() 
+    logo: Bitstream;
 }

@@ -2,6 +2,10 @@ import {Component, Input} from 'angular2/core';
 import {IContainerHomepage} from "../models/container-homepage.interface";
 import {ContainerLogoComponent} from "./container-logo.component";
 
+/**
+ * A component to render container (i.e. Community or Collection) homepages
+ * Has sections for the name, the logo, introductory text, news and copyright text
+ */
 @Component({
     selector: 'container-home',
     directives: [ContainerLogoComponent],
@@ -18,6 +22,10 @@ import {ContainerLogoComponent} from "./container-logo.component";
 })
 
 export class ContainerHomeComponent {
-    @Input() container: IContainerHomepage;
+    /**
+     * The Container being rendered
+     */
+    @Input() 
+    container: IContainerHomepage;
 
 }
