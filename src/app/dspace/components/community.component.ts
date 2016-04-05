@@ -7,6 +7,8 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
+import {Community} from "../models/community.model";
+import {ContainerHomeComponent} from "./container-home.component.ts";
 
 /**
  * Community component for displaying the current community.
@@ -14,51 +16,52 @@ import {ContextComponent} from '../../navigation/context.component';
  */
 @Component({
     selector: 'community',
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
     template: ` 
                 <div class="container" *ngIf="community">
                     
                     <div class="col-md-4">
-                        <context [context]="community"></context>
+                        <context [context]="communityJSON"></context>
                     </div>     
                     
                     <div class="col-md-8">
-                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
-                        <div class="jumbotron">
-                            <div class="container">
-                                
-                            </div>
-                        </div>
-                    </div>
+                        <container-home [container]=community></container-home>
+                        <tree [directories]="communityJSON.subcommunities.concat(communityJSON.collections)"></tree>
+                    </div>                          
                     
                 </div>
               `
 })
 export class CommunityComponent {
 
+
+    /**
+     * An object that represents the current community.
+     */
+    community: Community;
+
     /**
      * An object that represents the current community.
      *
-     * TODO: replace object with inheritance model. e.g. community extends dspaceObject
+     * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
      */
-    community: Object;
-    
-   /**
+    communityJSON: Object;
+
+    /**
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory 
+     * @param directory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Community ' + params.get("id"));
-        directory.loadObj('community', params.get("id")).then(community => {
-            this.community = community;
-            breadcrumb.visit(this.community);
+        directory.loadObj('community', params.get("id")).then(communityJSON => {
+            this.communityJSON = communityJSON;
+            this.community = new Community(communityJSON);
+            breadcrumb.visit(this.communityJSON);
         });
     }
 

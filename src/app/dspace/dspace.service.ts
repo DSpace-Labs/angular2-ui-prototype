@@ -100,7 +100,7 @@ export class DSpaceService {
      */
     fetchCommunity(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity'
+            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity,logo'
         });
     }
 
@@ -112,7 +112,7 @@ export class DSpaceService {
      */
     fetchCollection(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + id + '?expand=items,parentCommunity'
+            url: this.url + this.REST + '/collections/' + id + '?expand=items,parentCommunity,logo'
         });
     }
 
