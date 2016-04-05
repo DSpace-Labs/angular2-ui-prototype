@@ -9,7 +9,8 @@ import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
 
 /**
- * 
+ * Collection component for displaying the current collection.
+ * View contains sidebar context and tree hierarchy below current collection.
  */
 @Component({
     selector: 'collection',
@@ -36,14 +37,24 @@ import {ContextComponent} from '../../navigation/context.component';
 export class CollectionComponent {
 
     /**
-     * 
+     * An object that represents the current collection.
+     *
+     * TODO: replace object with inheritance model. e.g. collection extends dspaceObject
      */
     collection: Object;
 
     /**
-     * 
+     *
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param directory 
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, 
+                private directory: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService) {
         console.log('Collection ' + params.get("id"));
         directory.loadObj('collection', params.get("id")).then(collection => {
             this.collection = collection;

@@ -52,6 +52,8 @@ export class TreeComponent {
      * Represents the current level of the index hierarchy. The children navigation 
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
+     *
+     * TODO: replace Object with inheritance model e.g. community extends dspaceObject
      */
 	@Input() directories: Array<Object>;
     
