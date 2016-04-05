@@ -11,7 +11,8 @@ import {Community} from "../models/community.model";
 import {ContainerHomeComponent} from "./container-home.component.ts";
 
 /**
- *
+ * Community component for displaying the current community.
+ * View contains sidebar context and tree hierarchy below current community.
  */
 @Component({
     selector: 'community',
@@ -33,15 +34,27 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
 })
 export class CommunityComponent {
 
+
     /**
-     *
+     * An object that represents the current community.
      */
     community: Community;
-    //TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
+
+    /**
+     * An object that represents the current community.
+     *
+     * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
+     */
     communityJSON: Object;
 
     /**
      *
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param directory
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Community ' + params.get("id"));

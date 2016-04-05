@@ -11,7 +11,8 @@ import {ContainerHomeComponent} from "./container-home.component";
 import {Collection} from "../models/collection.model";
 
 /**
- *
+ * Collection component for displaying the current collection.
+ * View contains sidebar context and tree hierarchy below current collection.
  */
 @Component({
     selector: 'collection',
@@ -34,14 +35,24 @@ import {Collection} from "../models/collection.model";
 export class CollectionComponent {
 
     /**
-     *
+     * An object that represents the current collection.
      */
     collection: Collection;
-    //TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
+
+    /**
+     * An object that represents the current collection.
+     * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
+     */
     collectionJSON: Object;
 
     /**
      *
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param directory
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Collection ' + params.get("id"));

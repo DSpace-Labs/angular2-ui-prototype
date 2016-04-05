@@ -36,10 +36,10 @@ export class BreadcrumbComponent {
 
     /**
      *
-     * @param dspace 
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory
+     * @param directory 
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component 
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private directory: DSpaceDirectory, 
                 private breadcrumbService: BreadcrumbService) {}
