@@ -17,41 +17,45 @@ export class FileSystemLoader implements TranslateLoader {
         this.suffix = suffix || '.json';
     }
 
-    getTranslation(lang:string):Observable<any> {
+    getObservableFromFile(path:string) : Observable<any> {
         let dataEventName = 'data';
         let errorEventName = 'error';
         let finishEventName = 'end';
-        let stream = fs.createReadStream(path.join(this.prefix, `${lang}${this.suffix}`), { encoding: 'utf8' });
+        let stream = fs.createReadStream(path, { encoding: 'utf8' });
 
         stream.pause();
 
         return Observable.create((observer: Observer<string>) => {
-            function dataHandler(data: string) {
-                observer.next(data);
-            }
+                function dataHandler(data: string) {
+                    observer.next(data);
+                }
 
-            function errorHandler(err: any) {
-                observer.error(err);
-            }
+                function errorHandler(err: any) {
+                    observer.error(err);
+                }
 
-            function endHandler() {
-                observer.complete();
-            }
+                function endHandler() {
+                    observer.complete();
+                }
 
-            stream.addListener(dataEventName, dataHandler);
-            stream.addListener(errorEventName, errorHandler);
-            stream.addListener(finishEventName, endHandler);
+                stream.addListener(dataEventName, dataHandler);
+                stream.addListener(errorEventName, errorHandler);
+                stream.addListener(finishEventName, endHandler);
 
-            stream.resume();
+                stream.resume();
 
-            return function () {
-                stream.removeListener(dataEventName, dataHandler);
-                stream.removeListener(errorEventName, errorHandler);
-                stream.removeListener(finishEventName, endHandler);
-            };
-        })
+                return function () {
+                    stream.removeListener(dataEventName, dataHandler);
+                    stream.removeListener(errorEventName, errorHandler);
+                    stream.removeListener(finishEventName, endHandler);
+                };
+            })
             .publish()
             .refCount()
+    }
+
+    getTranslation(lang:string):Observable<any> {
+        return this.getObservableFromFile(path.join(this.prefix, `${lang}${this.suffix}`))
             .map(function (res) {
                 return JSON.parse(res);
             });
