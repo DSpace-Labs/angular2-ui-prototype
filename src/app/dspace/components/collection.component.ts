@@ -7,6 +7,8 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
+import {ContainerHomeComponent} from "./container-home.component";
+import {Collection} from "../models/collection.model";
 
 /**
  * Collection component for displaying the current collection.
@@ -14,21 +16,17 @@ import {ContextComponent} from '../../navigation/context.component';
  */
 @Component({
     selector: 'collection',
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
     template: ` 
                 <div class="container" *ngIf="collection">
 
                     <div class="col-md-4">
-                        <context [context]="collection"></context>
+                        <context [context]="collectionJSON"></context>
                     </div>  
                     
                     <div class="col-md-8">
-                        <tree [directories]="collection.items"></tree>
-                        <div class="jumbotron">
-                            <div class="container">
-                                
-                            </div>
-                        </div>
+                        <container-home [container]=collection></container-home>
+                        <tree [directories]="collectionJSON.items"></tree>
                     </div>
                     
                 </div>
@@ -38,27 +36,30 @@ export class CollectionComponent {
 
     /**
      * An object that represents the current collection.
-     *
-     * TODO: replace object with inheritance model. e.g. collection extends dspaceObject
      */
-    collection: Object;
+    collection: Collection;
+
+    /**
+     * An object that represents the current collection.
+     * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
+     */
+    collectionJSON: Object;
 
     /**
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory 
+     * @param directory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
         console.log('Collection ' + params.get("id"));
-        directory.loadObj('collection', params.get("id")).then(collection => {
-            this.collection = collection;
-            breadcrumb.visit(this.collection);
+        directory.loadObj('collection', params.get("id")).then(collectionJSON => {
+            this.collectionJSON = collectionJSON;
+            this.collection = new Collection(collectionJSON);
+            breadcrumb.visit(this.collectionJSON);
         });
     }
 
