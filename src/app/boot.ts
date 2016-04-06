@@ -2,9 +2,14 @@
 import {prebootComplete} from 'angular2-universal-preview';
 
 import {bootstrap} from 'angular2/platform/browser';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
-import {enableProdMode} from 'angular2/core';
+import {enableProdMode, provide} from 'angular2/core';
+
+import {
+    TranslateLoader,
+    TranslateStaticLoader, TranslateService
+} from "ng2-translate/ng2-translate";
 
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
@@ -20,6 +25,11 @@ enableProdMode();
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    provide(TranslateLoader, {
+        useFactory: (http: Http) => new TranslateStaticLoader(http, 'dist/i18n', '.json'),
+        deps: [Http]
+    }),
+    TranslateService,
     BreadcrumbService,
     DSpaceDirectory,
     DSpaceKeys,

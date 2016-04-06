@@ -13,6 +13,7 @@ import {SetupComponent} from './setup.component';
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -23,6 +24,7 @@ import {ItemComponent} from './dspace/components/item.component';
     selector: 'dspace',
     directives: [ROUTER_DIRECTIVES, BreadcrumbComponent],
     styles: [],
+    pipes: [TranslatePipe],
     template: `
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
@@ -32,16 +34,16 @@ import {ItemComponent} from './dspace/components/item.component';
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span> 
                             </button>
-                            <a class="navbar-brand" [routerLink]="['/Home']">DSpace UI</a>
+                            <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Home']">Home</a></li>
-                                <li><a [routerLink]="['/Dashboard']">Dashboard</a></li>
+                                <li><a [routerLink]="['/Home']">{{ 'header.home' | translate }}</a></li>
+                                <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>Register</a></li>
-                                <li><a [routerLink]="['/Login']"><span class="glyphicon glyphicon-log-in space-right"></span>Login</a></li>
+                                <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
+                                <li><a [routerLink]="['/Login']"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -65,8 +67,10 @@ import {ItemComponent} from './dspace/components/item.component';
 ])
 export class AppComponent {
 
-    constructor() {
+    constructor(translate: TranslateService) {
         console.log('Starting App!');
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }

@@ -1,5 +1,4 @@
-﻿import * as fs from 'fs';
-import * as path from 'path';
+﻿import * as path from 'path';
 import * as express from 'express';
 //import * as https from 'https';
 
@@ -24,6 +23,8 @@ import {
     ROUTER_PROVIDERS
 } from 'angular2/router';
 
+import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
+
 
 // App Component
 import {AppComponent} from './app/app.component';
@@ -38,6 +39,7 @@ import {DSpaceKeys} from './app/dspace/dspace.keys';
 import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
+import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 
 enableProdMode();
 
@@ -100,6 +102,10 @@ function ngApp(req, res) {
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            provide(TranslateLoader, {
+                useFactory: () => new FileSystemLoader(path.join(root, 'dist' ,'i18n'), '.json')
+            }),
+            TranslateService,
             BreadcrumbService,
             DSpaceDirectory,
             DSpaceKeys,

@@ -1,6 +1,7 @@
 ﻿var webpackMerge = require('webpack-merge');
 var webpack = require('webpack');
 var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var defaultConfig = {
     module: {
@@ -69,7 +70,13 @@ var clientConfig = {
                 loader: 'url-loader'
             }
         ]
-    }
+    },
+    plugins: [
+        new CopyWebpackPlugin([{
+            from: path.join(__dirname, 'resources', 'i18n'),
+            to: path.join(__dirname, 'dist', 'i18n')
+        }])
+    ]
 };
 
 var serverConfig = {
