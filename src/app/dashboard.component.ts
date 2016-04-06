@@ -6,6 +6,7 @@ import {DSpaceDirectory} from './dspace/dspace.directory';
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
@@ -13,6 +14,7 @@ import {BreadcrumbService} from './navigation/breadcrumb.service';
  */
 @Component({
     selector: "directory",
+    pipes: [TranslatePipe],
     directives: [TreeComponent, ContextComponent],
     template: `
                 <div class="container">
@@ -43,12 +45,17 @@ export class DashboardComponent {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private dspace: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService) {
-        this.dashboard = {
+                private breadcrumb: BreadcrumbService,
+                translate: TranslateService ){
+
+        this.dashboard =
+        {
             name: 'Dashboard',
             type: 'dashboard'
         };
         breadcrumb.visit(this.dashboard);
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
     /**
