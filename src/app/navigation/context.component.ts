@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 
 /**
  * Context aware component for displaying information/functionality of
- * the current context. Can be either a community, colleciton, or an item.
+ * the current context. Can be either a community, collection, or an item.
  */
 @Component({
     selector: 'context',

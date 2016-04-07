@@ -10,6 +10,8 @@ import {ContextComponent} from '../../navigation/context.component';
 import {ContainerHomeComponent} from "./container-home.component";
 import {Collection} from "../models/collection.model";
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 /**
  * Collection component for displaying the current collection.
  * View contains sidebar context and tree hierarchy below current collection.
@@ -17,6 +19,7 @@ import {Collection} from "../models/collection.model";
 @Component({
     selector: 'collection',
     directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="collection">
 
@@ -54,13 +57,16 @@ export class CollectionComponent {
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService, translate: TranslateService) {
         console.log('Collection ' + params.get("id"));
         directory.loadObj('collection', params.get("id")).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(collectionJSON);
             breadcrumb.visit(this.collectionJSON);
         });
+
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }

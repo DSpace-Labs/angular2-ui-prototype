@@ -4,5 +4,16 @@
   ,"header.dashboard": "Dashboard"
   ,"header.register": "Register"
   ,"header.login": "Login"
-
+  ,"home.title":"Home"
+  ,"home.welcome1":"Hello, World!"
+  ,"home.welcome2":"This is server side templated"
+  ,"home.welcome3":"SEO and javascript"
+  ,"login.title":"Login"
+  ,"register.title":"Register"
+  ,"item.key": "Key"
+  ,"item.value": "Value"
+  ,"item.language":"Language"
+  ,"item.metadata-number-indicator": "#"
+  ,"settings.title": "Settings"
+  ,"setup.title": "Setup"
 }

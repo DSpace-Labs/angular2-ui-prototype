@@ -9,6 +9,8 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {ContextComponent} from '../../navigation/context.component';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 /**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.
@@ -16,6 +18,7 @@ import {ContextComponent} from '../../navigation/context.component';
 @Component({
     selector: 'item',
     directives: [ContextComponent],
+    pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
                     
@@ -32,10 +35,10 @@ import {ContextComponent} from '../../navigation/context.component';
                             <table class="table table-hover">
                                 <thead class="thead-inverse">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Language</th>
+                                        <th>{{'item.metadata-number-indicator' | translate}}</th> <!-- not sure if this really requires i18n -->
+                                        <th>{{'item.key' | translate}}</th>
+                                        <th>{{'item.value' | translate}}</th>
+                                        <th>{{'item.language' | translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,12 +77,16 @@ export class ItemComponent {
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
+                private breadcrumb: BreadcrumbService,
+                translate: TranslateService) {
         console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
         });
+
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }

@@ -13,7 +13,8 @@
     "Art Lowel <art@atmire.com>",
     "Andrea Bollini <a.bollini@cineca.it>",
     "James Creel <jcreel@library.tamu.edu>",
-    "William Welling <wwelling@library.tamu.edu>"
+    "William Welling <wwelling@library.tamu.edu>",
+    "Dylan Meeus <dylan.meeus@atmire.com>"
   ],
   "scripts": {
     "global": "npm install --global http-proxy nodemon typedoc typescript typings webpack",
