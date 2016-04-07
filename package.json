@@ -16,8 +16,9 @@
     "William Welling <wwelling@library.tamu.edu>"
   ],
   "scripts": {
-    "global": "npm install --global http-proxy nodemon typedoc typescript typings webpack",
+    "global": "npm install --global http-proxy nodemon rimraf typedoc typescript typings webpack",
     "docs": "typedoc --options typedoc.json ./src",
+    "clean": "rimraf ./node_modules",
     "build": "webpack",
     "prebuild": "rimraf dist",
     "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
@@ -26,16 +27,20 @@
   },
   "dependencies": {
     "angular2": "2.0.0-beta.13",
-    "angular2-express-engine": "^0.7.1",
+    "angular2-express-engine": "^0.8.0",
     "angular2-hapi-engine": "^0.7.2",
-    "angular2-universal-preview": "~0.85.1",
     "angular2-universal-polyfills": "^0.3.1",
+    "angular2-universal-preview": "~0.86.0",
+    "css": "^2.2.1",
+    "es6-shim": "^0.35.0",
     "express": "^4.13.4",
     "jquery": "^2.2.2",
     "ng2-translate": "^1.11.0",
+    "parse5": "^1.5.0",
     "preboot": "^2.0.5",
-    "rxjs": "^5.0.0-beta.2",
-    "zone.js": "~0.6.8"
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "^0.6.8"
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.10",
@@ -44,9 +49,11 @@
     "concurrently": "^2.0.0",
     "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
     "http-proxy": "^1.13.2",
     "node-sass": "^3.4.2",
     "nodemon": "^1.9.1",
+    "resolve-url-loader": "^1.4.3",
     "rimraf": "^2.5.2",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
