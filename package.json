@@ -46,6 +46,7 @@
   "devDependencies": {
     "bootstrap-loader": "^1.0.10",
     "bootstrap-sass": "^3.3.6",
+    "bootstrap-sass-loader": "^1.0.10",
     "commander": "^2.9.0",
     "concurrently": "^2.0.0",
     "copy-webpack-plugin": "^1.1.1",
