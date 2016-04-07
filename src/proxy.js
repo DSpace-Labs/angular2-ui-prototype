@@ -42,17 +42,10 @@ proxy.on('proxyRes', function(proxyRes, req, res, options) {
 });
 
 
-/**
- * Create new server. If the proxy encounters an error, wait 100ms and retry. 3 consecutive fails => abort.
- */
 var server = http.createServer(function (req, res) {
     proxy.web(req, res, {target: serverValue}, function(e)
     {
-        console.log("Error encountered, trying to continue execution..");
-        /*   setTimeout(function () {
-                proxy.web(req, res, {target: serverValue});
-            }, 100);
-         */
+        console.log("Proxy server didn't respond, retrying..");
     });
 });
 
