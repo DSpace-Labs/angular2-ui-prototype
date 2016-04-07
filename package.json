@@ -17,7 +17,7 @@
     "Dylan Meeus <dylan.meeus@atmire.com>"
   ],
   "scripts": {
-    "global": "npm install --global http-proxy nodemon rimraf typedoc typescript typings webpack",
+    "global": "npm install --global http-proxy nodemon npm-check-updates rimraf typedoc typescript typings webpack",
     "docs": "typedoc --options typedoc.json ./src",
     "clean": "rimraf ./node_modules",
     "build": "webpack",
