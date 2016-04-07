@@ -5,7 +5,6 @@ var http = require('http'),
 
 var serverValue, portValue, insecureValue;
 
-var counter = 0;
 
 program
         .version('0.0.1')
@@ -29,8 +28,7 @@ portValue = program.port || 5050;
 insecureValue = program.insecure || false;
 
 
-var proxy =
-    httpProxy.createProxyServer({
+var proxy = httpProxy.createProxyServer({
         secure: !insecureValue
     });
 
