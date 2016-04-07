@@ -12,7 +12,7 @@ import {SetupComponent} from './setup.component';
 
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
-import {ItemComponent} from './dspace/components/item.component';
+import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
@@ -58,7 +58,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: ItemComponent },
+        { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
