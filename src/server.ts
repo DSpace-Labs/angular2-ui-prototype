@@ -142,18 +142,7 @@ function ngApp(req, res) {
 
 
 
-app.get('/', ngApp);
-app.get('/dashboard', ngApp);
-app.get('/home', ngApp);
-app.get('/settings', ngApp);
-app.get('/setup', ngApp);
-app.get('/register', ngApp);
-app.get('/login', ngApp);
-
-app.get('/communities/**', ngApp);
-app.get('/collections/**', ngApp);
-app.get('/items/**', ngApp);
-
+app.get('/*', ngApp);
 
 app.listen(PORT, () => {
     console.log("Running at port " + PORT);
