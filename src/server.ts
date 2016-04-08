@@ -1,8 +1,8 @@
-﻿import * as path from 'path';
+import * as path from 'path';
 import * as express from 'express';
 //import * as https from 'https';
 
-import 'angular2-universal-preview/polyfills';
+import 'angular2-universal/polyfills';
 
 
 import {
@@ -11,7 +11,7 @@ import {
     NODE_LOCATION_PROVIDERS,
     NODE_HTTP_PROVIDERS,
     NODE_PRELOAD_CACHE_HTTP_PROVIDERS
-} from 'angular2-universal-preview';
+} from 'angular2-universal';
 
 import {
     provide,
@@ -63,7 +63,7 @@ let root = path.join(path.resolve(__dirname, '..'));
 
 
 
-var allowCrossDomain = function (req, res, next) {    
+var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
@@ -84,14 +84,14 @@ app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
 // Static Resources
-app.use(express.static(root, { index: false })); 
+app.use(express.static(root, { index: false }));
 
 // Port
 app.set('port', PORT);
 
 // Serverside Angular
 function ngApp(req, res) {
-    let baseUrl = '/';        
+    let baseUrl = '/';
     let url = req.originalUrl || '/';
     console.log('url: ' + url);
     res.render('index', {
@@ -142,18 +142,7 @@ function ngApp(req, res) {
 
 
 
-app.get('/', ngApp);
-app.get('/dashboard', ngApp);
-app.get('/home', ngApp);
-app.get('/settings', ngApp);
-app.get('/setup', ngApp);
-app.get('/register', ngApp);
-app.get('/login', ngApp);
-
-app.get('/communities/**', ngApp);
-app.get('/collections/**', ngApp);
-app.get('/items/**', ngApp);
-
+app.get('/*', ngApp);
 
 app.listen(PORT, () => {
     console.log("Running at port " + PORT);
@@ -163,7 +152,3 @@ app.listen(PORT, () => {
 //https.createServer(options, app).listen(PORT, () => {
 //    console.log("Running at port " + PORT);
 //});
-
-
-
-
