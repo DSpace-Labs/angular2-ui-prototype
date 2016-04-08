@@ -74,7 +74,7 @@ export class SimpleItemViewComponent {
     item: Object;
 
 
-    authors: Object;
+
     /**
      *
      * @param params
@@ -91,25 +91,10 @@ export class SimpleItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             console.log(item);
-            this.parseItem();
             breadcrumb.visit(this.item);
         });
     }
 
-
-    parseItem() : void{
-        // Split our item into multiple groups?
-        console.log("parsing item");
-        for(var x in this.item)
-        {
-            console.log("x: " + x);
-            for(var y in x)
-            {
-                console.log("y: " + y.value);
-            }
-        }
-
-    }
 }
 
 
