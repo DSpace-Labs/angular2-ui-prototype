@@ -5,6 +5,11 @@ import {DSpaceDirectory} from '../../dspace.directory';
 
 import {DSpaceService} from '../../dspace.service';
 
+/**
+ * Component for the authors of the simple-item-view.
+ * This component gets a list of all metadata, and filters for the appropriate date to be shown.
+ */
+
 @Component({
     selector: 'item-authors',
     inputs: ['metadataObject'],
@@ -23,6 +28,8 @@ export class AuthorsComponent {
      *
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
+
+
     item: Object;
     public metadataObject : String;
 
