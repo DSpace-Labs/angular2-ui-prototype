@@ -66,7 +66,8 @@ export class HttpService {
         var options = new RequestOptions({
             method: RequestMethod.Get,
             url: request.url,
-            headers: headers
+            headers: headers,
+            search: request.search
         });
         
         return this.http.request(new Request(options)).map(response => {

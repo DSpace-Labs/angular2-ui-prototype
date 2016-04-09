@@ -18,6 +18,8 @@ import {DSpaceKeys} from './dspace.keys';
  */
 @Injectable()
 export class DSpaceDirectory {
+        
+    defaultLimit = 10;
 
     /**
      * Object to represent visited portions of the index hierarchy.
@@ -99,11 +101,19 @@ export class DSpaceDirectory {
      *      current context in which needing to load navigation relations.
      */
     loadNav(type, context) {
+        // setup pagination
+        if (!context.limit) {
+            context.offset = 0;
+            context.limit = this.defaultLimit;
+            context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.items.length;
+            context.pageCount = Math.ceil(context.total / context.limit)
+            context.page = context.offset > 0 ? Math.floor(context.offset / context.limit) : 1;
+        }        
         if (context.ready) {
-            console.log(context.name + ' already ready')
+            console.log(context.name + ' page ' + context.page + ' already ready')
         }
         else {
-            this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context.id).subscribe(nav => {
+            this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceKeys[type].DSPACE] = this.prepare(context, nav);
                 context.ready = true;
             },
@@ -204,7 +214,7 @@ export class DSpaceDirectory {
             directory.enhance(current);
             if (current.type != 'item') {
                 current.expanded = false;
-                current.toggle = function () {
+                current.toggle = function () {                    
                     this.expanded = !this.expanded;
                     if (this.expanded) {
                         if (this.type == 'collection')
@@ -214,6 +224,7 @@ export class DSpaceDirectory {
                             directory.loadNav('collection', this);
                         }
                     }
+                    
                 }
             }
         });
