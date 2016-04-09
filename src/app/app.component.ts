@@ -60,7 +60,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
         
-        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/...", name: "Dashboard", component: DashboardComponent },
         
         { path: "/communities/:id/...", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },

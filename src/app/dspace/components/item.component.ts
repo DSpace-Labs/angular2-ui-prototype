@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {DSpaceService} from '../dspace.service';
@@ -8,8 +10,6 @@ import {DSpaceService} from '../dspace.service';
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {ContextComponent} from '../../navigation/context.component';
-
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * Item component for displaying the current item.

@@ -1,12 +1,14 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 import {DSpaceDirectory} from './dspace/dspace.directory';
 
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {PaginationComponent} from './navigation/pagination.component';
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
@@ -27,6 +29,10 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                 </div>
               `
 })
+@RouteConfig([
+    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
+    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
+])
 export class DashboardComponent {
 
     /**
