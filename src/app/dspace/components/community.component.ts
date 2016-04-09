@@ -51,7 +51,7 @@ export class CommunityComponent {
      *
      * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
      */
-    communityJSON: Object;
+    communityJSON: any;
 
     /**
      *

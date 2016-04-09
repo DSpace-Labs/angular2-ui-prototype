@@ -12,10 +12,10 @@ import {DSpaceService} from '../dspace/dspace.service';
 
                         <li><span aria-label="Previous"><span aria-hidden="true">&laquo;</span></span></li>
 
-                        <li *ngFor="#i of pages" [ngClass]="{active: i == page}">
+                        <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}">
 
                             <!-- Router Link -->
-                            <a [routerLink]="['Pagination', {page: i}]">{{ i }}</a>
+                            <a [routerLink]="[context.component, {id: context.id, page: i}]">{{ i }}</a>
 
                         </li>
 
@@ -48,6 +48,8 @@ export class PaginationComponent {
         
         console.log(this.router.hostComponent.name)
         console.log(this.params)
+        
+        console.log(this.context);
 
     }
 

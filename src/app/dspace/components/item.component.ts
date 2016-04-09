@@ -64,7 +64,7 @@ export class ItemComponent {
      *
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
-    item: Object;
+    item: any;
     
     /**
      *

@@ -52,7 +52,7 @@ export class CollectionComponent {
      * An object that represents the current collection.
      * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
      */
-    collectionJSON: Object;
+    collectionJSON: any;
 
     /**
      *
@@ -64,11 +64,20 @@ export class CollectionComponent {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService, translate: TranslateService) {
-        console.log('Collection ' + params.get("id"));
+        console.log('Collection ' + params.get("id"));        
         directory.loadObj('collection', params.get("id")).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(collectionJSON);
             breadcrumb.visit(this.collectionJSON);
+            
+            if(params.get("page")) {
+                console.log('LOAD NAV WITH PAGE!!!!!')                
+                this.collectionJSON.ready = false;
+                this.collectionJSON.page = params.get("page");
+                this.collectionJSON.offset = this.collectionJSON.page > 1 ? (this.collectionJSON.page - 1) * this.collectionJSON.limit : 0;                
+                directory.loadNav('item', this.collectionJSON);
+            }
+            
         });
 
         translate.setDefaultLang('en');

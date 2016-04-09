@@ -104,13 +104,14 @@ export class DSpaceDirectory {
         // setup pagination
         if (!context.limit) {
             context.offset = 0;
-            context.limit = this.defaultLimit;
+            // TODO: remove ternary when pagination communities and collections
+            context.limit = context.type == 'collection' ? this.defaultLimit : 200;
             console.log(context);
             // REST API should return the number of subcommunities and number of collections!!!
             // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
             // This will be problematic with paging.
             context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
-            context.pageCount = Math.ceil(context.total / context.limit);
+            context.pageCount = Math.floor(context.total / context.limit);
             context.page = context.offset > 0 ? Math.floor(context.offset / context.limit) : 1;
         }        
         if (context.ready) {
@@ -183,8 +184,10 @@ export class DSpaceDirectory {
             if (obj.type == 'item')
                 return obj;
             else if (obj.type == 'collection') {
-                this.prepare(context, obj.items);
+                console.log(obj);
                 this.loadNav('item', obj);
+                // TODO: remove this
+                //this.prepare(context, obj.items);
             }
             else if (obj.type == 'community') {
                 this.prepare(context, obj.collections);

@@ -54,8 +54,9 @@ export class DSpaceService {
      * Method to fetch top communities for navigation purposes.
      */
     fetchTopCommunities() {
+        //TODO: handle top community pagination
         var params = new URLSearchParams();
-        params.append("limit", '10');
+        params.append("limit", '200');
         params.append("offset", '0');
         return this.httpService.get({
             url: this.url + this.REST + '/communities/top-communities',
