@@ -1,5 +1,5 @@
 ﻿import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -29,10 +29,6 @@ import {PaginationComponent} from './navigation/pagination.component';
                 </div>
               `
 })
-@RouteConfig([
-    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
-    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
-])
 export class DashboardComponent {
 
     /**
@@ -54,12 +50,13 @@ export class DashboardComponent {
                 private breadcrumb: BreadcrumbService,
                 translate: TranslateService ){
 
-        this.dashboard =
-        {
+        this.dashboard = {
             name: 'Dashboard',
             type: 'dashboard'
         };
+        
         breadcrumb.visit(this.dashboard);
+        
         translate.setDefaultLang('en');
         translate.use('en');
     }

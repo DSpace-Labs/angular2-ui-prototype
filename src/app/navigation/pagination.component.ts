@@ -15,7 +15,7 @@ import {DSpaceDirectory} from '../dspace/dspace.directory';
                         <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}">
 
                             <!-- Router Link -->
-                            <a [routerLink]="['/' + context.component, {id: context.id, page: i}, 'Pagination', {page: i}]">{{ i }}</a>
+                            <a [routerLink]="['/' + context.component, {id: context.id, page: i}]">{{ i }}</a>
 
                         </li>
 
@@ -31,17 +31,8 @@ export class PaginationComponent {
 
     pages: Array<number>;
 
-    constructor(private directory: DSpaceDirectory,
-                private params: RouteParams) {}
-
     ngOnInit() {        
         this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
-        if(this.params.get("page")) {
-            this.context.ready = false;
-            this.context.page = this.params.get("page");
-            this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;                
-            this.directory.loadNav('item', this.context);
-        }
     }
 
 }

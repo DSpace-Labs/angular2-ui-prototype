@@ -37,10 +37,6 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                 </div>
               `
 })
-@RouteConfig([
-    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
-    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
-])
 export class CollectionComponent {
 
     /**
@@ -63,12 +59,25 @@ export class CollectionComponent {
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService, translate: TranslateService) {
+    constructor(private params: RouteParams, 
+                private directory: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService, 
+                translate: TranslateService) {
         console.log('Collection ' + params.get("id"));        
         directory.loadObj('collection', params.get("id")).then(collectionJSON => {
+
             this.collectionJSON = collectionJSON;
-            this.collection = new Collection(collectionJSON);
+
+            if(this.params.get("page")) {
+                this.collectionJSON.ready = false;
+                this.collectionJSON.page = this.params.get("page");
+                this.collectionJSON.offset = this.collectionJSON.page > 1 ? (this.collectionJSON.page - 1) * this.collectionJSON.limit : 0;
+                this.directory.loadNav('item', this.collectionJSON);
+            }
+
+            this.collection = new Collection(this.collectionJSON);
             breadcrumb.visit(this.collectionJSON);
+
         });
 
         translate.setDefaultLang('en');

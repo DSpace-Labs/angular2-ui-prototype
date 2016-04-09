@@ -1,5 +1,7 @@
 ﻿import {Component} from 'angular2/core';
-import {RouteConfig, RouteParams} from 'angular2/router';
+import {RouteParams} from 'angular2/router';
+
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 
@@ -19,6 +21,7 @@ import {PaginationComponent} from '../../navigation/pagination.component';
 @Component({
     selector: 'community',
     directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="community">
                     
@@ -34,10 +37,6 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                 </div>
               `
 })
-@RouteConfig([
-    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
-    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
-])
 export class CommunityComponent {
 
 
@@ -62,13 +61,27 @@ export class CommunityComponent {
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private params: RouteParams, private directory: DSpaceDirectory, private breadcrumb: BreadcrumbService) {
+    constructor(private params: RouteParams, 
+                private directory: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService, 
+                translate: TranslateService) {
         console.log('Community ' + params.get("id"));
         directory.loadObj('community', params.get("id")).then(communityJSON => {
             this.communityJSON = communityJSON;
-            this.community = new Community(communityJSON);
+
+//            if(this.params.get("page")) {
+//                this.communityJSON.ready = false;
+//                this.communityJSON.page = this.params.get("page");
+//                this.communityJSON.offset = this.communityJSON.page > 1 ? (this.communityJSON.page - 1) * this.communityJSON.limit : 0;
+//                this.directory.loadNav('collection', this.communityJSON);
+//            }
+
+            this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
         });
+ 
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }
