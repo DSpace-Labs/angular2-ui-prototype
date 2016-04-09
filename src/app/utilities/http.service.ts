@@ -53,10 +53,10 @@ export class HttpService {
      * to a json object.
      *
      * @param request
-     *      an object, {uri: string}, used to GET
+     *      an object, {url: string}, used to GET
      */
     get(request) {
-        //console.log(request);
+        console.log(request);
 
         let headers = this.buildHeaders([
             { key: 'Content-Type', value: 'application/json' },

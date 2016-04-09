@@ -70,6 +70,8 @@ export class CollectionComponent {
             this.collection = new Collection(collectionJSON);
             breadcrumb.visit(this.collectionJSON);
             
+            console.log("page: " + params.get("page"))
+            
             if(params.get("page")) {
                 console.log('LOAD NAV WITH PAGE!!!!!')                
                 this.collectionJSON.ready = false;
