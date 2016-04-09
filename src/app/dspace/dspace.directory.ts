@@ -111,7 +111,7 @@ export class DSpaceDirectory {
             // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
             // This will be problematic with paging.
             context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
-            context.pageCount = Math.floor(context.total / context.limit);
+            context.pageCount = Math.ceil(context.total / context.limit);
             context.page = context.offset > 0 ? Math.floor(context.offset / context.limit) : 1;
         }        
         if (context.ready) {

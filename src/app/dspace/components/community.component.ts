@@ -65,21 +65,17 @@ export class CommunityComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        console.log('Community ' + params.get("id"));
         directory.loadObj('community', params.get("id")).then(communityJSON => {
             this.communityJSON = communityJSON;
-
 //            if(this.params.get("page")) {
 //                this.communityJSON.ready = false;
 //                this.communityJSON.page = this.params.get("page");
 //                this.communityJSON.offset = this.communityJSON.page > 1 ? (this.communityJSON.page - 1) * this.communityJSON.limit : 0;
 //                this.directory.loadNav('collection', this.communityJSON);
 //            }
-
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
         });
- 
         translate.setDefaultLang('en');
         translate.use('en');
     }

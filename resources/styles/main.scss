@@ -5,16 +5,20 @@ html, body {
     margin: 0;
 }
 
-.clickable:hover {
-	cursor: pointer;
+.space-right {
+    margin-right: 10px;
 }
 
 .list-group .list-group-item .glyphicon {
 	margin-right: 5px;
 }
 
+.clickable {
+	cursor: pointer;
+}
 
 /* bootstrap overrides */
+
 .navbar {
     margin-bottom: 0px;
     border-radius: 0px;
@@ -27,31 +31,3 @@ html, body {
 }
 
 /***********************/
-
-.space-right {
-    margin-right: 10px;
-}
-
-.fade {
-    display: none;
-}
-
-.in {
-    display: block;
-}
-
-.login {
-    border-radius: 5px;
-    border: solid;
-    border-width: 1px;
-    padding: 5px;
-    margin-top: 5px;
-    margin-right: 5px;
-    right: 0;
-    position: absolute;
-}
-
-
-ul.breadcrumb {
-
-}

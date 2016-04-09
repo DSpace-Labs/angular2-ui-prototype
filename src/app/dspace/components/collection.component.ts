@@ -62,24 +62,18 @@ export class CollectionComponent {
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
-                translate: TranslateService) {
-        console.log('Collection ' + params.get("id"));        
+                translate: TranslateService) {        
         directory.loadObj('collection', params.get("id")).then(collectionJSON => {
-
             this.collectionJSON = collectionJSON;
-
             if(this.params.get("page")) {
                 this.collectionJSON.ready = false;
                 this.collectionJSON.page = this.params.get("page");
                 this.collectionJSON.offset = this.collectionJSON.page > 1 ? (this.collectionJSON.page - 1) * this.collectionJSON.limit : 0;
                 this.directory.loadNav('item', this.collectionJSON);
             }
-
             this.collection = new Collection(this.collectionJSON);
             breadcrumb.visit(this.collectionJSON);
-
         });
-
         translate.setDefaultLang('en');
         translate.use('en');
     }

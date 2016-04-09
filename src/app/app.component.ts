@@ -62,8 +62,9 @@ import {ItemComponent} from './dspace/components/item.component';
         { path: "/login", name: "Login", component: LoginComponent },
         
         { path: "/", name: "Dashboard", component: DashboardComponent },
-        
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/communities/:id/:page", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
         { path: "/collections/:id/:page", name: "Collections", component: CollectionComponent },
         { path: "/items/:id", name: "Items", component: ItemComponent }
 
@@ -71,7 +72,6 @@ import {ItemComponent} from './dspace/components/item.component';
 export class AppComponent {
 
     constructor(translate: TranslateService) {
-        console.log('Starting App!');
         translate.setDefaultLang('en');
         translate.use('en');
     }

@@ -79,12 +79,10 @@ export class ItemComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
                 translate: TranslateService) {
-        console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
         });
-
         translate.setDefaultLang('en');
         translate.use('en');
     }
