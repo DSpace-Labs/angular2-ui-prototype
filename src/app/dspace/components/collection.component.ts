@@ -69,17 +69,6 @@ export class CollectionComponent {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(collectionJSON);
             breadcrumb.visit(this.collectionJSON);
-            
-            console.log("page: " + params.get("page"))
-            
-            if(params.get("page")) {
-                console.log('LOAD NAV WITH PAGE!!!!!')                
-                this.collectionJSON.ready = false;
-                this.collectionJSON.page = params.get("page");
-                this.collectionJSON.offset = this.collectionJSON.page > 1 ? (this.collectionJSON.page - 1) * this.collectionJSON.limit : 0;                
-                directory.loadNav('item', this.collectionJSON);
-            }
-            
         });
 
         translate.setDefaultLang('en');

@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Route, RouteConfig, Router, RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Route, RouteConfig, RouteParams} from 'angular2/router';
 
-import {DSpaceService} from '../dspace/dspace.service';
+import {DSpaceDirectory} from '../dspace/dspace.directory';
 
 @Component({
     selector: 'pagination',
@@ -15,7 +15,7 @@ import {DSpaceService} from '../dspace/dspace.service';
                         <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}">
 
                             <!-- Router Link -->
-                            <a [routerLink]="[context.component, {id: context.id, page: i}]">{{ i }}</a>
+                            <a [routerLink]="['/' + context.component, {id: context.id, page: i}, 'Pagination', {page: i}]">{{ i }}</a>
 
                         </li>
 
@@ -27,30 +27,21 @@ import {DSpaceService} from '../dspace/dspace.service';
 })
 export class PaginationComponent {
 
-    // TODO: switch to context
     @Input() context: any;
 
     pages: Array<number>;
 
-    constructor(private dspaceService: DSpaceService,
-                private router: Router,
+    constructor(private directory: DSpaceDirectory,
                 private params: RouteParams) {}
 
-    ngOnInit() {
-        console.log('init pagination')
+    ngOnInit() {        
         this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
-        console.log("Page count: " + this.context.pageCount);
-        console.log("Page limit: " + this.context.limit);
-        console.log("Page offset: " + this.context.offset);
-        console.log("Page: " + this.context.page);
-        
-        console.log("Pages: " + this.pages);
-        
-        console.log(this.router.hostComponent.name)
-        console.log(this.params)
-        
-        console.log(this.context);
-
+        if(this.params.get("page")) {
+            this.context.ready = false;
+            this.context.page = this.params.get("page");
+            this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;                
+            this.directory.loadNav('item', this.context);
+        }
     }
 
 }
