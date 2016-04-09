@@ -1,14 +1,16 @@
 ﻿import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteConfig, RouteParams} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
+import {Community} from "../models/community.model";
+
 import {TreeComponent} from '../../navigation/tree.component';
 import {ContextComponent} from '../../navigation/context.component';
-import {Community} from "../models/community.model";
 import {ContainerHomeComponent} from "./container-home.component.ts";
+import {PaginationComponent} from '../../navigation/pagination.component';
 
 /**
  * Community component for displaying the current community.
@@ -32,6 +34,10 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
                 </div>
               `
 })
+@RouteConfig([
+    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
+    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
+])
 export class CommunityComponent {
 
 

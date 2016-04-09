@@ -1,16 +1,18 @@
 ﻿import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteConfig, RouteParams} from 'angular2/router';
+
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
-import {TreeComponent} from '../../navigation/tree.component';
-import {ContextComponent} from '../../navigation/context.component';
-import {ContainerHomeComponent} from "./container-home.component";
 import {Collection} from "../models/collection.model";
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {ListComponent} from '../../navigation/list.component';
+import {ContextComponent} from '../../navigation/context.component';
+import {ContainerHomeComponent} from "./container-home.component";
+import {PaginationComponent} from '../../navigation/pagination.component';
 
 /**
  * Collection component for displaying the current collection.
@@ -18,7 +20,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
  */
 @Component({
     selector: 'collection',
-    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    directives: [ListComponent, ContextComponent, ContainerHomeComponent],
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="collection">
@@ -29,12 +31,16 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                        <tree [directories]="collectionJSON.items"></tree>
+                        <list [collection]="collectionJSON"></list>
                     </div>
                     
                 </div>
               `
 })
+@RouteConfig([
+    {path: '/', component: PaginationComponent, name: 'Pagination', useAsDefault: true },
+    {path: '/:page', component: PaginationComponent, name: 'Pagination'}
+])
 export class CollectionComponent {
 
     /**

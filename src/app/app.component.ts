@@ -62,8 +62,8 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         
         { path: "/", name: "Dashboard", component: DashboardComponent },
         
-        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+        { path: "/communities/:id/...", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
         { path: "/items/:id", name: "Items", component: ItemComponent }
 
 ])
