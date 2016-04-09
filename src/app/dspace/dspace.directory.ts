@@ -105,8 +105,12 @@ export class DSpaceDirectory {
         if (!context.limit) {
             context.offset = 0;
             context.limit = this.defaultLimit;
-            context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.items.length;
-            context.pageCount = Math.ceil(context.total / context.limit)
+            console.log(context);
+            // REST API should return the number of subcommunities and number of collections!!!
+            // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
+            // This will be problematic with paging.
+            context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
+            context.pageCount = Math.ceil(context.total / context.limit);
             context.page = context.offset > 0 ? Math.floor(context.offset / context.limit) : 1;
         }        
         if (context.ready) {
@@ -178,8 +182,10 @@ export class DSpaceDirectory {
             this.enhance(obj);
             if (obj.type == 'item')
                 return obj;
-            else if (obj.type == 'collection')
+            else if (obj.type == 'collection') {
                 this.prepare(context, obj.items);
+                this.loadNav('item', obj);
+            }
             else if (obj.type == 'community') {
                 this.prepare(context, obj.collections);
                 this.prepare(context, obj.subcommunities);
@@ -214,7 +220,7 @@ export class DSpaceDirectory {
             directory.enhance(current);
             if (current.type != 'item') {
                 current.expanded = false;
-                current.toggle = function () {                    
+                current.toggle = function () {
                     this.expanded = !this.expanded;
                     if (this.expanded) {
                         if (this.type == 'collection')

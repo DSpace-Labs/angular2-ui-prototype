@@ -37,6 +37,7 @@ export class PaginationComponent {
                 private params: RouteParams) {}
 
     ngOnInit() {
+        console.log('init pagination')
         this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
         console.log("Page count: " + this.context.pageCount);
         console.log("Page limit: " + this.context.limit);

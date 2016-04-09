@@ -44,6 +44,7 @@ export class DSpaceService {
      *      A path to a DSpace REST endpoint
      */
     fetch(path) {
+        console.log('fetching path ' + path);
         return this.httpService.get({
             url: this.url + path + '?expand=parentCommunity,parentCollection'
         });
@@ -117,6 +118,7 @@ export class DSpaceService {
      *      Community id of which to fetch its relationships and other details.
      */
     fetchCommunity(id) {
+        //TODO: when working on pagination of communities and collections remove expand collections and subCommunities
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity,logo'
         });
@@ -130,7 +132,7 @@ export class DSpaceService {
      */
     fetchCollection(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + id + '?expand=items,parentCommunity,logo'
+            url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         });
     }
 

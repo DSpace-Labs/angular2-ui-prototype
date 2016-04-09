@@ -2,6 +2,7 @@
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {ListComponent } from './list.component';
+import {PaginationComponent} from './pagination.component';
 
 /**
  * Tree component for navigation through the dspace index of 
@@ -12,7 +13,7 @@ import {ListComponent } from './list.component';
  */
 @Component({
     selector: 'tree',
-    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent],
+    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
                     <li *ngFor="#directory of directories" class="list-group-item">
@@ -38,7 +39,7 @@ import {ListComponent } from './list.component';
                         </div>
 
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
-                            <list [items]="directory.items"></list>
+                            <list [collection]="directory"></list>
                         </div>
                         
                     </li>
