@@ -110,9 +110,9 @@ export class DSpaceDirectory {
         if (!context.limit) {
             this.setup(context);
         }
-        let cachedList = this.dspaceStore.getPage(this.dspaceKeys[type].PLURAL, context.id, context.page);
-        if (cachedList) {
-            context[this.dspaceKeys[type].DSPACE] = cachedList;
+        let cachedPage = this.dspaceStore.getPage(this.dspaceKeys[type].PLURAL, context.id, context.page);
+        if (cachedPage) {
+            context[this.dspaceKeys[type].DSPACE] = cachedPage;
         }
         else {
             this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context).subscribe(nav => {
