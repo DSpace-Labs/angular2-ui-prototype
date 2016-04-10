@@ -3,6 +3,8 @@ import {ROUTER_DIRECTIVES, Route, RouteConfig, RouteParams} from 'angular2/route
 
 import {DSpaceDirectory} from '../dspace/dspace.directory';
 
+import {PaginationService} from './pagination.service';
+
 /**
  * Pagination component for controlling paging among a given context. Currently, only items.
  */
@@ -72,47 +74,16 @@ export class PaginationComponent {
      * A number that represents the number of pages.
      */
     pageCount: number;
+    
+    constructor(private paginationService: PaginationService) {}
 
      /**
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {        
-        this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
-        
+        this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);        
         this.pageCount = this.pages.length;
-        
-        // TODO: make less hardcoded, i.e. adjustable
-        
-        if (this.pages.length > 10) {
-            let diff = this.pages.length - 10;
-                        
-            if (this.context.page <= 9) {
-                this.pages.splice(9, diff);
-                this.pages.splice(9, 0, '...');
-            }
-            else if (this.context.page > diff + 2) {
-                this.pages.splice(1, diff);
-                this.pages.splice(1, 0, '...');
-            }
-            else {
-                let innerPages = new Array<any>();
-                innerPages.push(+this.context.page - 3);
-                innerPages.push(+this.context.page - 2);
-                innerPages.push(+this.context.page - 1);
-                innerPages.push(this.context.page);
-                innerPages.push(+this.context.page + 1);
-                innerPages.push(+this.context.page + 2);
-                innerPages.push(+this.context.page + 3);
-                this.pages = new Array<any>();
-                this.pages.push(1);
-                this.pages.push('...');
-                this.pages = this.pages.concat(innerPages);
-                this.pages.push('...');
-                this.pages.push(this.pageCount);
-            }
-
-        }
-        
+        this.paginationService.updatePagesArray(this.pages, this.context.page);
         this.previous = +this.context.page - 1;
         this.next = +this.context.page + 1;
     }

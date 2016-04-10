@@ -14,6 +14,7 @@ import {
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
+import {PaginationService} from './navigation/pagination.service';
 import {HttpService} from './utilities/http.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
@@ -31,6 +32,7 @@ bootstrap(AppComponent, [
     }),
     TranslateService,
     BreadcrumbService,
+    PaginationService,
     DSpaceDirectory,
     DSpaceKeys,
     DSpaceService,

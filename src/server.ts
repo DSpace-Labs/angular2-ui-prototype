@@ -31,6 +31,7 @@ import {TitleComponent} from './server/title.component';
 
 // App Injectables
 import {BreadcrumbService} from './app/navigation/breadcrumb.service';
+import {PaginationService} from './app/navigation/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceKeys} from './app/dspace/dspace.keys';
 import {DSpaceService} from './app/dspace/dspace.service';
@@ -91,6 +92,7 @@ function ngApp(req, res) {
             }),
             TranslateService,
             BreadcrumbService,
+            PaginationService,
             DSpaceDirectory,
             DSpaceKeys,
             DSpaceService,
