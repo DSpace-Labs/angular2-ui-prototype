@@ -27,8 +27,8 @@ export class ListComponent {
      * An input variable that is passed into the component [collection].
      * Represents the current collection.
      * 
-     * TODO: replace Object with inheritance model e.g. item extends dspaceObject
+     * TODO: replace any with inheritance model e.g. item extends dspaceObject
      */
- 	@Input() collection: Object;
+ 	@Input() collection: any;
 
 }

@@ -37,8 +37,8 @@ export class ContextComponent {
      * An input variable that is passed into the component [context].
      * Represents the current context.
      *
-     * TODO: replace Object with inheritance model e.g. dspaceObject
+     * TODO: replace any with inheritance model e.g. dspaceObject
      */
-	@Input() context: Object;
+	@Input() context: any;
 
 }

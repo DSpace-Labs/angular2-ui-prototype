@@ -24,10 +24,10 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent {
 
     /**
-     * Array of Objects, { name: string, context: Object }, representing the 
+     * Array of any, { name: string, context: Object }, representing the 
      * breadcrumb trail.
      */
-    trail: Array<Object>;
+    trail: Array<any>;
 
     /**
      * Subscription to the breadcrumb service to recieve changes to the breadcrumb trail.
@@ -51,7 +51,7 @@ export class BreadcrumbComponent {
      *      The current context. Represents a dspace object community, collection, or item.
      */
     buildTrail(context) {
-        this.trail = new Array<Object>();
+        this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
                 this.trail.unshift({ name: 'Dashboard', context: {} });

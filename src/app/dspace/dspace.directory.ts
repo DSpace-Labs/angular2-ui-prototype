@@ -185,7 +185,7 @@ export class DSpaceDirectory {
      * Method to apply pagination to context.
      *
      * @param context
-     *      current context in which needing to setup pagination.
+     *      current context in which needing to apply pagination.
      */
     page(context, page) {
         context.page = page;
