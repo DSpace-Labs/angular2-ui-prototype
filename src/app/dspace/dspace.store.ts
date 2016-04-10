@@ -36,11 +36,15 @@ export class DSpaceStore {
     
     /**
      * A map of the visited collections pages.
+     * 
+     * TODO: collection and community pages are combined and should be here
      */
     private collectionsPages: Map<number, any>;
     
     /**
      * A map of the visited communities pages.
+     * 
+     * TODO: collection and community pages are combined and should be here
      */
     private communitiesPages: Map<number, any>;
 
@@ -131,6 +135,18 @@ export class DSpaceStore {
      */
     deleteAll(type) {
         this[type] = new Map<number, any>();
+    }
+    
+     /**
+     * Method to clear pages by type and id. 
+     *
+     * @param type
+     *      string: communities, collections, items
+     * @param id
+     *      context id
+     */
+    clearPages(type, id) {
+        this[type + 'Pages'].set(id, new Map<number, any>());
     }
 
 }

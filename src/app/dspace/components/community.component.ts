@@ -39,7 +39,6 @@ import {PaginationComponent} from '../../navigation/pagination.component';
 })
 export class CommunityComponent {
 
-
     /**
      * An object that represents the current community.
      */

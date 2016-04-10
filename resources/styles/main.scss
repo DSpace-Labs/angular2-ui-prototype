@@ -17,6 +17,10 @@ html, body {
 	cursor: pointer;
 }
 
+.form-inline select {
+	margin-left: 15px;
+}
+
 /* bootstrap overrides */
 
 .navbar {
@@ -28,6 +32,10 @@ html, body {
     margin-bottom: 10px;
     margin-top: 10px;
     padding-left: 0;
+}
+
+.pagination {
+    display: inherit;
 }
 
 /***********************/

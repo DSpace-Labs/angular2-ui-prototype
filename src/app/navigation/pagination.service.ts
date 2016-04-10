@@ -7,11 +7,26 @@ import * as preboot from 'preboot';
  */
 @Injectable()
 export class PaginationService {
-    
-    bootstrapped: boolean;
-    
+
+    /**
+     * A boolean that represents whether or not the app has been bootstrapped.
+     */
+    private bootstrapped: boolean;
+
+    /**
+     * A number that represents the default number of 'items' in a page.
+     */
+    private defaultLimit: number;
+
+    /**
+     * A number array that represents options for a context pagination limit.
+     */
+    private limitOptions: Array<number>;
+
     constructor() {
         this.bootstrapped = preboot['complete'] ? true : false;
+        this.defaultLimit = 10;
+        this.limitOptions = [5, 10, 20, 50, 100];
     }
     
     // TODO: make less hardcoded, i.e. adjustable    
@@ -45,6 +60,22 @@ export class PaginationService {
                 }
             }
         }
+    }
+    
+    getDefaultLimit() {
+        return this.defaultLimit;    
+    }
+    
+    setDefaultLimit(defaultLimit) {
+        this.defaultLimit = defaultLimit;
+    }
+    
+    getLimitOptions() {
+        return this.limitOptions;
+    }
+    
+    setLimitOptions(limitOptions) {
+        this.limitOptions = limitOptions;
     }
     
 }

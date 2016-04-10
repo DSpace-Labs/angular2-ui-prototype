@@ -5,6 +5,8 @@ import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
 import {DSpaceKeys} from './dspace.keys';
 
+import {PaginationService} from '../navigation/pagination.service';
+
 /**
  * Injectable service to provide navigation and context. Provides
  * session caching to eliminate requesting content already received.
@@ -18,11 +20,6 @@ import {DSpaceKeys} from './dspace.keys';
  */
 @Injectable()
 export class DSpaceDirectory {
-
-    /**
-     * A number that represents the default number of 'items' in a page.
-     */
-    defaultLimit: number;
 
     /**
      * Object to represent visited portions of the index hierarchy.
@@ -49,13 +46,13 @@ export class DSpaceDirectory {
      *      DSpaceStore is a singleton service to cache context which have already been requested.
      * @param dspaceKeys 
      *      DSpaceKeys is a singleton service with constants.
+     * @param paginationService 
+     *      PaginationService is a singleton service for pagination controls.
      */
     constructor(private dspaceService: DSpaceService,
                 private dspaceStore: DSpaceStore,
-                private dspaceKeys: DSpaceKeys) {
-        // TODO: make configurable
-        // the limit per context will also be configurable
-        this.defaultLimit = 10;
+                private dspaceKeys: DSpaceKeys,
+                private paginationService: PaginationService) {
         this.store = {
             directory: {
                 context: new Array<Object>(),
@@ -174,7 +171,7 @@ export class DSpaceDirectory {
     setup(context) {
         context.offset = 0;
         // TODO: remove ternary when pagination of communities and collections
-        context.limit = context.type == 'collection' ? this.defaultLimit : 200;
+        context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
         // REST API should return the number of subcommunities and number of collections!!!
         // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
         // This will be problematic with paging.

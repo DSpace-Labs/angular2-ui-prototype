@@ -5,8 +5,6 @@ import {PaginationComponent} from './pagination.component';
 
 /**
  * List component for navigation of the items of a collection.
- *
- * TODO: implement pagination of items
  */
 @Component({
     selector: 'list',
