@@ -12,15 +12,15 @@ import {Component, Input} from 'angular2/core';
 				    	<h3 class="panel-title">{{context.name}}</h3>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'dashboard'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
-				  	<div class="panel-body" *ngIf="context.type == 'item' && context.second">
+				  	<div class="panel-body" *ngIf="context.type == 'item'">
                         <ul>
                             <li *ngFor="#bitstream of context.bitstreams">
                                 <!-- TODO: make a link to download the items bitstream -->

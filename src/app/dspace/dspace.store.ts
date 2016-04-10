@@ -48,7 +48,6 @@ export class DSpaceStore {
         this.items = new Map<number, any>();
         this.collections = new Map<number, any>();
         this.communities = new Map<number, any>();
-        
         this.itemsPages = new Map<number, any>();
         this.collectionsPages = new Map<number, any>();
         this.communitiesPages = new Map<number, any>();
