@@ -19,7 +19,7 @@ import {DSpaceKeys} from './dspace.keys';
 @Injectable()
 export class DSpaceDirectory {
         
-    defaultLimit = 10;
+    defaultLimit = 2;
 
     /**
      * Object to represent visited portions of the index hierarchy.
@@ -104,19 +104,20 @@ export class DSpaceDirectory {
         if (!context.limit) {
             this.setup(context);
         }
-        if (context.ready) {
-            console.log(context.name + ' page ' + context.page + ' already ready')
+        let cachedList = this.dspaceStore.getPage(this.dspaceKeys[type].PLURAL, context.id, context.page);
+        if (cachedList) {
+            context[this.dspaceKeys[type].DSPACE] = cachedList;
         }
         else {
             this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceKeys[type].DSPACE] = this.prepare(context, nav);
-                context.ready = true;
+                this.dspaceStore.addPage(this.dspaceKeys[type].PLURAL, context);
             },
             error => {
                 console.error('Error: ' + JSON.stringify(error, null, 4));
             },
             () => {
-                console.log('finished fetching ' + this.dspaceKeys[type].DSPACE + ' of ' + context.name);
+                console.log('finished fetching ' + this.dspaceKeys[type].DSPACE + ' page ' + context.page + ' of ' + context.name);
             });
         }
     }
@@ -136,21 +137,16 @@ export class DSpaceDirectory {
         return new Promise(function (resolve, reject) {
             let obj;
             if ((obj = directory.dspaceStore.get(directory.dspaceKeys[type].PLURAL, id))) {
-                
-                directory.page(obj, page);                                
+                directory.page(obj, page);
                 directory.prepare(null, obj);
-                
                 resolve(obj);
             }
             else {
                 directory.dspaceService['fetch' + directory.dspaceKeys[type].METHOD](id).subscribe(obj => {
-                    
                     directory.setup(obj);
                     directory.page(obj, page);
                     directory.prepare(null, obj);
-                    
                     directory.dspaceStore.add(directory.dspaceKeys[type].PLURAL, obj);
-                    
                     resolve(obj);
                 },
                 error => {
@@ -171,7 +167,7 @@ export class DSpaceDirectory {
      */
     setup(context) {
         context.offset = 0;
-        // TODO: remove ternary when pagination communities and collections
+        // TODO: remove ternary when pagination of communities and collections
         context.limit = context.type == 'collection' ? this.defaultLimit : 200;
         // REST API should return the number of subcommunities and number of collections!!!
         // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
@@ -210,10 +206,10 @@ export class DSpaceDirectory {
             this.enhance(obj);
             if (obj.type == 'item')
                 return obj;
-            else if (obj.type == 'collection') {
+            else if (obj.type == 'collection')
                 this.loadNav('item', obj);
-            }
             else if (obj.type == 'community') {
+                // TODO: change here may be required when pagination of communities and collections 
                 this.prepare(context, obj.collections);
                 this.prepare(context, obj.subcommunities);
             }
@@ -271,7 +267,6 @@ export class DSpaceDirectory {
      *      current context.
      */
     enhance(context) {
-        context.ready = false;
         context.component = this.dspaceKeys[context.type].COMPONENT;
     }
     
