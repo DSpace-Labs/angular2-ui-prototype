@@ -23,18 +23,19 @@ import {DSpaceDirectory} from '../dspace/dspace.directory';
                             <span aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span></span></span>
                         </li>
 
-                        <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}">
+                        <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}" [class.disabled]="i == '...'">
                             <!-- Router Link -->
-                            <a [routerLink]="['/' + context.component, {id: context.id, page: i}]">{{ i }}</a>
+                            <a [routerLink]="['/' + context.component, {id: context.id, page: i}]" *ngIf="i != '...'">{{ i }}</a>
+                            <span *ngIf="i == '...'">{{ i }}</span>
                         </li>
 
-                        <li *ngIf="context.page < pages.length">
+                        <li *ngIf="context.page < pageCount">
                             <!-- Router Link -->
                             <a [routerLink]="['/' + context.component, {id: context.id, page: next}]">
                                 <span aria-label="Next"><span aria-hidden="true"><span class="glyphicon glyphicon-forward"></span></span></span>
                             </a>
                         </li>
-                        <li *ngIf="context.page == pages.length" class="disabled">
+                        <li *ngIf="context.page == pageCount" class="disabled">
                             <span aria-label="Next"><span aria-hidden="true"><span class="glyphicon glyphicon-forward"></span></span></span>
                         </li>
 
@@ -55,7 +56,7 @@ export class PaginationComponent {
      /**
      * Array of numbers for templating over. [1,2,3,4] for 4 pages. 
      */
-    pages: Array<number>;
+    pages: Array<any>;
     
     /**
      * A number that represents the previous page.
@@ -66,12 +67,50 @@ export class PaginationComponent {
      * A number that represents the next page.
      */
     next: number;
+    
+    /**
+     * A number that represents the number of pages.
+     */
+    pageCount: number;
 
      /**
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {        
         this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
+        
+        this.pageCount = this.pages.length;
+        
+        if (this.pages.length > 10) {
+            let diff = this.pages.length - 10;
+                        
+            if (this.context.page <= 9) {
+                this.pages.splice(9, diff);
+                this.pages.splice(9, 0, '...');
+            }
+            else if (this.context.page > diff + 2) {
+                this.pages.splice(1, diff);
+                this.pages.splice(1, 0, '...');
+            }
+            else {
+                let innerPages = new Array<any>();
+                innerPages.push(+this.context.page - 3);
+                innerPages.push(+this.context.page - 2);
+                innerPages.push(+this.context.page - 1);
+                innerPages.push(this.context.page);
+                innerPages.push(+this.context.page + 1);
+                innerPages.push(+this.context.page + 2);
+                innerPages.push(+this.context.page + 3);
+                this.pages = new Array<any>();
+                this.pages.push(1);
+                this.pages.push('...');
+                this.pages = this.pages.concat(innerPages);
+                this.pages.push('...');
+                this.pages.push(this.pageCount);
+            }
+
+        }
+        
         this.previous = +this.context.page - 1;
         this.next = +this.context.page + 1;
     }
