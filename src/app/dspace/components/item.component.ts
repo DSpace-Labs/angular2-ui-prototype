@@ -79,7 +79,7 @@ export class ItemComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
                 translate: TranslateService) {
-        directory.loadObj('item', params.get("id")).then(item => {
+        directory.loadObj('item', params.get("id"), 0).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
         });

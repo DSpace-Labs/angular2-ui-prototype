@@ -65,14 +65,9 @@ export class CommunityComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        directory.loadObj('community', params.get("id")).then(communityJSON => {
+        let page = params.get('page') ? params.get('page') : 1;
+        directory.loadObj('community', params.get('id'), page).then(communityJSON => {
             this.communityJSON = communityJSON;
-//            if(this.params.get("page")) {
-//                this.communityJSON.ready = false;
-//                this.communityJSON.page = this.params.get("page");
-//                this.communityJSON.offset = this.communityJSON.page > 1 ? (this.communityJSON.page - 1) * this.communityJSON.limit : 0;
-//                this.directory.loadNav('collection', this.communityJSON);
-//            }
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
         });

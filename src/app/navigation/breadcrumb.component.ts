@@ -90,7 +90,7 @@ export class BreadcrumbComponent {
                     });
                 }
                 else {
-                    bc.directory.loadObj(context['parent' + parentType].type, context['parent' + parentType].id).then(obj => {
+                    bc.directory.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(obj => {
                         context['parent' + parentType] = obj;
                         bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
                             resolve();

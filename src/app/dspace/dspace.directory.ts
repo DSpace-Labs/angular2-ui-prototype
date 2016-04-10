@@ -101,18 +101,9 @@ export class DSpaceDirectory {
      *      current context in which needing to load navigation relations.
      */
     loadNav(type, context) {
-        // setup pagination
         if (!context.limit) {
-            context.offset = 0;
-            // TODO: remove ternary when pagination communities and collections
-            context.limit = context.type == 'collection' ? this.defaultLimit : 200;
-            // REST API should return the number of subcommunities and number of collections!!!
-            // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
-            // This will be problematic with paging.
-            context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
-            context.pageCount = Math.ceil(context.total / context.limit);
-            context.page = context.offset > 0 ? Math.floor(context.offset / context.limit) : 1;
-        }        
+            this.setup(context);
+        }
         if (context.ready) {
             console.log(context.name + ' page ' + context.page + ' already ready')
         }
@@ -139,19 +130,27 @@ export class DSpaceDirectory {
      * @param id
      *      current context id which needing to load context details.
      */
-    loadObj(type, id) {
+    loadObj(type, id, page) {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
             let obj;
             if ((obj = directory.dspaceStore.get(directory.dspaceKeys[type].PLURAL, id))) {
+                
+                directory.page(obj, page);                                
+                directory.prepare(null, obj);
+                
                 resolve(obj);
             }
             else {
                 directory.dspaceService['fetch' + directory.dspaceKeys[type].METHOD](id).subscribe(obj => {
-                    obj = directory.prepare(null, obj);
-                    obj.ready = true;
+                    
+                    directory.setup(obj);
+                    directory.page(obj, page);
+                    directory.prepare(null, obj);
+                    
                     directory.dspaceStore.add(directory.dspaceKeys[type].PLURAL, obj);
+                    
                     resolve(obj);
                 },
                 error => {
@@ -162,6 +161,35 @@ export class DSpaceDirectory {
                 });
             }
         });
+    }
+    
+    /**
+     * Method to setup context for pagination.
+     *
+     * @param context
+     *      current context in which needing to load navigation with pagination.
+     */
+    setup(context) {
+        context.offset = 0;
+        // TODO: remove ternary when pagination communities and collections
+        context.limit = context.type == 'collection' ? this.defaultLimit : 200;
+        // REST API should return the number of subcommunities and number of collections!!!
+        // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
+        // This will be problematic with paging.
+        context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
+        context.pageCount = Math.ceil(context.total / context.limit);
+        context.page = 1;
+    }
+    
+    /**
+     * Method to apply pagination to context.
+     *
+     * @param context
+     *      current context in which needing to setup pagination.
+     */
+    page(context, page) {
+        context.page = page;
+        context.offset = context.page > 1 ? (context.page - 1) * context.limit : 0;
     }
 
     /**
