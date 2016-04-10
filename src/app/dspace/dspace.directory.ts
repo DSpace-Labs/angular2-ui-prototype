@@ -106,7 +106,6 @@ export class DSpaceDirectory {
             context.offset = 0;
             // TODO: remove ternary when pagination communities and collections
             context.limit = context.type == 'collection' ? this.defaultLimit : 200;
-            console.log(context);
             // REST API should return the number of subcommunities and number of collections!!!
             // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
             // This will be problematic with paging.
@@ -184,10 +183,7 @@ export class DSpaceDirectory {
             if (obj.type == 'item')
                 return obj;
             else if (obj.type == 'collection') {
-                console.log(obj);
                 this.loadNav('item', obj);
-                // TODO: remove this
-                //this.prepare(context, obj.items);
             }
             else if (obj.type == 'community') {
                 this.prepare(context, obj.collections);

@@ -98,10 +98,10 @@ function ngApp(req, res) {
             HttpService
         ],
         preboot: {
-            //listen: any,
             replay: 'hydrate',
-            //freeze: any,
             appRoot: 'dspace',
+            //listen: any,
+            //freeze: any,
             //pauseEvent: string,
             //resumeEvent: string,
             //completeEvent: string,
@@ -110,8 +110,7 @@ function ngApp(req, res) {
             buffer: true,
             debug: false
         },
-        async: true,
-        precache: true
+        async: true
     });
 }
 

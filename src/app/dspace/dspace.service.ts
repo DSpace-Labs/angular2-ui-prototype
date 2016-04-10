@@ -33,7 +33,7 @@ export class DSpaceService {
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {
-        this.REST = '/rest';
+        this.REST = '/tdl-rest';
         this.url = 'http://localhost:5050';
     }
 
