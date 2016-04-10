@@ -55,7 +55,7 @@ export class DSpaceDirectory {
                 private dspaceKeys: DSpaceKeys) {
         // TODO: make configurable
         // the limit per context will also be configurable
-        this.defaultLimit = 2;
+        this.defaultLimit = 10;
         this.store = {
             directory: {
                 context: new Array<Object>(),
