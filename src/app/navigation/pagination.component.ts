@@ -81,6 +81,8 @@ export class PaginationComponent {
         
         this.pageCount = this.pages.length;
         
+        // TODO: make less hardcoded, i.e. adjustable
+        
         if (this.pages.length > 10) {
             let diff = this.pages.length - 10;
                         

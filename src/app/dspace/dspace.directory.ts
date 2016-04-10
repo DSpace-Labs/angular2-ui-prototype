@@ -18,8 +18,11 @@ import {DSpaceKeys} from './dspace.keys';
  */
 @Injectable()
 export class DSpaceDirectory {
-        
-    defaultLimit = 2;
+
+    /**
+     * A number that represents the default number of 'items' in a page.
+     */
+    defaultLimit: number;
 
     /**
      * Object to represent visited portions of the index hierarchy.
@@ -50,6 +53,9 @@ export class DSpaceDirectory {
     constructor(private dspaceService: DSpaceService,
                 private dspaceStore: DSpaceStore,
                 private dspaceKeys: DSpaceKeys) {
+        // TODO: make configurable
+        // the limit per context will also be configurable
+        this.defaultLimit = 10;
         this.store = {
             directory: {
                 context: new Array<Object>(),
