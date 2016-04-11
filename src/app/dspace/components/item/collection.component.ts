@@ -20,7 +20,7 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
     template:
         `<div id="item-collection">
             <h3>collections</h3>
-            <a [attr.href]="itemData.parentCollection.id">{{ itemData.parentCollection.name }}</a> <!-- need to alter the href so it redirects correctly -->
+            <a [attr.href]="collectionURIPrefix+itemData.parentCollection.id">{{ itemData.parentCollection.name }}</a> <!-- need to alter the href so it redirects correctly -->
          </div>
             `
 })
@@ -28,14 +28,13 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 export class CollectionComponent {
 
     public itemData : Object;
-    fields : String[]; // the fields that we want to show on this page.
-
-    filteredFields; // the values that we will filter out of the metadata.
-
+    public collectionURI : String;
+    private collectionURIPrefix = "../collections/";
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
         console.log("setting up the collection component");
     }
+
 
     ngOnInit()
     {
