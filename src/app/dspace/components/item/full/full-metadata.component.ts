@@ -7,6 +7,8 @@ import {DSpaceService} from '../../../dspace.service';
 
 import {Item} from "../../../models/item.model"
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 /**
  * Renders a table of all metadata entries of an item.
  */
@@ -14,18 +16,19 @@ import {Item} from "../../../models/item.model"
 @Component({
     selector: 'item-full-metadata',
     inputs: ['itemData'],
+    pipes: [TranslatePipe],
     template:
         `   <div id="metadata">
                 <table class="table table-hover">
                     <thead class="thead-inverse">
                         <tr>
-                            <th>Key</th>
-                            <th>Value</th>
-                            <th>Language</th>
+                            <th>{{'item-view.full.full-metadata.thead.key' | translate}}</th>
+                            <th>{{'item-view.full.full-metadata.thead.value' | translate}}</th>
+                            <th>{{'item-view.full.full-metadata.lang' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="#metadatum of itemData; #index = index">
+                        <tr *ngFor="#metadatum of itemData">
                             <td>{{ metadatum.key }}</td>
                             <td class="word-break">{{ metadatum.value }}</td>
                             <td>{{ metadatum.language }}</td>
@@ -44,8 +47,10 @@ export class FullMetadataComponent {
 
     itemData: Object;
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 }
 

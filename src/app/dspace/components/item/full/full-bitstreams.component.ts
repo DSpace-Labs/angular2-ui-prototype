@@ -5,6 +5,7 @@ import {DSpaceDirectory} from '../../../dspace.directory';
 
 import {DSpaceService} from '../../../dspace.service';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * Renders an overview of all bitstreams attached to this item.
@@ -12,9 +13,10 @@ import {DSpaceService} from '../../../dspace.service';
 @Component({
     selector: 'item-full-bistreams',
     inputs: ['itemBitstreams'],
+    pipes: [TranslatePipe],
     template:
         `
-         <h3>Files in this item</h3> <!-- TODO: I18N -->
+         <h3>{{'item-view.full.full-bitstreams.title' | translate}}</h3> <!-- TODO: I18N -->
             <div id="bitstreams" class="file-list">
                     <div *ngFor="#bitstream of itemBitstreams; #index = index" class="file-wrapper row">
                         <!-- thumbnail -->
@@ -28,18 +30,18 @@ import {DSpaceService} from '../../../dspace.service';
                         <!-- description -->
                         <div class="col-xs-6 col-sm-7">
                             <dl class="file-metadata dl-horizontal">
-                                <dt>name:</dt>
+                                <dt>{{'item-view.full.full-bitstreams.description.name' | translate}}</dt>
                                 <dd class="word-break">{{bitstream.name}}</dd>
-                                <dt>size:</dt>
+                                <dt>{{'item-view.full.full-bitstreams.description.size' | translate}}</dt>
                                 <dd class="word-break">{{bitstream.sizeBytes}}</dd>
-                                <dt>format:</dt>
+                                <dt>{{'item-view.full.full-bitstreams.description.format' | translate}}</dt>
                                 <dd class="word-break">{{bitstream.mimeType}}</dd>
                             </dl>
                         </div>
 
 
                         <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">View/Open</a> <!-- hardcoded url to demo.org... -->
+                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a> <!-- hardcoded url to demo.org... -->
                         </div>
                     </div>
             </div>
@@ -51,9 +53,10 @@ export class FullBitstreamsComponent {
     // Here we need the whole item object, not just the metadata.
     public itemBitstreams : Object;
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
-
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 
