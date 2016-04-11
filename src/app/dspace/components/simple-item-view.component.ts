@@ -1,15 +1,19 @@
 import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
+import {ROUTER_DIRECTIVES, RouteConfig, RouteParams} from 'angular2/router';
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {DSpaceService} from '../dspace.service';
 
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
+
 import {ContextComponent} from '../../navigation/context.component';
 
 import {AuthorsComponent} from './item/authors.component';
+import {DateComponent} from './item/date.component';
+import {MetadataComponent} from './item/metadata.component';
+import {CollectionComponent} from './item/collection.component';
+import {UriComponent} from './item/uri.component';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -22,7 +26,7 @@ import {AuthorsComponent} from './item/authors.component';
  */
 @Component({
     selector: 'simple-item-view',
-    directives: [ContextComponent, AuthorsComponent],
+    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES],
     template: `
                 <div class="container" *ngIf="item">
 
@@ -30,33 +34,19 @@ import {AuthorsComponent} from './item/authors.component';
                         <context [context]="item"></context>
                         <!-- authors and dates under here -->
                         <h1>Simple item view</h1>
-                        <item-authors [metadataObject]="item.metadata"></item-authors>
+                        <item-date [itemData]="item.metadata"></item-date>
+                        <item-authors [itemData]="item.metadata"></item-authors>
+                        <h3>Metadata</h3>
+                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full metadata record</a> <!-- fix the required page refresh -->
                     </div>
 
                     <div class="col-md-8">
                         <div class="panel panel-default">
-                            <div class="panel-heading">{{ item.name }}</div>
+                            <div class="panel-heading"></div>
                             <div class="panel-body">
-                                <p>{{ item.parentCollection.name }}: description</p>
+                                <item-uri [itemData]="item.metadata"></item-uri>
+                                <item-collection [itemData]="item"></item-collection>
                             </div>
-                            <table class="table table-hover">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Language</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="#metadatum of item.metadata; #index = index">
-                                        <th scope="row">{{ index }}</th>
-                                        <td>{{ metadatum.key }}</td>
-                                        <td>{{ metadatum.value }}</td>
-                                        <td>{{ metadatum.language }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
 
