@@ -24,7 +24,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                         <tr>
                             <th>{{'item-view.full.full-metadata.thead.key' | translate}}</th>
                             <th>{{'item-view.full.full-metadata.thead.value' | translate}}</th>
-                            <th>{{'item-view.full.full-metadata.lang' | translate}}</th>
+                            <th>{{'item-view.full.full-metadata.thead.lang' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody>

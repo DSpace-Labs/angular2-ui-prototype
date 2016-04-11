@@ -17,6 +17,8 @@ import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
  *
@@ -29,6 +31,7 @@ import {ThumbnailComponent} from './item/thumbnail.component';
 @Component({
     selector: 'simple-item-view',
     directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES, BitstreamsComponent, ThumbnailComponent],
+    pipes:[TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
                     <div class="row">
@@ -41,7 +44,7 @@ import {ThumbnailComponent} from './item/thumbnail.component';
                             <item-date [itemData]="item.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>Metadata</h3>
-                            <a [routerLink]="['FullItemView',{id:item.id}]">Show full item record</a>
+                            <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
                         </div>
 
                         <div class="col-sm-8">
@@ -76,13 +79,17 @@ export class SimpleItemViewComponent {
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService) {
+                private breadcrumb: BreadcrumbService,
+                translate : TranslateService) {
         console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             console.log(item);
             breadcrumb.visit(this.item);
         });
+
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }

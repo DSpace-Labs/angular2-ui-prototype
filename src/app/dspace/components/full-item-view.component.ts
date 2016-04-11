@@ -14,6 +14,7 @@ import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * Item component for displaying the current item.
@@ -22,6 +23,7 @@ import {FullCollectionsComponent} from './item/full/full-collections.component';
 @Component({
     selector: 'item',
     directives: [ContextComponent, FullMetadataComponent, FullBitstreamsComponent, FullCollectionsComponent,ROUTER_DIRECTIVES],
+    pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
@@ -62,13 +64,17 @@ export class FullItemViewComponent {
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService) {
+                private breadcrumb: BreadcrumbService,
+                translate : TranslateService) {
         console.log("entering full item view");
         console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
         });
+
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 }
