@@ -8,15 +8,15 @@ import {DSpaceService} from '../../dspace.service';
 import {Item} from "../../models/item.model"
 
 /**
- * Component for the full-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
+ * This can optionally be rendered in the simple-item-view.
  */
 
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
     template:
-        `<div id="authors">
+        `<div id="metadata">
                     <h3>Metadata</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index" class="item">
                                 <strong >{{ metadatum.key }}</strong>

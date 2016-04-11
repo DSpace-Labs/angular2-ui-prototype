@@ -37,7 +37,7 @@ import {UriComponent} from './item/uri.component';
                         <item-date [itemData]="item.metadata"></item-date>
                         <item-authors [itemData]="item.metadata"></item-authors>
                         <h3>Metadata</h3>
-                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full metadata record</a> <!-- fix the required page refresh -->
+                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full metadata record</a>
                     </div>
 
                     <div class="col-md-8">
