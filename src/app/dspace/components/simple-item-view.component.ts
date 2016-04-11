@@ -36,7 +36,7 @@ import {ThumbnailComponent} from './item/thumbnail.component';
                             <context [context]="item"></context>
                         </div>
                         <div class="col-sm-4">
-                            <item-thumbnail></item-thumbnail>
+                             <item-thumbnail></item-thumbnail>
                             <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                             <item-date [itemData]="item.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>

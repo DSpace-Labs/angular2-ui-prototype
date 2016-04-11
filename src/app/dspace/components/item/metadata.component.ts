@@ -7,6 +7,9 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
+
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  * This can optionally be rendered in the simple-item-view.
@@ -15,9 +18,10 @@ import {Item} from "../../models/item.model"
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
+    pipes: [TranslatePipe],
     template:
         `<div id="metadata">
-                    <h3>Metadata</h3>
+                    <h3>{{'item-view.metadata.title' | translate}}</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index" class="item">
                                 <strong >{{ metadatum.key }}</strong>
                                 <p>{{ metadatum.value }}</p>
@@ -39,8 +43,10 @@ export class MetadataComponent {
 
     filteredFields; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        translate.setDefaultLang('en');
+        translate.use('en');
         this.fields = ["dc.contributor.author","dc.date.accessioned","dc.date.available",
                         "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"];
     }

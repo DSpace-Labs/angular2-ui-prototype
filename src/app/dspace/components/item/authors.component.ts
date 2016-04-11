@@ -7,6 +7,9 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -15,11 +18,11 @@ import {Item} from "../../models/item.model"
 @Component({
     selector: 'item-authors',
     inputs: ['itemData'],
+    pipes: [TranslatePipe],
     template:
             `<div id="authors">
-                    <h3>author</h3>
-                        <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
-                     <!--           <p>{{ metadatum.key }}</p> -->
+                    <h3>{{'item-view.authors.title' | translate}}</h3>
+                        <div *ngFor="#metadatum of filteredFields.metadata;">
                                 <p>{{ metadatum.value }}</p>
                         </div>
 
@@ -39,8 +42,10 @@ export class AuthorsComponent {
 
     filteredFields; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        translate.setDefaultLang('en');
+        translate.use('en');
         this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
     }
 

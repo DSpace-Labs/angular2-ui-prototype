@@ -9,6 +9,9 @@ import {Item} from "../../models/item.model"
 
 import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
+
 /**
  * Component for the collections of the simple-item-view.
  * When you click on the collection name, it has to redirect to the right collection.
@@ -16,11 +19,11 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 @Component({
     selector: 'item-collection',
     inputs: ['itemData'],
-    pipes: [TruncatePipe],
+    pipes: [TranslatePipe],
     template:
         `<div id="item-collection">
-            <h3>collections</h3>
-            <a [attr.href]="collectionURIPrefix+itemData.parentCollection.id">{{ itemData.parentCollection.name }}</a> <!-- need to alter the href so it redirects correctly -->
+            <h3>{{'item-view.collection.title' | translate}}</h3>
+            <a [attr.href]="collectionURIPrefix+itemData.parentCollection.id">{{ itemData.parentCollection.name }}</a>
          </div>
             `
 })
@@ -30,8 +33,10 @@ export class CollectionComponent {
     public itemData : Object;
     public collectionURI : String;
     private collectionURIPrefix = "../collections/";
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        translate.setDefaultLang('en');
+        translate.use('en');
         console.log("setting up the collection component");
     }
 

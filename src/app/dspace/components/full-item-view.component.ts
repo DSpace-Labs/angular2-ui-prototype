@@ -25,7 +25,7 @@ import {FullCollectionsComponent} from './item/full/full-collections.component';
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <a [routerLink]="['Items',{id:item.id}]">Show simple items record</a>
+                        <a [routerLink]="['Items',{id:item.id}]">Show simple item record</a>
 
                         <context [context]="item"></context>
                         <div>

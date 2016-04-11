@@ -9,6 +9,8 @@ import {Item} from "../../models/item.model"
 
 import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -17,12 +19,11 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 @Component({
     selector: 'item-uri',
     inputs: ['itemData'],
-    pipes: [TruncatePipe],
+    pipes: [TranslatePipe],
     template:
         `<div id="uri">
-                    <h3>uri</h3>
+                    <h3>{{'item-view.uri.title' | translate}}</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
-                     <!--           <p>{{ metadatum.key }}</p> -->
                                 <a [attr.href]="metadatum.value">{{ metadatum.value}}</a>
                         </div>
 
@@ -42,8 +43,10 @@ export class UriComponent {
 
     filteredFields; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        translate.setDefaultLang('en');
+        translate.use('en');
         this.fields = ["dc.identifier.uri"];
         console.log("setting up the uri component");
     }

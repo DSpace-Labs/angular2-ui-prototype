@@ -30,14 +30,9 @@ import {Item} from "../../../models/item.model"
 export class FullCollectionsComponent {
 
     public itemData : Object;
-    public collectionURI : String;
     private collectionURIPrefix = "../collections/";
+
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
-    {
-    }
-
-
-    ngOnInit()
     {
     }
 
