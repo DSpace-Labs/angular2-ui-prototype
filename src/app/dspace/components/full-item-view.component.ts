@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES,RouteConfig, RouteParams} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace.directory';
 
@@ -9,48 +9,36 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {ContextComponent} from '../../navigation/context.component';
 
+
+import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
+import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
+import {FullCollectionsComponent} from './item/full/full-collections.component';
+
+
 /**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.
  */
 @Component({
     selector: 'item',
-    directives: [ContextComponent],
+    directives: [ContextComponent, FullMetadataComponent, FullBitstreamsComponent, FullCollectionsComponent,ROUTER_DIRECTIVES],
     template: `
                 <div class="container" *ngIf="item">
+                    <div class="col-xs-12 col-sm-12 col-md-9 main-content">
+                        <a [routerLink]="['Items',{id:item.id}]">Show simple items record</a>
 
-                    <div class="col-md-4">
                         <context [context]="item"></context>
-                    </div>
-
-                    <div class="col-md-8">
                         <div class="panel panel-default">
-                            <div class="panel-heading">{{ item.name }}</div>
-                            <div class="panel-body">
-                                   <p>{{ item.parentCollection.name }}: description</p>
-                            </div>
-                            <table class="table table-hover">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Language</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="#metadatum of item.metadata; #index = index">
-                                        <th scope="row">{{ index }}</th>
-                                        <td>{{ metadatum.key }}</td>
-                                        <td>{{ metadatum.value }}</td>
-                                        <td>{{ metadatum.language }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                            <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+
+                            <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+
+                            <item-full-collections [itemData]="item"></item-full-collections>
+
+                             <a [routerLink]="['Items',{id:item.id}]">Show simple item record</a>
                         </div>
                     </div>
-
-
                 </div>
               `
 })
