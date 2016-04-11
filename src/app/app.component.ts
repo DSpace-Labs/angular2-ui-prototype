@@ -13,6 +13,7 @@ import {SetupComponent} from './setup.component';
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
+import {FullItemViewComponent} from './dspace/components/full-item-view.component';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
@@ -62,7 +63,8 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent }
+        { path: "/login", name: "Login", component: LoginComponent },
+        { path: "/items/full/:id", name:"FullItemView", component: FullItemViewComponent}
 
 ])
 export class AppComponent {
