@@ -1,5 +1,7 @@
 ﻿import {Injectable} from 'angular2/core';
 
+import {DSpaceConstants} from './dspace.constants';
+
 /**
  * Injectable service to cache session context which have been visited.
  *
@@ -31,30 +33,20 @@ export class DSpaceStore {
     
     /**
      * A map of the visited items pages.
-     */ 
+     */
     private itemsPages: Map<number, any>;
     
     /**
-     * A map of the visited collections pages.
-     * 
-     * TODO: collection and community pages are combined and should be here
+     * A map of the visited aggregated communities and collections pages.
      */
-    private collectionsPages: Map<number, any>;
+    private comcolsPages: Map<number, any>;
     
-    /**
-     * A map of the visited communities pages.
-     * 
-     * TODO: collection and community pages are combined and should be here
-     */
-    private communitiesPages: Map<number, any>;
-
-    constructor() {
+    constructor(private dspaceConstants: DSpaceConstants) {
         this.items = new Map<number, any>();
         this.collections = new Map<number, any>();
         this.communities = new Map<number, any>();
         this.itemsPages = new Map<number, any>();
-        this.collectionsPages = new Map<number, any>();
-        this.communitiesPages = new Map<number, any>();
+        this.comcolsPages = new Map<number, any>();
     }
 
     /**
@@ -69,25 +61,9 @@ export class DSpaceStore {
     get(type, id) {
         return this[type].get(id);
     }
-    
-    /**
-     * Method to retrieve context page by id and page.
-     *
-     * @param type
-     *      string: communities, collections, items
-     * @param id
-     *      context id
-     * @param page
-     *      context page
-     */
-    getPage(type, id, page) {
-        let pages = this[type + 'Pages'].get(id);
-        if(!pages) return null;
-        return pages.get(page);
-    }
 
     /**
-     * Method to add context to the store. 
+     * Method to add context to the store.
      *
      * @param type
      *      string: communities, collections, items
@@ -99,18 +75,29 @@ export class DSpaceStore {
     }
 
     /**
-     * Method to add context page to the store. 
+     * Method to retrieve context page by id and page.
      *
-     * @param type
-     *      string: communities, collections, items
      * @param context
      *      context: community, collection, or item
      */
-    addPage(type, context) {
-        let pages = this[type + 'Pages'].get(context.id);
+    getPage(context) {
+        let pages = this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].get(context.id);
+        if(!pages) return null;
+        return pages.get(context.page);
+    }
+
+    /**
+     * Method to add context page to the store. 
+     *
+     * @param context
+     *      context: community, collection, or item
+     */
+    addPage(context) {
+        let subtypes = this.dspaceConstants[context.type].SUBTYPES;
+        let pages = this[subtypes + 'Pages'].get(context.id);
         if(!pages) {
-            this[type + 'Pages'].set(context.id, new Map<number, any>());
-            pages = this[type + 'Pages'].get(context.id);
+            this[subtypes + 'Pages'].set(context.id, new Map<number, any>());
+            pages = this[subtypes + 'Pages'].get(context.id);
         }
         pages.set(context.page, context.type == 'collection' ? context.items : context.subcommunities.concat(context.collections));
     }
@@ -140,13 +127,11 @@ export class DSpaceStore {
      /**
      * Method to clear pages by type and id. 
      *
-     * @param type
-     *      string: communities, collections, items
-     * @param id
-     *      context id
+     * @param context
+     *      context: community, collection, or item
      */
-    clearPages(type, id) {
-        this[type + 'Pages'].set(id, new Map<number, any>());
+    clearPages(context) {
+        this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].set(context.id, new Map<number, any>());
     }
 
 }

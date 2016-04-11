@@ -19,7 +19,7 @@ import {HttpService} from './utilities/http.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
-import {DSpaceKeys} from './dspace/dspace.keys';
+import {DSpaceConstants} from './dspace/dspace.constants';
 
 enableProdMode();
 
@@ -34,7 +34,7 @@ bootstrap(AppComponent, [
     BreadcrumbService,
     PaginationService,
     DSpaceDirectory,
-    DSpaceKeys,
+    DSpaceConstants,
     DSpaceService,
     DSpaceStore,
     HttpService

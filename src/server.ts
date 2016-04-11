@@ -33,7 +33,7 @@ import {TitleComponent} from './server/title.component';
 import {BreadcrumbService} from './app/navigation/breadcrumb.service';
 import {PaginationService} from './app/navigation/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceKeys} from './app/dspace/dspace.keys';
+import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
@@ -94,7 +94,7 @@ function ngApp(req, res) {
             BreadcrumbService,
             PaginationService,
             DSpaceDirectory,
-            DSpaceKeys,
+            DSpaceConstants,
             DSpaceService,
             DSpaceStore,
             HttpService

@@ -3,7 +3,6 @@ import {ROUTER_DIRECTIVES, Route, RouteConfig, RouteParams} from 'angular2/route
 
 import {DSpaceDirectory} from '../dspace/dspace.directory';
 import {DSpaceStore} from '../dspace/dspace.store';
-import {DSpaceKeys} from '../dspace/dspace.keys';
 
 import {PaginationService} from './pagination.service';
 
@@ -57,7 +56,7 @@ export class PaginationComponent {
     /**
      * An input variable that is passed into the component [context].
      * Represents the current context.
-     * 
+     *
      * TODO: replace any with inheritance model e.g. dspaceObject
      */
     @Input() context: any;
@@ -66,7 +65,7 @@ export class PaginationComponent {
      * Array of numbers for templating over. [1,2,3,4] for 4 pages. 
      */
     pages: Array<any>;
-    
+
     /**
      * A number that represents the previous page.
      */
@@ -84,20 +83,15 @@ export class PaginationComponent {
     
     /**
      * 
-     * @param directory 
+     * @param dspaceDirectory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param dspaceService 
-     *      DSpaceService is a singleton service to interact with the dspace REST API.
-     * @param dspaceStore 
+     * @param dspaceStore
      *      DSpaceStore is a singleton service to cache context which have already been requested.
-     * @param dspaceKeys 
-     *      DSpaceKeys is a singleton service with constants.
-     * @param paginationService 
+     * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
                 private dspaceStore: DSpaceStore,
-                private dspaceKeys: DSpaceKeys,
                 private paginationService: PaginationService) {
         this.limitOptions = paginationService.getLimitOptions();    
     }
@@ -105,9 +99,8 @@ export class PaginationComponent {
      /**
      * Method provided by Angular2. Invoked after the constructor.
      */
-    ngOnInit() {        
-        this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
-        this.paginationService.updatePagesArray(this.pages, this.context.page);
+    ngOnInit() {
+        this.pages = this.paginationService.createPagesArray(this.context);
         this.previous = +this.context.page - 1;
         this.next = +this.context.page + 1;
     }
@@ -122,18 +115,21 @@ export class PaginationComponent {
         // when selecting a limit greater than the total the following exception is thrown
         // throws browser_adapter.js:76 EXCEPTION: Attempt to use a dehydrated detector: PaginationComponent_1 -> ngModelChange
         // this seems to be an issue with Angular2 and/or Angular Universal
-        
-        // TODO: figure out how to index caching pages of subcommunities and collections
-        // TODO: find a better way to do this
-        let subtypes = this.context.type == 'collection' ? 'items' : '';
-        let subtype = this.context.type == 'collection' ? 'item' : '';
-        
-        this.dspaceStore.clearPages(subtypes, this.context.id);
+        this.dspaceStore.clearPages(this.context);
         this.context.limit = option.value;
+        this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
         this.context.pageCount = Math.ceil(this.context.total / this.context.limit);
-        this.pages = Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
-        this.paginationService.updatePagesArray(this.pages, this.context.page);
-        this.dspaceDirectory.loadNav(subtype, this.context);
+        this.pages = this.paginationService.createPagesArray(this.context);
+        if (this.context.type == 'item') {
+            // possibly load metadata page
+        }
+        else if (this.context.type == 'collection') {
+            this.dspaceDirectory.loadNav('item', this.context);
+        }
+        else {
+            this.dspaceDirectory.loadNav('community', this.context);
+            this.dspaceDirectory.loadNav('collection', this.context);
+        }
     }
 
 }

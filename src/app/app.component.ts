@@ -66,7 +66,8 @@ import {ItemComponent} from './dspace/components/item.component';
         { path: "/communities/:id/:page", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
         { path: "/collections/:id/:page", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: ItemComponent }
+        { path: "/items/:id", name: "Items", component: ItemComponent },
+        { path: "/items/:id/:page", name: "Items", component: ItemComponent }
 
 ])
 export class AppComponent {

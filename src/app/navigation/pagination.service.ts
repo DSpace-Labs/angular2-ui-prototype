@@ -30,36 +30,37 @@ export class PaginationService {
     }
     
     // TODO: make less hardcoded, i.e. adjustable    
-    updatePagesArray(pages, page) {
+    createPagesArray(context) {
+        let pages:Array<any> = Array(context.pageCount).fill(0).map((e,i)=>i+1);
         if(this.bootstrapped) {
-            let pageCount = pages.length;
-            if (pageCount > 10) {
-                let diff = pageCount - 10;
+            if (context.pageCount > 10) {
+                let diff = context.pageCount - 10;
                             
-                if (page <= 8) {
+                if (context.page <= 8) {
                     pages.splice(9, diff);
                     pages.splice(9, 0, '...');
                 }
-                else if (page > diff + 2) {
+                else if (context.page > diff + 2) {
                     pages.splice(1, diff);
                     pages.splice(1, 0, '...');
                 }
                 else {
-                    pages.splice(0, pageCount);
+                    pages.splice(0, context.pageCount);
                     pages.push(1);
                     pages.push('...');
-                    pages.push(+page - 3);
-                    pages.push(+page - 2);
-                    pages.push(+page - 1);
-                    pages.push(page);
-                    pages.push(+page + 1);
-                    pages.push(+page + 2);
-                    pages.push(+page + 3);
+                    pages.push(+context.page - 3);
+                    pages.push(+context.page - 2);
+                    pages.push(+context.page - 1);
+                    pages.push(context.page);
+                    pages.push(+context.page + 1);
+                    pages.push(+context.page + 2);
+                    pages.push(+context.page + 3);
                     pages.push('...');
-                    pages.push(pageCount);
+                    pages.push(context.pageCount);
                 }
             }
         }
+        return pages;
     }
     
     getDefaultLimit() {

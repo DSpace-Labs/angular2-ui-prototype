@@ -3,7 +3,7 @@ import {Observable, Observer} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
-import {DSpaceKeys} from './dspace.keys';
+import {DSpaceConstants} from './dspace.constants';
 
 import {PaginationService} from '../navigation/pagination.service';
 
@@ -44,14 +44,14 @@ export class DSpaceDirectory {
      *      DSpaceService is a singleton service to interact with the dspace REST API.
      * @param dspaceStore 
      *      DSpaceStore is a singleton service to cache context which have already been requested.
-     * @param dspaceKeys 
-     *      DSpaceKeys is a singleton service with constants.
+     * @param dspaceConstants
+     *      DSpaceConstants is a singleton service with constants.
      * @param paginationService 
      *      PaginationService is a singleton service for pagination controls.
      */
     constructor(private dspaceService: DSpaceService,
                 private dspaceStore: DSpaceStore,
-                private dspaceKeys: DSpaceKeys,
+                private dspaceConstants: DSpaceConstants,
                 private paginationService: PaginationService) {
         this.store = {
             directory: {
@@ -101,26 +101,26 @@ export class DSpaceDirectory {
      * @param type
      *      string: community, collection, or item
      * @param context
-     *      current context in which needing to load navigation relations.
+     *      current context in which needing to load navigation.
      */
     loadNav(type, context) {
         if (!context.limit) {
             this.setup(context);
         }
-        let cachedPage = this.dspaceStore.getPage(this.dspaceKeys[type].PLURAL, context.id, context.page);
+        let cachedPage = this.dspaceStore.getPage(context);
         if (cachedPage) {
-            context[this.dspaceKeys[type].DSPACE] = cachedPage;
+            context[this.dspaceConstants[type].DSPACE] = cachedPage;
         }
         else {
-            this.dspaceService['fetch' + this.dspaceKeys[type].COMPONENT](context).subscribe(nav => {
-                context[this.dspaceKeys[type].DSPACE] = this.prepare(context, nav);
-                this.dspaceStore.addPage(this.dspaceKeys[type].PLURAL, context);
+            this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
+                context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
+                this.dspaceStore.addPage(context);
             },
             error => {
                 console.error('Error: ' + JSON.stringify(error, null, 4));
             },
             () => {
-                console.log('finished fetching ' + this.dspaceKeys[type].DSPACE + ' page ' + context.page + ' of ' + context.name);
+                console.log('finished fetching ' + this.dspaceConstants[type].DSPACE + ' page ' + context.page + ' of ' + context.name);
             });
         }
     }
@@ -138,19 +138,19 @@ export class DSpaceDirectory {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
-            let obj;
-            if ((obj = directory.dspaceStore.get(directory.dspaceKeys[type].PLURAL, id))) {
-                directory.page(obj, page);
-                directory.prepare(null, obj);
-                resolve(obj);
+            let context;
+            if ((context = directory.dspaceStore.get(directory.dspaceConstants[type].PLURAL, id))) {
+                directory.page(context, page);
+                directory.prepare(null, context);
+                resolve(context);
             }
             else {
-                directory.dspaceService['fetch' + directory.dspaceKeys[type].METHOD](id).subscribe(obj => {
-                    directory.setup(obj);
-                    directory.page(obj, page);
-                    directory.prepare(null, obj);
-                    directory.dspaceStore.add(directory.dspaceKeys[type].PLURAL, obj);
-                    resolve(obj);
+                directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
+                    directory.setup(context);
+                    directory.page(context, page);
+                    directory.prepare(null, context);
+                    directory.dspaceStore.add(directory.dspaceConstants[type].PLURAL, context);
+                    resolve(context);
                 },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
@@ -174,7 +174,6 @@ export class DSpaceDirectory {
         context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
         // REST API should return the number of subcommunities and number of collections!!!
         // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
-        // This will be problematic with paging.
         context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
         context.pageCount = Math.ceil(context.total / context.limit);
         context.page = 1;
@@ -185,6 +184,8 @@ export class DSpaceDirectory {
      *
      * @param context
      *      current context in which needing to apply pagination.
+     * @param page
+     *      current page
      */
     page(context, page) {
         context.page = page;
@@ -198,9 +199,7 @@ export class DSpaceDirectory {
      * @param context
      *      current context in which needing to process relations.
      * @param obj
-     *     The context list: items, collections, subcommunities or the context itself
-     * 
-     * TODO: refactor method name to something more meaningful
+     *     The context list: items, collections, subcommunities or the context itself.
      */
     prepare(context, obj) {
         if (Array.isArray(obj)) 
@@ -249,14 +248,17 @@ export class DSpaceDirectory {
                 current.toggle = function () {
                     this.expanded = !this.expanded;
                     if (this.expanded) {
-                        if (this.type == 'collection')
+                        if (this.type == 'item') {
+                            // any item content navigation loading
+                        }
+                        else if (this.type == 'collection') {
                             directory.loadNav('item', this);
+                        }
                         else {
                             directory.loadNav('community', this);
                             directory.loadNav('collection', this);
                         }
                     }
-                    
                 }
             }
         });
@@ -270,7 +272,7 @@ export class DSpaceDirectory {
      *      current context.
      */
     enhance(context) {
-        context.component = this.dspaceKeys[context.type].COMPONENT;
+        context.component = this.dspaceConstants[context.type].COMPONENT;
     }
     
 }

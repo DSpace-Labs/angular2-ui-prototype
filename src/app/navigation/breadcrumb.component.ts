@@ -24,8 +24,7 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent {
 
     /**
-     * Array of any, { name: string, context: Object }, representing the 
-     * breadcrumb trail.
+     * Array of any, { name: string, context: Object }, representing the breadcrumb trail.
      */
     trail: Array<any>;
 
