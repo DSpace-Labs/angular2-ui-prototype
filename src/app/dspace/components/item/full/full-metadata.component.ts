@@ -27,7 +27,7 @@ import {Item} from "../../../models/item.model"
                     <tbody>
                         <tr *ngFor="#metadatum of itemData; #index = index">
                             <td>{{ metadatum.key }}</td>
-                            <td>{{ metadatum.value }}</td>
+                            <td class="word-break">{{ metadatum.value }}</td>
                             <td>{{ metadatum.language }}</td>
                         </tr>
                     </tbody>

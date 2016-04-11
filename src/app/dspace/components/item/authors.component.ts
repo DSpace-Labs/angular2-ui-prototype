@@ -17,7 +17,7 @@ import {Item} from "../../models/item.model"
     inputs: ['itemData'],
     template:
             `<div id="authors">
-                    <h3>authors</h3>
+                    <h3>author</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
                      <!--           <p>{{ metadatum.key }}</p> -->
                                 <p>{{ metadatum.value }}</p>

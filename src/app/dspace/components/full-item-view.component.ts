@@ -28,7 +28,7 @@ import {FullCollectionsComponent} from './item/full/full-collections.component';
                         <a [routerLink]="['Items',{id:item.id}]">Show simple items record</a>
 
                         <context [context]="item"></context>
-                        <div class="panel panel-default">
+                        <div>
 
                             <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
 

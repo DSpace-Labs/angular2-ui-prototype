@@ -39,7 +39,7 @@ import {DSpaceService} from '../../../dspace.service';
 
 
                         <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                            <a [attr.href]="">View/Open</a>
+                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">View/Open</a> <!-- hardcoded url to demo.org... -->
                         </div>
                     </div>
             </div>

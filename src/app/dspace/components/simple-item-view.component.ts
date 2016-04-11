@@ -15,6 +15,7 @@ import {MetadataComponent} from './item/metadata.component';
 import {CollectionComponent} from './item/collection.component';
 import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
+import {ThumbnailComponent} from './item/thumbnail.component';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -27,31 +28,29 @@ import {BitstreamsComponent} from './item/bitstreams.component';
  */
 @Component({
     selector: 'simple-item-view',
-    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES, BitstreamsComponent],
+    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES, BitstreamsComponent, ThumbnailComponent],
     template: `
                 <div class="container" *ngIf="item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <context [context]="item"></context>
+                        </div>
+                        <div class="col-sm-4">
+                            <item-thumbnail></item-thumbnail>
+                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                            <item-date [itemData]="item.metadata"></item-date>
+                            <item-authors [itemData]="item.metadata"></item-authors>
+                            <h3>Metadata</h3>
+                            <a [routerLink]="['FullItemView',{id:item.id}]">Show full item record</a>
+                        </div>
 
-                    <div class="col-md-4">
-                        <context [context]="item"></context>
-                        <!-- thumbnail here -->
-                        <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
-                        <item-date [itemData]="item.metadata"></item-date>
-                        <item-authors [itemData]="item.metadata"></item-authors>
-                        <h3>Metadata</h3>
-                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full item record</a>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"></div>
-                            <div class="panel-body">
+                        <div class="col-sm-8">
+                            <div>
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemData]="item"></item-collection>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
               `
 })
