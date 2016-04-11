@@ -20,7 +20,7 @@ import {DSpaceService} from '../../../dspace.service';
                         <!-- thumbnail -->
                         <div class="col-xs-6 col-sm-3">
                             <!-- perform a test to see if a thumbnail is available -->
-                            <a [attr.href]="" class="image-link">
+                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink" class="image-link">
                                 <img src="../../../../../../resources/images/NoThumbnail.svg">
                             </a>
                         </div>
