@@ -52,9 +52,6 @@ export class UriComponent {
     {
         var itemModel = new Item();
         this.filteredFields = itemModel.filterMetadata(this.fields,this.itemData);
-        // let's see what we got back here.
-        console.log(this.filteredFields);
-        console.log("stringify: " + JSON.stringify(this.filteredFields));
     }
 
 }
