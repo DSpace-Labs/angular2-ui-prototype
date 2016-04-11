@@ -20,15 +20,6 @@ export class Item extends DSpaceObject {
         jsonArr.metadata = data;
 
 
-        /* TEST DATA */
-        // testing multiple authors.
-        var testData = {
-            "key" : "dc.contributor.author",
-            "value" : "Ana"
-        }
-        // data.push(testData);
-        /* END TEST DATA */
-
         for(var i : number = 0; i < metadata.length; i++)
         {
             var metadatum = metadata[i];
