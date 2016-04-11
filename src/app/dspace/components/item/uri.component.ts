@@ -7,27 +7,30 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
+import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
 
 @Component({
-    selector: 'item-authors',
+    selector: 'item-uri',
     inputs: ['itemData'],
+    pipes: [TruncatePipe],
     template:
-            `<div id="authors">
-                    <h3>authors</h3>
+        `<div id="uri">
+                    <h3>uri</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
                      <!--           <p>{{ metadatum.key }}</p> -->
-                                <p>{{ metadatum.value }}</p>
+                                <a [attr.href]="metadatum.value">{{ metadatum.value}}</a>
                         </div>
 
              </div>
             `
 })
 
-export class AuthorsComponent {
+export class UriComponent {
 
     /**
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
@@ -41,7 +44,8 @@ export class AuthorsComponent {
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
+        this.fields = ["dc.identifier.uri"];
+        console.log("setting up the uri component");
     }
 
     ngOnInit()

@@ -8,18 +8,18 @@ import {DSpaceService} from '../../dspace.service';
 import {Item} from "../../models/item.model"
 
 /**
- * Component for the authors of the simple-item-view.
+ * Component for the full-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
 
 @Component({
-    selector: 'item-authors',
+    selector: 'item-metadata',
     inputs: ['itemData'],
     template:
-            `<div id="authors">
-                    <h3>authors</h3>
-                        <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
-                     <!--           <p>{{ metadatum.key }}</p> -->
+        `<div id="authors">
+                    <h3>Metadata</h3>
+                        <div *ngFor="#metadatum of filteredFields.metadata; #index = index" class="item">
+                                <strong >{{ metadatum.key }}</strong>
                                 <p>{{ metadatum.value }}</p>
                         </div>
 
@@ -27,7 +27,7 @@ import {Item} from "../../models/item.model"
             `
 })
 
-export class AuthorsComponent {
+export class MetadataComponent {
 
     /**
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
@@ -41,7 +41,8 @@ export class AuthorsComponent {
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
+        this.fields = ["dc.contributor.author","dc.date.accessioned","dc.date.available",
+                        "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"];
     }
 
     ngOnInit()

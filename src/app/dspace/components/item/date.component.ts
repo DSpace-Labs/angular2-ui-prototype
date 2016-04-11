@@ -7,27 +7,30 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
+import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
 
 @Component({
-    selector: 'item-authors',
+    selector: 'item-date',
     inputs: ['itemData'],
+    pipes: [TruncatePipe],
     template:
-            `<div id="authors">
-                    <h3>authors</h3>
+        `<div id="date">
+                    <h3>date</h3>
                         <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
                      <!--           <p>{{ metadatum.key }}</p> -->
-                                <p>{{ metadatum.value }}</p>
+                                <p>{{ metadatum.value | truncate}}</p>
                         </div>
 
              </div>
             `
 })
 
-export class AuthorsComponent {
+export class DateComponent {
 
     /**
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
@@ -41,7 +44,8 @@ export class AuthorsComponent {
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
+        this.fields = ["dc.date.accessioned"];
+        console.log("setting up the date component");
     }
 
     ngOnInit()
