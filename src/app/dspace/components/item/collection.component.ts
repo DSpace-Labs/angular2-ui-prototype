@@ -31,20 +31,13 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 export class CollectionComponent {
 
     public itemData : Object;
-    public collectionURI : String;
     private collectionURIPrefix = "../collections/";
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
         translate.setDefaultLang('en');
         translate.use('en');
-        console.log("setting up the collection component");
     }
 
-
-    ngOnInit()
-    {
-
-    }
 
 }
 

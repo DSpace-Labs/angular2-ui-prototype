@@ -48,16 +48,12 @@ export class DateComponent {
         translate.setDefaultLang('en');
         translate.use('en');
         this.fields = ["dc.date.accessioned"];
-        console.log("setting up the date component");
     }
 
     ngOnInit()
     {
         var itemModel = new Item();
         this.filteredFields = itemModel.filterMetadata(this.fields,this.itemData);
-        // let's see what we got back here.
-        console.log(this.filteredFields);
-        console.log("stringify: " + JSON.stringify(this.filteredFields));
     }
 
 }

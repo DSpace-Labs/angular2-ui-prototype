@@ -36,9 +36,6 @@ export class ThumbnailComponent {
     {
     }
 
-    ngOnInit()
-    {
-    }
 
 }
 

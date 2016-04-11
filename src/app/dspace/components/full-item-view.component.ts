@@ -27,7 +27,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <a [routerLink]="['Items',{id:item.id}]">Show simple item record</a>
+                        <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
 
                         <context [context]="item"></context>
                         <div>
@@ -38,7 +38,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
                             <item-full-collections [itemData]="item"></item-full-collections>
 
-                             <a [routerLink]="['Items',{id:item.id}]">Show simple item record</a>
+                             <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         `
          <h3>{{'item-view.full.full-bitstreams.title' | translate}}</h3> <!-- TODO: I18N -->
             <div id="bitstreams" class="file-list">
-                    <div *ngFor="#bitstream of itemBitstreams; #index = index" class="file-wrapper row">
+                    <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
                         <!-- thumbnail -->
                         <div class="col-xs-6 col-sm-3">
                             <!-- perform a test to see if a thumbnail is available -->
@@ -57,12 +57,6 @@ export class FullBitstreamsComponent {
     {
         translate.setDefaultLang('en');
         translate.use('en');
-    }
-
-
-    ngOnInit()
-    {
-        console.log(JSON.stringify(this.itemBitstreams));
     }
 
 }

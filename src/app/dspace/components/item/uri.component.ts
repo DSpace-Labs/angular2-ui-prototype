@@ -23,7 +23,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template:
         `<div id="uri">
                     <h3>{{'item-view.uri.title' | translate}}</h3>
-                        <div *ngFor="#metadatum of filteredFields.metadata; #index = index">
+                        <div *ngFor="#metadatum of filteredFields.metadata;">
                                 <a [attr.href]="metadatum.value">{{ metadatum.value}}</a>
                         </div>
 
@@ -48,7 +48,6 @@ export class UriComponent {
         translate.setDefaultLang('en');
         translate.use('en');
         this.fields = ["dc.identifier.uri"];
-        console.log("setting up the uri component");
     }
 
     ngOnInit()

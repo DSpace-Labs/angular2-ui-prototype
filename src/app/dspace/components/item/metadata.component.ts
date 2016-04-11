@@ -22,7 +22,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template:
         `<div id="metadata">
                     <h3>{{'item-view.metadata.title' | translate}}</h3>
-                        <div *ngFor="#metadatum of filteredFields.metadata; #index = index" class="item">
+                        <div *ngFor="#metadatum of filteredFields.metadata;" class="item">
                                 <strong >{{ metadatum.key }}</strong>
                                 <p>{{ metadatum.value }}</p>
                         </div>
@@ -55,9 +55,6 @@ export class MetadataComponent {
     {
         var itemModel = new Item();
         this.filteredFields = itemModel.filterMetadata(this.fields,this.itemData);
-        // let's see what we got back here.
-        console.log(this.filteredFields);
-        console.log("stringify: " + JSON.stringify(this.filteredFields));
     }
 
 }

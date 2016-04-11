@@ -22,7 +22,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template:
         `<div id="download">
             <h3>{{'item-view.bitstreams.title' | translate}}</h3>
-            <div *ngFor="#bitstream of itemBitstreams; #index = index">
+            <div *ngFor="#bitstream of itemBitstreams;">
                 <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">
                     <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
                        {{bitstream.name}}
@@ -39,14 +39,10 @@ export class BitstreamsComponent {
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
-        console.log("setting up bitstreams");
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
-    ngOnInit()
-    {
-    }
 
 }
 
