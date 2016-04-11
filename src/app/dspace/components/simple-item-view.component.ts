@@ -14,6 +14,7 @@ import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
 import {CollectionComponent} from './item/collection.component';
 import {UriComponent} from './item/uri.component';
+import {BitstreamsComponent} from './item/bitstreams.component';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -26,18 +27,18 @@ import {UriComponent} from './item/uri.component';
  */
 @Component({
     selector: 'simple-item-view',
-    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES],
+    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES, BitstreamsComponent],
     template: `
                 <div class="container" *ngIf="item">
 
                     <div class="col-md-4">
                         <context [context]="item"></context>
-                        <!-- authors and dates under here -->
-                        <h1>Simple item view</h1>
+                        <!-- thumbnail here -->
+                        <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                         <item-date [itemData]="item.metadata"></item-date>
                         <item-authors [itemData]="item.metadata"></item-authors>
                         <h3>Metadata</h3>
-                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full metadata record</a>
+                        <a [routerLink]="['FullItemView',{id:item.id}]">Show full item record</a>
                     </div>
 
                     <div class="col-md-8">
