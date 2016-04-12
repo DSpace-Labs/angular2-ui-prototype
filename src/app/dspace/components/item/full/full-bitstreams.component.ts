@@ -33,9 +33,9 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                                 <dt>{{'item-view.full.full-bitstreams.description.name' | translate}}</dt>
                                 <dd class="word-break">{{bitstream.name}}</dd>
                                 <dt>{{'item-view.full.full-bitstreams.description.size' | translate}}</dt>
-                                <dd class="word-break">{{bitstream.sizeBytes}}</dd>
+                                <dd class="word-break">{{bitstream.size}}</dd>
                                 <dt>{{'item-view.full.full-bitstreams.description.format' | translate}}</dt>
-                                <dd class="word-break">{{bitstream.mimeType}}</dd>
+                                <dd class="word-break">{{bitstream.format}}</dd>
                             </dl>
                         </div>
 

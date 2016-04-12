@@ -37,7 +37,8 @@ export class Item extends DSpaceObject {
         for(let i = 0; i < this.jsonitem.bitstreams.length;i++)
         {
             let bitstreamdata = this.jsonitem.bitstreams[i];
-            let bitstream = new Bitstream(null,bitstreamdata.id,bitstreamdata.name,bitstreamdata.retrieveLink,bitstreamdata.format,bitstreamdata.format);
+            //todo: refactor this?
+            let bitstream = new Bitstream(null,bitstreamdata.id,bitstreamdata.name,bitstreamdata.retrieveLink,bitstreamdata.format,bitstreamdata.sizeBytes);
             this.bitstreams.push(bitstream);
         }
     }

@@ -44,11 +44,6 @@ export class BitstreamsComponent {
         translate.use('en');
     }
 
-    ngOnInit()
-    {
-        console.log("on bitstream init");
-        console.log(this.itemBitstreams);
-    }
 
 
 }

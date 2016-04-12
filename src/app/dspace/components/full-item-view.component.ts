@@ -36,7 +36,7 @@ import {Item} from '../models/item.model'
 
                             <item-full-metadata [itemData]="itemObj.metadata"></item-full-metadata>
 
-                            <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+                            <item-full-bistreams [itemBitstreams]="itemObj.bitstreams"></item-full-bistreams>
 
                             <item-full-collections [itemData]="item"></item-full-collections>
 
