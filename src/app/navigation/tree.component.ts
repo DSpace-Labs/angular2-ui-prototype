@@ -13,6 +13,7 @@ import {PaginationComponent} from './pagination.component';
  */
 @Component({
     selector: 'tree',
+    inputs: ['directories'],
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
@@ -56,6 +57,6 @@ export class TreeComponent {
      *
      * TODO: replace any with inheritance model e.g. community extends dspaceObject
      */
-	@Input() directories: Array<any>;
+	directories: Array<any>;
     
 }

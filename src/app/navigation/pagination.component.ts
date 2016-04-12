@@ -11,6 +11,7 @@ import {PaginationService} from './pagination.service';
  */
 @Component({
     selector: 'pagination',
+    inputs: ['context'],
     directives: [ROUTER_DIRECTIVES],
     template: `
                 <div *ngIf="context.limit < context.total" class="form-inline">
@@ -59,7 +60,7 @@ export class PaginationComponent {
      *
      * TODO: replace any with inheritance model e.g. dspaceObject
      */
-    @Input() context: any;
+    context: any;
 
      /**
      * Array of numbers for templating over. [1,2,3,4] for 4 pages. 

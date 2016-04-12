@@ -1,4 +1,4 @@
-﻿import {Component, Input} from 'angular2/core';
+﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {PaginationComponent} from './pagination.component';
@@ -8,6 +8,7 @@ import {PaginationComponent} from './pagination.component';
  */
 @Component({
     selector: 'list',
+    inputs: ['collection'],
     directives: [ROUTER_DIRECTIVES, PaginationComponent],
     template: `
     			<ul class="list-group">
@@ -27,6 +28,6 @@ export class ListComponent {
      *
      * TODO: replace any with inheritance model e.g. item extends dspaceObject
      */
- 	@Input() collection: any;
+ 	collection: any;
 
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 
 /**
  * Context aware component for displaying information/functionality of
@@ -6,6 +6,7 @@ import {Component, Input} from 'angular2/core';
  */
 @Component({
     selector: 'context',
+    inputs: ['context'],
     template: `
     			<div class="panel panel-default">
 				  	<div class="panel-heading">
@@ -39,6 +40,6 @@ export class ContextComponent {
      *
      * TODO: replace any with inheritance model e.g. dspaceObject
      */
-	@Input() context: any;
+	context: any;
 
 }

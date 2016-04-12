@@ -1,4 +1,4 @@
-import {Component, Input} from "angular2/core";
+import {Component} from "angular2/core";
 import {Bitstream} from "../models/bitstream.model";
 
 /**
@@ -6,6 +6,7 @@ import {Bitstream} from "../models/bitstream.model";
  */
 @Component({
     selector: 'container-logo',
+    inputs: ['logo'],
     template: `
     <p><img class="logo img-responsive" src="{{ logo.retrieveLink }}" alt="logo"></p> <!--//TODO i18n: alt-->    
     `
@@ -15,6 +16,5 @@ export class ContainerLogoComponent {
     /**
      * The Bitstream representing the logo
      */
-    @Input() 
     logo: Bitstream;
 }
