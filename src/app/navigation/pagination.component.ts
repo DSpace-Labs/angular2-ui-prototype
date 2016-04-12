@@ -116,6 +116,7 @@ export class PaginationComponent {
         // throws browser_adapter.js:76 EXCEPTION: Attempt to use a dehydrated detector: PaginationComponent_1 -> ngModelChange
         // this seems to be an issue with Angular2 and/or Angular Universal
         this.dspaceStore.clearPages(this.context);
+        this.context.page = (this.context.page * this.context.limit) / option.value;
         this.context.limit = option.value;
         this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
         this.context.pageCount = Math.ceil(this.context.total / this.context.limit);
