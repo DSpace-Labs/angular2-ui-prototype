@@ -7,6 +7,7 @@
     "jquery": "registry:dt/jquery#1.10.0+20160316155526",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "node": "registry:dt/node#4.0.0+20160330064709",
+    "object-hash": "registry:dt/object-hash#0.5.0+20160317120654",
     "serve-static": "registry:dt/serve-static#0.0.0+20160317120654"
   }
 }

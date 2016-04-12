@@ -20,7 +20,7 @@
     "docs": "typedoc --options typedoc.json ./src",
     "build": "webpack",
     "prebuild": "rimraf dist",
-    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "postinstall": "typings install"
   },
@@ -31,6 +31,7 @@
     "express": "^4.13.4",
     "jquery": "^2.2.2",
     "ng2-translate": "^1.11.0",
+    "object-hash": "^1.1.2",
     "preboot": "^2.0.5",
     "rxjs": "5.0.0-beta.4",
     "zone.js": "~0.6.8"
