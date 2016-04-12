@@ -38,7 +38,7 @@ import {Item} from '../models/item.model'
 
                             <item-full-bistreams [itemBitstreams]="itemObj.bitstreams"></item-full-bistreams>
 
-                            <item-full-collections [itemData]="item"></item-full-collections>
+                            <item-full-collections [itemData]="itemObj.parentCollection"></item-full-collections>
 
                              <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
@@ -74,7 +74,10 @@ export class FullItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
+
+            console.log("in full: " + JSON.stringify(item));
             this.itemObj = new Item(item);
+            console.log(item);
         });
 
         translate.setDefaultLang('en');

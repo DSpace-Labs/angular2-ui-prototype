@@ -87,7 +87,8 @@ export class SimpleItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
-            this.itemObj = new Item(this.item);
+            console.log("in simple: " + JSON.stringify(item));
+            this.itemObj = new Item(item);
         });
 
         translate.setDefaultLang('en');

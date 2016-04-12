@@ -27,6 +27,7 @@ export class Item extends DSpaceObject {
     {
         super();
         // For now, deal with the JSON here as long as we pass JSON.
+        console.log("parsing outside if");
         if(jsonitem!=null) // this constructor also gets called by other components passing on 'null', DateComponent apperantly does this.
         {
             this.parseBitstreams();

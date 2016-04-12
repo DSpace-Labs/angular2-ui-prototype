@@ -22,7 +22,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
             <h3>{{'item-view.full.full-collections.title' | translate}}</h3>
             <ul>
                 <li>
-                    <a [attr.href]="collectionURIPrefix+itemData.parentCollection.id">{{itemData.parentCollection.name}}</a> <!-- this needs to be updated if the item appears in multiple collections -->
+                    <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a> <!-- this needs to be updated if the item appears in multiple collections -->
                 </li>
             </ul>
          </div>
