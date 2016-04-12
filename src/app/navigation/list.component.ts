@@ -14,7 +14,7 @@ import {PaginationComponent} from './pagination.component';
     			<ul class="list-group">
                     <li *ngFor="#item of collection.items" class="list-group-item">
                         <!-- Router Link -->
-                        <a [routerLink]="[item.component, {id:item.id, page:item.page}]">{{ item.name }}</a>
+                        <a [routerLink]="[item.component, {id:item.id}]">{{ item.name }}</a>
                     </li>
                     <pagination [context]="collection"></pagination>
                 </ul>
