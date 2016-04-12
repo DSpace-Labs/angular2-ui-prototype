@@ -52,7 +52,7 @@ import {Item} from '../models/item.model'
                         <div class="col-sm-8">
                             <div>
                                 <item-uri [itemData]="item.metadata"></item-uri>
-                                <item-collection [itemData]="item"></item-collection>
+                                <item-collection [itemData]="itemObj.parentCollection"></item-collection>
                             </div>
                         </div>
                     </div>
@@ -87,7 +87,6 @@ export class SimpleItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
-            console.log("executing this..");
             this.itemObj = new Item(this.item);
         });
 

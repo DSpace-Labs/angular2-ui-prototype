@@ -6,6 +6,7 @@ import {DSpaceDirectory} from '../../dspace.directory';
 import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
+import {Collection} from "../../models/collection.model"
 
 import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
@@ -23,7 +24,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template:
         `<div id="item-collection">
             <h3>{{'item-view.collection.title' | translate}}</h3>
-            <a [attr.href]="collectionURIPrefix+itemData.parentCollection.id">{{ itemData.parentCollection.name }}</a>
+            <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
          </div>
             `
 })

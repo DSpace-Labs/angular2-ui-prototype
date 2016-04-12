@@ -1,6 +1,7 @@
 import {DSpaceObject} from "./dspaceobject.model";
 import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
+import {Collection}from './collection.model';
 
 
 /**
@@ -20,6 +21,8 @@ export class Item extends DSpaceObject {
 
     bitstreams : Bitstream[] = [];
     metadata: Metadatum[] = [];
+    parentCollection : Collection;
+
     constructor(public jsonitem: any)
     {
         super();
@@ -45,7 +48,6 @@ export class Item extends DSpaceObject {
 
     private parseMetadata()
     {
-        console.log('parsing metadata');
         for(let i = 0; i < this.jsonitem.metadata.length;i++)
         {
             let tempmetadata = new Metadatum(this,this.jsonitem.metadata[i]);
@@ -55,7 +57,7 @@ export class Item extends DSpaceObject {
 
     private parseCollection()
     {
-
+        this.parentCollection = new Collection(this.jsonitem.parentCollection);
     }
 
 
