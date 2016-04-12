@@ -9,6 +9,8 @@ import {Item} from "../../../models/item.model"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+
+
 /**
  * Renders a table of all metadata entries of an item.
  */
@@ -29,7 +31,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                     </thead>
                     <tbody>
                         <tr *ngFor="#metadatum of itemData">
-                            <td>{{ metadatum.key }}</td>
+                            <td>{{ metadatum.getKey() }}</td> <!-- need to use a getter here because a key is composed of other fields -->
                             <td class="word-break">{{ metadatum.value }}</td>
                             <td>{{ metadatum.language }}</td>
                         </tr>
@@ -45,7 +47,7 @@ export class FullMetadataComponent {
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
 
-    itemData: Object;
+    itemData: Item;
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {

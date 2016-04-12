@@ -16,6 +16,8 @@ import {FullCollectionsComponent} from './item/full/full-collections.component';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Item} from '../models/item.model'
+
 /**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.
@@ -32,7 +34,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                         <context [context]="item"></context>
                         <div>
 
-                            <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+                            <item-full-metadata [itemData]="itemObj.metadata"></item-full-metadata>
 
                             <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
 
@@ -53,6 +55,7 @@ export class FullItemViewComponent {
      */
     item: Object;
 
+    itemObj : Item;
     /**
      *
      * @param params
@@ -71,6 +74,7 @@ export class FullItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
+            this.itemObj = new Item(item);
         });
 
         translate.setDefaultLang('en');

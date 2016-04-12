@@ -1,5 +1,6 @@
 import {DSpaceObject} from "./dspaceobject.model";
 import {Bitstream}from './bitstream.model';
+import {Metadatum}from './metadatum.model';
 
 
 /**
@@ -18,19 +19,21 @@ export class Item extends DSpaceObject {
 
 
     bitstreams : Bitstream[] = [];
-
+    metadata: Metadatum[] = [];
     constructor(public jsonitem: any)
     {
         super();
         // For now, deal with the JSON here as long as we pass JSON.
-        if(jsonitem!=null)
-        this.parseBitstreams();
+        if(jsonitem!=null) // this constructor also gets called by other components passing on 'null', DateComponent apperantly does this.
+        {
+            this.parseBitstreams();
+            this.parseMetadata();
+            this.parseCollection();
+        }
     }
 
     private parseBitstreams()
     {
-        console.log("parsing bitstreams");
-        console.log(this.jsonitem.bitstreams);
         for(let i = 0; i < this.jsonitem.bitstreams.length;i++)
         {
             let bitstreamdata = this.jsonitem.bitstreams[i];
@@ -41,7 +44,12 @@ export class Item extends DSpaceObject {
 
     private parseMetadata()
     {
-
+        console.log('parsing metadata');
+        for(let i = 0; i < this.jsonitem.metadata.length;i++)
+        {
+            let tempmetadata = new Metadatum(this,this.jsonitem.metadata[i]);
+            this.metadata.push(tempmetadata);
+        }
     }
 
     private parseCollection()
