@@ -6,12 +6,15 @@ import {StringUtil} from "../../utilities/commons/string.util.ts";
  * A model class for a Bitstream
  * Bitstreams represent files in DSpace
  */
-export class Bitstream extends DSpaceObject {
+export class Bitstream extends DSpaceObject { // The parent object (super) is singleton?
     /**
      * A link that can be used to download the file this Bitstream represents.
      */
     retrieveLink: string;
-
+    id;
+    format : string;
+    size: number;
+    name: string;
     /**
      * Create a new bitstream
      *
@@ -20,11 +23,24 @@ export class Bitstream extends DSpaceObject {
      *      from the rest api. Currently only json.retrieveLink is used, apart from
      *      the standard DSpaceObject properties
      */
-    constructor(json:any) {
-        super(json);
-        if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
-            //TODO add proper way to get absolute links
-            this.retrieveLink = `http://localhost:5050/rest/${json.retrieveLink}`;
+    constructor(json?:any,id : number, name: string, retrieveLink : string, private format : string, private size:number)  {
+
+        if(json!=null) {
+            super(json);
+            if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
+                //TODO add proper way to get absolute links
+                this.retrieveLink = `http://localhost:5050/rest/${json.retrieveLink}`;
+            }
         }
+        else {
+            this.id = id;
+            this.retrieveLink = retrieveLink;
+            this.name = name;
+        }
+    }
+
+    getName() : string
+    {
+        return this.name;
     }
 }

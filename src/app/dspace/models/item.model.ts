@@ -1,17 +1,60 @@
 import {DSpaceObject} from "./dspaceobject.model";
+import {Bitstream}from './bitstream.model';
 
 
 /**
  * A model class for an Item
+ * Item has bitstreams, metadatum, collections..
  */
 export class Item extends DSpaceObject {
 
 
     /**
-     * Returns a map of key - value, of the metadata entries that match the keys in the incomming array.
-     * @param keys
-     * @param metadata
+     * An item has: - metadata
+     *              - bitstreams
+     *              - collections
      */
+
+
+
+    bitstreams : Bitstream[] = [];
+
+    constructor(public jsonitem: any)
+    {
+        super();
+        // For now, deal with the JSON here as long as we pass JSON.
+        if(jsonitem!=null)
+        this.parseBitstreams();
+    }
+
+    private parseBitstreams()
+    {
+        console.log("parsing bitstreams");
+        console.log(this.jsonitem.bitstreams);
+        for(let i = 0; i < this.jsonitem.bitstreams.length;i++)
+        {
+            let bitstreamdata = this.jsonitem.bitstreams[i];
+            let bitstream = new Bitstream(null,bitstreamdata.id,bitstreamdata.name,bitstreamdata.retrieveLink,bitstreamdata.format,bitstreamdata.format);
+            this.bitstreams.push(bitstream);
+        }
+    }
+
+    private parseMetadata()
+    {
+
+    }
+
+    private parseCollection()
+    {
+
+    }
+
+
+    constructor() // create empty object, not based on json.
+    {
+        super();
+    }
+
     filterMetadata(keys : String[], metadata)
     {
         // partial data

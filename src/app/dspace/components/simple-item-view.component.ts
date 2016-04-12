@@ -19,6 +19,8 @@ import {ThumbnailComponent} from './item/thumbnail.component';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Item} from '../models/item.model'
+
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
  *
@@ -40,7 +42,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                         </div>
                         <div class="col-sm-4">
                              <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                            <item-bitstreams [itemBitstreams]="itemObj.bitstreams"></item-bitstreams>
                             <item-date [itemData]="item.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>Metadata</h3>
@@ -66,7 +68,7 @@ export class SimpleItemViewComponent {
      */
     item: Object;
 
-
+    itemObj : Item;
 
     /**
      *
@@ -84,12 +86,19 @@ export class SimpleItemViewComponent {
         console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
-            console.log(item);
             breadcrumb.visit(this.item);
+            console.log("executing this..");
+            this.itemObj = new Item(this.item);
         });
 
         translate.setDefaultLang('en');
         translate.use('en');
+    }
+
+    ngOnInit()
+    {
+        console.log("on init");
+
     }
 
 }
