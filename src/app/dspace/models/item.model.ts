@@ -43,7 +43,7 @@ export class Item extends DSpaceObject {
     private parseCollection()
     {
         console.log("parsing the collection");
-        this.parentCollection = new Collection(this.jsonitem.parentCollection);
+        this.parentCollection = new Collection(this.jsonitem.parentCollection,false);
         console.log("Parsed the collection sin problemas!");
     }
 

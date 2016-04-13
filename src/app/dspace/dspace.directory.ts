@@ -134,7 +134,7 @@ export class DSpaceDirectory {
      * @param id
      *      current context id which needing to load context details.
      */
-    loadObj(type, id, page?) {
+    loadObj(type, id, page) {
         // needed to be used within scope of promise
         console.log("loading object");
         let directory = this;

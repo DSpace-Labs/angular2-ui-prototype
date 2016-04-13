@@ -20,13 +20,16 @@ export class Collection extends DSOContainer {
      *      REST API. Currently only json.items is used, apart from the standard DSpaceObject
      *      properties
      */
-    constructor(json:any) {
-        console.log("in collection model");
-        console.log(json);
+    constructor(json:any, parseItems? : boolean) {
+        if(parseItems==null)
+        {
+            console.log("parsing items");
+            parseItems=true;
+        }
         super(json);
-        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
+        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
             this.items = json.items.map((itemJSON) => {
-                return new Item(itemJSON);
+                return new Item(itemJSON); // Returning new items causes an infinite loop now, for some reason?
             });
         }
     }
