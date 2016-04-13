@@ -5,6 +5,7 @@ var http = require('http'),
 
 var serverValue, portValue, insecureValue;
 
+
 program
         .version('0.0.1')
         .usage('[options] server')
@@ -13,6 +14,7 @@ program
         .arguments('<server>').action(function(server) {
             serverValue = server;
         });
+
 
 program.parse(process.argv);
 
@@ -27,8 +29,10 @@ insecureValue = program.insecure || false;
 
 
 var proxy = httpProxy.createProxyServer({
-    secure: !insecureValue
-});
+        secure: !insecureValue
+    });
+
+
 
 proxy.on('proxyRes', function(proxyRes, req, res, options) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,9 +41,14 @@ proxy.on('proxyRes', function(proxyRes, req, res, options) {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
 });
 
+
 var server = http.createServer(function (req, res) {
-    proxy.web(req, res, {target: serverValue});
+    proxy.web(req, res, {target: serverValue}, function(e)
+    {
+        console.log("Proxy server didn't respond, retrying..");
+    });
 });
+
 
 console.log("proxying " + serverValue + " on port " + portValue);
 server.listen(portValue);

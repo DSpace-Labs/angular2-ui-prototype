@@ -1,5 +1,7 @@
 ﻿import {Injectable} from 'angular2/core';
 
+import {URLSearchParams} from 'angular2/http'; 
+
 import {HttpService} from '../utilities/http.service';
 
 /**
@@ -42,6 +44,7 @@ export class DSpaceService {
      *      A path to a DSpace REST endpoint
      */
     fetch(path) {
+        console.log('fetching path ' + path);
         return this.httpService.get({
             url: this.url + path + '?expand=parentCommunity,parentCollection'
         });
@@ -51,8 +54,13 @@ export class DSpaceService {
      * Method to fetch top communities for navigation purposes.
      */
     fetchTopCommunities() {
+        //TODO: handle top community pagination
+        var params = new URLSearchParams();
+        params.append("limit", '200');
+        params.append("offset", '0');
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/top-communities'
+            url: this.url + this.REST + '/communities/top-communities',
+            search: params
         });
     }
 
@@ -62,9 +70,13 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its subcommunities are to be fetched.
      */
-    fetchCommunities(communityId) {
+    fetchCommunities(community) {
+        var params = new URLSearchParams();
+        params.append("limit", community.limit);
+        params.append("offset", community.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + communityId + '/communities'
+            url: this.url + this.REST + '/communities/' + community.id + '/communities',
+            search: params
         });
     }
 
@@ -74,9 +86,13 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its collections are to be fetched.
      */
-    fetchCollections(communityId) {
+    fetchCollections(community) {
+        var params = new URLSearchParams();
+        params.append("limit", community.limit);
+        params.append("offset", community.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + communityId + '/collections'
+            url: this.url + this.REST + '/communities/' + community.id + '/collections',
+            search: params
         });
     }
 
@@ -86,9 +102,13 @@ export class DSpaceService {
      * @param collectionId
      *      The collection id of which its items are to be fetched.
      */
-    fetchItems(collectionId) {
+    fetchItems(collection) {
+        var params = new URLSearchParams();
+        params.append("limit", collection.limit);
+        params.append("offset", collection.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + collectionId + '/items'
+            url: this.url + this.REST + '/collections/' + collection.id + '/items',
+            search: params
         });
     }
 
@@ -99,6 +119,7 @@ export class DSpaceService {
      *      Community id of which to fetch its relationships and other details.
      */
     fetchCommunity(id) {
+        //TODO: when working on pagination of communities and collections remove expand collections and subCommunities
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity,logo'
         });
@@ -112,7 +133,7 @@ export class DSpaceService {
      */
     fetchCollection(id) {
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + id + '?expand=items,parentCommunity,logo'
+            url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         });
     }
 

@@ -4,9 +4,7 @@
  * Some constants.
  */
 @Injectable()
-export class DSpaceKeys {
-
-    // TODO: think of good refactoring
+export class DSpaceConstants {
 
     /**
      * Constants for items
@@ -27,7 +25,8 @@ export class DSpaceKeys {
         'PATH': '/Collection',
         'COMPONENT': 'Collections',
         'METHOD': 'Collection',
-        'DSPACE': 'collections'
+        'DSPACE': 'collections',
+        'SUBTYPES': 'items'
     };
 
     /**
@@ -38,7 +37,8 @@ export class DSpaceKeys {
         'PATH': '/Communities',
         'COMPONENT': 'Communities',
         'METHOD': 'Community',
-        'DSPACE': 'subcommunities'
+        'DSPACE': 'subcommunities',
+        'SUBTYPES': 'comcols'
     };
 
 }

@@ -53,7 +53,7 @@ export class HttpService {
      * to a json object.
      *
      * @param request
-     *      an object, {uri: string}, used to GET
+     *      an object, {url: string}, used to GET
      */
     get(request) {
         //console.log(request);
@@ -66,7 +66,8 @@ export class HttpService {
         var options = new RequestOptions({
             method: RequestMethod.Get,
             url: request.url,
-            headers: headers
+            headers: headers,
+            search: request.search
         });
         
         return this.http.request(new Request(options)).map(response => {
