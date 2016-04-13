@@ -7,6 +7,8 @@ import {DSpaceService} from '../../../dspace.service';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Bitstream} from '../../../models/bitstream.model';
+
 /**
  * Renders an overview of all bitstreams attached to this item.
  */
@@ -22,7 +24,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                         <!-- thumbnail -->
                         <div class="col-xs-6 col-sm-3">
                             <!-- perform a test to see if a thumbnail is available -->
-                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink" class="image-link">
+                            <a [attr.href]="bitstream.retrieveLink" class="image-link">
                                 <img src="../../../../../../resources/images/NoThumbnail.svg">
                             </a>
                         </div>
@@ -50,8 +52,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class FullBitstreamsComponent {
 
-    // Here we need the whole item object, not just the metadata.
-    public itemBitstreams : Object;
+    private itemBitstreams : Bitstream;
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {

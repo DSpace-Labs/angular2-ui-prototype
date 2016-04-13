@@ -31,7 +31,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class FullCollectionsComponent {
 
-    public itemData : Object;
+    private itemData : Object;
     private collectionURIPrefix = "../collections/";
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)

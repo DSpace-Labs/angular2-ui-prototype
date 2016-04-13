@@ -9,7 +9,9 @@ import {Item} from "../../../models/item.model"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {MetadataHelper} from '../../../../utilities/metadata.helper';
 
+import {Metadatum} from '../../../models/metadatum.model'
 
 /**
  * Renders a table of all metadata entries of an item.
@@ -47,7 +49,7 @@ export class FullMetadataComponent {
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
 
-    itemData: Item;
+    private itemData: Metadatum[];
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
@@ -55,10 +57,5 @@ export class FullMetadataComponent {
         translate.use('en');
     }
 
-    ngOnInit()
-    {
-        console.log("after init");
-        console.log(this.itemData);
-    }
 }
 
