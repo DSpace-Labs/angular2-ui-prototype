@@ -54,5 +54,11 @@ export class FullMetadataComponent {
         translate.setDefaultLang('en');
         translate.use('en');
     }
+
+    ngOnInit()
+    {
+        console.log("after init");
+        console.log(this.itemData);
+    }
 }
 

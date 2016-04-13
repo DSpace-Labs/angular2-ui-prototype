@@ -23,19 +23,17 @@ export class Bitstream extends DSpaceObject { // The parent object (super) is si
      *      from the rest api. Currently only json.retrieveLink is used, apart from
      *      the standard DSpaceObject properties
      */
-    constructor(json?:any,id : number, name: string, retrieveLink : string, private format : string, private size:number)  {
+    constructor(json?:any)  {
 
-        if(json!=null) {
-            super(json);
+        if(json!=null)
+        {
+            super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
                 //TODO add proper way to get absolute links
                 this.retrieveLink = `http://localhost:5050/rest/${json.retrieveLink}`;
+                this.format = json.mimeType;
+                this.size = json.sizeBytes;
             }
-        }
-        else {
-            this.id = id;
-            this.retrieveLink = retrieveLink;
-            this.name = name;
         }
     }
 

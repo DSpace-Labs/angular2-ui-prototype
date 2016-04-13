@@ -20,20 +20,26 @@ export class Item extends DSpaceObject {
 
 
     bitstreams : Bitstream[] = [];
-    metadata: Metadatum[] = [];
+    //metadata: Metadatum[] = [];
     parentCollection : Collection;
 
     constructor(public jsonitem: any)
     {
-        super();
-        // For now, deal with the JSON here as long as we pass JSON.
-        console.log("parsing outside if");
-        if(jsonitem!=null) // this constructor also gets called by other components passing on 'null', DateComponent apperantly does this.
+
+        if(jsonitem==null)
         {
-            this.parseBitstreams();
-            this.parseMetadata();
-            this.parseCollection();
+            super();
         }
+        else
+        {
+            super(jsonitem); // creates the metadata for us. Also contains ID, link, etc.
+            console.log("parsing.. " + jsonitem);
+            this.parseBitstreams();
+            console.log("parsed bitstreams");
+            console.log(this.bitstreams);
+          //  this.parseCollection();;
+        }
+
     }
 
     private parseBitstreams()
@@ -41,20 +47,11 @@ export class Item extends DSpaceObject {
         for(let i = 0; i < this.jsonitem.bitstreams.length;i++)
         {
             let bitstreamdata = this.jsonitem.bitstreams[i];
-            //todo: refactor this?
-            let bitstream = new Bitstream(null,bitstreamdata.id,bitstreamdata.name,bitstreamdata.retrieveLink,bitstreamdata.format,bitstreamdata.sizeBytes);
+            let bitstream = new Bitstream(bitstreamdata);
             this.bitstreams.push(bitstream);
         }
     }
 
-    private parseMetadata()
-    {
-        for(let i = 0; i < this.jsonitem.metadata.length;i++)
-        {
-            let tempmetadata = new Metadatum(this,this.jsonitem.metadata[i]);
-            this.metadata.push(tempmetadata);
-        }
-    }
 
     private parseCollection()
     {

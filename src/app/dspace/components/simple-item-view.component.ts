@@ -89,6 +89,7 @@ export class SimpleItemViewComponent {
             breadcrumb.visit(this.item);
             console.log("in simple: " + JSON.stringify(item));
             this.itemObj = new Item(item);
+            console.log("parsed this damn thing");
         });
 
         translate.setDefaultLang('en');
