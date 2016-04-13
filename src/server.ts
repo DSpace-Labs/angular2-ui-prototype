@@ -1,9 +1,7 @@
 import * as path from 'path';
 import * as express from 'express';
-//import * as https from 'https';
 
 import 'angular2-universal/polyfills';
-
 
 import {
     expressEngine,
@@ -25,7 +23,6 @@ import {
 
 import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
 
-
 // App Component
 import {AppComponent} from './app/app.component';
 
@@ -34,15 +31,16 @@ import {TitleComponent} from './server/title.component';
 
 // App Injectables
 import {BreadcrumbService} from './app/navigation/breadcrumb.service';
+import {PaginationService} from './app/navigation/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceKeys} from './app/dspace/dspace.keys';
+import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 
-enableProdMode();
 
+enableProdMode();
 
 var PORT = 3000;
 
@@ -50,20 +48,7 @@ let app = express();
 
 let root = path.join(path.resolve(__dirname, '..'));
 
-
-//var options = {
-//    key: fs.readFileSync('./ssl/key.pem'),
-//    ca: fs.readFileSync('./ssl/csr.pem'),
-//    cert: fs.readFileSync('./ssl/cert.pem'),
-//    requestCert: true,
-//    rejectUnauthorized: false
-//};
-//
-//require('ssl-root-cas/latest').inject().addFile('./ssl/dspace-cert.pem');
-
-
-
-var allowCrossDomain = function (req, res, next) {
+var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
@@ -89,7 +74,7 @@ app.use(express.static(root, { index: false }));
 // Port
 app.set('port', PORT);
 
-// Serverside Angular
+// Serverside Angular App
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
@@ -103,21 +88,22 @@ function ngApp(req, res) {
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
             provide(TranslateLoader, {
-                useFactory: () => new FileSystemLoader(path.join(root, 'dist' ,'i18n'), '.json')
+                useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
             }),
             TranslateService,
             BreadcrumbService,
+            PaginationService,
             DSpaceDirectory,
-            DSpaceKeys,
+            DSpaceConstants,
             DSpaceService,
             DSpaceStore,
             HttpService
         ],
         preboot: {
-            //listen: any,
             replay: 'hydrate',
-            //freeze: any,
             appRoot: 'dspace',
+            //listen: any,
+            //freeze: any,
             //pauseEvent: string,
             //resumeEvent: string,
             //completeEvent: string,
@@ -126,29 +112,12 @@ function ngApp(req, res) {
             buffer: true,
             debug: false
         },
-        async: true,
-        precache: true
+        async: true
     });
 }
-
-
-//app.get('/*', function (req, res) {
-//    res.sendFile('/app/view/index.html', { "root": __dirname });
-//});
-//
-//app.listen(PORT, function () {
-//    console.log("Running at port " + PORT);
-//});
-
-
 
 app.get('/*', ngApp);
 
 app.listen(PORT, () => {
     console.log("Running at port " + PORT);
 });
-
-
-//https.createServer(options, app).listen(PORT, () => {
-//    console.log("Running at port " + PORT);
-//});

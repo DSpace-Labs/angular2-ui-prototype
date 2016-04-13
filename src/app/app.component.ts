@@ -14,6 +14,7 @@ import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {ItemComponent} from './dspace/components/item.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -58,11 +59,16 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
+        { path: "/items/:id", name: "Items", component: ItemComponent },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent }
+        { path: "/login", name: "Login", component: LoginComponent },
+        
+        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+        { path: "/items/:id", name: "Items", component: ItemComponent }
 
 ])
 export class AppComponent {

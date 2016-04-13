@@ -1,12 +1,14 @@
 ﻿import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Location, RouteConfig} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
+
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {PaginationComponent} from './navigation/pagination.component';
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
@@ -48,12 +50,13 @@ export class DashboardComponent {
                 private breadcrumb: BreadcrumbService,
                 translate: TranslateService ){
 
-        this.dashboard =
-        {
+        this.dashboard = {
             name: 'Dashboard',
             type: 'dashboard'
         };
+        
         breadcrumb.visit(this.dashboard);
+        
         translate.setDefaultLang('en');
         translate.use('en');
     }

@@ -14,11 +14,12 @@ import {
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
+import {PaginationService} from './navigation/pagination.service';
 import {HttpService} from './utilities/http.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
-import {DSpaceKeys} from './dspace/dspace.keys';
+import {DSpaceConstants} from './dspace/dspace.constants';
 
 enableProdMode();
 
@@ -31,8 +32,9 @@ bootstrap(AppComponent, [
     }),
     TranslateService,
     BreadcrumbService,
+    PaginationService,
     DSpaceDirectory,
-    DSpaceKeys,
+    DSpaceConstants,
     DSpaceService,
     DSpaceStore,
     HttpService

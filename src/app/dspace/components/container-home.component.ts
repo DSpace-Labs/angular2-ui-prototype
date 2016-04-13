@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {IContainerHomepage} from "../models/container-homepage.interface";
 import {ContainerLogoComponent} from "./container-logo.component";
 
@@ -8,6 +8,7 @@ import {ContainerLogoComponent} from "./container-logo.component";
  */
 @Component({
     selector: 'container-home',
+    inputs: ['container'],
     directives: [ContainerLogoComponent],
     template: `
         <h1 class="page-header">{{ container.name }}</h1>
@@ -25,7 +26,6 @@ export class ContainerHomeComponent {
     /**
      * The Container being rendered
      */
-    @Input() 
     container: IContainerHomepage;
 
 }
