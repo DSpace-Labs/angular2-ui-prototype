@@ -44,14 +44,14 @@ import {Item} from '../models/item.model'
                              <item-thumbnail></item-thumbnail>
                             <item-bitstreams [itemBitstreams]="itemObj.bitstreams"></item-bitstreams>
                             <item-date [itemData]="itemObj.metadata"></item-date>
-                            <item-authors [itemData]="item.metadata"></item-authors>
+                            <item-authors [itemData]="itemObj.metadata"></item-authors>
                             <h3>Metadata</h3>
                             <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
                         </div>
 
                         <div class="col-sm-8">
                             <div>
-                                <item-uri [itemData]="item.metadata"></item-uri>
+                                <item-uri [itemData]="itemObj.metadata"></item-uri>
                                 <item-collection [itemData]="itemObj.parentCollection"></item-collection>
                             </div>
                         </div>

@@ -11,6 +11,10 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {MetadataHelper} from '../../../utilities/metadata.helper';
+
+import {Metadatum} from '../../models/metadatum.model'
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -23,7 +27,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     template:
         `<div id="date">
                     <h3>{{'item-view.date.title' | translate}}</h3>
-                        <div *ngFor="#metadatum of filteredFields.metadata;">
+                        <div *ngFor="#metadatum of filteredFields;">
                                 <p>{{ metadatum.value | truncate}}</p>
                         </div>
 
@@ -38,7 +42,7 @@ export class DateComponent {
      */
 
     item: Object;
-    public itemData : Object;
+    public itemData : Metadatum[];
     fields : String[]; // the fields that we want to show on this page.
 
     filteredFields; // the values that we will filter out of the metadata.
@@ -52,8 +56,13 @@ export class DateComponent {
 
     ngOnInit()
     {
-        var itemModel = new Item();
-        this.filteredFields = itemModel.filterMetadata(this.fields,this.itemData);
+        this.filterMetadata();
+    }
+
+    private filterMetadata()
+    {
+        let metadataHelper = new MetadataHelper();
+        this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
     }
 
 }

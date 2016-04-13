@@ -19,6 +19,15 @@ export class MetadataHelper
     filterMetadata(metadata : Metadatum[], keys : String[]) : Metadatum[]
     {
         console.log("filtering metadata now");
-        return metadata; // return unfiltered
+        let tmp : Metadatum[] = [];
+        for(let i : number = 0; i < metadata.length; i++)
+        {
+            console.log("key of item: " + metadata[i].getKey());
+            if(keys.indexOf(metadata[i].getKey()) > -1)
+            {
+                  tmp.push(metadata[i]);
+            }
+        }
+        return tmp; // return filtered metadata
     }
 }
