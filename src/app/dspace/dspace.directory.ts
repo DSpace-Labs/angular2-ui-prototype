@@ -134,8 +134,9 @@ export class DSpaceDirectory {
      * @param id
      *      current context id which needing to load context details.
      */
-    loadObj(type, id, page) {
+    loadObj(type, id, page?) {
         // needed to be used within scope of promise
+        console.log("loading object");
         let directory = this;
         return new Promise(function (resolve, reject) {
             let context;
@@ -143,6 +144,7 @@ export class DSpaceDirectory {
                 directory.page(context, page);
                 directory.prepare(null, context);
                 resolve(context);
+                console.log("resolved");
             }
             else {
                 directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
@@ -151,6 +153,7 @@ export class DSpaceDirectory {
                     directory.prepare(null, context);
                     directory.dspaceStore.add(directory.dspaceConstants[type].PLURAL, context);
                     resolve(context);
+                        console.log("resolved");
                 },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
@@ -160,6 +163,7 @@ export class DSpaceDirectory {
                 });
             }
         });
+        console.log("object loaded");
     }
     
     /**

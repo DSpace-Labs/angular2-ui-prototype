@@ -18,9 +18,13 @@ export class Item extends DSpaceObject {
 
     constructor(public jsonitem: any)
     {
+        console.log("parsing item model");
         super(jsonitem);
+        console.log("created super");
         this.parseBitstreams();
+        console.log("parsed bitstreams");
         this.parseCollection();
+        console.log("parsed collection");
     }
 
     private parseBitstreams()
