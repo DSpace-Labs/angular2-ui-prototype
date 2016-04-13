@@ -43,7 +43,7 @@ import {Item} from '../models/item.model'
                         <div class="col-sm-4">
                              <item-thumbnail></item-thumbnail>
                             <item-bitstreams [itemBitstreams]="itemObj.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="item.metadata"></item-date>
+                            <item-date [itemData]="itemObj.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>Metadata</h3>
                             <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
@@ -87,20 +87,13 @@ export class SimpleItemViewComponent {
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
-            console.log("in simple: " + JSON.stringify(item));
             this.itemObj = new Item(item);
-            console.log("parsed this damn thing");
         });
 
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
-    ngOnInit()
-    {
-        console.log("on init");
-
-    }
 
 }
 

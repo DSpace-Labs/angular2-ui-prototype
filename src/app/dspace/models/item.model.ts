@@ -20,7 +20,6 @@ export class Item extends DSpaceObject {
 
 
     bitstreams : Bitstream[] = [];
-    //metadata: Metadatum[] = [];
     parentCollection : Collection;
 
     constructor(public jsonitem: any)
@@ -56,42 +55,4 @@ export class Item extends DSpaceObject {
     }
 
 
-    constructor() // create empty object, not based on json.
-    {
-        super();
-    }
-
-    filterMetadata(keys : String[], metadata)
-    {
-        // partial data
-        var jsonArr = {};
-        var data = [];
-        jsonArr.metadata = data;
-
-
-        for(var i : number = 0; i < metadata.length; i++)
-        {
-            var metadatum = metadata[i];
-            if(keys.indexOf(metadatum.key) > -1)
-            {
-                console.log("contains key");
-                var md = {
-                    "key" : metadatum.key,
-                    "value" : metadatum.value
-                }
-                data.push(md);
-            }
-        }
-
-        return jsonArr;
-    }
-
-    /**
-     * Gets a single metadata value
-     * @param key
-     */
-    getMetadataValue(key: String) : String
-    {
-        return null;
-    }
 }
