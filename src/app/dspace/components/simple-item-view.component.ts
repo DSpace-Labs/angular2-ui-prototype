@@ -52,9 +52,10 @@ import {Item} from '../models/item.model'
                         <div class="col-sm-8">
                             <div>
                                 <item-uri [itemData]="itemObj.metadata"></item-uri>
-                                <item-collection [itemData]="itemObj.parentCollection"></item-collection>
+                                <!--<item-collection [itemData]="itemObj.parentCollection"></item-collection>-->
                             </div>
                         </div>
+
                     </div>
                 </div>
               `
@@ -84,10 +85,12 @@ export class SimpleItemViewComponent {
                 private breadcrumb: BreadcrumbService,
                 translate : TranslateService) {
         console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id"),0).then(item => {
+        directory.loadObj('item', params.get("id")).then(item => {
+            console.log("starting simple-item-view");
             this.item = item;
             breadcrumb.visit(this.item);
             this.itemObj = new Item(item);
+            console.log("loaded simple-item-view");
         });
 
         translate.setDefaultLang('en');

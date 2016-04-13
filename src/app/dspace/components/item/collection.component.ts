@@ -38,6 +38,7 @@ export class CollectionComponent {
     private collectionURIPrefix = "../collections/";
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
+        console.log("setting up the (simple) collection component");
         translate.setDefaultLang('en');
         translate.use('en');
     }

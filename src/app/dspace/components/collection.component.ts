@@ -63,7 +63,8 @@ export class CollectionComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        let page = params.get('page') ? params.get('page') : 1; 
+        let page = params.get('page') ? params.get('page') : 1;
+        console.log("page: " + page);
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(this.collectionJSON);

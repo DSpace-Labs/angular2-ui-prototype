@@ -18,7 +18,7 @@ export class Item extends DSpaceObject {
 
     constructor(public jsonitem: any)
     {
-        console.log("parsing item model");
+        console.log("entered item model");
         super(jsonitem);
         console.log("created super");
         this.parseBitstreams();
@@ -42,7 +42,9 @@ export class Item extends DSpaceObject {
 
     private parseCollection()
     {
+        console.log("parsing the collection");
         this.parentCollection = new Collection(this.jsonitem.parentCollection);
+        console.log("Parsed the collection sin problemas!");
     }
 
 
