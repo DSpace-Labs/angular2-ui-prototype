@@ -1,4 +1,4 @@
-﻿import 'angular2-universal-polyfills';
+import 'angular2-universal/polyfills';
 import {prebootComplete} from 'angular2-universal';
 
 import {bootstrap} from 'angular2/platform/browser';
@@ -14,12 +14,13 @@ import {
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
+import {PaginationService} from './navigation/pagination.service';
 import {HttpService} from './utilities/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
-import {DSpaceKeys} from './dspace/dspace.keys';
+import {DSpaceConstants} from './dspace/dspace.constants';
 
 enableProdMode();
 
@@ -32,8 +33,9 @@ bootstrap(AppComponent, [
     }),
     TranslateService,
     BreadcrumbService,
+    PaginationService,
     DSpaceDirectory,
-    DSpaceKeys,
+    DSpaceConstants,
     DSpaceService,
     DSpaceStore,
     HttpService,

@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "5"
+  - "4"
+
+# Install global module dependencies
+before_install:
+  - npm run global
+
+# 'npm install' runs automatically
+
+script:
+  # Test build process
+  - npm run build
+  # TODO: We should run some tests!

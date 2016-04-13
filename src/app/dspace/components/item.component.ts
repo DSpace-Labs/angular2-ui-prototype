@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {RouteParams, CanDeactivate, ComponentInstruction} from 'angular2/router';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
@@ -21,6 +23,7 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
 @Component({
     selector: 'item',
     directives: [ContextComponent],
+    pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="itemJSON">
                     
@@ -37,10 +40,10 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
                             <table class="table table-hover">
                                 <thead class="thead-inverse">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                        <th>Language</th>
+                                        <th>{{'item.metadata-number-indicator' | translate}}</th> <!-- not sure if this really requires i18n -->
+                                        <th>{{'item.key' | translate}}</th>
+                                        <th>{{'item.value' | translate}}</th>
+                                        <th>{{'item.language' | translate}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,16 +90,19 @@ export class ItemComponent implements CanDeactivate {
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
-                private metaTagService: MetaTagService) {
+                private metaTagService: MetaTagService,
+                translate: TranslateService) {
         this._metaTagService = metaTagService;
         this._googleScholarTags = [];
         console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id")).then(itemJSON => {
+        directory.loadObj('item', params.get("id"), 0).then(itemJSON => {
             this.itemJSON = itemJSON;
             this.item = new Item(itemJSON);
             breadcrumb.visit(this.itemJSON);
             this.setGoogleScholarMetaTags();
         });
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
     //TODO getting the values for a metadata field will most likely be useful in other places and should be moved to where it makes more sense

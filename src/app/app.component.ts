@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 import {BreadcrumbComponent} from './navigation/breadcrumb.component';
 
 import {HomeComponent} from './home.component';
@@ -13,7 +15,6 @@ import {SetupComponent} from './setup.component';
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -55,20 +56,20 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 @RouteConfig([
     
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
-        { path: "/", name: "Dashboard", component: DashboardComponent },
-        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: ItemComponent },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent }
+        { path: "/login", name: "Login", component: LoginComponent },
+        
+        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+        { path: "/items/:id", name: "Items", component: ItemComponent }
 
 ])
 export class AppComponent {
 
     constructor(translate: TranslateService) {
-        console.log('Starting App!');
         translate.setDefaultLang('en');
         translate.use('en');
     }

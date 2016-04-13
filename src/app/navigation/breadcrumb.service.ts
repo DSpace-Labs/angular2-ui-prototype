@@ -13,7 +13,7 @@ export class BreadcrumbService {
      * EventEmitter use to emit the context when visited.
      * BreadCrumb component subscribes.
      */
-    emitter: EventEmitter<Object>;
+    emitter: EventEmitter<any>;
     
     /**
      * A breadcrumb that is itself the current context.
@@ -26,7 +26,7 @@ export class BreadcrumbService {
      */            
     constructor(private dspaceService: DSpaceService) {
         this.breadcrumb = {};
-        this.emitter = new EventEmitter<Object>();
+        this.emitter = new EventEmitter<any>();
     }
 
     /**
