@@ -11,40 +11,42 @@ import {Collection}from './collection.model';
 export class Item extends DSpaceObject {
 
 
-    /**
-     * An item has: - metadata
-     *              - bitstreams
-     *              - collections
-     */
-
-
+    // Some classes create the ITEM from an incomplete JSON response. Need to filter for this.
 
     bitstreams : Bitstream[] = [];
     parentCollection : Collection;
 
     constructor(public jsonitem: any)
     {
-
+        console.log("in item constructor");
         if(jsonitem==null)
         {
             super();
         }
         else
         {
+            console.log("in else statement");
             super(jsonitem); // creates the metadata for us. Also contains ID, link, etc.
+            console.log("created super");
+
             this.parseBitstreams();
+            console.log("parsed bitstreams");
             this.parseCollection();
+            console.log("parsed collection");
         }
 
     }
 
     private parseBitstreams()
     {
-        for(let i = 0; i < this.jsonitem.bitstreams.length;i++)
+        if (Array.isArray(this.jsonitem.bitstreams))
         {
-            let bitstreamdata = this.jsonitem.bitstreams[i];
-            let bitstream = new Bitstream(bitstreamdata);
-            this.bitstreams.push(bitstream);
+            for (let i = 0; i < this.jsonitem.bitstreams.length; i++)
+            {
+                let bitstreamdata = this.jsonitem.bitstreams[i];
+                let bitstream = new Bitstream(bitstreamdata);
+                this.bitstreams.push(bitstream);
+            }
         }
     }
 
