@@ -1,8 +1,9 @@
 ﻿import * as path from 'path';
 import * as express from 'express';
+import {Request, Response} from 'express';
 //import * as https from 'https';
 
-import 'angular2-universal-preview/polyfills';
+import 'angular2-universal-polyfills';
 
 
 import {
@@ -10,8 +11,13 @@ import {
     REQUEST_URL,
     NODE_LOCATION_PROVIDERS,
     NODE_HTTP_PROVIDERS,
-    NODE_PRELOAD_CACHE_HTTP_PROVIDERS
-} from 'angular2-universal-preview';
+    NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+    selectorResolver,
+    selectorRegExpFactory,
+    renderDocumentWithPreboot,
+    renderDocument,
+    createPrebootCode
+} from 'angular2-universal';
 
 import {
     provide,
@@ -40,6 +46,8 @@ import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
+import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
+import {Parse5DomAdapter} from "angular2/src/platform/server/parse5_adapter";
 
 enableProdMode();
 
@@ -89,9 +97,100 @@ app.use(express.static(root, { index: false }));
 // Port
 app.set('port', PORT);
 
+// function renderComponent(html, component, providers, prebootOptions) {
+//     // const selector:string = selectorResolver(component);
+//
+//     return renderDocumentWithPreboot(html, component, providers, prebootOptions)
+//         // .then((serializedCmp) => {
+//         //
+//         //         return html.replace(selectorRegExpFactory(selector), serializedCmp);
+//         //     }
+//         // )
+//         ;
+// }
+
+
+function renderComponent(documentHtml, componentType, nodeProviders, prebootConfig) {
+
+    if (prebootConfig === void 0) {
+        prebootConfig = {};
+    }
+    return renderDocument(documentHtml, componentType, nodeProviders)
+        .then(function (html) {
+            return createPrebootCode(componentType, prebootConfig).then(function (code) {
+                const selector:string = selectorResolver(componentType);
+                return html.replace(selectorRegExpFactory(selector), `$&${code}`);
+            });
+        });
+}
+
+
+
+
+const HTML_FILE = `
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base href="/">
+        <title></title>
+    </head>
+    <body>
+        <dspace>Loading...</dspace>
+    <script async src="dist/app.bundle.js"></script>
+    <script async src="dist/bootstrap.bundle.js"></script>
+    <script async src="dist/styles.bundle.js"></script>
+    </body>
+</html>
+`;
+
+const PROVIDERS = [
+    ROUTER_PROVIDERS,
+    NODE_LOCATION_PROVIDERS,
+    provide(APP_BASE_HREF, { useValue: '/' }),
+    NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+    Parse5DomAdapter,
+    provide(TranslateLoader, {
+        useFactory: () => new FileSystemLoader(path.join(root, 'dist' ,'i18n'), '.json')
+    }),
+    TranslateService,
+    BreadcrumbService,
+    DSpaceDirectory,
+    DSpaceKeys,
+    DSpaceService,
+    DSpaceStore,
+    HttpService,
+    MetaTagService
+];
+
+const PREBOOT = {
+    appRoot: 'dspace',
+    freeze:  { name: 'spinner' },
+    replay:  'rerender',
+    buffer:  true,
+    debug:   false,
+    uglify:  true,
+};
+
+
 // Serverside Angular
+function ngDocApp(req: Request, res: Response, next: Function) {
+    return Promise.resolve()
+        .then(() => {
+            const REQUEST_PROVIDERS = [
+                provide(REQUEST_URL,  { useValue: req.originalUrl })
+            ];
+
+            return renderComponent(HTML_FILE, AppComponent, [PROVIDERS, REQUEST_PROVIDERS], PREBOOT);
+        })
+        .then((content) => {
+            return res.send(content);
+        })
+        .catch(error => next(error));
+}
+
 function ngApp(req, res) {
-    let baseUrl = '/';        
+    let baseUrl = '/';
     let url = req.originalUrl || '/';
     console.log('url: ' + url);
     res.render('index', {
@@ -111,7 +210,8 @@ function ngApp(req, res) {
             DSpaceKeys,
             DSpaceService,
             DSpaceStore,
-            HttpService
+            HttpService,
+            MetaTagService
         ],
         preboot: {
             //listen: any,
@@ -142,17 +242,8 @@ function ngApp(req, res) {
 
 
 
-app.get('/', ngApp);
-app.get('/dashboard', ngApp);
-app.get('/home', ngApp);
-app.get('/settings', ngApp);
-app.get('/setup', ngApp);
-app.get('/register', ngApp);
-app.get('/login', ngApp);
-
-app.get('/communities/**', ngApp);
-app.get('/collections/**', ngApp);
-app.get('/items/**', ngApp);
+app.get('/*', ngDocApp);
+// app.get('/*', ngApp);
 
 
 app.listen(PORT, () => {

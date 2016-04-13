@@ -25,16 +25,17 @@
     "postinstall": "typings install"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.13",
-    "angular2-universal-preview": "~0.85.1",
+    "angular2": "2.0.0-beta.14",
+    "angular2-universal": "0.90.2",
     "angular2-websocket": "^0.6.2",
     "express": "^4.13.4",
     "jquery": "^2.2.2",
     "ng2-translate": "^1.11.0",
     "object-hash": "^1.1.2",
+    "parse5": "1.5.0",
     "preboot": "^2.0.5",
     "rxjs": "5.0.0-beta.4",
-    "zone.js": "~0.6.8"
+    "zone.js": "0.6.10"
   },
   "devDependencies": {
     "bootstrap-loader": "^1.0.10",
@@ -58,9 +59,7 @@
     "typescript": "^1.8.9",
     "typings": "^0.7.12",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-merge": "^0.8.4",
-    "ws": "^1.0.1"
+    "webpack": "1.12.15",
+    "webpack-merge": "0.10.0"
   }
 }

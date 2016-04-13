@@ -38,8 +38,12 @@ proxy.on('proxyRes', function(proxyRes, req, res, options) {
 });
 
 var server = http.createServer(function (req, res) {
-    proxy.web(req, res, {target: serverValue});
+    proxy.web(req, res, {target: serverValue}, function(e)
+    {
+        console.log("Proxy server didn't respond, retrying..");
 });
+});
+
 
 console.log("proxying " + serverValue + " on port " + portValue);
 server.listen(portValue);

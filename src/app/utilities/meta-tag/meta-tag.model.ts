@@ -4,18 +4,23 @@ import * as hash from 'object-hash';
 import {ObjectUtil} from "../commons/object.util";
 
 export class MetaTag implements IHashable, IEquatable<MetaTag> {
-    private _id:string;
-    private _name:string;
-    private _content:string;
-    private _scheme:string;
-    private _lang:string;
+    /**
+     * MetaTags need to be hashable, and the hash for null and undefined differs.
+     * So these properties are all set to null to normalize that behavior
+     * That's also the reason for the explicit set to null in the setters.
+     */
+    private _id:string = null;
+    private _name:string = null;
+    private _content:string = null;
+    private _scheme:string = null;
+    private _lang:string = null;
     
     get id():string {
         return this._id;
     }
 
     set id(value:string) {
-        this._id = value;
+        this._id = ObjectUtil.hasValue(value) ? value : null;
     }
 
     get name():string {
@@ -23,7 +28,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
     }
 
     set name(value:string) {
-        this._name = value;
+        this._name = ObjectUtil.hasValue(value) ? value : null;
     }
 
     get content():string {
@@ -31,7 +36,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
     }
 
     set content(value:string) {
-        this._content = value;
+        this._content = ObjectUtil.hasValue(value) ? value : null;
     }
 
     get scheme():string {
@@ -39,7 +44,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
     }
 
     set scheme(value:string) {
-        this._scheme = value;
+        this._scheme = ObjectUtil.hasValue(value) ? value : null;
     }
 
     get lang():string {
@@ -47,7 +52,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
     }
 
     set lang(value:string) {
-        this._lang = value;
+        this._lang = ObjectUtil.hasValue(value) ? value : null;
     }
 
     hashCode():string {

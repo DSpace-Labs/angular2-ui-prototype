@@ -48,7 +48,7 @@ export class Metadatum {
      */
     constructor(dso: DSpaceObject, json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {
-            this.setKey(json.key);
+            this.key = json.key;
             this.value = json.value;
             this.language = json.language;
         }
@@ -61,7 +61,7 @@ export class Metadatum {
      * @returns {string}
      *      schema.element.qualifier
      */
-    getKey() {
+    get key() {
         return [this.schema, this.element, this.qualifier].filter((value: string) => {
             return StringUtil.isNotBlank(value);
         }).join('.');
@@ -73,7 +73,7 @@ export class Metadatum {
      * @param key
      *      should be in the format schema.element.qualifier
      */
-    setKey(key: string) {
+    set key(key: string) {
         if (StringUtil.isBlank(key)) {
             this.schema = this.element = this.qualifier = null;
         }

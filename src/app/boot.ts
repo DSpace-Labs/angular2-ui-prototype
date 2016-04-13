@@ -1,5 +1,5 @@
-﻿import 'angular2-universal-preview/polyfills';
-import {prebootComplete} from 'angular2-universal-preview';
+﻿import 'angular2-universal-polyfills';
+import {prebootComplete} from 'angular2-universal';
 
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
@@ -15,6 +15,7 @@ import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
 import {HttpService} from './utilities/http.service';
+import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
@@ -35,6 +36,7 @@ bootstrap(AppComponent, [
     DSpaceKeys,
     DSpaceService,
     DSpaceStore,
-    HttpService
+    HttpService,
+    MetaTagService,
 ])
 .then(prebootComplete);
