@@ -37,15 +37,10 @@ import {Metadatum} from '../../models/metadatum.model'
 
 export class UriComponent {
 
-    /**
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
-     */
 
-    item: Object;
-    public itemData : Metadatum[];
-    fields : String[]; // the fields that we want to show on this page.
-
-    filteredFields; // the values that we will filter out of the metadata.
+    private itemData : Metadatum[];
+    private fields : String[]; // the fields that we want to show on this page.
+    private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
@@ -61,12 +56,8 @@ export class UriComponent {
 
     private filterMetadata()
     {
-        console.log("filtering the uri component");
-        console.log(this.itemData);
         let metadataHelper = new MetadataHelper();
         this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
-        console.log("filtered the uri component");
-        console.log(this.filteredFields);
     }
 
 }

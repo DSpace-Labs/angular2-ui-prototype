@@ -36,7 +36,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 export class BitstreamsComponent {
 
 
-    public itemBitstreams : Bitstream[];
+    private itemBitstreams : Bitstream[];
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {

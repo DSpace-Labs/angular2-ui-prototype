@@ -9,12 +9,14 @@ import {Item} from "../../models/item.model"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {MetadataHelper} from '../../../utilities/metadata.helper';
+
+import {Metadatum} from '../../models/metadatum.model'
 
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  * This can optionally be rendered in the simple-item-view.
  */
-
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
@@ -33,15 +35,10 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class MetadataComponent {
 
-    /**
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
-     */
 
-    item: Object;
-    public itemData : Object;
-    fields : String[]; // the fields that we want to show on this page.
-
-    filteredFields; // the values that we will filter out of the metadata.
+    private itemData : Metadatum[];
+    private fields : String[]; // the fields that we want to show on this page.
+    private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
     {
@@ -53,8 +50,13 @@ export class MetadataComponent {
 
     ngOnInit()
     {
-        var itemModel = new Item();
-        this.filteredFields = itemModel.filterMetadata(this.fields,this.itemData);
+        this.filterMetadata();
+    }
+
+    private filterMetadata()
+    {
+        let metadataHelper = new MetadataHelper();
+        this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
     }
 
 }
