@@ -18,23 +18,9 @@ export class Item extends DSpaceObject {
 
     constructor(public jsonitem: any)
     {
-        console.log("in item constructor");
-        if(jsonitem==null)
-        {
-            super();
-        }
-        else
-        {
-            console.log("in else statement");
-            super(jsonitem); // creates the metadata for us. Also contains ID, link, etc.
-            console.log("created super");
-
-            this.parseBitstreams();
-            console.log("parsed bitstreams");
-            this.parseCollection();
-            console.log("parsed collection");
-        }
-
+        super(jsonitem);
+        this.parseBitstreams();
+        this.parseCollection();
     }
 
     private parseBitstreams()
@@ -49,7 +35,6 @@ export class Item extends DSpaceObject {
             }
         }
     }
-
 
     private parseCollection()
     {

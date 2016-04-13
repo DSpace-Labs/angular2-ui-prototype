@@ -45,10 +45,6 @@ import {Metadatum} from '../../../models/metadatum.model'
 
 export class FullMetadataComponent {
 
-    /**
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
-     */
-
     private itemData: Metadatum[];
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)

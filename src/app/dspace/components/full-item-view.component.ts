@@ -69,16 +69,12 @@ export class FullItemViewComponent {
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
                 translate : TranslateService) {
-        console.log("entering full item view");
         console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id")).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
-
-            console.log("in full: " + JSON.stringify(item));
             this.itemObj = new Item(item);
-            console.log("parsed itemobj");
-            console.log(this.itemObj);
+
         });
 
         translate.setDefaultLang('en');

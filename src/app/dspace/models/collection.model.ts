@@ -22,7 +22,6 @@ export class Collection extends DSOContainer {
      */
     constructor(json:any) {
         super(json);
-
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
             this.items = json.items.map((itemJSON) => {
                 return new Item(itemJSON);

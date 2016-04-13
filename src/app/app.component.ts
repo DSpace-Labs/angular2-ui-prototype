@@ -64,7 +64,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
-        { path: "/items/full/:id", name:"FullItemView", component: FullItemViewComponent}
+        { path: "/items/:id/full", name:"FullItemView", component: FullItemViewComponent}
 
 ])
 export class AppComponent {
