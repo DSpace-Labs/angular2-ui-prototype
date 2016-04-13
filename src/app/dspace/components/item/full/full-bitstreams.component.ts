@@ -41,7 +41,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 
                         <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                            <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a> <!-- hardcoded url to demo.org... -->
+                            <a [attr.href]="bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a> <!-- hardcoded url to demo.org... -->
                         </div>
                     </div>
             </div>

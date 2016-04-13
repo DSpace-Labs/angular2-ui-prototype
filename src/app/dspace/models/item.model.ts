@@ -33,11 +33,8 @@ export class Item extends DSpaceObject {
         else
         {
             super(jsonitem); // creates the metadata for us. Also contains ID, link, etc.
-            console.log("parsing.. " + jsonitem);
             this.parseBitstreams();
-            console.log("parsed bitstreams");
-            console.log(this.bitstreams);
-          //  this.parseCollection();;
+            this.parseCollection();
         }
 
     }

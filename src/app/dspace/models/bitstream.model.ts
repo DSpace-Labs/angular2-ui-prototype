@@ -30,7 +30,7 @@ export class Bitstream extends DSpaceObject { // The parent object (super) is si
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
                 //TODO add proper way to get absolute links
-                this.retrieveLink = `http://localhost:5050/rest/${json.retrieveLink}`;
+                this.retrieveLink = `https://demo.dspace.org/rest${json.retrieveLink}`;
                 this.format = json.mimeType;
                 this.size = json.sizeBytes;
             }
