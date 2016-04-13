@@ -194,13 +194,14 @@ function ngApp(req, res) {
     let url = req.originalUrl || '/';
     console.log('url: ' + url);
     res.render('index', {
-        directives: [AppComponent, TitleComponent],
+        directives: [AppComponent],
         providers: [
             provide(APP_BASE_HREF, { useValue: baseUrl }),
             provide(REQUEST_URL, { useValue: url }),
             ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            Parse5DomAdapter,
             provide(TranslateLoader, {
                 useFactory: () => new FileSystemLoader(path.join(root, 'dist' ,'i18n'), '.json')
             }),
@@ -242,8 +243,8 @@ function ngApp(req, res) {
 
 
 
-app.get('/*', ngDocApp);
-// app.get('/*', ngApp);
+// app.get('/*', ngDocApp);
+app.get('/*', ngApp);
 
 
 app.listen(PORT, () => {
