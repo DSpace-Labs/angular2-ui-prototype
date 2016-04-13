@@ -2,6 +2,7 @@
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {ListComponent } from './list.component';
+import {PaginationComponent} from './pagination.component';
 
 /**
  * Tree component for navigation through the dspace index of 
@@ -12,7 +13,8 @@ import {ListComponent } from './list.component';
  */
 @Component({
     selector: 'tree',
-    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent],
+    inputs: ['directories'],
+    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
                     <li *ngFor="#directory of directories" class="list-group-item">
@@ -26,7 +28,8 @@ import {ListComponent } from './list.component';
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
 
                         <!-- Router link -->
-                        <a [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
+                        <a *ngIf="!directory.page" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
+                        <a *ngIf="directory.page" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
                         
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         
@@ -38,7 +41,7 @@ import {ListComponent } from './list.component';
                         </div>
 
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
-                            <list [items]="directory.items"></list>
+                            <list [collection]="directory"></list>
                         </div>
                         
                     </li>
@@ -53,8 +56,8 @@ export class TreeComponent {
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      *
-     * TODO: replace Object with inheritance model e.g. community extends dspaceObject
+     * TODO: replace any with inheritance model e.g. community extends dspaceObject
      */
-	@Input() directories: Array<Object>;
+	directories: Array<any>;
     
 }

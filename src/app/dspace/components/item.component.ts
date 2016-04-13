@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 import {DSpaceDirectory} from '../dspace.directory';
 
 import {DSpaceService} from '../dspace.service';
@@ -8,8 +10,6 @@ import {DSpaceService} from '../dspace.service';
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {ContextComponent} from '../../navigation/context.component';
-
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * Item component for displaying the current item.
@@ -64,7 +64,7 @@ export class ItemComponent {
      *
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
-    item: Object;
+    item: any;
     
     /**
      *
@@ -79,12 +79,10 @@ export class ItemComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
                 translate: TranslateService) {
-        console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id")).then(item => {
+        directory.loadObj('item', params.get("id"), 0).then(item => {
             this.item = item;
             breadcrumb.visit(this.item);
         });
-
         translate.setDefaultLang('en');
         translate.use('en');
     }

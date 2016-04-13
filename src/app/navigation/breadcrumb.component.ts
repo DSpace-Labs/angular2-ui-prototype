@@ -15,7 +15,7 @@ import {BreadcrumbService} from './breadcrumb.service';
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="#breadcrumb of trail">
-                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.component, {id:breadcrumb.id}]">{{ breadcrumb.name }} {{ breadcrumb.id }}</a>
+                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.component, {id:breadcrumb.id}]">{{ breadcrumb.name }}</a>
                         <a *ngIf="!breadcrumb.component" [routerLink]="['/Dashboard']">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
@@ -24,10 +24,9 @@ import {BreadcrumbService} from './breadcrumb.service';
 export class BreadcrumbComponent {
 
     /**
-     * Array of Objects, { name: string, context: Object }, representing the 
-     * breadcrumb trail.
+     * Array of any, { name: string, context: Object }, representing the breadcrumb trail.
      */
-    trail: Array<Object>;
+    trail: Array<any>;
 
     /**
      * Subscription to the breadcrumb service to recieve changes to the breadcrumb trail.
@@ -51,7 +50,7 @@ export class BreadcrumbComponent {
      *      The current context. Represents a dspace object community, collection, or item.
      */
     buildTrail(context) {
-        this.trail = new Array<Object>();
+        this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
                 this.trail.unshift({ name: 'Dashboard', context: {} });
@@ -90,7 +89,7 @@ export class BreadcrumbComponent {
                     });
                 }
                 else {
-                    bc.directory.loadObj(context['parent' + parentType].type, context['parent' + parentType].id).then(obj => {
+                    bc.directory.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(obj => {
                         context['parent' + parentType] = obj;
                         bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
                             resolve();

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 
 /**
  * Context aware component for displaying information/functionality of
@@ -6,21 +6,22 @@ import {Component, Input} from 'angular2/core';
  */
 @Component({
     selector: 'context',
+    inputs: ['context'],
     template: `
     			<div class="panel panel-default">
 				  	<div class="panel-heading">
 				    	<h3 class="panel-title">{{context.name}}</h3>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'dashboard'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
-				    	{{context}}
+				    	{{context.type}}
 				  	</div>
-				  	<div class="panel-body" *ngIf="context.type == 'item' && context.second">
+				  	<div class="panel-body" *ngIf="context.type == 'item'">
                         <ul>
                             <li *ngFor="#bitstream of context.bitstreams">
                                 <!-- TODO: make a link to download the items bitstream -->
@@ -37,8 +38,8 @@ export class ContextComponent {
      * An input variable that is passed into the component [context].
      * Represents the current context.
      *
-     * TODO: replace Object with inheritance model e.g. dspaceObject
+     * TODO: replace any with inheritance model e.g. dspaceObject
      */
-	@Input() context: Object;
+	context: any;
 
 }
