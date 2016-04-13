@@ -33,7 +33,7 @@ var proxy = httpProxy.createProxyServer({
 proxy.on('proxyRes', function(proxyRes, req, res, options) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-HTTP-Method-Override, Accept');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X   -Requested-With, X-HTTP-Method-Override, Accept');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
 });
 

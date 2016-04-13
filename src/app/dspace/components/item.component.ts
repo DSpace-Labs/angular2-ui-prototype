@@ -162,11 +162,11 @@ export class ItemComponent implements CanDeactivate {
     //TODO method does too many things: refactor
     private setGSTagsForField(metaTagName: string, metadataKeys: string[], stopAfterFirstMatch: boolean, combineInSingleTag: boolean): void {
         if (ObjectUtil.isNotEmpty(this.item)) {
-            let values:string[];
+            let values:string[] = [];
             if (stopAfterFirstMatch) {
                 let value = this.getFirstValueFor(this.item.metadata, metadataKeys);
                 if (ObjectUtil.hasValue(value)) {
-                    values = [  value];
+                    values.push(value);
                 }
             }
             else {
