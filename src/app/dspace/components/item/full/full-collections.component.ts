@@ -9,6 +9,8 @@ import {Item} from "../../../models/item.model"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {ComponentTitleComponent} from '../component-title.component';
+
 /**
  * Component for the collections of the simple-item-view.
  * When you click on the collection name, it has to redirect to the right collection.
@@ -16,13 +18,14 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 @Component({
     selector: 'item-full-collections',
     inputs: ['itemData'],
+    directives: [ComponentTitleComponent],
     pipes: [TranslatePipe],
     template:
         `<div id="item-collection">
-            <h3>{{'item-view.full.full-collections.title' | translate}}</h3>
+             <component-title [title]="component_title"></component-title>
             <ul>
                 <li>
-                   <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a><!-- this needs to be updated if the item appears in multiple collections -->
+                   <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a>
                 </li>
             </ul>
          </div>
@@ -31,6 +34,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class FullCollectionsComponent {
 
+    private component_title : String = "item-view.full.full-collections.title";
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
 

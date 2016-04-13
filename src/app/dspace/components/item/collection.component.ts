@@ -12,6 +12,7 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {ComponentTitleComponent} from './component-title.component';
 
 /**
  * Component for the collections of the simple-item-view.
@@ -20,10 +21,11 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 @Component({
     selector: 'item-collection',
     inputs: ['itemData'],
+    directives: [ComponentTitleComponent],
     pipes: [TranslatePipe],
     template:
         `<div id="item-collection">
-            <h3>{{'item-view.collection.title' | translate}}</h3>
+            <component-title [title]="component_title"></component-title>
             <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
          </div>
             `
@@ -31,6 +33,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class CollectionComponent {
 
+    private component_title = "item-view.collection.title";
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)

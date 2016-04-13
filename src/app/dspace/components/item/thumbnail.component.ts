@@ -30,7 +30,7 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 export class ThumbnailComponent {
 
 
-    public itemBitstreams : Object;
+    private itemBitstreams : Object;
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {

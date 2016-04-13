@@ -10,6 +10,7 @@ import {Bitstream} from "../../models/bitstream.model"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {ComponentTitleComponent} from './component-title.component';
 
 
 /**
@@ -18,11 +19,12 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
  */
 @Component({
     selector: 'item-bitstreams',
+    directives: [ComponentTitleComponent],
     inputs: ['itemBitstreams'],
     pipes: [TranslatePipe],
     template:
         `<div id="download">
-            <h3>{{'item-view.bitstreams.title' | translate}}</h3>
+            <component-title [title]="component_title"></component-title>
             <div *ngFor="#bitstream of itemBitstreams;">
                 <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">
                     <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
@@ -35,7 +37,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 export class BitstreamsComponent {
 
-
+    private component_title = "item-view.bitstreams.title";
     private itemBitstreams : Bitstream[];
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)

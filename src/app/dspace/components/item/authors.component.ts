@@ -13,6 +13,7 @@ import {MetadataHelper} from '../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../models/metadatum.model'
 
+import {ComponentTitleComponent} from './component-title.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -21,11 +22,12 @@ import {Metadatum} from '../../models/metadatum.model'
 
 @Component({
     selector: 'item-authors',
+    directives: [ComponentTitleComponent],
     inputs: ['itemData'],
     pipes: [TranslatePipe],
     template:
             `<div id="authors">
-                    <h3>{{'item-view.authors.title' | translate}}</h3>
+                    <component-title [title]="component_title"></component-title>
                         <div *ngFor="#metadatum of filteredFields;">
                                 <p>{{ metadatum.value }}</p>
                         </div>
@@ -35,6 +37,9 @@ import {Metadatum} from '../../models/metadatum.model'
 })
 
 export class AuthorsComponent {
+
+
+    private component_title = "item-view.authors.title";
 
     private itemData : Metadatum[];
     private fields : String[]; // the fields that we want to show on this page.
@@ -57,6 +62,7 @@ export class AuthorsComponent {
         let metadataHelper = new MetadataHelper();
         this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
     }
+
 
 }
 

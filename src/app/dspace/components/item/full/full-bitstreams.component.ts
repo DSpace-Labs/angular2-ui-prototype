@@ -9,16 +9,19 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from '../../../models/bitstream.model';
 
+import {ComponentTitleComponent} from '../component-title.component';
+
 /**
  * Renders an overview of all bitstreams attached to this item.
  */
 @Component({
     selector: 'item-full-bistreams',
     inputs: ['itemBitstreams'],
+    directives: [ComponentTitleComponent],
     pipes: [TranslatePipe],
     template:
         `
-         <h3>{{'item-view.full.full-bitstreams.title' | translate}}</h3> <!-- TODO: I18N -->
+            <component-title [title]="component_title"></component-title>
             <div id="bitstreams" class="file-list">
                     <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
                         <!-- thumbnail -->
@@ -52,6 +55,7 @@ import {Bitstream} from '../../../models/bitstream.model';
 
 export class FullBitstreamsComponent {
 
+    private component_title : String = "item-view.full.full-bitstreams.title";
     private itemBitstreams : Bitstream;
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
