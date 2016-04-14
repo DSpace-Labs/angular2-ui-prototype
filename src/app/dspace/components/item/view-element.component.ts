@@ -10,7 +10,7 @@ import {Collection} from "../../models/collection.model"
 
 import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+
 
 import {ComponentTitleComponent} from './component-title.component';
 
@@ -22,7 +22,6 @@ import {ComponentTitleComponent} from './component-title.component';
     selector: 'view-element',
     inputs: ['header'],
     directives: [ComponentTitleComponent],
-    pipes: [TranslatePipe],
     template:
             `
             <div id="simple-view-element">
@@ -33,14 +32,6 @@ import {ComponentTitleComponent} from './component-title.component';
 })
 
 export class ViewElementComponent {
-
-    private itemData : Object;
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
-    {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
-
 
 }
 
