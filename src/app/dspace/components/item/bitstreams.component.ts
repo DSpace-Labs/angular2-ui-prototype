@@ -26,7 +26,7 @@ import {ComponentTitleComponent} from './component-title.component';
         `<div id="download">
             <component-title [title]="component_title"></component-title>
             <div *ngFor="#bitstream of itemBitstreams;">
-                <a [attr.href]="'https://demo.dspace.org/rest'+bitstream.retrieveLink">
+                <a [attr.href]="bitstream.retrieveLink">
                     <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
                        {{bitstream.name}}
                 </a>
