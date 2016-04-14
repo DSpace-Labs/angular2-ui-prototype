@@ -27,7 +27,7 @@
     "postinstall": "typings install"
   },
   "dependencies": {
-    "angular2": "2.0.0-beta.14",
+    "angular2": "2.0.0-beta.12",
     "angular2-express-engine": "0.10.0",
     "angular2-hapi-engine": "0.10.1",
     "angular2-universal": "0.91.0",
