@@ -7,7 +7,7 @@ import {DSpaceService} from '../../../dspace.service';
 
 import {Item} from "../../../models/item.model"
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ComponentTitleComponent} from '../component-title.component';
 
@@ -41,10 +41,8 @@ export class FullCollectionsComponent {
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 }

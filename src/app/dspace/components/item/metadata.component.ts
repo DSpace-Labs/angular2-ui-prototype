@@ -7,7 +7,7 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
 
@@ -44,10 +44,8 @@ export class MetadataComponent {
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        translate.setDefaultLang('en');
-        translate.use('en');
         this.fields = ["dc.contributor.author","dc.date.accessioned","dc.date.available",
                         "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"];
     }

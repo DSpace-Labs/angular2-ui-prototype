@@ -10,8 +10,7 @@ import {Collection} from "../../models/collection.model"
 
 import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
-
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ViewElementComponent} from './view-element.component';
 
@@ -37,11 +36,8 @@ export class CollectionComponent {
     private component_title = "item-view.collection.title";
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        console.log("setting up the (simple) collection component");
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 

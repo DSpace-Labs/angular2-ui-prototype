@@ -5,7 +5,7 @@ import {DSpaceDirectory} from '../../../dspace.directory';
 
 import {DSpaceService} from '../../../dspace.service';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from '../../../models/bitstream.model';
 
@@ -48,7 +48,7 @@ import {ViewElementComponent} from '../view-element.component';
 
 
                         <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                            <a [attr.href]="bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a> <!-- hardcoded url to demo.org... -->
+                            <a [attr.href]="bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a>
                         </div>
                     </div>
             </div>
@@ -62,10 +62,8 @@ export class FullBitstreamsComponent {
     private component_title : String = "item-view.full.full-bitstreams.title";
     private itemBitstreams : Bitstream;
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 }

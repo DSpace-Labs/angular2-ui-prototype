@@ -8,7 +8,7 @@ import {DSpaceService} from '../../dspace.service';
 import {Item} from "../../models/item.model"
 import {Bitstream} from "../../models/bitstream.model"
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ComponentTitleComponent} from './component-title.component';
 
@@ -39,10 +39,8 @@ export class BitstreamsComponent {
     private component_title = "item-view.bitstreams.title";
     private itemBitstreams : Bitstream[];
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory, translate : TranslateService)
+    constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 

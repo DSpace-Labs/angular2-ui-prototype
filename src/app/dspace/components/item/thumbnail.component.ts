@@ -7,8 +7,6 @@ import {DSpaceService} from '../../dspace.service';
 
 import {Item} from "../../models/item.model"
 
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
-
 
 /**
  * Component that displays the bitstreams of an item in the simple-item-view
