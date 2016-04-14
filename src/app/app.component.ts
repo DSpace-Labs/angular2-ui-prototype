@@ -1,8 +1,6 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
-
 import {BreadcrumbComponent} from './navigation/breadcrumb.component';
 
 import {HomeComponent} from './home.component';
@@ -14,7 +12,9 @@ import {SetupComponent} from './setup.component';
 
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
-import {ItemComponent} from './dspace/components/item.component';
+import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
+import {FullItemViewComponent} from './dspace/components/full-item-view.component';
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -60,16 +60,18 @@ import {ItemComponent} from './dspace/components/item.component';
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
-        
+
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: ItemComponent }
+          { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
+        { path: "/items/:id/full", name:"FullItemView", component: FullItemViewComponent}
 
 ])
 export class AppComponent {
 
     constructor(translate: TranslateService) {
+        console.log('Starting App!');
         translate.setDefaultLang('en');
         translate.use('en');
     }

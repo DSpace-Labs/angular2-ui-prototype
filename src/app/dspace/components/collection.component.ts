@@ -31,7 +31,7 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                        <list [collection]="collectionJSON"></list>
+                       <list [collection]="collectionJSON"></list>
                     </div>
                     
                 </div>
@@ -63,7 +63,9 @@ export class CollectionComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        let page = params.get('page') ? params.get('page') : 1; 
+        console.log("in this page");
+        let page = params.get('page') ? params.get('page') : 1;
+        console.log("setting up this page");
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(this.collectionJSON);
