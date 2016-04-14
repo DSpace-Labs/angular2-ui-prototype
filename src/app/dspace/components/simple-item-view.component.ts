@@ -41,7 +41,7 @@ import {Item} from '../models/item.model'
                             <context [context]="item"></context>
                         </div>
                         <div class="col-sm-4">
-                             <item-thumbnail></item-thumbnail>
+                            <item-thumbnail></item-thumbnail>
                             <item-bitstreams [itemBitstreams]="itemObj.bitstreams"></item-bitstreams>
                             <item-date [itemData]="itemObj.metadata"></item-date>
                             <item-authors [itemData]="itemObj.metadata"></item-authors>

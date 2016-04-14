@@ -56,14 +56,15 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 @RouteConfig([
     
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
-        { path: "/", name: "Dashboard", component: DashboardComponent },
-        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
+
+        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
+          { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
         { path: "/items/:id/full", name:"FullItemView", component: FullItemViewComponent}
 
 ])

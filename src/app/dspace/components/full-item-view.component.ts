@@ -30,7 +30,6 @@ import {Item} from '../models/item.model'
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
                         <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
-
                         <context [context]="item"></context>
                         <div>
 
@@ -38,7 +37,7 @@ import {Item} from '../models/item.model'
 
                             <item-full-bistreams [itemBitstreams]="itemObj.bitstreams"></item-full-bistreams>
 
-                            <!--<item-full-collections [itemData]="itemObj.parentCollection"></item-full-collections>-->
+                            <item-full-collections [itemData]="itemObj.parentCollection"></item-full-collections>
 
                              <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>

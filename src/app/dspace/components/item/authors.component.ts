@@ -28,10 +28,9 @@ import {ComponentTitleComponent} from './component-title.component';
     template:
             `<div id="authors">
                     <component-title [title]="component_title"></component-title>
-                        <div *ngFor="#metadatum of filteredFields;">
-                                <p>{{ metadatum.value }}</p>
-                        </div>
-
+                    <div *ngFor="#metadatum of filteredFields;">
+                            <p>{{ metadatum.value }}</p>
+                    </div>
              </div>
             `
 })
