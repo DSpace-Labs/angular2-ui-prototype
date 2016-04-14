@@ -55,6 +55,7 @@ export abstract class DSpaceObject {
                     return new Metadatum(this, metadatumJSON);
                 })
             }
+
         }
     }
 }

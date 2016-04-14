@@ -21,14 +21,14 @@ import {Component} from 'angular2/core';
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
 				    	{{context.type}}
 				  	</div>
-				  	<div class="panel-body" *ngIf="context.type == 'item'">
+				<!-- I have implemented this in the simple & full view.
+				<div class="panel-body" *ngIf="context.type == 'item'">
                         <ul>
                             <li *ngFor="#bitstream of context.bitstreams">
-                                <!-- TODO: make a link to download the items bitstream -->
                                 <span>{{bitstream.name}}</span>
                             </li>
                         </ul>
-				  	</div>
+				  	</div> -->
 				</div>
     		  `
 })
