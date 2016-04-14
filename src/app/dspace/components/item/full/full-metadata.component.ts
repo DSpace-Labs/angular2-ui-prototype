@@ -13,6 +13,8 @@ import {MetadataHelper} from '../../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../../models/metadatum.model'
 
+import {ViewElementComponent} from '../view-element.component';
+
 /**
  * Renders a table of all metadata entries of an item.
  */
@@ -22,7 +24,9 @@ import {Metadatum} from '../../../models/metadatum.model'
     inputs: ['itemData'],
     pipes: [TranslatePipe],
     template:
-        `   <div id="metadata">
+        `
+       <view-element>
+        <div id="metadata">
                 <table class="table table-hover">
                     <thead class="thead-inverse">
                         <tr>
@@ -40,6 +44,7 @@ import {Metadatum} from '../../../models/metadatum.model'
                     </tbody>
                 </table>
             </div>
+            </view-element>
             `
 })
 

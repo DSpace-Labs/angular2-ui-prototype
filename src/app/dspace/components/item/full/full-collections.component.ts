@@ -11,6 +11,8 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ComponentTitleComponent} from '../component-title.component';
 
+import {ViewElementComponent} from '../view-element.component';
+
 /**
  * Component for the collections of the simple-item-view.
  * When you click on the collection name, it has to redirect to the right collection.
@@ -18,18 +20,19 @@ import {ComponentTitleComponent} from '../component-title.component';
 @Component({
     selector: 'item-full-collections',
     inputs: ['itemData'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template:
-        `<div id="item-collection">
-             <component-title [title]="component_title"></component-title>
+        `
+        <view-element [header]="component_title | translate">
             <ul>
                 <li>
                    <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a>
                 </li>
             </ul>
-         </div>
-            `
+
+        </view-element>
+        `
 })
 
 export class FullCollectionsComponent {

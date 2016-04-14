@@ -11,18 +11,20 @@ import {Bitstream} from '../../../models/bitstream.model';
 
 import {ComponentTitleComponent} from '../component-title.component';
 
+import {ViewElementComponent} from '../view-element.component';
+
 /**
  * Renders an overview of all bitstreams attached to this item.
  */
 @Component({
     selector: 'item-full-bistreams',
     inputs: ['itemBitstreams'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template:
         `
-            <component-title [title]="component_title"></component-title>
-            <div id="bitstreams" class="file-list">
+            <view-element [header]="component_title | translate">
+             <div id="bitstreams" class="file-list">
                     <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
                         <!-- thumbnail -->
                         <div class="col-xs-6 col-sm-3">
@@ -50,6 +52,8 @@ import {ComponentTitleComponent} from '../component-title.component';
                         </div>
                     </div>
             </div>
+            </view-element>
+
         `
 })
 
