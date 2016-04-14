@@ -15,6 +15,8 @@ import {Metadatum} from '../../models/metadatum.model'
 
 import {ComponentTitleComponent} from './component-title.component';
 
+import {ViewElementComponent} from './view-element.component';
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -22,25 +24,25 @@ import {ComponentTitleComponent} from './component-title.component';
 
 @Component({
     selector: 'item-authors',
-    directives: [ComponentTitleComponent],
+    directives: [ComponentTitleComponent, ViewElementComponent],
     inputs: ['itemData'],
     pipes: [TranslatePipe],
     template:
-            `<div id="authors">
-                    <component-title [title]="component_title"></component-title>
-                    <div *ngFor="#metadatum of filteredFields;">
-                            <p>{{ metadatum.value }}</p>
+            `
+                <view-element [header]="component_title | translate">
+                     <div *ngFor="#metadatum of filteredFields;">
+                        <p>{{ metadatum.value }}</p>
                     </div>
-             </div>
+                </view-element>
             `
 })
 
 export class AuthorsComponent {
 
 
-    private component_title = "item-view.authors.title";
+    private component_title = "item-view.authors.title"; // this string is written as it appears in the i18n file.
 
-    private itemData : Metadatum[];
+    private itemData : Metadatum[]; // Our input
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
