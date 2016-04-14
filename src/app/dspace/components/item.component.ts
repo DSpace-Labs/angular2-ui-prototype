@@ -71,9 +71,19 @@ export class ItemComponent implements CanDeactivate {
      */
     itemJSON: Object;
 
+    /**
+     * An object that represents the current item.
+     */
     item: Item;
 
+    /**
+     * reference to the MetaTagService
+     */
     private _metaTagService: MetaTagService;
+
+    /**
+     * The list of tags added by this component
+     */
     private _googleScholarTags: MetaTag[];
 
     /**
@@ -105,32 +115,65 @@ export class ItemComponent implements CanDeactivate {
         translate.use('en');
     }
 
+    /**
+     * Return the values matching the given set of metadata keys.
+     * e.g. if keys = ['dc.contributor.author', 'dc.creator'] it will
+     * return an array containing all author and creator names.
+     *
+     * @param metadata
+     *      the Metadatum array to search in
+     * @param keys
+     *      an array of keys to search for
+     * @returns {string[]}
+     *      the values of the Metadatum objects matching the keys.
+     */
     //TODO getting the values for a metadata field will most likely be useful in other places and should be moved to where it makes more sense
     private getValuesFor(metadata:Metadatum[], keys:string[]): string[] {
         let combinedValues:string[] = [];
-        keys.forEach((key) => {
-            let metadataMatchingKey = ArrayUtil.filterBy(metadata, 'key', key);
-            let valuesMatchingKey = ArrayUtil.mapBy(metadataMatchingKey, 'value');
-            valuesMatchingKey.forEach((value:string) => {
-                if (StringUtil.isNotBlank(value)) {
-                    combinedValues.push(value);
-                }
+        if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
+            keys.forEach((key) => {
+                let metadataMatchingKey = ArrayUtil.filterBy(metadata, 'key', key);
+                let valuesMatchingKey = ArrayUtil.mapBy(metadataMatchingKey, 'value');
+                valuesMatchingKey.forEach((value:string) => {
+                    if (StringUtil.isNotBlank(value)) {
+                        combinedValues.push(value);
+                    }
+                });
             });
-        });
+        }
         return combinedValues;
     }
 
+    /**
+     * Return the first value matching the given set of metadata keys.
+     * e.g. if keys = ['dc.contributor.author', 'dc.creator'] it will
+     * return the first author it encounters, if there are no authors it
+     * will return the first creator. If there are no creators either it
+     * will return null
+     *
+     * @param metadata
+     *      the Metadatum array to search in
+     * @param keys
+     *      an array of keys to search for
+     * @returns {string}
+     *      the value of the fist Metadatum object matching the keys.
+     */
     private getFirstValueFor(metadata:Metadatum[], keys:string[]): string {
-        for (let i = 0; i < keys.length; i++) {
-            let key = keys[i];
-            let metadatumMatchingKey = ArrayUtil.findBy(metadata, 'key', key);
-            if (ObjectUtil.hasValue(metadatumMatchingKey)) {
-                return metadatumMatchingKey.value;
+        if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
+            for (let i = 0; i < keys.length; i++) {
+                let key = keys[i];
+                let metadatumMatchingKey = ArrayUtil.findBy(metadata, 'key', key);
+                if (ObjectUtil.hasValue(metadatumMatchingKey)) {
+                    return metadatumMatchingKey.value;
+                }
             }
         }
         return null;
     }
 
+    /**
+     * Add the <meta> elements for google scholar to the <head>
+     */
     //TODO this isn't the entire set GS needs, it's just a proof of concept for now.
     private setGoogleScholarMetaTags(): void {
         this.setCitationTitleGSTags();
@@ -141,34 +184,74 @@ export class ItemComponent implements CanDeactivate {
         this.setCitationKeywordsGSTag();
     }
 
-    private setCitationTitleGSTags(): void {
-        this.setGSTagsForField('citation_title', ['dc.title'], true, false);
+    /**
+     * Add <meta name="citation_title" ... >  to the <head>
+     */
+    private setCitationTitleGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.title'], true, false);
+        this.setGSTagsForField('citation_title', values);
     }
 
-    private setCitationAuthorGSTags(): void {
-        this.setGSTagsForField('citation_author', ['dc.author', 'dc.contributor.author','dc.creator'], false, false);
+    /**
+     * Add <meta name="citation_author" ... >  to the <head>
+     */
+    private setCitationAuthorGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.author', 'dc.contributor.author', 'dc.creator'], false, false);
+        this.setGSTagsForField('citation_author', values);
     }
 
-    private setCitationDateGSTags(): void {
-        this.setGSTagsForField('citation_date', ['dc.date.copyright', 'dc.date.issued', 'dc.date.available', 'dc.date.accessioned'], true, false);
+    /**
+     * Add <meta name="citation_date" ... >  to the <head>
+     */
+    private setCitationDateGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.date.copyright', 'dc.date.issued', 'dc.date.available', 'dc.date.accessioned'], true, false);
+        this.setGSTagsForField('citation_date', values);
     }
 
-    private setCitationISSNGSTags(): void {
-        this.setGSTagsForField('citation_issn', ['dc.identifier.issn'], true, false);
+    /**
+     * Add <meta name="citation_issn" ... >  to the <head>
+     */
+    private setCitationISSNGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.identifier.issn'], true, false);
+        this.setGSTagsForField('citation_issn', values);
     }
 
-    private setCitationISBNGSTags(): void {
-        this.setGSTagsForField('citation_issn', ['dc.identifier.isbn'], true, false);
+    /**
+     * Add <meta name="citation_issn" ... >  to the <head>
+     */
+    private setCitationISBNGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.identifier.isbn'], true, false);
+        this.setGSTagsForField('citation_isbn', values);
     }
 
+    /**
+     * Add <meta name="citation_keywords" ... >  to the <head>
+     */
     private setCitationKeywordsGSTag(): void {
-        this.setGSTagsForField('citation_keywords', ['dc.subject', 'dc.type'], false, true);
+        let values = this.getMetaTagContentsFor(['dc.subject', 'dc.type'], false, true);
+        this.setGSTagsForField('citation_keywords', values);
     }
 
+    /**
+     * Return the values matching the given set of metadataKeys for this component's item
+     *
+     * If stopAfterFirstMatch = true only the first match will be included,
+     * if combineInSingleTag = true all results will be combined in a single string,
+     * separated by semicolons
+     *
+     * @param metadataKeys
+     *      the array of keys to look for
+     * @param stopAfterFirstMatch
+     *      a boolean indicating whether it should stop searching after the first match
+     * @param combineInSingleTag
+     *      a boolean indicating whether the results should be combined in a single string
+     * @returns {string[]}
+     *      a string[] containing the matching values.
+     */
     //TODO method does too many things: refactor
-    private setGSTagsForField(metaTagName: string, metadataKeys: string[], stopAfterFirstMatch: boolean, combineInSingleTag: boolean): void {
+    private getMetaTagContentsFor(metadataKeys:string[], stopAfterFirstMatch:boolean, combineInSingleTag:boolean): string[] {
+        let values:string[] = [];
         if (ObjectUtil.isNotEmpty(this.item)) {
-            let values:string[] = [];
             if (stopAfterFirstMatch) {
                 let value = this.getFirstValueFor(this.item.metadata, metadataKeys);
                 if (ObjectUtil.hasValue(value)) {
@@ -181,16 +264,30 @@ export class ItemComponent implements CanDeactivate {
                     values = [values.join('; ')];
                 }
             }
-            values.forEach((value:string) => {
-                let newTag = MetaTag.getBuilder()
-                    .name(metaTagName)
-                    .content(value)
-                    .build();
-                this._metaTagService.addTag(newTag);
-                this._googleScholarTags.push(newTag);
-            });
         }
+        return values;
     }
+
+    /**
+     * Add a <meta> element with the given tagname to the DOM
+     * for each of the given values
+     *
+     * @param metaTagName
+     *      the name attribute for the new <meta> elements
+     * @param values
+     *      the content attributes for the new <meta> elements
+     */
+    private setGSTagsForField(metaTagName: string, values: string[]): void {
+        values.forEach((value:string) => {
+            let newTag = MetaTag.getBuilder()
+                .name(metaTagName)
+                .content(value)
+                .build();
+            this._metaTagService.addTag(newTag);
+            this._googleScholarTags.push(newTag);
+        });
+    }
+
 
     /**
      * This method is called automatically when the user navigates away from this route. It is used

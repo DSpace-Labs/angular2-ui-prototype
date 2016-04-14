@@ -8,24 +8,56 @@ import {StringUtil} from "../commons/string.util";
 
 /**
  * This service can add and remove meta tags to the <head>
+ *
  * Because it needs to work both server and client side, a lot of
+ * operations that should be handled by the DOMAdapter, are handled
+ * in this class. e.g. DOM.query isn't implemented server side, so
+ * searching happens by iterating over DOM nodes in this class.
  */
 @Injectable()
 export class MetaTagService {
-    private _hardcodedTags: MetaTag[];
-    private _dynamicTags: MetaTag[];
-    private _document;
+    /**
+     * An array of the <meta> elements that were in the <head> before
+     * this service was initialized for the first time
+     */
+    private _preExistingTags: MetaTag[] = null;
 
+    /**
+     * An array of the <meta> elements that were added by this service
+     */
+    private _addedTags: MetaTag[] = null;
+
+    /**
+     * The internal reference to the DOM document.
+     */
+    private _document = null;
+
+    /**
+     * Initialize the internal tag arrays.
+     *
+     * _preExistingTags gets populated by going over the current <meta>
+     * elements in the DOM.
+     *
+     * _addedTags is set to an empty array.
+     */
     private initTags(): void {
-        if (ArrayUtil.isEmpty(this._hardcodedTags)) {
-            this._hardcodedTags = this.getMetaNodesInDOM()
+        if (ObjectUtil.hasNoValue(this._preExistingTags)) {
+            this._preExistingTags = this.getMetaNodesInDOM()
                 .map((meta:Node) => {
                     return this.nodeToMetaTag(meta);
                 });
         }
-        this._dynamicTags = [];
+        this._addedTags = [];
     }
 
+    /**
+     * Turn a meta Node into a MetaTag object.
+     *
+     * @param meta
+     *      a DOM Node representing a <meta> element
+     * @returns {MetaTag}
+     *      a MetaTag representing that <meta> element
+     */
     private nodeToMetaTag(meta:Node): MetaTag {
         return MetaTag.getBuilder()
             .id(this.getMetaAttributeValue(meta, 'id'))
@@ -36,18 +68,41 @@ export class MetaTagService {
             .build();
     }
 
-    get tags(): MetaTag[]{
-        let allTags:MetaTag[] = [];
-        if (ArrayUtil.isNotEmpty(this._hardcodedTags)) {
-            allTags = allTags.concat(this._hardcodedTags);
+    /**
+     * Turn a MetaTag object into a Node object
+     *
+     * @param newTag
+     *      a MetaTag representing a <meta> element
+     * @returns {Node}
+     *      a Node representing that <meta> element
+     */
+    private metaTagToNode(newTag:MetaTag): Node {
+        let meta = DOM.createElement('meta');
+        if (ObjectUtil.isNotEmpty(newTag.id)) {
+            DOM.setAttribute(meta, 'id', newTag.id);
         }
-        if (ArrayUtil.isNotEmpty(this._dynamicTags)) {
-            allTags = allTags.concat(this._dynamicTags);
+        if (ObjectUtil.isNotEmpty(newTag.name)) {
+            DOM.setAttribute(meta, 'name', newTag.name);
         }
-        return allTags;
+        if (ObjectUtil.isNotEmpty(newTag.content)) {
+            DOM.setAttribute(meta, 'content', newTag.content);
+        }
+        if (ObjectUtil.isNotEmpty(newTag.scheme)) {
+            DOM.setAttribute(meta, 'scheme', newTag.scheme);
+        }
+        if (ObjectUtil.isNotEmpty(newTag.lang)) {
+            DOM.setAttribute(meta, 'xml:lang', newTag.lang);
+        }
+        return meta;
     }
 
-
+    /**
+     * Get a list of the <meta> elements in the DOM
+     *
+     * @returns {Node[]}
+     *      A array containing Node objects for each <meta> element
+     *      in the DOM in the order they appear.
+     */
     private getMetaNodesInDOM(): Node[] {
         let children = this.htmlCollectionToNodeArray(this._document.head.children);
         if (ArrayUtil.isNotEmpty(children)) {
@@ -61,6 +116,23 @@ export class MetaTagService {
         }
     }
 
+    /**
+     * Get the value of an attribute of a <meta> element.
+     *
+     * This should be done by using HTMLMetaElement objects instead
+     * of Node objects, but because namespace support isn't implemented server
+     * side as of yet, it would be impossible to retrieve e.g. the xml:lang
+     * attribute that way.
+     *
+     * @param meta
+     *      a Node representing a <meta> element
+     * @param attributeName
+     *      the name, including the namespace, of an attribute on a <meta> element
+     *      e.g. scheme, content, xml:lang
+     * @returns {string}
+     *      the value for the requested attribute.
+     *      undefined if the attribute doesn't exist
+     */
     private getMetaAttributeValue(meta:Node, attributeName:string):string {
         if (ObjectUtil.isNotEmpty(meta)
             && ObjectUtil.isNotEmpty(meta.attributes)
@@ -73,60 +145,165 @@ export class MetaTagService {
         }
     }
 
-    private htmlCollectionToNodeArray(collection:HTMLCollection):Array<Node> {
+    /**
+     * Turn a HTMLCollection object into an array of Node objects.
+     *
+     * @param collection
+     *      a HTMLCollection object
+     * @returns {Node[]}
+     *      that collection as a Node array
+     */
+    private htmlCollectionToNodeArray(collection:HTMLCollection):Node[] {
         return [].slice.call(collection);
     }
 
+    /**
+     * Return true if the given tag is part of the given array.
+     *
+     * @param tagToFind
+     *      the MetaTag object to search for
+     * @param tagArray
+     *      the array of MetaTag objects to search in.
+     * @returns {boolean}
+     *      true if tagToFind is part of tagArray, false otherwise
+     */
     private tagIsPartOfArray(tagToFind: MetaTag, tagArray: MetaTag[]):boolean {
         let existingTag = tagArray.find((tag) => {
             return tag.equals(tagToFind);
         });
         return ObjectUtil.hasValue(existingTag);
     }
-    
-    private tagDoesntAlreadyExist(newTag: MetaTag): boolean {
-        return !this.tagIsPartOfArray(newTag, this.tags);
+
+    /**
+     * Returns true if the given tag is not already present in this.tags
+     *
+     * @param tagToFind
+     *      the MetaTag object to search for
+     * @returns {boolean}
+     *      true if tagToFind is part of this.tags
+     */
+    private tagDoesntAlreadyExist(tagToFind: MetaTag): boolean {
+        return !this.tagIsPartOfArray(tagToFind, this.tags);
     }
 
+    /**
+     * Get the last <meta> element in the DOM.
+     *
+     * @returns {Node}
+     *      a Node object representing the last <meta> element in the DOM.
+     */
+    private getLastMetaNode(): Node {
+        let lastMetaNode:Node = null;
+        let currentNode = this._document.head.lastChild;
+        do {
+            //localName: for browsers, name: server-side
+            if (currentNode.localName === 'meta' || currentNode.name === 'meta') {
+                lastMetaNode = currentNode;
+            }
+            currentNode = currentNode.previousSibling;
+        } while (ObjectUtil.hasNoValue(lastMetaNode) && ObjectUtil.hasValue(currentNode));
+        return lastMetaNode;
+    }
+
+    /**
+     * Insert the given meta Node in the DOM, either beneath the last <meta> element
+     * already in the DOM, or if there aren't any, as the first element of the <head>.
+     *
+     * This is because preboot can add elements to the <head> that shouldn't be there
+     * according to the HTML spec (e.g. <div>), and if you add <meta> elements below
+     * those, some browsers don't recognize them.
+     *
+     * @param meta
+     *      the meta Node object to be inserted in the DOM.
+     */
+    private insertMetaNodeIntoDOM(meta:Node): void {
+        let lastMetaNode = this.getLastMetaNode();
+        if (ObjectUtil.hasValue(lastMetaNode)) {
+            DOM.insertAfter(lastMetaNode, meta);
+        }
+        else {
+            DOM.insertBefore(this._document.head.firstChild, meta);
+        }
+    }
+
+    /**
+     * Return the given tagArray, without the given tag.
+     *
+     * @param tagToExclude
+     *      the MetaTag to exclude from tagArray
+     * @param tagArray
+     *      the MetaTag[] to exclude tagToExclude from
+     * @returns {MetaTag[]}
+     *      tagArray without the element tagToExlude
+     */
+    private excludeTagFromArray(tagToExclude: MetaTag, tagArray: MetaTag[]): MetaTag[] {
+        return tagArray.filter((tag:MetaTag) => {
+            return !tag.equals(tagToExclude);
+        });
+    }
+
+    /**
+     * Construct the MetaTagService.
+     *
+     * @param document
+     *      the DOM document
+     */
     constructor(@Inject(DOCUMENT) document) {
         this._document = document;
         this.initTags();
     }
 
+    /**
+     * Return an array of MetaTag objects that represent all <meta> elements
+     * currently in the DOM, regardless of whether they were added by this
+     * service
+     *
+     * @returns {MetaTag[]}
+     *      an array of MetaTag objects that represent all <meta> elements
+     *      currently in the DOM
+     */
+    get tags(): MetaTag[]{
+        let allTags:MetaTag[] = [];
+        if (ArrayUtil.isNotEmpty(this._preExistingTags)) {
+            allTags = allTags.concat(this._preExistingTags);
+        }
+        if (ArrayUtil.isNotEmpty(this._addedTags)) {
+            allTags = allTags.concat(this._addedTags);
+        }
+        return allTags;
+    }
+
+    /**
+     * Add the given MetaTag object as a <meta> element to the DOM.
+     *
+     * @param newTag
+     *      the MetaTag to be added
+     */
     public addTag(newTag: MetaTag): void {
         if (this.tagDoesntAlreadyExist(newTag)) {
-            this._dynamicTags.push(newTag);
-            let meta = DOM.createElement('meta');
-            if (ObjectUtil.isNotEmpty(newTag.id)) {
-                DOM.setAttribute(meta, 'id', newTag.id);
-            }
-            if (ObjectUtil.isNotEmpty(newTag.name)) {
-                DOM.setAttribute(meta, 'name', newTag.name);
-            }
-            if (ObjectUtil.isNotEmpty(newTag.content)) {
-                DOM.setAttribute(meta, 'content', newTag.content);
-            }
-            if (ObjectUtil.isNotEmpty(newTag.scheme)) {
-                DOM.setAttribute(meta, 'scheme', newTag.scheme);
-            }
-            if (ObjectUtil.isNotEmpty(newTag.lang)) {
-                DOM.setAttribute(meta, 'xml:lang', newTag.lang);
-            }
-            DOM.appendChild(this._document.head, meta);
+            this._addedTags.push(newTag);
+            let meta = this.metaTagToNode(newTag);
+            this.insertMetaNodeIntoDOM(meta);
+
         }
     }
 
-    public removeTags(tags: MetaTag[]): void {
-        console.log('removeTags');
-        if (ArrayUtil.isNotEmpty(tags)) {
+    /**
+     * Remove the <meta> elements corresponding to the objects in given MetaTag[]
+     * from the DOM and the internal MetaTag arrays.
+     *
+     * @param tagsToRemove
+     *      the list of MetaTag objects to remove.      
+     */
+    public removeTags(tagsToRemove: MetaTag[]): void {
+        if (ArrayUtil.isNotEmpty(tagsToRemove)) {
             this.getMetaNodesInDOM().filter((node:Node) => {
-                return this.tagIsPartOfArray(this.nodeToMetaTag(node), tags);
+                return this.tagIsPartOfArray(this.nodeToMetaTag(node), tagsToRemove);
             }).forEach((matchingNode: Node) => {
-                let matchingTag = this.nodeToMetaTag(matchingNode);
                 this._document.head.removeChild(matchingNode);
-                this._dynamicTags = this._dynamicTags.filter((tag:MetaTag) => {
-                    return !tag.equals(matchingTag);
-                })
+                let matchingTag = this.nodeToMetaTag(matchingNode);
+                this._addedTags = this.excludeTagFromArray(matchingTag, this._addedTags);
+                this._preExistingTags = this.excludeTagFromArray(matchingTag, this._preExistingTags);
             });
         }
     }
