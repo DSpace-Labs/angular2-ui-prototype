@@ -22,7 +22,7 @@
     "clean": "rimraf ./node_modules",
     "build": "webpack",
     "prebuild": "rimraf dist",
-    "watch": "concurrently \"webpack -w\" \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
     "postinstall": "typings install"
   },
@@ -37,6 +37,7 @@
     "express": "4.13.4",
     "jquery": "2.2.3",
     "ng2-translate": "1.11.0",
+    "object-hash": "^1.1.2",
     "parse5": "1.5.0",
     "preboot": "2.0.6",
     "reflect-metadata": "0.1.2",

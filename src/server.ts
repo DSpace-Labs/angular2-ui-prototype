@@ -38,6 +38,7 @@ import {DSpaceService} from './app/dspace/dspace.service';
 import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
+import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
 
 
 enableProdMode();
@@ -97,7 +98,8 @@ function ngApp(req, res) {
             DSpaceConstants,
             DSpaceService,
             DSpaceStore,
-            HttpService
+            HttpService,
+            MetaTagService
         ],
         preboot: {
             replay: 'hydrate',

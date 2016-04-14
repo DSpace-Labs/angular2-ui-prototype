@@ -1,0 +1,334 @@
+import {Location} from 'angular2/router';
+import {Item} from "../dspace/models/item.model";
+import {Metadatum} from "../dspace/models/metadatum.model";
+import {ArrayUtil} from "./commons/array.util";
+import {StringUtil} from "./commons/string.util";
+import {ObjectUtil} from "./commons/object.util";
+import {MetaTag} from "./meta-tag/meta-tag.model";
+import {MetaTagService} from "./meta-tag/meta-tag.service";
+
+export class GoogleScholarMetadataUtil {
+    //TODO make configurable
+    private _DSPACE_URL = 'http://localhost:3000';
+
+    private _item: Item;
+
+    /**
+     * reference to the MetaTagService
+     */
+    private _metaTagService: MetaTagService;
+
+    /**
+     * reference to the LocationService
+     */
+    private _location: Location;
+
+    /**
+     * The list of tags added by this instance
+     */
+    private _googleScholarTags: MetaTag[];
+
+
+    //TODO services can probably be injected somehow
+    constructor(metaTagService: MetaTagService, location: Location, item:Item) {
+        this._metaTagService = metaTagService;
+        this._location = location;
+        this._item = item;
+        this._googleScholarTags = [];
+    }
+
+    /**
+     * Return the values matching the given set of metadata keys.
+     * e.g. if keys = ['dc.contributor.author', 'dc.creator'] it will
+     * return an array containing all author and creator names.
+     *
+     * @param metadata
+     *      the Metadatum array to search in
+     * @param keys
+     *      an array of keys to search for
+     * @returns {string[]}
+     *      the values of the Metadatum objects matching the keys.
+     */
+    //TODO getting the values for a metadata field will most likely be useful in other places and should be moved to where it makes more sense
+    private getValuesFor(metadata:Metadatum[], keys:string[]): string[] {
+        let combinedValues:string[] = [];
+        if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
+            keys.forEach((key) => {
+                let metadataMatchingKey = ArrayUtil.filterBy(metadata, 'key', key);
+                let valuesMatchingKey = ArrayUtil.mapBy(metadataMatchingKey, 'value');
+                valuesMatchingKey.forEach((value:string) => {
+                    if (StringUtil.isNotBlank(value)) {
+                        combinedValues.push(value);
+                    }
+                });
+            });
+        }
+        return combinedValues;
+    }
+
+    /**
+     * Return the first value matching the given set of metadata keys.
+     * e.g. if keys = ['dc.contributor.author', 'dc.creator'] it will
+     * return the first author it encounters, if there are no authors it
+     * will return the first creator. If there are no creators either it
+     * will return null
+     *
+     * @param metadata
+     *      the Metadatum array to search in
+     * @param keys
+     *      an array of keys to search for
+     * @returns {string}
+     *      the value of the fist Metadatum object matching the keys.
+     */
+    private getFirstValueFor(metadata:Metadatum[], keys:string[]): string {
+        if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
+            for (let i = 0; i < keys.length; i++) {
+                let key = keys[i];
+                let metadatumMatchingKey = ArrayUtil.findBy(metadata, 'key', key);
+                if (ObjectUtil.hasValue(metadatumMatchingKey)) {
+                    return metadatumMatchingKey.value;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Add the <meta> elements for google scholar to the <head>
+     *
+     * the calls that are commented out are the ones that arent configured
+     * in a standard DSpace's google-metadata.properties file
+     */
+    public setGoogleScholarMetaTags(): void {
+        this.setCitationTitleGSTag();
+        this.setCitationAuthorGSTags();
+        this.setCitationDateGSTag();
+        this.setCitationISSNGSTag();
+        this.setCitationISBNGSTag();
+        // this.setCitationJournalTitleGSTag();
+        // this.setCitationVolumeGSTag();
+        // this.setCitationIssueGSTag();
+        // this.setCitationFirstPageGSTag();
+        // this.setCitationLastPageGSTag();
+        // this.setCitationDOIGSTag();
+        // this.setCitationPMIDGSTag();
+        this.setCitationAbstractGSTag();
+        // this.setCitationFullTextGSTag();
+        this.setCitationPDFGSTag();
+        this.setCitationLanguageGSTag();
+        this.setCitationKeywordsGSTag();
+        // this.setCitationConferenceGSTag();
+        if (this.isDissertation()) {
+            this.setCitationDissertationNameGSTag();
+            this.setCitationDissertationInstitutionGSTag();
+        }
+        // if () {
+        //     this.setCitationPatentCountryGSTag();
+        //     this.setCitationPatentNumberGSTag();
+        // }
+        if (this.isTechReport()) {
+            // this.setCitationTechReportNumberGSTag();
+            this.setCitationTechReportInstitutionGSTag();
+        }
+    }
+
+    /**
+     * Add <meta name="citation_title" ... >  to the <head>
+     */
+    private setCitationTitleGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.title'], true, false);
+        this.setGSTagsForField('citation_title', values);
+    }
+
+    /**
+     * Add <meta name="citation_author" ... >  to the <head>
+     */
+    private setCitationAuthorGSTags():void {
+        let values = this.getMetaTagContentsFor(['dc.author', 'dc.contributor.author', 'dc.creator'], false, false);
+        this.setGSTagsForField('citation_author', values);
+    }
+
+    /**
+     * Add <meta name="citation_date" ... >  to the <head>
+     */
+    private setCitationDateGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.date.copyright', 'dc.date.issued', 'dc.date.available', 'dc.date.accessioned'], true, false);
+        this.setGSTagsForField('citation_date', values);
+    }
+
+    /**
+     * Add <meta name="citation_issn" ... >  to the <head>
+     */
+    private setCitationISSNGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.identifier.issn'], true, false);
+        this.setGSTagsForField('citation_issn', values);
+    }
+
+    /**
+     * Add <meta name="citation_isbn" ... >  to the <head>
+     */
+    private setCitationISBNGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.identifier.isbn'], true, false);
+        this.setGSTagsForField('citation_isbn', values);
+    }
+
+    /**
+     * Add <meta name="citation_abstract_html_url" ... >  to the <head>
+     */
+    private setCitationAbstractGSTag():void {
+        //TODO normalize itemURL
+        let itemUrl = `${this._DSPACE_URL}${this._location.path()}`;
+        this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
+    }
+
+    /**
+     * Add <meta name="citation_pdf_url" ... >  to the <head>
+     */
+    private setCitationPDFGSTag():void {
+        //TODO after item page is merged
+        // let values = [];
+        // this.setGSTagsForField('citation_pdf_url', values);
+    }
+
+    /**
+     * Add <meta name="citation_language" ... >  to the <head>
+     */
+    private setCitationLanguageGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.language.iso'], true, false);
+        this.setGSTagsForField('citation_language', values);
+    }
+
+    /**
+     * Add <meta name="citation_keywords" ... >  to the <head>
+     */
+    private setCitationKeywordsGSTag(): void {
+        let values = this.getMetaTagContentsFor(['dc.subject', 'dc.type'], false, true);
+        this.setGSTagsForField('citation_keywords', values);
+    }
+
+    /**
+     * Add <meta name="citation_dissertation_name" ... >  to the <head>
+     */
+    private setCitationDissertationNameGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.title'], true, false);
+        this.setGSTagsForField('citation_dissertation_name', values);
+    }
+
+    /**
+     * Add <meta name="citation_dissertation_institution" ... >  to the <head>
+     */
+    private setCitationDissertationInstitutionGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.publisher'], true, false);
+        this.setGSTagsForField('citation_dissertation_institution', values);
+    }
+
+    /**
+     * Add <meta name="citation_technical_report_institution" ... >  to the <head>
+     */
+    private setCitationTechReportInstitutionGSTag():void {
+        let values = this.getMetaTagContentsFor(['dc.publisher'], true, false);
+        this.setGSTagsForField('citation_technical_report_institution', values);
+    }
+
+    /**
+     * Returns true if this._item is a dissertation
+     *
+     * @returns {boolean}
+     *      true if this._item has a dc.type equal to 'Thesis'
+     */
+    private isDissertation() : boolean {
+        if (ObjectUtil.hasNoValue(this._item)) {
+            return false;
+        }
+        return ObjectUtil.hasValue(
+            this._item.metadata.find((metadatum: Metadatum) => {
+                return metadatum.key === 'dc.type'
+                    && metadatum.value === 'Thesis';
+            })
+        );
+    }
+
+    /**
+     * Returns true if this._item is a technical report
+     *
+     * @returns {boolean}
+     *      true if this._item has a dc.type equal to 'Technical Report'
+     */
+    private isTechReport() : boolean {
+        if (ObjectUtil.hasNoValue(this._item)) {
+            return false;
+        }
+        return ObjectUtil.hasValue(
+            this._item.metadata.find((metadatum: Metadatum) => {
+                return metadatum.key === 'dc.type'
+                    && metadatum.value === 'Technical Report';
+            })
+        );
+    }
+
+    /**
+     * Return the values matching the given set of metadataKeys for this component's item
+     *
+     * If stopAfterFirstMatch = true only the first match will be included,
+     * if combineInSingleTag = true all results will be combined in a single string,
+     * separated by semicolons
+     *
+     * @param metadataKeys
+     *      the array of keys to look for
+     * @param stopAfterFirstMatch
+     *      a boolean indicating whether it should stop searching after the first match
+     * @param combineInSingleTag
+     *      a boolean indicating whether the results should be combined in a single string
+     * @returns {string[]}
+     *      a string[] containing the matching values.
+     */
+    //TODO method does too many things: refactor
+    private getMetaTagContentsFor(metadataKeys:string[], stopAfterFirstMatch:boolean, combineInSingleTag:boolean): string[] {
+        let values:string[] = [];
+        if (ObjectUtil.hasValue(this._item)) {
+            if (stopAfterFirstMatch) {
+                let value = this.getFirstValueFor(this._item.metadata, metadataKeys);
+                if (ObjectUtil.hasValue(value)) {
+                    values.push(value);
+                }
+            }
+            else {
+                values = this.getValuesFor(this._item.metadata, metadataKeys);
+                if (combineInSingleTag) {
+                    values = [values.join('; ')];
+                }
+            }
+        }
+        return values;
+    }
+
+    /**
+     * Add a <meta> element with the given tagname to the DOM
+     * for each of the given values
+     *
+     * @param metaTagName
+     *      the name attribute for the new <meta> elements
+     * @param values
+     *      the content attributes for the new <meta> elements
+     */
+    private setGSTagsForField(metaTagName: string, values: string[]): void {
+        values.forEach((value:string) => {
+            let newTag = MetaTag.getBuilder()
+                .name(metaTagName)
+                .content(value)
+                .build();
+            this._metaTagService.addTag(newTag);
+            this._googleScholarTags.push(newTag);
+        });
+    }
+
+    /**
+     * Removes all tags set by this instance.
+     */
+    public clearGoogleScholarMetaTags(): void {
+        this._metaTagService.removeTags(this._googleScholarTags);
+        this._googleScholarTags = [];
+    }
+
+
+}
