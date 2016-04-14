@@ -29,7 +29,7 @@ import {ViewElementComponent} from './view-element.component';
         `
             <view-element [header]="component_title | translate">
             <div *ngFor="#metadatum of filteredFields;">
-                <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
+                <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
             </div>
             </view-element>
         `
