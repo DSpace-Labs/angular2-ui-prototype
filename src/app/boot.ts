@@ -3,7 +3,7 @@ import {prebootComplete} from 'angular2-universal';
 
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
-import {ROUTER_PROVIDERS} from 'angular2/router';
+import {ROUTER_PROVIDERS, Location} from 'angular2/router';
 import {enableProdMode, provide} from 'angular2/core';
 
 import {
@@ -27,6 +27,7 @@ enableProdMode();
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    Location,
     provide(TranslateLoader, {
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'dist/i18n', '.json'),
         deps: [Http]
