@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Route, RouteConfig, RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace/dspace.directory';
 import {DSpaceStore} from '../dspace/dspace.store';
@@ -93,7 +93,8 @@ export class PaginationComponent {
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
                 private dspaceStore: DSpaceStore,
-                private paginationService: PaginationService) {
+                private paginationService: PaginationService,
+                private router: Router) {
         this.limitOptions = paginationService.getLimitOptions();    
     }
 
@@ -113,24 +114,37 @@ export class PaginationComponent {
      *          select option which holds current value selected.
      */
     updateLimit(option) {
-        // when selecting a limit greater than the total the following exception is thrown
-        // throws browser_adapter.js:76 EXCEPTION: Attempt to use a dehydrated detector: PaginationComponent_1 -> ngModelChange
+        // occasionally throws browser_adapter.js:76 EXCEPTION: Attempt to use a dehydrated detector: PaginationComponent_1 -> ngModelChange
         // this seems to be an issue with Angular2 and/or Angular Universal
+        // I cannot infer what is causing the problem from the following code.
+        
+        let previousPage = this.context.page;
+
         this.dspaceStore.clearPages(this.context);
-        this.context.page = (this.context.page * this.context.limit) / option.value;
+
+        this.context.page = this.context.page > 1 ? Math.ceil(((this.context.page - 1) * this.context.limit) / option.value) : 1;
+
         this.context.limit = option.value;
+
         this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
+        
         this.context.pageCount = Math.ceil(this.context.total / this.context.limit);
-        this.pages = this.paginationService.createPagesArray(this.context);
-        if (this.context.type == 'item') {
-            // possibly load metadata page
-        }
-        else if (this.context.type == 'collection') {
-            this.dspaceDirectory.loadNav('item', this.context);
+
+        if(previousPage == this.context.page) {
+            this.pages = this.paginationService.createPagesArray(this.context);
+            if (this.context.type == 'item') {
+                // possibly load metadata page
+            }
+            else if (this.context.type == 'collection') {
+                this.dspaceDirectory.loadNav('item', this.context);
+            }
+            else {
+                this.dspaceDirectory.loadNav('community', this.context);
+                this.dspaceDirectory.loadNav('collection', this.context);
+            }
         }
         else {
-            this.dspaceDirectory.loadNav('community', this.context);
-            this.dspaceDirectory.loadNav('collection', this.context);
+            this.router.navigate(['/' + this.context.component, {id: this.context.id, page: this.context.page}]);
         }
     }
 
