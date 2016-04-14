@@ -21,7 +21,7 @@ export class MetadataHelper
         let tmp : Metadatum[] = [];
         for(let i : number = 0; i < metadata.length; i++)
         {
-            if(keys.indexOf(metadata[i].getKey()) > -1)
+            if(keys.indexOf(metadata[i].key) > -1)
             {
                   tmp.push(metadata[i]);
             }
