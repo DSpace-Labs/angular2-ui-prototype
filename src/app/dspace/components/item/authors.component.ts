@@ -13,8 +13,6 @@ import {MetadataHelper} from '../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../models/metadatum.model'
 
-import {ComponentTitleComponent} from './component-title.component';
-
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -24,7 +22,7 @@ import {ViewElementComponent} from './view-element.component';
 
 @Component({
     selector: 'item-authors',
-    directives: [ComponentTitleComponent, ViewElementComponent],
+    directives: [ViewElementComponent],
     inputs: ['itemData'],
     pipes: [TranslatePipe],
     template:

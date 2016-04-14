@@ -15,7 +15,7 @@ import {MetadataHelper} from '../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../models/metadatum.model'
 
-import {ComponentTitleComponent} from './component-title.component';
+import {ViewElementComponent} from './view-element.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -25,16 +25,16 @@ import {ComponentTitleComponent} from './component-title.component';
 @Component({
     selector: 'item-uri',
     inputs: ['itemData'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template:
-        `<div id="uri">
-            <component-title [title]="component_title"></component-title>
+        `
+            <view-element [header]="component_title | translate">
             <div *ngFor="#metadatum of filteredFields;">
                 <a [attr.href]="metadatum.value">{{ metadatum.value}}</a>
             </div>
-         </div>
-            `
+            </view-element>
+        `
 })
 
 export class UriComponent {

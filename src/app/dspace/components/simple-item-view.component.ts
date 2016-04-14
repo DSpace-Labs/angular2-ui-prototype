@@ -85,7 +85,7 @@ export class SimpleItemViewComponent {
                 private breadcrumb: BreadcrumbService,
                 translate : TranslateService) {
         console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id")).then(item => {
+        directory.loadObj('item', params.get("id"),0).then(item => {
             console.log("starting simple-item-view");
             this.item = item;
             breadcrumb.visit(this.item);

@@ -12,26 +12,25 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ComponentTitleComponent} from './component-title.component';
 
-
+import {ViewElementComponent} from './view-element.component'
 /**
  * Component that displays the bitstreams of an item in the simple-item-view
  * Download on click.
  */
 @Component({
     selector: 'item-bitstreams',
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     inputs: ['itemBitstreams'],
     pipes: [TranslatePipe],
     template:
-        `<div id="download">
-            <component-title [title]="component_title"></component-title>
-            <div *ngFor="#bitstream of itemBitstreams;">
+        `<view-element [header]="component_title | translate">
+               <div *ngFor="#bitstream of itemBitstreams;">
                 <a [attr.href]="bitstream.retrieveLink">
                     <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
                        {{bitstream.name}}
                 </a>
             </div>
-         </div>
+        </view-element>
         `
 })
 

@@ -12,7 +12,8 @@ import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {ComponentTitleComponent} from './component-title.component';
+
+import {ViewElementComponent} from './view-element.component';
 
 /**
  * Component for the collections of the simple-item-view.
@@ -21,14 +22,14 @@ import {ComponentTitleComponent} from './component-title.component';
 @Component({
     selector: 'item-collection',
     inputs: ['itemData'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template:
-        `<div id="item-collection">
-            <component-title [title]="component_title"></component-title>
-            <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
-         </div>
-            `
+        `
+        <view-element [header]="component_title | translate">
+             <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
+        </view-element>
+        `
 })
 
 export class CollectionComponent {

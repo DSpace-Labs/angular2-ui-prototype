@@ -17,6 +17,8 @@ import {Metadatum} from '../../models/metadatum.model'
 
 import {ComponentTitleComponent} from './component-title.component';
 
+import {ViewElementComponent} from './view-element.component'
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -25,15 +27,15 @@ import {ComponentTitleComponent} from './component-title.component';
 @Component({
     selector: 'item-date',
     inputs: ['itemData'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TruncatePipe, TranslatePipe],
     template:
-        `<div id="date">
-                <component-title [title]="component_title"></component-title>
-                <div *ngFor="#metadatum of filteredFields;">
-                        <p>{{ metadatum.value | truncate}}</p>
-                </div>
-             </div>
+        `
+        <view-element [header]="component_title | translate">
+            <div *ngFor="#metadatum of filteredFields;">
+                <p>{{ metadatum.value | truncate}}</p>
+            </div>
+        </view-element>
             `
 })
 

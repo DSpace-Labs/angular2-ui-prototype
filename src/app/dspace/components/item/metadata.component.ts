@@ -15,6 +15,8 @@ import {Metadatum} from '../../models/metadatum.model'
 
 import {ComponentTitleComponent} from './component-title.component';
 
+import {ViewElementComponent} from './view-element.component';
+
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  * This can optionally be rendered in the simple-item-view.
@@ -22,16 +24,16 @@ import {ComponentTitleComponent} from './component-title.component';
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
-    directives: [ComponentTitleComponent],
+    directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template:
-        `<div id="metadata">
-            <component-title [title]="component_title"></component-title>
+        `
+        <view-element [header]="component_title | translate">
             <div *ngFor="#metadatum of filteredFields.metadata;" class="item">
                 <strong >{{ metadatum.key }}</strong>
                 <p>{{ metadatum.value }}</p>
             </div>
-         </div>
+        </view-element>
             `
 })
 
