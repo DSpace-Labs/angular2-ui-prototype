@@ -11,6 +11,7 @@ import {Item} from "../../models/item.model"
 /**
  * Component that displays the bitstreams of an item in the simple-item-view
  * Download on click.
+ * It gets the item bitstreams because I *think* that we could let the thumbnail download a bitstream?
  */
 @Component({
     selector: 'item-thumbnail',

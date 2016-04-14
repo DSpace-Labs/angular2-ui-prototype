@@ -9,8 +9,6 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from '../../../models/bitstream.model';
 
-import {ComponentTitleComponent} from '../component-title.component';
-
 import {ViewElementComponent} from '../view-element.component';
 
 /**

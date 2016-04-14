@@ -11,6 +11,10 @@ import {BreadcrumbService} from '../../navigation/breadcrumb.service';
 
 import {ContextComponent} from '../../navigation/context.component';
 
+
+
+//TODO: THIS CLASS IS AT THE MOMENT NOT MOVED ANYMORE!
+
 /**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.

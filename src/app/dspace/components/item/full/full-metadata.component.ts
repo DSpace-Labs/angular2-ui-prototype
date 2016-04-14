@@ -18,7 +18,6 @@ import {ViewElementComponent} from '../view-element.component';
 /**
  * Renders a table of all metadata entries of an item.
  */
-
 @Component({
     selector: 'item-full-metadata',
     inputs: ['itemData'],
@@ -50,7 +49,7 @@ import {ViewElementComponent} from '../view-element.component';
 
 export class FullMetadataComponent {
 
-    private itemData: Metadatum[];
+    private itemData: Metadatum[]; // We get all metadata related to the item in question from the 'full-item-view'
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {

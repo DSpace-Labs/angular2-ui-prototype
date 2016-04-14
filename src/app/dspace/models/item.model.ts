@@ -11,22 +11,20 @@ import {Collection}from './collection.model';
 export class Item extends DSpaceObject {
 
 
-    // Some classes create the ITEM from an incomplete JSON response. Need to filter for this.
-
     bitstreams : Bitstream[] = [];
     parentCollection : Collection;
 
     constructor(public jsonitem: any)
     {
-        console.log("entered item model");
-        super(jsonitem);
-        console.log("created super");
+        super(jsonitem); // Creates a DSpaceObject with some of the information about this item (name,id,..)
         this.parseBitstreams();
-        console.log("parsed bitstreams");
         this.parseCollection();
-        console.log("parsed collection");
     }
 
+    /**
+     * Get the bitstreams for this item.
+     * Store them in a bitstream array
+     */
     private parseBitstreams()
     {
         if (Array.isArray(this.jsonitem.bitstreams))
@@ -40,9 +38,9 @@ export class Item extends DSpaceObject {
         }
     }
 
+    // Get the parent collection information for this item.
     private parseCollection()
     {
-        console.log("parsing the collection");
         this.parentCollection = new Collection(this.jsonitem.parentCollection,false);
     }
 

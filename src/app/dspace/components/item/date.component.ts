@@ -15,8 +15,6 @@ import {MetadataHelper} from '../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../models/metadatum.model'
 
-import {ComponentTitleComponent} from './component-title.component';
-
 import {ViewElementComponent} from './view-element.component'
 
 /**
@@ -33,7 +31,7 @@ import {ViewElementComponent} from './view-element.component'
         `
         <view-element [header]="component_title | translate">
             <div *ngFor="#metadatum of filteredFields;">
-                <p>{{ metadatum.value | truncate}}</p>
+                <p>{{ metadatum.value | truncate}}</p> <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
             </div>
         </view-element>
             `

@@ -13,13 +13,12 @@ import {MetadataHelper} from '../../../utilities/metadata.helper';
 
 import {Metadatum} from '../../models/metadatum.model'
 
-import {ComponentTitleComponent} from './component-title.component';
-
 import {ViewElementComponent} from './view-element.component';
 
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  * This can optionally be rendered in the simple-item-view.
+ * At this moment, it is not rendered.
  */
 @Component({
     selector: 'item-metadata',
@@ -47,7 +46,7 @@ export class MetadataComponent {
     constructor(private params: RouteParams,private directory: DSpaceDirectory)
     {
         this.fields = ["dc.contributor.author","dc.date.accessioned","dc.date.available",
-                        "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"];
+                        "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"]; // list of fields we want to filter for
     }
 
     ngOnInit()

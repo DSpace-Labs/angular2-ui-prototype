@@ -9,8 +9,6 @@ import {Item} from "../../../models/item.model"
 
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {ComponentTitleComponent} from '../component-title.component';
-
 import {ViewElementComponent} from '../view-element.component';
 
 /**

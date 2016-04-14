@@ -14,7 +14,7 @@ import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Item} from '../models/item.model'
 
@@ -29,10 +29,10 @@ import {Item} from '../models/item.model'
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
+                        <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a> <!-- link to the simple item view -->
                         <context [context]="item"></context>
                         <div>
-
+                            <!-- the rendering of different parts of the page is delegated to other components -->
                             <item-full-metadata [itemData]="itemObj.metadata"></item-full-metadata>
 
                             <item-full-bistreams [itemBitstreams]="itemObj.bitstreams"></item-full-bistreams>
@@ -52,9 +52,8 @@ export class FullItemViewComponent {
      *
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
-    item: Object;
-
-    itemObj : Item;
+    private item: Object;
+    private itemObj : Item;
     /**
      *
      * @param params
@@ -66,19 +65,14 @@ export class FullItemViewComponent {
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService,
-                translate : TranslateService) {
+                private breadcrumb: BreadcrumbService) {
         console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id"),0).then(item => {
+        directory.loadObj('item', params.get("id"),0).then(item => { // passing 0 to avoid TS errors, but we don't actually *need* it for items.
             this.item = item;
             breadcrumb.visit(this.item);
             this.itemObj = new Item(item);
-
         });
-
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
+}
 
 }
 

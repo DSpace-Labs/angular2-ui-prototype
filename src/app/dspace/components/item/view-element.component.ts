@@ -5,14 +5,6 @@ import {DSpaceDirectory} from '../../dspace.directory';
 
 import {DSpaceService} from '../../dspace.service';
 
-import {Item} from "../../models/item.model"
-import {Collection} from "../../models/collection.model"
-
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
-
-
-
-import {ComponentTitleComponent} from './component-title.component';
 
 /**
  * Component for the collections of the simple-item-view.
@@ -21,7 +13,6 @@ import {ComponentTitleComponent} from './component-title.component';
 @Component({
     selector: 'view-element',
     inputs: ['header'],
-    directives: [ComponentTitleComponent],
     template:
             `
             <div id="simple-view-element">

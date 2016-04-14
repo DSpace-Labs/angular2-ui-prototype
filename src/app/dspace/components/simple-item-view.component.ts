@@ -17,7 +17,7 @@ import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Item} from '../models/item.model'
 
@@ -52,7 +52,7 @@ import {Item} from '../models/item.model'
                         <div class="col-sm-8">
                             <div>
                                 <item-uri [itemData]="itemObj.metadata"></item-uri>
-                                <!--<item-collection [itemData]="itemObj.parentCollection"></item-collection>-->
+                                <item-collection [itemData]="itemObj.parentCollection"></item-collection>
                             </div>
                         </div>
 
@@ -82,19 +82,13 @@ export class SimpleItemViewComponent {
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService,
-                translate : TranslateService) {
+                private breadcrumb: BreadcrumbService) {
         console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id"),0).then(item => {
-            console.log("starting simple-item-view");
+        directory.loadObj('item', params.get("id"),0).then(item => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
             this.item = item;
             breadcrumb.visit(this.item);
             this.itemObj = new Item(item);
-            console.log("loaded simple-item-view");
         });
-
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 
