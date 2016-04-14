@@ -21,7 +21,7 @@ var defaultConfig = {
     output: {
         // Public path of any resources used by browser
         publicPath: path.resolve(__dirname),
-        // Specifies the name of each output file on disk.
+        // Specifies the *default* name of the output file
         filename: 'bundle.js'
     }
 }
@@ -35,8 +35,8 @@ var commonConfig = {
     },
     module: {
         loaders: [
-          // Typescript loader support for .ts (TypeScript files). Processes all TypeScript files
-          // See: https://github.com/TypeStrong/ts-loader
+            // Typescript loader support for .ts (TypeScript files). Transpiles all TypeScript files into JS
+            // See: https://github.com/TypeStrong/ts-loader
             {
                 test: /\.ts$/,
                 loader: 'ts-loader'
@@ -56,11 +56,12 @@ var commonConfig = {
     ]
 };
 
-// Client-side specific configuration. Builds all client-side code.
+// Client-side specific configuration. Builds our client-side JS app (app.bundle.js),
+// along with complimentary styles.bundle.js (CSS styles) and bootstrap.bundle.js (Bootstrap CSS / JS).
 var clientConfig = {
     // Cache modules to improve performance (in builds)
     cache: true,
-    // Entry point for the bundle (i.e. directory or files).
+    // Entry point for each bundle (i.e. directory or files).
     // This creates multiple entries of different names: 'app', 'styles', 'bootstrap'
     entry: {
         "app": "./src/app/boot",
@@ -72,7 +73,7 @@ var clientConfig = {
         ]
     },
     output: {
-        // The output directory as absolute path (required).
+        // The output build directory as absolute path (required).
         path: __dirname,
         // Specifies the name of each output file on disk.
         // [name] references the name ofthe "entry" point (see 'entry' above)
@@ -84,8 +85,8 @@ var clientConfig = {
     module: {
         loaders: [
             {
-                // Process all .scss files using the
-                // style-loader, css-loader and sass-loader
+                // Process all .scss files using the style-loader, css-loader and sass-loader
+                // These "transpile" our CSS into JS
                 test: /\.scss$/,
                 loader: 'style!css!sass'
             },
@@ -103,6 +104,7 @@ var clientConfig = {
         ]
     },
     plugins: [
+        // Copy i18n files (./resources/i18n/) into distribution's 'i18n' folder
         new CopyWebpackPlugin([{
             from: path.join(__dirname, 'resources', 'i18n'),
             to: path.join(__dirname, 'dist', 'i18n')
@@ -110,7 +112,7 @@ var clientConfig = {
     ]
 };
 
-// Server-side configuration. Builds all server-side code.
+// Server-side configuration. Builds our server-side app (./dist/server/bundle.js)
 var serverConfig = {
     // node = Compile for usage in a Node.js-like environment (i.e. server-side)
     target: 'node',
@@ -133,9 +135,9 @@ var serverConfig = {
 
 
 module.exports = [
-    // Client configs
+    // Client app configs
     webpackMerge({}, defaultConfig, commonConfig, clientConfig),
-    // Server configs
+    // Server app configs
     webpackMerge({}, defaultConfig, commonConfig, serverConfig)
 ];
 
