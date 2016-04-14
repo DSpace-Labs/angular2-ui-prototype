@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 var http = require('http'),
-        httpProxy = require('http-proxy'),
-        program = require('commander');
+    httpProxy = require('http-proxy'),
+    program = require('commander');
 
 var serverValue, portValue, insecureValue;
 
 
-program
-        .version('0.0.1')
-        .usage('[options] server')
-        .option('-p, --port <n>', 'Specify the port', parseInt)
-        .option('-i, --insecure <b>', 'allow self-signed certificates')
-        .arguments('<server>').action(function(server) {
+program.version('0.0.1')
+       .usage('[options] server')
+       .option('-p, --port <n>', 'Specify the port', parseInt)
+       .option('-i, --insecure <b>', 'allow self-signed certificates')
+       .arguments('<server>').action(function(server) {
             serverValue = server;
-        });
+});
 
 
 program.parse(process.argv);
@@ -29,8 +28,8 @@ insecureValue = program.insecure || false;
 
 
 var proxy = httpProxy.createProxyServer({
-        secure: !insecureValue
-    });
+    secure: !insecureValue
+});
 
 
 
@@ -43,12 +42,11 @@ proxy.on('proxyRes', function(proxyRes, req, res, options) {
 
 
 var server = http.createServer(function (req, res) {
-    proxy.web(req, res, {target: serverValue}, function(e)
-    {
+    proxy.web(req, res, {target: serverValue}, function(e) {
         console.log("Proxy server didn't respond, retrying..");
     });
 });
 
-
 console.log("proxying " + serverValue + " on port " + portValue);
+
 server.listen(portValue);
