@@ -326,7 +326,7 @@ export class DSpaceDirectory {
      *      current context.
      */
     enhance(context) {
-        context.component = this.dspaceConstants[context.type].COMPONENT;
+        context.component = "/" + this.dspaceConstants[context.type].COMPONENT;
     }
     
 }

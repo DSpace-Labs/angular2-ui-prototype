@@ -95,6 +95,8 @@ export class PaginationComponent {
      *      DSpaceStore is a singleton service to cache context which have already been requested.
      * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
+     * @param router
+     *      Router
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
                 private dspaceStore: DSpaceStore,
@@ -110,7 +112,10 @@ export class PaginationComponent {
         this.previous = +this.context.page - 1;
         this.next = +this.context.page + 1;
         this.pages = this.paginationService.createPagesArray(this.context);
-        this.component = this.router.hostComponent.name == "DashboardComponent" ? "/" : this.context.component;
+        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent")
+            this.component = "/"
+        else 
+            this.component = this.context.component;
     }
 
     /**
