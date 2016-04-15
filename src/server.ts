@@ -82,7 +82,7 @@ app.set('view engine', 'html');
 // Define location of Static Resources
 // Map the /static URL path to the ./dist/server/static local directory
 app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
-// Other static resources (e.g. our index.html or compiled app.bundle.js) can be found directly in ./dist
+// Other static resources (e.g. our compiled app.bundle.js) can be found directly in ./dist
 app.use(express.static(path.join(root, 'dist'), {index:false}));
 
 // Port to use
