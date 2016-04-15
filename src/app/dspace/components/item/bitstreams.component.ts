@@ -1,15 +1,7 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-import {Bitstream} from "../../models/bitstream.model"
-
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Bitstream} from "../../models/bitstream.model"
 import {ViewElementComponent} from './view-element.component'
 /**
  * Component that displays the bitstreams (just the name) of an item in the simple-item-view
@@ -36,10 +28,6 @@ export class BitstreamsComponent {
 
     private componentTitle = "item-view.bitstreams.title";
     private itemBitstreams : Bitstream[];
-
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
-    {
-    }
 
 }
 

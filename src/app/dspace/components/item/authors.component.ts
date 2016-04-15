@@ -1,18 +1,8 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
-
 import {Metadatum} from '../../models/metadatum.model'
-
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -45,7 +35,7 @@ export class AuthorsComponent {
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor()
     {
         this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
     }

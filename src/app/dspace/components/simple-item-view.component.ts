@@ -1,12 +1,11 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, RouteParams} from 'angular2/router';
+import {TranslatePipe} from "ng2-translate/ng2-translate";
+
+
 import {DSpaceDirectory} from '../dspace.directory';
-
 import {DSpaceService} from '../dspace.service';
-
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
-
 import {ContextComponent} from '../../navigation/context.component';
 
 import {AuthorsComponent} from './item/authors.component';
@@ -17,7 +16,6 @@ import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 
-import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Item} from '../models/item.model'
 
@@ -67,9 +65,8 @@ export class SimpleItemViewComponent {
      *
      * TODO: replace object with inheritance model. e.g. item extends dspaceObject
      */
-    item: Object;
-
-    itemObj : Item;
+    private item: Object;
+    private itemObj : Item;
 
     /**
      *
