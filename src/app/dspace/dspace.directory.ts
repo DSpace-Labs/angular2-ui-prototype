@@ -146,7 +146,6 @@ export class DSpaceDirectory {
             let useCachedContext = false;
             let directoryContext = directory.find(type, id);
             if(directoryContext) {
-                console.log(directoryContext)
                 useCachedContext = true;
                 if(type == 'item' && !directoryContext.fullItem)
                     useCachedContext = false;
