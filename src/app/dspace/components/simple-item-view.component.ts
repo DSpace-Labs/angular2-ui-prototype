@@ -40,17 +40,17 @@ import {Item} from '../models/item.model'
                         </div>
                         <div class="col-sm-4">
                             <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="itemObj.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="itemObj.metadata"></item-date>
-                            <item-authors [itemData]="itemObj.metadata"></item-authors>
+                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                            <item-date [itemData]="item.metadata"></item-date>
+                            <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>Metadata</h3>
                             <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
                         </div>
 
                         <div class="col-sm-8">
                             <div>
-                                <item-uri [itemData]="itemObj.metadata"></item-uri>
-                                <item-collection [itemData]="itemObj.parentCollection"></item-collection>
+                                <item-uri [itemData]="item.metadata"></item-uri>
+                                <item-collection [itemData]="item.parentCollection"></item-collection>
                             </div>
                         </div>
 
@@ -60,13 +60,8 @@ import {Item} from '../models/item.model'
 })
 export class SimpleItemViewComponent {
 
-    /**
-     * An object that represents the current item.
-     *
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
-     */
-    private item: Object;
-    private itemObj : Item;
+
+    private item : Item;
 
     /**
      *
@@ -80,10 +75,9 @@ export class SimpleItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id"),0).then(item => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
-            this.item = item;
+        directory.loadObj('item', params.get("id"),0).then(jsonitem => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
+            this.item = new Item(jsonitem);
             breadcrumb.visit(this.item);
-            this.itemObj = new Item(item);
         });
     }
 
