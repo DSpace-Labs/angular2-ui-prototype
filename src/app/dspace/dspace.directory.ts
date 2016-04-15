@@ -140,8 +140,14 @@ export class DSpaceDirectory {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
+            let useCachedContext = false;
             let directoryContext = directory.find(type, id);
-            if (directoryContext) {
+            if(directoryContext) {
+                useCachedContext = true;
+                if(type == 'item' && !directoryContext.fullItem)
+                    useCachedContext = false;
+            }
+            if (useCachedContext) {
                 directory.page(directoryContext, page);
                 directory.prepare(parent, directoryContext);
                 resolve(directoryContext);
@@ -149,11 +155,25 @@ export class DSpaceDirectory {
             else {
                 directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
                     let parent;
-                    if(context.type == "item")
+                    if(context.type == "item") {
                         parent = directory.find(context.parentCollection.type, context.parentCollection.id);
+                        context.fullItem = true;
+                        if(parent) {
+                            for(let item of parent.items) {
+                                if(item.id == context.id) {
+                                    item.bitstreams = context.bitstreams;
+                                    item.metadata = context.metadata;
+                                    item.fullItem = context.fullItem;
+                                    context = item;
+                                }
+                            }
+                        }
+
+                    }
                     else {
-                        if(context.parentCommunity)
+                        if(context.parentCommunity) {
                             parent = directory.find(context.parentCommunity.type, context.parentCommunity.id);
+                        }
                     }
                     directory.setup(context);
                     directory.page(context, page);
@@ -198,20 +218,17 @@ export class DSpaceDirectory {
             if(context.type == type && context.id == id) {
                 return context;
             }
-            if(type == "community" && context.type == "community") {
-                let community = this.recursiveFind(context.subcommunities, type, id);
-                if(community) return community;
-            }
-            else if(type == "collection" && context.type == "community") {
-                let collection = this.recursiveFind(context.collections, type, id);
-                if(collection) return collection;
-            }
-            else if(type == "item" && context.type == "collection") {
+            if(type == "item" && context.type == "collection") {
                 let item = this.recursiveFind(context.items, type, id);
                 if(item) return item;
             }
-            else {
-                // nothing to do here
+            if(context.type == "community") {
+                let collection = this.recursiveFind(context.collections, type, id);
+                if(collection) return collection;
+            }
+            if(context.type == "community") {
+                let community = this.recursiveFind(context.subcommunities, type, id);
+                if(community) return community;
             }
         }
         return null;
@@ -227,7 +244,7 @@ export class DSpaceDirectory {
         context.offset = 0;
         // TODO: remove ternary when pagination of communities and collections
         context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
-        // REST API should return the number of subcommunities and number of collections.
+        // REST API should return the number of subcommunities and number of collections for pagination.
         context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
         context.pageCount = Math.ceil(context.total / context.limit);
         context.page = 1;
@@ -319,12 +336,15 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Adds component to the context.
+     * Adds component to the context and flag for fullItem if type equal item.
      *
      * @param context
      *      current context.
      */
     enhance(context) {
+        if(context.type == 'item' && !context.fullItem) {
+            context.fullItem = false;
+        }
         context.component = "/" + this.dspaceConstants[context.type].COMPONENT;
     }
     
