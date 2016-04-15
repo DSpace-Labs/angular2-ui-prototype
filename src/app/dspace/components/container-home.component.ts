@@ -23,6 +23,7 @@ import {ContainerLogoComponent} from "./container-logo.component";
 })
 
 export class ContainerHomeComponent {
+    
     /**
      * The Container being rendered
      */

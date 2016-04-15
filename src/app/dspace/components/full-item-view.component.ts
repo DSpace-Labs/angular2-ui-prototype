@@ -58,7 +58,7 @@ export class FullItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id"),0).then(itemjson => { // passing 0 to avoid TS errors, but we don't actually *need* it for items.
+        directory.loadObj('item', params.get("id")).then(itemjson => {
             this.item = new Item(itemjson);
             breadcrumb.visit(this.item);
         });

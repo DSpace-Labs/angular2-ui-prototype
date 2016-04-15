@@ -25,6 +25,11 @@ export class HomeComponent {
      */
     serverTemplating: Array<String>;
 
+    /**
+     *
+     * @param translate
+     *      TranslateService
+     */
     constructor(public translate : TranslateService)
     {
         translate.setDefaultLang('en');

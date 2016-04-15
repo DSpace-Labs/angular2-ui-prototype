@@ -43,7 +43,7 @@ export class DashboardComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param translate 
+     * @param translate
      *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,

@@ -59,6 +59,8 @@ export class CommunityComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate
+     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 

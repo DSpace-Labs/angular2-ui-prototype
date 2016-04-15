@@ -92,6 +92,10 @@ export class ItemComponent implements CanDeactivate {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param metaTagService`
      *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
+     * @param location
+     *      Location
+     * @param translate
+     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
@@ -99,7 +103,7 @@ export class ItemComponent implements CanDeactivate {
                 private metaTagService: MetaTagService,
                 private location: Location,
                 translate: TranslateService) {
-        directory.loadObj('item', params.get("id"), 0).then(itemJSON => {
+        directory.loadObj('item', params.get("id")).then(itemJSON => {
             this.itemJSON = itemJSON;
             this.item = new Item(itemJSON);
             breadcrumb.visit(this.itemJSON);

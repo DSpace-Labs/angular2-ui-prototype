@@ -75,7 +75,7 @@ export class SimpleItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id"), 0).then(jsonitem => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
+        directory.loadObj('item', params.get("id")).then(jsonitem => {
             this.item = new Item(jsonitem);
             breadcrumb.visit(this.item);
         });

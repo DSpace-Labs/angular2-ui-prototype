@@ -13,8 +13,10 @@ import {Bitstream} from "../models/bitstream.model";
 })
 
 export class ContainerLogoComponent {
+    
     /**
      * The Bitstream representing the logo
      */
     logo: Bitstream;
+    
 }
