@@ -142,6 +142,7 @@ export class DSpaceDirectory {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
+            let parent;
             let useCachedContext = false;
             let directoryContext = directory.find(type, id);
             if(directoryContext) {
@@ -151,12 +152,13 @@ export class DSpaceDirectory {
                     useCachedContext = false;
             }
             if (useCachedContext) {
+                parent = directoryContext.type == 'item' ? directoryContext.parentCollection : directoryContext.parentCommunity;
                 directory.page(directoryContext, page);
+                directory.prepare(parent, directoryContext);
                 resolve(directoryContext);
             }
             else {
                 directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
-                    let parent;
                     if(context.type == "item") {
                         parent = directory.find(context.parentCollection.type, context.parentCollection.id);
                         context.fullItem = true;
