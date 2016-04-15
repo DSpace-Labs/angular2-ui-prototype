@@ -1,10 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
-
 import {TreeComponent} from './navigation/tree.component';
 import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
@@ -35,8 +33,8 @@ export class DashboardComponent {
      * Object to resemble the dashboard breadcrumb.
      */
     private dashboard: {
-        name: string,
-        type: string
+        name: String,
+        type: String
     };
 
     /**
@@ -45,6 +43,8 @@ export class DashboardComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate 
+     *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,

@@ -1,17 +1,14 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {BreadcrumbComponent} from './navigation/breadcrumb.component';
-
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
-
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
@@ -71,6 +68,11 @@ import {FullItemViewComponent} from './dspace/components/full-item-view.componen
 ])
 export class AppComponent {
 
+    /**
+     *
+     * @param translate 
+     *      TranslateService
+     */
     constructor(translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');

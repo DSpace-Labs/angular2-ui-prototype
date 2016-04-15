@@ -83,7 +83,6 @@ export class SimpleItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id"),0).then(item => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
             this.item = item;
             breadcrumb.visit(this.item);

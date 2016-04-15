@@ -228,7 +228,6 @@ export class DSpaceDirectory {
         // TODO: remove ternary when pagination of communities and collections
         context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
         // REST API should return the number of subcommunities and number of collections.
-        // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
         context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
         context.pageCount = Math.ceil(context.total / context.limit);
         context.page = 1;
