@@ -21,7 +21,7 @@ import {ViewElementComponent} from '../view-element.component';
                         <div class="col-xs-6 col-sm-3">
                             <!-- perform a test to see if a thumbnail is available -->
                             <a [attr.href]="bitstream.retrieveLink" class="image-link">
-                                <img src="../../../../../../resources/images/NoThumbnail.svg">
+                                <img src="./static/images/NoThumbnail.svg">
                             </a>
                         </div>
 
@@ -54,4 +54,3 @@ export class FullBitstreamsComponent {
     private itemBitstreams : Bitstream;
 
 }
-
