@@ -45,6 +45,7 @@ export class PaginationService {
                     pages.splice(1, 0, '...');
                 }
                 else {
+                    console.log(context);
                     pages.splice(0, context.pageCount);
                     pages.push(1);
                     pages.push('...');

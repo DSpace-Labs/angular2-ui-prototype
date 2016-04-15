@@ -7,6 +7,8 @@ import {DSpaceConstants} from './dspace.constants';
 
 import {PaginationService} from '../navigation/pagination.service';
 
+import {ObjectUtil} from '../utilities/commons/object.util'
+
 /**
  * Injectable service to provide navigation and context. Provides
  * session caching to eliminate requesting content already received.
@@ -143,13 +145,13 @@ export class DSpaceDirectory {
             let useCachedContext = false;
             let directoryContext = directory.find(type, id);
             if(directoryContext) {
+                console.log(directoryContext)
                 useCachedContext = true;
                 if(type == 'item' && !directoryContext.fullItem)
                     useCachedContext = false;
             }
             if (useCachedContext) {
                 directory.page(directoryContext, page);
-                directory.prepare(parent, directoryContext);
                 resolve(directoryContext);
             }
             else {
@@ -161,12 +163,17 @@ export class DSpaceDirectory {
                         if(parent) {
                             for(let item of parent.items) {
                                 if(item.id == context.id) {
-                                    item.bitstreams = context.bitstreams;
-                                    item.metadata = context.metadata;
-                                    item.fullItem = context.fullItem;
+                                    for(let key in context) {
+                                        if(ObjectUtil.isEmpty(item[key])) {
+                                            item[key] = context[key];
+                                        }
+                                    }
                                     context = item;
                                 }
                             }
+                        }
+                        else {
+                            console.log('parent is not in directory')
                         }
 
                     }

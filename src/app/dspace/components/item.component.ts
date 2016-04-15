@@ -68,9 +68,9 @@ export class ItemComponent implements CanDeactivate {
     /**
      * An object that represents the current item.
      *
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
+     * TODO: replace any with inheritance model. e.g. item extends dspaceObject
      */
-    itemJSON: Object;
+    itemJSON: any;
 
     /**
      * An object that represents the current item.
@@ -105,7 +105,7 @@ export class ItemComponent implements CanDeactivate {
                 translate: TranslateService) {
         directory.loadObj('item', params.get("id")).then(itemJSON => {
             this.itemJSON = itemJSON;
-            this.item = new Item(itemJSON);
+            this.item = new Item(this.itemJSON);
             breadcrumb.visit(this.itemJSON);
             this._gsMetaUtil = new GoogleScholarMetadataUtil(metaTagService, location, this.item);
             this._gsMetaUtil.setGoogleScholarMetaTags();
