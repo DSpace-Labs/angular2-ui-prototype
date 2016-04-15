@@ -136,7 +136,7 @@ export class DSpaceDirectory {
      * @param page
      *      current context page
      */
-    loadObj(type, id, page) {
+    loadObj(type, id, page?) {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
