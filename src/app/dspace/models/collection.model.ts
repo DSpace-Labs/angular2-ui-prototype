@@ -29,22 +29,15 @@ export class Collection extends DSOContainer {
         console.log("in the collection model");
         console.log(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
-            console.log("in the if statement");
-
-
-            console.log(json.name);
+            console.log("in the method");
+            console.log(json);
             this.items = json.items.map((jsonitem) => {
-                console.log("in the lambda lambda, #lambdaception");
-                return new Item(jsonitem); // Returning new items causes an infinite loop now, for some reason?
+                return new Item(jsonitem);
             });
 
-            setTimeout(()=> {
-                    this.items = json.items.map((jsonitem) => {
-                        return new Item(jsonitem); // Returning new items causes an infinite loop now, for some reason?
-                    });
-                },10000);
 
-
+            console.log("and now after some time..");
+            setTimeout(()=>console.log(json),10000);
         }
     }
 }

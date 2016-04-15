@@ -29,17 +29,18 @@ import {Item} from '../models/item.model';
     template: ` 
                 <div class="container" *ngIf="collection">
 
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <context [context]="collectionJSON"></context>
+                        <item-list [items]="collection.items"></item-list>
                     </div>  
-                    
+<!--
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
                        <list [collection]="collectionJSON"></list>
                     </div>
+-->
 
-                    <item-list [items]="collection.items"></item-list>
-                    
+
                 </div>
               `
 })
@@ -57,7 +58,6 @@ export class CollectionComponent {
     collectionJSON: Object;
 
 
-    items : Item[];
     /**
      *
      * @param params
@@ -72,14 +72,20 @@ export class CollectionComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
+
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
-            this.collection = new Collection(collectionJSON);
-            breadcrumb.visit(this.collectionJSON);
-            console.log("in the collection");
-            console.log(this.collection);
+            setTimeout( () => {
+                console.log("here again..");
+                this.collection = new Collection(collectionJSON);
+                console.log("logging this collection");
+                console.log(this.collection); // okay so basically, I need to create the collectoin later.
+            },10000)
 
+            breadcrumb.visit(this.collectionJSON);
         });
+
+        console.log("has items?"); // use ngif
 
         translate.setDefaultLang('en');
         translate.use('en');
@@ -89,8 +95,16 @@ export class CollectionComponent {
     {
         console.log("after init");
         console.log(JSON.stringify(this.collectionJSON));
-
     }
+
+
+    ngOnChanges()
+    {
+        console.log("on changes");
+        this.collection = new Collection(this.collectionJSON);
+    }
+
+
 
 
 

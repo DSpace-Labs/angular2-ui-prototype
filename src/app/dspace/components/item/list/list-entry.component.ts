@@ -21,7 +21,7 @@ import {Item} from '../../../models/item.model';
                <item-thumbnail></item-thumbnail>
             </div>
             <div class="col-md-8">
-                 <item-list-metadata></item-list-metadata>
+                 <item-list-metadata [item]="item"></item-list-metadata>
             </div>
             `
 })
@@ -30,10 +30,7 @@ export class ListEntryComponent
 {
     // this class needs to get passed one item
 
+    item : Item;
 
-    constructor()
-    {
-        console.log("received an item..");
-    }
 }
 

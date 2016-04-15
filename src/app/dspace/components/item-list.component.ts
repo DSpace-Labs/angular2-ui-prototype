@@ -17,13 +17,9 @@ import {Item} from '../models/item.model';
     inputs: ['items'],
     template:
         `
-        <h4>Item list..</h4> <!-- we could pass this as a title, and say on the dashboard 'most recent items of x' and on a collection 'most recent items of y' -->
-            <!-- for each item, we create an item-list-entry element -->
-
-                <div *ngFor="#items of items" id="list-entries" class="row">
-                    <list-entry></list-entry>
-                </div>
-
+            <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row">  <!-- for each item, we create an item-list-entry element -->
+                <list-entry [item]="item"></list-entry>
+            </div>
         `
 })
 
@@ -36,16 +32,10 @@ import {Item} from '../models/item.model';
 export class ItemListComponent {
 
     items : Item[];
-
+    itemsWithInformation : Item[] = [];
     constructor(private directory: DSpaceDirectory)
     {
 
-    }
-
-    ngOnInit()
-    {
-        console.log("in the item list..");
-        console.log(this.items);
     }
 
     ngOnChanges()
@@ -58,10 +48,18 @@ export class ItemListComponent {
         {
             console.log("aqui!");
             // now we need to load more information about these items.
-                this.directory.loadObj('item', 2489,0).then(item => { // passing on '0' to avoid TS errors, but we don't actually *need* it for items.
-                console.log(item);
-                console.log("the directory has loaded.. jesus finally :-)");
-            });
+
+            for(let i : number = 0; i < this.items.length;i++)
+            {
+                // console.log(i + ": " + this.items[i].id);
+            }
+
+            this.items.forEach( (entry) => {
+                this.directory.loadObj('item', entry.id,0).then(item => {
+                    this.itemsWithInformation.push(item);
+                });
+            })
+
         }
     }
 
