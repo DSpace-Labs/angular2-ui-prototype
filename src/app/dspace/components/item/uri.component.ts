@@ -1,18 +1,8 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
-
 import {Metadatum} from '../../models/metadatum.model'
-
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -27,7 +17,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-            <view-element [header]="component_title | translate">
+            <view-element [header]="componentTitle | translate">
             <div *ngFor="#metadatum of filteredFields;">
                 <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
             </div>
@@ -37,12 +27,12 @@ import {ViewElementComponent} from './view-element.component';
 
 export class UriComponent {
 
-    private component_title = "item-view.uri.title";
+    private componentTitle = "item-view.uri.title";
     private itemData : Metadatum[];
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor()
     {
         this.fields = ["dc.identifier.uri"];
     }

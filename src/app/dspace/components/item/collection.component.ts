@@ -1,17 +1,7 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-import {Collection} from "../../models/collection.model"
-
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
-
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Collection} from "../../models/collection.model"
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -25,7 +15,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle| translate">
              <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
         </view-element>
         `
@@ -33,12 +23,10 @@ import {ViewElementComponent} from './view-element.component';
 
 export class CollectionComponent {
 
-    private component_title = "item-view.collection.title";
-    private itemData : Object;
+    private componentTitle = "item-view.collection.title";
+    private itemData : Collection;
     private collectionURIPrefix = "../collections/";
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
-    {
-    }
+
 
 
 }

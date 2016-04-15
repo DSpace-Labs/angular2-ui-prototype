@@ -1,20 +1,11 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
-
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
+
+
+import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
 import {MetadataHelper} from '../../../utilities/metadata.helper';
-
 import {Metadatum} from '../../models/metadatum.model'
-
 import {ViewElementComponent} from './view-element.component'
 
 /**
@@ -29,7 +20,7 @@ import {ViewElementComponent} from './view-element.component'
     pipes: [TruncatePipe, TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle | translate">
             <div *ngFor="#metadatum of filteredFields;">
                 <p>{{ metadatum.value | truncate}}</p> <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
             </div>
@@ -39,12 +30,12 @@ import {ViewElementComponent} from './view-element.component'
 
 export class DateComponent {
 
-    private component_title = "item-view.date.title";
+    private componentTitle = "item-view.date.title";
     private itemData : Metadatum[];
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor()
     {
         this.fields = ["dc.date.accessioned"];
     }

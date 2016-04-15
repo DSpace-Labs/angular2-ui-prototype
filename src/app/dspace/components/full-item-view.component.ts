@@ -1,20 +1,16 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES,RouteConfig, RouteParams} from 'angular2/router';
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-
 import {DSpaceService} from '../dspace.service';
-
 import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
 import {ContextComponent} from '../../navigation/context.component';
 
 
 import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
-
-import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Item} from '../models/item.model'
 
@@ -33,11 +29,11 @@ import {Item} from '../models/item.model'
                         <context [context]="item"></context>
                         <div>
                             <!-- the rendering of different parts of the page is delegated to other components -->
-                            <item-full-metadata [itemData]="itemObj.metadata"></item-full-metadata>
+                            <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
 
-                            <item-full-bistreams [itemBitstreams]="itemObj.bitstreams"></item-full-bistreams>
+                            <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
 
-                            <item-full-collections [itemData]="itemObj.parentCollection"></item-full-collections>
+                            <item-full-collections [itemData]="item.parentCollection"></item-full-collections>
 
                              <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
@@ -47,13 +43,9 @@ import {Item} from '../models/item.model'
 })
 export class FullItemViewComponent {
 
-    /**
-     * An object that represents the current item.
-     *
-     * TODO: replace object with inheritance model. e.g. item extends dspaceObject
-     */
-    private item: Object;
-    private itemObj : Item;
+
+    private item: Item;
+
     /**
      *
      * @param params
@@ -66,11 +58,9 @@ export class FullItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        console.log('Item ' + params.get("id"));
-        directory.loadObj('item', params.get("id"),0).then(item => { // passing 0 to avoid TS errors, but we don't actually *need* it for items.
-            this.item = item;
+        directory.loadObj('item', params.get("id"),0).then(itemjson => { // passing 0 to avoid TS errors, but we don't actually *need* it for items.
+            this.item = new Item(itemjson);
             breadcrumb.visit(this.item);
-            this.itemObj = new Item(item);
         });
 }
 
