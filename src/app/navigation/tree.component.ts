@@ -29,7 +29,7 @@ import {PaginationComponent} from './pagination.component';
 
                         <!-- Router link -->
                         <a *ngIf="!directory.page" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
-                        <a *ngIf="directory.page" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
+                        <a *ngIf="directory.page" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
                         
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         

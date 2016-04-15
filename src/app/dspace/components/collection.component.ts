@@ -31,7 +31,7 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                       <list [collection]="collectionJSON"></list>
+                        <list [collection]="collectionJSON"></list>
                     </div>
                     
                 </div>
