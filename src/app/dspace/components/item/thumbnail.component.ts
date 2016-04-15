@@ -1,11 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
 
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
 
 
 /**
@@ -31,7 +25,7 @@ export class ThumbnailComponent {
 
     private itemBitstreams : Object;
 
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
+    constructor()
     {
     }
 

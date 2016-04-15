@@ -1,9 +1,4 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
 
 
 /**
