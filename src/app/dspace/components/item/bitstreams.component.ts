@@ -21,7 +21,7 @@ import {ViewElementComponent} from './view-element.component'
     inputs: ['itemBitstreams'],
     pipes: [TranslatePipe],
     template:
-        `<view-element [header]="component_title | translate">
+        `<view-element [header]="componentTitle | translate">
                <div *ngFor="#bitstream of itemBitstreams;">
                 <a [attr.href]="bitstream.retrieveLink">
                     <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
@@ -34,7 +34,7 @@ import {ViewElementComponent} from './view-element.component'
 
 export class BitstreamsComponent {
 
-    private component_title = "item-view.bitstreams.title";
+    private componentTitle = "item-view.bitstreams.title";
     private itemBitstreams : Bitstream[];
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)

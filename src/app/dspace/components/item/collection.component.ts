@@ -25,7 +25,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle| translate">
              <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
         </view-element>
         `
@@ -33,7 +33,7 @@ import {ViewElementComponent} from './view-element.component';
 
 export class CollectionComponent {
 
-    private component_title = "item-view.collection.title";
+    private componentTitle = "item-view.collection.title";
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
     constructor(private params: RouteParams,private directory: DSpaceDirectory)

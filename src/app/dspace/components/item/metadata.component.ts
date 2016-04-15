@@ -27,7 +27,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle | translate">
             <div *ngFor="#metadatum of filteredFields.metadata;" class="item">
                 <strong >{{ metadatum.key }}</strong>
                 <p>{{ metadatum.value }}</p>
@@ -38,7 +38,7 @@ import {ViewElementComponent} from './view-element.component';
 
 export class MetadataComponent {
 
-    private component_title = "item-view.metadata.title";
+    private componentTitle = "item-view.metadata.title";
     private itemData : Metadatum[];
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.

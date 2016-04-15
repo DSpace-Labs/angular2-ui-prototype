@@ -29,7 +29,7 @@ import {ViewElementComponent} from './view-element.component'
     pipes: [TruncatePipe, TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle | translate">
             <div *ngFor="#metadatum of filteredFields;">
                 <p>{{ metadatum.value | truncate}}</p> <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
             </div>
@@ -39,7 +39,7 @@ import {ViewElementComponent} from './view-element.component'
 
 export class DateComponent {
 
-    private component_title = "item-view.date.title";
+    private componentTitle = "item-view.date.title";
     private itemData : Metadatum[];
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.

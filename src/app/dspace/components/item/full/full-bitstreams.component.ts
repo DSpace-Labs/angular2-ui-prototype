@@ -21,7 +21,7 @@ import {ViewElementComponent} from '../view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-            <view-element [header]="component_title | translate">
+            <view-element [header]="componentTitle | translate">
              <div id="bitstreams" class="file-list">
                     <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
                         <!-- thumbnail -->
@@ -57,7 +57,7 @@ import {ViewElementComponent} from '../view-element.component';
 
 export class FullBitstreamsComponent {
 
-    private component_title : String = "item-view.full.full-bitstreams.title";
+    private componentTitle : String = "item-view.full.full-bitstreams.title";
     private itemBitstreams : Bitstream;
 
     constructor(private params: RouteParams,private directory: DSpaceDirectory)

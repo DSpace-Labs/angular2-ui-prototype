@@ -28,7 +28,7 @@ import {ViewElementComponent} from './view-element.component';
     template:
             `
 
-                <view-element [header]="component_title | translate"> <!--translate it before passing it on.-->
+                <view-element [header]="componentTitle | translate"> <!--translate it before passing it on.-->
               <!-- calls the view-element component, which takes care of rendering based on the 'header' input parameter, and the child elements of view-element-->
                      <div *ngFor="#metadatum of filteredFields;">
                         <p>{{ metadatum.value }}</p>
@@ -40,7 +40,7 @@ import {ViewElementComponent} from './view-element.component';
 export class AuthorsComponent {
 
 
-    private component_title = "item-view.authors.title"; // this string is written as it appears in the i18n file.
+    private componentTitle = "item-view.authors.title"; // this string is written as it appears in the i18n file.
     private itemData : Metadatum[]; // Our input
     private fields : String[]; // the fields that we want to show on this page.
     private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.

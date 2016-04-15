@@ -22,7 +22,7 @@ import {ViewElementComponent} from '../view-element.component';
     pipes: [TranslatePipe],
     template:
         `
-        <view-element [header]="component_title | translate">
+        <view-element [header]="componentTitle | translate">
             <ul>
                 <li>
                    <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a>
@@ -35,7 +35,7 @@ import {ViewElementComponent} from '../view-element.component';
 
 export class FullCollectionsComponent {
 
-    private component_title : String = "item-view.full.full-collections.title";
+    private componentTitle : String = "item-view.full.full-collections.title";
     private itemData : Object;
     private collectionURIPrefix = "../collections/";
 
