@@ -110,7 +110,7 @@ export class BreadcrumbComponent {
         if (breadcrumb)
             this.buildTrail(breadcrumb);
         else
-            console.log('why no breadcrumb?');
+            console.log('Why no breadcrumb?');
     }
 
     /**

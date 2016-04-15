@@ -19,7 +19,7 @@ import {PaginationService} from './pagination.service';
 
                         <li *ngIf="context.page > 1">
                             <!-- Router Link -->
-                            <a [routerLink]="[path, {id: context.id, page: previous}]" (click)="pageOnDashboard(context.id, previous)">
+                            <a [routerLink]="[component, {id: context.id, page: previous}]" (click)="page(context.id, previous)">
                                 <span aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span></span></span>                                
                             </a>
                         </li>
@@ -29,13 +29,13 @@ import {PaginationService} from './pagination.service';
 
                         <li *ngFor="#i of pages" [ngClass]="{active: i == context.page}" [class.disabled]="i == '...'">
                             <!-- Router Link -->
-                            <a [routerLink]="[path, {id: context.id, page: i}]" *ngIf="i != '...'" (click)="pageOnDashboard(context.id, i)">{{ i }}</a>
+                            <a [routerLink]="[component, {id: context.id, page: i}]" *ngIf="i != '...'" (click)="page(context.id, i)">{{ i }}</a>
                             <span *ngIf="i == '...'">{{ i }}</span>
                         </li>
 
                         <li *ngIf="context.page < context.pageCount">
                             <!-- Router Link -->
-                            <a [routerLink]="[path, {id: context.id, page: next}]" (click)="pageOnDashboard(context.id, next)">
+                            <a [routerLink]="[component, {id: context.id, page: next}]" (click)="page(context.id, next)">
                                 <span aria-label="Next"><span aria-hidden="true"><span class="glyphicon glyphicon-forward"></span></span></span>
                             </a>
                         </li>
@@ -63,9 +63,9 @@ export class PaginationComponent {
     context: any;
 
     /**
-     * A String that represents the path of the current component.
+     * A String that represents the current component.
      */
-    path: String;
+    component: String;
 
      /**
      * Array of numbers for templating over. [1,2,3,4] for 4 pages. 
@@ -110,7 +110,7 @@ export class PaginationComponent {
         this.previous = +this.context.page - 1;
         this.next = +this.context.page + 1;
         this.pages = this.paginationService.createPagesArray(this.context);
-        this.path = this.router.hostComponent.name == "DashboardComponent" ? "/" : "/" + this.context.component;
+        this.component = this.router.hostComponent.name == "DashboardComponent" ? "/" : this.context.component;
     }
 
     /**
@@ -119,9 +119,10 @@ export class PaginationComponent {
      * @param page
      *          The page being navigated to.
      */
-    pageOnDashboard(id, page) {
+    page(id, page) {
+        this.context.loaded = false;
         // only page here if on dashboard and paging this context id
-        if(this.path == "/" && this.context.id == id) {
+        if(this.component == "/" && this.context.id == id) {
             this.context.page = page;
             this.previous = +this.context.page - 1;
             this.next = +this.context.page + 1;
@@ -138,21 +139,23 @@ export class PaginationComponent {
      *          Select option which holds current value selected.
      */
     updateLimit(option) {
-        // occasionally throws browser_adapter.js:76 EXCEPTION: Attempt to use a dehydrated detector: PaginationComponent_1 -> ngModelChange
-        // this seems to be an issue with Angular2 and/or Angular Universal
-        
         let previousPage = this.context.page;
         this.dspaceStore.clearPages(this.context);
+        this.context.loaded = false;
         this.context.page = this.context.page > 1 ? Math.ceil(((this.context.page - 1) * this.context.limit) / option.value) : 1;
+        this.previous = +this.context.page - 1;
+        this.next = +this.context.page + 1;
         this.context.limit = option.value;
         this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
         this.context.pageCount = Math.ceil(this.context.total / this.context.limit);
-        if(previousPage == this.context.page) {
+        if(previousPage == this.context.page || this.component == "/") {
             this.pages = this.paginationService.createPagesArray(this.context);
             this.loadContextNav();
         }
         else {
-            this.router.navigate(['/' + this.context.component, {id: this.context.id, page: this.context.page}]);
+            setTimeout(() => {
+                this.router.navigate([this.component, {id: this.context.id, page: this.context.page}]);
+            });
         }
     }
 

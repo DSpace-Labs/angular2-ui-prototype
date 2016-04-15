@@ -26,7 +26,7 @@ export class DSpaceDirectory {
      */
     private store: {
         directory: {
-            context: Object,
+            root: Object,
             observer: Observer<Object>,
             loading: boolean,
             ready: boolean
@@ -55,7 +55,7 @@ export class DSpaceDirectory {
                 private paginationService: PaginationService) {
         this.store = {
             directory: {
-                context: new Array<Object>(),
+                root: new Array<Object>(),
                 observer: null,
                 loading: false,
                 ready: false
@@ -72,15 +72,15 @@ export class DSpaceDirectory {
         if (this.store.directory.ready) {
             this.directory = Observable.create(observer => {
                 this.store.directory.observer = observer;
-                this.store.directory.observer.next(this.store.directory.context);
+                this.store.directory.observer.next(this.store.directory.root);
             });
         }
         else {
             if (!this.store.directory.loading) {
                 this.store.directory.loading = true;
                 this.dspaceService.fetchTopCommunities().subscribe(topCommunities => {
-                    this.store.directory.context = this.prepare(null, topCommunities);
-                    this.store.directory.observer.next(this.store.directory.context);
+                    this.store.directory.root = this.prepare(null, topCommunities);
+                    this.store.directory.observer.next(this.store.directory.root);
                 },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
@@ -95,8 +95,7 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Method to load hierarchy navigation relations.
-     * Calls prepare with the context received.
+     * Method to load hierarchy navigation relations. Calls prepare with the context received.
      *
      * @param type
      *      string: community, collection, or item
@@ -104,6 +103,7 @@ export class DSpaceDirectory {
      *      current context in which needing to load navigation.
      */
     loadNav(type, context) {
+        if(context.loaded) return;
         if (!context.limit) {
             this.setup(context);
         }
@@ -114,6 +114,7 @@ export class DSpaceDirectory {
         else {
             this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
+                context.loaded = true;
                 this.dspaceStore.addPage(context);
             },
             error => {
@@ -126,30 +127,38 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Method to load context details.
-     * Calls prepare with the context received.
+     * Method to load context details. Calls prepare with the context received.
      *
      * @param type
      *      string: community, collection, or item
      * @param id
-     *      current context id which needing to load context details.
+     *      current context id which needing to load context details
+     * @param page
+     *      current context page
      */
     loadObj(type, id, page) {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
-            let context;
-            if ((context = directory.dspaceStore.get(directory.dspaceConstants[type].PLURAL, id))) {
-                directory.page(context, page);
-                directory.prepare(null, context);
-                resolve(context);
+            let directoryContext = directory.find(type, id);
+            if (directoryContext) {
+                directory.page(directoryContext, page);
+                directory.prepare(parent, directoryContext);
+                resolve(directoryContext);
             }
             else {
                 directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
+                    let parent;
+                    if(context.type == "item")
+                        parent = directory.find(context.parentCollection.type, context.parentCollection.id);
+                    else {
+                        if(context.parentCommunity)
+                            parent = directory.find(context.parentCommunity.type, context.parentCommunity.id);
+                    }
                     directory.setup(context);
                     directory.page(context, page);
-                    directory.prepare(null, context);
-                    directory.dspaceStore.add(directory.dspaceConstants[type].PLURAL, context);
+                    directory.prepare(parent, context);
+                    context.ready = true;
                     resolve(context);
                 },
                 error => {
@@ -161,7 +170,53 @@ export class DSpaceDirectory {
             }
         });
     }
-    
+
+    /**
+     * Method to find the contex in the directory.
+     *
+     * @param type
+     *      string: community, collection, or item
+     * @param id
+     *      current context id which needing to load context details
+     */
+    find(type, id) {
+        return this.recursiveFind(this.store.directory.root, type, id);
+    }
+
+    /**
+     * Method to recursively search the directory to find the contex by type and id.
+     *
+     * @param directory
+     *      level of recursion in the directory
+     * @param type
+     *      string: community, collection, or item
+     * @param id
+     *      current context id which needing to load context details
+     */
+    recursiveFind(directory, type, id) {
+        for(let context of directory) {
+            if(context.type == type && context.id == id) {
+                return context;
+            }
+            if(type == "community" && context.type == "community") {
+                let community = this.recursiveFind(context.subcommunities, type, id);
+                if(community) return community;
+            }
+            else if(type == "collection" && context.type == "community") {
+                let collection = this.recursiveFind(context.collections, type, id);
+                if(collection) return collection;
+            }
+            else if(type == "item" && context.type == "collection") {
+                let item = this.recursiveFind(context.items, type, id);
+                if(item) return item;
+            }
+            else {
+                // nothing to do here
+            }
+        }
+        return null;
+    }
+
     /**
      * Method to setup context for pagination.
      *
@@ -172,7 +227,7 @@ export class DSpaceDirectory {
         context.offset = 0;
         // TODO: remove ternary when pagination of communities and collections
         context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
-        // REST API should return the number of subcommunities and number of collections!!!
+        // REST API should return the number of subcommunities and number of collections.
         // Currently, the subcommunities and collections are retrieved with the expand when fetching a community.
         context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
         context.pageCount = Math.ceil(context.total / context.limit);
@@ -211,9 +266,8 @@ export class DSpaceDirectory {
             else if (obj.type == 'collection')
                 this.loadNav('item', obj);
             else if (obj.type == 'community') {
-                // TODO: change here may be required when pagination of communities and collections 
-                this.prepare(context, obj.collections);
-                this.prepare(context, obj.subcommunities);
+                this.loadNav('collection', obj);
+                this.loadNav('community', obj);
             }
             else console.log('Object has no type!');
             return obj;
@@ -266,7 +320,7 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Adds properties to the object.
+     * Adds component to the context.
      *
      * @param context
      *      current context.

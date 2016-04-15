@@ -21,10 +21,8 @@ export class Collection extends DSOContainer {
      *      properties
      */
     constructor(json:any, parseItems? : boolean) {
-        if(parseItems==null)
-        {
-            console.log("parsing items");
-            parseItems=true;
+        if(parseItems == null) {
+            parseItems = true;
         }
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {

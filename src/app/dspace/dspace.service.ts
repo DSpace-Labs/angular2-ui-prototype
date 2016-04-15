@@ -119,9 +119,8 @@ export class DSpaceService {
      *      Community id of which to fetch its relationships and other details.
      */
     fetchCommunity(id) {
-        //TODO: when working on pagination of communities and collections remove expand collections and subCommunities
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity,logo'
+            url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
         });
     }
 

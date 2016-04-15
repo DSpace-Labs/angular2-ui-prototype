@@ -99,7 +99,6 @@ export class ItemComponent implements CanDeactivate {
                 private metaTagService: MetaTagService,
                 private location: Location,
                 translate: TranslateService) {
-        console.log('Item ' + params.get("id"));
         directory.loadObj('item', params.get("id"), 0).then(itemJSON => {
             this.itemJSON = itemJSON;
             this.item = new Item(itemJSON);
