@@ -36,7 +36,7 @@ import {ViewElementComponent} from '../view-element.component';
                     </thead>
                     <tbody>
                         <tr *ngFor="#metadatum of itemData">
-                            <td>{{ metadatum.getKey() }}</td> <!-- need to use a getter here because a key is composed of other fields -->
+                            <td>{{ metadatum.key }}</td> <!-- need to use a getter here because a key is composed of other fields -->
                             <td class="word-break">{{ metadatum.value }}</td>
                             <td>{{ metadatum.language }}</td>
                         </tr>
