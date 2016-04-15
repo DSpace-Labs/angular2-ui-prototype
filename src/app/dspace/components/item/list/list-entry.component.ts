@@ -3,6 +3,7 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ListMetadataComponent} from './list-metadata.component';
 import {ThumbnailComponent} from '../thumbnail.component';
+import {Item} from '../../../models/item.model';
 
 /**
  * This component will display some metadata of the item in the list view.
@@ -11,7 +12,7 @@ import {ThumbnailComponent} from '../thumbnail.component';
  */
 @Component({
     selector: 'list-entry',
-    inputs: ['itemData'],
+    inputs: ['item'],
     directives:[ListMetadataComponent, ThumbnailComponent],
     pipes: [TranslatePipe],
     template:
@@ -25,8 +26,14 @@ import {ThumbnailComponent} from '../thumbnail.component';
             `
 })
 
-export class ListEntryComponent{
+export class ListEntryComponent
+{
+    // this class needs to get passed one item
 
 
+    constructor()
+    {
+        console.log("received an item..");
+    }
 }
 

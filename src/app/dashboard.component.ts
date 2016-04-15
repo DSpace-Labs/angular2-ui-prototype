@@ -10,6 +10,9 @@ import {ContextComponent} from './navigation/context.component';
 import {BreadcrumbService} from './navigation/breadcrumb.service';
 import {PaginationComponent} from './navigation/pagination.component';
 
+
+import {ItemListComponent} from './dspace/components/item-list.component';
+
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
  * sidebar context along with the community/collection/item tree.
@@ -17,7 +20,7 @@ import {PaginationComponent} from './navigation/pagination.component';
 @Component({
     selector: "directory",
     pipes: [TranslatePipe],
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ItemListComponent],
     template: `
                 <div class="container">
                     <div class="col-md-4">
@@ -26,7 +29,14 @@ import {PaginationComponent} from './navigation/pagination.component';
                     <div class="col-md-8">
                         <tree [directories]="dspace.directory | async"></tree>
                     </div>
+
+                       <h3>Testing item list</h3>
+                      <item-list></item-list>
+
+
                 </div>
+
+
               `
 })
 export class DashboardComponent {

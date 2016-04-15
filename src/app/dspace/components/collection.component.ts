@@ -14,13 +14,17 @@ import {ContextComponent} from '../../navigation/context.component';
 import {ContainerHomeComponent} from "./container-home.component";
 import {PaginationComponent} from '../../navigation/pagination.component';
 
+import {ItemListComponent} from './item-list.component';
+
+import {Item} from '../models/item.model';
+
 /**
  * Collection component for displaying the current collection.
  * View contains sidebar context and tree hierarchy below current collection.
  */
 @Component({
     selector: 'collection',
-    directives: [ListComponent, ContextComponent, ContainerHomeComponent],
+    directives: [ListComponent, ContextComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="collection">
@@ -33,6 +37,8 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                         <container-home [container]=collection></container-home>
                        <list [collection]="collectionJSON"></list>
                     </div>
+
+                    <item-list [items]="collection.items"></item-list>
                     
                 </div>
               `
@@ -42,14 +48,16 @@ export class CollectionComponent {
     /**
      * An object that represents the current collection.
      */
-    collection: Collection;
+    collection: Object;
 
     /**
      * An object that represents the current collection.
      * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
      */
-    collectionJSON: any;
+    collectionJSON: Object;
 
+
+    items : Item[];
     /**
      *
      * @param params
@@ -63,17 +71,28 @@ export class CollectionComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        console.log("in this page");
         let page = params.get('page') ? params.get('page') : 1;
-        console.log("setting up this page");
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
-            this.collection = new Collection(this.collectionJSON);
+            this.collection = new Collection(collectionJSON);
             breadcrumb.visit(this.collectionJSON);
+            console.log("in the collection");
+            console.log(this.collection);
+
         });
+
         translate.setDefaultLang('en');
         translate.use('en');
     }
+
+    ngOnInit()
+    {
+        console.log("after init");
+        console.log(JSON.stringify(this.collectionJSON));
+
+    }
+
+
 
 }
 
