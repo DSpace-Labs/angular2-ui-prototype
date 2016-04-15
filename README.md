@@ -61,8 +61,8 @@ Here's how you can install the current prototype:
      Here's where various parts of the codebase are located:
       - `src/app/` is the client-side typescript that drives application
       - `src/server/` is the server-side typescript components
-      - `resources/styles/` is where CSS is stored (for Bootstrap)
-      - Also uses bootstrap with jQuery plugin
+      - `resources/` is where all static resources (CSS, images, etc) are kept
+      - [Bootstrap](http://getbootstrap.com/) is pulled in dynamically via NPM
 
 # Collaboration
 

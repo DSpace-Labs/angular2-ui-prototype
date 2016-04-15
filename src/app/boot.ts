@@ -39,7 +39,7 @@ bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     provide(TranslateLoader, {
-        useFactory: (http: Http) => new TranslateStaticLoader(http, 'dist/i18n', '.json'),
+        useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
         deps: [Http]
     }),
     TranslateService,

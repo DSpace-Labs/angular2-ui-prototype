@@ -3,15 +3,11 @@ var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// Location of our modules
+var node_modules = path.join(__dirname, 'node_modules');
+
 // Default configuration
 var defaultConfig = {
-    module: {
-        // Do not parse these directories for source modules/files
-        noParse: [
-            path.join(__dirname, 'zone.js', 'dist'),
-            path.join(__dirname, 'angular2', 'bundles')
-        ]
-    },
     // Our base directory is the same directory as this webpack.config.js (i.e. [src])
     context: __dirname,
     resolve: {
@@ -31,7 +27,7 @@ var commonConfig = {
      // An array of extensions that should be used to resolve modules.
      // (These are the types of source files we have in our source code)
     resolve: {
-        extensions: ['', '.css', '.scss', '.js', '.ts']
+        extensions: ['', '.js', '.ts']
     },
     module: {
         loaders: [
@@ -49,65 +45,31 @@ var commonConfig = {
         // for often used ids
         // See: https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
         // See: https://github.com/webpack/docs/wiki/optimization#minimize
-        new webpack.optimize.OccurenceOrderPlugin(true),
-        // Tell WebPack to prepend `var $ = require("jquery")` whenever it
-        // encounters the global $ identifier. See: http://stackoverflow.com/a/28989476/3750035
-        new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery" })
+        new webpack.optimize.OccurenceOrderPlugin(true)
     ]
 };
 
-// Client-side specific configuration. Builds our client-side JS app (app.bundle.js),
-// along with complimentary styles.bundle.js (CSS styles) and bootstrap.bundle.js (Bootstrap CSS / JS).
+// Client-side specific configuration. Builds our client-side JS app (app.bundle.js).
 var clientConfig = {
     // Cache modules to improve performance (in builds)
     cache: true,
-    // Entry point for each bundle (i.e. directory or files).
-    // This creates multiple entries of different names: 'app', 'styles', 'bootstrap'
-    entry: {
-        "app": "./src/app/boot",
-        "styles": [
-            "./resources/styles/main.scss"
-        ],
-        "bootstrap": [
-            "bootstrap-sass!./resources/bootstrap-sass.config.js"
-        ]
-    },
+    // Entry point for this bundle (./src/app/boot.ts)
+    entry: "./src/app/boot",
     output: {
         // The output build directory as absolute path (required).
-        path: __dirname,
-        // Specifies the name of each output file on disk.
-        // [name] references the name ofthe "entry" point (see 'entry' above)
-        filename: "./dist/[name].bundle.js"
+        // Our final app is built into [src]/dist/
+        path: path.join(__dirname, 'dist'),
+        // Specifies the name of output file. This is our final compiled client-side app
+        filename: 'app.bundle.js'
     },
     // Emit a "SourceMap". Makes it easier to debug the application, as
     // it will tell you exactly where an error is raised
     devtool: 'source-map',
-    module: {
-        loaders: [
-            {
-                // Process all .scss files using the style-loader, css-loader and sass-loader
-                // These "transpile" our CSS into JS
-                test: /\.scss$/,
-                loader: 'style!css!sass'
-            },
-            {
-                // Ensures all Bootstrap JS files have access to the jQuery object
-                test: /bootstrap\/js\//,
-                loader: 'imports?jQuery=jquery'
-            },
-            {
-                // Ensure all Boostrap image/fonts are available via url-loader
-                // This essentially just copies these assets to URLs in output
-                test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
-                loader: 'url-loader'
-            }
-        ]
-    },
     plugins: [
         // Copy i18n files (./resources/i18n/) into distribution's 'i18n' folder
         new CopyWebpackPlugin([{
             from: path.join(__dirname, 'resources', 'i18n'),
-            to: path.join(__dirname, 'dist', 'i18n')
+            to: 'i18n'
         }])
     ]
 };
@@ -130,7 +92,36 @@ var serverConfig = {
         __filename: true,
         process: true,
         Buffer: true
-    }
+      },
+      plugins: [
+          // Copy specific files to final server build directory (./dist/server)
+          // Anything copied into the "static" subfolder is then made available
+          // off the '/static' URL path (see './src/server.ts'). So, these copy
+          // statements make all our static resources available to server-side AND client-side
+          new CopyWebpackPlugin([
+            // Copy Bootstrap CSS into 'static/css' (from the bootstrap module)
+            {
+              from: path.join(node_modules, 'bootstrap', 'dist', 'css', 'bootstrap.min.css'),
+              to: path.join('static', 'css', 'bootstrap.min.css')
+            },
+            // Copy Bootstrap Fonts into 'static/fonts' (from the bootstrap module)
+            // NOTE: Bootstrap CSS references fonts as being at "../fonts/" (relative to CSS)
+            {
+              from: path.join(node_modules, 'bootstrap', 'dist', 'fonts'),
+              to: path.join('static', 'fonts')
+            },
+            // Copy any CSS overrides (./resources/css/) into 'static/css' subfolder
+            {
+              from: path.join(__dirname, 'resources', 'css'),
+              to: path.join('static', 'css')
+            },
+            // Copy any images (./resources/images/) into 'static/images' subfolder
+            {
+              from: path.join(__dirname, 'resources', 'images'),
+              to: path.join('static', 'images')
+            }
+          ])
+      ]
 };
 
 

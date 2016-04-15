@@ -80,8 +80,10 @@ app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
 // Define location of Static Resources
-// TODO: this needs updating to NOT be the root folder
-app.use(express.static(root, { index: false }));
+// Map the /static URL path to the ./dist/server/static local directory
+app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
+// Other static resources (e.g. our index.html or compiled app.bundle.js) can be found directly in ./dist
+app.use(express.static(path.join(root, 'dist'), {index:false}));
 
 // Port to use
 app.set('port', PORT);
