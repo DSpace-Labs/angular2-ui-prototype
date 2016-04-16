@@ -1,4 +1,5 @@
 import {Component, Input} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Collection} from "../../models/collection.model"
@@ -11,23 +12,19 @@ import {ViewElementComponent} from './view-element.component';
 @Component({
     selector: 'item-collection',
     inputs: ['itemData'],
-    directives: [ViewElementComponent],
+    directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
     template:
         `
-        <view-element [header]="componentTitle| translate">
-             <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
-        </view-element>
+            <view-element [header]="componentTitle| translate">
+                <a [routerLink]="[itemData.component, {id: itemData.id}]">{{ itemData.name }}</a>
+            </view-element>
         `
 })
-
 export class CollectionComponent {
 
     private componentTitle = "item-view.collection.title";
     private itemData : Collection;
-    private collectionURIPrefix = "../collections/";
-
-
 
 }
 
