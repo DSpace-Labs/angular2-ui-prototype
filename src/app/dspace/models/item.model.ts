@@ -2,7 +2,7 @@ import {DSOContainer} from "./dso-container.model";
 import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
-
+import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 /**
  * A model class for an Item
@@ -24,8 +24,15 @@ export class Item extends DSOContainer {
 
     constructor(public json: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        this.parseBitstreams();
-        this.parseCollection();
+        if (ObjectUtil.isNotEmpty(json)) {
+            this.parentCollection = json.parentCollection;
+            this.lastModified = json.lastModified;
+            this.archived = json.archived;
+            this.withdrawn = json.withdrawn;
+            this.fullItem = json.fullItem ? json.fullItem : false;
+            this.parseBitstreams();
+            this.parseCollection();
+        }
     }
 
     /**

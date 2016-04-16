@@ -1,6 +1,7 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {Collection} from "../dspace/models/collection.model";
 import {PaginationComponent} from './pagination.component';
 
 /**
@@ -25,9 +26,7 @@ export class ListComponent {
     /**
      * An input variable that is passed into the component [collection].
      * Represents the current collection.
-     *
-     * TODO: replace any with inheritance model e.g. item extends dspaceObject
      */
- 	collection: any;
+    collection: Collection;
 
 }

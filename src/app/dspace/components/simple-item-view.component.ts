@@ -60,13 +60,6 @@ import {Item} from '../models/item.model'
 })
 export class SimpleItemViewComponent {
 
-    /**
-     * An object that represents the current item.
-     *
-     * TODO: replace any with inheritance model. e.g. item extends dspaceObject
-     */
-    itemJSON: any;
-
     private item : Item;
 
     /**
@@ -81,10 +74,9 @@ export class SimpleItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id")).then(itemJSON => {
-            this.itemJSON = itemJSON;
-            this.item = new Item(this.itemJSON);
-            breadcrumb.visit(this.itemJSON);
+        directory.loadObj('item', params.get("id")).then((item:Item) => {
+            this.item = item
+            breadcrumb.visit(this.item);
         });
     }
 

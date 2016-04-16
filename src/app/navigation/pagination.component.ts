@@ -39,8 +39,6 @@ export class PaginationComponent {
     /**
      * An input variable that is passed into the component [context].
      * Represents the current context.
-     *
-     * TODO: replace any with inheritance model e.g. dspaceObject
      */
     context: any;
 

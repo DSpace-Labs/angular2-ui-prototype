@@ -14,7 +14,7 @@ export class Community extends DSOContainer {
     /**
      * An array of the sub-communities in this Community
      */
-    subCommunities: Array<Community>;
+    subcommunities: Array<Community>;
     
     parentCommunity : Community;
 
@@ -28,8 +28,8 @@ export class Community extends DSOContainer {
      */
     constructor(json?: any) {
         super(json);
-
         if (ObjectUtil.isNotEmpty(json)) {
+            this.parentCommunity = json.parentCommunity;
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
@@ -37,7 +37,7 @@ export class Community extends DSOContainer {
 
             }
             if (Array.isArray(json.subcommunities)) {
-                this.subCommunities = json.subcommunities.map((subCommunityJSON) => {
+                this.subcommunities = json.subcommunities.map((subCommunityJSON) => {
                     return new Community(subCommunityJSON);
                 })
             }

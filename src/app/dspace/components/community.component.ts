@@ -26,12 +26,12 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                 <div class="container" *ngIf="community">
                     
                     <div class="col-md-4">
-                        <context [context]="communityJSON"></context>
+                        <context [context]="community"></context>
                     </div>     
                     
                     <div class="col-md-8">
                         <container-home [container]=community></container-home>
-                        <tree [directories]="communityJSON.subcommunities.concat(communityJSON.collections)"></tree>
+                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
                     </div>                          
                     
                 </div>
@@ -43,13 +43,6 @@ export class CommunityComponent {
      * An object that represents the current community.
      */
     community: Community;
-
-    /**
-     * An object that represents the current community.
-     *
-     * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
-     */
-    communityJSON: any;
 
     /**
      *
@@ -67,10 +60,9 @@ export class CommunityComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('community', params.get('id'), page, params.get('limit')).then(communityJSON => {
-            this.communityJSON = communityJSON;
-            this.community = new Community(this.communityJSON);
-            breadcrumb.visit(this.communityJSON);
+        directory.loadObj('community', params.get('id'), page, params.get('limit')).then((community:Community) => {
+            this.community = community;
+            breadcrumb.visit(this.community);
         });
         translate.setDefaultLang('en');
         translate.use('en');

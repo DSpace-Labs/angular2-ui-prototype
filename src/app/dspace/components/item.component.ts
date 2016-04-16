@@ -26,17 +26,17 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
     directives: [ContextComponent],
     pipes: [TranslatePipe],
     template: `
-                <div class="container" *ngIf="itemJSON">
+                <div class="container" *ngIf="item">
                     
                     <div class="col-md-4">
-                        <context [context]="itemJSON"></context>
+                        <context [context]="item"></context>
                     </div>
 
                     <div class="col-md-8">                                
                         <div class="panel panel-default">
-                            <div class="panel-heading">{{ itemJSON.name }}</div>
+                            <div class="panel-heading">{{ item.name }}</div>
                             <div class="panel-body">
-                                <p>{{ itemJSON.parentCollection.name }}: description</p>
+                                <p>{{ item.parentCollection.name }}: description</p>
                             </div>
                             <table class="table table-hover">
                                 <thead class="thead-inverse">
@@ -48,7 +48,7 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="#metadatum of itemJSON.metadata; #index = index">
+                                    <tr *ngFor="#metadatum of item.metadata; #index = index">
                                         <th scope="row">{{ index }}</th>
                                         <td>{{ metadatum.key }}</td>
                                         <td>{{ metadatum.value }}</td>
@@ -64,13 +64,6 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
               `
 })
 export class ItemComponent implements CanDeactivate {
-
-    /**
-     * An object that represents the current item.
-     *
-     * TODO: replace any with inheritance model. e.g. item extends dspaceObject
-     */
-    itemJSON: any;
 
     /**
      * An object that represents the current item.
@@ -103,10 +96,9 @@ export class ItemComponent implements CanDeactivate {
                 private metaTagService: MetaTagService,
                 private location: Location,
                 translate: TranslateService) {
-        directory.loadObj('item', params.get("id")).then(itemJSON => {
-            this.itemJSON = itemJSON;
-            this.item = new Item(this.itemJSON);
-            breadcrumb.visit(this.itemJSON);
+        directory.loadObj('item', params.get("id")).then(item => {
+            this.item = item;
+            breadcrumb.visit(this.item);
             this._gsMetaUtil = new GoogleScholarMetadataUtil(metaTagService, location, this.item);
             this._gsMetaUtil.setGoogleScholarMetaTags();
         });
@@ -124,7 +116,6 @@ export class ItemComponent implements CanDeactivate {
      */
     routerCanDeactivate(nextInstruction: ComponentInstruction,
                         prevInstruction: ComponentInstruction): boolean | Promise<boolean> {
-
         if (ObjectUtil.hasValue(this._gsMetaUtil)) {
             this._gsMetaUtil.clearGoogleScholarMetaTags();
         }

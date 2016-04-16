@@ -74,8 +74,7 @@ export class DSpaceDirectory {
     loadNav(type, context) {
         if(context.loaded) return;
         if (!context.limit) {
-            this.setup(context);
-            this.page(context);
+            this.paging(context);
         }
         let cachedPage = this.dspaceStore.getPage(context);
         if (cachedPage) context[this.dspaceConstants[type].DSPACE] = cachedPage;
@@ -121,8 +120,7 @@ export class DSpaceDirectory {
             }
             if (useCachedContext) {
                 parent = directoryContext.type == 'item' ? directoryContext.parentCollection : directoryContext.parentCommunity;
-                if(limit) directoryContext.limit = limit;
-                directory.page(directoryContext, page);
+                directory.paging(directoryContext, page, limit);
                 directory.prepare(parent, directoryContext);
                 resolve(directoryContext);
             }
@@ -155,8 +153,7 @@ export class DSpaceDirectory {
                             }
                         }
                     }
-                    directory.setup(context, limit);
-                    directory.page(context, page);
+                    directory.paging(context, page, limit);
                     directory.prepare(parent, context);
                     context.ready = true;
                     resolve(context);
@@ -213,21 +210,6 @@ export class DSpaceDirectory {
         }
         return null;
     }
-
-    /**
-     * Method to setup context for pagination.
-     *
-     * @param context
-     *      current context in which needing to load navigation with pagination.
-     * @param limit *optional
-     *      current limit
-     */
-    setup(context, limit?) {
-        context.page = 1;
-        context.offset = 0;
-        // TODO: remove ternary when pagination of communities and collections
-        context.limit = limit ? limit : context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
-    }
     
     /**
      * Method to apply pagination to context.
@@ -236,9 +218,13 @@ export class DSpaceDirectory {
      *      current context in which needing to apply pagination.
      * @param page *optional
      *      current page
+     * @param limit *optional
+     *      current limit
      */
-    page(context, page?) {
+    paging(context, page?, limit?) {
         context.page = page ? page : 1;
+         // TODO: remove ternary when pagination of communities and collections
+        context.limit = limit ? limit : context.type == 'collection' ? this.paginationService.getDefaultLimit() : context.type == 'item' ? 0 : 200;
         context.offset = context.page > 1 ? (context.page - 1) * context.limit : 0;
         // REST API should return the number of subcommunities and number of collections for pagination.
         context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;

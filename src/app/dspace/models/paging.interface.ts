@@ -8,15 +8,15 @@ export interface IPaging {
     
     loaded: boolean;
     
-    component: string;
-
-    pageCount: number;
-
-    limit: number;
-
     offset: number;
 
     page: number;
+
+    limit: number;
+
+    component: string;
+
+    pageCount: number;
 
     total: number;
 

@@ -56,8 +56,7 @@ export class DSpaceService {
             for(let communityJson of json) {
                 topCommunities.push(new Community(communityJson));
             }
-            console.log(topCommunities);
-            return json;
+            return topCommunities;
         });
     }
 
@@ -79,8 +78,7 @@ export class DSpaceService {
             for(let communityJson of json) {
                 communities.push(new Community(communityJson));
             }
-            console.log(communities);
-            return json;
+            return communities;
         });
     }
 
@@ -102,8 +100,7 @@ export class DSpaceService {
             for(let collectionJson of json) {
                 collections.push(new Collection(collectionJson));
             }
-            console.log(collections);
-            return json;
+            return collections;
         });
     }
 
@@ -125,8 +122,7 @@ export class DSpaceService {
             for(let itemJson of json) {
                 items.push(new Item(itemJson));
             }
-            console.log(items);
-            return json;
+            return items;
         });
     }
 
@@ -140,9 +136,7 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
-            let community = new Community(json);
-            console.log(community);
-            return json;
+            return new Community(json);
         });
     }
 
@@ -156,9 +150,7 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
-            let collection = new Collection(json);
-            console.log(collection);
-            return json;
+            return new Collection(json);
         });
     }
 
@@ -172,9 +164,7 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
         }).map(json => {
-            let item = new Item(json);
-            console.log(item);
-            return json;
+            return new Item(json);
         });
     }
 

@@ -13,10 +13,12 @@ export class Collection extends DSOContainer {
      */
     items: Array<Item>;
     
+    numberItems: number;
+
     parentCommunity : Community;
-    
+
     license: string; // TODO: probably should have a license object
-    
+
     /**
      * Create a new Collection
      *
@@ -31,6 +33,8 @@ export class Collection extends DSOContainer {
         }
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
+            this.numberItems = json.numberItems;
+            this.parentCommunity = json.parentCommunity;
             this.items = json.items.map((itemJSON) => {
                 return new Item(itemJSON); // Returning new items causes an infinite loop now, for some reason?
             });
