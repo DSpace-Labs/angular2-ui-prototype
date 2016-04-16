@@ -30,8 +30,8 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
-import {BreadcrumbService} from './app/navigation/breadcrumb.service';
-import {PaginationService} from './app/navigation/pagination.service';
+import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
+import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/dspace.service';

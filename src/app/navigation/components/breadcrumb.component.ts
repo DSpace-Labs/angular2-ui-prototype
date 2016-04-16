@@ -1,9 +1,9 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace/dspace.directory';
+import {DSpaceDirectory} from '../../dspace/dspace.directory';
 
-import {BreadcrumbService} from './breadcrumb.service';
+import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
  * Breadcrumb component for displaying current set of breadcrumbs of the 

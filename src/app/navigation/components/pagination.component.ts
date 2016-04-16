@@ -1,10 +1,10 @@
 import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace/dspace.directory';
-import {DSpaceStore} from '../dspace/dspace.store';
-import {PaginationService} from './pagination.service';
-import {BreadcrumbService} from './breadcrumb.service';
+import {DSpaceDirectory} from '../../dspace/dspace.directory';
+import {DSpaceStore} from '../../dspace/dspace.store';
+import {PaginationService} from '../services/pagination.service';
+import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
  * Pagination component for controlling paging among a given context. Currently, only items.

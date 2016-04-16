@@ -2,11 +2,10 @@ import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-
 import {DSpaceDirectory} from '../dspace.directory';
 import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-import {ContextComponent} from '../../navigation/context.component';
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import {ContextComponent} from '../../navigation/components/context.component';
 
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
@@ -16,22 +15,25 @@ import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 
-
 import {Item} from '../models/item.model'
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
  *
- */
-
-/**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.
  */
 @Component({
     selector: 'simple-item-view',
-    directives: [ContextComponent, AuthorsComponent, DateComponent, CollectionComponent, UriComponent,ROUTER_DIRECTIVES, BitstreamsComponent, ThumbnailComponent],
-    pipes:[TranslatePipe],
+    directives: [ContextComponent,
+                 AuthorsComponent,
+                 DateComponent,
+                 CollectionComponent,
+                 UriComponent,
+                 ROUTER_DIRECTIVES,
+                 BitstreamsComponent,
+                 ThumbnailComponent],
+    pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
                     <div class="row">

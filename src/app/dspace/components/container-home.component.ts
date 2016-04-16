@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {IContainerHomepage} from "../models/container-homepage.interface";
+import {IContainerHomepage} from "../interfaces/container-homepage.interface";
 import {ContainerLogoComponent} from "./container-logo.component";
 
 /**

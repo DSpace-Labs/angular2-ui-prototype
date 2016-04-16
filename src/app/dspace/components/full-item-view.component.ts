@@ -4,14 +4,11 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-import {ContextComponent} from '../../navigation/context.component';
-
-
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import {ContextComponent} from '../../navigation/components/context.component';
 import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
-
 import {Item} from '../models/item.model'
 
 /**

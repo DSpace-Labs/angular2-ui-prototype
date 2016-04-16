@@ -4,7 +4,7 @@ import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
 import {DSpaceConstants} from './dspace.constants';
 
-import {PaginationService} from '../navigation/pagination.service';
+import {PaginationService} from '../navigation/services/pagination.service';
 
 import {ObjectUtil} from '../utilities/commons/object.util'
 

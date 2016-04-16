@@ -1,6 +1,6 @@
 import {DSpaceObject} from "./dspaceobject.model";
 import {Bitstream} from "./bitstream.model";
-import {IContainerHomepage} from "./container-homepage.interface";
+import {IContainerHomepage} from "../interfaces/container-homepage.interface";
 import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 /**
@@ -28,6 +28,8 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
      * The short description: HTML
      */
     shortDescription: string;
+    
+    sidebarText: string;
 
     /**
      * The news section, also referred to as sidebarText: HTML
@@ -49,7 +51,8 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
             this.copyrightText = json.copyrightText;
             this.introductoryText = json.introductoryText;
             this.shortDescription = json.shortDescription;
-            this.news = json.sidebarText;
+            this.sidebarText = json.sidebarText;
+            this.news = json.news;
             if (json.logo) {
                 this.logo = new Bitstream(json.logo);
             }

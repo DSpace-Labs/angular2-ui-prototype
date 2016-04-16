@@ -4,15 +4,12 @@ import {RouteParams} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Community} from "../models/community.model";
-
-import {TreeComponent} from '../../navigation/tree.component';
-import {ContextComponent} from '../../navigation/context.component';
+import {TreeComponent} from '../../navigation/components/tree.component';
+import {ContextComponent} from '../../navigation/components/context.component';
+import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component.ts";
-import {PaginationComponent} from '../../navigation/pagination.component';
 
 /**
  * Community component for displaying the current community.

@@ -4,10 +4,8 @@ import {RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angula
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
-import {ContextComponent} from '../../navigation/context.component';
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import {ContextComponent} from '../../navigation/components/context.component';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
 import {Item} from "../models/item.model";
 import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
@@ -96,7 +94,7 @@ export class ItemComponent implements CanDeactivate {
                 private metaTagService: MetaTagService,
                 private location: Location,
                 translate: TranslateService) {
-        directory.loadObj('item', params.get("id")).then(item => {
+        directory.loadObj('item', params.get("id")).then((item:Item) => {
             this.item = item;
             breadcrumb.visit(this.item);
             this._gsMetaUtil = new GoogleScholarMetadataUtil(metaTagService, location, this.item);

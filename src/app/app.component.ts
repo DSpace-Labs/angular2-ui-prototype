@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
-import {BreadcrumbComponent} from './navigation/breadcrumb.component';
+import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
 import {RegisterComponent} from './register.component';
