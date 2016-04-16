@@ -6,6 +6,7 @@ import {StringUtil} from "../../utilities/commons/string.util.ts";
  * A model class for a single metadata record.
  */
 export class Metadatum {
+
     /**
      * The schema for this Metadatum. e.g. 'dc'
      */

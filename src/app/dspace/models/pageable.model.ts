@@ -10,9 +10,9 @@ export abstract class Pageable implements IPaging {
 
     loaded: boolean; // indicates navigation loaded
 
-    offset: number = 0;
+    offset: number;
 
-    page: number = 1;
+    page: number;
 
     limit: number;
 

@@ -16,7 +16,8 @@ import {BreadcrumbService} from '../services/breadcrumb.service';
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="#breadcrumb of trail">
                         <a *ngIf="breadcrumb.id && !breadcrumb.page" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="breadcrumb.id && breadcrumb.page" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="breadcrumb.id && breadcrumb.page && !breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="breadcrumb.id && breadcrumb.page && breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>
                         <a *ngIf="!breadcrumb.id" [routerLink]="['/Dashboard']">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
@@ -88,7 +89,8 @@ export class BreadcrumbComponent {
                 name: context.name,
                 component: context.component,
                 id: context.id,
-                page: context.page
+                page: context.page,
+                limit: context.limit
             });            
             if (context.parentCommunity || context.parentCollection) {
                 let parentType = context.parentCommunity ? 'Community' : 'Collection';

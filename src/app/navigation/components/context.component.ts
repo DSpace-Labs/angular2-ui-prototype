@@ -13,13 +13,21 @@ import {Component} from 'angular2/core';
 				    	<h3 class="panel-title">{{context.name}}</h3>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'dashboard'">
-				    	{{context.type}}
+				    	<ul>
+                            <li>{{context.type}}</li>
+                        </ul>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
-				    	{{context.type}}
+				    	<ul>
+                            <li>{{context.type}}</li>
+                            <li *ngIf="context.sidebarText">{{context.sidebarText}}</li>
+                        </ul>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
-				    	{{context.type}}
+				    	<ul>
+                            <li>{{context.type}}</li>
+                            <li *ngIf="context.sidebarText">{{context.sidebarText}}</li>
+                        </ul>
 				  	</div>
 				    <div class="panel-body" *ngIf="context.type == 'item'">
 

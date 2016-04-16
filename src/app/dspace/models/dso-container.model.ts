@@ -28,7 +28,10 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
      * The short description: HTML
      */
     shortDescription: string;
-    
+
+    /**
+     * The sidebar text.
+     */
     sidebarText: string;
 
     /**
@@ -48,14 +51,12 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
     constructor(json:any) {
         super(json);
         if (ObjectUtil.isNotEmpty(json)) {
+            if (json.logo) this.logo = new Bitstream(json.logo);
             this.copyrightText = json.copyrightText;
             this.introductoryText = json.introductoryText;
             this.shortDescription = json.shortDescription;
             this.sidebarText = json.sidebarText;
             this.news = json.news;
-            if (json.logo) {
-                this.logo = new Bitstream(json.logo);
-            }
         }
     }
 }

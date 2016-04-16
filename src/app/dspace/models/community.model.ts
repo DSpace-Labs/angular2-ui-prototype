@@ -16,6 +16,9 @@ export class Community extends DSOContainer {
      */
     subcommunities: Array<Community>;
     
+    /**
+     * Parent community.
+     */
     parentCommunity : Community;
 
     /**
@@ -33,13 +36,12 @@ export class Community extends DSOContainer {
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
-                })
-
+                });
             }
             if (Array.isArray(json.subcommunities)) {
                 this.subcommunities = json.subcommunities.map((subCommunityJSON) => {
                     return new Community(subCommunityJSON);
-                })
+                });
             }
         }
     }

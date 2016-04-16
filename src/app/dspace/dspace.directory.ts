@@ -73,9 +73,7 @@ export class DSpaceDirectory {
      */
     loadNav(type, context) {
         if(context.loaded) return;
-        if (!context.limit) {
-            this.paging(context);
-        }
+        if (!context.limit) this.paging(context);
         let cachedPage = this.dspaceStore.getPage(context);
         if (cachedPage) context[this.dspaceConstants[type].DSPACE] = cachedPage;
         else {

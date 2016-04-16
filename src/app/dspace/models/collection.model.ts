@@ -13,8 +13,14 @@ export class Collection extends DSOContainer {
      */
     items: Array<Item>;
     
+    /**
+     * Number of items in collection.
+     */
     numberItems: number;
 
+    /**
+     * Parent community.
+     */
     parentCommunity : Community;
 
     license: string; // TODO: probably should have a license object
@@ -28,9 +34,7 @@ export class Collection extends DSOContainer {
      *      properties
      */
     constructor(json:any, parseItems? : boolean) {
-        if(parseItems == null) {
-            parseItems = true;
-        }
+        if(parseItems == null) parseItems = true;
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
             this.numberItems = json.numberItems;
