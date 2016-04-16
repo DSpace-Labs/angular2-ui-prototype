@@ -35,7 +35,7 @@ import {Item} from '../models/item.model'
 
                             <item-full-collections [itemData]="item.parentCollection"></item-full-collections>
 
-                             <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
+                            <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
                     </div>
                 </div>

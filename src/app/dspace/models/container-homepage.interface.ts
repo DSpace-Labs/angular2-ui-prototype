@@ -5,6 +5,7 @@ import {Bitstream} from "./bitstream.model";
  * Collection or a Community)
  */
 export interface IContainerHomepage {
+
     /**
      * The logo: a Bitstream
      */
@@ -24,9 +25,12 @@ export interface IContainerHomepage {
      * The short description: HTML
      */
     shortDescription: string;
+    
+    sidebarText: string;
 
     /**
      * The news section, also referred to as sidebarText: HTML
      */
     news: string;
+
 }

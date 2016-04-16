@@ -7,14 +7,20 @@ import {StringUtil} from "../../utilities/commons/string.util.ts";
  * Bitstreams represent files in DSpace
  */
 export class Bitstream extends DSpaceObject { // The parent object (super) is singleton?
-    /**
+    
+     /**
      * A link that can be used to download the file this Bitstream represents.
      */
     retrieveLink: string;
+    
     id;
+    
     format : string;
+    
     size: number;
+    
     name: string;
+    
     /**
      * Create a new bitstream
      *
@@ -23,10 +29,8 @@ export class Bitstream extends DSpaceObject { // The parent object (super) is si
      *      from the rest api. Currently only json.retrieveLink is used, apart from
      *      the standard DSpaceObject properties
      */
-    constructor(json?:any)  {
-
-        if(json!=null)
-        {
+    constructor(json?:any) {
+        if(json!=null) {
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
                 //TODO add proper way to get absolute links
@@ -37,8 +41,8 @@ export class Bitstream extends DSpaceObject { // The parent object (super) is si
         }
     }
 
-    getName() : string
-    {
+    getName() {
         return this.name;
     }
+
 }

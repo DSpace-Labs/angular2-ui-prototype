@@ -8,7 +8,8 @@ import {ObjectUtil} from "../../utilities/commons/object.util.ts";
  * others and has a homepage (a Community or a Collection)
  */
 export abstract class DSOContainer extends DSpaceObject implements IContainerHomepage {
-    /**
+    
+     /**
      * The logo: a Bitstream
      */
     logo: Bitstream;
@@ -34,11 +35,6 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
     news: string;
 
     /**
-     * The number of items in this DSOContainer
-     */
-    countItems: number;
-
-    /**
      * Create a new DSOContainer
      *
      * @param json
@@ -54,7 +50,6 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
             this.introductoryText = json.introductoryText;
             this.shortDescription = json.shortDescription;
             this.news = json.sidebarText;
-            this.countItems = json.countItems;
             if (json.logo) {
                 this.logo = new Bitstream(json.logo);
             }

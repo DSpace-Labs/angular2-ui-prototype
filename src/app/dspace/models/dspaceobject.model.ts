@@ -1,10 +1,12 @@
+import {Pageable} from "./pageable.model";
 import {Metadatum} from "./metadatum.model";
 import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 /**
  * A abstract model class for a DSpaceObject
  */
-export abstract class DSpaceObject {
+export abstract class DSpaceObject extends Pageable {
+
     /**
      * The identifier for this DSpaceObject
      */
@@ -33,7 +35,7 @@ export abstract class DSpaceObject {
     /**
      * An array of the metadata for this DSpaceObject
      */
-    metadata: Metadatum[];
+    metadata: Array<Metadatum>;
 
     /**
      * Create a new DSpaceObject
@@ -44,6 +46,7 @@ export abstract class DSpaceObject {
      *      json.metadata
      */
     constructor(json?: any) {
+        super(json);
         if (ObjectUtil.isNotEmpty(json)) {
             this.id = json.id;
             this.name = json.name;

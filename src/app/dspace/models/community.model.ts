@@ -9,12 +9,14 @@ export class Community extends DSOContainer {
     /**
      * An array of the Collections in this Community 
      */
-    collections: Collection[];
+    collections: Array<Collection>;
 
     /**
      * An array of the sub-communities in this Community
      */
-    subCommunities: Community[];
+    subCommunities: Array<Community>;
+    
+    parentCommunity : Community;
 
     /**
      * Create a new Community
