@@ -1,8 +1,11 @@
 ﻿import {Injectable} from 'angular2/core';
 
-import {URLSearchParams} from 'angular2/http'; 
+import {URLSearchParams} from 'angular2/http';
 
 import {HttpService} from '../utilities/http.service';
+import {Community} from './models/community.model';
+import {Collection} from './models/collection.model';
+import {Item} from './models/item.model';
 
 /**
  * Injectable service to provide an interface with the DSpace REST API 
@@ -38,19 +41,6 @@ export class DSpaceService {
     }
 
     /**
-     * Method to perform a generic fetch with the provided path. 
-     *
-     * @param path
-     *      A path to a DSpace REST endpoint
-     */
-    fetch(path) {
-        console.log('fetching path ' + path);
-        return this.httpService.get({
-            url: this.url + path + '?expand=parentCommunity,parentCollection'
-        });
-    }
-
-    /**
      * Method to fetch top communities for navigation purposes.
      */
     fetchTopCommunities() {
@@ -61,6 +51,13 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/top-communities',
             search: params
+        }).map(json => {
+            let topCommunities = new Array<Community>();
+            for(let communityJson of json) {
+                topCommunities.push(new Community(communityJson));
+            }
+            console.log(topCommunities);
+            return json;
         });
     }
 
@@ -77,6 +74,13 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + community.id + '/communities',
             search: params
+        }).map(json => {
+            let communities = new Array<Community>();
+            for(let communityJson of json) {
+                communities.push(new Community(communityJson));
+            }
+            console.log(communities);
+            return json;
         });
     }
 
@@ -93,6 +97,13 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + community.id + '/collections',
             search: params
+        }).map(json => {
+            let collections = new Array<Collection>();
+            for(let collectionJson of json) {
+                collections.push(new Collection(collectionJson));
+            }
+            console.log(collections);
+            return json;
         });
     }
 
@@ -109,6 +120,13 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + collection.id + '/items',
             search: params
+        }).map(json => {
+            let items = new Array<Item>();
+            for(let itemJson of json) {
+                items.push(new Item(itemJson));
+            }
+            console.log(items);
+            return json;
         });
     }
 
@@ -121,6 +139,10 @@ export class DSpaceService {
     fetchCommunity(id) {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
+        }).map(json => {
+            let community = new Community(json);
+            console.log(community);
+            return json;
         });
     }
 
@@ -133,6 +155,10 @@ export class DSpaceService {
     fetchCollection(id) {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
+        }).map(json => {
+            let collection = new Collection(json);
+            console.log(collection);
+            return json;
         });
     }
 
@@ -145,6 +171,10 @@ export class DSpaceService {
     fetchItem(id) {
         return this.httpService.get({
             url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
+        }).map(json => {
+            let item = new Item(json);
+            console.log(item);
+            return json;
         });
     }
 
