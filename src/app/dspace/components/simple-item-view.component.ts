@@ -40,7 +40,9 @@ import {Item} from '../models/item.model'
                         <div class="col-md-12">
                             <context [context]="item"></context>
                         </div>
-                        <div class="col-sm-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <item-thumbnail></item-thumbnail>
                             <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                             <item-date [itemData]="item.metadata"></item-date>
@@ -48,14 +50,12 @@ import {Item} from '../models/item.model'
                             <h3>Metadata</h3>
                             <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
                         </div>
-
-                        <div class="col-sm-8">
+                        <div class="col-md-8">
                             <div>
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemData]="item.parentCollection"></item-collection>
                             </div>
                         </div>
-
                     </div>
                 </div>
               `
