@@ -11,9 +11,7 @@ import {Item} from "../models/item.model";
 import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
-
-
-//TODO: THIS CLASS IS AT THE MOMENT NOT MOVED ANYMORE!
+//TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE!
 
 /**
  * Item component for displaying the current item.

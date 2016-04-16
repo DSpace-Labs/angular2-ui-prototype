@@ -1,9 +1,7 @@
 import {Component, Input} from 'angular2/core';
 
-
 /**
  * Component for the collections of the simple-item-view.
- * When you click on the collection name, it has to redirect to the right collection.
  */
 @Component({
     selector: 'view-element',
@@ -16,7 +14,6 @@ import {Component, Input} from 'angular2/core';
             </div>
             `
 })
-
 export class ViewElementComponent {
 
 }

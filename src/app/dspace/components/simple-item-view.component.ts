@@ -48,13 +48,11 @@ import {Item} from '../models/item.model'
                             <item-date [itemData]="item.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>Metadata</h3>
-                            <a [routerLink]="['FullItemView',{id:item.id}]">{{'item-view.show-full' | translate}}</a>
+                            <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
                         </div>
                         <div class="col-md-8">
-                            <div>
-                                <item-uri [itemData]="item.metadata"></item-uri>
-                                <item-collection [itemData]="item.parentCollection"></item-collection>
-                            </div>
+                            <item-uri [itemData]="item.metadata"></item-uri>
+                            <item-collection [itemParent]="item.parentCollection"></item-collection>
                         </div>
                     </div>
                 </div>
