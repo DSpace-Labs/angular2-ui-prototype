@@ -112,13 +112,6 @@ export class BreadcrumbComponent {
     }
 
     /**
-     * Method provided by Angular2. Invoked after the constructor.
-     */
-    ngOnInit() {
-
-    }
-
-    /**
      * Method provided by Angular2. Invoked after the component view is ready.
      */
     ngAfterViewInit() {

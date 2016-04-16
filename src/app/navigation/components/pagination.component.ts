@@ -45,12 +45,7 @@ export class PaginationComponent {
     /**
      * A String that represents the current component.
      */
-    component: String;
-
-     /**
-     * Array of numbers for templating over. [1,2,3,4] for 4 pages. 
-     */
-    pages: Array<any>;
+    component: string;
 
     /**
      * A number that represents the previous page.
@@ -98,7 +93,6 @@ export class PaginationComponent {
             this.component = this.context.component;
         this.next = +this.context.page + 1;
         this.previous = +this.context.page - 1;
-        this.pages = new Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
     }
 
     /**
@@ -121,7 +115,6 @@ export class PaginationComponent {
             this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
             this.next = +this.context.page + 1;
             this.previous = +this.context.page - 1;
-            this.pages = new Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
             this.loadContextNav();
         }
     }
@@ -142,7 +135,6 @@ export class PaginationComponent {
         this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;
         this.next = +this.context.page + 1;
         this.previous = +this.context.page - 1;
-        this.pages = new Array(this.context.pageCount).fill(0).map((e,i)=>i+1);
         this.loadContextNav();
     }
 
