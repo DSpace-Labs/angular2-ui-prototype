@@ -22,7 +22,7 @@ import {PaginationComponent} from './navigation/pagination.component';
                         <context [context]="dashboard"></context>
                     </div>
                     <div class="col-md-8">
-                        <tree [directories]="dspace.directory | async"></tree>
+                        <tree [directories]="dspace.directory"></tree>
                     </div>
                 </div>
               `
@@ -34,7 +34,7 @@ export class DashboardComponent {
      */
     private dashboard: {
         name: String,
-        type: String
+        component: String
     };
 
     /**
@@ -48,24 +48,14 @@ export class DashboardComponent {
      */
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                translate: TranslateService ){
-
+                translate: TranslateService ) {
         this.dashboard = {
             name: 'Dashboard',
-            type: 'dashboard'
+            component: '/Dashboard'
         };
-        
         breadcrumb.visit(this.dashboard);
-        
         translate.setDefaultLang('en');
         translate.use('en');
-    }
-
-    /**
-     * Method provided by Angular2. Invoked after the constructor.
-     */
-    ngOnInit() {
-        this.dspace.loadDirectory();
     }
 
 }

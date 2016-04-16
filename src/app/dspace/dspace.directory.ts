@@ -1,5 +1,4 @@
 ﻿import {EventEmitter, Injectable} from 'angular2/core';
-import {Observable, Observer} from 'rxjs/Rx';
 
 import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
@@ -10,35 +9,16 @@ import {PaginationService} from '../navigation/pagination.service';
 import {ObjectUtil} from '../utilities/commons/object.util'
 
 /**
- * Injectable service to provide navigation and context. Provides
- * session caching to eliminate requesting content already received.
- *
- * TODO: Create caching service which leverages local storage.
- *
- * The idea is to cache the directory and store in localStorage to
- * have immediate response when navigating and visiting context which has
- * been visited before. Would require synchronization to keep up to date.
- * Could also leverage webworkers to populate cache of unvisited context.
+ * Injectable service to provide navigation and context.
  */
 @Injectable()
 export class DSpaceDirectory {
 
-    /**
-     * Object to represent visited portions of the index hierarchy.
-     */
-    private store: {
-        directory: {
-            root: Object,
-            observer: Observer<Object>,
-            loading: boolean,
-            ready: boolean
-        }
-    };
+    public directory: Array<Object>;
 
-    /**
-     * An Observable to perform binding to the components.
-     */
-    directory: Observable<Object>;
+    private loading: boolean;
+
+    private ready: boolean;
 
     /**
      * 
@@ -55,15 +35,9 @@ export class DSpaceDirectory {
                 private dspaceStore: DSpaceStore,
                 private dspaceConstants: DSpaceConstants,
                 private paginationService: PaginationService) {
-        this.store = {
-            directory: {
-                root: new Array<Object>(),
-                observer: null,
-                loading: false,
-                ready: false
-            }
-        };
-        this.directory = new Observable<Object>(observer => this.store.directory.observer = observer).share();        
+        this.directory = new Array<Object>();
+        this.loading = false;
+        this.ready = false;
     }
 
     /**
@@ -71,25 +45,18 @@ export class DSpaceDirectory {
      * Calls prepare with the top community results.
      */
     loadDirectory() {
-        if (this.store.directory.ready) {
-            this.directory = Observable.create(observer => {
-                this.store.directory.observer = observer;
-                this.store.directory.observer.next(this.store.directory.root);
-            });
-        }
-        else {
-            if (!this.store.directory.loading) {
-                this.store.directory.loading = true;
+        if (!this.ready) {
+            if (!this.loading) {
+                this.loading = true;
                 this.dspaceService.fetchTopCommunities().subscribe(topCommunities => {
-                    this.store.directory.root = this.prepare(null, topCommunities);
-                    this.store.directory.observer.next(this.store.directory.root);
+                    this.directory = this.prepare(null, topCommunities);
                 },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
                 },
                 () => {
-                    this.store.directory.ready = true;
-                    this.store.directory.loading = false;
+                    this.ready = true;
+                    this.loading = false;
                     console.log('finished fetching top communities');
                 });
             }
@@ -108,11 +75,10 @@ export class DSpaceDirectory {
         if(context.loaded) return;
         if (!context.limit) {
             this.setup(context);
+            this.page(context);
         }
         let cachedPage = this.dspaceStore.getPage(context);
-        if (cachedPage) {
-            context[this.dspaceConstants[type].DSPACE] = cachedPage;
-        }
+        if (cachedPage) context[this.dspaceConstants[type].DSPACE] = cachedPage;
         else {
             this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
@@ -137,8 +103,10 @@ export class DSpaceDirectory {
      *      current context id which needing to load context details
      * @param page
      *      current context page
+     * @param limit
+     *      current context limit
      */
-    loadObj(type, id, page?) {
+    loadObj(type, id, page?, limit?) {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
@@ -147,11 +115,13 @@ export class DSpaceDirectory {
             let directoryContext = directory.find(type, id);
             if(directoryContext) {
                 useCachedContext = true;
-                if(type == 'item' && !directoryContext.fullItem)
+                if(type == 'item' && !directoryContext.fullItem) {
                     useCachedContext = false;
+                }
             }
             if (useCachedContext) {
                 parent = directoryContext.type == 'item' ? directoryContext.parentCollection : directoryContext.parentCommunity;
+                if(limit) directoryContext.limit = limit;
                 directory.page(directoryContext, page);
                 directory.prepare(parent, directoryContext);
                 resolve(directoryContext);
@@ -160,7 +130,6 @@ export class DSpaceDirectory {
                 directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
                     if(context.type == "item") {
                         parent = directory.find(context.parentCollection.type, context.parentCollection.id);
-                        context.fullItem = true;
                         if(parent) {
                             for(let item of parent.items) {
                                 if(item.id == context.id) {
@@ -170,20 +139,23 @@ export class DSpaceDirectory {
                                         }
                                     }
                                     context = item;
+                                    context.fullItem = true;
                                 }
                             }
                         }
                         else {
-                            console.log('parent is not in directory')
+                            console.log('item parent is not in directory');
                         }
-
                     }
                     else {
                         if(context.parentCommunity) {
                             parent = directory.find(context.parentCommunity.type, context.parentCommunity.id);
+                            if(!parent) {
+                                console.log('parent is not in directory');
+                            }
                         }
                     }
-                    directory.setup(context);
+                    directory.setup(context, limit);
                     directory.page(context, page);
                     directory.prepare(parent, context);
                     context.ready = true;
@@ -208,7 +180,7 @@ export class DSpaceDirectory {
      *      current context id which needing to load context details
      */
     find(type, id) {
-        return this.recursiveFind(this.store.directory.root, type, id);
+        return this.recursiveFind(this.directory, type, id);
     }
 
     /**
@@ -247,15 +219,14 @@ export class DSpaceDirectory {
      *
      * @param context
      *      current context in which needing to load navigation with pagination.
+     * @param limit *optional
+     *      current limit
      */
-    setup(context) {
+    setup(context, limit?) {
+        context.page = 1;
         context.offset = 0;
         // TODO: remove ternary when pagination of communities and collections
-        context.limit = context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
-        // REST API should return the number of subcommunities and number of collections for pagination.
-        context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
-        context.pageCount = Math.ceil(context.total / context.limit);
-        context.page = 1;
+        context.limit = limit ? limit : context.type == 'collection' ? this.paginationService.getDefaultLimit() : 200;
     }
     
     /**
@@ -263,12 +234,15 @@ export class DSpaceDirectory {
      *
      * @param context
      *      current context in which needing to apply pagination.
-     * @param page
+     * @param page *optional
      *      current page
      */
-    page(context, page) {
-        context.page = page;
+    page(context, page?) {
+        context.page = page ? page : 1;
         context.offset = context.page > 1 ? (context.page - 1) * context.limit : 0;
+        // REST API should return the number of subcommunities and number of collections for pagination.
+        context.total = context.type == 'community' ? context.subcommunities.length + context.collections.length : context.numberItems;
+        context.pageCount = Math.ceil(context.total / context.limit);
     }
 
     /**

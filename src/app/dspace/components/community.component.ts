@@ -67,8 +67,7 @@ export class CommunityComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-        console.log(page)
-        directory.loadObj('community', params.get('id'), page).then(communityJSON => {
+        directory.loadObj('community', params.get('id'), page, params.get('limit')).then(communityJSON => {
             this.communityJSON = communityJSON;
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);

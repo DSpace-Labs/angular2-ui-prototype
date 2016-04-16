@@ -66,7 +66,7 @@ export class CollectionComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
+        directory.loadObj('collection', params.get('id'), page, params.get('limit')).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             this.collection = new Collection(this.collectionJSON);
             breadcrumb.visit(this.collectionJSON);

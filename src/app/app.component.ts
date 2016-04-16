@@ -2,6 +2,7 @@
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {DSpaceDirectory} from './dspace/dspace.directory';
 import {BreadcrumbComponent} from './navigation/breadcrumb.component';
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
@@ -70,12 +71,22 @@ export class AppComponent {
 
     /**
      *
+     * @param dspace
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param translate 
      *      TranslateService
      */
-    constructor(translate: TranslateService) {
+    constructor(private dspace: DSpaceDirectory,
+                translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');
+    }
+
+    /**
+     * Method provided by Angular2. Invoked after the constructor.
+     */
+    ngOnInit() {
+        this.dspace.loadDirectory();
     }
 
 }

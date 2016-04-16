@@ -1,8 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {EventEmitter} from 'angular2/core';
 
-import {DSpaceService} from '../dspace/dspace.service';
-
 /**
  * Injectable service to process breadcrumb when a context is visited.
  */
@@ -14,18 +12,8 @@ export class BreadcrumbService {
      * BreadCrumb component subscribes.
      */
     emitter: EventEmitter<any>;
-    
-    /**
-     * A breadcrumb that is itself the current context.
-     */
-    breadcrumb: any;
 
-    /**
-     * @param dspaceService 
-     *      DSpaceService is a singleton service to interact with the dspace REST API.
-     */            
-    constructor(private dspaceService: DSpaceService) {
-        this.breadcrumb = {};
+    constructor() {
         this.emitter = new EventEmitter<any>();
     }
 
@@ -36,18 +24,17 @@ export class BreadcrumbService {
      *      Object that represents the current context. Community, Collection, or Item.
      */
     visit(context) {
-        this.breadcrumb = context;
-        this.emitter.next(this.breadcrumb);
+        this.emitter.next({action: 'visit', context: context});
     }
     
     /**
-     * Method to return the current breadcrumb, context.
+     * Method to emit breadcrumb when it is updated.
      *
-     * @returns
-     *      the current breadcrumb, which is the current context
+     * @param breadcrumb
+     *      Object that represents the breadcrumb being updated from paging.
      */
-    getBreadcrumb() {
-        return this.breadcrumb;
+    update(breadcrumb) {
+        this.emitter.next({action: 'update', breadcrumb: breadcrumb});
     }
-    
+
 }
