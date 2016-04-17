@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {Collection} from "../../models/collection.model"
+import {Collection} from "../../models/collection.model";
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -13,12 +13,11 @@ import {ViewElementComponent} from './view-element.component';
     inputs: ['itemParent'],
     directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
-    template:
-        `
-            <view-element [header]="componentTitle| translate">
-                <a *ngIf="itemParent && itemParent.component && itemParent.id" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
-            </view-element>
-        `
+    template: `
+                <view-element [header]="componentTitle| translate">
+                    <a *ngIf="itemParent && itemParent.component && itemParent.id" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
+                </view-element>
+              `
 })
 export class CollectionComponent {
 

@@ -14,7 +14,7 @@ import {Component, Input} from 'angular2/core';
         `<div id="thumbnail">
                 <!-- for now just display no thumbnail -->
                      <a [attr.href]="" class="image-link">
-                                <img src="./static/images/NoThumbnail.svg">
+                        <img src="./static/images/NoThumbnail.svg">
                     </a>
          </div>
         `
