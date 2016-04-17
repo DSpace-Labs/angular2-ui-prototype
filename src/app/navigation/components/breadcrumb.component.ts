@@ -69,7 +69,7 @@ export class BreadcrumbComponent {
 
     updateBreadcrumb(updatedBreadcrumb) {
         for(let breadcrumb of this.trail) {
-            if(breadcrumb.name = updatedBreadcrumb.name) {
+            if(breadcrumb.name == updatedBreadcrumb.name) {
                 breadcrumb = updatedBreadcrumb;
             }
         }
