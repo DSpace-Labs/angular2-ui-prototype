@@ -20,14 +20,14 @@ import {Component} from 'angular2/core';
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
 				    	<ul>
                             <li>{{context.type}}</li>
-                            <li *ngIf="context.sidebarText">{{context.sidebarText}}</li>
                         </ul>
+                        <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
 				    	<ul>
                             <li>{{context.type}}</li>
-                            <li *ngIf="context.sidebarText">{{context.sidebarText}}</li>
                         </ul>
+                        <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
 				  	</div>
 				    <div class="panel-body" *ngIf="context.type == 'item'">
 
