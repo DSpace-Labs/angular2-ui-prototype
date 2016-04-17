@@ -33,7 +33,7 @@ export class Community extends DSOContainer {
     constructor(json?: any) {
         super(json);
         if (ObjectUtil.isNotEmpty(json)) {
-            this.parentCommunity = json.parentCommunity;
+            this.parentCommunity = new Community(json.parentCommunity);
 
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {

@@ -37,7 +37,7 @@ export class Collection extends DSOContainer {
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
             this.numberItems = json.numberItems;
-            this.parentCommunity = json.parentCommunity;
+            this.parentCommunity = new Community(json.parentCommunity);
 
             this.items = json.items.map((itemJSON) => {
                 return new Item(itemJSON);
