@@ -22,8 +22,8 @@
     "clean": "rimraf ./node_modules",
     "build": "webpack",
     "prebuild": "rimraf dist",
-    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
-    "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://demo.dspace.org/\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"src/proxy.js -i true https://oaktrust.library.tamu.edu/\"",
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://oaktrust.library.tamu.edu/\"",
     "postinstall": "typings install"
   },
   "dependencies": {
