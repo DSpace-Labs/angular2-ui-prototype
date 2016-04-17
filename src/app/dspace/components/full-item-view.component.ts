@@ -30,9 +30,9 @@ import {Item} from '../models/item.model'
 
                             <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
 
-                            <item-full-collections [itemData]="item.parentCollection"></item-full-collections>
+                            <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
 
-                            <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
+                            <a [routerLink]="[item.component,{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
                     </div>
                 </div>
