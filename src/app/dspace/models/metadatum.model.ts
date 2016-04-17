@@ -38,7 +38,7 @@ export class Metadatum {
     dso: DSpaceObject;
 
     /**
-     * Create a new Metadatum
+     * Create a new Metadatum.
      * 
      * @param dso
      *      The DSpaceObject this object is metadata for
@@ -57,7 +57,7 @@ export class Metadatum {
     }
 
     /**
-     * Get the key for this Metadatum as a single string
+     * Get the key for this Metadatum as a single string.
      * 
      * @returns {string}
      *      schema.element.qualifier
@@ -69,7 +69,7 @@ export class Metadatum {
     }
 
     /**
-     * Set the key for this Metadatum with a single string
+     * Set the key for this Metadatum with a single string.
      * 
      * @param key
      *      should be in the format schema.element.qualifier

@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig, RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
@@ -80,8 +80,4 @@ export class SimpleItemViewComponent {
         });
     }
 
-
 }
-
-
-

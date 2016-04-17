@@ -56,8 +56,7 @@ export class CommunityComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('community', params.get('id'), page, params.get('limit')).then((community:Community) => {
+        directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             this.community = community;
             breadcrumb.visit(this.community);
         });

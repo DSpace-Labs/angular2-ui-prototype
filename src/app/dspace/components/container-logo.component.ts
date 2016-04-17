@@ -8,15 +8,15 @@ import {Bitstream} from "../models/bitstream.model";
     selector: 'container-logo',
     inputs: ['logo'],
     template: `
-    <p><img class="logo img-responsive" src="{{ logo.retrieveLink }}" alt="logo"></p> <!--//TODO i18n: alt-->    
-    `
+                <!--//TODO i18n: alt-->
+                <p><img class="logo img-responsive" src="{{ logo.retrieveLink }}" alt="logo"></p>
+              `
 })
-
 export class ContainerLogoComponent {
-    
+
     /**
      * The Bitstream representing the logo
      */
     logo: Bitstream;
-    
+
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -15,6 +15,7 @@ import {ViewElementComponent} from './view-element.component';
     directives: [ViewElementComponent],
     inputs: ['itemData'],
     pipes: [TranslatePipe],
+    providers: [MetadataHelper],
     template:
             `
                 <view-element [header]="componentTitle | translate"> <!--translate it before passing it on.-->
@@ -25,32 +26,27 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
             `
 })
-
 export class AuthorsComponent {
 
-
     private componentTitle = "item-view.authors.title"; // this string is written as it appears in the i18n file.
-    private itemData : Metadatum[]; // Our input
-    private fields : String[]; // the fields that we want to show on this page.
-    private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor()
-    {
-        this.fields = ["dc.contributor.author","dc.creator","dc.contributor"];
+    private itemData : Array<Metadatum>; // Our input
+
+    private fields : Array<String>; // the fields that we want to show on this page.
+
+    private filteredFields : Array<Metadatum>; // the values that we will filter out of the metadata.
+
+    constructor(private metadataHelper : MetadataHelper) {
+        this.fields = ["dc.contributor.author", "dc.creator", "dc.contributor"];
     }
 
-    ngOnInit()
-    {
+    ngOnInit() {
         this.filterMetadata();
     }
 
     // filter the metadata, only displays the ones we have listed in the 'fields' variable.
-    private filterMetadata()
-    {
-        let metadataHelper = new MetadataHelper();
-        this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
+    private filterMetadata() {
+        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }
 
-
 }
-

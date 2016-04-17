@@ -55,8 +55,7 @@ export class CollectionComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('collection', params.get('id'), page, params.get('limit')).then((collection:Collection) => {
+        directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumb.visit(this.collection);
         });

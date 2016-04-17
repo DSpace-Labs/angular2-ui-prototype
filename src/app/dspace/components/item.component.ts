@@ -7,9 +7,9 @@ import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {ContextComponent} from '../../navigation/components/context.component';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {Item} from "../models/item.model";
 import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
 import {ObjectUtil} from "../../utilities/commons/object.util";
+import {Item} from "../models/item.model";
 
 //TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE!
 
@@ -86,8 +86,8 @@ export class ItemComponent implements CanDeactivate {
      * @param translate
      *      TranslateService
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
+    constructor(private params: RouteParams,
+                private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
                 private metaTagService: MetaTagService,
                 private location: Location,
@@ -117,7 +117,5 @@ export class ItemComponent implements CanDeactivate {
         }
         return true;
     }
+
 }
-
-
-                    

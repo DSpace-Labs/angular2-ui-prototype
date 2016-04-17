@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES,RouteConfig, RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
@@ -22,7 +22,8 @@ import {Item} from '../models/item.model'
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a> <!-- link to the simple item view -->
+                        <!-- link to the simple item view -->
+                        <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
                         <context [context]="item"></context>
                         <div>
                             <!-- the rendering of different parts of the page is delegated to other components -->
@@ -32,7 +33,7 @@ import {Item} from '../models/item.model'
 
                             <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
 
-                            <a [routerLink]="[item.component,{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
+                            <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -58,9 +59,6 @@ export class FullItemViewComponent {
             this.item = item;
             breadcrumb.visit(this.item);
         });
-}
+    }
 
 }
-
-
-

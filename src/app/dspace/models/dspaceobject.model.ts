@@ -3,22 +3,22 @@ import {Metadatum} from "./metadatum.model";
 import {ObjectUtil} from "../../utilities/commons/object.util.ts";
 
 /**
- * A abstract model class for a DSpaceObject
+ * A abstract model class for a DSpaceObject.
  */
 export abstract class DSpaceObject extends Pageable {
 
     /**
-     * The identifier for this DSpaceObject
+     * The identifier for this DSpaceObject.
      */
     id: string;
 
     /**
-     * The name for this DSpaceObject
+     * The name for this DSpaceObject.
      */
     name: string;
 
     /**
-     * The handle for this DSpaceObject
+     * The handle for this DSpaceObject.
      */
     handle: string;
 
@@ -33,12 +33,12 @@ export abstract class DSpaceObject extends Pageable {
     type: string;
 
     /**
-     * An array of the metadata for this DSpaceObject
+     * An array of the metadata for this DSpaceObject.
      */
     metadata: Array<Metadatum>;
 
     /**
-     * Create a new DSpaceObject
+     * Create a new DSpaceObject.
      *
      * @param json
      *      A plain old javascript object representing a DSpaceObject as would be returned
@@ -53,6 +53,7 @@ export abstract class DSpaceObject extends Pageable {
             this.handle = json.handle;
             this.link = json.link;
             this.type = json.type;
+
             if (Array.isArray(json.metadata)) {
                 this.metadata = json.metadata.map((metadatumJSON) => {
                     return new Metadatum(this, metadatumJSON);
@@ -60,4 +61,5 @@ export abstract class DSpaceObject extends Pageable {
             }
         }
     }
+
 }

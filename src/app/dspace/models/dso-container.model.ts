@@ -8,9 +8,9 @@ import {ObjectUtil} from "../../utilities/commons/object.util.ts";
  * others and has a homepage (a Community or a Collection)
  */
 export abstract class DSOContainer extends DSpaceObject implements IContainerHomepage {
-    
-     /**
-     * The logo: a Bitstream
+
+    /**
+     * The logo: a Bitstream.
      */
     logo: Bitstream;
 
@@ -30,14 +30,9 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
     shortDescription: string;
 
     /**
-     * The sidebar text.
+     * The sidebar text: HTML
      */
     sidebarText: string;
-
-    /**
-     * The news section, also referred to as sidebarText: HTML
-     */
-    news: string;
 
     /**
      * Create a new DSOContainer
@@ -56,7 +51,6 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
             this.introductoryText = json.introductoryText;
             this.shortDescription = json.shortDescription;
             this.sidebarText = json.sidebarText;
-            this.news = json.news;
         }
     }
 }

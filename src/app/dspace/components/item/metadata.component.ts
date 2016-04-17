@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -14,41 +14,46 @@ import {ViewElementComponent} from './view-element.component';
     selector: 'item-metadata',
     inputs: ['itemData'],
     directives: [ViewElementComponent],
+    providers: [MetadataHelper],
     pipes: [TranslatePipe],
-    template:
-        `
-        <view-element [header]="componentTitle | translate">
-            <div *ngFor="#metadatum of filteredFields.metadata;" class="item">
-                <strong >{{ metadatum.key }}</strong>
-                <p>{{ metadatum.value }}</p>
-            </div>
-        </view-element>
-            `
+    template: `
+                <view-element [header]="componentTitle | translate">
+                    <div class="item" *ngFor="#metadatum of filteredFields.metadata">
+                        <strong >{{ metadatum.key }}</strong>
+                        <p>{{ metadatum.value }}</p>
+                    </div>
+                </view-element>
+              `
 })
-
 export class MetadataComponent {
 
     private componentTitle = "item-view.metadata.title";
-    private itemData : Metadatum[];
-    private fields : String[]; // the fields that we want to show on this page.
-    private filteredFields : Metadatum[]; // the values that we will filter out of the metadata.
 
-    constructor()
-    {
-        this.fields = ["dc.contributor.author","dc.date.accessioned","dc.date.available",
-                        "dc.date.issued","dc.identifier.uri","dc.rights","dc.rights.uri","dc.subject","dc.title","dc.type"]; // list of fields we want to filter for
+    private itemData : Array<Metadatum>;
+
+    private fields : Array<String>; // the fields that we want to show on this page.
+
+    private filteredFields : Array<Metadatum>; // the values that we will filter out of the metadata.
+
+    constructor(private metadataHelper : MetadataHelper) {
+        this.fields = ["dc.contributor.author",
+                       "dc.date.accessioned",
+                       "dc.date.available",
+                       "dc.date.issued",
+                       "dc.identifier.uri",
+                       "dc.rights",
+                       "dc.rights.uri",
+                       "dc.subject",
+                       "dc.title",
+                       "dc.type"]; // list of fields we want to filter for
     }
 
-    ngOnInit()
-    {
+    ngOnInit() {
         this.filterMetadata();
     }
 
-    private filterMetadata()
-    {
-        let metadataHelper = new MetadataHelper();
-        this.filteredFields = metadataHelper.filterMetadata(this.itemData,this.fields);
+    private filterMetadata() {
+        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
     }
 
 }
-
