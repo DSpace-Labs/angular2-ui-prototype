@@ -1,5 +1,5 @@
 import {IPaging} from "../interfaces/paging.interface";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * 

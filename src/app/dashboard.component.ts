@@ -34,6 +34,7 @@ export class DashboardComponent {
      */
     private dashboard: {
         name: string,
+        type: string,
         component: string
     };
 
@@ -51,6 +52,7 @@ export class DashboardComponent {
                 translate: TranslateService ) {
         this.dashboard = {
             name: 'Dashboard',
+            type: 'dashboard',
             component: '/Dashboard'
         };
         breadcrumb.visit(this.dashboard);

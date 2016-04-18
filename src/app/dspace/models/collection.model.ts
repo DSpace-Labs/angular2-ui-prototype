@@ -1,7 +1,7 @@
 import {Item} from "./item.model";
 import {DSOContainer} from "./dso-container.model";
 import {Community} from "./community.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * A model class for a Collection.

@@ -1,6 +1,6 @@
 import {Pageable} from "./pageable.model";
 import {Metadatum} from "./metadatum.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * A abstract model class for a DSpaceObject.

@@ -1,6 +1,6 @@
 import {Collection} from "./collection.model";
 import {DSOContainer} from "./dso-container.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * A model class for a Community.
@@ -34,7 +34,6 @@ export class Community extends DSOContainer {
         super(json);
         if (ObjectUtil.isNotEmpty(json)) {
             this.parentCommunity = new Community(json.parentCommunity);
-
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
