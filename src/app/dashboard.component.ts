@@ -33,8 +33,8 @@ export class DashboardComponent {
      * Object to resemble the dashboard breadcrumb.
      */
     private dashboard: {
-        name: String,
-        component: String
+        name: string,
+        component: string
     };
 
     /**

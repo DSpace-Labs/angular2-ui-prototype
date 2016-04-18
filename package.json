@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "angular2": "2.0.0-beta.15",
-    "angular2-express-engine": "0.10.0",
-    "angular2-hapi-engine": "0.10.1",
-    "angular2-universal": "0.94.2",
+    "angular2-express-engine": "0.11.0",
+    "angular2-hapi-engine": "0.11.0",
+    "angular2-universal": "0.97.1",
     "angular2-universal-polyfills": "0.4.1",
     "bootstrap": "3.3.6",
     "css": "2.2.1",
