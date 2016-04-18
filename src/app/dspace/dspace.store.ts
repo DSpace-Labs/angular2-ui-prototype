@@ -33,7 +33,9 @@ export class DSpaceStore {
      */
     getPage(context) {
         let pages = this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].get(context.id);
-        if(!pages) return null;
+        if(!pages) {
+            return null;
+        }
         return pages.get(context.page);
     }
 

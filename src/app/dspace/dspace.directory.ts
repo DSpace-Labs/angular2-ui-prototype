@@ -72,10 +72,16 @@ export class DSpaceDirectory {
      *      current context in which needing to load navigation.
      */
     loadNav(type, context) {
-        if(context.loaded) return;
-        if (!context.limit) this.paging(context);
+        if(context.loaded) {
+            return;
+        }
+        if (!context.limit) {
+            this.paging(context);
+        }
         let cachedPage = this.dspaceStore.getPage(context);
-        if (cachedPage) context[this.dspaceConstants[type].DSPACE] = cachedPage;
+        if (cachedPage) {
+            context[this.dspaceConstants[type].DSPACE] = cachedPage;
+        }
         else {
             this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
@@ -195,15 +201,21 @@ export class DSpaceDirectory {
             }
             if(type == "item" && context.type == "collection") {
                 let item = this.recursiveFind(context.items, type, id);
-                if(item) return item;
+                if(item) {
+                    return item;
+                }
             }
             if(context.type == "community") {
                 let collection = this.recursiveFind(context.collections, type, id);
-                if(collection) return collection;
+                if(collection) {
+                    return collection;
+                }
             }
             if(context.type == "community") {
                 let community = this.recursiveFind(context.subcommunities, type, id);
-                if(community) return community;
+                if(community) {
+                    return community;
+                }
             }
         }
         return null;
@@ -243,15 +255,19 @@ export class DSpaceDirectory {
             return this.process(context, obj);
         else {
             this.enhance(obj);
-            if (obj.type == 'item')
+            if (obj.type == 'item') {
                 return obj;
-            else if (obj.type == 'collection')
+            }
+            else if (obj.type == 'collection') {
                 this.loadNav('item', obj);
+            }
             else if (obj.type == 'community') {
                 this.loadNav('collection', obj);
                 this.loadNav('community', obj);
             }
-            else console.log('Object has no type!');
+            else {
+                console.log('Object has no type!');
+            }
             return obj;
         }
     }
@@ -273,10 +289,12 @@ export class DSpaceDirectory {
         let directory = this;
         list.forEach(current => {
             if (context) {
-                if (current.type == 'item')
+                if (current.type == 'item') {
                     current.parentCollection = context;
-                else
+                }
+                else {
                     current.parentCommunity = context;
+                }
             }
             directory.enhance(current);
             if (current.type != 'item') {

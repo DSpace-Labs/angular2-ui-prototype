@@ -12,8 +12,8 @@ export class MetadataHelper {
      * @param metadata
      * @param keys
      */
-    filterMetadata(metadata : Array<Metadatum>, keys : Array<String>) : Array<Metadatum> {
-        let filteredMetadata : Array<Metadatum> = [];
+    filterMetadata(metadata: Array<Metadatum>, keys: Array<String>): Array<Metadatum> {
+        let filteredMetadata: Array<Metadatum> = new Array<Metadatum>();
         for(let metadatum of metadata) {
             if(keys.indexOf(metadatum.key) > -1) {
                 filteredMetadata.push(metadatum);

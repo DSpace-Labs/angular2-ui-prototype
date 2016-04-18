@@ -1,3 +1,3 @@
 export interface IHashable {
-    hashCode():string;
+    hashCode(): string;
 }

@@ -21,6 +21,6 @@ import {Bitstream} from "../../models/bitstream.model"
 })
 export class ThumbnailComponent {
 
-    private itemBitstreams : Array<Bitstream>;
+    private itemBitstreams: Array<Bitstream>;
 
 }

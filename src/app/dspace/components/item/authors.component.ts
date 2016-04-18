@@ -28,15 +28,15 @@ import {ViewElementComponent} from './view-element.component';
 })
 export class AuthorsComponent {
 
-    private componentTitle = "item-view.authors.title"; // this string is written as it appears in the i18n file.
+    private componentTitle: string = "item-view.authors.title"; // this string is written as it appears in the i18n file.
 
-    private itemData : Array<Metadatum>; // Our input
+    private itemData: Array<Metadatum>; // Our input
 
-    private fields : Array<String>; // the fields that we want to show on this page.
+    private fields: Array<string>; // the fields that we want to show on this page.
 
-    private filteredFields : Array<Metadatum>; // the values that we will filter out of the metadata.
+    private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
 
-    constructor(private metadataHelper : MetadataHelper) {
+    constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.contributor.author", "dc.creator", "dc.contributor"];
     }
 

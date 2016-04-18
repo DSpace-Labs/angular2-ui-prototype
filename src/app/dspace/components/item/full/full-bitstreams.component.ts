@@ -47,8 +47,8 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullBitstreamsComponent {
 
-    private componentTitle : String = "item-view.full.full-bitstreams.title";
+    private componentTitle: string = "item-view.full.full-bitstreams.title";
 
-    private itemBitstreams : Bitstream;
+    private itemBitstreams: Bitstream;
 
 }

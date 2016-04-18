@@ -120,10 +120,12 @@ export class BreadcrumbComponent {
      */
     ngAfterViewInit() {
         this.subscription = this.breadcrumbService.emitter.subscribe(obj => {
-            if(obj.action == 'visit')
+            if(obj.action == 'visit') {
                 this.buildTrail(obj.context);
-            else
-                this.updateBreadcrumb(obj.breadcrumb)
+            }
+            else {
+                this.updateBreadcrumb(obj.breadcrumb);
+            }
         });
     }
 

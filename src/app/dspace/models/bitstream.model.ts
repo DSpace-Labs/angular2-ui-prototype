@@ -12,9 +12,9 @@ export class Bitstream extends DSpaceObject {
      */
     retrieveLink: string;
     
-    id;
+    id: number;
     
-    format : string;
+    format: string;
     
     size: number;
     
@@ -28,8 +28,8 @@ export class Bitstream extends DSpaceObject {
      *      from the rest api. Currently only json.retrieveLink is used, apart from
      *      the standard DSpaceObject properties
      */
-    constructor(json?:any) {
-        if(json!=null) {
+    constructor(json?: any) {
+        if(json != null) {
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
                 //TODO add proper way to get absolute links

@@ -26,8 +26,8 @@ import {ViewElementComponent} from './view-element.component'
 })
 export class BitstreamsComponent {
 
-    private componentTitle = "item-view.bitstreams.title";
+    private componentTitle: string = "item-view.bitstreams.title";
 
-    private itemBitstreams : Array<Bitstream>;
+    private itemBitstreams: Array<Bitstream>;
 
 }

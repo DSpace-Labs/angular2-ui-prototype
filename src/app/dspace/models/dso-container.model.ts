@@ -43,7 +43,7 @@ export abstract class DSOContainer extends DSpaceObject implements IContainerHom
      *      json.copyrightText, json.introductoryText, json.shortDescription, json.sidebarText, 
      *      json.countItems and json.logo 
      */
-    constructor(json:any) {
+    constructor(json: any) {
         super(json);
         if (ObjectUtil.isNotEmpty(json)) {
             if (json.logo) this.logo = new Bitstream(json.logo);

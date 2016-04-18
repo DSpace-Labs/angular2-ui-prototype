@@ -27,15 +27,15 @@ import {ViewElementComponent} from './view-element.component'
 })
 export class DateComponent {
 
-    private componentTitle = "item-view.date.title";
+    private componentTitle: string = "item-view.date.title";
 
-    private itemData : Array<Metadatum>;
+    private itemData: Array<Metadatum>;
 
-    private fields : Array<String>; // the fields that we want to show on this page.
+    private fields: Array<string>; // the fields that we want to show on this page.
 
-    private filteredFields : Array<Metadatum>; // the values that we will filter out of the metadata.
+    private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
 
-    constructor(private metadataHelper : MetadataHelper) {
+    constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.date.accessioned"];
     }
 

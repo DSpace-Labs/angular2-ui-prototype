@@ -15,9 +15,9 @@ import {ViewElementComponent} from '../view-element.component';
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <ul>
+                    <ul *ngIf="itemParent && itemParent.component && itemParent.id">
                         <li>
-                            <a *ngIf="itemParent && itemParent.component && itemParent.id" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
+                            <a [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
                         </li>
                     </ul>
                 </view-element>
@@ -25,8 +25,8 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullCollectionsComponent {
 
-    private componentTitle : String = "item-view.full.full-collections.title";
+    private componentTitle: string = "item-view.full.full-collections.title";
 
-    private itemParent : Collection;
+    private itemParent: Collection;
 
 }

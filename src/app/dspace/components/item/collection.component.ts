@@ -21,8 +21,8 @@ import {ViewElementComponent} from './view-element.component';
 })
 export class CollectionComponent {
 
-    private componentTitle = "item-view.collection.title";
+    private componentTitle: string = "item-view.collection.title";
 
-    private itemParent : Collection;
+    private itemParent: Collection;
 
 }

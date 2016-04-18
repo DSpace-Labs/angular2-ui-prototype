@@ -18,6 +18,11 @@ export class Community extends DSOContainer {
     subcommunities: Array<Community>;
 
     /**
+     * Number of items in community.
+     */
+    countItems: number;
+
+    /**
      * Parent community.
      */
     parentCommunity : Community;
@@ -33,7 +38,9 @@ export class Community extends DSOContainer {
     constructor(json?: any) {
         super(json);
         if (ObjectUtil.isNotEmpty(json)) {
+            this.countItems = json.countItems;
             this.parentCommunity = new Community(json.parentCommunity);
+
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);

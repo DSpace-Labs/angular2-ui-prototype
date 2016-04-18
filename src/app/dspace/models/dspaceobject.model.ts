@@ -10,7 +10,7 @@ export abstract class DSpaceObject extends Pageable {
     /**
      * The identifier for this DSpaceObject.
      */
-    id: string;
+    id: number;
 
     /**
      * The name for this DSpaceObject.

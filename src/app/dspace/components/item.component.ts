@@ -11,7 +11,10 @@ import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata
 import {ObjectUtil} from "../../utilities/commons/object.util";
 import {Item} from "../models/item.model";
 
-//TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE!
+//TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE! MOVED?
+
+//TODO: Should the metadata code be moved into the full and simple item view components?
+//TODO: Remove when no longer needed.
 
 /**
  * Item component for displaying the current item.

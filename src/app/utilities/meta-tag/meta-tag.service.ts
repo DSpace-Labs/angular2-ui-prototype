@@ -20,12 +20,12 @@ export class MetaTagService {
      * An array of the <meta> elements that were in the <head> before
      * this service was initialized for the first time
      */
-    private _preExistingTags: MetaTag[] = null;
+    private _preExistingTags: Array<MetaTag> = null;
 
     /**
      * An array of the <meta> elements that were added by this service
      */
-    private _addedTags: MetaTag[] = null;
+    private _addedTags: Array<MetaTag> = null;
 
     /**
      * The internal reference to the DOM document.
@@ -43,11 +43,11 @@ export class MetaTagService {
     private initTags(): void {
         if (ObjectUtil.hasNoValue(this._preExistingTags)) {
             this._preExistingTags = this.getMetaNodesInDOM()
-                .map((meta:Node) => {
+                .map((meta: Node) => {
                     return this.nodeToMetaTag(meta);
                 });
         }
-        this._addedTags = [];
+        this._addedTags = new Array<MetaTag>();
     }
 
     /**
@@ -76,7 +76,7 @@ export class MetaTagService {
      * @returns {Node}
      *      a Node representing that <meta> element
      */
-    private metaTagToNode(newTag:MetaTag): Node {
+    private metaTagToNode(newTag: MetaTag): Node {
         let meta = DOM.createElement('meta');
         if (ObjectUtil.isNotEmpty(newTag.id)) {
             DOM.setAttribute(meta, 'id', newTag.id);
@@ -103,7 +103,7 @@ export class MetaTagService {
      *      A array containing Node objects for each <meta> element
      *      in the DOM in the order they appear.
      */
-    private getMetaNodesInDOM(): Node[] {
+    private getMetaNodesInDOM(): Array<Node> {
         let children = this.htmlCollectionToNodeArray(this._document.head.children);
         if (ArrayUtil.isNotEmpty(children)) {
             return children
@@ -133,7 +133,7 @@ export class MetaTagService {
      *      the value for the requested attribute.
      *      undefined if the attribute doesn't exist
      */
-    private getMetaAttributeValue(meta:Node, attributeName:string):string {
+    private getMetaAttributeValue(meta: Node, attributeName: string): string {
         if (ObjectUtil.isNotEmpty(meta)
             && ObjectUtil.isNotEmpty(meta.attributes)
             && ObjectUtil.isNotEmpty(meta.attributes[attributeName])
@@ -153,7 +153,7 @@ export class MetaTagService {
      * @returns {Node[]}
      *      that collection as a Node array
      */
-    private htmlCollectionToNodeArray(collection:HTMLCollection):Node[] {
+    private htmlCollectionToNodeArray(collection: HTMLCollection): Array<Node> {
         return [].slice.call(collection);
     }
 
@@ -167,7 +167,7 @@ export class MetaTagService {
      * @returns {boolean}
      *      true if tagToFind is part of tagArray, false otherwise
      */
-    private tagIsPartOfArray(tagToFind: MetaTag, tagArray: MetaTag[]):boolean {
+    private tagIsPartOfArray(tagToFind: MetaTag, tagArray: Array<MetaTag>): boolean {
         let existingTag = tagArray.find((tag) => {
             return tag.equals(tagToFind);
         });
@@ -216,7 +216,7 @@ export class MetaTagService {
      * @param meta
      *      the meta Node object to be inserted in the DOM.
      */
-    private insertMetaNodeIntoDOM(meta:Node): void {
+    private insertMetaNodeIntoDOM(meta: Node): void {
         let lastMetaNode = this.getLastMetaNode();
         if (ObjectUtil.hasValue(lastMetaNode)) {
             DOM.insertAfter(lastMetaNode, meta);
@@ -232,11 +232,11 @@ export class MetaTagService {
      * @param tagToExclude
      *      the MetaTag to exclude from tagArray
      * @param tagArray
-     *      the MetaTag[] to exclude tagToExclude from
-     * @returns {MetaTag[]}
+     *      the Array<MetaTag> to exclude tagToExclude from
+     * @returns {Array<MetaTag>}
      *      tagArray without the element tagToExlude
      */
-    private excludeTagFromArray(tagToExclude: MetaTag, tagArray: MetaTag[]): MetaTag[] {
+    private excludeTagFromArray(tagToExclude: MetaTag, tagArray: Array<MetaTag>): Array<MetaTag> {
         return tagArray.filter((tag:MetaTag) => {
             return !tag.equals(tagToExclude);
         });
@@ -258,12 +258,12 @@ export class MetaTagService {
      * currently in the DOM, regardless of whether they were added by this
      * service
      *
-     * @returns {MetaTag[]}
+     * @returns {Array<MetaTag>}
      *      an array of MetaTag objects that represent all <meta> elements
      *      currently in the DOM
      */
-    get tags(): MetaTag[]{
-        let allTags:MetaTag[] = [];
+    get tags(): Array<MetaTag> {
+        let allTags: Array<MetaTag> = new Array<MetaTag>();
         if (ArrayUtil.isNotEmpty(this._preExistingTags)) {
             allTags = allTags.concat(this._preExistingTags);
         }
@@ -289,13 +289,13 @@ export class MetaTagService {
     }
 
     /**
-     * Remove the <meta> elements corresponding to the objects in given MetaTag[]
+     * Remove the <meta> elements corresponding to the objects in given Array<MetaTag>
      * from the DOM and the internal MetaTag arrays.
      *
      * @param tagsToRemove
      *      the list of MetaTag objects to remove.      
      */
-    public removeTags(tagsToRemove: MetaTag[]): void {
+    public removeTags(tagsToRemove: Array<MetaTag>): void {
         if (ArrayUtil.isNotEmpty(tagsToRemove)) {
             this.getMetaNodesInDOM().filter((node:Node) => {
                 return this.tagIsPartOfArray(this.nodeToMetaTag(node), tagsToRemove);

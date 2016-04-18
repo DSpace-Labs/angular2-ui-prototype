@@ -75,7 +75,7 @@ export class SimpleItemViewComponent {
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item
+            this.item = item;
             breadcrumb.visit(this.item);
         });
     }

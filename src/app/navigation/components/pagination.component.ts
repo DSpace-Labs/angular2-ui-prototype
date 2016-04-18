@@ -87,10 +87,12 @@ export class PaginationComponent {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent")
+        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent") {
             this.component = "/"
-        else
+        }
+        else {
             this.component = this.context.component;
+        }
         this.next = +this.context.page + 1;
         this.previous = +this.context.page - 1;
     }
