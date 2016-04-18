@@ -101,8 +101,6 @@ export class BreadcrumbComponent {
                     });
                 }
                 else {
-                    console.log(parentType)
-                    console.log(context)
                     bc.dspace.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(parent => {
                         context['parent' + parentType] = parent;
                         bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
