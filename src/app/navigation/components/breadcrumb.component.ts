@@ -2,7 +2,6 @@
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {DSpaceDirectory} from '../../dspace/dspace.directory';
-
 import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
@@ -59,11 +58,11 @@ export class BreadcrumbComponent {
         this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
-                this.trail.unshift({ name: 'Dashboard', component: '/Dashboard' });
+                this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
             });
         }
         else {
-            this.trail.unshift({ name: 'Dashboard', component: '/Dashboard' });
+            this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
         }
     }
 
@@ -87,12 +86,14 @@ export class BreadcrumbComponent {
         return new Promise(function (resolve, reject) { 
             bc.trail.unshift({
                 name: context.name,
+                type: context.type,
                 component: context.component,
                 id: context.id,
                 page: context.page,
                 limit: context.limit
             });            
-            if (context.parentCommunity || context.parentCollection) {
+            if ((context.parentCommunity && context.parentCommunity.type) || 
+                (context.parentCollection && context.parentCollection.type)) {
                 let parentType = context.parentCommunity ? 'Community' : 'Collection';
                 if (context['parent' + parentType].ready) {
                     bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
@@ -100,6 +101,8 @@ export class BreadcrumbComponent {
                     });
                 }
                 else {
+                    console.log(parentType)
+                    console.log(context)
                     bc.dspace.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(parent => {
                         context['parent' + parentType] = parent;
                         bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
@@ -108,8 +111,9 @@ export class BreadcrumbComponent {
                     });
                 }
             }
-            else
+            else {
                 resolve();
+            }
         });
     }
 
