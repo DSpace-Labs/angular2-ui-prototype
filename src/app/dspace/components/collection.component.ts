@@ -76,11 +76,9 @@ export class CollectionComponent {
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             setTimeout( () => {
-                console.log("here again..");
                 this.collection = new Collection(collectionJSON);
-                console.log("logging this collection");
                 console.log(this.collection); // okay so basically, I need to create the collection later.
-            },10000) // this timeout somehow fixes the loading issue.
+            },1) // this timeout somehow fixes the loading issue.
 
             breadcrumb.visit(this.collectionJSON);
         });

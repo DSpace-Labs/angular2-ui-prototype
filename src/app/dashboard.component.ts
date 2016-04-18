@@ -13,6 +13,10 @@ import {PaginationComponent} from './navigation/pagination.component';
 
 import {ItemListComponent} from './dspace/components/item-list.component';
 
+
+// Testing items hardcoded for now
+import {Item} from './dspace/models/item.model'
+
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
  * sidebar context along with the community/collection/item tree.
@@ -31,7 +35,7 @@ import {ItemListComponent} from './dspace/components/item-list.component';
                     </div>
 
                        <h3>Testing item list</h3>
-                      <item-list></item-list>
+                      <item-list [items]="items"></item-list>
 
 
                 </div>
@@ -48,6 +52,8 @@ export class DashboardComponent {
         name: string,
         type: string
     };
+
+    items : Item[];
 
     /**
      *
@@ -66,16 +72,32 @@ export class DashboardComponent {
         };
         
         breadcrumb.visit(this.dashboard);
+
+        this.dspace.loadDirectory();
+        this.dspace.loadRecentItems('recentitems',0).then( json =>
+        {
+            // now we need to get the items out of this.
+            this.items = [];
+            for(let i : number = 0; i < json.length;i++)
+            {
+                let item : Item = new Item(json[i]);
+                this.items.push(item);
+            }
+        });
         
         translate.setDefaultLang('en');
         translate.use('en');
+
     }
+
+
 
     /**
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        this.dspace.loadDirectory();
+        console.log("in dashboard init");
+
     }
 
 }

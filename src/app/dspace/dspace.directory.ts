@@ -125,6 +125,27 @@ export class DSpaceDirectory {
         }
     }
 
+    loadRecentItems(type,id)
+    {
+        let directory = this;
+        return new Promise(function (resolve,reject)
+        {
+            directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
+                    console.log("starting directory setup");
+                    directory.setup(context);
+                    directory.page(context, 0);
+                    directory.prepare(null, context);
+                    resolve(context);
+                },
+                    error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    console.log('finished fetching something');
+                });
+        });
+    }
+
     /**
      * Method to load context details.
      * Calls prepare with the context received.
@@ -161,6 +182,7 @@ export class DSpaceDirectory {
             }
         });
     }
+
     
     /**
      * Method to setup context for pagination.

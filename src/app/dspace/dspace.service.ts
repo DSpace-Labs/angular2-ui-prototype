@@ -150,6 +150,18 @@ export class DSpaceService {
     }
 
     /**
+     * Returns the newly submitted items to the dspace repository. (Ideally, I just return 5 items now.)
+     */
+    fetchRecentItems()
+    {
+        return this.httpService.get(
+            {
+                url: this.url + this.REST + "/items?expand=all"
+            }
+        );
+    }
+
+    /**
      * Method to login and recieve a token. 
      *
      * @param email

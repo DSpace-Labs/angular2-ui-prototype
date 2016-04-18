@@ -31,20 +31,20 @@ import {Item} from '../models/item.model';
  */
 export class ItemListComponent {
 
-    items : Item[];
+    items : Item[]; // pass an array of items to this component.
     itemsWithInformation : Item[] = [];
     constructor(private directory: DSpaceDirectory)
     {
-
+        console.log("creating this thing");
+        console.log(this.items);
     }
 
     ngOnChanges() // run this at a better time?
     {
-        console.log("something changes, clearly.");
         console.log(this.items);
         // process this items.
 
-        if(this.items.length > 0)
+        if(this.items != null && this.items.length > 0)
         {
 
             for(let i : number = 0; i < this.items.length;i++)
