@@ -38,7 +38,7 @@ export class ItemListComponent {
 
     }
 
-    ngOnChanges()
+    ngOnChanges() // run this at a better time?
     {
         console.log("something changes, clearly.");
         console.log(this.items);
@@ -46,8 +46,6 @@ export class ItemListComponent {
 
         if(this.items.length > 0)
         {
-            console.log("aqui!");
-            // now we need to load more information about these items.
 
             for(let i : number = 0; i < this.items.length;i++)
             {

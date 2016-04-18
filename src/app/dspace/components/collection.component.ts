@@ -79,8 +79,8 @@ export class CollectionComponent {
                 console.log("here again..");
                 this.collection = new Collection(collectionJSON);
                 console.log("logging this collection");
-                console.log(this.collection); // okay so basically, I need to create the collectoin later.
-            },10000)
+                console.log(this.collection); // okay so basically, I need to create the collection later.
+            },10000) // this timeout somehow fixes the loading issue.
 
             breadcrumb.visit(this.collectionJSON);
         });
