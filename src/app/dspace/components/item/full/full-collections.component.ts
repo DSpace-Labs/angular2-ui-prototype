@@ -15,8 +15,8 @@ import {ViewElementComponent} from '../view-element.component';
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <ul *ngIf="itemParent && itemParent.component && itemParent.id">
-                        <li>
+                    <ul>
+                        <li *ngIf="itemParent && itemParent.component && itemParent.id">
                             <a [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
                         </li>
                     </ul>
