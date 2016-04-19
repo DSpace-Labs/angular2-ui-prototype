@@ -5,11 +5,7 @@ import {ListMetadataComponent} from './list-metadata.component';
 import {ThumbnailComponent} from '../thumbnail.component';
 import {Item} from '../../../models/item.model';
 
-/**
- * This component will display some metadata of the item in the list view.
- * We can select which metadata we want to show here.
- * Once again, we can pass an array of metadata.
- */
+
 @Component({
     selector: 'list-entry',
     inputs: ['item'],
@@ -18,6 +14,7 @@ import {Item} from '../../../models/item.model';
     template:
             `
             <div class="col-md-4">
+            <!-- need to replace these with holder.js images -->
                <item-thumbnail></item-thumbnail>
             </div>
             <div class="col-md-8">
@@ -28,9 +25,6 @@ import {Item} from '../../../models/item.model';
 
 export class ListEntryComponent
 {
-    // this class needs to get passed one item
-
     item : Item;
-
 }
 

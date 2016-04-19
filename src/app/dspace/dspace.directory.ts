@@ -125,13 +125,20 @@ export class DSpaceDirectory {
         }
     }
 
+    /**
+     * Load the recent items. Optionally, load recent items of a certain collection.
+     * @param type
+     * @param origin
+     * @param collectionid
+     * @param limit
+     * @returns {any|Promise}
+     */
     loadRecentItems(type,origin,collectionid,limit)
     {
         let directory = this;
         return new Promise(function (resolve,reject)
         {
              directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](origin,collectionid,limit).subscribe(context => {
-                    console.log("starting directory setup");
                     directory.setup(context);
                     directory.page(context, 0);
                     directory.prepare(null, context);

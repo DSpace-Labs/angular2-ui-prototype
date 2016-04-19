@@ -9,7 +9,7 @@ import {ListEntryComponent} from './item/list/list-entry.component';
 import {Item} from '../models/item.model';
 
 /**
- * Need to think of a way in which I can manage showing either 'all items' or 'most recent items', depending on the location where this item is inserted.
+ * Renders a row of the item list.
  */
 @Component({
     selector: 'item-list',
@@ -24,27 +24,17 @@ import {Item} from '../models/item.model';
 })
 
 
-/**
- * We can accept the incomming JSON form a higher component for the time being.
- * But this class will create and Object (Item) out of it, which will be used in the child components.
- * Similar approach to 'simple & full item-view'
- */
+
 export class ItemListComponent {
 
     items : Item[]; // pass an array of items to this component.
     itemsWithInformation : Item[] = [];
     constructor(private directory: DSpaceDirectory)
     {
-        console.log("creating this thing");
-        console.log(this.items);
     }
 
-    ngOnChanges() // run this at a better time?
+    ngOnChanges()
     {
-        console.log("noticing changes");
-        // process this items.
-        console.log(this.items);
-
         if(this.items != null && this.items.length > 0)
         {
             this.items.forEach( (entry) => {

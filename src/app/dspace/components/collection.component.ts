@@ -30,8 +30,9 @@ import {Item} from '../models/item.model';
                 <div class="container" *ngIf="collection">
 
                     <div class="col-md-12">
+                    <!-- replace with collection model -->
                         <context [context]="collectionJSON"></context>
-                        <item-list [items]="collection.items"></item-list>
+                        <item-list [items]="collectionJSON.items"></item-list>
                     </div>
 
 
@@ -75,16 +76,13 @@ export class CollectionComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => { // for some reason the collectionJSON is not completed yet?
             this.collectionJSON = collectionJSON;
             breadcrumb.visit(this.collectionJSON);
-            setTimeout( () => this.collection = this.collectionJSON, 1000);
+            this.collection = new Collection(this.collectionJSON); // Need to find a better way to deal with this.
         });
-
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
+
 
 
 }

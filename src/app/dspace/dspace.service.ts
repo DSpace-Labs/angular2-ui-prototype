@@ -154,7 +154,6 @@ export class DSpaceService {
      */
     fetchRecentItems(origin,collectionid?,limit)
     {
-        console.log("fetching recent items: " + origin);
         if(origin=="dashboard")
         {
             return this.httpService.get(
@@ -171,7 +170,6 @@ export class DSpaceService {
                 }
             );
         }
-        console.log("matched nothing");
     }
 
     /**

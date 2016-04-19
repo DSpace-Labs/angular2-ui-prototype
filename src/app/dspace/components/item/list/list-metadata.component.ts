@@ -17,6 +17,7 @@ import {MetadataHelper} from '../../../../utilities/metadata.helper';
     pipes: [TranslatePipe],
     template:
              `
+             <!-- create a link to the simple item-view -->
                 <a [attr.href]="'../items/'+item.id">
                     <h4>{{item.name}}</h4>
                 </a>
