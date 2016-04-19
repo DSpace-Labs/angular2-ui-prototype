@@ -50,6 +50,6 @@ bootstrap(AppComponent, [
     DSpaceService,
     DSpaceStore,
     HttpService,
-    MetaTagService,
+    MetaTagService
 ])
 .then(prebootComplete);

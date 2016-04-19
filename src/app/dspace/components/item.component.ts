@@ -1,14 +1,17 @@
 ﻿import {Component} from 'angular2/core';
-import {RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angular2/router';
-
+import {RouterOutlet, RouteConfig, RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {ContextComponent} from '../../navigation/components/context.component';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
 import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
 import {ObjectUtil} from "../../utilities/commons/object.util";
+
+import {SimpleItemViewComponent} from './simple-item-view.component';
+import {FullItemViewComponent} from './full-item-view.component';
+import {ContextComponent} from '../../navigation/components/context.component';
+
 import {Item} from "../models/item.model";
 
 //TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE! MOVED?
@@ -22,57 +25,25 @@ import {Item} from "../models/item.model";
  */
 @Component({
     selector: 'item',
-    directives: [ContextComponent],
+    directives: [ContextComponent, RouterOutlet],
     pipes: [TranslatePipe],
+    providers: [GoogleScholarMetadataUtil],
     template: `
-                <div class="container" *ngIf="item">
-                    
-                    <div class="col-md-4">
-                        <context [context]="item"></context>
-                    </div>
-
-                    <div class="col-md-8">                                
-                        <div class="panel panel-default">
-                            <div class="panel-heading">{{ item.name }}</div>
-                            <div class="panel-body">
-                                <p>{{ item.parentCollection.name }}: description</p>
-                            </div>
-                            <table class="table table-hover">
-                                <thead class="thead-inverse">
-                                    <tr>
-                                        <th>{{'item.metadata-number-indicator' | translate}}</th> <!-- not sure if this really requires i18n -->
-                                        <th>{{'item.key' | translate}}</th>
-                                        <th>{{'item.value' | translate}}</th>
-                                        <th>{{'item.language' | translate}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="#metadatum of item.metadata; #index = index">
-                                        <th scope="row">{{ index }}</th>
-                                        <td>{{ metadatum.key }}</td>
-                                        <td>{{ metadatum.value }}</td>
-                                        <td>{{ metadatum.language }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-                </div>
+                <router-outlet></router-outlet>
               `
 })
+@RouteConfig([
+    
+        { path: "/", name: "SimpleItemView", component: SimpleItemViewComponent, useAsDefault: true },
+        { path: "/full", name: "FullItemView", component: FullItemViewComponent }
+
+])
 export class ItemComponent implements CanDeactivate {
 
     /**
      * An object that represents the current item.
      */
     item: Item;
-
-    /**
-     * Helper class to set google scholar <meta> tags
-     */
-    _gsMetaUtil: GoogleScholarMetadataUtil;
 
     /**
      *
@@ -93,13 +64,13 @@ export class ItemComponent implements CanDeactivate {
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
                 private metaTagService: MetaTagService,
+                private gsMetaUtil: GoogleScholarMetadataUtil,
                 private location: Location,
                 translate: TranslateService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
             this.item = item;
             breadcrumb.visit(this.item);
-            this._gsMetaUtil = new GoogleScholarMetadataUtil(metaTagService, location, this.item);
-            this._gsMetaUtil.setGoogleScholarMetaTags();
+            this.gsMetaUtil.setGoogleScholarMetaTags(this.item);
         });
         translate.setDefaultLang('en');
         translate.use('en');
@@ -115,8 +86,8 @@ export class ItemComponent implements CanDeactivate {
      */
     routerCanDeactivate(nextInstruction: ComponentInstruction,
                         prevInstruction: ComponentInstruction): boolean | Promise<boolean> {
-        if (ObjectUtil.hasValue(this._gsMetaUtil)) {
-            this._gsMetaUtil.clearGoogleScholarMetaTags();
+        if (ObjectUtil.hasValue(this.gsMetaUtil)) {
+            this.gsMetaUtil.clearGoogleScholarMetaTags();
         }
         return true;
     }

@@ -12,8 +12,7 @@ import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
-import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
-import {FullItemViewComponent} from './dspace/components/full-item-view.component';
+import {ItemComponent} from './dspace/components/item.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -63,8 +62,7 @@ import {FullItemViewComponent} from './dspace/components/full-item-view.componen
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
-        { path: "/items/:id/full", name:"FullItemView", component: FullItemViewComponent}
+        { path: "/items/:id/...", name: "Items", component: ItemComponent }
 
 ])
 export class AppComponent {
