@@ -84,6 +84,7 @@ export class CommunityComponent {
             breadcrumb.visit(this.communityJSON);
 
             let tempItems = [];
+            let counter : number = 0;
             this.community.collections.forEach( c =>
             {
                 directory.loadRecentItems("recentitems","community",c.id,5).then(itemjson =>
@@ -97,55 +98,28 @@ export class CommunityComponent {
                         }
                         else
                         {
+                             this.updateItems(tempItems);
+                        }
+                    }
+                }).then( () =>
+                    {
+                        counter++;
+                        if(counter == this.community.collections.length)
+                        {
                             this.updateItems(tempItems);
                         }
                     }
-                });
+                );
             });
-
         });
         this.communityid = params.get('id') ? params.get('id') : 0;
     }
 
     updateItems(inputArray)
     {
+        console.log("updating array");
+        console.log(this.items);
         this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
-    }
-
-    ngOnInit()
-    {
-        /*
-        console.log("let's load some items");
-        this.directory.loadRecentItems('recentitems',"community",this.communityid,5).then( json =>
-        {
-            console.log("we fetched some items");
-            console.log(json);
-            // now we need to get the items out of this.
-            this.items = [];
-            for(let i : number = 0; i < json.length;i++)
-            {
-                let item : Item = new Item(json[i]);
-                this.items.push(item);
-            }
-        });
-        */
-    }
-
-    ngOnChanges()
-    {
-        // get the collections
-        let collectionIDs : number [] = [];
-        for(let i : number = 0; i < this.community.collections; i++)
-        {
-            collectionIDs.push(this.community.collections[i]);
-        }
-        console.log("collection length: " + collectionIDs.length);
-        console.log("going into the lambda");
-        collectionIDs.forEach(collection =>
-        {
-            console.log("in the lambda");
-            console.log(collection.id);
-        });
     }
 
 }
