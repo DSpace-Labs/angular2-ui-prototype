@@ -43,7 +43,7 @@ export class DateComponent {
         this.filterMetadata();
     }
 
-    private filterMetadata() {
+    private filterMetadata(): void {
         this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
     }
 

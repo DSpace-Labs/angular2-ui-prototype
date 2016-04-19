@@ -1,7 +1,8 @@
 import {IHashable} from "../lang/hashable.interface";
-import {IEquatable} from "../lang/equatable.interface.ts";
-import * as hash from 'object-hash';
+import {IEquatable} from "../lang/equatable.interface";
 import {ObjectUtil} from "../commons/object.util";
+
+import * as hash from 'object-hash';
 
 /**
  * A class representing a <meta> tag.

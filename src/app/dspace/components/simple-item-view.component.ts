@@ -60,7 +60,7 @@ import {Item} from '../models/item.model'
 })
 export class SimpleItemViewComponent {
 
-    private item : Item;
+    private item: Item;
 
     /**
      *

@@ -23,7 +23,7 @@ export class BreadcrumbService {
      * @param context
      *      Object that represents the current context. Community, Collection, or Item.
      */
-    visit(context) {
+    visit(context): void {
         this.emitter.next({action: 'visit', context: context});
     }
     
@@ -33,7 +33,7 @@ export class BreadcrumbService {
      * @param breadcrumb
      *      Object that represents the breadcrumb being updated from paging.
      */
-    update(breadcrumb) {
+    update(breadcrumb): void {
         this.emitter.next({action: 'update', breadcrumb: breadcrumb});
     }
 

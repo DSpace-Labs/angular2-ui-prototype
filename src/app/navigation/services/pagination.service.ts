@@ -21,19 +21,19 @@ export class PaginationService {
         this.limitOptions = [5, 10, 20, 50, 100];
     }
     
-    getDefaultLimit() {
+    getDefaultLimit(): number {
         return this.defaultLimit;    
     }
     
-    setDefaultLimit(defaultLimit) {
+    setDefaultLimit(defaultLimit): void {
         this.defaultLimit = defaultLimit;
     }
     
-    getLimitOptions() {
+    getLimitOptions(): Array<number> {
         return this.limitOptions;
     }
     
-    setLimitOptions(limitOptions) {
+    setLimitOptions(limitOptions): void {
         this.limitOptions = limitOptions;
     }
     

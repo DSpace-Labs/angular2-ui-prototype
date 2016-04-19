@@ -1,8 +1,9 @@
 import {DOM} from "angular2/src/platform/dom/dom_adapter";
-import {MetaTag} from "./meta-tag.model";
-import {ArrayUtil} from "../commons/array.util";
 import {Injectable, Inject} from "angular2/core";
 import {DOCUMENT} from 'angular2/platform/common_dom';
+
+import {MetaTag} from "./meta-tag.model";
+import {ArrayUtil} from "../commons/array.util";
 import {ObjectUtil} from "../commons/object.util";
 import {StringUtil} from "../commons/string.util";
 

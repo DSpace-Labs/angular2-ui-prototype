@@ -1,6 +1,6 @@
 ﻿import {Injectable} from 'angular2/core';
-
 import {URLSearchParams} from 'angular2/http';
+import {Observable} from "rxjs/Observable";
 
 import {HttpService} from '../utilities/http.service';
 import {Community} from './models/community.model';
@@ -43,7 +43,7 @@ export class DSpaceService {
     /**
      * Method to fetch top communities for navigation purposes.
      */
-    fetchTopCommunities() {
+    fetchTopCommunities(): Observable<Array<Community>> {
         //TODO: handle top community pagination
         var params = new URLSearchParams();
         params.append("limit", '200');
@@ -66,7 +66,7 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its subcommunities are to be fetched.
      */
-    fetchCommunities(community) {
+    fetchCommunities(community): Observable<Array<Community>> {
         var params = new URLSearchParams();
         params.append("limit", community.limit);
         params.append("offset", community.offset);
@@ -88,7 +88,7 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its collections are to be fetched.
      */
-    fetchCollections(community) {
+    fetchCollections(community): Observable<Array<Collection>> {
         var params = new URLSearchParams();
         params.append("limit", community.limit);
         params.append("offset", community.offset);
@@ -110,7 +110,7 @@ export class DSpaceService {
      * @param collectionId
      *      The collection id of which its items are to be fetched.
      */
-    fetchItems(collection) {
+    fetchItems(collection): Observable<Array<Item>> {
         var params = new URLSearchParams();
         params.append("limit", collection.limit);
         params.append("offset", collection.offset);
@@ -132,7 +132,7 @@ export class DSpaceService {
      * @param id
      *      Community id of which to fetch its relationships and other details.
      */
-    fetchCommunity(id) {
+    fetchCommunity(id): Observable<Community> {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
@@ -146,7 +146,7 @@ export class DSpaceService {
      * @param id
      *      Collection id of which to fetch its relationships and other details.
      */
-    fetchCollection(id) {
+    fetchCollection(id): Observable<Collection> {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
@@ -160,7 +160,7 @@ export class DSpaceService {
      * @param id
      *      Item id of which to fetch its relationships and other details.
      */
-    fetchItem(id) {
+    fetchItem(id): Observable<Item> {
         return this.httpService.get({
             url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
         }).map(json => {
@@ -176,7 +176,7 @@ export class DSpaceService {
      * @param password
      *      DSpace user password
      */
-    login(email, password) {
+    login(email, password): void {
         this.httpService.post({
             url: this.url + this.REST + '/login',
             data: {

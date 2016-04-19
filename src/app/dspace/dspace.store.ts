@@ -31,7 +31,7 @@ export class DSpaceStore {
      * @param context
      *      context: community, collection, or item
      */
-    getPage(context) {
+    getPage(context): any {
         let pages = this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].get(context.id);
         if(!pages) {
             return null;
@@ -45,7 +45,7 @@ export class DSpaceStore {
      * @param context
      *      context: community, collection, or item
      */
-    addPage(context) {
+    addPage(context): void {
         let subtypes = this.dspaceConstants[context.type].SUBTYPES;
         let pages = this[subtypes + 'Pages'].get(context.id);
         if(!pages) {
@@ -61,7 +61,7 @@ export class DSpaceStore {
      * @param context
      *      context: community, collection, or item
      */
-    clearPages(context) {
+    clearPages(context): void {
         this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].set(context.id, new Map<number, any>());
     }
 

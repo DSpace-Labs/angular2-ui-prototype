@@ -54,7 +54,7 @@ export class BreadcrumbComponent {
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    buildTrail(context) {
+    buildTrail(context): void {
         this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
@@ -66,7 +66,7 @@ export class BreadcrumbComponent {
         }
     }
 
-    updateBreadcrumb(updatedBreadcrumb) {
+    updateBreadcrumb(updatedBreadcrumb): void {
         for(let breadcrumb of this.trail) {
             if(breadcrumb.name == updatedBreadcrumb.name) {
                 breadcrumb = updatedBreadcrumb;
@@ -81,7 +81,7 @@ export class BreadcrumbComponent {
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    dropBreadcrumb(context) {
+    dropBreadcrumb(context): Promise<any> {
         let bc = this;
         return new Promise(function (resolve, reject) { 
             bc.trail.unshift({

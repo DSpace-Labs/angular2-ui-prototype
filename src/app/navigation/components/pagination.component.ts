@@ -103,7 +103,7 @@ export class PaginationComponent {
      * @param page
      *          The page being navigated to.
      */
-    page(id, page) {
+    page(id, page): void {
         this.context.loaded = false;
         this.breadcrumbService.update({
             name:  this.context.name,
@@ -127,7 +127,7 @@ export class PaginationComponent {
      * @param option
      *          Select option which holds current value selected.
      */
-    updateLimit(limit) {
+    updateLimit(limit): void {
         let previousPage = this.context.page;
         this.dspaceStore.clearPages(this.context);
         this.context.loaded = false;
@@ -143,7 +143,7 @@ export class PaginationComponent {
     /**
      * Method to request the navigation for the given context.
      */
-    loadContextNav() {
+    loadContextNav(): void {
         if (this.context.type == 'item') {
             // possibly load metadata page
         }

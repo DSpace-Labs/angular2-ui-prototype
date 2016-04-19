@@ -40,7 +40,7 @@ export class Bitstream extends DSpaceObject {
         }
     }
 
-    getName() {
+    getName(): string {
         return this.name;
     }
 

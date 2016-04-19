@@ -3,9 +3,7 @@
 import {DSpaceService} from './dspace.service';
 import {DSpaceStore} from './dspace.store';
 import {DSpaceConstants} from './dspace.constants';
-
 import {PaginationService} from '../navigation/services/pagination.service';
-
 import {ObjectUtil} from '../utilities/commons/object.util'
 
 /**
@@ -44,7 +42,7 @@ export class DSpaceDirectory {
      * Method to perform initial loading of the directory.
      * Calls prepare with the top community results.
      */
-    loadDirectory() {
+    loadDirectory(): void {
         if (!this.ready) {
             if (!this.loading) {
                 this.loading = true;
@@ -71,7 +69,7 @@ export class DSpaceDirectory {
      * @param context
      *      current context in which needing to load navigation.
      */
-    loadNav(type, context) {
+    loadNav(type, context): void {
         if(context.loaded) {
             return;
         }
@@ -109,7 +107,7 @@ export class DSpaceDirectory {
      * @param limit
      *      current context limit
      */
-    loadObj(type, id, page?, limit?) {
+    loadObj(type, id, page?, limit?): Promise<any> {
         // needed to be used within scope of promise
         let directory = this;
         return new Promise(function (resolve, reject) {
@@ -180,7 +178,7 @@ export class DSpaceDirectory {
      * @param id
      *      current context id which needing to load context details
      */
-    find(type, id) {
+    find(type, id): any {
         return this.recursiveFind(this.directory, type, id);
     }
 
@@ -194,7 +192,7 @@ export class DSpaceDirectory {
      * @param id
      *      current context id which needing to load context details
      */
-    recursiveFind(directory, type, id) {
+    recursiveFind(directory, type, id): any {
         for(let context of directory) {
             if(context.type == type && context.id == id) {
                 return context;
@@ -231,7 +229,7 @@ export class DSpaceDirectory {
      * @param limit *optional
      *      current limit
      */
-    paging(context, page?, limit?) {
+    paging(context, page?, limit?): void {
         context.page = page ? page : 1;
          // TODO: remove ternary when pagination of communities and collections
         context.limit = limit ? limit : context.type == 'collection' ? this.paginationService.getDefaultLimit() : context.type == 'item' ? 0 : 200;
@@ -250,7 +248,7 @@ export class DSpaceDirectory {
      * @param obj
      *     The context list: items, collections, subcommunities or the context itself.
      */
-    prepare(context, obj) {
+    prepare(context, obj): Array<any> {
         if (Array.isArray(obj)) 
             return this.process(context, obj);
         else {
@@ -284,7 +282,7 @@ export class DSpaceDirectory {
      *     The context list: items, collections, subcommunities or the context itself
      * 
      */
-    process(context, list) {
+    process(context, list): Array<any> {
         // needed to be used within scope of forEach
         let directory = this;
         list.forEach(current => {
@@ -325,7 +323,7 @@ export class DSpaceDirectory {
      * @param context
      *      current context.
      */
-    enhance(context) {
+    enhance(context): void {
         if(context.type == 'item' && !context.fullItem) {
             context.fullItem = false;
         }

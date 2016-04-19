@@ -45,7 +45,7 @@ export class AuthorsComponent {
     }
 
     // filter the metadata, only displays the ones we have listed in the 'fields' variable.
-    private filterMetadata() {
+    private filterMetadata(): void {
         this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }
 

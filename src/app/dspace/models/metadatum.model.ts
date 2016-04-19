@@ -62,7 +62,7 @@ export class Metadatum {
      * @returns {string}
      *      schema.element.qualifier
      */
-    get key() {
+    get key(): string {
         return [this.schema, this.element, this.qualifier].filter((value: string) => {
             return StringUtil.isNotBlank(value);
         }).join('.');
