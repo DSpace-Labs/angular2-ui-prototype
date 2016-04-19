@@ -125,12 +125,12 @@ export class DSpaceDirectory {
         }
     }
 
-    loadRecentItems(type,id)
+    loadRecentItems(type,origin,collectionid,limit)
     {
         let directory = this;
         return new Promise(function (resolve,reject)
         {
-            directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
+             directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](origin,collectionid,limit).subscribe(context => {
                     console.log("starting directory setup");
                     directory.setup(context);
                     directory.page(context, 0);
@@ -143,6 +143,8 @@ export class DSpaceDirectory {
                 () => {
                     console.log('finished fetching something');
                 });
+
+
         });
     }
 

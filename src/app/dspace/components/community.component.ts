@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+﻿import {Component, Input} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
@@ -14,13 +14,16 @@ import {ContextComponent} from '../../navigation/context.component';
 import {ContainerHomeComponent} from "./container-home.component.ts";
 import {PaginationComponent} from '../../navigation/pagination.component';
 
+import {ItemListComponent} from './item-list.component';
+import {Item} from '../models/item.model';
+
 /**
  * Community component for displaying the current community.
  * View contains sidebar context and tree hierarchy below current community.
  */
 @Component({
     selector: 'community',
-    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    directives: [TreeComponent, ContextComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="community">
@@ -32,7 +35,12 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                     <div class="col-md-8">
                         <container-home [container]=community></container-home>
                         <tree [directories]="communityJSON.subcommunities.concat(communityJSON.collections)"></tree>
-                    </div>                          
+                    </div>
+
+                     <div class="col-md-12">
+                        <h3>Recent submissions</h3>
+                        <item-list [items]="items"></item-list>
+                     </div>
                     
                 </div>
               `
@@ -51,6 +59,10 @@ export class CommunityComponent {
      */
     communityJSON: any;
 
+
+    @Input() items : Item[];
+
+    communityid : any;
     /**
      *
      * @param params
@@ -65,13 +77,76 @@ export class CommunityComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('community', params.get('id'), page).then(communityJSON => {
+        directory.loadObj('community', params.get('id'), page).then(communityJSON =>
+        {
             this.communityJSON = communityJSON;
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
+
+            let tempItems = [];
+            this.community.collections.forEach( c =>
+            {
+                directory.loadRecentItems("recentitems","community",c.id,5).then(itemjson =>
+                {
+                    console.log(itemjson);
+                    for(let k : number = 0; k < itemjson.length; k++)
+                    {
+                        if(tempItems.length < 5)
+                        {
+                            tempItems.push(new Item(itemjson[k]));
+                            this.updateItems(tempItems);
+                        }
+                    }
+                });
+            });
+
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
+
+        this.communityid = params.get('id') ? params.get('id') : 0;
+
+        //this.directory.loadDirectory();
+    }
+
+    updateItems(inputArray)
+    {
+        console.log("updating the items");
+        this.items = inputArray;
+    }
+
+    ngOnInit()
+    {
+        /*
+        console.log("let's load some items");
+        this.directory.loadRecentItems('recentitems',"community",this.communityid,5).then( json =>
+        {
+            console.log("we fetched some items");
+            console.log(json);
+            // now we need to get the items out of this.
+            this.items = [];
+            for(let i : number = 0; i < json.length;i++)
+            {
+                let item : Item = new Item(json[i]);
+                this.items.push(item);
+            }
+        });
+        */
+    }
+
+    ngOnChanges()
+    {
+        // get the collections
+        let collectionIDs : number [] = [];
+        for(let i : number = 0; i < this.community.collections; i++)
+        {
+            collectionIDs.push(this.community.collections[i]);
+        }
+        console.log("collection length: " + collectionIDs.length);
+        console.log("going into the lambda");
+        collectionIDs.forEach(collection =>
+        {
+            console.log("in the lambda");
+            console.log(collection.id);
+        });
     }
 
 }

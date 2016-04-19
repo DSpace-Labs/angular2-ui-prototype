@@ -41,17 +41,12 @@ export class ItemListComponent {
 
     ngOnChanges() // run this at a better time?
     {
-        console.log(this.items);
+        console.log("noticing changes");
         // process this items.
+        console.log(this.items);
 
         if(this.items != null && this.items.length > 0)
         {
-
-            for(let i : number = 0; i < this.items.length;i++)
-            {
-                // console.log(i + ": " + this.items[i].id);
-            }
-
             this.items.forEach( (entry) => {
                 this.directory.loadObj('item', entry.id,0).then(item => {
                     this.itemsWithInformation.push(item);

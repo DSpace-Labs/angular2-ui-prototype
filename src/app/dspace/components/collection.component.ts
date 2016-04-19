@@ -78,12 +78,10 @@ export class CollectionComponent {
             setTimeout( () => {
                 this.collection = new Collection(collectionJSON);
                 console.log(this.collection); // okay so basically, I need to create the collection later.
-            },1) // this timeout somehow fixes the loading issue.
+            },5000) // this timeout somehow fixes the loading issue.
 
             breadcrumb.visit(this.collectionJSON);
         });
-
-        console.log("has items?"); // use ngif
 
         translate.setDefaultLang('en');
         translate.use('en');

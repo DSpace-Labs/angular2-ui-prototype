@@ -34,10 +34,11 @@ import {Item} from './dspace/models/item.model'
                         <tree [directories]="dspace.directory | async"></tree>
                     </div>
 
-                       <h3>Testing item list</h3>
-                      <item-list [items]="items"></item-list>
 
-
+                    <div class="col-md-12">
+                        <h3>Recent items</h3>
+                        <item-list [items]="items"></item-list>
+                    </div>
                 </div>
 
 
@@ -74,7 +75,7 @@ export class DashboardComponent {
         breadcrumb.visit(this.dashboard);
 
         this.dspace.loadDirectory();
-        this.dspace.loadRecentItems('recentitems',0).then( json =>
+        this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( json =>
         {
             // now we need to get the items out of this.
             this.items = [];

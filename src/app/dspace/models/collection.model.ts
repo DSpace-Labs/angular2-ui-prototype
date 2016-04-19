@@ -26,18 +26,12 @@ export class Collection extends DSOContainer {
             parseItems=true;
         }
         super(json);
-        console.log("in the collection model");
-        console.log(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
-            console.log("in the method");
-            console.log(json);
             this.items = json.items.map((jsonitem) => {
                 return new Item(jsonitem);
             });
 
-
-            console.log("and now after some time..");
-            setTimeout(()=>console.log(json),10000);
+;
         }
     }
 }

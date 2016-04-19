@@ -152,13 +152,26 @@ export class DSpaceService {
     /**
      * Returns the newly submitted items to the dspace repository. (Ideally, I just return 5 items now.)
      */
-    fetchRecentItems()
+    fetchRecentItems(origin,collectionid?,limit)
     {
-        return this.httpService.get(
-            {
-                url: this.url + this.REST + "/items?expand=all"
-            }
-        );
+        console.log("fetching recent items: " + origin);
+        if(origin=="dashboard")
+        {
+            return this.httpService.get(
+                {
+                    url: this.url + this.REST + "/items?expand=all&limit="+limit
+                }
+            );
+        }
+        if(origin=="community")
+        {
+            return this.httpService.get(
+                {
+                    url: this.url + this.REST + "/collections/"+  collectionid + "/items?limit=" + limit
+                }
+            );
+        }
+        console.log("matched nothing");
     }
 
     /**
