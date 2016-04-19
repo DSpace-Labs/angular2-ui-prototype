@@ -1,14 +1,12 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
-
-import {TreeComponent} from './navigation/tree.component';
-import {ContextComponent} from './navigation/context.component';
-import {BreadcrumbService} from './navigation/breadcrumb.service';
-import {PaginationComponent} from './navigation/pagination.component';
+import {TreeComponent} from './navigation/components/tree.component';
+import {ContextComponent} from './navigation/components/context.component';
+import {PaginationComponent} from './navigation/components/pagination.component';
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
@@ -24,7 +22,7 @@ import {PaginationComponent} from './navigation/pagination.component';
                         <context [context]="dashboard"></context>
                     </div>
                     <div class="col-md-8">
-                        <tree [directories]="dspace.directory | async"></tree>
+                        <tree [directories]="dspace.directory"></tree>
                     </div>
                 </div>
               `
@@ -36,7 +34,8 @@ export class DashboardComponent {
      */
     private dashboard: {
         name: string,
-        type: string
+        type: string,
+        component: string
     };
 
     /**
@@ -45,27 +44,20 @@ export class DashboardComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate
+     *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                translate: TranslateService ){
-
+                translate: TranslateService ) {
         this.dashboard = {
             name: 'Dashboard',
-            type: 'dashboard'
+            type: 'dashboard',
+            component: '/Dashboard'
         };
-        
         breadcrumb.visit(this.dashboard);
-        
         translate.setDefaultLang('en');
         translate.use('en');
-    }
-
-    /**
-     * Method provided by Angular2. Invoked after the constructor.
-     */
-    ngOnInit() {
-        this.dspace.loadDirectory();
     }
 
 }

@@ -1,11 +1,12 @@
 import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
-import {StringUtil} from "../../utilities/commons/string.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
+import {StringUtil} from "../../utilities/commons/string.util";
 
 /**
  * A model class for a single metadata record.
  */
 export class Metadatum {
+
     /**
      * The schema for this Metadatum. e.g. 'dc'
      */
@@ -37,7 +38,7 @@ export class Metadatum {
     dso: DSpaceObject;
 
     /**
-     * Create a new Metadatum
+     * Create a new Metadatum.
      * 
      * @param dso
      *      The DSpaceObject this object is metadata for
@@ -56,19 +57,19 @@ export class Metadatum {
     }
 
     /**
-     * Get the key for this Metadatum as a single string
+     * Get the key for this Metadatum as a single string.
      * 
      * @returns {string}
      *      schema.element.qualifier
      */
-    get key() {
+    get key(): string {
         return [this.schema, this.element, this.qualifier].filter((value: string) => {
             return StringUtil.isNotBlank(value);
         }).join('.');
     }
 
     /**
-     * Set the key for this Metadatum with a single string
+     * Set the key for this Metadatum with a single string.
      * 
      * @param key
      *      should be in the format schema.element.qualifier

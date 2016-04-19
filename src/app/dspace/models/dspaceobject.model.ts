@@ -1,22 +1,24 @@
+import {Pageable} from "./pageable.model";
 import {Metadatum} from "./metadatum.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A abstract model class for a DSpaceObject
+ * A abstract model class for a DSpaceObject.
  */
-export abstract class DSpaceObject {
-    /**
-     * The identifier for this DSpaceObject
-     */
-    id: string;
+export abstract class DSpaceObject extends Pageable {
 
     /**
-     * The name for this DSpaceObject
+     * The identifier for this DSpaceObject.
+     */
+    id: number;
+
+    /**
+     * The name for this DSpaceObject.
      */
     name: string;
 
     /**
-     * The handle for this DSpaceObject
+     * The handle for this DSpaceObject.
      */
     handle: string;
 
@@ -31,12 +33,12 @@ export abstract class DSpaceObject {
     type: string;
 
     /**
-     * An array of the metadata for this DSpaceObject
+     * An array of the metadata for this DSpaceObject.
      */
-    metadata: Metadatum[];
+    metadata: Array<Metadatum>;
 
     /**
-     * Create a new DSpaceObject
+     * Create a new DSpaceObject.
      *
      * @param json
      *      A plain old javascript object representing a DSpaceObject as would be returned
@@ -44,18 +46,20 @@ export abstract class DSpaceObject {
      *      json.metadata
      */
     constructor(json?: any) {
+        super(json);
         if (ObjectUtil.isNotEmpty(json)) {
             this.id = json.id;
             this.name = json.name;
             this.handle = json.handle;
             this.link = json.link;
             this.type = json.type;
+
             if (Array.isArray(json.metadata)) {
                 this.metadata = json.metadata.map((metadatumJSON) => {
                     return new Metadatum(this, metadatumJSON);
-                })
+                });
             }
-
         }
     }
+
 }

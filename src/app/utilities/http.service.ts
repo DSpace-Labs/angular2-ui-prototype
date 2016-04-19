@@ -72,7 +72,7 @@ export class HttpService {
         
         return this.http.request(new Request(options)).map(response => {
             return response.json();
-        });        
+        });
     }
 
 }

@@ -1,48 +1,41 @@
-import {DSpaceObject} from "./dspaceobject.model";
+import {DSOContainer} from "./dso-container.model";
 import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
-
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A model class for an Item
- * Item has bitstreams, metadatum, collections..
+ * A model class for an Item. Item has bitstreams, metadatum, collections...
  */
-export class Item extends DSpaceObject {
+export class Item extends DSOContainer {
 
+    bitstreams : Array<Bitstream> = [];
 
-    bitstreams : Bitstream[] = [];
     parentCollection : Collection;
 
-    constructor(public jsonitem: any)
-    {
-        super(jsonitem); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        this.parseBitstreams();
-        this.parseCollection();
-    }
+    lastModified: string; //TODO: change to date, deserialize
 
-    /**
-     * Get the bitstreams for this item.
-     * Store them in a bitstream array
-     */
-    private parseBitstreams()
-    {
-        if (Array.isArray(this.jsonitem.bitstreams))
-        {
-            for (let i = 0; i < this.jsonitem.bitstreams.length; i++)
-            {
-                let bitstreamdata = this.jsonitem.bitstreams[i];
-                let bitstream = new Bitstream(bitstreamdata);
-                this.bitstreams.push(bitstream);
+    archived: boolean;
+
+    withdrawn: boolean;
+
+    fullItem: boolean;
+
+    constructor(json: any) {
+        super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
+        if (ObjectUtil.isNotEmpty(json)) {
+            this.parentCollection = new Collection(json.parentCollection);
+            this.lastModified = json.lastModified;
+            this.archived = json.archived;
+            this.withdrawn = json.withdrawn;
+            this.fullItem = json.fullItem ? json.fullItem : false;
+
+            if (Array.isArray(json.bitstreams)) {
+                this.bitstreams = json.bitstreams.map((bitstream) => {
+                    return new Bitstream(bitstream);
+                });
             }
         }
     }
-
-    // Get the parent collection information for this item.
-    private parseCollection()
-    {
-        this.parentCollection = new Collection(this.jsonitem.parentCollection,false);
-    }
-
 
 }

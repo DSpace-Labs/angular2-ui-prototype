@@ -8,8 +8,9 @@ import {MetaTag} from "./meta-tag/meta-tag.model";
 import {MetaTagService} from "./meta-tag/meta-tag.service";
 
 export class GoogleScholarMetadataUtil {
+
     //TODO make configurable
-    private _DSPACE_URL = 'http://localhost:3000';
+    private _DSPACE_URL: string = 'http://localhost:3000';
 
     private _item: Item;
 
@@ -26,15 +27,15 @@ export class GoogleScholarMetadataUtil {
     /**
      * The list of tags added by this instance
      */
-    private _googleScholarTags: MetaTag[];
+    private _googleScholarTags: Array<MetaTag>;
 
 
     //TODO services can probably be injected somehow
-    constructor(metaTagService: MetaTagService, location: Location, item:Item) {
+    constructor(metaTagService: MetaTagService, location: Location, item: Item) {
         this._metaTagService = metaTagService;
         this._location = location;
         this._item = item;
-        this._googleScholarTags = [];
+        this._googleScholarTags = new Array<MetaTag>();
     }
 
     /**
@@ -46,12 +47,12 @@ export class GoogleScholarMetadataUtil {
      *      the Metadatum array to search in
      * @param keys
      *      an array of keys to search for
-     * @returns {string[]}
+     * @returns {Array<string>}
      *      the values of the Metadatum objects matching the keys.
      */
     //TODO getting the values for a metadata field will most likely be useful in other places and should be moved to where it makes more sense
-    private getValuesFor(metadata:Metadatum[], keys:string[]): string[] {
-        let combinedValues:string[] = [];
+    private getValuesFor(metadata: Array<Metadatum>, keys: Array<string>): Array<string> {
+        let combinedValues: Array<string> = new Array<string>();
         if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
             keys.forEach((key) => {
                 let metadataMatchingKey = ArrayUtil.filterBy(metadata, 'key', key);
@@ -80,7 +81,7 @@ export class GoogleScholarMetadataUtil {
      * @returns {string}
      *      the value of the fist Metadatum object matching the keys.
      */
-    private getFirstValueFor(metadata:Metadatum[], keys:string[]): string {
+    private getFirstValueFor(metadata: Array<Metadatum>, keys: Array<string>): string {
         if (ArrayUtil.isNotEmpty(metadata) && ArrayUtil.isNotEmpty(keys)) {
             for (let i = 0; i < keys.length; i++) {
                 let key = keys[i];
@@ -135,7 +136,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_title" ... >  to the <head>
      */
-    private setCitationTitleGSTag():void {
+    private setCitationTitleGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.title'], true, false);
         this.setGSTagsForField('citation_title', values);
     }
@@ -143,7 +144,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_author" ... >  to the <head>
      */
-    private setCitationAuthorGSTags():void {
+    private setCitationAuthorGSTags(): void {
         let values = this.getMetaTagContentsFor(['dc.author', 'dc.contributor.author', 'dc.creator'], false, false);
         this.setGSTagsForField('citation_author', values);
     }
@@ -151,7 +152,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_date" ... >  to the <head>
      */
-    private setCitationDateGSTag():void {
+    private setCitationDateGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.date.copyright', 'dc.date.issued', 'dc.date.available', 'dc.date.accessioned'], true, false);
         this.setGSTagsForField('citation_date', values);
     }
@@ -159,7 +160,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_issn" ... >  to the <head>
      */
-    private setCitationISSNGSTag():void {
+    private setCitationISSNGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.identifier.issn'], true, false);
         this.setGSTagsForField('citation_issn', values);
     }
@@ -167,7 +168,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_isbn" ... >  to the <head>
      */
-    private setCitationISBNGSTag():void {
+    private setCitationISBNGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.identifier.isbn'], true, false);
         this.setGSTagsForField('citation_isbn', values);
     }
@@ -175,7 +176,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
-    private setCitationAbstractGSTag():void {
+    private setCitationAbstractGSTag(): void {
         //TODO normalize itemURL
         let itemUrl = `${this._DSPACE_URL}${this._location.path()}`;
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
@@ -184,7 +185,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_pdf_url" ... >  to the <head>
      */
-    private setCitationPDFGSTag():void {
+    private setCitationPDFGSTag(): void {
         //TODO after item page is merged
         // let values = [];
         // this.setGSTagsForField('citation_pdf_url', values);
@@ -193,7 +194,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_language" ... >  to the <head>
      */
-    private setCitationLanguageGSTag():void {
+    private setCitationLanguageGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.language.iso'], true, false);
         this.setGSTagsForField('citation_language', values);
     }
@@ -209,7 +210,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_dissertation_name" ... >  to the <head>
      */
-    private setCitationDissertationNameGSTag():void {
+    private setCitationDissertationNameGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.title'], true, false);
         this.setGSTagsForField('citation_dissertation_name', values);
     }
@@ -217,7 +218,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_dissertation_institution" ... >  to the <head>
      */
-    private setCitationDissertationInstitutionGSTag():void {
+    private setCitationDissertationInstitutionGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.publisher'], true, false);
         this.setGSTagsForField('citation_dissertation_institution', values);
     }
@@ -225,7 +226,7 @@ export class GoogleScholarMetadataUtil {
     /**
      * Add <meta name="citation_technical_report_institution" ... >  to the <head>
      */
-    private setCitationTechReportInstitutionGSTag():void {
+    private setCitationTechReportInstitutionGSTag(): void {
         let values = this.getMetaTagContentsFor(['dc.publisher'], true, false);
         this.setGSTagsForField('citation_technical_report_institution', values);
     }
@@ -236,7 +237,7 @@ export class GoogleScholarMetadataUtil {
      * @returns {boolean}
      *      true if this._item has a dc.type equal to 'Thesis'
      */
-    private isDissertation() : boolean {
+    private isDissertation(): boolean {
         if (ObjectUtil.hasNoValue(this._item)) {
             return false;
         }
@@ -254,7 +255,7 @@ export class GoogleScholarMetadataUtil {
      * @returns {boolean}
      *      true if this._item has a dc.type equal to 'Technical Report'
      */
-    private isTechReport() : boolean {
+    private isTechReport(): boolean {
         if (ObjectUtil.hasNoValue(this._item)) {
             return false;
         }
@@ -279,12 +280,12 @@ export class GoogleScholarMetadataUtil {
      *      a boolean indicating whether it should stop searching after the first match
      * @param combineInSingleTag
      *      a boolean indicating whether the results should be combined in a single string
-     * @returns {string[]}
-     *      a string[] containing the matching values.
+     * @returns {Array<string>}
+     *      a Array<string> containing the matching values.
      */
     //TODO method does too many things: refactor
-    private getMetaTagContentsFor(metadataKeys:string[], stopAfterFirstMatch:boolean, combineInSingleTag:boolean): string[] {
-        let values:string[] = [];
+    private getMetaTagContentsFor(metadataKeys:Array<string>, stopAfterFirstMatch: boolean, combineInSingleTag: boolean): Array<string> {
+        let values: Array<string> = new Array<string>();
         if (ObjectUtil.hasValue(this._item)) {
             if (stopAfterFirstMatch) {
                 let value = this.getFirstValueFor(this._item.metadata, metadataKeys);
@@ -311,7 +312,7 @@ export class GoogleScholarMetadataUtil {
      * @param values
      *      the content attributes for the new <meta> elements
      */
-    private setGSTagsForField(metaTagName: string, values: string[]): void {
+    private setGSTagsForField(metaTagName: string, values: Array<string>): void {
         values.forEach((value:string) => {
             let newTag = MetaTag.getBuilder()
                 .name(metaTagName)
@@ -327,7 +328,7 @@ export class GoogleScholarMetadataUtil {
      */
     public clearGoogleScholarMetaTags(): void {
         this._metaTagService.removeTags(this._googleScholarTags);
-        this._googleScholarTags = [];
+        this._googleScholarTags = new Array<MetaTag>();
     }
 
 

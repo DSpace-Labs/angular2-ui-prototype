@@ -1,6 +1,6 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 
-
+import {Bitstream} from "../../models/bitstream.model"
 
 /**
  * Component that displays the bitstreams of an item in the simple-item-view
@@ -10,24 +10,17 @@ import {Component, Input} from 'angular2/core';
 @Component({
     selector: 'item-thumbnail',
     inputs: ['itemBitstreams'],
-    template:
-        `<div id="thumbnail">
-                <!-- for now just display no thumbnail -->
-                     <a [attr.href]="" class="image-link">
-                                <img src="./static/images/NoThumbnail.svg">
+    template: `
+                <div id="thumbnail">
+                    <!-- for now just display no thumbnail -->
+                    <a [attr.href]="" class="image-link">
+                        <img src="./static/images/NoThumbnail.svg">
                     </a>
-         </div>
-        `
+                </div>
+              `
 })
-
 export class ThumbnailComponent {
 
-
-    private itemBitstreams : Object;
-
-    constructor()
-    {
-    }
-
+    private itemBitstreams: Array<Bitstream>;
 
 }

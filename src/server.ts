@@ -30,8 +30,8 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
-import {BreadcrumbService} from './app/navigation/breadcrumb.service';
-import {PaginationService} from './app/navigation/pagination.service';
+import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
+import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/dspace.service';
@@ -39,6 +39,7 @@ import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
+import {MetadataHelper} from './app/utilities/metadata.helper';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -118,7 +119,8 @@ function ngApp(req, res) {
             DSpaceService,
             DSpaceStore,
             HttpService,
-            MetaTagService
+            MetaTagService,
+            MetadataHelper
         ],
         preboot: {
             replay: 'hydrate',

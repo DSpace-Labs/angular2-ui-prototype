@@ -1,18 +1,14 @@
 ﻿import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
-
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Collection} from "../models/collection.model";
-
-import {ListComponent} from '../../navigation/list.component';
-import {ContextComponent} from '../../navigation/context.component';
+import {ListComponent} from '../../navigation/components/list.component';
+import {ContextComponent} from '../../navigation/components/context.component';
+import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component";
-import {PaginationComponent} from '../../navigation/pagination.component';
 
 /**
  * Collection component for displaying the current collection.
@@ -26,12 +22,12 @@ import {PaginationComponent} from '../../navigation/pagination.component';
                 <div class="container" *ngIf="collection">
 
                     <div class="col-md-4">
-                        <context [context]="collectionJSON"></context>
+                        <context [context]="collection"></context>
                     </div>  
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                       <list [collection]="collectionJSON"></list>
+                        <list [collection]="collection"></list>
                     </div>
                     
                 </div>
@@ -45,12 +41,6 @@ export class CollectionComponent {
     collection: Collection;
 
     /**
-     * An object that represents the current collection.
-     * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
-     */
-    collectionJSON: any;
-
-    /**
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
@@ -58,18 +48,16 @@ export class CollectionComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate
+     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        console.log("in this page");
-        let page = params.get('page') ? params.get('page') : 1;
-        console.log("setting up this page");
-        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
-            this.collectionJSON = collectionJSON;
-            this.collection = new Collection(this.collectionJSON);
-            breadcrumb.visit(this.collectionJSON);
+        directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
+            this.collection = collection;
+            breadcrumb.visit(this.collection);
         });
         translate.setDefaultLang('en');
         translate.use('en');

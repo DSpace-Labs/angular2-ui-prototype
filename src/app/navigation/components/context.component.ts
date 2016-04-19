@@ -13,22 +13,25 @@ import {Component} from 'angular2/core';
 				    	<h3 class="panel-title">{{context.name}}</h3>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'dashboard'">
-				    	{{context.type}}
+				    	<ul>
+                            <li>{{context.type}}</li>
+                        </ul>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'community'">
-				    	{{context.type}}
+				    	<ul>
+                            <li>{{context.type}}</li>
+                        </ul>
+                        <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
 				  	</div>
 				  	<div class="panel-body" *ngIf="context.type == 'collection'">
-				    	{{context.type}}
-				  	</div>
-				<!-- I have implemented this in the simple & full view.
-				<div class="panel-body" *ngIf="context.type == 'item'">
-                        <ul>
-                            <li *ngFor="#bitstream of context.bitstreams">
-                                <span>{{bitstream.name}}</span>
-                            </li>
+				    	<ul>
+                            <li>{{context.type}}</li>
                         </ul>
-				  	</div> -->
+                        <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
+				  	</div>
+				    <div class="panel-body" *ngIf="context.type == 'item'">
+
+				  	</div>
 				</div>
     		  `
 })
@@ -37,8 +40,6 @@ export class ContextComponent {
     /**
      * An input variable that is passed into the component [context].
      * Represents the current context.
-     *
-     * TODO: replace any with inheritance model e.g. dspaceObject
      */
 	context: any;
 

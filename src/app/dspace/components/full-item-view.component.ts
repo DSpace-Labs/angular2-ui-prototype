@@ -1,17 +1,14 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES,RouteConfig, RouteParams} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-import {ContextComponent} from '../../navigation/context.component';
-
-
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import {ContextComponent} from '../../navigation/components/context.component';
 import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
-
 import {Item} from '../models/item.model'
 
 /**
@@ -25,7 +22,8 @@ import {Item} from '../models/item.model'
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a> <!-- link to the simple item view -->
+                        <!-- link to the simple item view -->
+                        <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
                         <context [context]="item"></context>
                         <div>
                             <!-- the rendering of different parts of the page is delegated to other components -->
@@ -33,16 +31,15 @@ import {Item} from '../models/item.model'
 
                             <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
 
-                            <item-full-collections [itemData]="item.parentCollection"></item-full-collections>
+                            <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
 
-                             <a [routerLink]="['Items',{id:item.id}]">{{'item-view.show-simple' | translate}}</a>
+                            <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
                         </div>
                     </div>
                 </div>
               `
 })
 export class FullItemViewComponent {
-
 
     private item: Item;
 
@@ -58,13 +55,10 @@ export class FullItemViewComponent {
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id"),0).then(itemjson => { // passing 0 to avoid TS errors, but we don't actually *need* it for items.
-            this.item = new Item(itemjson);
+        directory.loadObj('item', params.get("id")).then((item:Item) => {
+            this.item = item;
             breadcrumb.visit(this.item);
         });
-}
+    }
 
 }
-
-
-

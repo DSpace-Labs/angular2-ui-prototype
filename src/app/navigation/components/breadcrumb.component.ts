@@ -1,9 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace/dspace.directory';
-
-import {BreadcrumbService} from './breadcrumb.service';
+import {DSpaceDirectory} from '../../dspace/dspace.directory';
+import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
  * Breadcrumb component for displaying current set of breadcrumbs of the 
@@ -15,13 +14,17 @@ import {BreadcrumbService} from './breadcrumb.service';
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="#breadcrumb of trail">
-                        <a *ngIf="breadcrumb.component" [routerLink]="[breadcrumb.component, {id:breadcrumb.id}]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="!breadcrumb.component" [routerLink]="['/Dashboard']">{{breadcrumb.name}}</a>
+                        <a *ngIf="breadcrumb.id && !breadcrumb.page" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="breadcrumb.id && breadcrumb.page && !breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="breadcrumb.id && breadcrumb.page && breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="!breadcrumb.id" [routerLink]="['/Dashboard']">{{breadcrumb.name}}</a>
                     </li>
                 </ul>
     		  `
 })
 export class BreadcrumbComponent {
+
+    // TODO: probably should have a breadcrumb object
 
     /**
      * Array of any, { name: string, context: Object }, representing the breadcrumb trail.
@@ -35,13 +38,15 @@ export class BreadcrumbComponent {
 
     /**
      *
-     * @param directory 
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private directory: DSpaceDirectory, 
-                private breadcrumbService: BreadcrumbService) {}
+    constructor(private dspace: DSpaceDirectory,
+                private breadcrumbService: BreadcrumbService) {
+
+    }
 
     /**
      * Method to build the breadcrumb trail when a given context is visited.
@@ -49,15 +54,23 @@ export class BreadcrumbComponent {
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    buildTrail(context) {
+    buildTrail(context): void {
         this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
             this.dropBreadcrumb(context).then(() => {
-                this.trail.unshift({ name: 'Dashboard', context: {} });
+                this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
             });
         }
         else {
-            this.trail.unshift({ name: 'Dashboard', context: {} });
+            this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
+        }
+    }
+
+    updateBreadcrumb(updatedBreadcrumb): void {
+        for(let breadcrumb of this.trail) {
+            if(breadcrumb.name == updatedBreadcrumb.name) {
+                breadcrumb = updatedBreadcrumb;
+            }
         }
     }
 
@@ -68,57 +81,51 @@ export class BreadcrumbComponent {
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    dropBreadcrumb(context) {
+    dropBreadcrumb(context): Promise<any> {
         let bc = this;
         return new Promise(function (resolve, reject) { 
             bc.trail.unshift({
                 name: context.name,
+                type: context.type,
                 component: context.component,
                 id: context.id,
-                context: context
+                page: context.page,
+                limit: context.limit
             });            
-            if (context.parentCommunity || context.parentCollection) {
-                let parentType;
-                if(context.parentCommunity)
-                    parentType = 'Community';
-                else 
-                    parentType = 'Collection';
+            if ((context.parentCommunity && context.parentCommunity.type) || 
+                (context.parentCollection && context.parentCollection.type)) {
+                let parentType = context.parentCommunity ? 'Community' : 'Collection';
                 if (context['parent' + parentType].ready) {
                     bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
                         resolve();
                     });
                 }
                 else {
-                    bc.directory.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(obj => {
-                        context['parent' + parentType] = obj;
+                    bc.dspace.loadObj(context['parent' + parentType].type, context['parent' + parentType].id, context['parent' + parentType].page).then(parent => {
+                        context['parent' + parentType] = parent;
                         bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
                             resolve();
                         });
                     });
                 }
             }
-            else
+            else {
                 resolve();
+            }
         });
-    }
-
-    /**
-     * Method provided by Angular2. Invoked after the constructor.
-     */
-    ngOnInit() {
-        let breadcrumb = this.breadcrumbService.getBreadcrumb();
-        if (breadcrumb)
-            this.buildTrail(breadcrumb);
-        else
-            console.log('why no breadcrumb?');
     }
 
     /**
      * Method provided by Angular2. Invoked after the component view is ready.
      */
     ngAfterViewInit() {
-        this.subscription = this.breadcrumbService.emitter.subscribe(context => {
-            this.buildTrail(context);
+        this.subscription = this.breadcrumbService.emitter.subscribe(obj => {
+            if(obj.action == 'visit') {
+                this.buildTrail(obj.context);
+            }
+            else {
+                this.updateBreadcrumb(obj.breadcrumb);
+            }
         });
     }
 

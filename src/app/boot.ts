@@ -13,8 +13,8 @@ import {
 
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/dspace.service';
-import {BreadcrumbService} from './navigation/breadcrumb.service';
-import {PaginationService} from './navigation/pagination.service';
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+import {PaginationService} from './navigation/services/pagination.service';
 import {HttpService} from './utilities/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
 

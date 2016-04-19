@@ -1,37 +1,32 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-
-import {Item} from "../../../models/item.model"
+import {Collection} from "../../../models/collection.model";
 import {ViewElementComponent} from '../view-element.component';
 
 /**
  * Component for the collections of the simple-item-view.
- * When you click on the collection name, it has to redirect to the right collection.
  */
 @Component({
     selector: 'item-full-collections',
-    inputs: ['itemData'],
-    directives: [ViewElementComponent],
+    inputs: ['itemParent'],
+    directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
-    template:
-        `
-        <view-element [header]="componentTitle | translate">
-            <ul>
-                <li>
-                   <a [attr.href]="collectionURIPrefix+itemData.id">{{itemData.name}}</a>
-                </li>
-            </ul>
-
-        </view-element>
-        `
+    template: `
+                <view-element [header]="componentTitle | translate">
+                    <ul>
+                        <li *ngIf="itemParent && itemParent.component && itemParent.id">
+                            <a [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
+                        </li>
+                    </ul>
+                </view-element>
+              `
 })
-
 export class FullCollectionsComponent {
 
-    private componentTitle : String = "item-view.full.full-collections.title";
-    private itemData : Object;
-    private collectionURIPrefix = "../collections/";
+    private componentTitle: string = "item-view.full.full-collections.title";
+
+    private itemParent: Collection;
 
 }
-

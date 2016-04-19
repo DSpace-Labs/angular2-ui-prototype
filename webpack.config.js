@@ -104,6 +104,11 @@ var serverConfig = {
               from: path.join(node_modules, 'bootstrap', 'dist', 'css', 'bootstrap.min.css'),
               to: path.join('static', 'css', 'bootstrap.min.css')
             },
+            // Copy Bootstrap CSS map into 'static/css' (from the bootstrap module)
+            {
+              from: path.join(node_modules, 'bootstrap', 'dist', 'css', 'bootstrap.min.css.map'),
+              to: path.join('static', 'css', 'bootstrap.min.css.map')
+            },
             // Copy Bootstrap Fonts into 'static/fonts' (from the bootstrap module)
             // NOTE: Bootstrap CSS references fonts as being at "../fonts/" (relative to CSS)
             {

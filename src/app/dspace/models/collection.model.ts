@@ -1,16 +1,29 @@
 import {Item} from "./item.model";
 import {DSOContainer} from "./dso-container.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {Community} from "./community.model";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A model class for a Collection
+ * A model class for a Collection.
  */
 export class Collection extends DSOContainer {
-    /**
-     * An array of the Items in this Collection
-     */
-    items: Item[];
 
+    /**
+     * An array of the Items in this Collection.
+     */
+    items: Array<Item>;
+    
+    /**
+     * Number of items in collection.
+     */
+    numberItems: number;
+
+    /**
+     * Parent community.
+     */
+    parentCommunity : Community;
+
+    license: string; // TODO: probably should have a license object
 
     /**
      * Create a new Collection
@@ -18,19 +31,18 @@ export class Collection extends DSOContainer {
      * @param json
      *      A plain old javascript object representing a Collection as would be returned from the
      *      REST API. Currently only json.items is used, apart from the standard DSpaceObject
-     *      properties
+     *      properties.
      */
-    constructor(json:any, parseItems? : boolean) {
-        if(parseItems==null)
-        {
-            console.log("parsing items");
-            parseItems=true;
-        }
+    constructor(json: any) {
         super(json);
-        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
+        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
+            this.numberItems = json.numberItems;
+            this.parentCommunity = new Community(json.parentCommunity);
+
             this.items = json.items.map((itemJSON) => {
-                return new Item(itemJSON); // Returning new items causes an infinite loop now, for some reason?
+                return new Item(itemJSON);
             });
         }
     }
+
 }

@@ -1,7 +1,8 @@
 import {IHashable} from "../lang/hashable.interface";
-import {IEquatable} from "../lang/equatable.interface.ts";
-import * as hash from 'object-hash';
+import {IEquatable} from "../lang/equatable.interface";
 import {ObjectUtil} from "../commons/object.util";
+
+import * as hash from 'object-hash';
 
 /**
  * A class representing a <meta> tag.
@@ -20,49 +21,49 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
      * So these properties are all set to null to normalize that behavior
      * That's also the reason for the explicit set to null in the setters.
      */
-    private _id:string = null;
-    private _name:string = null;
-    private _content:string = null;
-    private _scheme:string = null;
-    private _lang:string = null;
+    private _id: string = null;
+    private _name: string = null;
+    private _content: string = null;
+    private _scheme: string = null;
+    private _lang: string = null;
     
-    get id():string {
+    get id(): string {
         return this._id;
     }
 
-    set id(value:string) {
+    set id(value: string) {
         this._id = ObjectUtil.hasValue(value) ? value : null;
     }
 
-    get name():string {
+    get name(): string {
         return this._name;
     }
 
-    set name(value:string) {
+    set name(value: string) {
         this._name = ObjectUtil.hasValue(value) ? value : null;
     }
 
-    get content():string {
+    get content(): string {
         return this._content;
     }
 
-    set content(value:string) {
+    set content(value: string) {
         this._content = ObjectUtil.hasValue(value) ? value : null;
     }
 
-    get scheme():string {
+    get scheme(): string {
         return this._scheme;
     }
 
-    set scheme(value:string) {
+    set scheme(value: string) {
         this._scheme = ObjectUtil.hasValue(value) ? value : null;
     }
 
-    get lang():string {
+    get lang(): string {
         return this._lang;
     }
 
-    set lang(value:string) {
+    set lang(value: string) {
         this._lang = ObjectUtil.hasValue(value) ? value : null;
     }
 
@@ -73,7 +74,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
      * @returns {string}
      *      a SHA1 hash of this object
      */
-    hashCode():string {
+    hashCode(): string {
         return hash(this);
     }
 
@@ -85,7 +86,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
      * @returns {boolean}
      *      true if other has the same hashCode as this.
      */
-    equals(other:MetaTag):boolean {
+    equals(other: MetaTag): boolean {
         return ObjectUtil.hasValue(other) && this.hashCode() === other.hashCode();
     }
 
@@ -100,7 +101,7 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
      * @returns {Builder}
      *      a Builder object to construct a new MetaTag
      */
-    static getBuilder():Builder {
+    static getBuilder(): Builder {
         return new Builder();
     }
 
@@ -113,7 +114,7 @@ class Builder {
     /**
      * The MetaTag object under construction
      */
-    private _build:MetaTag;
+    private _build: MetaTag;
 
     /**
      * Create a new Builder.
@@ -130,7 +131,7 @@ class Builder {
      * @returns {Builder}
      *      this
      */
-    public id(id:string):Builder {
+    public id(id: string): Builder {
         this._build.id = id;
         return this;
     }
@@ -143,7 +144,7 @@ class Builder {
      * @returns {Builder}
      *      this
      */
-    public name(name:string):Builder {
+    public name(name: string): Builder {
         this._build.name = name;
         return this;
     }
@@ -156,7 +157,7 @@ class Builder {
      * @returns {Builder}
      *      this
      */
-    public content(content:string):Builder {
+    public content(content: string): Builder {
         this._build.content = content;
         return this;
     }
@@ -169,7 +170,7 @@ class Builder {
      * @returns {Builder}
      *      this
      */
-    public scheme(scheme:string):Builder {
+    public scheme(scheme: string): Builder {
         this._build.scheme = scheme;
         return this;
     }
@@ -182,7 +183,7 @@ class Builder {
      * @returns {Builder}
      *      this
      */
-    public lang(lang:string):Builder {
+    public lang(lang: string): Builder {
         this._build.lang = lang;
         return this;
     }
@@ -193,7 +194,8 @@ class Builder {
      * @returns {MetaTag}
      *      the constructed MetaTag
      */
-    public build():MetaTag {
+    public build(): MetaTag {
         return this._build;
     }
+
 }
