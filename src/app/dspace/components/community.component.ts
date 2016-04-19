@@ -89,7 +89,6 @@ export class CommunityComponent {
             {
                 directory.loadRecentItems("recentitems","community",c.id,5).then(itemjson =>
                 {
-                    console.log(itemjson);
                     for(let k : number = 0; k < itemjson.length; k++)
                     {
                         if(tempItems.length < 5)
@@ -117,8 +116,6 @@ export class CommunityComponent {
 
     updateItems(inputArray)
     {
-        console.log("updating array");
-        console.log(this.items);
         this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
     }
 

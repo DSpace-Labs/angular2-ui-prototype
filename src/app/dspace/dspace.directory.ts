@@ -148,7 +148,7 @@ export class DSpaceDirectory {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
                 },
                 () => {
-                    console.log('finished fetching something');
+                    console.log('finished fetching request');
                 });
 
 

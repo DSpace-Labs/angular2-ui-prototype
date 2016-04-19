@@ -73,8 +73,6 @@ export class DashboardComponent {
         };
         
         breadcrumb.visit(this.dashboard);
-
-        this.dspace.loadDirectory();
         this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( json =>
         {
             // now we need to get the items out of this.
@@ -88,16 +86,6 @@ export class DashboardComponent {
         
         translate.setDefaultLang('en');
         translate.use('en');
-
-    }
-
-
-
-    /**
-     * Method provided by Angular2. Invoked after the constructor.
-     */
-    ngOnInit() {
-        console.log("in dashboard init");
 
     }
 
