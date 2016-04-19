@@ -32,7 +32,9 @@ import {Item} from '../models/item.model';
                     <div class="col-md-12">
                         <context [context]="collectionJSON"></context>
                         <item-list [items]="collection.items"></item-list>
-                    </div>  
+                    </div>
+
+
 <!--
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
@@ -49,15 +51,16 @@ export class CollectionComponent {
     /**
      * An object that represents the current collection.
      */
-    collection: Object;
+    collection: Collection;
 
     /**
      * An object that represents the current collection.
      * TODO collectionJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Collection objects
      */
-    collectionJSON: Object;
+    collectionJSON: any;
 
 
+    items : Item[];
     /**
      *
      * @param params
@@ -73,35 +76,15 @@ export class CollectionComponent {
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
 
-        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
+        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => { // for some reason the collectionJSON is not completed yet?
             this.collectionJSON = collectionJSON;
-            setTimeout( () => {
-                this.collection = new Collection(collectionJSON);
-                console.log(this.collection); // okay so basically, I need to create the collection later.
-            },5000) // this timeout somehow fixes the loading issue.
-
             breadcrumb.visit(this.collectionJSON);
+            setTimeout( () => this.collection = this.collectionJSON, 1000);
         });
 
         translate.setDefaultLang('en');
         translate.use('en');
     }
-
-    ngOnInit()
-    {
-        console.log("after init");
-        console.log(JSON.stringify(this.collectionJSON));
-    }
-
-
-    ngOnChanges()
-    {
-        console.log("on changes");
-        this.collection = new Collection(this.collectionJSON);
-    }
-
-
-
 
 
 }

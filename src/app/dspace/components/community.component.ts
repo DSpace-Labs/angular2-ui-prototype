@@ -94,6 +94,9 @@ export class CommunityComponent {
                         if(tempItems.length < 5)
                         {
                             tempItems.push(new Item(itemjson[k]));
+                        }
+                        else
+                        {
                             this.updateItems(tempItems);
                         }
                     }
@@ -101,16 +104,12 @@ export class CommunityComponent {
             });
 
         });
-
         this.communityid = params.get('id') ? params.get('id') : 0;
-
-        //this.directory.loadDirectory();
     }
 
     updateItems(inputArray)
     {
-        console.log("updating the items");
-        this.items = inputArray;
+        this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
     }
 
     ngOnInit()

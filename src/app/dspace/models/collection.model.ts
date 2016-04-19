@@ -28,10 +28,10 @@ export class Collection extends DSOContainer {
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
             this.items = json.items.map((jsonitem) => {
-                return new Item(jsonitem);
+                console.log("creating item");
+                return new Item(jsonitem); // this runs after the constructor already ended
             });
-
-;
         }
+        console.log(json);
     }
 }
