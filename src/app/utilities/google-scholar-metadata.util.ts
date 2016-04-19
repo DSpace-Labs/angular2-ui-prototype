@@ -24,8 +24,6 @@ export class GoogleScholarMetadataUtil {
      */
     private _googleScholarTags: Array<MetaTag>;
 
-
-    //TODO services can probably be injected somehow
     constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
                 @Inject(Location) private location: Location) {
         this._googleScholarTags = new Array<MetaTag>();
