@@ -14,14 +14,8 @@ import {ContextComponent} from '../../navigation/components/context.component';
 
 import {Item} from "../models/item.model";
 
-//TODO: THIS CLASS IS AT THE MOMENT NOT USED ANYMORE! MOVED?
-
-//TODO: Should the metadata code be moved into the full and simple item view components?
-//TODO: Remove when no longer needed.
-
 /**
- * Item component for displaying the current item.
- * View contains sidebar context and tree hierarchy below current item.
+ * Item component for displaying the current item. Routes to simple or item view.
  */
 @Component({
     selector: 'item',
