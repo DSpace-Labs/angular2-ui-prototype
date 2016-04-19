@@ -9,7 +9,7 @@ import {MetaTag} from "./meta-tag/meta-tag.model";
 import {MetaTagService} from "./meta-tag/meta-tag.service";
 
 @Injectable()
-export class GoogleScholarMetadataUtil {
+export class GoogleScholarMetadataService {
 
     //TODO make configurable
     private _DSPACE_URL: string = 'http://localhost:3000';
@@ -25,7 +25,13 @@ export class GoogleScholarMetadataUtil {
     private _googleScholarTags: Array<MetaTag>;
 
 
-    //TODO services can probably be injected somehow
+    /**
+     *
+     * @param metaTagService`
+     *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
+     * @param location
+     *      Location
+     */
     constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
                 @Inject(Location) private location: Location) {
         this._googleScholarTags = new Array<MetaTag>();

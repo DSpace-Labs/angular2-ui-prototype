@@ -5,7 +5,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
+import {GoogleScholarMetadataService} from "../../utilities/google-scholar-metadata.service.ts";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 import {SimpleItemViewComponent} from './simple-item-view.component';
@@ -21,7 +21,7 @@ import {Item} from "../models/item.model";
     selector: 'item',
     directives: [ContextComponent, RouterOutlet],
     pipes: [TranslatePipe],
-    providers: [GoogleScholarMetadataUtil],
+    providers: [GoogleScholarMetadataService],
     template: `
                 <router-outlet></router-outlet>
               `
@@ -47,24 +47,20 @@ export class ItemComponent implements CanDeactivate {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param metaTagService`
-     *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
-     * @param location
-     *      Location
+     * @param gsMeta
+     *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      * @param translate
      *      TranslateService
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                private metaTagService: MetaTagService,
-                private gsMetaUtil: GoogleScholarMetadataUtil,
-                private location: Location,
+                private gsMeta: GoogleScholarMetadataService,
                 translate: TranslateService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
             this.item = item;
             breadcrumb.visit(this.item);
-            this.gsMetaUtil.setGoogleScholarMetaTags(this.item);
+            this.gsMeta.setGoogleScholarMetaTags(this.item);
         });
         translate.setDefaultLang('en');
         translate.use('en');
@@ -80,8 +76,8 @@ export class ItemComponent implements CanDeactivate {
      */
     routerCanDeactivate(nextInstruction: ComponentInstruction,
                         prevInstruction: ComponentInstruction): boolean | Promise<boolean> {
-        if (ObjectUtil.hasValue(this.gsMetaUtil)) {
-            this.gsMetaUtil.clearGoogleScholarMetaTags();
+        if (ObjectUtil.hasValue(this.gsMeta)) {
+            this.gsMeta.clearGoogleScholarMetaTags();
         }
         return true;
     }

@@ -40,7 +40,7 @@ import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
 import {MetadataHelper} from './app/utilities/metadata.helper';
-import {GoogleScholarMetadataUtil} from './app/utilities/google-scholar-metadata.util';
+import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -121,8 +121,7 @@ function ngApp(req, res) {
             DSpaceStore,
             HttpService,
             MetaTagService,
-            MetadataHelper,
-            GoogleScholarMetadataUtil
+            MetadataHelper
         ],
         preboot: {
             replay: 'hydrate',
