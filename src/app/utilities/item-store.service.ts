@@ -18,6 +18,7 @@ import {MetaTagService} from "./meta-tag/meta-tag.service";
 
 export interface IItemStore
 {
+    item : Item;
 }
 
 
