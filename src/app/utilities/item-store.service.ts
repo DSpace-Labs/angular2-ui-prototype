@@ -29,21 +29,15 @@ export class ItemStoreService // automatically shared as a singleton instance.
 
     itemStore : IItemStore = { item : null };
 
-
-    //name : Subject<String> = new Subject<String>();
-
     item : Subject<Item> = new Subject<Item>();
     _item : Item = null;
     constructor()
     {
-        //this.name = new Subject();
-
     }
 
 
     change(inputItem)
     {
-        console.log("change called"); // probably not called on redirect, right?
         this.itemStore.item = inputItem;
         this._item = inputItem;
         this.item.next(inputItem);
