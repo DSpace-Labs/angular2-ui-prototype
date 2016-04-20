@@ -5,7 +5,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataUtil} from "../../utilities/google-scholar-metadata.util";
+import {GoogleScholarMetadataService} from "../../utilities/google-scholar-metadata.service.ts";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 import {SimpleItemViewComponent} from './simple-item-view.component';
@@ -14,6 +14,8 @@ import {ContextComponent} from '../../navigation/components/context.component';
 
 import {Item} from "../models/item.model";
 
+import {ItemStoreService} from '../../utilities/item-store.service';
+
 /**
  * Item component for displaying the current item. Routes to simple or item view.
  */
@@ -21,7 +23,7 @@ import {Item} from "../models/item.model";
     selector: 'item',
     directives: [ContextComponent, RouterOutlet],
     pipes: [TranslatePipe],
-    providers: [GoogleScholarMetadataUtil],
+    providers: [GoogleScholarMetadataService],
     template: `
                 <router-outlet></router-outlet>
               `
@@ -47,29 +49,26 @@ export class ItemComponent implements CanDeactivate {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param metaTagService`
-     *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
-     * @param location
-     *      Location
+     * @param gsMeta
+     *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      * @param translate
      *      TranslateService
+     *@param store
+     *      A servie for the item
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                private metaTagService: MetaTagService,
-                private gsMetaUtil: GoogleScholarMetadataUtil,
-                private location: Location,
-                translate: TranslateService) {
-        directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item;
-            breadcrumb.visit(this.item);
-            this.gsMetaUtil.setGoogleScholarMetaTags(this.item);
-        });
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
+                private gsMeta: GoogleScholarMetadataService,
+                private store : ItemStoreService) {
+                    directory.loadObj('item', params.get("id")).then((item:Item) => {
+                        this.item = item;
+                        this.store.change(this.item); // change the item that the store currently holds.
+                        breadcrumb.visit(this.item);
+                        this.gsMeta.setGoogleScholarMetaTags(this.item);
+                       });
 
+    }
     /**
      * This method is called automatically when the user navigates away from this route. It is used
      * here to clear the google scholar meta tags.
@@ -80,8 +79,8 @@ export class ItemComponent implements CanDeactivate {
      */
     routerCanDeactivate(nextInstruction: ComponentInstruction,
                         prevInstruction: ComponentInstruction): boolean | Promise<boolean> {
-        if (ObjectUtil.hasValue(this.gsMetaUtil)) {
-            this.gsMetaUtil.clearGoogleScholarMetaTags();
+        if (ObjectUtil.hasValue(this.gsMeta)) {
+            this.gsMeta.clearGoogleScholarMetaTags();
         }
         return true;
     }
