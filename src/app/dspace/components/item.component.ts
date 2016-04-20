@@ -14,6 +14,8 @@ import {ContextComponent} from '../../navigation/components/context.component';
 
 import {Item} from "../models/item.model";
 
+import {ItemStoreService} from '../../utilities/item-store.service';
+
 /**
  * Item component for displaying the current item. Routes to simple or item view.
  */
@@ -23,7 +25,7 @@ import {Item} from "../models/item.model";
     pipes: [TranslatePipe],
     providers: [GoogleScholarMetadataService],
     template: `
-                <router-outlet></router-outlet>
+                <router-outlet [routerdata]="item"></router-outlet>
               `
 })
 @RouteConfig([
@@ -51,21 +53,22 @@ export class ItemComponent implements CanDeactivate {
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      * @param translate
      *      TranslateService
+     *@param store
+     *      A servie for the item
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
-                translate: TranslateService) {
-        directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item;
-            breadcrumb.visit(this.item);
-            this.gsMeta.setGoogleScholarMetaTags(this.item);
-        });
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
+                private store : ItemStoreService) {
+                    directory.loadObj('item', params.get("id")).then((item:Item) => {
+                        this.item = item;
+                        this.store.change(this.item); // change the item that the store currently holds.
+                        breadcrumb.visit(this.item);
+                        this.gsMeta.setGoogleScholarMetaTags(this.item);
+                       });
 
+    }
     /**
      * This method is called automatically when the user navigates away from this route. It is used
      * here to clear the google scholar meta tags.

@@ -13,6 +13,8 @@ import {ThumbnailComponent} from './item/thumbnail.component';
 import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
+import {ItemStoreService} from '../../utilities/item-store.service'
+import {IItemStore} from '../../utilities/item-store.service'
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -31,25 +33,27 @@ import {Item} from '../models/item.model'
                  BitstreamsComponent,
                  ThumbnailComponent],
     pipes: [TranslatePipe],
+    inputs: ['routerdata'],
     template: `
-                <div class="container" *ngIf="parent.item">
+                <div class="container" *ngIf="itemStore.item">
                     <div class="row">
+                        <h1>The binding is: {{itemStore.item.id}}</h1>
                         <div class="col-md-12">
-                            <context [context]="parent.item"></context>
+                            <context [context]="itemStore.item"></context>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="parent.item.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="parent.item.metadata"></item-date>
-                            <item-authors [itemData]="parent.item.metadata"></item-authors>
-                            <h3>Metadata</h3>
-                            <a [routerLink]="[parent.item.component, {id: parent.item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
+                            <item-bitstreams [itemBitstreams]="itemStore.item.bitstreams"></item-bitstreams>
+                            <item-date [itemData]="itemStore.item.metadata"></item-date>
+                            <item-authors [itemData]="itemStore.item.metadata"></item-authors>
+                            <h3>{{'item-view.show-full' | translate}}</h3>
+                            <a [routerLink]="[itemStore.item.component, {id: itemStore.item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                         </div>
                         <div class="col-md-8">
-                            <item-uri [itemData]="parent.item.metadata"></item-uri>
-                            <item-collection [itemParent]="parent.item.parentCollection"></item-collection>
+                            <item-uri [itemData]="itemStore.item.metadata"></item-uri>
+                            <item-collection [itemParent]="itemStore.item.parentCollection"></item-collection>
                         </div>
                     </div>
                 </div>
@@ -57,6 +61,10 @@ import {Item} from '../models/item.model'
 })
 export class SimpleItemViewComponent {
 
-    constructor(@Inject(forwardRef(() => ItemComponent)) private parent: ItemComponent) {}
+    itemStore : IItemStore;
 
+    constructor(store : ItemStoreService)
+    {
+        this.itemStore = store.itemStore;
+    }
 }
