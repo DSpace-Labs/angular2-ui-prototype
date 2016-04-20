@@ -24,7 +24,7 @@ export interface IItemStore
 
 
 @Injectable()
-export class ItemStoreService // automatically shared as a singleton instance.
+export class ItemStoreService
 {
 
     itemStore : IItemStore = { item : null };
@@ -34,6 +34,7 @@ export class ItemStoreService // automatically shared as a singleton instance.
     constructor()
     {
     }
+
 
 
     change(inputItem)
