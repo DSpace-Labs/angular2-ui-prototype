@@ -1,12 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component, Inject, forwardRef} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {ContextComponent} from '../../navigation/components/context.component';
-
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
@@ -14,8 +10,10 @@ import {CollectionComponent} from './item/collection.component';
 import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
+import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
+import {ItemStoreService} from '../../utilities/item-store.service'
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -34,6 +32,7 @@ import {Item} from '../models/item.model'
                  BitstreamsComponent,
                  ThumbnailComponent],
     pipes: [TranslatePipe],
+    inputs: ['routerdata'],
     template: `
                 <div class="container" *ngIf="item">
                     <div class="row">
@@ -47,8 +46,8 @@ import {Item} from '../models/item.model'
                             <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                             <item-date [itemData]="item.metadata"></item-date>
                             <item-authors [itemData]="item.metadata"></item-authors>
-                            <h3>Metadata</h3>
-                            <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
+                            <h3>{{'item-view.show-full' | translate}}</h3>
+                            <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                         </div>
                         <div class="col-md-8">
                             <item-uri [itemData]="item.metadata"></item-uri>
@@ -60,24 +59,13 @@ import {Item} from '../models/item.model'
 })
 export class SimpleItemViewComponent {
 
-    private item: Item;
-
-    /**
-     *
-     * @param params
-     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     */
-    constructor(private params: RouteParams,
-                private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item;
-            breadcrumb.visit(this.item);
-        });
+    item : Item;
+    constructor(private store : ItemStoreService)
+    {
+        if(this.store._item!=null){
+            this.item = this.store._item;
+        }
+        this.store.item.subscribe( () => {this.item = this.store._item;});
     }
 
 }

@@ -1,28 +1,34 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component, Inject, forwardRef} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {ContextComponent} from '../../navigation/components/context.component';
 import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
+import {ItemComponent} from './item.component';
+
 import {Item} from '../models/item.model'
+
+import {ItemStoreService} from '../../utilities/item-store.service'
 
 /**
  * Item component for displaying the current item.
  * View contains sidebar context and tree hierarchy below current item.
  */
 @Component({
-    selector: 'item',
-    directives: [ContextComponent, FullMetadataComponent, FullBitstreamsComponent, FullCollectionsComponent,ROUTER_DIRECTIVES],
+    selector: 'full-item-view',
+    directives: [ContextComponent,
+                 FullMetadataComponent,
+                 FullBitstreamsComponent,
+                 FullCollectionsComponent,
+                 ROUTER_DIRECTIVES],
     pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
                     <div class="col-xs-12 col-sm-12 col-md-9 main-content">
                         <!-- link to the simple item view -->
+                        <h1>{{item.id}}</h1>
                         <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
                         <context [context]="item"></context>
                         <div>
@@ -41,24 +47,13 @@ import {Item} from '../models/item.model'
 })
 export class FullItemViewComponent {
 
-    private item: Item;
-
-    /**
-     *
-     * @param params
-     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     */
-    constructor(private params: RouteParams,
-                private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item;
-            breadcrumb.visit(this.item);
-        });
+    item : Item;
+    constructor(private store : ItemStoreService)
+    {
+        if(this.store._item!=null){
+            this.item = this.store._item;
+        }
+        this.store.item.subscribe( () => this.item = this.store._item);
     }
 
 }
