@@ -14,7 +14,7 @@ import {ContextComponent} from '../../navigation/components/context.component';
 
 import {Item} from "../models/item.model";
 
-import {ItemStoreService} from '../../utilities/item-store.service';
+import {ItemStoreService} from '../services/item-store.service';
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.
@@ -37,7 +37,7 @@ import {ItemStoreService} from '../../utilities/item-store.service';
 export class ItemComponent implements CanDeactivate {
 
     /**
-     * An object that represents the current item.
+     * The current item.
      */
     item: Item;
 
@@ -61,13 +61,13 @@ export class ItemComponent implements CanDeactivate {
                 private breadcrumb: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
                 private store : ItemStoreService) {
-                    directory.loadObj('item', params.get("id")).then((item:Item) => {
-                        this.item = item;
-                        this.store.change(this.item); // change the item that the store currently holds.
-                        breadcrumb.visit(this.item);
-                        this.gsMeta.setGoogleScholarMetaTags(this.item);
-                       });
-
+        console.log('here')
+        directory.loadObj('item', params.get("id")).then((item:Item) => {
+            this.item = item;
+            this.store.change(this.item); // change the item that the store currently holds.
+            breadcrumb.visit(this.item);
+            this.gsMeta.setGoogleScholarMetaTags(this.item);
+        });
     }
     /**
      * This method is called automatically when the user navigates away from this route. It is used

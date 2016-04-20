@@ -1,6 +1,6 @@
 ﻿import {Injectable} from 'angular2/core';
 
-import {DSpaceConstants} from './dspace.constants';
+import {DSpaceConstants} from '../dspace.constants';
 
 /**
  * Injectable service to cache session context which have been visited.
@@ -8,7 +8,7 @@ import {DSpaceConstants} from './dspace.constants';
  * TODO: Create caching service which leverages local storage.
  */
 @Injectable()
-export class DSpaceStore {
+export class PagingStoreService {
     
     /**
      * A map of the visited items pages.

@@ -12,15 +12,14 @@ import {
 } from "ng2-translate/ng2-translate";
 
 import {AppComponent} from './app.component';
-import {DSpaceService} from './dspace/dspace.service';
+import {DSpaceService} from './dspace/services/dspace.service';
 import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 import {PaginationService} from './navigation/services/pagination.service';
 import {HttpService} from './utilities/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
-import {ItemStoreService} from './utilities/item-store.service';
-
+import {PagingStoreService} from './dspace/services/paging-store.service';
+import {ItemStoreService} from './dspace/services/item-store.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
-import {DSpaceStore} from './dspace/dspace.store';
 import {DSpaceConstants} from './dspace/dspace.constants';
 
 // Disable Angular 2's "development mode".
@@ -43,15 +42,15 @@ bootstrap(AppComponent, [
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
         deps: [Http]
     }),
-    TranslateService,
     BreadcrumbService,
-    PaginationService,
-    DSpaceDirectory,
     DSpaceConstants,
+    DSpaceDirectory,
     DSpaceService,
-    DSpaceStore,
     HttpService,
+    ItemStoreService,
     MetaTagService,
-    ItemStoreService
+    PaginationService,
+    PagingStoreService,
+    TranslateService
 ])
 .then(prebootComplete);
