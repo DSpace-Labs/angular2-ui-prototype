@@ -35,25 +35,25 @@ import {IItemStore} from '../../utilities/item-store.service'
     pipes: [TranslatePipe],
     inputs: ['routerdata'],
     template: `
-                <div class="container" *ngIf="itemStore.item">
+                <div class="container" *ngIf="item">
                     <div class="row">
-                        <h1>The binding is: {{itemStore.item.id}}</h1>
+                        <h1>The binding is: {{item.id}}</h1>
                         <div class="col-md-12">
-                            <context [context]="itemStore.item"></context>
+                            <context [context]="item"></context>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="itemStore.item.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="itemStore.item.metadata"></item-date>
-                            <item-authors [itemData]="itemStore.item.metadata"></item-authors>
+                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                            <item-date [itemData]="item.metadata"></item-date>
+                            <item-authors [itemData]="item.metadata"></item-authors>
                             <h3>{{'item-view.show-full' | translate}}</h3>
-                            <a [routerLink]="[itemStore.item.component, {id: itemStore.item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
+                            <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                         </div>
                         <div class="col-md-8">
-                            <item-uri [itemData]="itemStore.item.metadata"></item-uri>
-                            <item-collection [itemParent]="itemStore.item.parentCollection"></item-collection>
+                            <item-uri [itemData]="item.metadata"></item-uri>
+                            <item-collection [itemParent]="item.parentCollection"></item-collection>
                         </div>
                     </div>
                 </div>
@@ -61,10 +61,14 @@ import {IItemStore} from '../../utilities/item-store.service'
 })
 export class SimpleItemViewComponent {
 
-    itemStore : IItemStore;
-
-    constructor(store : ItemStoreService)
+    item : Item;
+    constructor(private store : ItemStoreService)
     {
-        this.itemStore = store.itemStore;
+        this.store.item.subscribe( x => this.item = x);
+    }
+
+    ngOnDestroy() // clean up after this component is disposed of.
+    {
+        this.store.item.unsubscribe();
     }
 }

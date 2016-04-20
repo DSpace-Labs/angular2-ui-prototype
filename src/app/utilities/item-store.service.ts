@@ -1,5 +1,6 @@
 import {Injectable, Inject} from 'angular2/core';
 import {Location} from 'angular2/router';
+import {Subject} from 'rxjs/Subject';
 import {Item} from "../dspace/models/item.model";
 import {Metadatum} from "../dspace/models/metadatum.model";
 import {ArrayUtil} from "./commons/array.util";
@@ -26,13 +27,24 @@ export interface IItemStore
 export class ItemStoreService // automatically shared as a singleton instance.
 {
 
-
     itemStore : IItemStore = { item : null };
+
+
+    //name : Subject<String> = new Subject<String>();
+
+    item : Subject<Item> = new Subject<Item>();
+
+    constructor()
+    {
+        //this.name = new Subject();
+
+    }
 
 
     change(inputItem)
     {
         this.itemStore.item = inputItem;
+        this.item.next(inputItem);
     }
 
 
