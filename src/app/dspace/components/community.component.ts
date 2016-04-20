@@ -38,7 +38,7 @@ import {Item} from '../models/item.model';
                     </div>
 
                      <div class="col-md-12">
-                        <h3>Recent submissions</h3>
+                        <h3>{{'community.recent-submissions' | translate}}</h3>
                         <item-list [items]="items"></item-list>
                      </div>
                     

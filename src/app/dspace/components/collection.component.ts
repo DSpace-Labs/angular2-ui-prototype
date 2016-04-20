@@ -28,22 +28,11 @@ import {Item} from '../models/item.model';
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="collection">
-
                     <div class="col-md-12">
                     <!-- replace with collection model -->
                         <context [context]="collectionJSON"></context>
                         <item-list [items]="collectionJSON.items"></item-list>
                     </div>
-
-
-<!--
-                    <div class="col-md-8">
-                        <container-home [container]=collection></container-home>
-                       <list [collection]="collectionJSON"></list>
-                    </div>
--->
-
-
                 </div>
               `
 })

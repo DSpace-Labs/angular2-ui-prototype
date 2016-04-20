@@ -36,7 +36,7 @@ import {Item} from './dspace/models/item.model'
 
 
                     <div class="col-md-12">
-                        <h3>Recent items</h3>
+                        <h3>{{'dashboard.recent-submissions' | translate}}</h3>
                         <item-list [items]="items"></item-list>
                     </div>
                 </div>
