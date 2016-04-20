@@ -14,7 +14,6 @@ import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
 import {ItemStoreService} from '../../utilities/item-store.service'
-import {IItemStore} from '../../utilities/item-store.service'
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -63,7 +62,6 @@ export class SimpleItemViewComponent {
     item : Item;
     constructor(private store : ItemStoreService)
     {
-        console.log("in constructor of simple-item");
         if(this.store._item!=null){
             this.item = this.store._item;
         }
