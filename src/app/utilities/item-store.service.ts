@@ -33,7 +33,7 @@ export class ItemStoreService // automatically shared as a singleton instance.
     //name : Subject<String> = new Subject<String>();
 
     item : Subject<Item> = new Subject<Item>();
-
+    _item : Item = null;
     constructor()
     {
         //this.name = new Subject();
@@ -43,7 +43,9 @@ export class ItemStoreService // automatically shared as a singleton instance.
 
     change(inputItem)
     {
+        console.log("change called"); // probably not called on redirect, right?
         this.itemStore.item = inputItem;
+        this._item = inputItem;
         this.item.next(inputItem);
     }
 

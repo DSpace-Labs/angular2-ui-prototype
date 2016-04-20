@@ -37,7 +37,6 @@ import {IItemStore} from '../../utilities/item-store.service'
     template: `
                 <div class="container" *ngIf="item">
                     <div class="row">
-                        <h1>The binding is: {{item.id}}</h1>
                         <div class="col-md-12">
                             <context [context]="item"></context>
                         </div>
@@ -64,11 +63,11 @@ export class SimpleItemViewComponent {
     item : Item;
     constructor(private store : ItemStoreService)
     {
-        this.store.item.subscribe( x => this.item = x);
+        console.log("in constructor of simple-item");
+        if(this.store._item!=null){
+            this.item = this.store._item;
+        }
+        this.store.item.subscribe( () => {this.item = this.store._item;});
     }
 
-    ngOnDestroy() // clean up after this component is disposed of.
-    {
-        this.store.item.unsubscribe();
-    }
 }
