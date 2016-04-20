@@ -11,7 +11,6 @@ import {ItemComponent} from './item.component';
 import {Item} from '../models/item.model'
 
 import {ItemStoreService} from '../../utilities/item-store.service'
-import {IItemStore} from '../../utilities/item-store.service'
 
 /**
  * Item component for displaying the current item.
