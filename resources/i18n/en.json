@@ -33,4 +33,6 @@
   ,"item-view.uri.title" : "uri"
   ,"item-view.show-full" : "Show full item record"
   ,"item-view.show-simple": "Show simple item record"
+  ,"dashboard.recent-submissions": "Show recent submissions"
+  ,"community.recent-submissions": "Show recent submissions"
 }
