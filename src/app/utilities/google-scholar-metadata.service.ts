@@ -8,11 +8,13 @@ import {ObjectUtil} from "./commons/object.util";
 import {MetaTag} from "./meta-tag/meta-tag.model";
 import {MetaTagService} from "./meta-tag/meta-tag.service";
 
+import {GlobalConfig} from '../../../config';
+
 @Injectable()
 export class GoogleScholarMetadataService {
 
     //TODO make configurable
-    private _DSPACE_URL: string = 'http://localhost:3000';
+    private _DSPACE_URL: string = GlobalConfig.host;
 
     /**
      * An object that represents the current item.
