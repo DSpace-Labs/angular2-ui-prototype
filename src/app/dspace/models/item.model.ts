@@ -11,7 +11,7 @@ export class Item extends DSOContainer {
 
     bitstreams : Array<Bitstream> = [];
 
-    parentCollection : Collection;i
+    parentCollection : Collection;
 
     lastModified: string; //TODO: change to date, deserialize
 
