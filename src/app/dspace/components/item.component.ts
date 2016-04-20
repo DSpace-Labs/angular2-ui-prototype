@@ -25,7 +25,7 @@ import {ItemStoreService} from '../../utilities/item-store.service';
     pipes: [TranslatePipe],
     providers: [GoogleScholarMetadataService],
     template: `
-                <router-outlet [routerdata]="item"></router-outlet>
+                <router-outlet></router-outlet>
               `
 })
 @RouteConfig([
