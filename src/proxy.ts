@@ -15,7 +15,7 @@ program.version('0.0.1')
             serverValue = server;
 });
 
-serverValue = serverValue ? serverValue : GlobalConfig.dspace.url
+serverValue = serverValue ? serverValue : GlobalConfig.dspace.url;
 
 program.parse(process.argv);
 
