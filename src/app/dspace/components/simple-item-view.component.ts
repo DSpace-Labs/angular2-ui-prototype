@@ -2,9 +2,6 @@ import {Component, Inject, forwardRef} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {DSpaceService} from '../dspace.service';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {ContextComponent} from '../../navigation/components/context.component';
 
 import {AuthorsComponent} from './item/authors.component';
@@ -53,8 +50,8 @@ import {ItemStoreService} from '../../utilities/item-store.service'
                                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                                 <item-date [itemData]="item.metadata"></item-date>
                                                 <item-authors [itemData]="item.metadata"></item-authors>
-                                                <h3>{{'item-view.metadata.title' | translate}}</h3>
-                                                <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
+                                                <h3>{{'item-view.show-full' | translate}}</h3>
+                                                <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                                             </div>
                                             <div class="col-md-8">
                                                 <item-uri [itemData]="item.metadata"></item-uri>
