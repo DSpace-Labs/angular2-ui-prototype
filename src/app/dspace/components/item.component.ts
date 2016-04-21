@@ -61,7 +61,6 @@ export class ItemComponent implements CanDeactivate {
                 private breadcrumb: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
                 private store : ItemStoreService) {
-        console.log('here')
         directory.loadObj('item', params.get("id")).then((item:Item) => {
             this.item = item;
             this.store.change(this.item); // change the item that the store currently holds.
