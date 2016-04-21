@@ -51,7 +51,7 @@ import {Item} from '../models/item.model'
                                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                                 <item-date [itemData]="item.metadata"></item-date>
                                                 <item-authors [itemData]="item.metadata"></item-authors>
-                                                <h3>Metadata</h3>
+                                                <h3>{{'item-view.metadata.title' | translate}}</h3>
                                                 <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
                                             </div>
                                             <div class="col-md-8">
