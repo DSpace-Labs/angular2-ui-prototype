@@ -1,7 +1,7 @@
 ﻿import {EventEmitter, Injectable} from 'angular2/core';
 
-import {DSpaceService} from './dspace.service';
-import {DSpaceStore} from './dspace.store';
+import {DSpaceService} from './services/dspace.service';
+import {PagingStoreService} from './services/paging-store.service';
 import {DSpaceConstants} from './dspace.constants';
 import {PaginationService} from '../navigation/services/pagination.service';
 import {ObjectUtil} from '../utilities/commons/object.util'
@@ -22,15 +22,15 @@ export class DSpaceDirectory {
      * 
      * @param dspaceService 
      *      DSpaceService is a singleton service to interact with the dspace REST API.
-     * @param dspaceStore 
-     *      DSpaceStore is a singleton service to cache context which have already been requested.
+     * @param pagingStore 
+     *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param dspaceConstants
      *      DSpaceConstants is a singleton service with constants.
      * @param paginationService 
      *      PaginationService is a singleton service for pagination controls.
      */
     constructor(private dspaceService: DSpaceService,
-                private dspaceStore: DSpaceStore,
+                private pagingStore: PagingStoreService,
                 private dspaceConstants: DSpaceConstants,
                 private paginationService: PaginationService) {
         this.directory = new Array<Object>();
@@ -76,7 +76,7 @@ export class DSpaceDirectory {
         if (!context.limit) {
             this.paging(context);
         }
-        let cachedPage = this.dspaceStore.getPage(context);
+        let cachedPage = this.pagingStore.getPage(context);
         if (cachedPage) {
             context[this.dspaceConstants[type].DSPACE] = cachedPage;
         }
@@ -84,7 +84,7 @@ export class DSpaceDirectory {
             this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
                 context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
                 context.loaded = true;
-                this.dspaceStore.addPage(context);
+                this.pagingStore.addPage(context);
             },
             error => {
                 console.error('Error: ' + JSON.stringify(error, null, 4));

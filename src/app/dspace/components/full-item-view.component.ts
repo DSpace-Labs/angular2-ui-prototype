@@ -1,4 +1,4 @@
-import {Component, Inject, forwardRef} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -10,7 +10,7 @@ import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
 
-import {ItemStoreService} from '../../utilities/item-store.service'
+import {ItemStoreService} from '../services/item-store.service'
 
 /**
  * Item component for displaying the current item.
@@ -58,13 +58,16 @@ import {ItemStoreService} from '../../utilities/item-store.service'
 })
 export class FullItemViewComponent {
 
+    /**
+     * The current item.
+     */
     item : Item;
-    constructor(private store : ItemStoreService)
-    {
-        if(this.store._item!=null){
-            this.item = this.store._item;
-        }
-        this.store.item.subscribe( () => this.item = this.store._item);
+
+    constructor(private itemStore : ItemStoreService) {
+        this.item = itemStore.item;
+        itemStore.itemObservable.subscribe(currentItem => {
+            this.item = currentItem;
+        });
     }
 
 }
