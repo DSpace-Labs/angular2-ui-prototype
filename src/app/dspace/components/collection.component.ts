@@ -10,7 +10,6 @@ import {ListComponent} from '../../navigation/components/list.component';
 import {ContextComponent} from '../../navigation/components/context.component';
 import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component";
-import {PaginationComponent} from '../../navigation/pagination.component';
 
 import {ItemListComponent} from './item-list.component';
 

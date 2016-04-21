@@ -84,7 +84,7 @@ export class CommunityComponent {
             let counter : number = 0;
             this.community.collections.forEach( c =>
             {
-                directory.loadRecentItems("recentitems","community",c.id,5).then(itemjson =>
+                directory.loadRecentItems("recentitems","community",c.id,5).then( (itemjson:any) =>
                 {
                     for(let k : number = 0; k < itemjson.length; k++)
                     {

@@ -110,8 +110,8 @@ export class DSpaceDirectory {
         return new Promise(function (resolve,reject)
         {
              directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](origin,collectionid,limit).subscribe(context => {
-                    directory.setup(context);
-                    directory.page(context, 0);
+                    //directory.setup(context);
+                    //directory.page(context, 0);
                     directory.prepare(null, context);
                     resolve(context);
                 },
