@@ -21,19 +21,30 @@ import {Item} from '../models/item.model'
     pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
-                    <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <!-- link to the simple item view -->
-                        <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
-                        <context [context]="item"></context>
-                        <div>
-                            <!-- the rendering of different parts of the page is delegated to other components -->
-                            <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+                    <div class="row">
+                        <div class="clearfix">
 
-                            <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+                            <div class="col-xs-6 col-sm-3">
+                                <context [context]="item"></context>
+                            </div>
 
-                            <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
+                            <div class="col-xs-12 col-sm-12 col-md-9 main-content">
+                                <!-- link to the simple item view -->
+                                <h1>{{item.name}}</h1>
+                                <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
 
-                            <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
+                                <div>
+                                    <!-- the rendering of different parts of the page is delegated to other components -->
+                                    <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+
+                                    <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+
+                                    <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
+
+                                    <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
