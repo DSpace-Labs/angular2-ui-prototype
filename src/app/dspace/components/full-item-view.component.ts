@@ -1,4 +1,4 @@
-import {Component, Inject, forwardRef} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -10,7 +10,7 @@ import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
 
-import {ItemStoreService} from '../../utilities/item-store.service'
+import {ItemStoreService} from '../services/item-store.service'
 
 /**
  * Item component for displaying the current item.
@@ -26,20 +26,31 @@ import {ItemStoreService} from '../../utilities/item-store.service'
     pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
-                    <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                        <!-- link to the simple item view -->
-                        <h1>{{item.id}}</h1>
-                        <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
-                        <context [context]="item"></context>
-                        <div>
-                            <!-- the rendering of different parts of the page is delegated to other components -->
-                            <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+                    <div class="row">
+                        <div class="clearfix">
 
-                            <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+                            <div class="col-xs-6 col-sm-3">
+                                <context [context]="item"></context>
+                            </div>
 
-                            <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
+                            <div class="col-xs-12 col-sm-12 col-md-9 main-content">
 
-                            <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
+                                <h1>{{item.name}}</h1>
+                                <!-- link to the simple item view -->
+                                <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
+
+                                <div>
+                                    <!-- the rendering of different parts of the page is delegated to other components -->
+                                    <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
+
+                                    <item-full-bistreams [itemBitstreams]="item.bitstreams"></item-full-bistreams>
+
+                                    <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
+
+                                    <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -47,13 +58,16 @@ import {ItemStoreService} from '../../utilities/item-store.service'
 })
 export class FullItemViewComponent {
 
+    /**
+     * The current item.
+     */
     item : Item;
-    constructor(private store : ItemStoreService)
-    {
-        if(this.store._item!=null){
-            this.item = this.store._item;
-        }
-        this.store.item.subscribe( () => this.item = this.store._item);
+
+    constructor(private itemStore : ItemStoreService) {
+        this.item = itemStore.item;
+        itemStore.itemObservable.subscribe(currentItem => {
+            this.item = currentItem;
+        });
     }
 
 }

@@ -2,10 +2,10 @@
 import {URLSearchParams} from 'angular2/http';
 import {Observable} from "rxjs/Observable";
 
-import {HttpService} from '../utilities/http.service';
-import {Community} from './models/community.model';
-import {Collection} from './models/collection.model';
-import {Item} from './models/item.model';
+import {HttpService} from '../../utilities/http.service';
+import {Community} from '../models/community.model';
+import {Collection} from '../models/collection.model';
+import {Item} from '../models/item.model';
 
 import {URLHelper} from "../utilities/url.helper";
 

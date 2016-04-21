@@ -34,14 +34,15 @@ import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
 import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceConstants} from './app/dspace/dspace.constants';
-import {DSpaceService} from './app/dspace/dspace.service';
-import {DSpaceStore} from './app/dspace/dspace.store';
+import {DSpaceService} from './app/dspace/services/dspace.service';
+
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
 import {MetadataHelper} from './app/utilities/metadata.helper';
 import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
-import {ItemStoreService} from './app/utilities/item-store.service';
+import {ItemStoreService} from './app/dspace/services/item-store.service';
+import {PagingStoreService} from './app/dspace/services/paging-store.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -119,7 +120,7 @@ function ngApp(req, res) {
             DSpaceDirectory,
             DSpaceConstants,
             DSpaceService,
-            DSpaceStore,
+            PagingStoreService,
             GoogleScholarMetadataService,
             HttpService,
             ItemStoreService,
