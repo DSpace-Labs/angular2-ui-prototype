@@ -36,23 +36,32 @@ import {Item} from '../models/item.model'
     pipes: [TranslatePipe],
     template: `
                 <div class="container" *ngIf="item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <context [context]="item"></context>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="item.metadata"></item-date>
-                            <item-authors [itemData]="item.metadata"></item-authors>
-                            <h3>Metadata</h3>
-                            <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
-                        </div>
-                        <div class="col-md-8">
-                            <item-uri [itemData]="item.metadata"></item-uri>
-                            <item-collection [itemParent]="item.parentCollection"></item-collection>
+
+                   <div class="row">
+                        <div class="horizontal-slider clearfix">
+                            <div class="col-xs-7 col-sm-3">
+                                <context [context]="item"></context>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-9">
+                                    <div class="item-summary-view-metadata">
+                                        <h1>{{item.name}}</h1>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <item-thumbnail></item-thumbnail>
+                                                <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                                                <item-date [itemData]="item.metadata"></item-date>
+                                                <item-authors [itemData]="item.metadata"></item-authors>
+                                                <h3>Metadata</h3>
+                                                <a [routerLink]="['/FullItemView', {id:item.id}]">{{'item-view.show-full' | translate}}</a>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <item-uri [itemData]="item.metadata"></item-uri>
+                                                <item-collection [itemParent]="item.parentCollection"></item-collection>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

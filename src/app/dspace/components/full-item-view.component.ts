@@ -29,8 +29,9 @@ import {Item} from '../models/item.model'
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-9 main-content">
-                                <!-- link to the simple item view -->
+
                                 <h1>{{item.name}}</h1>
+                                <!-- link to the simple item view -->
                                 <a [routerLink]="[item.component, {id: item.id}]">{{'item-view.show-simple' | translate}}</a>
 
                                 <div>
