@@ -1,45 +1,32 @@
-import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {DSpaceDirectory} from '../../dspace.directory';
-
-import {DSpaceService} from '../../dspace.service';
-
-import {Item} from "../../models/item.model"
-import {Collection} from "../../models/collection.model"
-
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
-
+import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {Collection} from "../../models/collection.model";
 import {ViewElementComponent} from './view-element.component';
 
 /**
  * Component for the collections of the simple-item-view.
- * When you click on the collection name, it has to redirect to the right collection.
  */
 @Component({
     selector: 'item-collection',
-    inputs: ['itemData'],
-    directives: [ViewElementComponent],
+    inputs: ['itemParent'],
+    directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
-    template:
-        `
-        <view-element [header]="component_title | translate">
-             <a [attr.href]="collectionURIPrefix+itemData.id">{{ itemData.name }}</a>
-        </view-element>
-        `
+    template: `
+                <view-element [header]="componentTitle| translate">
+                    <a *ngIf="hasValidParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
+                </view-element>
+              `
 })
-
 export class CollectionComponent {
 
-    private component_title = "item-view.collection.title";
-    private itemData : Object;
-    private collectionURIPrefix = "../collections/";
-    constructor(private params: RouteParams,private directory: DSpaceDirectory)
-    {
+    private componentTitle: string = "item-view.collection.title";
+
+    private itemParent: Collection;
+
+    private hasValidParent(): number {
+        return (this.itemParent && this.itemParent.component && this.itemParent.id);
     }
 
-
 }
-

@@ -48,8 +48,8 @@ export class ArrayUtil {
      * @returns {T[]}
      *      a new array containing only the elements that have property matching value
      */
-    static filterBy<T>(array: Array<T>, property:string, value:any): Array<T> {
-        return array.filter((element:T) => {
+    static filterBy<T>(array: Array<T>, property: string, value: any): Array<T> {
+        return array.filter((element: T) => {
             return element[property] === value;
         })
     }
@@ -75,8 +75,8 @@ export class ArrayUtil {
      * @returns {T}
      *      the first element in the array that has property matching value
      */
-    static findBy<T>(array: Array<T>, property:string, value:any): T {
-        return array.find((element:T) => {
+    static findBy<T>(array: Array<T>, property: string, value: any): T {
+        return array.find((element: T) => {
             return element[property] === value;
         })
     }
@@ -94,8 +94,8 @@ export class ArrayUtil {
      *      a new array containing the values the elements in the original
      *      array had for the given property.
      */
-    static mapBy(array: Array<any>, property:string): Array<any> {
-        return array.map((element:any) => {
+    static mapBy(array: Array<any>, property: string): Array<any> {
+        return array.map((element: any) => {
             return element[property];
         })
     }

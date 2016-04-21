@@ -1,31 +1,25 @@
+import {Injectable} from 'angular2/core';
 import {Metadatum} from '../dspace/models/metadatum.model'
 
 /**
- * A class to deal with some metadata functionality
- */
-export class MetadataHelper
-{
-
-    constructor()
-    {
-
-    }
+* A class to deal with some metadata functionality
+*/
+@Injectable()
+export class MetadataHelper {
 
     /**
      * Return a subset of the provided metadata based on a key.
      * @param metadata
      * @param keys
      */
-    filterMetadata(metadata : Metadatum[], keys : String[]) : Metadatum[]
-    {
-        let tmp : Metadatum[] = [];
-        for(let i : number = 0; i < metadata.length; i++)
-        {
-            if(keys.indexOf(metadata[i].key) > -1)
-            {
-                  tmp.push(metadata[i]);
+    filterMetadata(metadata: Array<Metadatum>, keys: Array<String>): Array<Metadatum> {
+        let filteredMetadata: Array<Metadatum> = new Array<Metadatum>();
+        for(let metadatum of metadata) {
+            if(keys.indexOf(metadatum.key) > -1) {
+                filteredMetadata.push(metadatum);
             }
         }
-        return tmp; // return filtered metadata
+        return filteredMetadata; // return filtered metadata
     }
+
 }

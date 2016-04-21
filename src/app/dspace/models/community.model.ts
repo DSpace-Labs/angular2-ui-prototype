@@ -1,20 +1,31 @@
 import {Collection} from "./collection.model";
 import {DSOContainer} from "./dso-container.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A model class for a Community
+ * A model class for a Community.
  */
 export class Community extends DSOContainer {
-    /**
-     * An array of the Collections in this Community 
-     */
-    collections: Collection[];
 
     /**
-     * An array of the sub-communities in this Community
+     * An array of the Collections in this Community.
      */
-    subCommunities: Community[];
+    collections: Array<Collection>;
+
+    /**
+     * An array of the sub-communities in this Community.
+     */
+    subcommunities: Array<Community>;
+
+    /**
+     * Number of items in community.
+     */
+    countItems: number;
+
+    /**
+     * Parent community.
+     */
+    parentCommunity : Community;
 
     /**
      * Create a new Community
@@ -26,19 +37,22 @@ export class Community extends DSOContainer {
      */
     constructor(json?: any) {
         super(json);
-
         if (ObjectUtil.isNotEmpty(json)) {
+            this.countItems = json.countItems;
+            this.parentCommunity = new Community(json.parentCommunity);
+
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
-                })
-
+                });
             }
+
             if (Array.isArray(json.subcommunities)) {
-                this.subCommunities = json.subcommunities.map((subCommunityJSON) => {
+                this.subcommunities = json.subcommunities.map((subCommunityJSON) => {
                     return new Community(subCommunityJSON);
-                })
+                });
             }
         }
     }
+
 }

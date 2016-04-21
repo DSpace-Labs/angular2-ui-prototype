@@ -1,8 +1,13 @@
 ﻿import {Injectable} from 'angular2/core';
-
-import {URLSearchParams} from 'angular2/http'; 
+import {URLSearchParams} from 'angular2/http';
+import {Observable} from "rxjs/Observable";
 
 import {HttpService} from '../utilities/http.service';
+import {Community} from './models/community.model';
+import {Collection} from './models/collection.model';
+import {Item} from './models/item.model';
+
+import {GlobalConfig} from '../../../config';
 
 /**
  * Injectable service to provide an interface with the DSpace REST API 
@@ -33,27 +38,14 @@ export class DSpaceService {
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {
-        this.REST = '/rest';
-        this.url = 'http://localhost:5050';
-    }
-
-    /**
-     * Method to perform a generic fetch with the provided path. 
-     *
-     * @param path
-     *      A path to a DSpace REST endpoint
-     */
-    fetch(path) {
-        console.log('fetching path ' + path);
-        return this.httpService.get({
-            url: this.url + path + '?expand=parentCommunity,parentCollection'
-        });
+        this.REST = GlobalConfig.dspace.root;
+        this.url = GlobalConfig.proxy;
     }
 
     /**
      * Method to fetch top communities for navigation purposes.
      */
-    fetchTopCommunities() {
+    fetchTopCommunities(): Observable<Array<Community>> {
         //TODO: handle top community pagination
         var params = new URLSearchParams();
         params.append("limit", '200');
@@ -61,6 +53,12 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/communities/top-communities',
             search: params
+        }).map(json => {
+            let topCommunities = new Array<Community>();
+            for(let communityJson of json) {
+                topCommunities.push(new Community(communityJson));
+            }
+            return topCommunities;
         });
     }
 
@@ -70,13 +68,19 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its subcommunities are to be fetched.
      */
-    fetchCommunities(community) {
+    fetchCommunities(community): Observable<Array<Community>> {
         var params = new URLSearchParams();
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + community.id + '/communities',
             search: params
+        }).map(json => {
+            let communities = new Array<Community>();
+            for(let communityJson of json) {
+                communities.push(new Community(communityJson));
+            }
+            return communities;
         });
     }
 
@@ -86,13 +90,19 @@ export class DSpaceService {
      * @param communityId
      *      The community id of which its collections are to be fetched.
      */
-    fetchCollections(community) {
+    fetchCollections(community): Observable<Array<Collection>> {
         var params = new URLSearchParams();
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
             url: this.url + this.REST + '/communities/' + community.id + '/collections',
             search: params
+        }).map(json => {
+            let collections = new Array<Collection>();
+            for(let collectionJson of json) {
+                collections.push(new Collection(collectionJson));
+            }
+            return collections;
         });
     }
 
@@ -102,13 +112,19 @@ export class DSpaceService {
      * @param collectionId
      *      The collection id of which its items are to be fetched.
      */
-    fetchItems(collection) {
+    fetchItems(collection): Observable<Array<Item>> {
         var params = new URLSearchParams();
         params.append("limit", collection.limit);
         params.append("offset", collection.offset);
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + collection.id + '/items',
             search: params
+        }).map(json => {
+            let items = new Array<Item>();
+            for(let itemJson of json) {
+                items.push(new Item(itemJson));
+            }
+            return items;
         });
     }
 
@@ -118,10 +134,11 @@ export class DSpaceService {
      * @param id
      *      Community id of which to fetch its relationships and other details.
      */
-    fetchCommunity(id) {
-        //TODO: when working on pagination of communities and collections remove expand collections and subCommunities
+    fetchCommunity(id): Observable<Community> {
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + id + '?expand=collections,subCommunities,parentCommunity,logo'
+            url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
+        }).map(json => {
+            return new Community(json);
         });
     }
 
@@ -131,9 +148,11 @@ export class DSpaceService {
      * @param id
      *      Collection id of which to fetch its relationships and other details.
      */
-    fetchCollection(id) {
+    fetchCollection(id): Observable<Collection> {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
+        }).map(json => {
+            return new Collection(json);
         });
     }
 
@@ -143,9 +162,11 @@ export class DSpaceService {
      * @param id
      *      Item id of which to fetch its relationships and other details.
      */
-    fetchItem(id) {
+    fetchItem(id): Observable<Item> {
         return this.httpService.get({
             url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
+        }).map(json => {
+            return new Item(json);
         });
     }
 
@@ -181,7 +202,7 @@ export class DSpaceService {
      * @param password
      *      DSpace user password
      */
-    login(email, password) {
+    login(email, password): void {
         this.httpService.post({
             url: this.url + this.REST + '/login',
             data: {

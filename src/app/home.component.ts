@@ -23,16 +23,20 @@ export class HomeComponent {
     /**
      * Simple array of strings templated in the view using *ngFor.
      */
-    //serverTemplating = [welcome, "This is server side templated.", "SEO and Javascript."];
-    serverTemplating = [];
+    serverTemplating: Array<String>;
+
+    /**
+     *
+     * @param translate
+     *      TranslateService
+     */
     constructor(public translate : TranslateService)
     {
         translate.setDefaultLang('en');
         translate.use('en');
-        translate.get(['home.welcome1','home.welcome2','home.welcome3']).subscribe((res : string) => {
-            this.serverTemplating = [res["home.welcome1"],res["home.welcome2"],res["home.welcome3"]];
-        })
-
+        translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {
+            this.serverTemplating = [res["home.welcome1"], res["home.welcome2"], res["home.welcome3"]];
+        });
     }
 
 

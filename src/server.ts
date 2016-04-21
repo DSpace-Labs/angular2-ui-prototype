@@ -30,8 +30,8 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
-import {BreadcrumbService} from './app/navigation/breadcrumb.service';
-import {PaginationService} from './app/navigation/pagination.service';
+import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
+import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/dspace.service';
@@ -39,16 +39,27 @@ import {DSpaceStore} from './app/dspace/dspace.store';
 import {HttpService} from './app/utilities/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
+import {MetadataHelper} from './app/utilities/metadata.helper';
+import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
+import {ItemStoreService} from './app/utilities/item-store.service';
 
-
+// Disable Angular 2's "development mode".
+// See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
 enableProdMode();
 
+// Default to port 3000
 var PORT = 3000;
 
+// Create our server-side app with express (http://expressjs.com/)
+// See also http://expressjs.com/en/4x/api.html#express
 let app = express();
 
+// Root directory of our app is the top level directory (i.e. [src])
 let root = path.join(path.resolve(__dirname, '..'));
 
+// Create an express "middleware" function which embeds CORS headers (http://enable-cors.org/)
+// into any response we receive.
+// TODO: Once DSpace's REST API returns CORS headers, this can be removed.
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -61,21 +72,32 @@ var allowCrossDomain = function(req, res, next) {
         next();
     }
 };
-
+// Enable the above function in our express app
 app.use(allowCrossDomain);
 
-// Express View
+// Express view engine setup
+// Use the "expressEngine" from Angular Universal for all HTML files,
+// and configure it
 app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
-// Static Resources
-app.use(express.static(root, { index: false }));
+// Define location of Static Resources
+// Map the /static URL path to the ./dist/server/static local directory
+app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
+// Other static resources (e.g. our compiled app.bundle.js) can be found directly in ./dist
+app.use(express.static(path.join(root, 'dist'), {index:false}));
 
-// Port
+// Port to use
 app.set('port', PORT);
 
-// Serverside Angular App
+/**
+ * Server-side Angular App setup
+ * This defines all components which should be initialized on server-side
+ * along with all necessary application data providers (e.g. services, etc).
+ * (This function is similar in nature to the "bootstrap()" function called in our
+ * `boot.ts` to initialize the client-side app.)
+ **/
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
@@ -98,8 +120,11 @@ function ngApp(req, res) {
             DSpaceConstants,
             DSpaceService,
             DSpaceStore,
+            GoogleScholarMetadataService,
             HttpService,
-            MetaTagService
+            ItemStoreService,
+            MetaTagService,
+            MetadataHelper
         ],
         preboot: {
             replay: 'hydrate',
@@ -118,8 +143,10 @@ function ngApp(req, res) {
     });
 }
 
+// Specifies that all server-side paths should be routed to our ngApp function (see above)
 app.get('/*', ngApp);
 
+// Binds our express app the the specified port (i.e. starts it up) and logs when it is running
 app.listen(PORT, () => {
     console.log("Running at port " + PORT);
 });

@@ -4,11 +4,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="/">
         <title></title>
+        <!-- Include Bootstrap styles (these styles also reference bootstrap fonts) -->
+        <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Include local override styles -->
+        <link href="./static/css/styles.css" rel="stylesheet">
     </head>
     <body>
         <dspace>Loading...</dspace>
     </body>
-    <script async src="dist/app.bundle.js"></script>
-    <script async src="dist/bootstrap.bundle.js"></script>
-    <script async src="dist/styles.bundle.js"></script>
+    <!-- Our compiled client-side application -->
+    <script async src="app.bundle.js"></script>
 </html>

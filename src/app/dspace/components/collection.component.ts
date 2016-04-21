@@ -4,13 +4,11 @@ import {RouteParams} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-
-import {BreadcrumbService} from '../../navigation/breadcrumb.service';
-
+import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Collection} from "../models/collection.model";
-
-import {ListComponent} from '../../navigation/list.component';
-import {ContextComponent} from '../../navigation/context.component';
+import {ListComponent} from '../../navigation/components/list.component';
+import {ContextComponent} from '../../navigation/components/context.component';
+import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component";
 import {PaginationComponent} from '../../navigation/pagination.component';
 
@@ -33,6 +31,7 @@ import {Item} from '../models/item.model';
                         <context [context]="collectionJSON"></context>
                         <item-list [items]="collectionJSON.items"></item-list>
                     </div>
+                    
                 </div>
               `
 })
@@ -70,9 +69,9 @@ export class CollectionComponent {
             breadcrumb.visit(this.collectionJSON);
             this.collection = new Collection(this.collectionJSON); // Need to find a better way to deal with this.
         });
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
-
-
 
 }
 

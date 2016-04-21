@@ -31,7 +31,7 @@ import {Item} from './dspace/models/item.model'
                         <context [context]="dashboard"></context>
                     </div>
                     <div class="col-md-8">
-                        <tree [directories]="dspace.directory | async"></tree>
+                        <tree [directories]="dspace.directory"></tree>
                     </div>
 
 
@@ -51,7 +51,8 @@ export class DashboardComponent {
      */
     private dashboard: {
         name: string,
-        type: string
+        type: string,
+        component: string
     };
 
     items : Item[];
@@ -62,6 +63,8 @@ export class DashboardComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate
+     *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
@@ -69,9 +72,9 @@ export class DashboardComponent {
 
         this.dashboard = {
             name: 'Dashboard',
-            type: 'dashboard'
+            type: 'dashboard',
+            component: '/Dashboard'
         };
-        
         breadcrumb.visit(this.dashboard);
         this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( json =>
         {
@@ -86,7 +89,13 @@ export class DashboardComponent {
         
         translate.setDefaultLang('en');
         translate.use('en');
+    }
 
+    /**
+     * Method provided by Angular2. Invoked after the constructor.
+     */
+    ngOnInit() {
+        this.dspace.loadDirectory();
     }
 
 }

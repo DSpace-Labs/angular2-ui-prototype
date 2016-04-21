@@ -26,6 +26,11 @@ export class LoginComponent {
      */
     password: string;
 
+    /**
+     *
+     * @param translate
+     *      TranslateService
+     */
     constructor(translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');

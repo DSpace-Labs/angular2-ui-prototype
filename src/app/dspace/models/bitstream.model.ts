@@ -1,12 +1,12 @@
 import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
-import {StringUtil} from "../../utilities/commons/string.util.ts";
+import {ObjectUtil} from "../../utilities/commons/object.util";
+import {StringUtil} from "../../utilities/commons/string.util";
 
 /**
- * A model class for a Bitstream
- * Bitstreams represent files in DSpace
+ * A model class for a Bitstream. Bitstreams represent files in DSpace.
  */
-export class Bitstream extends DSpaceObject { // The parent object (super) is singleton?
+export class Bitstream extends DSpaceObject {
+
     /**
      * A link that can be used to download the file this Bitstream represents.
      */

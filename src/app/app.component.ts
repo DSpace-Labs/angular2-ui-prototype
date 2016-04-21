@@ -1,20 +1,18 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {BreadcrumbComponent} from './navigation/breadcrumb.component';
-
+import {DSpaceDirectory} from './dspace/dspace.directory';
+import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
-
 import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
-import {SimpleItemViewComponent} from './dspace/components/simple-item-view.component';
-import {FullItemViewComponent} from './dspace/components/full-item-view.component';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {ItemComponent} from './dspace/components/item.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -64,16 +62,29 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-          { path: "/items/:id", name: "Items", component: SimpleItemViewComponent },
-        { path: "/items/:id/full", name:"FullItemView", component: FullItemViewComponent}
+        { path: "/items/:id/...", name: "Items", component: ItemComponent }
 
 ])
 export class AppComponent {
 
-    constructor(translate: TranslateService) {
-        console.log('Starting App!');
+    /**
+     *
+     * @param dspace
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param translate 
+     *      TranslateService
+     */
+    constructor(private dspace: DSpaceDirectory,
+                translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');
+    }
+
+    /**
+     * Method provided by Angular2. Invoked after the constructor.
+     */
+    ngOnInit() {
+        this.dspace.loadDirectory();
     }
 
 }

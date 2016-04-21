@@ -1,16 +1,29 @@
 import {Item} from "./item.model";
 import {DSOContainer} from "./dso-container.model";
-import {ObjectUtil} from "../../utilities/commons/object.util.ts";
+import {Community} from "./community.model";
+import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A model class for a Collection
+ * A model class for a Collection.
  */
 export class Collection extends DSOContainer {
-    /**
-     * An array of the Items in this Collection
-     */
-    items: Item[];
 
+    /**
+     * An array of the Items in this Collection.
+     */
+    items: Array<Item>;
+    
+    /**
+     * Number of items in collection.
+     */
+    numberItems: number;
+
+    /**
+     * Parent community.
+     */
+    parentCommunity : Community;
+
+    license: string; // TODO: probably should have a license object
 
     /**
      * Create a new Collection
