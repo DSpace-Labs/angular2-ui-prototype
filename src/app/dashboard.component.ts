@@ -5,14 +5,14 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 
-import {TreeComponent} from './navigation/tree.component';
-import {ContextComponent} from './navigation/context.component';
-import {BreadcrumbService} from './navigation/breadcrumb.service';
-import {PaginationComponent} from './navigation/pagination.component';
+import {TreeComponent} from './navigation/components/tree.component';
+import {ContextComponent} from './navigation/components/context.component';
+import {PaginationComponent} from './navigation/components/pagination.component';
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+
 
 
 import {ItemListComponent} from './dspace/components/item-list.component';
-
 
 // Testing items hardcoded for now
 import {Item} from './dspace/models/item.model'
@@ -24,7 +24,7 @@ import {Item} from './dspace/models/item.model'
 @Component({
     selector: "directory",
     pipes: [TranslatePipe],
-    directives: [TreeComponent, ContextComponent, ItemListComponent],
+    directives: [TreeComponent, ContextComponent],
     template: `
                 <div class="container">
                     <div class="col-md-4">
