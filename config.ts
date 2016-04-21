@@ -10,7 +10,7 @@ const GlobalConfig = {
 	},
 	ui: {
 		nameSpace: '/',	
-		baseURL: 'http://localhost:3000'
+		baseURL: 'http://ui-prototype.atmire.com'
 	}
 };
 
