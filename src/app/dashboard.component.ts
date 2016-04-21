@@ -24,7 +24,7 @@ import {Item} from './dspace/models/item.model'
 @Component({
     selector: "directory",
     pipes: [TranslatePipe],
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ItemListComponent],
     template: `
                 <div class="container">
                     <div class="col-md-4">
@@ -37,7 +37,8 @@ import {Item} from './dspace/models/item.model'
 
                     <div class="col-md-12">
                         <h3>{{'dashboard.recent-submissions' | translate}}</h3>
-                        <item-list [items]="items"></item-list>
+                        <item-list *ngIf="items" [items]="items"></item-list>
+
                     </div>
                 </div>
 
@@ -76,15 +77,20 @@ export class DashboardComponent {
             component: '/Dashboard'
         };
         breadcrumb.visit(this.dashboard);
+
+        console.log("let's load recent items");
         this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
         {
             // now we need to get the items out of this.
             this.items = [];
+            let tempItems = [];
             for(let i : number = 0; i < json.length;i++)
             {
                 let item : Item = new Item(json[i]);
                 this.items.push(item);
+                tempItems.push(item);
             }
+            this.items = tempItems;
         });
         
         translate.setDefaultLang('en');
