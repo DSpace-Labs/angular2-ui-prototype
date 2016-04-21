@@ -6,8 +6,8 @@ import {HttpService} from '../../utilities/http.service';
 import {Community} from '../models/community.model';
 import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
+import {URLHelper} from "../../utilities/url.helper";
 
-import {URLHelper} from "../utilities/url.helper";
 
 /**
  * Injectable service to provide an interface with the DSpace REST API 
