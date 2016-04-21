@@ -7,14 +7,10 @@ import {StringUtil} from "./commons/string.util";
 import {ObjectUtil} from "./commons/object.util";
 import {MetaTag} from "./meta-tag/meta-tag.model";
 import {MetaTagService} from "./meta-tag/meta-tag.service";
-
-import {GlobalConfig} from '../../../config';
+import {URLHelper} from "./url.helper";
 
 @Injectable()
 export class GoogleScholarMetadataService {
-
-    //TODO make configurable
-    private _DSPACE_URL: string = GlobalConfig.host;
 
     /**
      * An object that represents the current item.
@@ -187,8 +183,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
     private setCitationAbstractGSTag(): void {
-        //TODO normalize itemURL
-        let itemUrl = `${this._DSPACE_URL}${this.location.path()}`;
+        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.location.path());
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 
