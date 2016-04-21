@@ -152,8 +152,9 @@ export class DSpaceService {
     /**
      * Returns the newly submitted items to the dspace repository. (Ideally, I just return 5 items now.)
      */
-    fetchRecentItems(origin,collectionid?,limit)
+    fetchRecentItems(origin,collectionid?,limit?)
     {
+        limit = limit == null ? 5 : limit;
         if(origin=="dashboard")
         {
             return this.httpService.get(

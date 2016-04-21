@@ -38,7 +38,7 @@ export class ItemListComponent {
         if(this.items != null && this.items.length > 0)
         {
             this.items.forEach( (entry) => {
-                this.directory.loadObj('item', entry.id,0).then(item => {
+                this.directory.loadObj('item', entry.id,0).then((item:Item) => {
                     this.itemsWithInformation.push(item);
                 });
             })
