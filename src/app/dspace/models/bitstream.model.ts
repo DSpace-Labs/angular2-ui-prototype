@@ -33,7 +33,7 @@ export class Bitstream extends DSpaceObject {
         if(json != null) {
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
-                this.retrieveLink = URLHelper.relativeToAbsoluteUIURL(json.retrieveLink);
+                this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
                 this.format = json.mimeType;
                 this.size = json.sizeBytes;
             }
