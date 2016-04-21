@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ContextComponent} from '../../navigation/components/context.component';
+
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
@@ -32,26 +33,34 @@ import {ItemStoreService} from '../services/item-store.service'
                  BitstreamsComponent,
                  ThumbnailComponent],
     pipes: [TranslatePipe],
-    inputs: ['routerdata'],
     template: `
                 <div class="container" *ngIf="item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <context [context]="item"></context>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <item-thumbnail></item-thumbnail>
-                            <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
-                            <item-date [itemData]="item.metadata"></item-date>
-                            <item-authors [itemData]="item.metadata"></item-authors>
-                            <h3>{{'item-view.show-full' | translate}}</h3>
-                            <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
-                        </div>
-                        <div class="col-md-8">
-                            <item-uri [itemData]="item.metadata"></item-uri>
-                            <item-collection [itemParent]="item.parentCollection"></item-collection>
+
+                   <div class="row">
+                        <div class="horizontal-slider clearfix">
+                            <div class="col-xs-7 col-sm-3">
+                                <context [context]="item"></context>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-9">
+                                    <div class="item-summary-view-metadata">
+                                        <h1>{{item.name}}</h1>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <item-thumbnail></item-thumbnail>
+                                                <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                                                <item-date [itemData]="item.metadata"></item-date>
+                                                <item-authors [itemData]="item.metadata"></item-authors>
+                                                <h3>{{'item-view.show-full' | translate}}</h3>
+                                                <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <item-uri [itemData]="item.metadata"></item-uri>
+                                                <item-collection [itemParent]="item.parentCollection"></item-collection>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

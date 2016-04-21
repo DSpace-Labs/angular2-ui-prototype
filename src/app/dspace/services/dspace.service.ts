@@ -7,6 +7,8 @@ import {Community} from '../models/community.model';
 import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
 
+import {GlobalConfig} from '../../../config';
+
 /**
  * Injectable service to provide an interface with the DSpace REST API 
  * through the utility http service. The responses here are returned as
@@ -36,8 +38,8 @@ export class DSpaceService {
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {
-        this.REST = '/rest';
-        this.url = 'http://localhost:5050';
+        this.REST = GlobalConfig.dspace.root;
+        this.url = GlobalConfig.proxy;
     }
 
     /**
