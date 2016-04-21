@@ -17,6 +17,7 @@ import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 import {PaginationService} from './navigation/services/pagination.service';
 import {HttpService} from './utilities/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
+import {ItemStoreService} from './utilities/item-store.service';
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceStore} from './dspace/dspace.store';
@@ -51,5 +52,6 @@ bootstrap(AppComponent, [
     DSpaceStore,
     HttpService,
     MetaTagService,
+    ItemStoreService
 ])
 .then(prebootComplete);

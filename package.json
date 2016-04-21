@@ -17,13 +17,13 @@
     "Dylan Meeus <dylan.meeus@atmire.com>"
   ],
   "scripts": {
-    "global": "npm install --global http-proxy nodemon npm-check-updates rimraf typedoc typescript typings webpack",
+    "global": "npm install --global http-proxy nodemon npm-check-updates rimraf ts-node typedoc typescript typings webpack",
     "docs": "typedoc --options typedoc.json ./src",
     "clean": "rimraf ./node_modules",
     "build": "webpack",
     "prebuild": "rimraf dist",
-    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"src/proxy.js -i true https://oaktrust.library.tamu.edu/\"",
-    "test": "concurrently \"nodemon dist/server/bundle.js\" \"src/proxy.js -i true https://oaktrust.library.tamu.edu/\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\"",
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\"",
     "postinstall": "typings install"
   },
   "dependencies": {
@@ -52,10 +52,11 @@
     "nodemon": "1.9.1",
     "rimraf": "2.5.2",
     "ts-loader": "0.8.2",
+    "ts-node": "^0.7.2",
     "typedoc": "0.3.12",
     "typescript": "1.8.10",
-    "typings": "0.7.12",
+    "typings": "0.8.1",
     "webpack": "1.13.0",
-    "webpack-merge": "0.11.0"
+    "webpack-merge": "0.12.0"
   }
 }

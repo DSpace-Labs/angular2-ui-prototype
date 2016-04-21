@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+import {GlobalConfig} from '../config';
+
 var http = require('http'),
     httpProxy = require('http-proxy'),
     program = require('commander');
 
 var serverValue, portValue, insecureValue;
-
 
 program.version('0.0.1')
        .usage('[options] server')
@@ -14,6 +15,7 @@ program.version('0.0.1')
             serverValue = server;
 });
 
+serverValue = serverValue ? serverValue : GlobalConfig.dspace.url;
 
 program.parse(process.argv);
 

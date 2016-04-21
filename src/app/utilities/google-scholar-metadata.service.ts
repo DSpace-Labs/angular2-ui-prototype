@@ -1,3 +1,4 @@
+import {Injectable, Inject} from 'angular2/core';
 import {Location} from 'angular2/router';
 import {Item} from "../dspace/models/item.model";
 import {Metadatum} from "../dspace/models/metadatum.model";
@@ -7,22 +8,18 @@ import {ObjectUtil} from "./commons/object.util";
 import {MetaTag} from "./meta-tag/meta-tag.model";
 import {MetaTagService} from "./meta-tag/meta-tag.service";
 
-export class GoogleScholarMetadataUtil {
+import {GlobalConfig} from '../../../config';
+
+@Injectable()
+export class GoogleScholarMetadataService {
 
     //TODO make configurable
-    private _DSPACE_URL: string = 'http://localhost:3000';
+    private _DSPACE_URL: string = GlobalConfig.host;
 
+    /**
+     * An object that represents the current item.
+     */
     private _item: Item;
-
-    /**
-     * reference to the MetaTagService
-     */
-    private _metaTagService: MetaTagService;
-
-    /**
-     * reference to the LocationService
-     */
-    private _location: Location;
 
     /**
      * The list of tags added by this instance
@@ -30,12 +27,24 @@ export class GoogleScholarMetadataUtil {
     private _googleScholarTags: Array<MetaTag>;
 
 
-    //TODO services can probably be injected somehow
-    constructor(metaTagService: MetaTagService, location: Location, item: Item) {
-        this._metaTagService = metaTagService;
-        this._location = location;
-        this._item = item;
+    /**
+     *
+     * @param metaTagService`
+     *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
+     * @param location
+     *      Location
+     */
+    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
+                @Inject(Location) private location: Location) {
         this._googleScholarTags = new Array<MetaTag>();
+    }
+
+    get item(): Item {
+        return this._item;
+    }
+
+    set item(item: Item) {
+        this._item = item;
     }
 
     /**
@@ -100,7 +109,8 @@ export class GoogleScholarMetadataUtil {
      * the calls that are commented out are the ones that arent configured
      * in a standard DSpace's google-metadata.properties file
      */
-    public setGoogleScholarMetaTags(): void {
+    public setGoogleScholarMetaTags(item: Item): void {
+        this.item = item;
         this.setCitationTitleGSTag();
         this.setCitationAuthorGSTags();
         this.setCitationDateGSTag();
@@ -178,7 +188,7 @@ export class GoogleScholarMetadataUtil {
      */
     private setCitationAbstractGSTag(): void {
         //TODO normalize itemURL
-        let itemUrl = `${this._DSPACE_URL}${this._location.path()}`;
+        let itemUrl = `${this._DSPACE_URL}${this.location.path()}`;
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 
@@ -318,7 +328,7 @@ export class GoogleScholarMetadataUtil {
                 .name(metaTagName)
                 .content(value)
                 .build();
-            this._metaTagService.addTag(newTag);
+            this.metaTagService.addTag(newTag);
             this._googleScholarTags.push(newTag);
         });
     }
@@ -327,7 +337,7 @@ export class GoogleScholarMetadataUtil {
      * Removes all tags set by this instance.
      */
     public clearGoogleScholarMetaTags(): void {
-        this._metaTagService.removeTags(this._googleScholarTags);
+        this.metaTagService.removeTags(this._googleScholarTags);
         this._googleScholarTags = new Array<MetaTag>();
     }
 
