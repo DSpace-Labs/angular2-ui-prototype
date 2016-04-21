@@ -7,7 +7,7 @@ import {Community} from '../models/community.model';
 import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
 
-import {GlobalConfig} from '../../../config';
+import {URLHelper} from "../utilities/url.helper";
 
 /**
  * Injectable service to provide an interface with the DSpace REST API 
@@ -23,23 +23,12 @@ import {GlobalConfig} from '../../../config';
 @Injectable()
 export class DSpaceService {
 
-    /**
-     * The DSpace REST API endpoint root
-     */
-    private REST: string;
-
-    /**
-     * The DSpace REST API URL
-     */
-    private url: string;
 
     /**
      * @param httpService 
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {
-        this.REST = GlobalConfig.dspace.root;
-        this.url = GlobalConfig.proxy;
     }
 
     /**
@@ -51,7 +40,7 @@ export class DSpaceService {
         params.append("limit", '200');
         params.append("offset", '0');
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/top-communities',
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/top-communities'),
             search: params
         }).map(json => {
             let topCommunities = new Array<Community>();
@@ -73,7 +62,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + community.id + '/communities',
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/communities'),
             search: params
         }).map(json => {
             let communities = new Array<Community>();
@@ -95,7 +84,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + community.id + '/collections',
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/collections'),
             search: params
         }).map(json => {
             let collections = new Array<Collection>();
@@ -117,7 +106,7 @@ export class DSpaceService {
         params.append("limit", collection.limit);
         params.append("offset", collection.offset);
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + collection.id + '/items',
+            url: URLHelper.relativeToAbsoluteRESTURL('/collections/' + collection.id + '/items'),
             search: params
         }).map(json => {
             let items = new Array<Item>();
@@ -136,7 +125,7 @@ export class DSpaceService {
      */
     fetchCommunity(id): Observable<Community> {
         return this.httpService.get({
-            url: this.url + this.REST + '/communities/' + id + '?expand=parentCommunity,logo'
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + id + '?expand=parentCommunity,logo')
         }).map(json => {
             return new Community(json);
         });
@@ -150,7 +139,7 @@ export class DSpaceService {
      */
     fetchCollection(id): Observable<Collection> {
         return this.httpService.get({
-            url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
+            url: URLHelper.relativeToAbsoluteRESTURL('/collections/' + id + '?expand=parentCommunity,logo')
         }).map(json => {
             return new Collection(json);
         });
@@ -164,7 +153,7 @@ export class DSpaceService {
      */
     fetchItem(id): Observable<Item> {
         return this.httpService.get({
-            url: this.url + this.REST + '/items/' + id + '?expand=metadata,bitstreams,parentCollection'
+            url: URLHelper.relativeToAbsoluteRESTURL('/items/' + id + '?expand=metadata,bitstreams,parentCollection')
         }).map(json => {
             return new Item(json);
         });
@@ -180,7 +169,7 @@ export class DSpaceService {
      */
     login(email, password): void {
         this.httpService.post({
-            url: this.url + this.REST + '/login',
+            url: URLHelper.relativeToAbsoluteRESTURL('/login'),
             data: {
                 email: email,
                 password: password
