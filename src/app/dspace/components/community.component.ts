@@ -37,8 +37,6 @@ import {Item} from '../models/item.model';
                      <div class="col-md-12">
                         <h3>{{'community.recent-submissions' | translate}}</h3>
                         <item-list [items]="items"></item-list>
-
-                        <h3 *ngIf="!loadedCollections">{{loadCollectionItems()}}</h3>
                      </div>
                     
                 </div>
@@ -50,12 +48,6 @@ export class CommunityComponent {
      * An object that represents the current community.
      */
     community: Community;
-
-    /**
-     * Used to indicate if the collections have been loaded, and we can pass them on.
-     * @type {boolean}
-     */
-    loadedCollections = false;
 
     /**
      * An object that represents the current community.
@@ -88,53 +80,21 @@ export class CommunityComponent {
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
         });
+
+        // load some items (in the future, recently submitted items)
+        this.directory.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
+        {
+            let tempItems = [];
+            for(let i : number = 0; i < json.length;i++)
+            {
+                let item : Item = new Item(json[i]);
+                tempItems.push(item);
+            }
+            this.items = tempItems; // this will trigger the update cycle of angular2
+        });
         this.communityid = params.get('id') ? params.get('id') : 0;
     }
 
-
-    loadCollectionItems()
-    {
-        let tempItems = [];
-        let counter : number = 0;
-
-        if(this.communityJSON.collections != null && this.communityJSON.collections.length != 0)
-        {
-            this.loadedCollections = true;
-            this.communityJSON.collections.forEach( c =>
-            {
-                this.directory.loadRecentItems("recentitems","community",c.id,5).then( (itemjson:any) =>
-                {
-                    for(let k : number = 0; k < itemjson.length; k++)
-                    {
-                        if(tempItems.length < 5)
-                        {
-                            tempItems.push(new Item(itemjson[k]));
-                        }
-                        else
-                        {
-                            this.updateItems(tempItems);
-                        }
-                    }
-                }).then( () =>
-                    {
-                        counter++;
-                        if(counter == this.community.collections.length)
-                        {
-                            this.updateItems(tempItems);
-                        }
-                    }
-                );
-            });
-
-        }
-
-
-    }
-
-    updateItems(inputArray?)
-    {
-        this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
-    }
 
 }
 
