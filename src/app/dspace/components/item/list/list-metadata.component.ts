@@ -33,7 +33,7 @@ export class ListMetadataComponent
     ngOnInit()
     {
         let helper = new MetadataHelper();
-        let filteredData : Metadatum[] = helper.filterMetadata(this.item.metadata,["dc.contributor.author"]);
+        let filteredData : Metadatum[] = helper.filterMetadata(this.item.metadata,["dc.contributor.author", "dc.creator", "dc.contributor"]);
 
         // We just want the first result, if there is one.
         if(filteredData.length > 0)
