@@ -78,19 +78,15 @@ export class DashboardComponent {
         };
         breadcrumb.visit(this.dashboard);
 
-        console.log("let's load recent items");
-        this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
+         this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
         {
-            // now we need to get the items out of this.
-            this.items = [];
             let tempItems = [];
             for(let i : number = 0; i < json.length;i++)
             {
                 let item : Item = new Item(json[i]);
-                this.items.push(item);
                 tempItems.push(item);
             }
-            this.items = tempItems;
+            this.items = tempItems; // this will trigger the update cycle of angular2
         });
         
         translate.setDefaultLang('en');

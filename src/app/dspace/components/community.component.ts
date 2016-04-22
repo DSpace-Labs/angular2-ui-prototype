@@ -51,6 +51,10 @@ export class CommunityComponent {
      */
     community: Community;
 
+    /**
+     * Used to indicate if the collections have been loaded, and we can pass them on.
+     * @type {boolean}
+     */
     loadedCollections = false;
 
     /**
@@ -93,17 +97,13 @@ export class CommunityComponent {
         let tempItems = [];
         let counter : number = 0;
 
-        console.log("loading the collections");
         if(this.communityJSON.collections != null && this.communityJSON.collections.length != 0)
         {
-           this.loadedCollections = true;
-
-
+            this.loadedCollections = true;
             this.communityJSON.collections.forEach( c =>
             {
                 this.directory.loadRecentItems("recentitems","community",c.id,5).then( (itemjson:any) =>
                 {
-                    console.log("in the lambda of the recent items");
                     for(let k : number = 0; k < itemjson.length; k++)
                     {
                         if(tempItems.length < 5)
@@ -133,21 +133,9 @@ export class CommunityComponent {
 
     updateItems(inputArray?)
     {
-        console.log("updating items..");
         this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
     }
 
-
-    ngAfterContentChecked()
-    {
-        /*
-        console.log("content checked");
-        if(this.community != null && this.community.collections.length != 0)
-        {
-            console.log("items in this community: "+ this.community.collections.length);
-        }
-        */
-    }
 }
 
                        

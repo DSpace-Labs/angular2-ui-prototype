@@ -17,7 +17,6 @@ import {Item} from '../models/item.model';
     inputs: ['items'],
     template:
         `
-        <h1>Test</h1>
             <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row">  <!-- for each item, we create an item-list-entry element -->
                 <list-entry [item]="item"></list-entry>
             </div>
@@ -29,15 +28,13 @@ import {Item} from '../models/item.model';
 export class ItemListComponent {
 
     items : Item[]; // pass an array of items to this component.
-    itemsWithInformation : Item[] = [];
+    itemsWithInformation : Item[] = []; // Loaded the metadata of the item and storing them here.
     constructor(private directory: DSpaceDirectory)
     {
-        console.log("this constructor is running");
     }
 
     ngOnChanges()
     {
-        console.log("something changed!");
         if(this.items != null && this.items.length > 0)
         {
             this.items.forEach( (entry) => {

@@ -152,8 +152,6 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
-            console.log("what json are we working with in dspace.service");
-            console.log(json);
             return new Collection(json);
         });
     }

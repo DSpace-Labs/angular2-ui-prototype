@@ -49,10 +49,7 @@ export class Community extends DSOContainer {
 
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
-                    console.log("inside the lambda of community.model");
-                    let c = new Collection(collectionJSON);
-             //       this.collectionStream.next(c);
-                    return c;
+                    return new Collection(collectionJSON);
 
                 });
             }
