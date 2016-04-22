@@ -31,3 +31,5 @@ angular2-ui-prototype.njsproj
 
 ##Mac noise
 .DS_Store
+
+forever.json
