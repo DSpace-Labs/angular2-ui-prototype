@@ -169,7 +169,7 @@ export class DSpaceService {
         {
             return this.httpService.get(
                 {
-                    url: this.url + this.REST + "/items?expand=all&limit="+limit
+                    url: URLHelper.relativeToAbsoluteRESTURL("/items?expand=all&limit="+limit)
                 }
             );
         }
@@ -177,7 +177,7 @@ export class DSpaceService {
         {
             return this.httpService.get(
                 {
-                    url: this.url + this.REST + "/collections/"+  collectionid + "/items?limit=" + limit
+                    url: URLHelper.relativeToAbsoluteRESTURL("/collections/"+  collectionid + "/items?limit=" + limit)
                 }
             );
         }
