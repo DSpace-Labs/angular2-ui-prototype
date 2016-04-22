@@ -16,7 +16,7 @@ program.version('0.0.1')
 });
 
 serverValue = serverValue ? serverValue : GlobalConfig.dspace.url;
-console.log("serverValue: " + serverValue);
+
 program.parse(process.argv);
 
 if (typeof serverValue === 'undefined') {
