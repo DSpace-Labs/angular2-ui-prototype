@@ -19,7 +19,6 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
     inputs: ['items', 'collection'],
     template:
         `
-            <h1>Test</h1>
             <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row">  <!-- for each item, we create an item-list-entry element -->
                 <list-entry [item]="item"></list-entry>
             </div>
