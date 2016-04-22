@@ -21,6 +21,11 @@ html, body {
 	margin-left: 15px;
 }
 
+.thumbnail-placeholder {
+    width: 93px;
+    height: 120px;
+}
+
 /* bootstrap overrides */
 
 .navbar {
