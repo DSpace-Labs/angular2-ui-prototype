@@ -3,7 +3,7 @@ import {RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
-import {DSpaceService} from '../dspace.service';
+import {DSpaceService} from '../services/dspace.service';
 
 import {ListEntryComponent} from './item/list/list-entry.component';
 import {Item} from '../models/item.model';
