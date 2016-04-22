@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
 import {DSpaceDirectory} from '../../dspace/dspace.directory';
-import {DSpaceStore} from '../../dspace/dspace.store';
+import {PagingStoreService} from '../../dspace/services/paging-store.service';
 import {PaginationService} from '../services/pagination.service';
 import {BreadcrumbService} from '../services/breadcrumb.service';
 
@@ -66,8 +66,8 @@ export class PaginationComponent {
      * 
      * @param dspaceDirectory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param dspaceStore
-     *      DSpaceStore is a singleton service to cache context which have already been requested.
+     * @param pagingStore
+     *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
      * @param router
@@ -76,7 +76,7 @@ export class PaginationComponent {
      *      RouteParams
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
-                private dspaceStore: DSpaceStore,
+                private pagingStore: PagingStoreService,
                 private paginationService: PaginationService,
                 private breadcrumbService: BreadcrumbService,
                 private router: Router) {
@@ -129,7 +129,7 @@ export class PaginationComponent {
      */
     updateLimit(limit): void {
         let previousPage = this.context.page;
-        this.dspaceStore.clearPages(this.context);
+        this.pagingStore.clearPages(this.context);
         this.context.loaded = false;
         this.context.page = this.context.page > 1 ? Math.ceil(((this.context.page - 1) * this.context.limit) / limit) : 1;
         this.context.limit = limit;

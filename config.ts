@@ -1,10 +1,17 @@
-let GlobalConfig = {
-	dspace: {
-		root: '/rest',
-		url: 'http://oaktrust.library.tamu.edu'
+const GlobalConfig = {
+	rest: {
+		//Space is capitalized because 'namespace' is a reserved string in TypeScript
+		nameSpace: '/rest',
+		baseURL: 'http://localhost:5050'
 	},
-	proxy: 'http://localhost:5050',
-	host: 'http://localhost:3000'
+	proxy: {
+		nameSpace: '/',
+		baseURL: 'http://oaktrust.library.tamu.edu'
+	},
+	ui: {
+		nameSpace: '/',	
+		baseURL: 'http://localhost:3000'
+	}
 };
 
 export {GlobalConfig}

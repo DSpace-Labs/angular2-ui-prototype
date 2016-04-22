@@ -1,6 +1,7 @@
 import {DSpaceObject} from "./dspaceobject.model";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 import {StringUtil} from "../../utilities/commons/string.util";
+import {URLHelper} from "../../utilities/url.helper";
 
 /**
  * A model class for a Bitstream. Bitstreams represent files in DSpace.
@@ -29,8 +30,7 @@ export class Bitstream extends DSpaceObject {
         {
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
-                //TODO add proper way to get absolute links
-                this.retrieveLink = `https://demo.dspace.org/rest${json.retrieveLink}`;
+                this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
                 this.format = json.mimeType;
                 this.size = json.sizeBytes;
             }

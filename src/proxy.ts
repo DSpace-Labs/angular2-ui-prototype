@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {GlobalConfig} from '../config';
+import {URLHelper} from "./app/utilities/url.helper";
 
 var http = require('http'),
     httpProxy = require('http-proxy'),
@@ -15,7 +16,7 @@ program.version('0.0.1')
             serverValue = server;
 });
 
-serverValue = serverValue ? serverValue : GlobalConfig.dspace.url;
+serverValue = serverValue ? serverValue : URLHelper.combineURLParts(GlobalConfig.proxy.baseURL, GlobalConfig.proxy.nameSpace);
 
 program.parse(process.argv);
 
