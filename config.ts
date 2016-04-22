@@ -2,7 +2,7 @@ const GlobalConfig = {
 	rest: {
 		//Space is capitalized because 'namespace' is a reserved string in TypeScript
 		nameSpace: '/rest',
-		baseURL: 'http://localhost:5050'
+		baseURL: 'http://oaktrust.library.tamu.edu'
 	},
 	proxy: {
 		nameSpace: '/',
