@@ -24,7 +24,7 @@ import {Item} from '../models/item.model';
     directives: [ListComponent, ContextComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
-                <div class="container" *ngIf="collection">
+                <div class="container" *ngIf="collectionJSON">
                     <div class="col-md-12">
                     <!-- replace with collection model -->
                         <context [context]="collectionJSON"></context>
@@ -66,10 +66,9 @@ export class CollectionComponent {
         directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             breadcrumb.visit(this.collectionJSON);
-            this.collection = new Collection(this.collectionJSON); // Need to find a better way to deal with this.
+            //this.collection = new Collection(this.collectionJSON); // Need to find a better way to deal with this.
+            console.log("done with the lambda?");
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 }
