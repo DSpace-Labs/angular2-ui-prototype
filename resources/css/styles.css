@@ -43,4 +43,11 @@ html, body {
     display: inherit;
 }
 
+.item-list-row{
+    margin-bottom: 20px;
+}
+
+.item-list-url{
+    font-size:16px;
+}
 /***********************/

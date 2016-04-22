@@ -78,7 +78,7 @@ export class DashboardComponent {
         };
         breadcrumb.visit(this.dashboard);
 
-         this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
+        this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
         {
             let tempItems = [];
             for(let i : number = 0; i < json.length;i++)

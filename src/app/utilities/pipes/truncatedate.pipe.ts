@@ -7,11 +7,11 @@ import {Pipe} from 'angular2/core'
  */
 
 @Pipe({
-    name: 'truncate'
+    name: 'truncatedate'
 })
-export class TruncatePipe {
+export class TruncateDatePipe {
     transform(value: string, args: string[]) : string {
         let limit = args.length > 0 ? parseInt(args[0], 10) : 10; // 10 as default truncate value
-        return value.length > limit ? value.substring(0, limit) + "...": value;
+        return value.length > limit ? value.substring(0, limit) : value;
     }
 }

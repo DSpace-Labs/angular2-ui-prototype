@@ -4,7 +4,8 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {Item} from '../../../models/item.model';
 import {Metadatum} from '../../../models/metadatum.model';
 import {MetadataHelper} from '../../../../utilities/metadata.helper';
-
+import {TruncatePipe} from '../../../../utilities/pipes/truncate.pipe';
+import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
 
 /**
  * This component will display some metadata of the item in the list view.
@@ -14,14 +15,18 @@ import {MetadataHelper} from '../../../../utilities/metadata.helper';
 @Component({
     selector: 'item-list-metadata',
     inputs: ['item'],
-    pipes: [TranslatePipe],
+    pipes: [TranslatePipe, TruncatePipe, TruncateDatePipe],
     template:
              `
              <!-- create a link to the simple item-view -->
-                <a [attr.href]="'../items/'+item.id">
-                    <h4>{{item.name}}</h4>
+                <a [attr.href]="'../items/'+item.id" class="item-list-url">
+                    {{item.name}}
                 </a>
-                <h5>{{author}}</h5>
+                <h5>{{author}} ({{date | truncatedate}})</h5>
+                <!-- the abstract truncated -->
+
+                <p>{{abstract | truncate : 200}}</p>
+
              `
 })
 
@@ -29,17 +34,29 @@ export class ListMetadataComponent
 {
     private item : Item;
     private author : String;
-
-    ngOnInit()
-    {
+    private abstract : String;
+    private date : String;
+    ngOnInit() {
         let helper = new MetadataHelper();
-        let filteredData : Metadatum[] = helper.filterMetadata(this.item.metadata,["dc.contributor.author", "dc.creator", "dc.contributor"]);
+        let filteredData:Metadatum[] = helper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract","dc.date.accessioned"]);
 
-        // We just want the first result, if there is one.
-        if(filteredData.length > 0)
+        if (filteredData != null)
         {
-            this.author = (filteredData[0].value);
+            for (let i:number = 0; i < filteredData.length; i++) {
+                if (filteredData[i].element == "creator") {
+                    this.author = (filteredData[i].value);
+                }
+                if (filteredData[i].element == "description" && filteredData[i].value!="Not available") {
+                    this.abstract = filteredData[i].value;
+                }
+                if(filteredData[i].element == "date")
+                {
+                    this.date = filteredData[i].value;
+                }
+            }
         }
+
+
     }
 }
 

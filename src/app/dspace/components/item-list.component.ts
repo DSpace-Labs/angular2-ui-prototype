@@ -19,7 +19,7 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
     inputs: ['items', 'collection'],
     template:
         `
-            <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row">  <!-- for each item, we create an item-list-entry element -->
+            <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
                 <list-entry [item]="item"></list-entry>
             </div>
         `
@@ -47,6 +47,12 @@ export class ItemListComponent {
             })
 
         }
+    }
+
+    ngOnDestroy()
+    {
+        // empty this?
+        console.log("destoring the item-list");
     }
 
 
