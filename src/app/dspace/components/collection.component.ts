@@ -63,7 +63,7 @@ export class CollectionComponent {
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
         let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => { // for some reason the collectionJSON is not completed yet?
+        directory.loadObj('collection', params.get('id'), page).then(collectionJSON => {
             this.collectionJSON = collectionJSON;
             breadcrumb.visit(this.collectionJSON);
             this.collection = new Collection(this.collectionJSON); // Need to find a better way to deal with this.

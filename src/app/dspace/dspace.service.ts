@@ -143,7 +143,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch details of a collection. 
+     * Method to fetch details of a collection.
      *
      * @param id
      *      Collection id of which to fetch its relationships and other details.
@@ -152,6 +152,8 @@ export class DSpaceService {
         return this.httpService.get({
             url: this.url + this.REST + '/collections/' + id + '?expand=parentCommunity,logo'
         }).map(json => {
+            console.log("what json are we working with in dspace.service");
+            console.log(json);
             return new Collection(json);
         });
     }

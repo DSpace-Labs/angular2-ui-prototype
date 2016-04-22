@@ -1,4 +1,4 @@
-﻿import {Component, Input} from 'angular2/core';
+﻿import {Component, Input, OnChanges} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
@@ -37,6 +37,8 @@ import {Item} from '../models/item.model';
                      <div class="col-md-12">
                         <h3>{{'community.recent-submissions' | translate}}</h3>
                         <item-list [items]="items"></item-list>
+
+                        <h3 *ngIf="!loadedCollections">{{loadCollectionItems()}}</h3>
                      </div>
                     
                 </div>
@@ -49,15 +51,17 @@ export class CommunityComponent {
      */
     community: Community;
 
+    loadedCollections = false;
+
     /**
      * An object that represents the current community.
      *
      * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
      */
-    communityJSON: any;
+    @Input() communityJSON: any;
 
 
-    @Input() items : Item[];
+    items : Item[];
 
     communityid : any;
     /**
@@ -79,13 +83,27 @@ export class CommunityComponent {
             this.communityJSON = communityJSON;
             this.community = new Community(this.communityJSON);
             breadcrumb.visit(this.communityJSON);
+        });
+        this.communityid = params.get('id') ? params.get('id') : 0;
+    }
 
-            let tempItems = [];
-            let counter : number = 0;
-            this.community.collections.forEach( c =>
+
+    loadCollectionItems()
+    {
+        let tempItems = [];
+        let counter : number = 0;
+
+        console.log("loading the collections");
+        if(this.communityJSON.collections != null && this.communityJSON.collections.length != 0)
+        {
+           this.loadedCollections = true;
+
+
+            this.communityJSON.collections.forEach( c =>
             {
-                directory.loadRecentItems("recentitems","community",c.id,5).then( (itemjson:any) =>
+                this.directory.loadRecentItems("recentitems","community",c.id,5).then( (itemjson:any) =>
                 {
+                    console.log("in the lambda of the recent items");
                     for(let k : number = 0; k < itemjson.length; k++)
                     {
                         if(tempItems.length < 5)
@@ -94,7 +112,7 @@ export class CommunityComponent {
                         }
                         else
                         {
-                             this.updateItems(tempItems);
+                            this.updateItems(tempItems);
                         }
                     }
                 }).then( () =>
@@ -107,15 +125,29 @@ export class CommunityComponent {
                     }
                 );
             });
-        });
-        this.communityid = params.get('id') ? params.get('id') : 0;
+
+        }
+
+
     }
 
-    updateItems(inputArray)
+    updateItems(inputArray?)
     {
+        console.log("updating items..");
         this.items = inputArray; // we have to replace the this.items with a new item, to trigger 'onChanges'. It is not triggered for altering an existing array.
     }
 
+
+    ngAfterContentChecked()
+    {
+        /*
+        console.log("content checked");
+        if(this.community != null && this.community.collections.length != 0)
+        {
+            console.log("items in this community: "+ this.community.collections.length);
+        }
+        */
+    }
 }
 
                        

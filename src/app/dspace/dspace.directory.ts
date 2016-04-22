@@ -188,9 +188,11 @@ export class DSpaceDirectory {
                             }
                         }
                     }
+
                     directory.paging(context, page, limit);
                     directory.prepare(parent, context);
                     context.ready = true;
+
                     resolve(context);
                 },
                 error => {
