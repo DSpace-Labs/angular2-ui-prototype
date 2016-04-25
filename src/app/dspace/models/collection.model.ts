@@ -31,18 +31,18 @@ export class Collection extends DSOContainer {
      * @param json
      *      A plain old javascript object representing a Collection as would be returned from the
      *      REST API. Currently only json.items is used, apart from the standard DSpaceObject
-     *      properties.
+     *      properties
      */
-    constructor(json: any) {
+    constructor(json:any, parseItems? : boolean) {
+        if(parseItems==null)
+        {
+            parseItems=true;
+        }
         super(json);
-        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
-            this.numberItems = json.numberItems;
-            this.parentCommunity = new Community(json.parentCommunity);
-
-            this.items = json.items.map((itemJSON) => {
-                return new Item(itemJSON);
+        if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items) && parseItems) {
+            this.items = json.items.map((jsonitem) => {
+                return new Item(jsonitem); // this runs after the constructor already ended
             });
         }
     }
-
 }

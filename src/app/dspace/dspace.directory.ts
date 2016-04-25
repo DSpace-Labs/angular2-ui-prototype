@@ -1,4 +1,5 @@
 ﻿import {EventEmitter, Injectable} from 'angular2/core';
+import {Observable, Observer} from 'rxjs/Rx';
 
 import {DSpaceService} from './services/dspace.service';
 import {PagingStoreService} from './services/paging-store.service';
@@ -96,6 +97,36 @@ export class DSpaceDirectory {
     }
 
     /**
+     * Load the recent items. Optionally, load recent items of a certain collection.
+     * @param type
+     * @param origin
+     * @param collectionid
+     * @param limit
+     * @returns {any|Promise}
+     */
+    loadRecentItems(type,origin,collectionid,limit)
+    {
+        let directory = this;
+        return new Promise(function (resolve,reject)
+        {
+             directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](origin,collectionid,limit).subscribe(context => {
+                    directory.prepare(null, context);
+                    resolve(context);
+                },
+                    error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    console.log('finished fetching request');
+                });
+
+
+        });
+    }
+
+    /**
+     * Method to load context details.
+     * Calls prepare with the context received.
      * Method to load context details. Calls prepare with the context received.
      *
      * @param type
@@ -155,9 +186,11 @@ export class DSpaceDirectory {
                             }
                         }
                     }
+
                     directory.paging(context, page, limit);
                     directory.prepare(parent, context);
                     context.ready = true;
+
                     resolve(context);
                 },
                 error => {
@@ -169,6 +202,8 @@ export class DSpaceDirectory {
             }
         });
     }
+
+    
 
     /**
      * Method to find the contex in the directory.

@@ -11,26 +11,23 @@ export class Bitstream extends DSpaceObject {
     /**
      * A link that can be used to download the file this Bitstream represents.
      */
-    retrieveLink: string;
-    
-    id: number;
-    
-    format: string;
-    
-    size: number;
-    
-    name: string;
-    
+    private _retrieveLink: string;
+    private _id;
+    private _format : string;
+    private _size: number;
+    private _name: string;
     /**
      * Create a new bitstream
      *
      * @param json
-     *      A plain old javascript object representing a bitstream as would be returned
+     *      A plain old javascript object representing a bitstream as would be returned 
      *      from the rest api. Currently only json.retrieveLink is used, apart from
      *      the standard DSpaceObject properties
      */
-    constructor(json?: any) {
-        if(json != null) {
+    constructor(json?:any)  {
+
+        if(json!=null)
+        {
             super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
             if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
                 this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
@@ -40,8 +37,44 @@ export class Bitstream extends DSpaceObject {
         }
     }
 
-    getName(): string {
-        return this.name;
+
+    public get retrieveLink():string {
+        return this._retrieveLink;
     }
 
+    public set retrieveLink(value:string) {
+        this._retrieveLink = value;
+    }
+
+    public get id() {
+        return this._id;
+    }
+
+    public set id(value) {
+        this._id = value;
+    }
+
+    public get format():string {
+        return this._format;
+    }
+
+    public set format(value:string) {
+        this._format = value;
+    }
+
+    public get size():number {
+        return this._size;
+    }
+
+    public set size(value:number) {
+        this._size = value;
+    }
+
+    public get name():string {
+        return this._name;
+    }
+
+    public set name(value:string) {
+        this._name = value;
+    }
 }

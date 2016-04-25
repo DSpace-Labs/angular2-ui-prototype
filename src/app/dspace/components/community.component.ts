@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+﻿import {Component, Input, OnChanges} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
@@ -11,13 +11,16 @@ import {ContextComponent} from '../../navigation/components/context.component';
 import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component.ts";
 
+import {ItemListComponent} from './item-list.component';
+import {Item} from '../models/item.model';
+
 /**
  * Community component for displaying the current community.
  * View contains sidebar context and tree hierarchy below current community.
  */
 @Component({
     selector: 'community',
-    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    directives: [TreeComponent, ContextComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="community">
@@ -28,8 +31,13 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
                     
                     <div class="col-md-8">
                         <container-home [container]=community></container-home>
-                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
-                    </div>                          
+                        <tree [directories]="communityJSON.subcommunities.concat(communityJSON.collections)"></tree>
+                    </div>
+
+                     <div class="col-md-12">
+                        <h3>{{'community.recent-submissions' | translate}}</h3>
+                        <item-list [items]="items"></item-list>
+                     </div>
                     
                 </div>
               `
@@ -42,6 +50,17 @@ export class CommunityComponent {
     community: Community;
 
     /**
+     * An object that represents the current community.
+     *
+     * TODO communityJSON should be removed, I introduced it because the tree component was written to work with the JSON directly, and I didn't have the time to make it work with Community objects
+     */
+    @Input() communityJSON: any;
+
+
+    items : Item[];
+
+    communityid : any;
+    /**
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
@@ -49,20 +68,33 @@ export class CommunityComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param translate
-     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
-            this.community = community;
-            breadcrumb.visit(this.community);
+        let page = params.get('page') ? params.get('page') : 1;
+        directory.loadObj('community', params.get('id'), page).then(communityJSON =>
+        {
+            this.communityJSON = communityJSON;
+            this.community = new Community(this.communityJSON);
+            breadcrumb.visit(this.communityJSON);
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
+
+        // load some items (in the future, recently submitted items)
+        this.directory.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
+        {
+            let tempItems = [];
+            for(let i : number = 0; i < json.length;i++)
+            {
+                let item : Item = new Item(json[i]);
+                tempItems.push(item);
+            }
+            this.items = tempItems; // this will trigger the update cycle of angular2
+        });
+        this.communityid = params.get('id') ? params.get('id') : 0;
     }
+
 
 }
 

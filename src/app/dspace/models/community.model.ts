@@ -1,4 +1,5 @@
 import {Collection} from "./collection.model";
+import {Subject} from 'rxjs/Subject';
 import {DSOContainer} from "./dso-container.model";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
@@ -28,6 +29,11 @@ export class Community extends DSOContainer {
     parentCommunity : Community;
 
     /**
+     * Observe on this for changes to the collections.
+     */
+    collectionStream : Subject<Collection> = new Subject<Collection>();
+
+    /**
      * Create a new Community
      *
      * @param json
@@ -44,6 +50,7 @@ export class Community extends DSOContainer {
             if (Array.isArray(json.collections)) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
+
                 });
             }
 

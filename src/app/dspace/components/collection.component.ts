@@ -51,9 +51,9 @@ export class CollectionComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService, 
+    constructor(private params: RouteParams,
+                private directory: DSpaceDirectory,
+                private breadcrumb: BreadcrumbService,
                 translate: TranslateService) {
         directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;

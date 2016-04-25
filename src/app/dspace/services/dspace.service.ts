@@ -132,7 +132,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch details of a collection. 
+     * Method to fetch details of a collection.
      *
      * @param id
      *      Collection id of which to fetch its relationships and other details.
@@ -157,6 +157,30 @@ export class DSpaceService {
         }).map(json => {
             return new Item(json);
         });
+    }
+
+    /**
+     * Returns the newly submitted items to the dspace repository. (Ideally, I just return 5 items now.)
+     */
+    fetchRecentItems(origin,collectionid?,limit?)
+    {
+        limit = limit == null ? 5 : limit;
+        if(origin=="dashboard")
+        {
+            return this.httpService.get(
+                {
+                    url: URLHelper.relativeToAbsoluteRESTURL("/items?expand=all&limit="+limit)
+                }
+            );
+        }
+        if(origin=="community")
+        {
+            return this.httpService.get(
+                {
+                    url: URLHelper.relativeToAbsoluteRESTURL("/collections/"+  collectionid + "/items?limit=" + limit)
+                }
+            );
+        }
     }
 
     /**

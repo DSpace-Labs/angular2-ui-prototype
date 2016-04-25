@@ -6,6 +6,19 @@
 @Injectable()
 export class DSpaceConstants {
 
+
+    /**
+     * Constant for recent items. This needs some redesigning.
+     */
+
+    recentitems =
+    {
+        'PATH': '/Items',
+        'PLURAL': 'Items',
+        'METHOD': 'RecentItems',
+        'DSPACE': 'items'
+    }
+
     /**
      * Constants for items
      */

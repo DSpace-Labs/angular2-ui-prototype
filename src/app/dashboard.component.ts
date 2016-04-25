@@ -1,12 +1,21 @@
 ﻿import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
+
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
+
 import {TreeComponent} from './navigation/components/tree.component';
 import {ContextComponent} from './navigation/components/context.component';
 import {PaginationComponent} from './navigation/components/pagination.component';
 import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+
+
+
+import {ItemListComponent} from './dspace/components/item-list.component';
+
+// Testing items hardcoded for now
+import {Item} from './dspace/models/item.model'
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
@@ -15,7 +24,7 @@ import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 @Component({
     selector: "directory",
     pipes: [TranslatePipe],
-    directives: [TreeComponent, ContextComponent],
+    directives: [TreeComponent, ContextComponent, ItemListComponent],
     template: `
                 <div class="container">
                     <div class="col-md-4">
@@ -24,7 +33,16 @@ import {BreadcrumbService} from './navigation/services/breadcrumb.service';
                     <div class="col-md-8">
                         <tree [directories]="dspace.directory"></tree>
                     </div>
+
+
+                    <div class="col-md-12">
+                        <h3>{{'dashboard.recent-submissions' | translate}}</h3>
+                        <item-list *ngIf="items" [items]="items"></item-list>
+
+                    </div>
                 </div>
+
+
               `
 })
 export class DashboardComponent {
@@ -38,6 +56,8 @@ export class DashboardComponent {
         component: string
     };
 
+    items : Item[];
+
     /**
      *
      * @param dspace 
@@ -49,13 +69,26 @@ export class DashboardComponent {
      */
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                translate: TranslateService ) {
+                translate: TranslateService ){
+
         this.dashboard = {
             name: 'Dashboard',
             type: 'dashboard',
             component: '/Dashboard'
         };
         breadcrumb.visit(this.dashboard);
+
+        this.dspace.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
+        {
+            let tempItems = [];
+            for(let i : number = 0; i < json.length;i++)
+            {
+                let item : Item = new Item(json[i]);
+                tempItems.push(item);
+            }
+            this.items = tempItems; // this will trigger the update cycle of angular2
+        });
+        
         translate.setDefaultLang('en');
         translate.use('en');
     }
