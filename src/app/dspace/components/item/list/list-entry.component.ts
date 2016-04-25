@@ -13,11 +13,11 @@ import {Item} from '../../../models/item.model';
     pipes: [TranslatePipe],
     template:
             `
-            <div class="col-md-4">
+            <div class="col-sm-2 hidden-xs">
             <!-- need to replace these with holder.js images -->
                <item-thumbnail></item-thumbnail>
             </div>
-            <div class="col-md-8">
+            <div class="col-sm-8 col-xs-12">
                  <item-list-metadata [item]="item"></item-list-metadata>
             </div>
             `
