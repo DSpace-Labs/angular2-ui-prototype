@@ -31,7 +31,7 @@ import {Item} from '../models/item.model';
                     
                     <div class="col-md-8">
                         <container-home [container]=community></container-home>
-                        <tree [directories]="communityJSON.subcommunities.concat(communityJSON.collections)"></tree>
+                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
                     </div>
 
                      <div class="col-md-12">
@@ -73,15 +73,12 @@ export class CommunityComponent {
                 private directory: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService, 
                 translate: TranslateService) {
-        let page = params.get('page') ? params.get('page') : 1;
-        directory.loadObj('community', params.get('id'), page).then(communityJSON =>
-        {
-            this.communityJSON = communityJSON;
-            this.community = new Community(this.communityJSON);
-            breadcrumb.visit(this.communityJSON);
+        directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
+            this.community = community;
+            breadcrumb.visit(this.community);
         });
 
-        // load some items (in the future, recently submitted items)
+
         this.directory.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
         {
             let tempItems = [];
@@ -92,6 +89,8 @@ export class CommunityComponent {
             }
             this.items = tempItems; // this will trigger the update cycle of angular2
         });
+
+
         this.communityid = params.get('id') ? params.get('id') : 0;
     }
 

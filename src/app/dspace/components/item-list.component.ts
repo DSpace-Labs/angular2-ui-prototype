@@ -49,12 +49,5 @@ export class ItemListComponent {
         }
     }
 
-    ngOnDestroy()
-    {
-        // empty this?
-        console.log("destoring the item-list");
-    }
-
-
 
 }
