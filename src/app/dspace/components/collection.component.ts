@@ -29,8 +29,6 @@ directives: [ListComponent, ContextComponent, ContainerHomeComponent, ItemListCo
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                        <list [collection]="collection"></list>
-
                         <item-list *ngIf="collection.items.length>0" [collection]="collection"></item-list>
                     </div>
                     
