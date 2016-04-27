@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
+import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
 import {MetadataHelper} from '../../../utilities/metadata.helper';
 import {Metadatum} from '../../models/metadatum.model'
 import {ViewElementComponent} from './view-element.component'
@@ -15,11 +15,11 @@ import {ViewElementComponent} from './view-element.component'
     inputs: ['itemData'],
     directives: [ViewElementComponent],
     providers: [MetadataHelper],
-    pipes: [TruncatePipe, TranslatePipe],
+    pipes: [TruncateDatePipe, TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="#metadatum of filteredFields">
-                        <p>{{ metadatum.value | truncate}}</p>
+                        <p>{{ metadatum.value | truncatedate}}</p>
                         <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
                     </div>
                 </view-element>
