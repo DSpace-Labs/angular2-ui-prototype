@@ -81,7 +81,6 @@ export class CommunityComponent {
 
         this.directory.loadRecentItems('recentitems',"dashboard",0,5).then( (json:any) =>
         {
-            console.log("loading recent items");
             let tempItems = [];
             for(let i : number = 0; i < json.length;i++)
             {
@@ -89,7 +88,6 @@ export class CommunityComponent {
                 tempItems.push(item);
             }
             this.items = tempItems; // this will trigger the update cycle of angular2
-            console.log("recent items loaded");
         });
 
 
