@@ -12,6 +12,7 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
 
 /**
  * Renders a row of the item list.
+ * Right now we just pass a colection, but to be used from another component (in the future), you could pass it items directly.
  */
 @Component({
     selector: 'item-list',
@@ -31,6 +32,7 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
 
 export class ItemListComponent {
 
+
     collection : Collection;
     items : Item[]; // pass an array of items to this component.
     itemsWithInformation : Item[] = []; // Loaded the metadata of the item and storing them here.
@@ -44,15 +46,10 @@ export class ItemListComponent {
         {
             // map the component to these items.
             // we need to load extra metadata of all these items, because we want to show more than what the dspace API returns by default
-            console.log("in the collection");
-            console.log(this.collection.items);
-            setTimeout( () => console.log(this.collection.items),10000);
             this.collection.items.forEach( (entry) =>
             {
-                console.log("for each item");
                 this.directory.loadObj('item',entry.id,0).then( (item:Item) =>
                 {
-                    console.log("loaded information");
                     this.itemsWithInformation.push(item);
                 });
             });
