@@ -10,13 +10,15 @@ import {ContextComponent} from '../../navigation/components/context.component';
 import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component";
 
+import {ItemListComponent} from './item-list.component';
+
 /**
  * Collection component for displaying the current collection.
  * View contains sidebar context and tree hierarchy below current collection.
  */
 @Component({
     selector: 'collection',
-    directives: [ListComponent, ContextComponent, ContainerHomeComponent],
+directives: [ListComponent, ContextComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
                 <div class="container" *ngIf="collection">
@@ -27,7 +29,7 @@ import {ContainerHomeComponent} from "./container-home.component";
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                        <list [collection]="collection"></list>
+                        <item-list *ngIf="collection.items.length>0" [collection]="collection" [items]="collection.items"></item-list>
                     </div>
                     
                 </div>
