@@ -20,7 +20,7 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
     inputs: ['items', 'collection'],
     template:
         `
-            <div *ngFor="#item of itemsWithInformation" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
+            <div *ngFor="#item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
                 <list-entry [item]="item"></list-entry>
             </div>
 
@@ -32,29 +32,7 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
 
 export class ItemListComponent {
 
-
     collection : Collection;
     items : Item[]; // pass an array of items to this component.
-    itemsWithInformation : Item[] = []; // Loaded the metadata of the item and storing them here.
-    constructor(private directory: DSpaceDirectory)
-    {
-    }
-
-    ngOnChanges()
-    {
-        if(this.collection != null)
-        {
-            // map the component to these items.
-            // we need to load extra metadata of all these items, because we want to show more than what the dspace API returns by default
-            this.collection.items.forEach( (entry) =>
-            {
-                this.directory.loadObj('item',entry.id,0).then( (item:Item) =>
-                {
-                    this.itemsWithInformation.push(item);
-                });
-            });
-        }
-    }
-
 
 }

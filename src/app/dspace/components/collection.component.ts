@@ -29,7 +29,7 @@ directives: [ListComponent, ContextComponent, ContainerHomeComponent, ItemListCo
                     
                     <div class="col-md-8">
                         <container-home [container]=collection></container-home>
-                        <item-list *ngIf="collection.items.length>0" [collection]="collection"></item-list>
+                        <item-list *ngIf="collection.items.length>0" [collection]="collection" [items]="collection.items"></item-list>
                     </div>
                     
                 </div>

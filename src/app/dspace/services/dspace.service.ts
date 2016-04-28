@@ -106,7 +106,7 @@ export class DSpaceService {
         params.append("limit", collection.limit);
         params.append("offset", collection.offset);
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/collections/' + collection.id + '/items'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/collections/' + collection.id + '/items?expand=metadata'),
             search: params
         }).map(json => {
             let items = new Array<Item>();

@@ -5,7 +5,7 @@ import {Collection}from './collection.model';
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
- * A model class for an Item. Item has bitstreams, metadatum, collections...
+ * A model class for an Item. Item has bitstreams, metadata, collections...
  */
 export class Item extends DSOContainer {
 
@@ -21,9 +21,13 @@ export class Item extends DSOContainer {
 
     fullItem: boolean;
 
+    metadata : Metadatum[];
+
     constructor(json: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        if (ObjectUtil.isNotEmpty(json)) {
+
+        if (ObjectUtil.isNotEmpty(json))
+        {
             this.parentCollection = new Collection(json.parentCollection);
             this.lastModified = json.lastModified;
             this.archived = json.archived;
@@ -34,6 +38,13 @@ export class Item extends DSOContainer {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
                     return new Bitstream(bitstream);
                 });
+            }
+            if(Array.isArray(json.metadata))
+            {
+                for(let i : number = 0; i < json.metadata.length; i++)
+                {
+                    this.metadata.push(new Metadatum(json.metadata[i]));
+                }
             }
         }
     }
