@@ -14,7 +14,6 @@ import {Item} from '../../../models/item.model';
     template:
         `
             <div class="col-sm-2 hidden-xs">
-            <!-- need to replace these with holder.js images -->
                <item-thumbnail></item-thumbnail>
             </div>
             <div class="col-sm-8 col-xs-12">
