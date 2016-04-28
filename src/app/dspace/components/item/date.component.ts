@@ -19,7 +19,7 @@ import {ViewElementComponent} from './view-element.component'
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="#metadatum of filteredFields">
-                        <p>{{ metadatum.value | truncate}}</p>
+                      <!--  <p *ngIf="dateobject">{{ dateobject | date}}</p> -->
                         <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
                     </div>
                 </view-element>
@@ -35,7 +35,10 @@ export class DateComponent {
 
     private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
 
+    private dateobject : Date;
+
     constructor(private metadataHelper: MetadataHelper) {
+        this.dateobject = new Date(1662);
         this.fields = ["dc.date.accessioned"];
     }
 
@@ -45,6 +48,13 @@ export class DateComponent {
 
     private filterMetadata(): void {
         this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        // now I have these fields, create Date objects out of them.
+        for(let i : number = 0; i < this.filteredFields.length;i++)
+        {
+            console.log(this.filteredFields[i]);
+
+        }
+
     }
 
 }
