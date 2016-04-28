@@ -41,7 +41,7 @@ import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
 import {MetadataHelper} from './app/utilities/metadata.helper';
 import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
-import {ItemStoreService} from './app/dspace/services/item-store.service';
+import {ContextProviderService} from './app/dspace/services/context-provider.service';
 import {PagingStoreService} from './app/dspace/services/paging-store.service';
 
 // Disable Angular 2's "development mode".
@@ -123,7 +123,7 @@ function ngApp(req, res) {
             PagingStoreService,
             GoogleScholarMetadataService,
             HttpService,
-            ItemStoreService,
+            ContextProviderService,
             MetaTagService,
             MetadataHelper
         ],

@@ -7,7 +7,6 @@ import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Community} from "../models/community.model";
 import {TreeComponent} from '../../navigation/components/tree.component';
-import {ContextComponent} from '../../navigation/components/context.component';
 import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component.ts";
 
@@ -17,20 +16,12 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
  */
 @Component({
     selector: 'community',
-    directives: [TreeComponent, ContextComponent, ContainerHomeComponent],
+    directives: [TreeComponent, ContainerHomeComponent],
     pipes: [TranslatePipe],
     template: ` 
-                <div class="container" *ngIf="community">
-                    
-                    <div class="col-md-4">
-                        <context [context]="community"></context>
-                    </div>     
-                    
-                    <div class="col-md-8">
-                        <container-home [container]=community></container-home>
-                        <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
-                    </div>                          
-                    
+                <div *ngIf="community">
+                    <container-home [container]=community></container-home>
+                    <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
                 </div>
               `
 })

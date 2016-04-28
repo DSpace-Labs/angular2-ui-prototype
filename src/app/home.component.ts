@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+
 /**
  * Home component. Intended to be a splash page with news, recent submissions, 
  * and user related content if logged in. Currently demonstrates server-side 
@@ -10,12 +12,9 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     selector: 'home',
     pipes: [TranslatePipe],
     template: `
-                <div class="container">
-                    <h2>{{'home.title' | translate}}</h2>
-                    <ul>
-                        <li *ngFor="#template of serverTemplating">{{template}}</li>
-                    </ul>
-                </div>
+                <ul>
+                    <li *ngFor="#template of serverTemplating">{{template}}</li>
+                </ul>
               `
 })
 export class HomeComponent {
@@ -30,8 +29,14 @@ export class HomeComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(public translate : TranslateService)
+    constructor(private breadcrumb: BreadcrumbService,
+                private translate : TranslateService)
     {
+        breadcrumb.visit({
+            name: 'Home',
+            type: 'home',
+            component: '/Home'
+        });
         translate.setDefaultLang('en');
         translate.use('en');
         translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {

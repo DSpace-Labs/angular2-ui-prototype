@@ -55,14 +55,16 @@ export class BreadcrumbComponent {
      *      The current context. Represents a dspace object community, collection, or item.
      */
     buildTrail(context): void {
+        let root = this.breadcrumbService.getRoot();
         this.trail = new Array<any>();
-        if (Object.keys(context).length > 0 && context.name != 'Dashboard') {
+        // context.id indicates that navigated page is a none root page via id on dspaceObject
+        if (Object.keys(context).length > 0 && context.id) {
             this.dropBreadcrumb(context).then(() => {
-                this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
+                this.trail.unshift({ name: root.name, type: root.type, component: root.component });
             });
         }
         else {
-            this.trail.unshift({ name: 'Dashboard', type: 'dashboard', component: '/Dashboard' });
+            this.trail.unshift({ name: root.name, type: root.type, component: root.component });
         }
     }
 

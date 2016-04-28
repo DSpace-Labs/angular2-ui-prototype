@@ -10,18 +10,15 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
 
 import {SimpleItemViewComponent} from './simple-item-view.component';
 import {FullItemViewComponent} from './full-item-view.component';
-import {ContextComponent} from '../../navigation/components/context.component';
 
 import {Item} from "../models/item.model";
-
-import {ItemStoreService} from '../services/item-store.service';
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.
  */
 @Component({
     selector: 'item',
-    directives: [ContextComponent, RouterOutlet],
+    directives: [RouterOutlet],
     pipes: [TranslatePipe],
     providers: [GoogleScholarMetadataService],
     template: `
@@ -53,17 +50,13 @@ export class ItemComponent implements CanDeactivate {
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      * @param translate
      *      TranslateService
-     *@param store
-     *      A servie for the item
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
                 private breadcrumb: BreadcrumbService,
-                private gsMeta: GoogleScholarMetadataService,
-                private store : ItemStoreService) {
+                private gsMeta: GoogleScholarMetadataService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
             this.item = item;
-            this.store.change(this.item); // change the item that the store currently holds.
             breadcrumb.visit(this.item);
             this.gsMeta.setGoogleScholarMetaTags(this.item);
         });

@@ -1,11 +1,19 @@
 import {Injectable} from 'angular2/core';
 import {EventEmitter} from 'angular2/core';
 
+import {ContextProviderService} from '../../dspace/services/context-provider.service';
+
 /**
  * Injectable service to process breadcrumb when a context is visited.
  */
 @Injectable()
 export class BreadcrumbService {
+
+    private root: {
+        name: string,
+        type: string,
+        component: string
+    }
 
     /**
      * EventEmitter use to emit the context when visited.
@@ -13,7 +21,12 @@ export class BreadcrumbService {
      */
     emitter: EventEmitter<any>;
 
-    constructor() {
+    constructor(private contextProvider : ContextProviderService) {
+        this.root = {
+            name: 'Dashboard',
+            type: 'dashboard',
+            component: '/Dashboard'
+        };
         this.emitter = new EventEmitter<any>();
     }
 
@@ -24,6 +37,10 @@ export class BreadcrumbService {
      *      Object that represents the current context. Community, Collection, or Item.
      */
     visit(context): void {
+        if(!context.id) {
+            this.setRoot(context)
+        }
+        this.contextProvider.context = context;
         this.emitter.next({action: 'visit', context: context});
     }
     
@@ -35,6 +52,14 @@ export class BreadcrumbService {
      */
     update(breadcrumb): void {
         this.emitter.next({action: 'update', breadcrumb: breadcrumb});
+    }
+
+    getRoot() {
+        return this.root;
+    }
+
+    setRoot(root) {
+        this.root = root;
     }
 
 }

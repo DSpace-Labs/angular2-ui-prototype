@@ -1,6 +1,8 @@
 ﻿import {Component} from 'angular2/core';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+
 /**
  * 
  */
@@ -8,9 +10,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     selector: 'setup',
     pipes: [TranslatePipe],
     template: `
-                <div class="container">
-                    <h2>{{'setup.title' | translate}}</h2>
-                </div>
+                <span>{{'setup.title' | translate}}</span>
               `
 })
 export class SetupComponent {
@@ -20,7 +20,13 @@ export class SetupComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(translate: TranslateService) {
+    constructor(private breadcrumb: BreadcrumbService,
+                private translate: TranslateService) {
+        breadcrumb.visit({
+            name: 'Setup',
+            type: 'setup',
+            component: '/Setup'
+        });
         translate.setDefaultLang('en');
         translate.use('en');
     }
