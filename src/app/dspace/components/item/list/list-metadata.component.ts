@@ -61,17 +61,17 @@ export class ListMetadataComponent
 
     shouldRenderHeader()
     {
-        return !(this.author === null && this.date === null);
+        return !(this.author == null && this.date == null);
     }
 
     shouldRenderDate()
     {
-        return this.date !== null;
+        return this.date != null;
     }
 
     shouldRenderAbstract()
     {
-        return this.abstract !== null;
+        return this.abstract != null;
     }
 }
 
