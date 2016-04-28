@@ -21,8 +21,6 @@ export class Item extends DSOContainer {
 
     fullItem: boolean;
 
-    metadata : Metadatum[];
-
     constructor(json: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
 
@@ -48,5 +46,4 @@ export class Item extends DSOContainer {
             }
         }
     }
-
 }
