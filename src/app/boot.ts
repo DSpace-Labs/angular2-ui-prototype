@@ -18,7 +18,7 @@ import {PaginationService} from './navigation/services/pagination.service';
 import {HttpService} from './utilities/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
 import {PagingStoreService} from './dspace/services/paging-store.service';
-import {ItemStoreService} from './dspace/services/item-store.service';
+import {ContextProviderService} from './dspace/services/context-provider.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceConstants} from './dspace/dspace.constants';
 
@@ -47,7 +47,7 @@ bootstrap(AppComponent, [
     DSpaceDirectory,
     DSpaceService,
     HttpService,
-    ItemStoreService,
+    ContextProviderService,
     MetaTagService,
     PaginationService,
     PagingStoreService,

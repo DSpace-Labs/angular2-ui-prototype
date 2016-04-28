@@ -1,4 +1,5 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Item} from '../../../models/item.model';
@@ -16,19 +17,18 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
 @Component({
     selector: 'item-list-metadata',
     inputs: ['item'],
+    directives: [ROUTER_DIRECTIVES],
     pipes: [TranslatePipe, TruncatePipe, TruncateDatePipe],
     template:
-        `
-             <!-- create a link to the simple item-view -->
-                <a [attr.href]="'../items/'+item.id" class="item-list-url">
-                    {{item.name}}
-                </a>
+              `
+                <!-- create a router link to the simple item-view -->
+                <a [routerLink]="[item.component, {id:item.id}]" class="item-list-url">{{ item.name }}</a>
                 <h5 *ngIf="shouldRenderHeader()">{{author}} <span *ngIf="shouldRenderDate()">({{date | truncatedate}})</span></h5>
                 <!-- the abstract truncated -->
 
                 <p *ngIf="shouldRenderAbstract()">{{abstract | truncate : 200}}</p>
 
-             `
+              `
 })
 
 export class ListMetadataComponent

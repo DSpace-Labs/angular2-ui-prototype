@@ -2,6 +2,8 @@
 import {NgClass, NgForm} from 'angular2/common';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+
 /**
  * 
  */
@@ -9,13 +11,11 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     selector: 'login',
     pipes: [TranslatePipe],
     template: `
-                <div class="container">
-                    <h2>{{'login.title' | translate}} </h2>
-                </div>
+                <span>{{'login.title' | translate}} </span>
               `
 })
 export class LoginComponent {
-    
+
     /**
      * 
      */
@@ -31,7 +31,14 @@ export class LoginComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(translate: TranslateService) {
+    constructor(private breadcrumb: BreadcrumbService,
+                private translate: TranslateService) {
+        breadcrumb.visit({
+            name: 'Login',
+            type: 'login',
+            component: '/Login',
+            root: true,
+        });
         translate.setDefaultLang('en');
         translate.use('en');
     }
