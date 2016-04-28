@@ -22,10 +22,10 @@ import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
                 <a [attr.href]="'../items/'+item.id" class="item-list-url">
                     {{item.name}}
                 </a>
-                <h5 *ngIf="renderHeader()">{{author}} <span *ngIf="renderDate()">({{date | truncatedate}})</span></h5>
+                <h5 *ngIf="shouldRenderHeader()">{{author}} <span *ngIf="shouldRenderDate()">({{date | truncatedate}})</span></h5>
                 <!-- the abstract truncated -->
 
-                <p *ngIf="renderAbstract()">{{abstract | truncate : 200}}</p>
+                <p *ngIf="shouldRenderAbstract()">{{abstract | truncate : 200}}</p>
 
              `
 })
@@ -59,17 +59,17 @@ export class ListMetadataComponent
         }
     }
 
-    renderHeader()
+    shouldRenderHeader()
     {
         return !(this.author === null && this.date === null);
     }
 
-    renderDate()
+    shouldRenderDate()
     {
         return this.date !== null;
     }
 
-    renderAbstract()
+    shouldRenderAbstract()
     {
         return this.abstract !== null;
     }
