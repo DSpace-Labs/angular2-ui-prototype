@@ -36,7 +36,8 @@ export class LoginComponent {
         breadcrumb.visit({
             name: 'Login',
             type: 'login',
-            component: '/Login'
+            component: '/Login',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');

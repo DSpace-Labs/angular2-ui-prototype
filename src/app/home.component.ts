@@ -35,7 +35,8 @@ export class HomeComponent {
         breadcrumb.visit({
             name: 'Home',
             type: 'home',
-            component: '/Home'
+            component: '/Home',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');

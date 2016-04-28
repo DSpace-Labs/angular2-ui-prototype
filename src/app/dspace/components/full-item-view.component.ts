@@ -50,7 +50,7 @@ export class FullItemViewComponent {
     item : Item;
 
     constructor(private contextProvider : ContextProviderService) {
-        this.item = contextProvider.context;        
+        this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });

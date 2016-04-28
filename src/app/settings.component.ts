@@ -25,7 +25,8 @@ export class SettingsComponent {
         breadcrumb.visit({
             name: 'Settings',
             type: 'settings',
-            component: '/Settings'
+            component: '/Settings',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');

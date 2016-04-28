@@ -25,7 +25,8 @@ export class SetupComponent {
         breadcrumb.visit({
             name: 'Setup',
             type: 'setup',
-            component: '/Setup'
+            component: '/Setup',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');

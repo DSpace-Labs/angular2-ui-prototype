@@ -36,7 +36,8 @@ export class DashboardComponent {
         breadcrumb.visit({
             name: 'Dashboard',
             type: 'dashboard',
-            component: '/Dashboard'
+            component: '/Dashboard',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');

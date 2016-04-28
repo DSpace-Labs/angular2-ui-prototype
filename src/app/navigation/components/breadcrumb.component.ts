@@ -57,14 +57,13 @@ export class BreadcrumbComponent {
     buildTrail(context): void {
         let root = this.breadcrumbService.getRoot();
         this.trail = new Array<any>();
-        // context.id indicates that navigated page is a none root page via id on dspaceObject
-        if (Object.keys(context).length > 0 && context.id) {
+        if (Object.keys(context).length > 0 && !context.root) {
             this.dropBreadcrumb(context).then(() => {
-                this.trail.unshift({ name: root.name, type: root.type, component: root.component });
+                this.trail.unshift(root);
             });
         }
         else {
-            this.trail.unshift({ name: root.name, type: root.type, component: root.component });
+            this.trail.unshift(root);
         }
     }
 

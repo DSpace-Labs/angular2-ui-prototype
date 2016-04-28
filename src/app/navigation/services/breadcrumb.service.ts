@@ -37,7 +37,7 @@ export class BreadcrumbService {
      *      Object that represents the current context. Community, Collection, or Item.
      */
     visit(context): void {
-        if(!context.id) {
+        if(context.root) {
             this.setRoot(context)
         }
         this.contextProvider.context = context;

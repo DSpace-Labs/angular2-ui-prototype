@@ -25,7 +25,8 @@ export class RegisterComponent {
         breadcrumb.visit({
             name: 'Register',
             type: 'register',
-            component: '/Register'
+            component: '/Register',
+            root: true,
         });
         translate.setDefaultLang('en');
         translate.use('en');
