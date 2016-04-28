@@ -80,23 +80,9 @@ export class SimpleItemViewComponent {
         itemStore.itemObservable.subscribe(currentItem => {
             this.item = currentItem;
         });
-        this.test();
+
     }
 
-    test()
-    {
-        setTimeout( () =>
-        {
-            for(let i : number = 0; i < 5; i++)
-            {
-                let m = new Metadatum();
-                m.setKey("dc.contributor.author");
-                m.setValue("insanity");
-                this.item.metadata.push(m);
-            }
-            console.log(this.item.metadata);
-        },10000);
-    }
 
     ngOnChanges()
     {
