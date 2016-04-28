@@ -1,6 +1,7 @@
 import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {ViewComponent} from '../../models/viewcomponent.model';
 import {MetadataHelper} from '../../../utilities/metadata.helper';
 import {Metadatum} from '../../models/metadatum.model'
 import {ViewElementComponent} from './view-element.component';
@@ -23,26 +24,17 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class UriComponent {
+export class UriComponent extends ViewComponent{
 
     private componentTitle: string = "item-view.uri.title";
-
     private itemData: Array<Metadatum>;
 
-    private fields: Array<string>; // the fields that we want to show on this page.
-
-    private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
-
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.identifier.uri"];
+    constructor() {
+        super(["dc.identifier.uri"]);
     }
 
     ngOnInit() {
-        this.filterMetadata();
-    }
-
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        super.filterMetadata(this.itemData);
     }
 
 }

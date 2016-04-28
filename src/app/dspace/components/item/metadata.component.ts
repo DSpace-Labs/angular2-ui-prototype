@@ -3,6 +3,7 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
 import {Metadatum} from '../../models/metadatum.model'
+import {ViewComponent} from '../../models/viewcomponent.model';
 import {ViewElementComponent} from './view-element.component';
 
 /**
@@ -25,18 +26,13 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class MetadataComponent {
+export class MetadataComponent extends ViewComponent{
 
     private componentTitle: string = "item-view.metadata.title";
-
     private itemData: Array<Metadatum>;
 
-    private fields: Array<string>; // the fields that we want to show on this page.
-
-    private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
-
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.contributor.author",
+    constructor() {
+        super(["dc.contributor.author",
                        "dc.date.accessioned",
                        "dc.date.available",
                        "dc.date.issued",
@@ -45,15 +41,11 @@ export class MetadataComponent {
                        "dc.rights.uri",
                        "dc.subject",
                        "dc.title",
-                       "dc.type"]; // list of fields we want to filter for
+                       "dc.type"]); // list of fields we want to filter for
     }
 
     ngOnInit() {
-        this.filterMetadata();
-    }
-
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        super.filterMetadata(this.itemData);
     }
 
 }

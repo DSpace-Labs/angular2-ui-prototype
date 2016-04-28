@@ -37,5 +37,4 @@ export class Item extends DSOContainer {
             }
         }
     }
-
 }

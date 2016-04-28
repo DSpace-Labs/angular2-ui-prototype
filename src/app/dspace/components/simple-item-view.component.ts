@@ -14,6 +14,8 @@ import {ThumbnailComponent} from './item/thumbnail.component';
 import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
+import {Metadatum} from '../models/metadatum.model'; // testing changes to array
+
 import {ItemStoreService} from '../services/item-store.service'
 
 /**
@@ -78,6 +80,27 @@ export class SimpleItemViewComponent {
         itemStore.itemObservable.subscribe(currentItem => {
             this.item = currentItem;
         });
+        this.test();
+    }
+
+    test()
+    {
+        setTimeout( () =>
+        {
+            for(let i : number = 0; i < 5; i++)
+            {
+                let m = new Metadatum();
+                m.setKey("dc.contributor.author");
+                m.setValue("insanity");
+                this.item.metadata.push(m);
+            }
+            console.log(this.item.metadata);
+        },10000);
+    }
+
+    ngOnChanges()
+    {
+        console.log("changes happened in the simple itme view");
     }
 
 }

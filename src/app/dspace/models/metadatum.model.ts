@@ -47,7 +47,7 @@ export class Metadatum {
      *      REST api. It uses json.key (which consists of schema.element.qualifier), json.value 
      *      and json.language
      */
-    constructor(dso: DSpaceObject, json?: any) {
+    constructor(dso?: DSpaceObject, json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {
             this.key = json.key;
             this.value = json.value;
@@ -84,6 +84,14 @@ export class Metadatum {
             this.element = keyArray[1];
             this.qualifier = keyArray[2];
         }
+    }
+
+    setKey(k){
+        this.key = k;
+    }
+
+    setValue(v){
+        this.value =v;
     }
 
 }
