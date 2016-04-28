@@ -6,6 +6,7 @@ import {Metadatum} from '../../../models/metadatum.model';
 import {MetadataHelper} from '../../../../utilities/metadata.helper';
 import {TruncatePipe} from '../../../../utilities/pipes/truncate.pipe';
 import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
+import {ObjectUtil} from "../../../../utilities/commons/object.util";
 
 /**
  * This component will display some metadata of the item in the list view.
@@ -61,17 +62,17 @@ export class ListMetadataComponent
 
     shouldRenderHeader()
     {
-        return !(this.author == null && this.date == null);
+        return ObjectUtil.hasValue(this.author) || this.shouldRenderDate();
     }
 
     shouldRenderDate()
     {
-        return this.date != null;
+        return ObjectUtil.hasValue(this.date);
     }
 
     shouldRenderAbstract()
     {
-        return this.abstract != null;
+        return ObjectUtil.hasValue(this.abstract);
     }
 }
 
