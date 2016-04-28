@@ -22,20 +22,22 @@ import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
                 <a [attr.href]="'../items/'+item.id" class="item-list-url">
                     {{item.name}}
                 </a>
-                <h5>{{author}} ({{date | truncatedate}})</h5>
+                <h5 *ngIf="renderHeader()">{{author}} <span *ngIf="renderDate()">({{date | truncatedate}})</span></h5>
                 <!-- the abstract truncated -->
 
-                <p>{{abstract | truncate : 200}}</p>
+                <p *ngIf="renderAbstract()">{{abstract | truncate : 200}}</p>
 
              `
 })
 
 export class ListMetadataComponent
 {
+
     private item : Item;
     private author : String;
     private abstract : String;
     private date : String;
+
     ngOnInit() {
         let helper = new MetadataHelper();
         let filteredData:Metadatum[] = helper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract","dc.date.accessioned"]);
@@ -55,8 +57,21 @@ export class ListMetadataComponent
                 }
             }
         }
+    }
 
+    renderHeader()
+    {
+        return !(this.author === null && this.date === null);
+    }
 
+    renderDate()
+    {
+        return this.date !== null;
+    }
+
+    renderAbstract()
+    {
+        return this.abstract !== null;
     }
 }
 
