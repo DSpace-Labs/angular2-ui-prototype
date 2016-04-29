@@ -33,7 +33,6 @@ export class AuthorsComponent extends ViewComponent {
     constructor()
     {
         super(["dc.contributor.author", "dc.creator", "dc.contributor"]);
-
     }
 
     // we need to find changes that are happening in the metadata array. (removal/addition specifically)

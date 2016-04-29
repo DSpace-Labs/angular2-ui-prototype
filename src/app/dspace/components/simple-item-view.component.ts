@@ -91,7 +91,7 @@ export class SimpleItemViewComponent {
             mduri.setKey("dc.identifier.uri");
             mduri.setValue("http://www.google.be");
             this.item.addMetadata(mduri);
-        },5000);
+        },10000);
 
     }
 

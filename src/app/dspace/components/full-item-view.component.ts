@@ -7,6 +7,7 @@ import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
 import {FullCollectionsComponent} from './item/full/full-collections.component';
 import {ItemComponent} from './item.component';
 
+import {Metadatum} from '../models/metadatum.model';
 import {Item} from '../models/item.model';
 import {ContextProviderService} from '../services/context-provider.service';
 
@@ -60,4 +61,24 @@ export class FullItemViewComponent {
         return this.item && this.item.type == 'item' ? true : false;
     }
 
+    ngOnInit()
+    {
+        // test method to update the array of metadata.
+
+        // test with altering this item.
+        setTimeout( () =>
+        {
+            console.log("in timeout");
+            let mdauthor : Metadatum = new Metadatum();
+            mdauthor.setKey("dc.contributor.author");
+            mdauthor.setValue("John Doe");
+            this.item.addMetadata(mdauthor);
+
+            let mduri : Metadatum = new Metadatum();
+            mduri.setKey("dc.identifier.uri");
+            mduri.setValue("http://www.google.be");
+            this.item.addMetadata(mduri);
+        },15000);
+
+    }
 }
