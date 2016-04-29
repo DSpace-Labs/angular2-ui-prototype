@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {TruncatePipe} from "../../../utilities/pipes/truncate.pipe"
+import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
 import {Metadatum} from '../../models/metadatum.model'
 import {ViewElementComponent} from './view-element.component'
 import {ViewComponent} from '../../models/viewcomponent.model';
@@ -14,7 +14,7 @@ import {ViewComponent} from '../../models/viewcomponent.model';
     selector: 'item-date',
     inputs: ['itemData'],
     directives: [ViewElementComponent],
-    pipes: [TruncatePipe, TranslatePipe],
+    pipes: [TruncateDatePipe, TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="#metadatum of filteredFields">

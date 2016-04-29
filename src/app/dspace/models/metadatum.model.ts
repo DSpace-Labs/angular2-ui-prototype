@@ -86,6 +86,7 @@ export class Metadatum {
         }
     }
 
+    /* Test methods */
     setKey(k){
         this.key = k;
     }

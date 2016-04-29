@@ -3,7 +3,7 @@ import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
 import {ObjectUtil} from "../../utilities/commons/object.util";
-
+import {Subject} from 'rxjs/Subject';
 /**
  * A model class for an Item. Item has bitstreams, metadata, collections...
  */
@@ -21,6 +21,7 @@ export class Item extends DSOContainer {
 
     fullItem: boolean;
 
+    newMetadata : Subject<Boolean>;
 
 
     constructor(json: any) {
@@ -43,10 +44,13 @@ export class Item extends DSOContainer {
             {
                 for(let i : number = 0; i < json.metadata.length; i++)
                 {
+                    console.log("adding metadata #: " + i);
                     this.metadata.push(new Metadatum(json.metadata[i]));
                 }
             }
         }
+        // create the observable
+        this.newMetadata = new Subject<Boolean>();
     }
 
     /**
@@ -57,8 +61,11 @@ export class Item extends DSOContainer {
      */
     addMetadata(metadata? : Metadatum)
     {
-        this.metadata.push();
+        console.log("in addMetadata");
+        this.metadata.push(metadata);
         // alert with observable
-
+        console.log(this.metadata);
+        // generate observable here?
+        this.newMetadata.next(true); // let's see if I can catch this elsewhere
     }
 }

@@ -11,6 +11,7 @@ import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 import {ItemComponent} from './item.component';
 
+import {Metadatum} from '../models/metadatum.model';
 import {Item} from '../models/item.model';
 import {ContextProviderService} from '../services/context-provider.service';
 
@@ -63,18 +64,37 @@ export class SimpleItemViewComponent {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
+            this.item.newMetadata.subscribe(t =>
+            {
+                let tempArray = this.item.metadata.slice(0);
+                this.item.metadata = tempArray;
+            });
         });
     }
 
     itemProvided(): boolean {
         return this.item && this.item.type == 'item' ? true : false;
-
     }
 
 
     ngOnChanges()
     {
-        console.log("changes happened in the simple itme view");
+        console.log("changes happened in the simple item view");
+    }
+
+    ngOnInit()
+    {
+        // test with altering this item.
+
+        setTimeout( () =>
+        {
+            console.log("in timeout");
+            let md : Metadatum = new Metadatum();
+            md.setKey("dc.contributor.author");
+            md.setValue("John Doe");
+            this.item.addMetadata(md)
+        },5000);
+
     }
 
 }
