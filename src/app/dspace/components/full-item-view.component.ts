@@ -61,24 +61,27 @@ export class FullItemViewComponent {
         return this.item && this.item.type == 'item' ? true : false;
     }
 
-    ngOnInit()
+    ngOnChanges()
     {
         // test method to update the array of metadata.
 
         // test with altering this item.
-        setTimeout( () =>
+        if(this.item!=null)
         {
-            console.log("in timeout");
-            let mdauthor : Metadatum = new Metadatum();
-            mdauthor.setKey("dc.contributor.author");
-            mdauthor.setValue("John Doe");
-            this.item.addMetadata(mdauthor);
+            setTimeout( () =>
+            {
+                console.log("in timeout");
+                let mdauthor : Metadatum = new Metadatum();
+                mdauthor.setKey("dc.contributor.author");
+                mdauthor.setValue("John Doe");
+                this.item.addMetadata(mdauthor);
 
-            let mduri : Metadatum = new Metadatum();
-            mduri.setKey("dc.identifier.uri");
-            mduri.setValue("http://www.google.be");
-            this.item.addMetadata(mduri);
-        },15000);
+                let mduri : Metadatum = new Metadatum();
+                mduri.setKey("dc.identifier.uri");
+                mduri.setValue("http://www.google.be");
+                this.item.addMetadata(mduri);
+            },15000);
+        }
 
     }
 }

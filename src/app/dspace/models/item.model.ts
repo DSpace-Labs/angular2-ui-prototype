@@ -40,14 +40,6 @@ export class Item extends DSOContainer {
                     return new Bitstream(bitstream);
                 });
             }
-            if(Array.isArray(json.metadata))
-            {
-                for(let i : number = 0; i < json.metadata.length; i++)
-                {
-                    console.log("adding metadata #: " + i);
-                    this.metadata.push(new Metadatum(json.metadata[i]));
-                }
-            }
         }
         // create the observable
         this.newMetadata = new Subject<Boolean>();
