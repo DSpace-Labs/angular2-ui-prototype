@@ -33,7 +33,7 @@ export class UriComponent extends ViewComponent{
         super(["dc.identifier.uri"]);
     }
 
-    ngOnInit() {
+    ngOnChanges() {
         super.filterMetadata(this.itemData);
     }
 

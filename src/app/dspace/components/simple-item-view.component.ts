@@ -76,23 +76,21 @@ export class SimpleItemViewComponent {
         return this.item && this.item.type == 'item' ? true : false;
     }
 
-
-    ngOnChanges()
-    {
-        console.log("changes happened in the simple item view");
-    }
-
     ngOnInit()
     {
         // test with altering this item.
-
         setTimeout( () =>
         {
             console.log("in timeout");
-            let md : Metadatum = new Metadatum();
-            md.setKey("dc.contributor.author");
-            md.setValue("John Doe");
-            this.item.addMetadata(md)
+            let mdauthor : Metadatum = new Metadatum();
+            mdauthor.setKey("dc.contributor.author");
+            mdauthor.setValue("John Doe");
+            this.item.addMetadata(mdauthor);
+
+            let mduri : Metadatum = new Metadatum();
+            mduri.setKey("dc.identifier.uri");
+            mduri.setValue("http://www.google.be");
+            this.item.addMetadata(mduri);
         },5000);
 
     }
