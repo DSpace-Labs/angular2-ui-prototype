@@ -21,6 +21,8 @@ import {
     ROUTER_PROVIDERS
 } from 'angular2/router';
 
+import {FORM_PROVIDERS} from 'angular2/common';
+
 import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
 
 // App Component
@@ -109,6 +111,7 @@ function ngApp(req, res) {
             provide(APP_BASE_HREF, { useValue: baseUrl }),
             provide(REQUEST_URL, { useValue: url }),
             ROUTER_PROVIDERS,
+            FORM_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
             provide(TranslateLoader, {
