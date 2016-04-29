@@ -2,6 +2,9 @@ import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
 import {NgForm} from 'angular2/common';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+/**
+ *
+ */
 @Component({
     selector: 'modal',
     pipes: [TranslatePipe],
@@ -38,16 +41,39 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 })
 export class Modal implements OnInit {
 
+    /**
+     *
+     */
 	  @Input('title') title: string;
+    
+    /**
+     *
+     */
   	@Input('cancel-label') cancelLabel: string = 'Cancel';
-  	@Input('confirm-label') confirmLabel: string = 'Confirm';
+  	
+    /**
+     *
+     */
+    @Input('confirm-label') confirmLabel: string = 'Confirm';
 
+    /**
+     *
+     */
     @Input('valid') valid: string;
 
+    /**
+     *
+     */
   	@Output('action') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
   
+    /**
+     *
+     */
   	@Output('loaded') loadedEmitter: EventEmitter<Modal> = new EventEmitter<Modal>();
 
+    /**
+     *
+     */
   	private showModal: boolean = false;
 
     /**
@@ -60,26 +86,38 @@ export class Modal implements OnInit {
         translate.use('en');
     }
 
+    /**
+     *
+     */
     ngOnInit() {
     	 this.loadedEmitter.next(this);
   	}
 
   	/**
-   	 * Shows the modal. There is no method for hiding. This is done using actions of the modal itself.
+   	 * Shows the modal.
    	 */
-  	show() {
+  	show(): void {
   	  	this.showModal = true;
   	}
 
-  	hide() {
+    /**
+     *
+     */
+  	hide(): void {
   		  this.showModal = false;
   	}
 
-  	confirmAction() {
+    /**
+     *
+     */
+  	confirmAction(): void {
     	this.actionEmitter.next(ModalAction.CONFIRM);
   	}
 
-  	cancelAction() {
+    /**
+     *
+     */
+  	cancelAction(): void {
     	this.actionEmitter.next(ModalAction.CANCEL);
     	this.hide();
   	}
@@ -87,6 +125,6 @@ export class Modal implements OnInit {
 }
 
 /**
- * The possible reasons a modal has been closed.
+ * 
  */
 export enum ModalAction { CONFIRM, CANCEL }

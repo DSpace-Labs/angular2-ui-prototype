@@ -2,10 +2,13 @@ import {Component} from 'angular2/core';
 import {NgForm} from 'angular2/common';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {DSpaceService} from '../services/dspace.service';
+import {AuthorizationService} from '../services/authorization.service';
 
-import {Modal, ModalAction} from '../../utilities/components/modal.component';
+import {Modal, ModalAction} from '../../../utilities/components/modal.component';
 
+/**
+ *
+ */
 @Component({
   	selector: 'login-form',
   	directives: [Modal],
@@ -69,46 +72,68 @@ import {Modal, ModalAction} from '../../utilities/components/modal.component';
 })
 export class LoginFormComponent {
 
+    /**
+     *
+     */
 	  private login: Modal;
 
+    /**
+     *
+     */
     private email: string;
+
+    /**
+     *
+     */
     private password: string;
 
+    /**
+     *
+     */
     private unauthorized: boolean;
 
     /**
      *
-     * @param dspace
-     *      DSpaceService is a singleton service to interact with the dspace service.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate 
      *      TranslateService
      */
-    constructor(private dspace: DSpaceService,
+    constructor(private authorization: AuthorizationService,
                 private translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
-    onLoaded(modal: Modal) {
+    /**
+     *
+     */
+    onLoaded(modal: Modal): void {
         this.login = modal;
     }
 
-    openLoginModal() {
+    /**
+     *
+     */
+    openLoginModal(): void {
         this.login.show();
     }
 
-    onAction(action: ModalAction) {
+    /**
+     *
+     */
+    onAction(action: ModalAction): void {
         if(action == ModalAction.CONFIRM) {
-            this.dspace.login(this.email, this.password).subscribe(response => {           
+            this.authorization.login(this.email, this.password).subscribe(response => {           
                 if(response.status == 200) {
                     this.login.hide();
-                    console.log(response.text());
                     this.unauthorized = false;
                 }
             },
             error => {
                 this.unauthorized = true;
             });
+
         }
     }
 

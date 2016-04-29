@@ -14,6 +14,7 @@ import {
 
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/services/dspace.service';
+import {AuthorizationService} from './dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 import {PaginationService} from './navigation/services/pagination.service';
 import {HttpService} from './utilities/http.service';
@@ -44,6 +45,7 @@ bootstrap(AppComponent, [
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
         deps: [Http]
     }),
+    AuthorizationService,
     BreadcrumbService,
     DSpaceConstants,
     DSpaceDirectory,

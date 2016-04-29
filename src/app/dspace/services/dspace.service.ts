@@ -168,9 +168,6 @@ export class DSpaceService {
      *      DSpace user password
      */
     login(email, password): Observable<Response> {
-        console.log('login');
-        console.log(email);
-        console.log(password);
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL('/login'),
             data: {

@@ -3,11 +3,13 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
+import {AuthorizationService} from './dspace/authorization/services/authorization.service';
+
+import {User} from './dspace/models/user.model';
 
 import {ContextComponent} from './navigation/components/context.component';
 import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
-import {LoginComponent} from './login.component';
 import {RegisterComponent} from './register.component';
 import {DashboardComponent} from './dashboard.component';
 import {SettingsComponent} from './settings.component';
@@ -16,7 +18,7 @@ import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
-import {LoginFormComponent} from './dspace/authorization/login-form.component';
+import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -43,12 +45,15 @@ import {LoginFormComponent} from './dspace/authorization/login-form.component';
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Home']">{{ 'header.home' | translate }}</a></li>
                                 <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
                             </ul>
-                            <ul class="nav navbar-nav navbar-right">
+                            <ul class="nav navbar-nav navbar-right" *ngIf="!user">
                                 <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
                                 <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right" *ngIf="user">
+                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.email }}</a></li>
+                                <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -73,7 +78,6 @@ import {LoginFormComponent} from './dspace/authorization/login-form.component';
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/register", name: "Register", component: RegisterComponent },
-        { path: "/login", name: "Login", component: LoginComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
@@ -83,15 +87,24 @@ import {LoginFormComponent} from './dspace/authorization/login-form.component';
 ])
 export class AppComponent {
 
+    private user: User;
+
     /**
      *
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate 
      *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
+                private authorization: AuthorizationService,
                 private translate: TranslateService) {
+        this.user = authorization.user;
+        authorization.userObservable.subscribe(user => {
+            this.user = user;
+        });
         translate.setDefaultLang('en');
         translate.use('en');
     }
@@ -101,6 +114,10 @@ export class AppComponent {
      */
     ngOnInit() {
         this.dspace.loadDirectory();
+    }
+
+    logout(): void {
+        this.authorization.logout();
     }
 
 }

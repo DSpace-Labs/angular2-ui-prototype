@@ -32,6 +32,7 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
+import {AuthorizationService} from './app/dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
 import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
@@ -118,6 +119,7 @@ function ngApp(req, res) {
                 useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
             }),
             TranslateService,
+            AuthorizationService,
             BreadcrumbService,
             PaginationService,
             DSpaceDirectory,
