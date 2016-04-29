@@ -25,11 +25,15 @@ export class AuthorizationService {
     constructor(private dspace: DSpaceService) {
 		this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
-        let email = localStorage.getItem('email');
-        let token = localStorage.getItem('token');
-        if(email && token) {
-        	this.user = new User(email, token);
+
+        {
+        	let email = localStorage.getItem('email');
+	        let token = localStorage.getItem('token');
+	        if(email && token) {
+	        	this.user = new User(email, token);
+	        }
         }
+        
     }
 
     /**
@@ -43,8 +47,11 @@ export class AuthorizationService {
             if(response.status == 200) {
                 let token = response.text();
                 this.user = new User(email, token);
-                localStorage.setItem('email', email);
-                localStorage.setItem('token', token);
+
+                {
+                	localStorage.setItem('email', email);
+                	localStorage.setItem('token', token);
+            	}
             }
         },
         error => {
@@ -59,8 +66,11 @@ export class AuthorizationService {
      */
     logout(): void {
     	this.user = null;
-    	localStorage.removeItem('email');
-        localStorage.removeItem('token');
+    	
+    	{
+    		localStorage.removeItem('email');
+        	localStorage.removeItem('token');
+    	}
     }
 
     /**
