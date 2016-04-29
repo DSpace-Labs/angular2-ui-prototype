@@ -25,6 +25,7 @@ export class Item extends DSOContainer {
 
     constructor(json: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
+
         if (ObjectUtil.isNotEmpty(json))
         {
             this.parentCollection = new Collection(json.parentCollection);
@@ -38,7 +39,6 @@ export class Item extends DSOContainer {
                     return new Bitstream(bitstream);
                 });
             }
-
             if(Array.isArray(json.metadata))
             {
                 for(let i : number = 0; i < json.metadata.length; i++)

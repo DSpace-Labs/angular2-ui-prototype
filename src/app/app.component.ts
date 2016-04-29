@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
+import {ContextComponent} from './navigation/components/context.component';
 import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
 import {LoginComponent} from './login.component';
@@ -21,7 +22,7 @@ import {ItemComponent} from './dspace/components/item.component';
  */
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES, BreadcrumbComponent],
+    directives: [ROUTER_DIRECTIVES, BreadcrumbComponent, ContextComponent],
     styles: [],
     pipes: [TranslatePipe],
     template: `
@@ -47,8 +48,16 @@ import {ItemComponent} from './dspace/components/item.component';
                         </div>
                     </div>
                 </nav>
+                
                 <breadcrumb></breadcrumb>
-                <router-outlet></router-outlet>
+                <div class="container">
+                    <div class="col-md-4">
+                        <context></context>
+                    </div>
+                    <div class="col-md-8">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
               `
 })
 @RouteConfig([

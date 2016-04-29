@@ -2,8 +2,6 @@ import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {ContextComponent} from '../../navigation/components/context.component';
-
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
@@ -13,10 +11,8 @@ import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 import {ItemComponent} from './item.component';
 
-import {Item} from '../models/item.model'
-import {Metadatum} from '../models/metadatum.model'; // testing changes to array
-
-import {ItemStoreService} from '../services/item-store.service'
+import {Item} from '../models/item.model';
+import {ContextProviderService} from '../services/context-provider.service';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -26,8 +22,7 @@ import {ItemStoreService} from '../services/item-store.service'
  */
 @Component({
     selector: 'simple-item-view',
-    directives: [ContextComponent,
-                 AuthorsComponent,
+    directives: [AuthorsComponent,
                  DateComponent,
                  CollectionComponent,
                  UriComponent,
@@ -36,33 +31,22 @@ import {ItemStoreService} from '../services/item-store.service'
                  ThumbnailComponent],
     pipes: [TranslatePipe],
     template: `
-                <div class="container" *ngIf="item">
-
-                   <div class="row">
-                        <div class="horizontal-slider clearfix">
-                            <div class="col-xs-7 col-sm-3">
-                                <context [context]="item"></context>
+                <div *ngIf="itemProvided()">
+                    <div class="item-summary-view-metadata">
+                        <h1>{{item.name}}</h1>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <item-thumbnail></item-thumbnail>
+                                <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
+                                <item-date [itemData]="item.metadata"></item-date>
+                                <item-authors [itemData]="item.metadata"></item-authors>
+                                <h3>{{'item-view.show-full' | translate}}</h3>
+                                <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-9">
-                                    <div class="item-summary-view-metadata">
-                                        <h1>{{item.name}}</h1>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <item-thumbnail></item-thumbnail>
-                                                <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
-                                                <item-date [itemData]="item.metadata"></item-date>
-                                                <item-authors [itemData]="item.metadata"></item-authors>
-                                                <h3>{{'item-view.show-full' | translate}}</h3>
-                                                <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <item-uri [itemData]="item.metadata"></item-uri>
-                                                <item-collection [itemParent]="item.parentCollection"></item-collection>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-8">
+                                <item-uri [itemData]="item.metadata"></item-uri>
+                                <item-collection [itemParent]="item.parentCollection"></item-collection>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -75,11 +59,15 @@ export class SimpleItemViewComponent {
      */
     item : Item;
 
-    constructor(private itemStore : ItemStoreService) {
-        this.item = itemStore.item;
-        itemStore.itemObservable.subscribe(currentItem => {
-            this.item = currentItem;
+    constructor(private contextProvider : ContextProviderService) {
+        this.item = contextProvider.context;
+        contextProvider.contextObservable.subscribe(currentContext => {
+            this.item = currentContext;
         });
+    }
+
+    itemProvided(): boolean {
+        return this.item && this.item.type == 'item' ? true : false;
 
     }
 

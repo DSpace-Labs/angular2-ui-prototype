@@ -18,7 +18,7 @@ import {ViewComponent} from '../../models/viewcomponent.model';
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="#metadatum of filteredFields">
-                        <p>{{ metadatum.value | truncate}}</p>
+                        <p>{{ metadatum.value | truncatedate}}</p>
                         <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
                     </div>
                 </view-element>

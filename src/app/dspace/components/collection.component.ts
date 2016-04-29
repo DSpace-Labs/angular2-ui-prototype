@@ -6,9 +6,10 @@ import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Collection} from "../models/collection.model";
 import {ListComponent} from '../../navigation/components/list.component';
-import {ContextComponent} from '../../navigation/components/context.component';
 import {PaginationComponent} from '../../navigation/components/pagination.component';
 import {ContainerHomeComponent} from "./container-home.component";
+
+import {ItemListComponent} from './item-list.component';
 
 /**
  * Collection component for displaying the current collection.
@@ -16,20 +17,12 @@ import {ContainerHomeComponent} from "./container-home.component";
  */
 @Component({
     selector: 'collection',
-    directives: [ListComponent, ContextComponent, ContainerHomeComponent],
+directives: [ListComponent, ContainerHomeComponent, ItemListComponent],
     pipes: [TranslatePipe],
     template: ` 
-                <div class="container" *ngIf="collection">
-
-                    <div class="col-md-4">
-                        <context [context]="collection"></context>
-                    </div>  
-                    
-                    <div class="col-md-8">
-                        <container-home [container]=collection></container-home>
-                        <list [collection]="collection"></list>
-                    </div>
-                    
+                <div *ngIf="collection">
+                    <container-home [container]=collection></container-home>
+                    <item-list *ngIf="collection.items.length>0" [collection]="collection" [items]="collection.items"></item-list>
                 </div>
               `
 })
