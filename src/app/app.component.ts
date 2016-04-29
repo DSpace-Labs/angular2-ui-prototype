@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from './dspace/dspace.directory';
+import {DSpaceService} from './dspace/services/dspace.service';
 import {ContextComponent} from './navigation/components/context.component';
 import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
@@ -15,6 +16,8 @@ import {CommunityComponent} from './dspace/components/community.component';
 import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
+import {Modal, ModalAction} from './utilities/components/modal.component';
+
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
  * This component is server-side rendered and either replayed or hydrated on client side.
@@ -22,7 +25,10 @@ import {ItemComponent} from './dspace/components/item.component';
  */
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES, BreadcrumbComponent, ContextComponent],
+    directives: [ROUTER_DIRECTIVES,
+                 BreadcrumbComponent,
+                 ContextComponent,
+                 Modal],
     styles: [],
     pipes: [TranslatePipe],
     template: `
@@ -43,7 +49,7 @@ import {ItemComponent} from './dspace/components/item.component';
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
-                                <li><a [routerLink]="['/Login']"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                                <li><a (click)="openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -58,6 +64,28 @@ import {ItemComponent} from './dspace/components/item.component';
                         <router-outlet></router-outlet>
                     </div>
                 </div>
+
+                <modal id="login" 
+                        [title]="'Login'"
+                        [cancel-label]="'Cancel'"
+                        [positive-label]="'Login'"
+                        [validated]="validated"
+                        (loaded)="onLoaded($event)"
+                        (action)="onAction($event)">
+
+                        <form class="form-signin">
+                            <fieldset class="form-group">
+                                <label for="login-email">Email address</label>
+                                <input type="email" [(ngModel)]="email" class="form-control" id="login-email" placeholder="Enter email" required>
+                                
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" [(ngModel)]="password" class="form-control" id="login-password" placeholder="Password" required>
+                            </fieldset>
+                        </form>
+
+                </modal>
               `
 })
 @RouteConfig([
@@ -76,6 +104,12 @@ import {ItemComponent} from './dspace/components/item.component';
 ])
 export class AppComponent {
 
+    private login: Modal;
+
+    private email: string;
+    private password: string;
+    private validated: string;
+
     /**
      *
      * @param dspace
@@ -84,7 +118,8 @@ export class AppComponent {
      *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
-                translate: TranslateService) {
+                private dspaceService: DSpaceService,
+                private translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');
     }
@@ -94,6 +129,28 @@ export class AppComponent {
      */
     ngOnInit() {
         this.dspace.loadDirectory();
+    }
+
+    onLoaded(modal: Modal) {
+        this.login = modal;
+    }
+
+    openLoginModal() {
+        this.login.show();
+    }
+
+    onAction(action: ModalAction) {
+        if(action == ModalAction.CONFIRM) {
+            this.dspaceService.login(this.email, this.password).subscribe(response => {           
+                if(response.status == 200) {
+                    this.login.hide();
+                    console.log(response.text());
+                }
+            },
+            error => {
+
+            });
+        }
     }
 
 }

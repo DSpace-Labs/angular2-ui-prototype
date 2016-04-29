@@ -11,7 +11,7 @@ import {BreadcrumbService} from './navigation/services/breadcrumb.service';
     selector: 'login',
     pipes: [TranslatePipe],
     template: `
-                <span>{{'login.title' | translate}} </span>
+                
               `
 })
 export class LoginComponent {
