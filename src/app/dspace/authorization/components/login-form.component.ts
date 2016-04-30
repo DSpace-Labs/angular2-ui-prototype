@@ -4,17 +4,17 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {AuthorizationService} from '../services/authorization.service';
 
-import {Modal, ModalAction} from '../../../utilities/components/modal.component';
+import {FormModal, ModalAction} from '../../../utilities/components/form-modal.component';
 
 /**
  *
  */
 @Component({
   	selector: 'login-form',
-  	directives: [Modal],
+  	directives: [FormModal],
   	pipes: [TranslatePipe],
   	template: `
-  				      <modal id="login"
+  				      <form-modal id="login"
                        [title]="'Login'"
                        [cancel-label]="'Cancel'"
                        [confirm-label]="'Login'"
@@ -42,6 +42,7 @@ import {Modal, ModalAction} from '../../../utilities/components/modal.component'
                                 </span>
                             </span>
                         </fieldset>
+
                         <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
                             <label for="login-password">Password</label>
                             <input type="password" 
@@ -62,12 +63,12 @@ import {Modal, ModalAction} from '../../../utilities/components/modal.component'
                                 </span>
                             </span>
                         </fieldset>
+
                         <span *ngIf="unauthorized" class="validaiton-helper">
                             Incorrect email or password
                         </span>
-                    
 
-                </modal>
+                </form-modal>
               `
 })
 export class LoginFormComponent {
@@ -75,7 +76,7 @@ export class LoginFormComponent {
     /**
      *
      */
-	  private login: Modal;
+	  private login: FormModal;
 
     /**
      *
@@ -108,7 +109,7 @@ export class LoginFormComponent {
     /**
      *
      */
-    onLoaded(modal: Modal): void {
+    onLoaded(modal: FormModal): void {
         this.login = modal;
     }
 
