@@ -10,33 +10,33 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     pipes: [TranslatePipe],
     template: `
                 <div class="modal-backdrop fade in" [style.display]="showModal ? 'block' : 'none'"></div>
-        				<div class="modal" tabindex="-1" role="dialog" style="display: block" [style.display]="showModal ? 'block' : 'none'">
-        				  	<div class="modal-dialog">
-        				    	<div class="modal-content">
+				<div class="modal" tabindex="-1" role="dialog" style="display: block" [style.display]="showModal ? 'block' : 'none'">
+				  	<div class="modal-dialog">
+				    	<div class="modal-content">
 
-                          <form class="modal-form" #modalForm="ngForm" (ngSubmit)="confirmAction()" novalidate>
+                            <form class="modal-form" #modalForm="ngForm" (ngSubmit)="confirmAction()" novalidate>
 
-                              <div class="modal-header">
-            				        		<button type="button" class="close" aria-label="Close" (click)="cancelAction()">
-            				          			<span aria-hidden="true">&times;</span>
-            				        		</button>
-            				        		<h4 class="modal-title">{{title}}</h4>
-            				      		</div>
+                                <div class="modal-header">
+    				        		<button type="button" class="close" aria-label="Close" (click)="cancelAction()">
+    				          			<span aria-hidden="true">&times;</span>
+    				        		</button>
+    				        		<h4 class="modal-title">{{title}}</h4>
+    				      		</div>
 
-            					      	<div class="modal-body">
-            					        	<ng-content></ng-content>
-            					      	</div>
+    					      	<div class="modal-body">
+    					        	<ng-content></ng-content>
+    					      	</div>
 
-                              <div class="modal-footer">
-            					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel}}</button>
-            					        	<button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel}}</button>
-            					      	</div>
+                                <div class="modal-footer">
+    					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel}}</button>
+    					        	<button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel}}</button>
+    					      	</div>
 
-                          </form>
+                            </form>
 
-        					    </div>
-        				  	</div>
-        				</div>
+					    </div>
+				  	</div>
+				</div>
               `
 })
 export class Modal implements OnInit {
@@ -44,7 +44,7 @@ export class Modal implements OnInit {
     /**
      *
      */
-	  @Input('title') title: string;
+    @Input('title') title: string;
     
     /**
      *

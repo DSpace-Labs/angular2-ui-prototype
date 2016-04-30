@@ -1,4 +1,4 @@
-﻿import {Component} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";

@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Response} from 'angular2/http';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from "rxjs/Observable";
@@ -6,6 +6,7 @@ import {Observable} from "rxjs/Observable";
 import {User} from '../../models/user.model';
 
 import {DSpaceService} from '../../services/dspace.service';
+import {StorageService} from '../../../utilities/services/storage.service';
 
 /**
  *
@@ -22,17 +23,20 @@ export class AuthorizationService {
 	/**
      *
      */
-    constructor(private dspace: DSpaceService) {
+    constructor(@Inject(StorageService) private storageService: StorageService,
+                private dspace: DSpaceService) {
 		this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
+        
+            console.log(storageService);
 
-        {
-        	let email = localStorage.getItem('email');
-	        let token = localStorage.getItem('token');
-	        if(email && token) {
-	        	this.user = new User(email, token);
-	        }
-        }
+//        {
+//        	let email = localStorage.getItem('email');
+//	        let token = localStorage.getItem('token');
+//	        if(email && token) {
+//	        	this.user = new User(email, token);
+//	        }
+//        }
         
     }
 
@@ -48,10 +52,10 @@ export class AuthorizationService {
                 let token = response.text();
                 this.user = new User(email, token);
 
-                {
-                	localStorage.setItem('email', email);
-                	localStorage.setItem('token', token);
-            	}
+//                {
+//                	localStorage.setItem('email', email);
+//                	localStorage.setItem('token', token);
+//            	}
             }
         },
         error => {
@@ -67,10 +71,10 @@ export class AuthorizationService {
     logout(): void {
     	this.user = null;
     	
-    	{
-    		localStorage.removeItem('email');
-        	localStorage.removeItem('token');
-    	}
+//    	{
+//    		localStorage.removeItem('email');
+//        	localStorage.removeItem('token');
+//    	}
     }
 
     /**
