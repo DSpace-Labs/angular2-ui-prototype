@@ -14,59 +14,60 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
   	directives: [FormModal],
   	pipes: [TranslatePipe],
   	template: `
-  				      <form-modal id="login"
-                       [title]="'Login'"
-                       [cancel-label]="'Cancel'"
-                       [confirm-label]="'Login'"
-                       [valid]="loginEmail.valid && loginPassword.valid"
-                       (loaded)="onLoaded($event)"
-                       (action)="onAction($event)">
+                <form-modal 
+                    id="login"
+                    [title]="'Login'"
+                    [cancel-label]="'Cancel'"
+                    [confirm-label]="'Login'"
+                    [valid]="loginEmail.valid && loginPassword.valid"
+                    (loaded)="onLoaded($event)"
+                    (action)="onAction($event)">
 
-                        <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                            <label for="login-email">Email address</label>
-                            <input type="email" 
-                                   id="login-email" 
-                                   placeholder="Enter email" 
-                                   [(ngModel)]="email"
-                                   #loginEmail="ngForm"
-                                   class="form-control"
-                                   pattern="\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\w+)*(\\.\\w{2,3})+"
-                                   required>
+                    <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
+                        <label for="login-email">Email address</label>
+                        <input type="email" 
+                               id="login-email" 
+                               placeholder="Enter email" 
+                               [(ngModel)]="email"
+                               #loginEmail="ngForm"
+                               class="form-control"
+                               pattern="\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\w+)*(\\.\\w{2,3})+"
+                               required>
 
-                            <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
-                                <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                    Invalid email
-                                </span>
-                                <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                    Email is required
-                                </span>
+                        <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
+                            <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
+                                Invalid email
                             </span>
-                        </fieldset>
-
-                        <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                            <label for="login-password">Password</label>
-                            <input type="password" 
-                                   id="login-password" 
-                                   placeholder="Enter password" 
-                                   [(ngModel)]="password"
-                                   #loginPassword="ngForm"
-                                   class="form-control"
-                                   minlength="6"
-                                   required>
-
-                            <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
-                                <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                    Password must be at least 6 characters
-                                </span>
-                                <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                    Password is required
-                                </span>
+                            <span *ngIf="loginEmail.errors && loginEmail.errors.required">
+                                Email is required
                             </span>
-                        </fieldset>
-
-                        <span *ngIf="unauthorized" class="validaiton-helper">
-                            Incorrect email or password
                         </span>
+                    </fieldset>
+
+                    <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
+                        <label for="login-password">Password</label>
+                        <input type="password" 
+                               id="login-password" 
+                               placeholder="Enter password" 
+                               [(ngModel)]="password"
+                               #loginPassword="ngForm"
+                               class="form-control"
+                               minlength="6"
+                               required>
+
+                        <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
+                            <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
+                                Password must be at least 6 characters
+                            </span>
+                            <span *ngIf="loginPassword.errors && loginPassword.errors.required">
+                                Password is required
+                            </span>
+                        </span>
+                    </fieldset>
+
+                    <span *ngIf="unauthorized" class="validaiton-helper">
+                        Incorrect email or password
+                    </span>
 
                 </form-modal>
               `
@@ -76,7 +77,7 @@ export class LoginFormComponent {
     /**
      *
      */
-	  private login: FormModal;
+    private login: FormModal;
 
     /**
      *
