@@ -14,10 +14,19 @@ import {StorageService} from '../../../utilities/services/storage.service';
 @Injectable()
 export class AuthorizationService {
 
+    /**
+     *
+     */
 	private _user: User;
 
+    /**
+     *
+     */
 	private userSubject : Subject<User>;
 
+    /**
+     *
+     */
     userObservable: Observable<User>;
 
 	/**
@@ -28,15 +37,13 @@ export class AuthorizationService {
 		this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
-            console.log(storageService);
-
-//        {
-//        	let email = localStorage.getItem('email');
-//	        let token = localStorage.getItem('token');
-//	        if(email && token) {
-//	        	this.user = new User(email, token);
-//	        }
-//        }
+        //{
+        //    let email = storageService.load('email');
+        //    let token = storageService.load('token');
+        //    if(email && token) {
+        //        this.user = new User(email, token);
+        //    }
+        //}
         
     }
 
@@ -52,10 +59,10 @@ export class AuthorizationService {
                 let token = response.text();
                 this.user = new User(email, token);
 
-//                {
-//                	localStorage.setItem('email', email);
-//                	localStorage.setItem('token', token);
-//            	}
+                //{
+                //	this.storageService.store('email', email);
+                //	this.storageService.store('token', token);
+            	//}
             }
         },
         error => {
@@ -71,10 +78,10 @@ export class AuthorizationService {
     logout(): void {
     	this.user = null;
     	
-//    	{
-//    		localStorage.removeItem('email');
-//        	localStorage.removeItem('token');
-//    	}
+    	//{
+    	//	this.storageService.remove('email');
+        //	this.storageService.remove('token');
+    	//}
     }
 
     /**

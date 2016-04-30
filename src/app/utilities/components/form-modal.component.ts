@@ -6,7 +6,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
  *
  */
 @Component({
-    selector: 'modal',
+    selector: 'form-modal',
     pipes: [TranslatePipe],
     template: `
                 <div class="modal-backdrop fade in" [style.display]="showModal ? 'block' : 'none'"></div>
@@ -39,7 +39,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 				</div>
               `
 })
-export class Modal implements OnInit {
+export class FormModal implements OnInit {
 
     /**
      *
@@ -69,7 +69,7 @@ export class Modal implements OnInit {
     /**
      *
      */
-  	@Output('loaded') loadedEmitter: EventEmitter<Modal> = new EventEmitter<Modal>();
+  	@Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
 
     /**
      *
