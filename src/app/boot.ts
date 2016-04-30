@@ -17,8 +17,9 @@ import {DSpaceService} from './dspace/services/dspace.service';
 import {AuthorizationService} from './dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 import {PaginationService} from './navigation/services/pagination.service';
-import {HttpService} from './utilities/http.service';
+import {HttpService} from './utilities/services/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
+import {StorageService} from './utilities/services/storage.service';
 import {PagingStoreService} from './dspace/services/paging-store.service';
 import {ContextProviderService} from './dspace/services/context-provider.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
@@ -55,6 +56,7 @@ bootstrap(AppComponent, [
     MetaTagService,
     PaginationService,
     PagingStoreService,
+    StorageService,
     TranslateService
 ])
 .then(prebootComplete);

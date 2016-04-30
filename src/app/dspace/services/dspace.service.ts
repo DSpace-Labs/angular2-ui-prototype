@@ -1,8 +1,8 @@
-﻿import {Injectable} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Response, URLSearchParams} from 'angular2/http';
 import {Observable} from "rxjs/Observable";
 
-import {HttpService} from '../../utilities/http.service';
+import {HttpService} from '../../utilities/services/http.service';
 import {Community} from '../models/community.model';
 import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
