@@ -37,13 +37,13 @@ export class AuthorizationService {
 		this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
-        {
-            let email = storageService.load('email');
-            let token = storageService.load('token');
-            if(email && token) {
-                this.user = new User(email, token);
-            }
-        }
+        //{
+        //    let email = storageService.load('email');
+        //    let token = storageService.load('token');
+        //    if(email && token) {
+        //        this.user = new User(email, token);
+        //    }
+        //}
         
     }
 
@@ -59,10 +59,10 @@ export class AuthorizationService {
                 let token = response.text();
                 this.user = new User(email, token);
 
-                {
-                	this.storageService.store('email', email);
-                	this.storageService.store('token', token);
-            	}
+                //{
+                //	this.storageService.store('email', email);
+                //	this.storageService.store('token', token);
+            	//}
             }
         },
         error => {
@@ -78,10 +78,10 @@ export class AuthorizationService {
     logout(): void {
     	this.user = null;
     	
-    	{
-    		this.storageService.remove('email');
-        	this.storageService.remove('token');
-    	}
+    	//{
+    	//	this.storageService.remove('email');
+        //	this.storageService.remove('token');
+    	//}
     }
 
     /**
