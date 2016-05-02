@@ -10,7 +10,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     pipes: [TranslatePipe],
     template: `
                 <div class="modal-backdrop fade in" [style.display]="showModal ? 'block' : 'none'"></div>
-				<div class="modal" tabindex="-1" role="dialog" style="display: block" [style.display]="showModal ? 'block' : 'none'">
+				<div class="modal form-modal" tabindex="-1" role="dialog" [class.form-modal-fadein]="showModal">
 				  	<div class="modal-dialog">
 				    	<div class="modal-content">
 
@@ -26,6 +26,10 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     					      	<div class="modal-body">
     					        	<ng-content></ng-content>
     					      	</div>
+
+                                <div class="form-loader">
+                                    <img *ngIf="loading" src="./static/images/loading.gif" alt="Loading">
+                                </div>
 
                                 <div class="modal-footer">
     					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel | translate}}</button>
@@ -72,6 +76,11 @@ export class FormModal implements OnInit {
   	@Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
 
     /**
+     * Indicates form is being processed.
+     */
+    private loading: boolean = false;
+
+    /**
      * Whether the modal is being displayed or not.
      */
   	private showModal: boolean = false;
@@ -111,6 +120,7 @@ export class FormModal implements OnInit {
      * Emit confirm action.
      */
   	confirmAction(): void {
+        this.loading = true;
     	this.actionEmitter.next(ModalAction.CONFIRM);
   	}
 
@@ -121,6 +131,13 @@ export class FormModal implements OnInit {
     	this.actionEmitter.next(ModalAction.CANCEL);
     	this.hide();
   	}
+
+    /**
+     * Form processing finished.
+     */
+    finished(): void {
+        this.loading = false;
+    }
 
 }
 

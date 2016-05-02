@@ -32,6 +32,24 @@ html, body {
     margin-left: 5px;
 }
 
+.form-modal {
+    opacity: 0;
+    display: none;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.form-modal-fadein {
+    opacity: 1;
+    display: block;
+}
+
+.form-loader {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
 /* bootstrap overrides */
 
 .navbar {

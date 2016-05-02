@@ -135,13 +135,14 @@ export class LoginFormComponent {
             this.authorization.login(this.email, this.password).subscribe(response => {           
                 if(response.status == 200) {
                     this.login.hide();
+                    this.login.finished();
                     this.unauthorized = false;
                 }
             },
             error => {
                 this.unauthorized = true;
+                this.login.finished();
             });
-
         }
     }
 
