@@ -41,13 +41,6 @@ export class Item extends DSOContainer {
                     return bitstream;
                 });
             }
-            if(Array.isArray(json.metadata))
-            {
-                for(let i : number = 0; i < json.metadata.length; i++)
-                {
-                    this.metadata.push(new Metadatum(json.metadata[i]));
-                }
-            }
         }
     }
 
