@@ -73,7 +73,7 @@ export class ItemCreateComponent {
         translate.setDefaultLang('en');
         translate.use('en');
 
-        dspaceService.getMetadataForm().subscribe((metadataInputs:Array<MetadatumInput>) => {
+        dspaceService.getItemMetadataForm().subscribe((metadataInputs:Array<MetadatumInput>) => {
             console.log(metadataInputs);
         });
 

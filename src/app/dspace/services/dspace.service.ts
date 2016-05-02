@@ -235,7 +235,7 @@ export class DSpaceService {
         });
     }
 
-    getMetadataForm() {
+    getItemMetadataForm() {
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
         }).map(json => {

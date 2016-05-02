@@ -6,15 +6,15 @@ import {Metadatum} from './metadatum.model'
 
 export class MetadatumInput extends Metadatum {
 
-	gloss: string;
+    gloss: string;
 
-	input: string; //TODO: convert to ENUM
+    input: string; //TODO: convert to ENUM
 
-	repeatable: boolean;
+    repeatable: boolean;
 
-	validation: any;
+    validation: any;
 
-	default: any;
+    default: any;
 
     constructor(json: any) {
        super(json);
