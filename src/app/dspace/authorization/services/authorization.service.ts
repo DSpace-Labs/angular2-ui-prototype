@@ -9,28 +9,31 @@ import {DSpaceService} from '../../services/dspace.service';
 import {StorageService} from '../../../utilities/services/storage.service';
 
 /**
- *
+ * Authorization service used for authentication and authorization.
  */
 @Injectable()
 export class AuthorizationService {
 
     /**
-     *
+     * Current logged in user.
      */
 	private _user: User;
 
     /**
-     *
+     * User subject.
      */
 	private userSubject : Subject<User>;
 
     /**
-     *
+     * User observable.
      */
     userObservable: Observable<User>;
 
 	/**
-     *
+     * @param storageService
+     *      StorageService is a singleton service to interact with the storage service.
+     * @param dspace
+     *      DSpaceService is a singleton service to interact with the dspace service.
      */
     constructor(@Inject(StorageService) private storageService: StorageService,
                 private dspace: DSpaceService) {
@@ -48,7 +51,12 @@ export class AuthorizationService {
     }
 
     /**
+     * Login user with email and password.
      *
+     * @param email
+     *      User email.
+     * @param password
+     *      User password.
      */
     login(email: string, password: string): Observable<Response> {
 
@@ -73,7 +81,7 @@ export class AuthorizationService {
     }
 
     /**
-     *
+     * Logout. Sets user to null. Perform other logout actions.
      */
     logout(): void {
     	this.user = null;
@@ -85,7 +93,10 @@ export class AuthorizationService {
     }
 
     /**
+     * Sets the currently logged in user.
      *
+     * @param user
+     *      User whom is currently logged in.
      */
     set user(user: User) {
     	this._user = user;
@@ -93,7 +104,7 @@ export class AuthorizationService {
     }
 
     /**
-     *
+     * Returns the logged in user.
      */
     get user(): User {
     	return this._user;

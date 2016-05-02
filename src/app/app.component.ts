@@ -10,7 +10,7 @@ import {User} from './dspace/models/user.model';
 import {ContextComponent} from './navigation/components/context.component';
 import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
 import {HomeComponent} from './home.component';
-import {RegisterComponent} from './register.component';
+
 import {DashboardComponent} from './dashboard.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
@@ -19,6 +19,7 @@ import {CollectionComponent} from './dspace/components/collection.component';
 import {ItemComponent} from './dspace/components/item.component';
 
 import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
+import {RegistrationComponent} from './dspace/authorization/components/registration.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -77,7 +78,7 @@ import {LoginFormComponent} from './dspace/authorization/components/login-form.c
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
-        { path: "/register", name: "Register", component: RegisterComponent },
+        { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },

@@ -3,7 +3,7 @@ import {NgForm} from 'angular2/common';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 /**
- *
+ * Form modal. ng-content brings in the actual form.
  */
 @Component({
     selector: 'form-modal',
@@ -20,7 +20,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     				        		<button type="button" class="close" aria-label="Close" (click)="cancelAction()">
     				          			<span aria-hidden="true">&times;</span>
     				        		</button>
-    				        		<h4 class="modal-title">{{title}}</h4>
+    				        		<h4 class="modal-title">{{title | translate}}</h4>
     				      		</div>
 
     					      	<div class="modal-body">
@@ -28,8 +28,8 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     					      	</div>
 
                                 <div class="modal-footer">
-    					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel}}</button>
-    					        	<button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel}}</button>
+    					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel | translate}}</button>
+    					        	<button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel | translate}}</button>
     					      	</div>
 
                             </form>
@@ -42,37 +42,37 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 export class FormModal implements OnInit {
 
     /**
-     *
+     * Modal title.
      */
     @Input('title') title: string;
     
     /**
-     *
+     * Modal cancel label gloss.
      */
   	@Input('cancel-label') cancelLabel: string = 'Cancel';
   	
     /**
-     *
+     * Modal confirm label gloss.
      */
     @Input('confirm-label') confirmLabel: string = 'Confirm';
 
     /**
-     *
+     * Wether inputs are valid. Enables confirm action.
      */
-    @Input('valid') valid: string;
+    @Input('valid') valid: boolean;
 
     /**
-     *
+     * EventEmitter used to emit the chosen action.
      */
   	@Output('action') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
   
     /**
-     *
+     * EventEmitter used to emit when the modal has been loaded.
      */
   	@Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
 
     /**
-     *
+     * Whether the modal is being displayed or not.
      */
   	private showModal: boolean = false;
 
@@ -101,21 +101,21 @@ export class FormModal implements OnInit {
   	}
 
     /**
-     *
+     * Hides the modal.
      */
   	hide(): void {
-  		  this.showModal = false;
+	   this.showModal = false;
   	}
 
     /**
-     *
+     * Emit confirm action.
      */
   	confirmAction(): void {
     	this.actionEmitter.next(ModalAction.CONFIRM);
   	}
 
     /**
-     *
+     * Emit cancel action.
      */
   	cancelAction(): void {
     	this.actionEmitter.next(ModalAction.CANCEL);
@@ -125,6 +125,7 @@ export class FormModal implements OnInit {
 }
 
 /**
- * 
+ * ModalAction enum. 
+ * TODO: Move to own file.
  */
 export enum ModalAction { CONFIRM, CANCEL }

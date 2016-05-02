@@ -7,7 +7,7 @@ import {AuthorizationService} from '../services/authorization.service';
 import {FormModal, ModalAction} from '../../../utilities/components/form-modal.component';
 
 /**
- *
+ * Login form. Uses form-modal component.
  */
 @Component({
   	selector: 'login-form',
@@ -16,18 +16,18 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
   	template: `
                 <form-modal 
                     id="login"
-                    [title]="'Login'"
-                    [cancel-label]="'Cancel'"
-                    [confirm-label]="'Login'"
+                    [title]="'login.title'"
+                    [cancel-label]="'login.cancel'"
+                    [confirm-label]="'login.confirm'"
                     [valid]="loginEmail.valid && loginPassword.valid"
                     (loaded)="onLoaded($event)"
                     (action)="onAction($event)">
 
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                        <label for="login-email">Email address</label>
+                        <label for="login-email">{{'login.email-gloss' | translate}}</label>
                         <input type="email" 
                                id="login-email" 
-                               placeholder="Enter email" 
+                               placeholder="{{'login.email-placeholder' | translate}}" 
                                [(ngModel)]="email"
                                #loginEmail="ngForm"
                                class="form-control"
@@ -36,19 +36,19 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
 
                         <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
                             <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                Invalid email
+                                {{'login.email-invalid' | translate}}
                             </span>
                             <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                Email is required
+                                {{'login.email-required' | translate}}
                             </span>
                         </span>
                     </fieldset>
 
                     <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                        <label for="login-password">Password</label>
+                        <label for="login-password">{{'login.password-gloss' | translate}}</label>
                         <input type="password" 
                                id="login-password" 
-                               placeholder="Enter password" 
+                               placeholder="{{'login.password-placeholder' | translate}}" 
                                [(ngModel)]="password"
                                #loginPassword="ngForm"
                                class="form-control"
@@ -57,16 +57,16 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
 
                         <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
                             <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                Password must be at least 6 characters
+                                {{'login.password-minlength' | translate}}
                             </span>
                             <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                Password is required
+                                {{'login.password-required' | translate}}
                             </span>
                         </span>
                     </fieldset>
 
-                    <span *ngIf="unauthorized" class="validaiton-helper">
-                        Incorrect email or password
+                    <span *ngIf="unauthorized" class="validaiton-helper text-danger">
+                        {{'login.unauthorized' | translate}}
                     </span>
 
                 </form-modal>
@@ -75,22 +75,22 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
 export class LoginFormComponent {
 
     /**
-     *
+     * Actual FormModal used to show and hide modal.
      */
     private login: FormModal;
 
     /**
-     *
+     * Email used as DSpace username for login.
      */
     private email: string;
 
     /**
-     *
+     * Password used for DSpace authentication.
      */
     private password: string;
 
     /**
-     *
+     * Boolean representing whether the login request was unauthorized. Displays message if true.
      */
     private unauthorized: boolean;
 
@@ -108,21 +108,27 @@ export class LoginFormComponent {
     }
 
     /**
+     * Callback to assign modal after being loaded.
      *
+     * @param modal
+     *      FormModal
      */
     onLoaded(modal: FormModal): void {
         this.login = modal;
     }
 
     /**
-     *
+     * Opens the modal.
      */
     openLoginModal(): void {
         this.login.show();
     }
 
     /**
+     * Callback to invoke chosen action.
      *
+     * @param action
+     *      ModalAction of chosen action, CONFIRM or CANCEL
      */
     onAction(action: ModalAction): void {
         if(action == ModalAction.CONFIRM) {
