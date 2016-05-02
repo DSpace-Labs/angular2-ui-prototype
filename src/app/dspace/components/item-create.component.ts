@@ -6,7 +6,6 @@ import {DSpaceService} from '../services/dspace.service';
 
 @Component({
     selector: 'item-create',
-    directives: [],
     pipes: [TranslatePipe],
     template: ` 
                 CREATE ITEM

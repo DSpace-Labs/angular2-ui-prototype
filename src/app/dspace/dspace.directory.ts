@@ -38,6 +38,20 @@ export class DSpaceDirectory {
         this.ready = false;
     }
 
+    refresh(context?: any): void {
+        if(context) {
+            this.pagingStore.clearPages(context);
+            context.loaded = false;
+            context.limit = null;
+            this.loadNav('community', context);
+            this.loadNav('collection', context);
+        }
+        else {
+            this.ready = false;
+            this.loadDirectory();
+        }
+    }
+
     /**
      * Method to perform initial loading of the directory.
      * Calls prepare with the top community results.

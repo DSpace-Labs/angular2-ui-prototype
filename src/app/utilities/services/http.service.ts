@@ -46,7 +46,6 @@ export class HttpService {
         if(request.headers) {
             headerArray = headerArray.concat(request.headers);
         }
-        console.log(headerArray);
 
         let headers = this.buildHeaders(headerArray);
 

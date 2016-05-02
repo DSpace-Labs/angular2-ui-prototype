@@ -1,6 +1,5 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, RouterOutlet, RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
@@ -19,7 +18,6 @@ import {Item} from "../models/item.model";
 @Component({
     selector: 'item',
     directives: [RouterOutlet],
-    pipes: [TranslatePipe],
     providers: [GoogleScholarMetadataService],
     template: `
                 <router-outlet></router-outlet>

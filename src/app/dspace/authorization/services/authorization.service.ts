@@ -62,7 +62,7 @@ export class AuthorizationService {
 
         let observableResponse: Observable<Response> = this.dspace.login(email, password);
         
-        observableResponse.subscribe(response => {           
+        observableResponse.subscribe(response => {
             if(response.status == 200) {
                 let token = response.text();
                 this.user = new User(email, token);
@@ -89,10 +89,10 @@ export class AuthorizationService {
 
         let observableResponse: Observable<Response> = this.dspace.logout(token);
         
-        observableResponse.subscribe(response => {           
+        observableResponse.subscribe(response => {
             if(response.status == 200) {
                 this.user = null;
-                
+
                 //{
                 //  this.storageService.remove('email');
                 //  this.storageService.remove('token');

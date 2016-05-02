@@ -37,7 +37,7 @@ export class CommunityViewComponent {
      *
      */
     constructor(private contextProvider: ContextProviderService,
-    			private translate: TranslateService) {
+                private translate: TranslateService) {
         this.community = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.community = currentContext;

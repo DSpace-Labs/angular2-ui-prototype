@@ -29,6 +29,7 @@ export class DSpaceService {
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {
+
     }
 
     /**
@@ -183,12 +184,38 @@ export class DSpaceService {
      * @param token
      *      DSpace user token
      */
-    logout(token): Observable<Response> {
+    logout(token: string): Observable<Response> {
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL('/logout'),
             headers: [{
                 key: 'rest-dspace-token', value: token
             }]
+        });
+    }
+
+    createCommunity(community: Community, token: string, parentCommunityId?: string): Observable<Response> {
+        
+        let path = parentCommunityId ? '/communities/' + parentCommunityId + '/communities' : '/communities';
+
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: community
+        });
+    }
+
+    createCollection(collection: Collection, token: string, parentCollectionId: string): Observable<Response> {
+        
+        let path = '/communities/' + parentCollectionId + '/collections';
+
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: collection
         });
     }
 
