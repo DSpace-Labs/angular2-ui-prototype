@@ -23,9 +23,11 @@ export class Item extends DSOContainer {
 
     thumbnail : string; // url to the thumbnail of this item.
 
-    constructor(json: any) {
+    constructor(json: any) { // would be resolved to an object at this point.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
+            // here we should hav the same data
 
+        this.findThumbnail(json.bitstreams);
         if (ObjectUtil.isNotEmpty(json))
         {
             this.parentCollection = new Collection(json.parentCollection);
@@ -36,9 +38,8 @@ export class Item extends DSOContainer {
 
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
-                    let bitstream : Bitstream = new Bitstream(bitstream);
-                    this.hasThumbnail(bitstream);
-                    return bitstream;
+                    let b : Bitstream = new Bitstream(bitstream);
+                    return b;
                 });
             }
         }
@@ -49,11 +50,20 @@ export class Item extends DSOContainer {
      * Returns null if none is found;
      * @returns {null}
      */
-    private hasThumbnail(bitstream) : String
+    private findThumbnail(bitstreams)
     {
-        console.log("does this item have a thumbnail?");
-        console.log(bitstream);
-        console.log
-        return null;
+        let primaryBitstream = this.getPrimaryStream(bitstreams);
+        console.log("primary bitstream: " + primaryBitstream.name);
+        var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name+".jpg").forEach(x => this.thumbnail = x.retrieveLink);
+        console.log("thumbnail..");
+        console.log(this.thumbnail);
+    }
+
+    private getPrimaryStream(bitstreams) : Bitstream
+    {
+        console.log("looking for the primary bitstream name");
+        var x = bitstreams.filter(x => x.bundleName=="ORIGINAL" && x.sequenceId == 1)[0];
+        console.log(x);
+        return x;
     }
 }
