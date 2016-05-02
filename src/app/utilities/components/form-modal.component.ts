@@ -10,37 +10,37 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
     pipes: [TranslatePipe],
     template: `
                 <div class="modal-backdrop fade in" [style.display]="showModal ? 'block' : 'none'"></div>
-				<div class="modal form-modal" tabindex="-1" role="dialog" [class.form-modal-fadein]="showModal">
-				  	<div class="modal-dialog">
-				    	<div class="modal-content">
+                <div class="modal form-modal" tabindex="-1" role="dialog" [class.form-modal-fadein]="showModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
                             <form class="modal-form" #modalForm="ngForm" (ngSubmit)="confirmAction()" novalidate>
 
                                 <div class="modal-header">
-    				        		<button type="button" class="close" aria-label="Close" (click)="cancelAction()">
-    				          			<span aria-hidden="true">&times;</span>
-    				        		</button>
-    				        		<h4 class="modal-title">{{title | translate}}</h4>
-    				      		</div>
+                                    <button type="button" class="close" aria-label="Close" (click)="cancelAction()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">{{title | translate}}</h4>
+                                </div>
 
-    					      	<div class="modal-body">
-    					        	<ng-content></ng-content>
-    					      	</div>
+                                <div class="modal-body">
+                                    <ng-content></ng-content>
+                                </div>
 
                                 <div class="form-loader">
                                     <img *ngIf="loading" src="./static/images/loading.gif" alt="Loading">
                                 </div>
 
                                 <div class="modal-footer">
-    					        	<button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel | translate}}</button>
-    					        	<button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel | translate}}</button>
-    					      	</div>
+                                    <button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel | translate}}</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel | translate}}</button>
+                                </div>
 
                             </form>
 
-					    </div>
-				  	</div>
-				</div>
+                        </div>
+                    </div>
+                </div>
               `
 })
 export class FormModal implements OnInit {
@@ -53,8 +53,8 @@ export class FormModal implements OnInit {
     /**
      * Modal cancel label gloss.
      */
-  	@Input('cancel-label') cancelLabel: string = 'Cancel';
-  	
+    @Input('cancel-label') cancelLabel: string = 'Cancel';
+
     /**
      * Modal confirm label gloss.
      */
@@ -68,12 +68,12 @@ export class FormModal implements OnInit {
     /**
      * EventEmitter used to emit the chosen action.
      */
-  	@Output('action') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
+    @Output('action') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
   
     /**
      * EventEmitter used to emit when the modal has been loaded.
      */
-  	@Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
+    @Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
 
     /**
      * Indicates form is being processed.
@@ -99,22 +99,22 @@ export class FormModal implements OnInit {
      *
      */
     ngOnInit() {
-    	 this.loadedEmitter.next(this);
-  	}
+         this.loadedEmitter.next(this);
+    }
 
-  	/**
-   	 * Shows the modal.
-   	 */
-  	show(): void {
-  	  	this.showModal = true;
-  	}
+    /**
+     * Shows the modal.
+     */
+    show(): void {
+        this.showModal = true;
+    }
 
     /**
      * Hides the modal.
      */
-  	hide(): void {
-	   this.showModal = false;
-  	}
+    hide(): void {
+       this.showModal = false;
+    }
 
     /**
      * Emit confirm action.
@@ -122,15 +122,15 @@ export class FormModal implements OnInit {
     confirmAction(): void {
         this.loading = true;
         this.actionEmitter.next(ModalAction.CONFIRM);
-  	}
+    }
 
     /**
      * Emit cancel action.
      */
-  	cancelAction(): void {
-    	this.actionEmitter.next(ModalAction.CANCEL);
-    	this.hide();
-  	}
+    cancelAction(): void {
+        this.actionEmitter.next(ModalAction.CANCEL);
+        this.hide();
+    }
 
     /**
      * Form processing finished.
