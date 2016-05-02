@@ -171,10 +171,25 @@ export class DSpaceService {
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL('/login'),
             data: {
-                email: email,
-                password: password
+                'email': email,
+                'password': password
             }
-        }); 
+        });
+    }
+
+    /**
+     * Method to logout. 
+     *
+     * @param token
+     *      DSpace user token
+     */
+    logout(token): Observable<Response> {
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL('/logout'),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
+        });
     }
 
 }

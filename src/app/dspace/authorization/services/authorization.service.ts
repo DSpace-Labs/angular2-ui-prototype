@@ -17,19 +17,19 @@ export class AuthorizationService {
     /**
      * Current logged in user.
      */
-	private _user: User;
+    private _user: User;
 
     /**
      * User subject.
      */
-	private userSubject : Subject<User>;
+    private userSubject : Subject<User>;
 
     /**
      * User observable.
      */
     userObservable: Observable<User>;
 
-	/**
+    /**
      * @param storageService
      *      StorageService is a singleton service to interact with the storage service.
      * @param dspace
@@ -37,7 +37,7 @@ export class AuthorizationService {
      */
     constructor(@Inject(StorageService) private storageService: StorageService,
                 private dspace: DSpaceService) {
-		this.userSubject = new Subject<User>();
+        this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
         //{
@@ -60,21 +60,21 @@ export class AuthorizationService {
      */
     login(email: string, password: string): Observable<Response> {
 
-    	let observableResponse: Observable<Response> = this.dspace.login(email, password);
-    	
-    	observableResponse.subscribe(response => {           
+        let observableResponse: Observable<Response> = this.dspace.login(email, password);
+        
+        observableResponse.subscribe(response => {           
             if(response.status == 200) {
                 let token = response.text();
                 this.user = new User(email, token);
 
                 //{
-                //	this.storageService.store('email', email);
-                //	this.storageService.store('token', token);
-            	//}
+                //  this.storageService.store('email', email);
+                //  this.storageService.store('token', token);
+                //}
             }
         },
         error => {
-            
+            console.log(error);
         });
 
         return observableResponse;
@@ -83,13 +83,27 @@ export class AuthorizationService {
     /**
      * Logout. Sets user to null. Perform other logout actions.
      */
-    logout(): void {
-    	this.user = null;
-    	
-    	//{
-    	//	this.storageService.remove('email');
-        //	this.storageService.remove('token');
-    	//}
+    logout(): Observable<Response> {
+
+        let token = this.user.token;
+
+        let observableResponse: Observable<Response> = this.dspace.logout(token);
+        
+        observableResponse.subscribe(response => {           
+            if(response.status == 200) {
+                this.user = null;
+                
+                //{
+                //  this.storageService.remove('email');
+                //  this.storageService.remove('token');
+                //}
+            }
+        },
+        error => {
+            console.log(error);
+        });
+
+        return observableResponse;
     }
 
     /**
@@ -99,15 +113,15 @@ export class AuthorizationService {
      *      User whom is currently logged in.
      */
     set user(user: User) {
-    	this._user = user;
-    	this.userSubject.next(this._user);
+        this._user = user;
+        this.userSubject.next(this._user);
     }
 
     /**
      * Returns the logged in user.
      */
     get user(): User {
-    	return this._user;
+        return this._user;
     }
 
 }

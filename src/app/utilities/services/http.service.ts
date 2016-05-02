@@ -37,11 +37,18 @@ export class HttpService {
         //console.log(request)
 
         let body = JSON.stringify(request.data);
-        
-        let headers = this.buildHeaders([
+
+        let headerArray = [
             { key: 'Content-Type', value: 'application/json' },
             { key: 'Accept', value: 'application/json' }
-        ]);
+        ];
+
+        if(request.headers) {
+            headerArray = headerArray.concat(request.headers);
+        }
+        console.log(headerArray);
+
+        let headers = this.buildHeaders(headerArray);
 
         let options = new RequestOptions({ headers: headers });
 
