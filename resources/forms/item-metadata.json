@@ -1,6 +1,9 @@
 [
 	{
-		"label": "dc.title",
+		"schema": "dc",
+		"element": "title",
+		"qualifier": "",
+		"language": "en",
 		"gloss": "Title",
 		"input": "TEXT",
 		"repeatable": false,
@@ -11,7 +14,10 @@
 		}
 	},
 	{
-		"label": "dc.type",
+		"schema": "dc",
+		"element": "type",
+		"qualifier": "",
+		"language": "en",
 		"gloss": "Document Type",
 		"input": "TEXT",
 		"repeatable": false,
@@ -22,7 +28,10 @@
 		}
 	},
 	{
-		"label": "dc.date.created",
+		"schema": "dc",
+		"element": "date",
+		"qualifier": "created",
+		"language": "en",
 		"gloss": "Publication Date",
 		"input": "TEXT",
 		"repeatable": false,
@@ -33,7 +42,10 @@
 		}
 	},
 	{
-		"label": "dc.language.iso",
+		"schema": "dc",
+		"element": "language",
+		"qualifier": "iso",
+		"language": "en",
 		"gloss": "Language",
 		"input": "TEXT",
 		"repeatable": false,
@@ -42,10 +54,13 @@
 			"minlength": 4,
 			"maxlength": 64
 		},
-		"default": "en_US"
+		"default": "en"
 	},
 	{
-		"label": "dc.contributor.author",
+		"schema": "dc",
+		"element": "contributor",
+		"qualifier": "author",
+		"language": "en",
 		"gloss": "Author",
 		"input": "TEXT",
 		"repeatable": true,
@@ -56,7 +71,10 @@
 		}
 	},
 	{
-		"label": "dc.description",
+		"schema": "dc",
+		"element": "description",
+		"qualifier": "",
+		"language": "en",
 		"gloss": "Description",
 		"input": "TEXTAREA",
 		"repeatable": false,
@@ -67,7 +85,10 @@
 		}
 	},
 	{
-		"label": "dc.description.abstract",
+		"schema": "dc",
+		"element": "description",
+		"qualifier": "abstract",
+		"language": "en",
 		"gloss": "Abstract",
 		"input": "TEXT",
 		"repeatable": false,
@@ -78,7 +99,10 @@
 		}
 	},
 	{
-		"label": "dc.subject",
+		"schema": "dc",
+		"element": "subject",
+		"qualifier": "",
+		"language": "en",
 		"gloss": "Subject",
 		"input": "TEXT",
 		"repeatable": true,
@@ -89,7 +113,10 @@
 		}
 	},
 	{
-		"label": "dc.rights",
+		"schema": "dc",
+		"element": "rights",
+		"qualifier": "",
+		"language": "en",
 		"gloss": "Rights",
 		"input": "TEXT",
 		"repeatable": false,
@@ -100,7 +127,10 @@
 		}
 	},
 	{
-		"label": "dc.rights.uri",
+		"schema": "dc",
+		"element": "rights",
+		"qualifier": "uri",
+		"language": "en",
 		"gloss": "Rights URI",
 		"input": "TEXT",
 		"repeatable": false,
