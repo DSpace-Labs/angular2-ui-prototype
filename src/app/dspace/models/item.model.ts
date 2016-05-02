@@ -21,6 +21,8 @@ export class Item extends DSOContainer {
 
     fullItem: boolean;
 
+    thumbnail : string; // url to the thumbnail of this item.
+
     constructor(json: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
 
@@ -34,7 +36,9 @@ export class Item extends DSOContainer {
 
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
-                    return new Bitstream(bitstream);
+                    let bitstream : Bitstream = new Bitstream(bitstream);
+                    this.hasThumbnail(bitstream);
+                    return bitstream;
                 });
             }
             if(Array.isArray(json.metadata))
@@ -45,5 +49,18 @@ export class Item extends DSOContainer {
                 }
             }
         }
+    }
+
+    /**
+     * If this bitstream is a thumbnail, save the string to the thumbnail.
+     * Returns null if none is found;
+     * @returns {null}
+     */
+    private hasThumbnail(bitstream) : String
+    {
+        console.log("does this item have a thumbnail?");
+        console.log(bitstream);
+        console.log
+        return null;
     }
 }

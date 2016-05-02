@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from "../../models/bitstream.model"
+import {Item} from '../../models/item.model';
 
 /**
  * Component that displays the bitstreams of an item in the simple-item-view
@@ -10,7 +11,7 @@ import {Bitstream} from "../../models/bitstream.model"
  */
 @Component({
     selector: 'item-thumbnail',
-    inputs: ['itemBitstreams'],
+    inputs: ['bitstreams'],
     pipes: [TranslatePipe],
     template: `
                 <div class="thumbnail-wrapper">
@@ -23,6 +24,24 @@ import {Bitstream} from "../../models/bitstream.model"
 })
 export class ThumbnailComponent {
 
-    private itemBitstreams: Array<Bitstream>;
+    private bitstreams: Array<Bitstream>; // maybe just pass an array of bitstreams to this.
 
+
+    constructor()
+    {
+
+    }
+
+    ngOnInit()
+    {
+        console.log("on the init of the thumnail");
+        console.log(this.bitstreams);
+
+        // fetch the bitstream.
+        for (let i:number = 0; i < this.bitstreams.length; i++) {
+            if (this.bitstreams.length[i]){
+
+            }
+        }
+    }
 }
