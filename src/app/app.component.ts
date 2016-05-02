@@ -21,6 +21,8 @@ import {ItemComponent} from './dspace/components/item.component';
 import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
 import {RegistrationComponent} from './dspace/authorization/components/registration.component';
 
+import {CommunityCreateComponent} from './dspace/components/community-create.component';
+
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
  * This component is server-side rendered and either replayed or hydrated on client side.
@@ -81,13 +83,18 @@ import {RegistrationComponent} from './dspace/authorization/components/registrat
         { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
-        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id/...", name: "Items", component: ItemComponent }
+        { path: "/communities/:id/...", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
+        { path: "/items/:id/...", name: "Items", component: ItemComponent },
+
+        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent }
 
 ])
 export class AppComponent {
 
+    /**
+     *
+     */
     private user: User;
 
     /**
@@ -117,6 +124,9 @@ export class AppComponent {
         this.dspace.loadDirectory();
     }
 
+    /**
+     *
+     */
     logout(): void {
         this.authorization.logout();
     }

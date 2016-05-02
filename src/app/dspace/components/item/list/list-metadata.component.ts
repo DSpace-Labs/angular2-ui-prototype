@@ -22,7 +22,7 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
     template:
               `
                 <!-- create a router link to the simple item-view -->
-                <a [routerLink]="[item.component, {id:item.id}]" class="item-list-url">{{ item.name }}</a>
+                <a [routerLink]="[item.component, { id: item.id }]" class="item-list-url">{{ item.name }}</a>
                 <h5 *ngIf="shouldRenderHeader()">{{author}} <span *ngIf="shouldRenderDate()">({{date | truncatedate}})</span></h5>
                 <!-- the abstract truncated -->
 

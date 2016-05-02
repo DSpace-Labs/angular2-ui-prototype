@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {FullMetadataComponent} from './item/full/full-metadata.component.ts';
 import {FullBitstreamsComponent} from './item/full/full-bitstreams.component';
@@ -49,13 +49,22 @@ export class FullItemViewComponent {
      */
     item : Item;
 
-    constructor(private contextProvider : ContextProviderService) {
+    /**
+     *
+     */
+    constructor(private contextProvider: ContextProviderService,
+                private translate: TranslateService) {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
+    /**
+     *
+     */
     itemProvided(): boolean {
         return this.item && this.item.type == 'item' ? true : false;
     }
