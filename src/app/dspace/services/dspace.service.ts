@@ -8,6 +8,7 @@ import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
 import {URLHelper} from "../../utilities/url.helper";
 
+import {MetadatumInput} from '../models/metadatum-input.model';
 
 /**
  * Injectable service to provide an interface with the DSpace REST API 
@@ -237,6 +238,12 @@ export class DSpaceService {
     getMetadataForm() {
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
+        }).map(json => {
+            let metadataInputs = new Array<MetadatumInput>();
+            for(let metadataInput of json) {
+                metadataInputs.push(new MetadatumInput(metadataInput));
+            }
+            return metadataInputs;
         });
     }
 

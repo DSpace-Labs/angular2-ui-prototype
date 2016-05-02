@@ -10,6 +10,8 @@ import {DSpaceService} from '../services/dspace.service';
 import {DSpaceDirectory} from '../dspace.directory';
 import {Item} from "../models/item.model";
 
+import {MetadatumInput} from '../models/metadatum-input.model';
+
 @Component({
     selector: 'item-create',
     pipes: [TranslatePipe],
@@ -71,8 +73,8 @@ export class ItemCreateComponent {
         translate.setDefaultLang('en');
         translate.use('en');
 
-        dspaceService.getMetadataForm().subscribe(formJson => {
-            console.log(formJson);
+        dspaceService.getMetadataForm().subscribe((metadataInputs:Array<MetadatumInput>) => {
+            console.log(metadataInputs);
         });
 
     }

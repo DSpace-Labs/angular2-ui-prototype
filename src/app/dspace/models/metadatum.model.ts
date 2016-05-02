@@ -40,20 +40,22 @@ export class Metadatum {
     /**
      * Create a new Metadatum.
      * 
-     * @param dso
-     *      The DSpaceObject this object is metadata for
      * @param json
      *      A plain old javascript object representing a Metadatum as would be returned from the 
      *      REST api. It uses json.key (which consists of schema.element.qualifier), json.value 
      *      and json.language
+     * @param dso
+     *      The DSpaceObject this object is metadata for
      */
-    constructor(dso: DSpaceObject, json?: any) {
+    constructor(json?: any, dso?: DSpaceObject) {
         if (ObjectUtil.isNotEmpty(json)) {
             this.key = json.key;
             this.value = json.value;
             this.language = json.language;
         }
-        this.dso = dso;
+        if(dso) {
+            this.dso = dso;
+        }
     }
 
     /**
