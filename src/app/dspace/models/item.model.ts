@@ -46,8 +46,6 @@ export class Item extends DSOContainer {
 
     /**
      * If this bitstream is a thumbnail, save the string to the thumbnail.
-     * Returns null if none is found;
-     * @returns {null}
      */
     private findThumbnail(bitstreams)
     {
@@ -64,7 +62,7 @@ export class Item extends DSOContainer {
     /**
      * Returns the primary bitstream
      * @param bitstreams
-     * @returns {any}
+     * @returns Bitstream
      */
     private getPrimaryStream(bitstreams) : Bitstream
     {
