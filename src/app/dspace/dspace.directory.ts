@@ -43,6 +43,8 @@ export class DSpaceDirectory {
             this.pagingStore.clearPages(context);
             context.loaded = false;
             context.limit = null;
+            context.subcommunities.splice(0, context.subcommunities.length);
+            context.collections.splice(0, context.collections.length);
             this.loadNav('community', context);
             this.loadNav('collection', context);
         }
