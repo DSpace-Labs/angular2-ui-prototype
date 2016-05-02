@@ -83,7 +83,7 @@ export class FormModal implements OnInit {
     /**
      * Whether the modal is being displayed or not.
      */
-  	private showModal: boolean = false;
+    private showModal: boolean = false;
 
     /**
      *
@@ -119,9 +119,9 @@ export class FormModal implements OnInit {
     /**
      * Emit confirm action.
      */
-  	confirmAction(): void {
+    confirmAction(): void {
         this.loading = true;
-    	this.actionEmitter.next(ModalAction.CONFIRM);
+        this.actionEmitter.next(ModalAction.CONFIRM);
   	}
 
     /**
