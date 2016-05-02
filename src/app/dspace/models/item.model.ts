@@ -38,8 +38,7 @@ export class Item extends DSOContainer {
 
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
-                    let b : Bitstream = new Bitstream(bitstream);
-                    return b;
+                    return new Bitstream(bitstream);
                 });
             }
         }
@@ -52,18 +51,24 @@ export class Item extends DSOContainer {
      */
     private findThumbnail(bitstreams)
     {
-        let primaryBitstream = this.getPrimaryStream(bitstreams);
-        console.log("primary bitstream: " + primaryBitstream.name);
-        var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name+".jpg").forEach(x => this.thumbnail = x.retrieveLink);
-        console.log("thumbnail..");
-        console.log(this.thumbnail);
+        if(bitstreams != null)
+        {
+            let primaryBitstream = this.getPrimaryStream(bitstreams);
+            if (primaryBitstream != null)
+            {
+                var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name + ".jpg").forEach(x => this.thumbnail = x.retrieveLink); // if filter returns, it will be the first one.
+            }
+        }
     }
 
+    /**
+     * Returns the primary bitstream
+     * @param bitstreams
+     * @returns {any}
+     */
     private getPrimaryStream(bitstreams) : Bitstream
     {
-        console.log("looking for the primary bitstream name");
-        var x = bitstreams.filter(x => x.bundleName=="ORIGINAL" && x.sequenceId == 1)[0];
-        console.log(x);
-        return x;
+        var primary = bitstreams.filter(x => x.bundleName=="ORIGINAL" && x.sequenceId == 1);
+        return primary != null ? primary[0] : null;
     }
 }
