@@ -36,7 +36,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                         <h1>{{item.name}}</h1>
                         <div class="row">
                             <div class="col-md-4">
-                                <item-thumbnail [bitstreams]="item.bitstreams"></item-thumbnail>
+                                <item-thumbnail [thumbnaillink]="item.thumbnail"></item-thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>

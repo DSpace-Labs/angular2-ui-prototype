@@ -155,8 +155,6 @@ export class DSpaceService {
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteRESTURL('/items/' + id + '?expand=metadata,bitstreams,parentCollection')
         }).map(json => {
-            console.log("got the item!");
-            console.log(json.bitstreams[0].bundleName);
             return new Item(json);
         });
     }
