@@ -15,8 +15,8 @@ import {Community} from "../models/community.model";
     pipes: [TranslatePipe],
     template: ` 
                 <form *ngIf="active" #createCommunityForm="ngForm" (ngSubmit)="createCommunity()" novalidate>
-                	
-                	<fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
+                    
+                    <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
                         <label for="name">Name</label>
                         <input type="text" 
                                id="name" 
@@ -42,8 +42,8 @@ import {Community} from "../models/community.model";
                     </fieldset>
 
                     <div class="pull-right">
-                    	<button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                    	<button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
+                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
                     </div>
 
                 </form>
@@ -51,11 +51,11 @@ import {Community} from "../models/community.model";
 })
 export class CommunityCreateComponent {
 
-	private active: boolean = true;
+    private active: boolean = true;
 
-	private community: Community = new Community();
+    private community: Community = new Community();
 
-	/**
+    /**
      *
      * @param dspace
      *      DSpaceService is a singleton service to interact with the dspace service.
@@ -63,33 +63,33 @@ export class CommunityCreateComponent {
      *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
-    			private contextProvider: ContextProviderService,
-    			private dspaceService: DSpaceService,
-    			private dspace: DSpaceDirectory, 
-    			private translate: TranslateService,
-    			private router: Router) {
+                private contextProvider: ContextProviderService,
+                private dspaceService: DSpaceService,
+                private dspace: DSpaceDirectory, 
+                private translate: TranslateService,
+                private router: Router) {
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
     createCommunity(): void {
 
-    	let token = this.authorization.user.token;
-    	
-    	let currentContext = this.contextProvider.context;
+        let token = this.authorization.user.token;
+        
+        let currentContext = this.contextProvider.context;
 
-    	this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
+        this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
 
-            	this.reset();
+                this.reset();
 
                 if(currentContext.root) {
-					this.dspace.refresh();
-                	this.router.navigate(['/Dashboard']);
+                    this.dspace.refresh();
+                    this.router.navigate(['/Dashboard']);
                 }
                 else {
-                	this.dspace.refresh(currentContext);
-					this.router.navigate(['/Communities', { id: currentContext.id }]);
+                    this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Communities', { id: currentContext.id }]);
                 }
                 
             }
@@ -101,9 +101,9 @@ export class CommunityCreateComponent {
     }
 
     reset(): void {
-    	this.community = new Community();
-    	this.active = false;
-		setTimeout(() => this.active = true, 0);
+        this.community = new Community();
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
     }
 
 }

@@ -15,8 +15,8 @@ import {Collection} from "../models/collection.model";
     pipes: [TranslatePipe],
     template: ` 
                 <form *ngIf="active" #createCollectionForm="ngForm" (ngSubmit)="createCollection()" novalidate>
-                	
-                	<fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
+                    
+                    <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
                         <label for="name">Name</label>
                         <input type="text" 
                                id="name" 
@@ -42,8 +42,8 @@ import {Collection} from "../models/collection.model";
                     </fieldset>
 
                     <div class="pull-right">
-                    	<button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                    	<button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
+                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
                     </div>
 
                 </form>
@@ -51,11 +51,11 @@ import {Collection} from "../models/collection.model";
 })
 export class CollectionCreateComponent {
 
-	private active: boolean = true;
+    private active: boolean = true;
 
-	private collection: Collection = new Collection();
+    private collection: Collection = new Collection();
 
-	/**
+    /**
      *
      * @param dspace
      *      DSpaceService is a singleton service to interact with the dspace service.
@@ -63,28 +63,28 @@ export class CollectionCreateComponent {
      *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
-    			private contextProvider: ContextProviderService,
-    			private dspaceService: DSpaceService,
-    			private dspace: DSpaceDirectory, 
-    			private translate: TranslateService,
-    			private router: Router) {
+                private contextProvider: ContextProviderService,
+                private dspaceService: DSpaceService,
+                private dspace: DSpaceDirectory, 
+                private translate: TranslateService,
+                private router: Router) {
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
     createCollection(): void {
 
-    	let token = this.authorization.user.token;
-    	
-    	let currentContext = this.contextProvider.context;
+        let token = this.authorization.user.token;
+        
+        let currentContext = this.contextProvider.context;
 
-    	this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
+        this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
 
-            	this.reset();
+                this.reset();
 
-            	this.dspace.refresh(currentContext);
-				this.router.navigate(['/Communities', { id: currentContext.id }]);
+                this.dspace.refresh(currentContext);
+                this.router.navigate(['/Communities', { id: currentContext.id }]);
 
             }
         },
@@ -95,9 +95,9 @@ export class CollectionCreateComponent {
     }
 
     reset(): void {
-    	this.collection = new Collection();
-    	this.active = false;
-		setTimeout(() => this.active = true, 0);
+        this.collection = new Collection();
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
     }
 
 }

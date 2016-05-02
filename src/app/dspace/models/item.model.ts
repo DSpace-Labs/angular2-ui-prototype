@@ -21,17 +21,14 @@ export class Item extends DSOContainer {
 
     fullItem: boolean;
 
-    constructor(json: any) {
+    constructor(json?: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-
-        if (ObjectUtil.isNotEmpty(json))
-        {
+        if (ObjectUtil.isNotEmpty(json)) {
             this.parentCollection = new Collection(json.parentCollection);
             this.lastModified = json.lastModified;
             this.archived = json.archived;
             this.withdrawn = json.withdrawn;
             this.fullItem = json.fullItem ? json.fullItem : false;
-
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
                     return new Bitstream(bitstream);

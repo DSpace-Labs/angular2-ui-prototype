@@ -33,7 +33,7 @@ import {User} from '../../dspace/models/user.model';
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
                     <div class="panel-body" *ngIf="context.type == 'collection'">
-                        <ul>
+                        <ul *ngIf="user">
                             <li><a [routerLink]="[context.component, { id: context.id }, 'ItemCreate']">{{ 'context.create-item' | translate }}</a></li>
                         </ul>
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>

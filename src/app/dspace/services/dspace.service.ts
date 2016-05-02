@@ -206,9 +206,9 @@ export class DSpaceService {
         });
     }
 
-    createCollection(collection: Collection, token: string, parentCollectionId: string): Observable<Response> {
+    createCollection(collection: Collection, token: string, parentCommunityId: string): Observable<Response> {
         
-        let path = '/communities/' + parentCollectionId + '/collections';
+        let path = '/communities/' + parentCommunityId + '/collections';
 
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
@@ -216,6 +216,21 @@ export class DSpaceService {
                 key: 'rest-dspace-token', value: token
             }],
             data: collection
+        });
+    }
+
+    createItem(item: Item, token: string, parentCollectionId: string): Observable<Response> {
+        
+        console.log(item);
+
+        let path = '/collections/' + parentCollectionId + '/items';
+
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: item
         });
     }
 
