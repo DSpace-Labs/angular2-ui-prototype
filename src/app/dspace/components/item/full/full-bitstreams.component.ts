@@ -57,7 +57,7 @@ export class FullBitstreamsComponent {
 
     ngOnInit()
     {
-        this.itemBitstreams = this.itemBitstreams.filter(x => x.bundle == "ORIGINAL"); // filter for original bundle
+        this.itemBitstreams = this.itemBitstreams.filter(x => x.bundle == "ORIGINAL");
         if(this.itemThumbnail!=null)
         {
             this._thumbnailSource = "http://localhost:5050/rest"+this.itemThumbnail;

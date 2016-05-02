@@ -53,7 +53,6 @@ export class FullItemViewComponent {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
-            console.log(this.item);
         });
     }
 

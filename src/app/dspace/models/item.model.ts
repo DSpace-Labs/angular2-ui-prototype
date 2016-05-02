@@ -25,9 +25,7 @@ export class Item extends DSOContainer {
 
     constructor(json: any) { // would be resolved to an object at this point.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-            // here we should hav the same data
-        console.log("creating an item");
-        console.log(json);
+
         this.findThumbnail(json.bitstreams);
         if (ObjectUtil.isNotEmpty(json))
         {
