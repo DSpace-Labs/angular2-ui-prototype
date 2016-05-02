@@ -115,6 +115,11 @@ var serverConfig = {
               from: path.join(node_modules, 'bootstrap', 'dist', 'fonts'),
               to: path.join('static', 'fonts')
             },
+            // Copy any json forms (./resources/forms/) into 'static/forms'
+            {
+              from: path.join(__dirname, 'resources', 'forms'),
+              to: path.join('static', 'forms')
+            },
             // Copy any CSS overrides (./resources/css/) into 'static/css' subfolder
             {
               from: path.join(__dirname, 'resources', 'css'),

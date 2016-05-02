@@ -1,0 +1,113 @@
+[
+	{
+		"label": "dc.title",
+		"gloss": "Title",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.type",
+		"gloss": "Document Type",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.date.created",
+		"gloss": "Publication Date",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.language.iso",
+		"gloss": "Language",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		},
+		"default": "en_US"
+	},
+	{
+		"label": "dc.contributor.author",
+		"gloss": "Author",
+		"input": "TEXT",
+		"repeatable": true,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.description",
+		"gloss": "Description",
+		"input": "TEXTAREA",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 16,
+			"maxlength": 2056
+		}
+	},
+	{
+		"label": "dc.description.abstract",
+		"gloss": "Abstract",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 16,
+			"maxlength": 2056
+		}
+	},
+	{
+		"label": "dc.subject",
+		"gloss": "Subject",
+		"input": "TEXT",
+		"repeatable": true,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.rights",
+		"gloss": "Rights",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	},
+	{
+		"label": "dc.rights.uri",
+		"gloss": "Rights URI",
+		"input": "TEXT",
+		"repeatable": false,
+		"validation": {
+			"required": true,
+			"minlength": 4,
+			"maxlength": 64
+		}
+	}
+]

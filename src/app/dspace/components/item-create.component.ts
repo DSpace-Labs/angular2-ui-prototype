@@ -70,6 +70,11 @@ export class ItemCreateComponent {
                 private router: Router) {
         translate.setDefaultLang('en');
         translate.use('en');
+
+        dspaceService.getMetadataForm().subscribe(formJson => {
+            console.log(formJson);
+        });
+
     }
 
     createItem(): void {

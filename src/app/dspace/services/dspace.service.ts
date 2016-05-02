@@ -234,4 +234,10 @@ export class DSpaceService {
         });
     }
 
+    getMetadataForm() {
+        return this.httpService.get({
+            url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
+        });
+    }
+
 }
