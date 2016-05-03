@@ -55,7 +55,7 @@ import {Metadatum} from '../models/metadatum.model';
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <label>{{input.gloss}}</label>
-                                                <span class="text-danger">*required</span>
+                                                <span class="text-danger" *ngIf="input.validation.required">*required</span>
                                                 <label class="pull-right">{{input.key}}</label>
                                             </div>
                                         </div>
@@ -67,6 +67,10 @@ import {Metadatum} from '../models/metadatum.model';
                                                 <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
 
                                                 <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}"></textarea>
+
+                                                <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
+                                                    <option *ngFor="#option of input.options" [value]="option.value">{{ option.gloss }}</option>
+                                                </select>
 
                                                 <span [hidden]="form.controls[input.key].valid || form.controls[input.key].pristine" class="validaiton-helper text-danger">
                                                     <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.minlength">
@@ -125,12 +129,18 @@ export class ItemCreateComponent {
 
             for(let input of this.metadatumInputs) {
 
+                if(input.default) {
+                    input.value = input.default;
+                }
+
                 let validators: Array<any> = new Array<any>();
 
                 for(let key in input.validation) {
 
-                    if(key == 'required' && input.validation[key]) {
-                        validators.push(Validators.required);
+                    if(key == 'required') {
+                        if(input.validation[key]) {
+                            validators.push(Validators.required);
+                        }
                     }
                     else {
                         validators.push(Validators[key](input.validation[key]));

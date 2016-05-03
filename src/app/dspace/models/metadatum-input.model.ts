@@ -10,6 +10,8 @@ export class MetadatumInput extends Metadatum {
 
     type: string;
 
+    options: Array<any>;
+
     repeatable: boolean;
 
     validation: any;
@@ -23,6 +25,7 @@ export class MetadatumInput extends Metadatum {
        if (ObjectUtil.isNotEmpty(json)) {
             this.gloss = json.gloss;
             this.type = json.type;
+            this.options = json.options;
             this.repeatable = json.repeatable;
             this.validation = json.validation;
             this.edit = false;

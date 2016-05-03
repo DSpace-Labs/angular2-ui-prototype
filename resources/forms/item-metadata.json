@@ -38,11 +38,15 @@
 		"language": "en",
 		"gloss": "Language",
 		"type": "SELECT",
+		"options": [
+			{
+				"gloss": "English",
+				"value": "en"
+			}
+		],
 		"repeatable": false,
 		"validation": {
-			"required": true,
-			"minLength": 2,
-			"maxLength": 64
+			"required": true
 		},
 		"default": "en"
 	},
