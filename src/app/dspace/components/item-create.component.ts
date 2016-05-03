@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {Router} from 'angular2/router';
-import {NgForm} from 'angular2/common';
+import {FORM_DIRECTIVES, FORM_BINDINGS, ControlGroup, Control, FormBuilder, NgForm, Validators} from 'angular2/common';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -16,8 +16,10 @@ import {Metadatum} from '../models/metadatum.model';
 @Component({
     selector: 'item-create',
     pipes: [TranslatePipe],
+    bindings: [FORM_BINDINGS],
+    directives: [FORM_DIRECTIVES],
     template: ` 
-                <form *ngIf="active" #createItemForm="ngForm" (ngSubmit)="createItem()" novalidate>
+                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     
                     <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
                         <label for="name">Name</label>
@@ -48,22 +50,35 @@ import {Metadatum} from '../models/metadatum.model';
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngIf="metadataInputs" *ngFor="#input of metadatumInputs">
+                                <tr *ngFor="#input of metadatumInputs">
                                     <td>
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <label>{{input.gloss}}</label>
+                                                <span class="text-danger">*required</span>
                                                 <label class="pull-right">{{input.key}}</label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12">
 
-                                                <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm" value="{{input.default}}">
+                                                <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
 
-                                                <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm">
+                                                <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
 
-                                                <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm"></textarea>
+                                                <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}"></textarea>
+
+                                                <span [hidden]="form.controls[input.key].valid || form.controls[input.key].pristine" class="validaiton-helper text-danger">
+                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.minlength">
+                                                        must have at least {{ input.validation.minLength }} characters
+                                                    </span>
+                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.maxlength">
+                                                        must have at most {{ input.validation.maxLength }} characters
+                                                    </span>
+                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.required">
+                                                        required
+                                                    </span>
+                                                </span>
 
                                             </div>
                                         </div>
@@ -77,7 +92,7 @@ import {Metadatum} from '../models/metadatum.model';
 
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
                     </div>
 
                 </form>
@@ -85,23 +100,52 @@ import {Metadatum} from '../models/metadatum.model';
 })
 export class ItemCreateComponent {
 
-    private active: boolean = true;
+    private active: boolean = false;
 
     private item: Item = new Item();
 
     private metadatumInputs: Array<MetadatumInput>;
+
+    private form: ControlGroup;
 
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory, 
                 private translate: TranslateService,
-                private router: Router) {
+                private router: Router,
+                private builder: FormBuilder) {
         translate.setDefaultLang('en');
         translate.use('en');
 
         dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
             this.metadatumInputs = metadatumInputs;
+
+            let formControls = {};
+
+            for(let input of this.metadatumInputs) {
+
+                let validators: Array<any> = new Array<any>();
+
+                for(let key in input.validation) {
+
+                    if(key == 'required' && input.validation[key]) {
+                        validators.push(Validators.required);
+                    }
+                    else {
+                        validators.push(Validators[key](input.validation[key]));
+                    }
+
+                }
+
+                formControls[input.key] = new Control('', Validators.compose(validators));
+
+            }
+
+            this.form = builder.group(formControls);
+
+            this.active = true;
+
         });
 
     }

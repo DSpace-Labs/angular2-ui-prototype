@@ -7,8 +7,8 @@
 		"repeatable": false,
 		"validation": {
 			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"minLength": 4,
+			"maxLength": 64
 		}
 	},
 	{
@@ -19,8 +19,8 @@
 		"repeatable": false,
 		"validation": {
 			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"minLength": 4,
+			"maxLength": 64
 		}
 	},
 	{
@@ -37,12 +37,12 @@
 		"key": "dc.language.iso",
 		"language": "en",
 		"gloss": "Language",
-		"type": "TEXT",
+		"type": "SELECT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"minLength": 2,
+			"maxLength": 64
 		},
 		"default": "en"
 	},
@@ -54,8 +54,8 @@
 		"repeatable": true,
 		"validation": {
 			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"minLength": 4,
+			"maxLength": 64
 		}
 	},
 	{
@@ -66,8 +66,8 @@
 		"repeatable": false,
 		"validation": {
 			"required": true,
-			"minlength": 16,
-			"maxlength": 2056
+			"minLength": 4,
+			"maxLength": 512
 		}
 	},
 	{
@@ -78,8 +78,8 @@
 		"repeatable": false,
 		"validation": {
 			"required": true,
-			"minlength": 16,
-			"maxlength": 2056
+			"minLength": 16,
+			"maxLength": 2056
 		}
 	},
 	{
@@ -90,8 +90,8 @@
 		"repeatable": true,
 		"validation": {
 			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"minLength": 4,
+			"maxLength": 64
 		}
 	},
 	{
@@ -101,9 +101,9 @@
 		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
-			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"required": false,
+			"minLength": 4,
+			"maxLength": 64
 		}
 	},
 	{
@@ -113,9 +113,9 @@
 		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
-			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"required": false,
+			"minLength": 4,
+			"maxLength": 64
 		}
 	}
 ]
