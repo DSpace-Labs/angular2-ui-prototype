@@ -55,7 +55,7 @@ import {CommunityCreateComponent} from './dspace/components/community-create.com
                                 <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.email }}</a></li>
+                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
                                 <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
                             </ul>
                         </div>

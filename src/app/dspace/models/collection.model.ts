@@ -24,9 +24,7 @@ export class Collection extends DSOContainer {
     parentCommunity : Community;
 
 
-
     license: string; // TODO: probably should have a license object
-
 
     /**
      * Create a new Collection

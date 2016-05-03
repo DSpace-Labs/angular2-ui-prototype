@@ -134,9 +134,17 @@ export class LoginFormComponent {
         if(action == ModalAction.CONFIRM) {
             this.authorization.login(this.email, this.password).subscribe(response => {           
                 if(response.status == 200) {
-                    this.login.hide();
-                    this.login.finished();
-                    this.unauthorized = false;
+                    let token = response.text();
+
+                    this.authorization.status(token).subscribe(response => {
+                        this.login.hide();
+                        this.login.finished();
+                        this.unauthorized = false;
+                    },
+                    error => {
+                        this.unauthorized = true;
+                        this.login.finished();
+                    });
                 }
             },
             error => {

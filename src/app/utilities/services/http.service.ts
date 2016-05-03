@@ -16,27 +16,11 @@ export class HttpService {
     /**
      * Convinience method to instantiate and assign headers.
      *
-     * @param hdrsArr
-     *      an array of objects, {key: string, value: string}, containing headers
-     */
-    buildHeaders(hdrsArr) {
-        let headers = new Headers();
-        hdrsArr.forEach((header) => {
-            headers.append(header.key, header.value);
-        });
-        return headers;
-    }
-
-    /**
-     * Method to make a http POST request.
-     *
      * @param request
-     *      an object, {uri: string, data: Object}, used to POST
+     *      an object, {uri: string, data: Object}, used to GET or POST
      */
-    post(request) {
-        //console.log(request)
-
-        let body = JSON.stringify(request.data);
+    buildHeaders(request: any): Headers {
+        let headers = new Headers();
 
         let headerArray = [
             { key: 'Content-Type', value: 'application/json' },
@@ -47,7 +31,24 @@ export class HttpService {
             headerArray = headerArray.concat(request.headers);
         }
 
-        let headers = this.buildHeaders(headerArray);
+        headerArray.forEach((header) => {
+            headers.append(header.key, header.value);
+        });
+
+        return headers;
+    }
+
+    /**
+     * Method to make a http POST request.
+     *
+     * @param request
+     *      an object, {uri: string, data: Object, headers: Array}, used to POST
+     */
+    post(request: any): any {
+
+        let body = JSON.stringify(request.data);
+
+        let headers = this.buildHeaders(request);
 
         let options = new RequestOptions({ headers: headers });
 
@@ -59,24 +60,18 @@ export class HttpService {
      * to a json object.
      *
      * @param request
-     *      an object, {url: string}, used to GET
+     *      an object, {url: string, headers: Array}, used to GET
      */
-    get(request) {
-        //console.log(request);
+    get(request: any): any {
 
-        let headers = this.buildHeaders([
-            { key: 'Content-Type', value: 'application/json' },
-            { key: 'Accept', value: 'application/json' }
-        ]);
+        let headers = this.buildHeaders(request);
 
         let options = new RequestOptions({
-            method: RequestMethod.Get,
-            url: request.url,
             headers: headers,
             search: request.search
         });
         
-        return this.http.request(new Request(options)).map(response => {
+        return this.http.get(request.url, options).map(response => {
             return response.json();
         });
     }

@@ -37,6 +37,8 @@ import {Metadatum} from '../models/metadatum.model';
                         </span>
                     </fieldset>
 
+                    <hr/>
+                    <label>Metadata</label>
                     <fieldset class="form-group">
                        
                         <table class="table table-striped">
@@ -53,14 +55,14 @@ import {Metadatum} from '../models/metadatum.model';
                                 <tr *ngFor="#input of metadatumInputs">
                                     <td>
                                         <div class="row">
-                                            <div class="col-xs-11">
+                                            <div class="col-md-11 col-xs-10">
                                                 <label>{{input.gloss}}</label>
                                                 <span class="text-danger" *ngIf="input.validation.required">*required</span>
                                                 <label class="pull-right">{{input.key}}</label>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-11">
+                                            <div class="col-md-11 col-xs-10">
 
                                                 <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
 
@@ -102,7 +104,7 @@ import {Metadatum} from '../models/metadatum.model';
 
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid && !form.valid">Submit</button>
                     </div>
 
                 </form>
@@ -157,11 +159,9 @@ export class ItemCreateComponent {
                     else {
                         validators.push(Validators[key](input.validation[key]));
                     }
-
                 }
 
                 formControls[input.key] = new Control('', Validators.compose(validators));
-
             }
 
             this.form = this.builder.group(formControls);
@@ -197,6 +197,8 @@ export class ItemCreateComponent {
         let token = this.authorization.user.token;
         
         let currentContext = this.contextProvider.context;
+
+        this.item.metadata = new Array<Metadatum>();
 
         for(let input of this.metadatumInputs) {
             if(input.value) {

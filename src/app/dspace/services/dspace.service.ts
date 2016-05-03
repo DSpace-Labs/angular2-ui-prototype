@@ -180,6 +180,22 @@ export class DSpaceService {
     }
 
     /**
+     * Method to get user status. 
+     *
+     * @param token
+     *      DSpace user token
+     */
+    status(token): Observable<Response> {
+        console.log(token);
+        return this.httpService.get({
+            url: URLHelper.relativeToAbsoluteRESTURL('/status'),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
+        });
+    }
+
+    /**
      * Method to logout. 
      *
      * @param token
@@ -195,9 +211,7 @@ export class DSpaceService {
     }
 
     createCommunity(community: Community, token: string, parentCommunityId?: string): Observable<Response> {
-        
         let path = parentCommunityId ? '/communities/' + parentCommunityId + '/communities' : '/communities';
-
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
             headers: [{
@@ -208,9 +222,7 @@ export class DSpaceService {
     }
 
     createCollection(collection: Collection, token: string, parentCommunityId: string): Observable<Response> {
-        
         let path = '/communities/' + parentCommunityId + '/collections';
-
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
             headers: [{
@@ -221,11 +233,7 @@ export class DSpaceService {
     }
 
     createItem(item: Item, token: string, parentCollectionId: string): Observable<Response> {
-        
-        console.log(item);
-
         let path = '/collections/' + parentCollectionId + '/items';
-
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
             headers: [{

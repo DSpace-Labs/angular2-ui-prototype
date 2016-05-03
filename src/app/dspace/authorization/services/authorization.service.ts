@@ -60,24 +60,40 @@ export class AuthorizationService {
      */
     login(email: string, password: string): Observable<Response> {
 
-        let observableResponse: Observable<Response> = this.dspace.login(email, password);
+        let loginResponse: Observable<Response> = this.dspace.login(email, password);
         
-        observableResponse.subscribe(response => {
+        loginResponse.subscribe(response => {
             if(response.status == 200) {
-                let token = response.text();
-                this.user = new User(email, token);
-
-                //{
-                //  this.storageService.store('email', email);
-                //  this.storageService.store('token', token);
-                //}
+                
             }
         },
         error => {
             console.log(error);
         });
 
-        return observableResponse;
+        return loginResponse;
+    }
+
+    status(token: string): Observable<Response> {
+
+        let statusResponse: Observable<Response> = this.dspace.status(token);
+
+        statusResponse.subscribe(response => {
+            console.log(response);
+            this.user = new User(response);
+
+            console.log(this.user);
+
+            //{
+            //    this.storageService.store('email', email);
+            //    this.storageService.store('token', token);
+            //}
+        },
+        error => {
+            console.log(error);
+        });
+
+        return statusResponse;
     }
 
     /**
@@ -87,9 +103,9 @@ export class AuthorizationService {
 
         let token = this.user.token;
 
-        let observableResponse: Observable<Response> = this.dspace.logout(token);
+        let logoutResponse: Observable<Response> = this.dspace.logout(token);
         
-        observableResponse.subscribe(response => {
+        logoutResponse.subscribe(response => {
             if(response.status == 200) {
                 this.user = null;
 
@@ -103,7 +119,7 @@ export class AuthorizationService {
             console.log(error);
         });
 
-        return observableResponse;
+        return logoutResponse;
     }
 
     /**

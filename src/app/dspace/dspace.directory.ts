@@ -68,9 +68,6 @@ export class DSpaceDirectory {
         else if(context.type == 'collection') {
             context.numberItems++;
         }
-        else {
-            console.log(context.type + " does not contain count of items");
-        }
         if(context.parentCommunity) {
             this.incrementItemCount(context.parentCommunity);
         }
