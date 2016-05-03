@@ -52,11 +52,27 @@ export class DSpaceDirectory {
             else if(context.type == 'collection') {
                 context.items.splice(0, context.items.length);
                 this.loadNav('item', context);
+                this.incrementItemCount(context);
             }
         }
         else {
             this.ready = false;
             this.loadDirectory();
+        }
+    }
+
+    incrementItemCount(context: any): void {
+        if(context.type == 'community') {
+            context.countItems++;
+        }
+        else if(context.type == 'collection') {
+            context.numberItems++;
+        }
+        else {
+            console.log(context.type + " does not contain count of items");
+        }
+        if(context.parentCommunity) {
+            this.incrementItemCount(context.parentCommunity);
         }
     }
 

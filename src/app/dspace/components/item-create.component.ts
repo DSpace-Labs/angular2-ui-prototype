@@ -53,14 +53,14 @@ import {Metadatum} from '../models/metadatum.model';
                                 <tr *ngFor="#input of metadatumInputs">
                                     <td>
                                         <div class="row">
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-11">
                                                 <label>{{input.gloss}}</label>
                                                 <span class="text-danger" *ngIf="input.validation.required">*required</span>
                                                 <label class="pull-right">{{input.key}}</label>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-11">
 
                                                 <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
 
@@ -85,6 +85,12 @@ import {Metadatum} from '../models/metadatum.model';
                                                 </span>
 
                                             </div>
+
+                                            <div class="col-xs-1" *ngIf="input.repeatable">
+                                                <span *ngIf="!input.repeat" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
+                                                <span *ngIf="input.repeat" class="glyphicon glyphicon-minus clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
+                                            </div>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -106,7 +112,7 @@ export class ItemCreateComponent {
 
     private active: boolean = false;
 
-    private item: Item = new Item();
+    private item: Item;
 
     private metadatumInputs: Array<MetadatumInput>;
 
@@ -121,8 +127,14 @@ export class ItemCreateComponent {
                 private builder: FormBuilder) {
         translate.setDefaultLang('en');
         translate.use('en');
+        this.init();
+    }
 
-        dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
+    init(): void {
+        this.item = new Item();
+
+        this.dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
+
             this.metadatumInputs = metadatumInputs;
 
             let formControls = {};
@@ -152,12 +164,32 @@ export class ItemCreateComponent {
 
             }
 
-            this.form = builder.group(formControls);
+            this.form = this.builder.group(formControls);
 
             this.active = true;
 
         });
+    }
 
+    addMetadatumInput(input: MetadatumInput): void {
+        let newInput = JSON.parse(JSON.stringify(input));
+        newInput.repeat = newInput.repeat ? newInput.repeat++ : 1;
+        newInput.value = '';
+        for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
+            if(this.metadatumInputs[i].key == newInput.key) {
+                this.metadatumInputs.splice(i+1, 0, newInput);
+                break;
+            }
+        }
+    }
+
+    removeMetadatumInput(input: MetadatumInput): void {
+        for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
+            if(this.metadatumInputs[i].key == input.key) {
+                this.metadatumInputs.splice(i, 1);
+                break;
+            }
+        }
     }
 
     createItem(): void {
@@ -189,9 +221,8 @@ export class ItemCreateComponent {
     }
 
     reset(): void {
-        this.item = new Item();
         this.active = false;
-        setTimeout(() => this.active = true, 0);
+        this.init();
     }
 
 }
