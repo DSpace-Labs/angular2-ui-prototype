@@ -1,30 +1,19 @@
-﻿import {Component} from 'angular2/core';
-import {NgClass, NgForm} from 'angular2/common';
+import {Component} from 'angular2/core';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
-import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
 
 /**
  * 
  */
 @Component({
-    selector: 'login',
+    selector: 'register',
     pipes: [TranslatePipe],
     template: `
-                <span>{{'login.title' | translate}} </span>
+                <span>{{'register.title' | translate}}</span>
               `
 })
-export class LoginComponent {
-
-    /**
-     * 
-     */
-    email: string;
-
-    /**
-     * 
-     */
-    password: string;
+export class RegistrationComponent {
 
     /**
      *
@@ -34,9 +23,9 @@ export class LoginComponent {
     constructor(private breadcrumb: BreadcrumbService,
                 private translate: TranslateService) {
         breadcrumb.visit({
-            name: 'Login',
-            type: 'login',
-            component: '/Login',
+            name: 'Register',
+            type: 'register',
+            component: '/Register',
             root: true,
         });
         translate.setDefaultLang('en');

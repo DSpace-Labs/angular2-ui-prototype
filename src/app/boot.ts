@@ -4,6 +4,7 @@ import {prebootComplete} from 'angular2-universal';
 import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
+import {FORM_PROVIDERS} from 'angular2/common';
 import {enableProdMode, provide} from 'angular2/core';
 
 import {
@@ -13,10 +14,12 @@ import {
 
 import {AppComponent} from './app.component';
 import {DSpaceService} from './dspace/services/dspace.service';
+import {AuthorizationService} from './dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './navigation/services/breadcrumb.service';
 import {PaginationService} from './navigation/services/pagination.service';
-import {HttpService} from './utilities/http.service';
+import {HttpService} from './utilities/services/http.service';
 import {MetaTagService} from "./utilities/meta-tag/meta-tag.service";
+import {StorageService} from './utilities/services/storage.service';
 import {PagingStoreService} from './dspace/services/paging-store.service';
 import {ContextProviderService} from './dspace/services/context-provider.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
@@ -38,10 +41,12 @@ enableProdMode();
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    FORM_PROVIDERS,
     provide(TranslateLoader, {
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
         deps: [Http]
     }),
+    AuthorizationService,
     BreadcrumbService,
     DSpaceConstants,
     DSpaceDirectory,
@@ -51,6 +56,7 @@ bootstrap(AppComponent, [
     MetaTagService,
     PaginationService,
     PagingStoreService,
+    StorageService,
     TranslateService
 ])
 .then(prebootComplete);

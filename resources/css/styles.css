@@ -10,7 +10,8 @@ html, body {
 }
 
 .list-group .list-group-item .glyphicon {
-	margin-right: 5px;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
 .clickable {
@@ -24,6 +25,29 @@ html, body {
 .thumbnail-placeholder {
     width: 93px;
     height: 120px;
+}
+
+
+.validaiton-helper {
+    margin-left: 5px;
+}
+
+.form-modal {
+    opacity: 0;
+    display: none;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.form-modal-fadein {
+    opacity: 1;
+    display: block;
+}
+
+.form-loader {
+    text-align: center;
+    margin-bottom: 5px;
 }
 
 /* bootstrap overrides */
@@ -50,4 +74,5 @@ html, body {
 .item-list-url{
     font-size:16px;
 }
+
 /***********************/

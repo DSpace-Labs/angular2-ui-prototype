@@ -1,8 +1,8 @@
-﻿import {Injectable} from 'angular2/core';
-import {URLSearchParams} from 'angular2/http';
+import {Injectable} from 'angular2/core';
+import {Response, URLSearchParams} from 'angular2/http';
 import {Observable} from "rxjs/Observable";
 
-import {HttpService} from '../../utilities/http.service';
+import {HttpService} from '../../utilities/services/http.service';
 import {Community} from '../models/community.model';
 import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
@@ -167,8 +167,8 @@ export class DSpaceService {
      * @param password
      *      DSpace user password
      */
-    login(email, password): void {
-        this.httpService.post({
+    login(email, password): Observable<Response> {
+        return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL('/login'),
             data: {
                 email: email,

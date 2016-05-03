@@ -1,4 +1,4 @@
-﻿import {Injectable} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
 /**
@@ -63,7 +63,7 @@ export class HttpService {
             { key: 'Accept', value: 'application/json' }
         ]);
 
-        var options = new RequestOptions({
+        let options = new RequestOptions({
             method: RequestMethod.Get,
             url: request.url,
             headers: headers,

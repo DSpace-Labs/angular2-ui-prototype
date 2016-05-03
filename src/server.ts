@@ -6,6 +6,7 @@ import 'angular2-universal/polyfills';
 import {
     expressEngine,
     REQUEST_URL,
+    NODE_ROUTER_PROVIDERS,
     NODE_LOCATION_PROVIDERS,
     NODE_HTTP_PROVIDERS,
     NODE_PRELOAD_CACHE_HTTP_PROVIDERS
@@ -17,8 +18,7 @@ import {
 } from 'angular2/core';
 
 import {
-    APP_BASE_HREF,
-    ROUTER_PROVIDERS
+    APP_BASE_HREF
 } from 'angular2/router';
 
 import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
@@ -30,17 +30,19 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
+import {AuthorizationService} from './app/dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
 import {PaginationService} from './app/navigation/services/pagination.service';
 import {DSpaceDirectory} from './app/dspace/dspace.directory';
 import {DSpaceConstants} from './app/dspace/dspace.constants';
 import {DSpaceService} from './app/dspace/services/dspace.service';
 
-import {HttpService} from './app/utilities/http.service';
+import {HttpService} from './app/utilities/services/http.service';
 import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
 import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
 import {MetadataHelper} from './app/utilities/metadata.helper';
-import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
+import {GoogleScholarMetadataService} from './app/utilities/services/google-scholar-metadata.service.ts';
+import {StorageService} from './app/utilities/services/storage.service';
 import {ContextProviderService} from './app/dspace/services/context-provider.service';
 import {PagingStoreService} from './app/dspace/services/paging-store.service';
 
@@ -106,20 +108,22 @@ function ngApp(req, res) {
     res.render('index', {
         directives: [AppComponent, TitleComponent],
         providers: [
-            provide(APP_BASE_HREF, { useValue: baseUrl }),
-            provide(REQUEST_URL, { useValue: url }),
-            ROUTER_PROVIDERS,
+            NODE_ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            provide(APP_BASE_HREF, { useValue: baseUrl }),
+            provide(REQUEST_URL, { useValue: url }),
             provide(TranslateLoader, {
                 useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
             }),
             TranslateService,
+            AuthorizationService,
             BreadcrumbService,
             PaginationService,
             DSpaceDirectory,
             DSpaceConstants,
             DSpaceService,
+            StorageService,
             PagingStoreService,
             GoogleScholarMetadataService,
             HttpService,
@@ -128,8 +132,8 @@ function ngApp(req, res) {
             MetadataHelper
         ],
         preboot: {
-            replay: 'hydrate',
             appRoot: 'dspace',
+            replay: 'hydrate',
             //listen: any,
             //freeze: any,
             //pauseEvent: string,

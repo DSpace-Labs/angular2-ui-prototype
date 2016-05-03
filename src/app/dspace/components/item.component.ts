@@ -1,11 +1,11 @@
-﻿import {Component} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {RouterOutlet, RouteConfig, RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataService} from "../../utilities/google-scholar-metadata.service.ts";
+import {GoogleScholarMetadataService} from "../../utilities/services/google-scholar-metadata.service.ts";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 import {SimpleItemViewComponent} from './simple-item-view.component';
