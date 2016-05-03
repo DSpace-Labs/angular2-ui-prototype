@@ -11,6 +11,7 @@ import {DSpaceDirectory} from '../dspace.directory';
 import {Item} from "../models/item.model";
 
 import {MetadatumInput} from '../models/metadatum-input.model';
+import {Metadatum} from '../models/metadatum.model';
 
 @Component({
     selector: 'item-create',
@@ -20,16 +21,7 @@ import {MetadatumInput} from '../models/metadatum-input.model';
                     
                     <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
                         <label for="name">Name</label>
-                        <input type="text" 
-                               id="name" 
-                               placeholder="Enter Item Name" 
-                               [(ngModel)]="item.name"
-                               #name="ngForm"
-                               class="form-control"
-                               minlength="4"
-                               maxlength="64"
-                               required>
-
+                        <input class="form-control" type="text" id="name" placeholder="Enter Item Name" [(ngModel)]="item.name" #name="ngForm" minlength="4" maxlength="64" required>
                         <span [hidden]="name.valid || name.pristine" class="validaiton-helper">
                             <span *ngIf="name.errors && name.errors.minlength">
                                 Item name must have at least 4 characters
@@ -42,6 +34,46 @@ import {MetadatumInput} from '../models/metadatum-input.model';
                             </span>
                         </span>
                     </fieldset>
+
+                    <fieldset class="form-group">
+                       
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="row">
+                                            
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="metadataInputs" *ngFor="#input of metadatumInputs">
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <label>{{input.gloss}}</label>
+                                                <label class="pull-right">{{input.key}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+
+                                                <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm" value="{{input.default}}">
+
+                                                <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm">
+
+                                                <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" #value="ngForm"></textarea>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </fieldset>
+
 
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -57,13 +89,8 @@ export class ItemCreateComponent {
 
     private item: Item = new Item();
 
-    /**
-     *
-     * @param dspace
-     *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param translate
-     *      TranslateService
-     */
+    private metadatumInputs: Array<MetadatumInput>;
+
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
@@ -73,8 +100,8 @@ export class ItemCreateComponent {
         translate.setDefaultLang('en');
         translate.use('en');
 
-        dspaceService.getItemMetadataForm().subscribe((metadataInputs:Array<MetadatumInput>) => {
-            console.log(metadataInputs);
+        dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
+            this.metadatumInputs = metadatumInputs;
         });
 
     }
@@ -84,6 +111,12 @@ export class ItemCreateComponent {
         let token = this.authorization.user.token;
         
         let currentContext = this.contextProvider.context;
+
+        for(let input of this.metadatumInputs) {
+            if(input.value) {
+                this.item.metadata.push(new Metadatum(input));
+            }
+        }
 
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {

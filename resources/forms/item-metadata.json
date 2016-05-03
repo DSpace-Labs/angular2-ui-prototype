@@ -1,11 +1,9 @@
 [
 	{
-		"schema": "dc",
-		"element": "title",
-		"qualifier": "",
+		"key": "dc.title",
 		"language": "en",
 		"gloss": "Title",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -14,12 +12,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "type",
-		"qualifier": "",
+		"key": "dc.type",
 		"language": "en",
 		"gloss": "Document Type",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -28,26 +24,20 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "date",
-		"qualifier": "created",
+		"key": "dc.date.created",
 		"language": "en",
 		"gloss": "Publication Date",
-		"input": "TEXT",
+		"type": "DATE",
 		"repeatable": false,
 		"validation": {
-			"required": true,
-			"minlength": 4,
-			"maxlength": 64
+			"required": true
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "language",
-		"qualifier": "iso",
+		"key": "dc.language.iso",
 		"language": "en",
 		"gloss": "Language",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -57,12 +47,10 @@
 		"default": "en"
 	},
 	{
-		"schema": "dc",
-		"element": "contributor",
-		"qualifier": "author",
+		"key": "dc.contributor.author",
 		"language": "en",
 		"gloss": "Author",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": true,
 		"validation": {
 			"required": true,
@@ -71,12 +59,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "description",
-		"qualifier": "",
+		"key": "dc.description",
 		"language": "en",
 		"gloss": "Description",
-		"input": "TEXTAREA",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -85,12 +71,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "description",
-		"qualifier": "abstract",
+		"key": "dc.description.abstract",
 		"language": "en",
 		"gloss": "Abstract",
-		"input": "TEXT",
+		"type": "TEXTAREA",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -99,12 +83,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "subject",
-		"qualifier": "",
+		"key": "dc.subject",
 		"language": "en",
 		"gloss": "Subject",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": true,
 		"validation": {
 			"required": true,
@@ -113,12 +95,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "rights",
-		"qualifier": "",
+		"key": "dc.rights",
 		"language": "en",
 		"gloss": "Rights",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
@@ -127,12 +107,10 @@
 		}
 	},
 	{
-		"schema": "dc",
-		"element": "rights",
-		"qualifier": "uri",
+		"key": "dc.rights.uri",
 		"language": "en",
 		"gloss": "Rights URI",
-		"input": "TEXT",
+		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
 			"required": true,
