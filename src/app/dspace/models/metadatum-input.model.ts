@@ -14,6 +14,8 @@ export class MetadatumInput extends Metadatum {
 
     repeatable: boolean;
 
+    repeat: number;
+
     validation: any;
 
     edit: boolean;
@@ -31,6 +33,10 @@ export class MetadatumInput extends Metadatum {
             this.edit = false;
             this.default = json.default;
         }
+    }
+
+    get id(): string {
+        return this.repeat ? this.key + '.' + this.repeat : this.key;
     }
 
 }

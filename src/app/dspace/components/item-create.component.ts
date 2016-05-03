@@ -64,24 +64,24 @@ import {Metadatum} from '../models/metadatum.model';
                                         <div class="row">
                                             <div class="col-md-11 col-xs-10">
 
-                                                <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
+                                                <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}">
 
-                                                <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
+                                                <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}">
 
-                                                <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}"></textarea>
+                                                <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}"></textarea>
 
-                                                <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.key}}" [(ngModel)]="input.value" ngControl="{{input.key}}">
+                                                <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}">
                                                     <option *ngFor="#option of input.options" [value]="option.value">{{ option.gloss }}</option>
                                                 </select>
 
-                                                <span [hidden]="form.controls[input.key].valid || form.controls[input.key].pristine" class="validaiton-helper text-danger">
-                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.minlength">
+                                                <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">
+                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.minlength">
                                                         must have at least {{ input.validation.minLength }} characters
                                                     </span>
-                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.maxlength">
+                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
                                                         must have at most {{ input.validation.maxLength }} characters
                                                     </span>
-                                                    <span *ngIf="form.controls[input.key].errors && form.controls[input.key].errors.required">
+                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
                                                         required
                                                     </span>
                                                 </span>
@@ -161,29 +161,53 @@ export class ItemCreateComponent {
                     }
                 }
 
-                formControls[input.key] = new Control('', Validators.compose(validators));
+                formControls[input.id] = new Control('', Validators.compose(validators));
             }
 
             this.form = this.builder.group(formControls);
 
             this.active = true;
-
         });
     }
 
     addMetadatumInput(input: MetadatumInput): void {
-        let newInput = JSON.parse(JSON.stringify(input));
+        let newInput = new MetadatumInput(JSON.parse(JSON.stringify(input)));
         newInput.repeat = newInput.repeat ? newInput.repeat++ : 1;
         newInput.value = '';
+
+
+        let validators: Array<any> = new Array<any>();
+
+        for(let key in newInput.validation) {
+
+            if(key == 'required') {
+                if(newInput.validation[key]) {
+                    validators.push(Validators.required);
+                }
+            }
+            else {
+                validators.push(Validators[key](newInput.validation[key]));
+            }
+        }
+        
+
+
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
             if(this.metadatumInputs[i].key == newInput.key) {
                 this.metadatumInputs.splice(i+1, 0, newInput);
                 break;
             }
         }
+
+
+
+        this.form.addControl(newInput.id, new Control('', Validators.compose(validators)));
     }
 
     removeMetadatumInput(input: MetadatumInput): void {
+        
+        this.form.removeControl(input.id);
+
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
             if(this.metadatumInputs[i].key == input.key) {
                 this.metadatumInputs.splice(i, 1);
