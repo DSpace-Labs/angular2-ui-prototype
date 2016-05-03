@@ -209,7 +209,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_keywords" ... >  to the <head>
      */
     private setCitationKeywordsGSTag(): void {
-        let values = this.getMetaTagContentsFor(['dc.subject', 'dc.type'], false, true);
+        let values = this.getMetaTagContentsFor(['dc.subject'], false, true);
         this.setGSTagsForField('citation_keywords', values);
     }
 
