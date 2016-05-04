@@ -14,6 +14,7 @@ import {DashboardComponent} from './dashboard.component';
 import {HomeComponent} from './home.component';
 import {ItemComponent} from './dspace/components/item.component';
 import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
+import {LoginComponent} from './dspace/authorization/components/login.component';
 import {RegistrationComponent} from './dspace/authorization/components/registration.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
@@ -77,6 +78,7 @@ import {User} from './dspace/models/user.model';
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
+        { path: "/login", name: "Login", component: LoginComponent },
         { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },

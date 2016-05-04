@@ -37,12 +37,12 @@ import {Metadatum} from '../models/metadatum.model';
                         </span>
                     </fieldset>
 
-                    <hr/> <!-- TODO: attempt to move into seperate component, must be within form -->
+                    <hr> <!-- TODO: attempt to move into seperate component, must be within form -->
                     <label>Bitstreams</label>
                     <fieldset class="form-group">
                     </fieldset>
 
-                    <hr/> <!-- TODO: attempt to move into seperate component, must be within form -->
+                    <hr> <!-- TODO: attempt to move into seperate component, must be within form -->
                     <label>Metadata</label>
                     <fieldset class="form-group">
                        
@@ -131,8 +131,8 @@ export class ItemCreateComponent {
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory, 
                 private translate: TranslateService,
-                private router: Router,
-                private builder: FormBuilder) {
+                private builder: FormBuilder,
+                private router: Router) {
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();

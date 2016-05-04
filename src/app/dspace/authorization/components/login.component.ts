@@ -1,29 +1,21 @@
 import {Component} from 'angular2/core';
 import {NgForm} from 'angular2/common';
+import {Router} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {AuthorizationService} from '../services/authorization.service';
-
-import {FormModal, ModalAction} from '../../../utilities/components/form-modal.component';
+import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
 
 /**
- * Login form. Uses form-modal component.
+ * 
  */
 @Component({
-  	selector: 'login-form',
-  	directives: [FormModal],
-  	pipes: [TranslatePipe],
-  	template: `
-                <form-modal *ngIf="active"
-                    id="login"
-                    [title]="'login.title'"
-                    [cancel-label]="'login.cancel'"
-                    [confirm-label]="'login.confirm'"
-                    [valid]="loginEmail.valid && loginPassword.valid"
-                    (loaded)="onLoaded($event)"
-                    (action)="onAction($event)">
-
-                    <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
+    selector: 'login',
+    pipes: [TranslatePipe],
+    template: `
+                <form *ngIf="active" class="login-form" (ngSubmit)="login()" novalidate>
+                	
+                	<fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
                         <label for="login-email">{{'login.email-gloss' | translate}}</label>
                         <input type="text" 
                                id="login-email" 
@@ -69,20 +61,23 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
                         {{'login.unauthorized' | translate}}
                     </span>
 
-                </form-modal>
+                    <div class="form-loader">
+                        <img *ngIf="loading" src="./static/images/loading.gif" alt="Loading">
+                    </div>
+
+                    <span class="pull-right">
+	                	<button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{'login.cancel' | translate}}</button>
+	                    <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{'login.confirm' | translate}}</button>
+                	</span>
+                </form>
               `
 })
-export class LoginFormComponent {
+export class LoginComponent {
 
-    /**
-     *
-     */
-    private active: boolean = true;
-
-    /**
-     * Actual FormModal used to show and hide modal.
-     */
-    private login: FormModal;
+	/**
+	 *
+	 */
+	private active: boolean = true;
 
     /**
      * Email used as DSpace username for login.
@@ -100,72 +95,65 @@ export class LoginFormComponent {
     private unauthorized: boolean;
 
     /**
+     * Indicates form is being processed.
+     */
+    private loading: boolean = false;
+
+    /**
      *
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
-     * @param translate 
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param translate
      *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
-                private translate: TranslateService) {
+    			private breadcrumb: BreadcrumbService,
+                private translate: TranslateService,
+                private router: Router) {
+        breadcrumb.visit({
+            name: 'Login',
+            type: 'login',
+            component: '/Login',
+            root: true,
+        });
         translate.setDefaultLang('en');
         translate.use('en');
     }
 
-    /**
-     * Callback to assign modal after being loaded.
-     *
-     * @param modal
-     *      FormModal
-     */
-    onLoaded(modal: FormModal): void {
-        this.login = modal;
+    login(): void {
+    	this.loading = true;
+    	console.log(this.email)
+    	console.log(this.password)
+        this.authorization.login(this.email, this.password).subscribe(response => {           
+            if(response.status == 200) {
+                let token = response.text();
+                this.authorization.status(token).subscribe(response => {
+                	this.router.navigate(['/Home']);
+                    this.reset();
+                },
+                error => {
+                	this.loading = false;
+                    this.unauthorized = true;
+                });
+            }
+        },
+        error => {
+        	this.loading = false;
+            this.unauthorized = true;
+        });
     }
 
-    /**
-     * Opens the modal.
-     */
-    openLoginModal(): void {
-        this.login.show();
+    cancel(): void {
+    	this.reset();
     }
 
-    /**
-     * Callback to invoke chosen action.
-     *
-     * @param action
-     *      ModalAction of chosen action, CONFIRM or CANCEL
-     */
-    onAction(action: ModalAction): void {
-        if(action == ModalAction.CONFIRM) {
-            this.authorization.login(this.email, this.password).subscribe(response => {           
-                if(response.status == 200) {
-                    let token = response.text();
-
-                    this.authorization.status(token).subscribe(response => {
-                        this.login.hide();
-                        this.login.finished();
-                        this.reset();
-                    },
-                    error => {
-                        this.unauthorized = true;
-                        this.login.finished();
-                    });
-                }
-            },
-            error => {
-                this.unauthorized = true;
-                this.login.finished();
-            });
-        }
-        else if(action == ModalAction.CANCEL) {
-            this.reset();
-        }
-    }
-    
     reset(): void {
         this.email = '';
         this.password = '';
         this.active = false;
+        this.loading = false;
         this.unauthorized = false;
         setTimeout(() => this.active = true, 0);
     }

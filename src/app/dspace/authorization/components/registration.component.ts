@@ -17,6 +17,8 @@ export class RegistrationComponent {
 
     /**
      *
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param translate
      *      TranslateService
      */
