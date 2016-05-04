@@ -124,8 +124,6 @@ export class LoginComponent {
 
     login(): void {
     	this.loading = true;
-    	console.log(this.email)
-    	console.log(this.password)
         this.authorization.login(this.email, this.password).subscribe(response => {           
             if(response.status == 200) {
                 let token = response.text();
