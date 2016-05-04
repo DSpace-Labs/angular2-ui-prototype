@@ -25,6 +25,21 @@ import {User} from '../../dspace/models/user.model';
                             <li><a [routerLink]="['/CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
                         </ul>
                     </div>
+                    <div class="panel-body" *ngIf="context.type == 'home'">
+                        
+                    </div>
+                    <div class="panel-body" *ngIf="context.type == 'login'">
+                        
+                    </div>
+                    <div class="panel-body" *ngIf="context.type == 'register'">
+                        
+                    </div>
+                    <div class="panel-body" *ngIf="context.type == 'settings'">
+                        
+                    </div>
+                    <div class="panel-body" *ngIf="context.type == 'setup'">
+                        
+                    </div>
                     <div class="panel-body" *ngIf="context.type == 'community'">
                         <ul *ngIf="user">
                             <li><a [routerLink]="[context.component, { id: context.id }, 'CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>

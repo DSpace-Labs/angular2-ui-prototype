@@ -19,15 +19,17 @@ import {PaginationService} from '../services/pagination.service';
                         <ul class="pager">
                             <li class="previous" [class.disabled]="context.page == 1">
                                 <!-- Router Link -->
-                                <a [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
+                                <a *ngIf="context.page != 1" [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
                                     <span aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                                 </a>
+                                <span *ngIf="context.page == 1" aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                             </li>
                             <li class="next" [class.disabled]="context.page == context.pageCount">
                                 <!-- Router Link -->
-                                <a [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
+                                <a *ngIf="context.page != context.pageCount" [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
                                     <span aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                                 </a>
+                                <span *ngIf="context.page == context.pageCount" aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                             </li>
                         </ul>
                     </nav>
