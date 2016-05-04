@@ -14,11 +14,10 @@ import {ViewElementComponent} from './view-element.component';
     selector: 'item-metadata',
     inputs: ['itemData'],
     directives: [ViewElementComponent],
-    providers: [MetadataHelper],
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div class="item" *ngFor="#metadatum of filteredFields.metadata">
+                    <div class="item" *ngFor="let metadatum of filteredFields.metadata">
                         <strong >{{ metadatum.key }}</strong>
                         <p>{{ metadatum.value }}</p>
                     </div>

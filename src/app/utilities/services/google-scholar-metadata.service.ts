@@ -180,9 +180,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
     private setCitationAbstractGSTag(): void {
-        let itemUrl = URLHelper.relativeToAbsoluteUIURL('');
-        console.log(this.item);
-        console.log(itemUrl);
+        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.item.component.toLowerCase(), '/' + this.item.id);
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 

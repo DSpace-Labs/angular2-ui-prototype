@@ -14,7 +14,7 @@ import {ViewElementComponent} from './view-element.component';
     directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
     template: `
-                <view-element [header]="componentTitle| translate">
+                <view-element [header]="componentTitle | translate">
                     <a *ngIf="hasValidParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
                 </view-element>
               `

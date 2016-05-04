@@ -18,33 +18,34 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
     selector: 'item-list-metadata',
     inputs: ['item'],
     directives: [ROUTER_DIRECTIVES],
-    pipes: [TranslatePipe, TruncatePipe, TruncateDatePipe],
+    pipes: [TranslatePipe,
+            TruncatePipe,
+            TruncateDatePipe],
     template:
               `
                 <!-- create a router link to the simple item-view -->
                 <a [routerLink]="[item.component, { id: item.id }]" class="item-list-url">{{ item.name }}</a>
                 <h5 *ngIf="shouldRenderHeader()">{{author}} <span *ngIf="shouldRenderDate()">({{date | truncatedate}})</span></h5>
                 <!-- the abstract truncated -->
-
                 <p *ngIf="shouldRenderAbstract()">{{abstract | truncate : 200}}</p>
-
               `
 })
 
-export class ListMetadataComponent
-{
+export class ListMetadataComponent {
 
-    private item : Item;
-    private author : String;
-    private abstract : String;
-    private date : String;
+    private item: Item;
+
+    private author: String;
+
+    private abstract: String;
+
+    private date: String;
+
+    constructor(private metadataHelper: MetadataHelper) {}
 
     ngOnInit() {
-        let helper = new MetadataHelper();
-        let filteredData:Metadatum[] = helper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract","dc.date.accessioned"]);
-
-        if (filteredData != null)
-        {
+        let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract", "dc.date.accessioned"]);
+        if (filteredData != null) {
             for (let i:number = 0; i < filteredData.length; i++) {
                 if (filteredData[i].element == "creator") {
                     this.author = (filteredData[i].value);
@@ -52,26 +53,22 @@ export class ListMetadataComponent
                 if (filteredData[i].element == "description" && filteredData[i].value!="Not available") {
                     this.abstract = filteredData[i].value;
                 }
-                if(filteredData[i].element == "date")
-                {
+                if(filteredData[i].element == "date") {
                     this.date = filteredData[i].value;
                 }
             }
         }
     }
 
-    shouldRenderHeader()
-    {
+    shouldRenderHeader(): boolean {
         return ObjectUtil.hasValue(this.author) || this.shouldRenderDate();
     }
 
-    shouldRenderDate()
-    {
+    shouldRenderDate(): boolean {
         return ObjectUtil.hasValue(this.date);
     }
 
-    shouldRenderAbstract()
-    {
+    shouldRenderAbstract(): boolean {
         return ObjectUtil.hasValue(this.abstract);
     }
 }

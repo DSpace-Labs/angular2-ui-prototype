@@ -17,7 +17,7 @@ import {PaginationComponent} from './pagination.component';
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
-                    <li *ngFor="#directory of directories" class="list-group-item">
+                    <li *ngFor="let directory of directories" class="list-group-item">
 
                         <span *ngIf="directory.type == 'community' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
 

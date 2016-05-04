@@ -23,7 +23,7 @@ import {ViewElementComponent} from '../view-element.component';
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="#metadatum of itemData">
+                                <tr *ngFor="let metadatum of itemData">
                                     <td>{{ metadatum.key }}</td>
                                     <td class="word-break">{{ metadatum.value }}</td>
                                     <td>{{ metadatum.language }}</td>
