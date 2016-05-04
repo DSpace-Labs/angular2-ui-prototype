@@ -14,7 +14,7 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
   	directives: [FormModal],
   	pipes: [TranslatePipe],
   	template: `
-                <form-modal 
+                <form-modal *ngIf="active"
                     id="login"
                     [title]="'login.title'"
                     [cancel-label]="'login.cancel'"
@@ -25,7 +25,7 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
 
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
                         <label for="login-email">{{'login.email-gloss' | translate}}</label>
-                        <input type="email" 
+                        <input type="text" 
                                id="login-email" 
                                placeholder="{{'login.email-placeholder' | translate}}" 
                                [(ngModel)]="email"
@@ -73,6 +73,8 @@ import {FormModal, ModalAction} from '../../../utilities/components/form-modal.c
               `
 })
 export class LoginFormComponent {
+        
+    private active: boolean = true;
 
     /**
      * Actual FormModal used to show and hide modal.
@@ -139,7 +141,7 @@ export class LoginFormComponent {
                     this.authorization.status(token).subscribe(response => {
                         this.login.hide();
                         this.login.finished();
-                        this.unauthorized = false;
+                        this.reset();
                     },
                     error => {
                         this.unauthorized = true;
@@ -152,6 +154,17 @@ export class LoginFormComponent {
                 this.login.finished();
             });
         }
+        else if(action == ModalAction.CANCEL) {
+            this.reset();
+        }
+    }
+    
+    reset(): void {
+        this.email = '';
+        this.password = '';
+        this.active = false;
+        this.unauthorized = false;
+        setTimeout(() => this.active = true, 0);
     }
 
 }
