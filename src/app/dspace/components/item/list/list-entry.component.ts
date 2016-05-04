@@ -22,9 +22,9 @@ import {Item} from '../../../models/item.model';
             </div>
             `
 })
+export class ListEntryComponent {
 
-export class ListEntryComponent
-{
-    item : Item;
+    item: Item;
+
 }
 

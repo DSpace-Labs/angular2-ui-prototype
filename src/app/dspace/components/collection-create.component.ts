@@ -80,9 +80,7 @@ export class CollectionCreateComponent {
 
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-
                 this.reset();
-
                 this.dspace.refresh(currentContext);
                 this.router.navigate(['/Communities', { id: currentContext.id }]);
 

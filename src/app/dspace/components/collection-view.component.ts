@@ -36,7 +36,7 @@ export class CollectionViewComponent {
      *
      */
     constructor(private contextProvider: ContextProviderService,
-    			private translate: TranslateService) {
+                      private translate: TranslateService) {
         this.collection = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.collection = currentContext;
@@ -53,6 +53,3 @@ export class CollectionViewComponent {
     }
 
 }
-
-                    
-                   

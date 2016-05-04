@@ -27,12 +27,16 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
             <pagination [context]="collection"></pagination>
         `
 })
-
-
-
 export class ItemListComponent {
 
+    /**
+     *
+     */
     collection : Collection;
+
+    /**
+     *
+     */
     items : Item[]; // pass an array of items to this component.
 
 }

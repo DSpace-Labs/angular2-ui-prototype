@@ -37,20 +37,21 @@ export class ItemComponent implements CanDeactivate {
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      * @param directory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService,
+                private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
-            breadcrumb.visit(item);
+            breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
         });
     }
+
     /**
      * This method is called automatically when the user navigates away from this route. It is used
      * here to clear the google scholar meta tags.

@@ -16,6 +16,7 @@ import * as hash from 'object-hash';
  * to determine equality
  */
 export class MetaTag implements IHashable, IEquatable<MetaTag> {
+
     /**
      * MetaTags need to be hashable, and the hash for null and undefined differs.
      * So these properties are all set to null to normalize that behavior

@@ -71,5 +71,6 @@ export class ListMetadataComponent {
     shouldRenderAbstract(): boolean {
         return ObjectUtil.hasValue(this.abstract);
     }
+
 }
 

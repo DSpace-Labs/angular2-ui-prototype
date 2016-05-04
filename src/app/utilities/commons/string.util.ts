@@ -12,7 +12,7 @@ export class StringUtil {
      StringUtil.isEmpty('\n\t');          // false
      StringUtil.isEmpty('  ');            // false
      */
-    static isEmpty(value: string) {
+    static isEmpty(value: string): boolean {
         return ObjectUtil.isEmpty(value);
     }
 
@@ -27,7 +27,7 @@ export class StringUtil {
      StringUtil.isNotEmpty('\n\t');          // true
      StringUtil.isNotEmpty('  ');            // true
      */
-    static isNotEmpty(value: string) {
+    static isNotEmpty(value: string): boolean {
         return ObjectUtil.isNotEmpty(value);
     }
 
@@ -42,7 +42,7 @@ export class StringUtil {
      StringUtil.isBlank('\n\t Hello');    // false
      StringUtil.isBlank('Hello world');   // false
      */
-    static isBlank(value: string) {
+    static isBlank(value: string): boolean {
         return StringUtil.isEmpty(value) || value.match(/\S/) === null;
     }
 
@@ -57,7 +57,8 @@ export class StringUtil {
      StringUtil.isNotBlank('\n\t Hello');    // true
      StringUtil.isNotBlank('Hello world');   // true
      */
-    static isNotBlank(value: string) {
+    static isNotBlank(value: string): boolean {
         return !StringUtil.isBlank(value);
     }
+
 }

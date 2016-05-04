@@ -9,13 +9,6 @@ export class StorageService {
     /**
      *
      */
-    constructor() {
-
-    }
-
-    /**
-     *
-     */
     store(key: string, value: string): void {
         localStorage.setItem(key, value);
     }

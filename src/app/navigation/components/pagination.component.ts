@@ -1,10 +1,10 @@
 import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
+import {BreadcrumbService} from '../services/breadcrumb.service';
 import {DSpaceDirectory} from '../../dspace/dspace.directory';
 import {PagingStoreService} from '../../dspace/services/paging-store.service';
 import {PaginationService} from '../services/pagination.service';
-import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
  * Pagination component for controlling paging among a given context. Currently, only items.
@@ -70,10 +70,10 @@ export class PaginationComponent {
      *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param router
      *      Router
-     * @param routeParams
-     *      RouteParams
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
                 private pagingStore: PagingStoreService,

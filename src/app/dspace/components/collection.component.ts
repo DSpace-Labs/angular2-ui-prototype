@@ -47,6 +47,3 @@ export class CollectionComponent {
     }
 
 }
-
-                    
-                   

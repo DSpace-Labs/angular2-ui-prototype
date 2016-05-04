@@ -61,6 +61,8 @@ export class ContextComponent {
 
     /**
      *
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,

@@ -26,13 +26,14 @@ export class HomeComponent {
 
     /**
      *
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param translate
      *      TranslateService
      */
-    constructor(private breadcrumb: BreadcrumbService,
-                private translate : TranslateService)
-    {
-        breadcrumb.visit({
+    constructor(private breadcrumbService: BreadcrumbService,
+                private translate : TranslateService) {
+        breadcrumbService.visit({
             name: 'Home',
             type: 'home',
             component: '/Home',

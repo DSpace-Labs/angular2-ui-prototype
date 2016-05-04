@@ -1,10 +1,11 @@
 import {Injectable, Inject} from 'angular2/core';
 
-import {Item} from "../../dspace/models/item.model";
-import {Metadatum} from "../../dspace/models/metadatum.model";
 import {ArrayUtil} from "../commons/array.util";
 import {StringUtil} from "../commons/string.util";
 import {ObjectUtil} from "../commons/object.util";
+
+import {Item} from "../../dspace/models/item.model";
+import {Metadatum} from "../../dspace/models/metadatum.model";
 import {MetaTag} from "../meta-tag/meta-tag.model";
 import {MetaTagService} from "../meta-tag/meta-tag.service";
 import {URLHelper} from "../url.helper";
@@ -336,6 +337,5 @@ export class GoogleScholarMetadataService {
         this.metaTagService.removeTags(this._googleScholarTags);
         this._googleScholarTags = new Array<MetaTag>();
     }
-
 
 }
