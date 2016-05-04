@@ -240,14 +240,15 @@ export class DSpaceService {
         });
     }
 
-    addFileToItem(item: Item, file: File, token: string): any {
-        let path = '/items/' + item.id + '/bitstreams?name=' + file.name + '&description=primary_pdf';
+    addBitstream(item: Item, file: any, token: string): any {
+        file.description = file.description ? file.description : file.name;
+        let path = '/items/' + item.id + '/bitstreams?name=' + file.name + '&description=' + file.description;
         return this.httpService.upload({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
             headers: [
-                { key: 'rest-dspace-token', value: token },
                 { key: 'Content-Type', value: file.type },
-                { key: 'Accept', value: 'application/json' }
+                { key: 'Accept', value: 'application/json' },
+                { key: 'rest-dspace-token', value: token }
             ]
         }, file, token);
     }

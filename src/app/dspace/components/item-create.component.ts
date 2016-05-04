@@ -11,6 +11,8 @@ import {
     Validators
 } from 'angular2/common';
 
+import {Observable} from 'rxjs/Rx';
+
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {AuthorizationService} from '../authorization/services/authorization.service';
@@ -59,13 +61,28 @@ import {MetadatumInput} from '../models/metadatum-input.model';
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-11 col-xs-10">
-                                <ol *ngIf="files.length > 0">
-                                    <li *ngFor="let file of files">{{file.name}}</li>
-                                </ol>
-                            </div>
-                        </div>
+                        <table class="table table-striped" *ngIf="files.length > 0">
+                            <thead>
+                                <tr>
+                                    <td><label>File</label></td>
+                                    <td><label>Description</label></td>
+                                    <td><label>Remove</label></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let file of files">
+                                    <td class="col-md-3 col-xs-2">
+                                        <label class="space-top">{{file.name}}</label>
+                                    </td>
+                                    <td class="col-md-9 col-xs-8">
+                                        <input class="form-control" type="text" id="{{file.name}}" [(ngModel)]="file.description">
+                                    </td>
+                                    <td class="col-xs-1 text-center">
+                                        <span class="glyphicon glyphicon-remove clickable space-top" aria-hidden="true" (click)="removeBitstream(file)"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                     </fieldset>
 
@@ -74,15 +91,6 @@ import {MetadatumInput} from '../models/metadatum-input.model';
                     <fieldset class="form-group">
                        
                         <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <div class="row">
-                                            
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <tr *ngFor="let input of metadatumInputs">
                                     <td>
@@ -124,7 +132,7 @@ import {MetadatumInput} from '../models/metadatum-input.model';
 
                                             <div class="col-xs-1" *ngIf="input.repeatable">
                                                 <span *ngIf="!input.repeat" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
-                                                <span *ngIf="input.repeat" class="glyphicon glyphicon-minus clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
+                                                <span *ngIf="input.repeat" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
                                             </div>
 
                                         </div>
@@ -186,8 +194,16 @@ export class ItemCreateComponent {
     addBitstream(event): void {
         var files = event.srcElement.files;
         for(let file of files) {
-            console.log(file);
             this.files.push(file);
+        }
+    }
+    
+    removeBitstream(file): void {
+        for(let i = this.files.length - 1; i > 0; i--) {
+            if(this.files[i].name == file.name) {
+                this.files.splice(i, 1);
+                break;
+            }
         }
     }
 
@@ -217,6 +233,9 @@ export class ItemCreateComponent {
         let clonedInput = new MetadatumInput(JSON.parse(JSON.stringify(input)));
         clonedInput.repeat = clonedInput.repeat ? clonedInput.repeat++ : 1;
         clonedInput.value = '';
+        if(clonedInput.validation.required) {
+            clonedInput.validation.required = false;
+        }
         return clonedInput;
     }
 
@@ -236,9 +255,6 @@ export class ItemCreateComponent {
     }
 
     createItem(): void {
-
-        console.log(this.item);
-
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.item.metadata = new Array<Metadatum>();
@@ -252,16 +268,22 @@ export class ItemCreateComponent {
                 
                 this.item.id = JSON.parse(response.text()).id;
 
+                let bitStreamObservables = new Array<any>();
                 for(let file of this.files) {
-                    this.dspaceService.addFileToItem(this.item, file, token).subscribe(response => {
-                        console.log(response);
-                    });
+                    bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                 }
 
-                this.reset();
-                this.dspace.refresh(currentContext);
-                this.router.navigate(['/Collections', { id: currentContext.id }]);
-
+                Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
+                    this.reset();
+                    this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Collections', { id: currentContext.id }]);
+                },
+                errors => {
+                    console.log(errors);
+                    this.reset();
+                    this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Collections', { id: currentContext.id }]);
+                });
             }
         },
         error => {

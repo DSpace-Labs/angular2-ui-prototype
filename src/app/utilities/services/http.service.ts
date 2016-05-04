@@ -78,7 +78,7 @@ export class HttpService {
         });
     }
 
-    upload(request: any, file: File, token: string): any {
+    upload(request: any, file: any, token: string): any {
         return Observable.create(observer => {
             let formData: FormData = new FormData();
             let xhr: XMLHttpRequest = new XMLHttpRequest();

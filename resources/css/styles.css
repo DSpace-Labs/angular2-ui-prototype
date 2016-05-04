@@ -5,6 +5,10 @@ html, body {
     margin: 0;
 }
 
+.space-top {
+	margin-top: 6px;
+}
+
 .space-right {
     margin-right: 10px;
 }
