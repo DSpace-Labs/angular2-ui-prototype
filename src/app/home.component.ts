@@ -13,7 +13,7 @@ import {BreadcrumbService} from './navigation/services/breadcrumb.service';
     pipes: [TranslatePipe],
     template: `
                 <ul>
-                    <li *ngFor="#template of serverTemplating">{{template}}</li>
+                    <li *ngFor="let template of serverTemplating">{{template}}</li>
                 </ul>
               `
 })
