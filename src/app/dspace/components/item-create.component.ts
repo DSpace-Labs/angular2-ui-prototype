@@ -1,6 +1,15 @@
 import {Component} from 'angular2/core';
 import {Router} from 'angular2/router';
-import {FORM_DIRECTIVES, FORM_BINDINGS, ControlGroup, Control, FormBuilder, NgForm, Validators} from 'angular2/common';
+
+import {
+    FORM_DIRECTIVES,
+    FORM_BINDINGS,
+    ControlGroup,
+    Control,
+    FormBuilder,
+    NgForm,
+    Validators
+} from 'angular2/common';
 
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -8,10 +17,11 @@ import {AuthorizationService} from '../authorization/services/authorization.serv
 import {ContextProviderService} from '../services/context-provider.service';
 import {DSpaceService} from '../services/dspace.service';
 import {DSpaceDirectory} from '../dspace.directory';
-import {Item} from "../models/item.model";
 
-import {MetadatumInput} from '../models/metadatum-input.model';
+import {Item} from "../models/item.model";
+import {Bitstream} from '../models/bitstream.model';
 import {Metadatum} from '../models/metadatum.model';
+import {MetadatumInput} from '../models/metadatum-input.model';
 
 @Component({
     selector: 'item-create',
@@ -40,6 +50,23 @@ import {Metadatum} from '../models/metadatum.model';
                     <hr> <!-- TODO: attempt to move into seperate component, must be within form -->
                     <label>Bitstreams</label>
                     <fieldset class="form-group">
+                        
+                        <div class="row">
+                            <div class="col-md-11 col-xs-10">
+                                <span class="btn btn-primary btn-file">
+                                    Add Bitstream <input type="file" (change)="addBitstream($event)"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-11 col-xs-10">
+                                <ol *ngIf="files.length > 0">
+                                    <li *ngFor="let file of files">{{file.name}}</li>
+                                </ol>
+                            </div>
+                        </div>
+
                     </fieldset>
 
                     <hr> <!-- TODO: attempt to move into seperate component, must be within form -->
@@ -122,6 +149,8 @@ export class ItemCreateComponent {
 
     private item: Item;
 
+    private files: Array<any>;
+
     private metadatumInputs: Array<MetadatumInput>;
 
     private form: ControlGroup;
@@ -140,47 +169,42 @@ export class ItemCreateComponent {
 
     init(): void {
         this.item = new Item();
-
+        this.files = new Array<any>();
         this.dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
-
             this.metadatumInputs = metadatumInputs;
-
             let formControls = {};
-
             for(let input of this.metadatumInputs) {
-
                 input.value = input.default ? input.default : '';
-
                 let validators = this.createValidators(input);
-
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
-
             this.form = this.builder.group(formControls);
-
             this.active = true;
         });
     }
 
+    addBitstream(event): void {
+        var files = event.srcElement.files;
+        for(let file of files) {
+            console.log(file);
+            this.files.push(file);
+        }
+    }
+
     addMetadatumInput(input: MetadatumInput): void {
         let clonedInput = this.cloneInput(input);
-
         let validators = this.createValidators(clonedInput);
-
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
             if(this.metadatumInputs[i].key == clonedInput.key) {
                 this.metadatumInputs.splice(i+1, 0, clonedInput);
                 break;
             }
         }
-
         this.form.addControl(clonedInput.id, new Control('', Validators.compose(validators)));
     }
 
     removeMetadatumInput(input: MetadatumInput): void {
-        
         this.form.removeControl(input.id);
-
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
             if(this.metadatumInputs[i].key == input.key) {
                 this.metadatumInputs.splice(i, 1);
@@ -213,29 +237,36 @@ export class ItemCreateComponent {
 
     createItem(): void {
 
+        console.log(this.item);
+
         let token = this.authorization.user.token;
-        
         let currentContext = this.contextProvider.context;
-
         this.item.metadata = new Array<Metadatum>();
-
         for(let input of this.metadatumInputs) {
             if(input.value) {
                 this.item.metadata.push(new Metadatum(input));
             }
         }
-
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
+                
+                this.item.id = JSON.parse(response.text()).id;
+
+                for(let file of this.files) {
+                    this.dspaceService.addFileToItem(this.item, file, token).subscribe(response => {
+                        console.log(response);
+                    });
+                }
+
                 this.reset();
                 this.dspace.refresh(currentContext);
                 this.router.navigate(['/Collections', { id: currentContext.id }]);
+
             }
         },
         error => {
             console.log(error);
         });
-
     }
 
     reset(): void {

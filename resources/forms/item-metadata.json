@@ -18,7 +18,7 @@
 		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
-			"required": true,
+			"required": false,
 			"minLength": 4,
 			"maxLength": 64
 		}
@@ -30,7 +30,7 @@
 		"type": "DATE",
 		"repeatable": false,
 		"validation": {
-			"required": true
+			"required": false
 		}
 	},
 	{
@@ -46,7 +46,7 @@
 		],
 		"repeatable": false,
 		"validation": {
-			"required": true
+			"required": false
 		},
 		"default": "en"
 	},
@@ -57,7 +57,7 @@
 		"type": "TEXT",
 		"repeatable": true,
 		"validation": {
-			"required": true,
+			"required": false,
 			"minLength": 4,
 			"maxLength": 64
 		}
@@ -69,7 +69,7 @@
 		"type": "TEXT",
 		"repeatable": false,
 		"validation": {
-			"required": true,
+			"required": false,
 			"minLength": 4,
 			"maxLength": 512
 		}
@@ -81,7 +81,7 @@
 		"type": "TEXTAREA",
 		"repeatable": false,
 		"validation": {
-			"required": true,
+			"required": false,
 			"minLength": 16,
 			"maxLength": 2056
 		}
@@ -93,7 +93,7 @@
 		"type": "TEXT",
 		"repeatable": true,
 		"validation": {
-			"required": true,
+			"required": false,
 			"minLength": 4,
 			"maxLength": 64
 		}

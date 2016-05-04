@@ -35,4 +35,15 @@ export abstract class Pageable implements IPaging {
         }
     }
 
+    sanatize(): void {
+        this.ready = undefined;
+        this.loaded = undefined;
+        this.offset = undefined;
+        this.page = undefined;
+        this.limit = undefined;
+        this.component = undefined;
+        this.pageCount = undefined;
+        this.total = undefined;
+    }
+
 }

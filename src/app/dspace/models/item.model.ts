@@ -10,7 +10,7 @@ import {ArrayUtil} from "../../utilities/commons/array.util";
  */
 export class Item extends DSOContainer {
 
-    bitstreams : Array<Bitstream> = [];
+    bitstreams : Array<Bitstream> = new Array<Bitstream>();
 
     parentCollection : Collection;
 
@@ -41,4 +41,10 @@ export class Item extends DSOContainer {
     getBitstreamsByBundleName(bundleName: string): Array<Bitstream> {
         return ArrayUtil.filterBy(this.bitstreams, 'bundleName', bundleName);
     }
+
+    sanatize(): void {
+        super.sanatize();
+        this.fullItem = undefined;
+    }
+
 }

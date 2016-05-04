@@ -240,7 +240,20 @@ export class DSpaceService {
         });
     }
 
-    getItemMetadataForm() {
+    addFileToItem(item: Item, file: File, token: string): any {
+        let path = '/items/' + item.id + '/bitstreams?name=' + file.name + '&description=primary_pdf';
+        return this.httpService.upload({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [
+                { key: 'rest-dspace-token', value: token },
+                { key: 'Content-Type', value: file.type },
+                { key: 'Accept', value: 'application/json' }
+            ]
+        }, file, token);
+    }
+
+
+    getItemMetadataForm(): Observable<Array<MetadatumInput>> {
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
         }).map(json => {

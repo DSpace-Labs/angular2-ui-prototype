@@ -1,6 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
+import {Observable} from 'rxjs/Rx';
+
 /**
  * Injectable service to be used to make xhr requests. Basic functionality.
  */
@@ -73,6 +75,34 @@ export class HttpService {
         
         return this.http.get(request.url, options).map(response => {
             return response.json();
+        });
+    }
+
+    upload(request: any, file: File, token: string): any {
+        return Observable.create(observer => {
+            let formData: FormData = new FormData();
+            let xhr: XMLHttpRequest = new XMLHttpRequest();
+
+            formData.append("uploads[]", file, file.name);
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        observer.next(JSON.parse(xhr.response));
+                        observer.complete();
+                    } else {
+                        observer.error(xhr.response);
+                    }
+                }
+            };
+
+            xhr.open('POST', request.url, true);
+
+            for(let header of request.headers) {
+                xhr.setRequestHeader(header.key, header.value);
+            }
+            
+            xhr.send(formData);
         });
     }
 

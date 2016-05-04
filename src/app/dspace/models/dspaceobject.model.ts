@@ -55,7 +55,6 @@ export abstract class DSpaceObject extends Pageable {
             this.type = json.type;
             if (Array.isArray(json.metadata)) {
                 this.metadata = json.metadata.map(metadataJSON => {
-                    //metadataJSON.dso = this;
                     return new Metadatum(metadataJSON);
                 });
             }

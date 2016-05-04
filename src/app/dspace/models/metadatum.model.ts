@@ -7,25 +7,6 @@ import {StringUtil} from "../../utilities/commons/string.util";
  */
 export class Metadatum {
 
-    // if really want to decomposed key should be a new class that extends Metadatum
-    // There should be a base class that represents the API response in respect that
-    // the API should accept the same object in a POST
-
-    /**
-     * The schema for this Metadatum. e.g. 'dc'
-     */
-    //schema: string;
-
-    /**
-     * The element for this Metadatum. e.g. 'contributor'
-     */
-    //element: string;
-
-    /**
-     * The qualifier for this Metadatum. e.g. 'author'
-     */
-    //qualifier: string;
-
     /**
      * The key for this Metadatum. e.g. 'dc.contributor.author'
      */
@@ -42,11 +23,6 @@ export class Metadatum {
     language: string;
 
     /**
-     * The DSpaceObject this object is metadata for
-     */
-    //dso: DSpaceObject;
-
-    /**
      * Create a new Metadatum.
      * 
      * @param json
@@ -59,7 +35,6 @@ export class Metadatum {
             this.key = json.key;
             this.value = json.value;
             this.language = json.language;
-            //this.dso = json.dso;
         }
     }
 
@@ -77,35 +52,5 @@ export class Metadatum {
         let parts = this.key.split('.');
         return parts[2] ? parts[2] : null;
     }
-
-    /**
-     * Get the key for this Metadatum as a single string.
-     * 
-     * @returns {string}
-     *      schema.element.qualifier
-     */
-    //get key(): string {
-    //    return [this.schema, this.element, this.qualifier].filter((value: string) => {
-    //        return StringUtil.isNotBlank(value);
-    //    }).join('.');
-    //}
-
-    /**
-     * Set the key for this Metadatum with a single string.
-     * 
-     * @param key
-     *      should be in the format schema.element.qualifier
-     */
-    //set key(key: string) {
-    //    if (StringUtil.isBlank(key)) {
-    //        this.schema = this.element = this.qualifier = null;
-    //    }
-    //    else {
-    //        let keyArray = key.split('.');
-    //        this.schema = keyArray[0];
-    //        this.element = keyArray[1];
-    //        this.qualifier = keyArray[2];
-    //    }
-    //}
 
 }
