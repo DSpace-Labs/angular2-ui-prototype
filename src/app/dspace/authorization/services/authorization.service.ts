@@ -40,13 +40,18 @@ export class AuthorizationService {
         this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
-        //{
-        //    let email = storageService.load('email');
-        //    let token = storageService.load('token');
-        //    if(email && token) {
-        //        this.user = new User(email, token);
-        //    }
-        //}
+        // {
+        //     let fullname = storageService.load('fullname');
+        //     let email = storageService.load('email');
+        //     let token = storageService.load('token');
+        //     if(fullname && email && token) {
+        //         this.user = new User({
+        //             fullname: fullname,
+        //             email: email,
+        //             token: token
+        //         });
+        //     }
+        // }
         
     }
 
@@ -81,10 +86,12 @@ export class AuthorizationService {
         statusResponse.subscribe(response => {
             this.user = new User(response);
 
-            //{
-            //    this.storageService.store('email', email);
-            //    this.storageService.store('token', token);
-            //}
+            // {
+            //     this.storageService.store('fullname', this.user.fullname);
+            //     this.storageService.store('email', this.user.email);
+            //     this.storageService.store('token', this.user.token);
+            // }
+
         },
         error => {
             console.log(error);
@@ -106,10 +113,12 @@ export class AuthorizationService {
             if(response.status == 200) {
                 this.user = null;
 
-                //{
-                //  this.storageService.remove('email');
-                //  this.storageService.remove('token');
-                //}
+                // {
+                //     this.storageService.remove('fullname');
+                //     this.storageService.remove('email');
+                //     this.storageService.remove('token');
+                // }
+
             }
         },
         error => {
