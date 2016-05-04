@@ -37,7 +37,12 @@ import {Metadatum} from '../models/metadatum.model';
                         </span>
                     </fieldset>
 
-                    <hr/>
+                    <hr/> <!-- TODO: attempt to move into seperate component, must be within form -->
+                    <label>Bitstreams</label>
+                    <fieldset class="form-group">
+                    </fieldset>
+
+                    <hr/> <!-- TODO: attempt to move into seperate component, must be within form -->
                     <label>Metadata</label>
                     <fieldset class="form-group">
                        
@@ -74,17 +79,19 @@ import {Metadatum} from '../models/metadatum.model';
                                                     <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                                                 </select>
 
-                                                <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">
-                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.minlength">
-                                                        must have at least {{ input.validation.minLength }} characters
+                                                <div *ngIf="form.controls[input.id]">
+                                                    <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">
+                                                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.minlength">
+                                                            must have at least {{ input.validation.minLength }} characters
+                                                        </span>
+                                                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
+                                                            must have at most {{ input.validation.maxLength }} characters
+                                                        </span>
+                                                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
+                                                            required
+                                                        </span>
                                                     </span>
-                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
-                                                        must have at most {{ input.validation.maxLength }} characters
-                                                    </span>
-                                                    <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
-                                                        required
-                                                    </span>
-                                                </span>
+                                                </div>
 
                                             </div>
 
@@ -101,10 +108,9 @@ import {Metadatum} from '../models/metadatum.model';
 
                     </fieldset>
 
-
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid && !form.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid || !form.valid">Submit</button>
                     </div>
 
                 </form>
@@ -143,23 +149,9 @@ export class ItemCreateComponent {
 
             for(let input of this.metadatumInputs) {
 
-                if(input.default) {
-                    input.value = input.default;
-                }
+                input.value = input.default ? input.default : '';
 
-                let validators: Array<any> = new Array<any>();
-
-                for(let key in input.validation) {
-
-                    if(key == 'required') {
-                        if(input.validation[key]) {
-                            validators.push(Validators.required);
-                        }
-                    }
-                    else {
-                        validators.push(Validators[key](input.validation[key]));
-                    }
-                }
+                let validators = this.createValidators(input);
 
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
@@ -171,37 +163,18 @@ export class ItemCreateComponent {
     }
 
     addMetadatumInput(input: MetadatumInput): void {
-        let newInput = new MetadatumInput(JSON.parse(JSON.stringify(input)));
-        newInput.repeat = newInput.repeat ? newInput.repeat++ : 1;
-        newInput.value = '';
+        let clonedInput = this.cloneInput(input);
 
-
-        let validators: Array<any> = new Array<any>();
-
-        for(let key in newInput.validation) {
-
-            if(key == 'required') {
-                if(newInput.validation[key]) {
-                    validators.push(Validators.required);
-                }
-            }
-            else {
-                validators.push(Validators[key](newInput.validation[key]));
-            }
-        }
-        
-
+        let validators = this.createValidators(clonedInput);
 
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
-            if(this.metadatumInputs[i].key == newInput.key) {
-                this.metadatumInputs.splice(i+1, 0, newInput);
+            if(this.metadatumInputs[i].key == clonedInput.key) {
+                this.metadatumInputs.splice(i+1, 0, clonedInput);
                 break;
             }
         }
 
-
-
-        this.form.addControl(newInput.id, new Control('', Validators.compose(validators)));
+        this.form.addControl(clonedInput.id, new Control('', Validators.compose(validators)));
     }
 
     removeMetadatumInput(input: MetadatumInput): void {
@@ -214,6 +187,28 @@ export class ItemCreateComponent {
                 break;
             }
         }
+    }
+
+    cloneInput(input: MetadatumInput): MetadatumInput {
+        let clonedInput = new MetadatumInput(JSON.parse(JSON.stringify(input)));
+        clonedInput.repeat = clonedInput.repeat ? clonedInput.repeat++ : 1;
+        clonedInput.value = '';
+        return clonedInput;
+    }
+
+    createValidators(input: MetadatumInput): Array<any> {
+        let validators: Array<any> = new Array<any>();
+        for(let key in input.validation) {
+            if(key == 'required') {
+                if(input.validation[key]) {
+                    validators.push(Validators.required);
+                }
+            }
+            else {
+                validators.push(Validators[key](input.validation[key]));
+            }
+        }
+        return validators;
     }
 
     createItem(): void {
@@ -232,12 +227,9 @@ export class ItemCreateComponent {
 
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-
                 this.reset();
-
                 this.dspace.refresh(currentContext);
                 this.router.navigate(['/Collections', { id: currentContext.id }]);
-
             }
         },
         error => {
