@@ -2,9 +2,11 @@ import 'angular2-universal/polyfills';
 import {prebootComplete} from 'angular2-universal';
 
 import {bootstrap} from 'angular2/platform/browser';
+import {COMPILER_PROVIDERS} from 'angular2/compiler';
+import {FORM_PROVIDERS} from 'angular2/common';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
-import {FORM_PROVIDERS} from 'angular2/common';
+
 import {enableProdMode, provide} from 'angular2/core';
 
 import {
@@ -24,10 +26,12 @@ import {PagingStoreService} from './dspace/services/paging-store.service';
 import {ContextProviderService} from './dspace/services/context-provider.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceConstants} from './dspace/dspace.constants';
+import {MetadataHelper} from './utilities/metadata.helper';
+import {GoogleScholarMetadataService} from './utilities/services/google-scholar-metadata.service.ts';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
-enableProdMode();
+//enableProdMode();
 
 /**
 * "Bootstrap" the client-side application (i.e. start it up), by directly calling
@@ -39,20 +43,22 @@ enableProdMode();
 * http://blog.thoughtram.io/angular/2015/05/18/dependency-injection-in-angular-2.html
 **/
 bootstrap(AppComponent, [
-    ROUTER_PROVIDERS,
-    HTTP_PROVIDERS,
     FORM_PROVIDERS,
+    HTTP_PROVIDERS,
+    ROUTER_PROVIDERS,
     provide(TranslateLoader, {
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
         deps: [Http]
     }),
     AuthorizationService,
     BreadcrumbService,
+    ContextProviderService,
     DSpaceConstants,
     DSpaceDirectory,
     DSpaceService,
+    GoogleScholarMetadataService,
     HttpService,
-    ContextProviderService,
+    MetadataHelper,
     MetaTagService,
     PaginationService,
     PagingStoreService,

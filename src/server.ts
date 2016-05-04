@@ -17,9 +17,15 @@ import {
     enableProdMode
 } from 'angular2/core';
 
-import {
-    APP_BASE_HREF
-} from 'angular2/router';
+import {FORM_PROVIDERS} from 'angular2/common';
+
+import {COMPILER_PROVIDERS} from 'angular2/compiler';
+
+import {XHR} from 'angular2/compiler';
+
+//import {
+//    APP_BASE_HREF
+//} from 'angular2/router';
 
 import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
 
@@ -48,7 +54,7 @@ import {PagingStoreService} from './app/dspace/services/paging-store.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
-enableProdMode();
+//enableProdMode();
 
 // Default to port 3000
 var PORT = 3000;
@@ -104,46 +110,45 @@ app.set('port', PORT);
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
-    console.log('url: ' + url);
     res.render('index', {
         directives: [AppComponent, TitleComponent],
         providers: [
             NODE_ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
-            provide(APP_BASE_HREF, { useValue: baseUrl }),
+            //provide(APP_BASE_HREF, { useValue: baseUrl }),
             provide(REQUEST_URL, { useValue: url }),
             provide(TranslateLoader, {
                 useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
             }),
-            TranslateService,
             AuthorizationService,
             BreadcrumbService,
-            PaginationService,
-            DSpaceDirectory,
+            ContextProviderService,
             DSpaceConstants,
+            DSpaceDirectory,
             DSpaceService,
-            StorageService,
-            PagingStoreService,
             GoogleScholarMetadataService,
             HttpService,
-            ContextProviderService,
+            MetadataHelper,
             MetaTagService,
-            MetadataHelper
+            PaginationService,
+            PagingStoreService,
+            StorageService,
+            TranslateService
         ],
-        preboot: {
-            appRoot: 'dspace',
-            replay: 'hydrate',
-            //listen: any,
-            //freeze: any,
-            //pauseEvent: string,
-            //resumeEvent: string,
-            //completeEvent: string,
-            //presets: any,
-            uglify: true,
-            buffer: true,
-            debug: false
-        },
+//        preboot: {
+//            appRoot: 'dspace',
+//            replay: 'hydrate',
+//            //listen: any,
+//            //freeze: any,
+//            //pauseEvent: string,
+//            //resumeEvent: string,
+//            //completeEvent: string,
+//            //presets: any,
+//            uglify: true,
+//            buffer: true,
+//            debug: false
+//        },
         async: true
     });
 }
