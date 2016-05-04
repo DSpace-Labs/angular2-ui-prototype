@@ -35,9 +35,6 @@ import {CommunityCreateComponent} from './dspace/components/community-create.com
                  ContextComponent,
                  LoginFormComponent],
     pipes: [TranslatePipe],
-    providers: [DSpaceDirectory,
-                  AuthorizationService,
-                  TranslateService],
     template: `
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">

@@ -17,12 +17,6 @@ import {
     enableProdMode
 } from 'angular2/core';
 
-import {FORM_PROVIDERS} from 'angular2/common';
-
-import {COMPILER_PROVIDERS} from 'angular2/compiler';
-
-import {XHR} from 'angular2/compiler';
-
 //import {
 //    APP_BASE_HREF
 //} from 'angular2/router';
@@ -54,7 +48,7 @@ import {PagingStoreService} from './app/dspace/services/paging-store.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
-//enableProdMode();
+enableProdMode();
 
 // Default to port 3000
 var PORT = 3000;
@@ -136,19 +130,19 @@ function ngApp(req, res) {
             StorageService,
             TranslateService
         ],
-//        preboot: {
-//            appRoot: 'dspace',
-//            replay: 'hydrate',
-//            //listen: any,
-//            //freeze: any,
-//            //pauseEvent: string,
-//            //resumeEvent: string,
-//            //completeEvent: string,
-//            //presets: any,
-//            uglify: true,
-//            buffer: true,
-//            debug: false
-//        },
+        preboot: {
+            appRoot: 'dspace',
+            replay: 'hydrate',
+            //listen: any,
+            //freeze: any,
+            //pauseEvent: string,
+            //resumeEvent: string,
+            //completeEvent: string,
+            //presets: any,
+            uglify: true,
+            buffer: true,
+            debug: false
+        },
         async: true
     });
 }

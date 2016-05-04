@@ -1,13 +1,10 @@
 import 'angular2-universal/polyfills';
 import {prebootComplete} from 'angular2-universal';
-
 import {bootstrap} from 'angular2/platform/browser';
-import {COMPILER_PROVIDERS} from 'angular2/compiler';
+import {enableProdMode, provide} from 'angular2/core';
 import {FORM_PROVIDERS} from 'angular2/common';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {ROUTER_PROVIDERS} from 'angular2/router';
-
-import {enableProdMode, provide} from 'angular2/core';
 
 import {
     TranslateLoader,
@@ -31,7 +28,7 @@ import {GoogleScholarMetadataService} from './utilities/services/google-scholar-
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
-//enableProdMode();
+enableProdMode();
 
 /**
 * "Bootstrap" the client-side application (i.e. start it up), by directly calling
