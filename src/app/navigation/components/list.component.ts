@@ -13,7 +13,7 @@ import {PaginationComponent} from './pagination.component';
     directives: [ROUTER_DIRECTIVES, PaginationComponent],
     template: `
     			<ul class="list-group">
-                    <li *ngFor="#item of collection.items" class="list-group-item">
+                    <li *ngFor="let item of collection.items" class="list-group-item">
                         <!-- Router Link -->
                         <a [routerLink]="[item.component, {id:item.id}]">{{ item.name }}</a>
                     </li>

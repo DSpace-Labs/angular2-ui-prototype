@@ -13,11 +13,10 @@ import {ViewElementComponent} from './view-element.component';
     selector: 'item-uri',
     inputs: ['itemData'],
     directives: [ViewElementComponent],
-    providers: [MetadataHelper],
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div *ngFor="#metadatum of filteredFields;">
+                    <div *ngFor="let metadatum of filteredFields;">
                         <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
                     </div>
                 </view-element>

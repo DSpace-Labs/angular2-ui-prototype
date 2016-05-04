@@ -29,9 +29,7 @@ export class DSpaceService {
      * @param httpService 
      *      HttpService is a singleton service to provide basic xhr requests.
      */
-    constructor(private httpService: HttpService) {
-
-    }
+    constructor(private httpService: HttpService) {}
 
     /**
      * Method to fetch top communities for navigation purposes.
@@ -186,7 +184,6 @@ export class DSpaceService {
      *      DSpace user token
      */
     status(token): Observable<Response> {
-        console.log(token);
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteRESTURL('/status'),
             headers: [{

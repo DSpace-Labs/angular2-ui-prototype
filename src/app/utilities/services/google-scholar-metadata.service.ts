@@ -1,5 +1,4 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Location} from 'angular2/router';
 
 import {Item} from "../../dspace/models/item.model";
 import {Metadatum} from "../../dspace/models/metadatum.model";
@@ -28,11 +27,8 @@ export class GoogleScholarMetadataService {
      *
      * @param metaTagService`
      *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
-     * @param location
-     *      Location
      */
-    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
-                @Inject(Location) private location: Location) {
+    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService) {
         this._googleScholarTags = new Array<MetaTag>();
     }
 
@@ -184,7 +180,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
     private setCitationAbstractGSTag(): void {
-        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.location.path());
+        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.item.component.toLowerCase(), '/' + this.item.id);
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 

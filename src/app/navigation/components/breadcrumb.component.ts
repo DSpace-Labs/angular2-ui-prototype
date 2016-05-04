@@ -13,7 +13,7 @@ import {BreadcrumbService} from '../services/breadcrumb.service';
     directives: [ROUTER_DIRECTIVES],
     template: `
     			<ul class="list-inline breadcrumb">
-                    <li *ngFor="#breadcrumb of trail">
+                    <li *ngFor="let breadcrumb of trail">
                         <a *ngIf="breadcrumb.id && !breadcrumb.page" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
                         <a *ngIf="breadcrumb.id && breadcrumb.page && !breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
                         <a *ngIf="breadcrumb.id && breadcrumb.page && breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>

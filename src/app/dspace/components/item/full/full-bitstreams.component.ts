@@ -15,7 +15,7 @@ import {ViewElementComponent} from '../view-element.component';
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">
-                        <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
+                        <div *ngFor="let bitstream of itemBitstreams;" class="file-wrapper row">
 
                             <!-- thumbnail -->
                             <div class="col-xs-6 col-sm-3">

@@ -52,7 +52,7 @@ import {Metadatum} from '../models/metadatum.model';
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="#input of metadatumInputs">
+                                <tr *ngFor="let input of metadatumInputs">
                                     <td>
                                         <div class="row">
                                             <div class="col-md-11 col-xs-10">
@@ -71,7 +71,7 @@ import {Metadatum} from '../models/metadatum.model';
                                                 <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}"></textarea>
 
                                                 <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" ngControl="{{input.id}}">
-                                                    <option *ngFor="#option of input.options" [value]="option.value">{{ option.gloss }}</option>
+                                                    <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                                                 </select>
 
                                                 <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">

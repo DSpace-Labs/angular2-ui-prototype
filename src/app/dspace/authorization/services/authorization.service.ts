@@ -79,10 +79,7 @@ export class AuthorizationService {
         let statusResponse: Observable<Response> = this.dspace.status(token);
 
         statusResponse.subscribe(response => {
-            console.log(response);
             this.user = new User(response);
-
-            console.log(this.user);
 
             //{
             //    this.storageService.store('email', email);
