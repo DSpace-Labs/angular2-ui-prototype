@@ -89,7 +89,8 @@ export class PaginationComponent {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent") {
+        // TODO: figure out a better way to do this
+        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityViewComponent") {
             this.component = "/"
         }
         else {
