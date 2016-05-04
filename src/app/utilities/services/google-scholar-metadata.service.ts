@@ -192,9 +192,13 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_pdf_url" ... >  to the <head>
      */
     private setCitationPDFGSTag(): void {
-        //TODO after item page is merged
-        // let values = [];
-        // this.setGSTagsForField('citation_pdf_url', values);
+        if (ObjectUtil.hasValue(this._item)) {
+            let bitstreamsInOriginalBundle = this._item.getBitstreamsByBundleName('ORIGINAL');
+            let pdfBitstream = ArrayUtil.findBy(bitstreamsInOriginalBundle, 'mimeType', 'application/pdf');
+            if (ObjectUtil.hasValue(pdfBitstream)) {
+                this.setGSTagsForField('citation_pdf_url', [pdfBitstream.retrieveLink]);
+            }
+        }
     }
 
     /**
@@ -209,7 +213,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_keywords" ... >  to the <head>
      */
     private setCitationKeywordsGSTag(): void {
-        let values = this.getMetaTagContentsFor(['dc.subject', 'dc.type'], false, true);
+        let values = this.getMetaTagContentsFor(['dc.subject'], false, true);
         this.setGSTagsForField('citation_keywords', values);
     }
 
