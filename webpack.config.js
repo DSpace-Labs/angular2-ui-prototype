@@ -14,6 +14,23 @@ var defaultConfig = {
         // Directory that contains our modules is [src]/src
         root: path.join(__dirname, '/src')
     },
+    // Static analysis linter for TypeScript advanced options configuration
+    // Description: An extensible linter for the TypeScript language.
+    //
+    // See: https://github.com/wbuchwalter/tslint-loader
+    module: {
+        preLoaders: [
+            {
+                test: /\.ts$/,
+                loader: "tslint-loader"
+            }
+        ]
+    },
+    tslint: {
+      emitErrors: false,
+      failOnHint: false,
+      resourcePath: 'src'
+    },
     output: {
         // Public path of any resources used by browser
         publicPath: path.resolve(__dirname),
