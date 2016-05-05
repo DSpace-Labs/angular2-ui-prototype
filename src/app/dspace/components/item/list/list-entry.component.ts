@@ -1,9 +1,9 @@
-import {Component, Input} from 'angular2/core';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input } from 'angular2/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {ListMetadataComponent} from './list-metadata.component';
-import {ThumbnailComponent} from '../thumbnail.component';
-import {Item} from '../../../models/item.model';
+import { ListMetadataComponent } from './list-metadata.component';
+import { ThumbnailComponent } from '../thumbnail.component';
+import { Item } from '../../../models/item.model';
 
 /**
  *

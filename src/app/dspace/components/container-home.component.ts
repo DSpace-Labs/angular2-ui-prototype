@@ -1,6 +1,6 @@
-import {Component, Input} from 'angular2/core';
-import {ContainerHomepage} from "../interfaces/container-homepage.interface";
-import {ContainerLogoComponent} from "./container-logo.component";
+import { Component, Input } from 'angular2/core';
+import { ContainerHomepage } from "../interfaces/container-homepage.interface";
+import { ContainerLogoComponent } from "./container-logo.component";
 
 /**
  * A component to render container (i.e. Community or Collection) homepages

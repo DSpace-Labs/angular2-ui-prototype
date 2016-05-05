@@ -1,11 +1,11 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {BreadcrumbService} from './navigation/services/breadcrumb.service';
-import {DSpaceDirectory} from './dspace/dspace.directory';
-import {PaginationComponent} from './navigation/components/pagination.component';
-import {TreeComponent} from './navigation/components/tree.component';
+import { BreadcrumbService } from './navigation/services/breadcrumb.service';
+import { DSpaceDirectory } from './dspace/dspace.directory';
+import { PaginationComponent } from './navigation/components/pagination.component';
+import { TreeComponent } from './navigation/components/tree.component';
 
 /**
  * The dashboard component is the main index for browsing. Layout contains a 

@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import { Injectable } from 'angular2/core';
 
-import {DSpaceConstants} from '../dspace.constants';
+import { DSpaceConstants } from '../dspace.constants';
 
 /**
  * Injectable service to cache session context which have been visited.

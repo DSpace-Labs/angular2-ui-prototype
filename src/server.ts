@@ -16,33 +16,33 @@ import {
     NODE_PRELOAD_CACHE_HTTP_PROVIDERS
 } from 'angular2-universal';
 
-import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
+import { TranslateService, TranslateLoader } from "ng2-translate/ng2-translate";
 
 // Config
-import {GlobalConfig} from "../config";
+import { GlobalConfig } from "../config";
 
 // App Component
-import {AppComponent} from './app/app.component';
+import { AppComponent } from './app/app.component';
 
 // Server Components
-import {TitleComponent} from './server/title.component';
+import { TitleComponent } from './server/title.component';
 
 // App Injectables
-import {AuthorizationService} from './app/dspace/authorization/services/authorization.service';
-import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
-import {ContextProviderService} from './app/dspace/services/context-provider.service';
-import {DSpaceConstants} from './app/dspace/dspace.constants';
-import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceService} from './app/dspace/services/dspace.service';
-import {FormService} from './app/utilities/services/form.service';
-import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
-import {GoogleScholarMetadataService} from './app/utilities/services/google-scholar-metadata.service.ts';
-import {HttpService} from './app/utilities/services/http.service';
-import {MetadataHelper} from './app/utilities/metadata.helper';
-import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
-import {PaginationService} from './app/navigation/services/pagination.service';
-import {PagingStoreService} from './app/dspace/services/paging-store.service';
-import {StorageService} from './app/utilities/services/storage.service';
+import { AuthorizationService } from './app/dspace/authorization/services/authorization.service';
+import { BreadcrumbService } from './app/navigation/services/breadcrumb.service';
+import { ContextProviderService } from './app/dspace/services/context-provider.service';
+import { DSpaceConstants } from './app/dspace/dspace.constants';
+import { DSpaceDirectory } from './app/dspace/dspace.directory';
+import { DSpaceService } from './app/dspace/services/dspace.service';
+import { FormService } from './app/utilities/services/form.service';
+import { FileSystemLoader } from "./server/i18n/filesystem.translateloader";
+import { GoogleScholarMetadataService } from './app/utilities/services/google-scholar-metadata.service.ts';
+import { HttpService } from './app/utilities/services/http.service';
+import { MetadataHelper } from './app/utilities/metadata.helper';
+import { MetaTagService } from "./app/utilities/meta-tag/meta-tag.service";
+import { PaginationService } from './app/navigation/services/pagination.service';
+import { PagingStoreService } from './app/dspace/services/paging-store.service';
+import { StorageService } from './app/utilities/services/storage.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html

@@ -1,8 +1,8 @@
-import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component, Input } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
 
-import {ListComponent } from './list.component';
-import {PaginationComponent} from './pagination.component';
+import { ListComponent } from './list.component';
+import { PaginationComponent } from './pagination.component';
 
 /**
  * Tree component for navigation through the dspace index of 

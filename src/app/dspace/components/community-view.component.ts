@@ -1,15 +1,15 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {Community} from "../models/community.model";
-import {ContextProviderService} from '../services/context-provider.service';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import { DSpaceDirectory } from '../dspace.directory';
+import { Community } from "../models/community.model";
+import { ContextProviderService } from '../services/context-provider.service';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 
-import {TreeComponent} from '../../navigation/components/tree.component';
-import {ContainerHomeComponent} from "./container-home.component.ts";
+import { TreeComponent } from '../../navigation/components/tree.component';
+import { ContainerHomeComponent } from "./container-home.component.ts";
 
 /**
  * Community component for displaying the current community.

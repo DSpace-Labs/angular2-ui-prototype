@@ -1,8 +1,8 @@
-import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component, Input } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
 
-import {Collection} from "../../dspace/models/collection.model";
-import {PaginationComponent} from './pagination.component';
+import { Collection } from "../../dspace/models/collection.model";
+import { PaginationComponent } from './pagination.component';
 
 /**
  * List component for navigation of the items of a collection.

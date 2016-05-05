@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {Item} from '../../../models/item.model';
-import {Metadatum} from '../../../models/metadatum.model';
-import {MetadataHelper} from '../../../../utilities/metadata.helper';
-import {TruncatePipe} from '../../../../utilities/pipes/truncate.pipe';
-import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
-import {ObjectUtil} from "../../../../utilities/commons/object.util";
+import { Item } from '../../../models/item.model';
+import { Metadatum } from '../../../models/metadatum.model';
+import { MetadataHelper } from '../../../../utilities/metadata.helper';
+import { TruncatePipe } from '../../../../utilities/pipes/truncate.pipe';
+import { TruncateDatePipe } from '../../../../utilities/pipes/truncatedate.pipe';
+import { ObjectUtil } from "../../../../utilities/commons/object.util";
 
 /**
  * This component will display some metadata of the item in the list view.

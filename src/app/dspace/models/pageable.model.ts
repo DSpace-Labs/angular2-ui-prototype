@@ -1,5 +1,5 @@
-import {Paging} from "../interfaces/paging.interface";
-import {ObjectUtil} from "../../utilities/commons/object.util";
+import { Paging } from "../interfaces/paging.interface";
+import { ObjectUtil } from "../../utilities/commons/object.util";
 
 /**
  * 

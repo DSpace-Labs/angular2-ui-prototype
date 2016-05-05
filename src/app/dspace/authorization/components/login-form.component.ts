@@ -1,10 +1,10 @@
-import {Component} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { NgForm } from 'angular2/common';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../services/authorization.service';
+import { AuthorizationService } from '../services/authorization.service';
 
-import {FormModalComponent, ModalAction} from '../../../utilities/components/form-modal.component';
+import { FormModalComponent, ModalAction } from '../../../utilities/components/form-modal.component';
 
 /**
  * Login form. Uses form-modal component.

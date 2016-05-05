@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from 'angular2/core'
+import { Pipe, PipeTransform } from 'angular2/core'
 
 /**
  * Pipe to truncate a value in Angular2. (Take a substring, starting at 0)

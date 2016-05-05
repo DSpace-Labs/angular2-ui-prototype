@@ -1,16 +1,22 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams, CanDeactivate, ComponentInstruction} from 'angular2/router';
+import { Component } from 'angular2/core';
+import {
+    RouteConfig,
+    RouterOutlet,
+    RouteParams,
+    CanDeactivate,
+    ComponentInstruction
+} from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataService} from "../../utilities/services/google-scholar-metadata.service.ts";
-import {ObjectUtil} from "../../utilities/commons/object.util";
+import { DSpaceDirectory } from '../dspace.directory';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
+import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
+import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
+import { ObjectUtil } from "../../utilities/commons/object.util";
 
-import {SimpleItemViewComponent} from './simple-item-view.component';
-import {FullItemViewComponent} from './full-item-view.component';
+import { SimpleItemViewComponent } from './simple-item-view.component';
+import { FullItemViewComponent } from './full-item-view.component';
 
-import {Item} from "../models/item.model";
+import { Item } from "../models/item.model";
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.

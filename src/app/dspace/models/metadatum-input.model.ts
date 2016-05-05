@@ -1,8 +1,8 @@
-import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util";
-import {StringUtil} from "../../utilities/commons/string.util";
+import { DSpaceObject } from "./dspaceobject.model";
+import { ObjectUtil } from "../../utilities/commons/object.util";
+import { StringUtil } from "../../utilities/commons/string.util";
 
-import {Metadatum} from './metadatum.model';
+import { Metadatum } from './metadatum.model';
 
 /**
  *

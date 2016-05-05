@@ -1,6 +1,13 @@
-import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    OnInit
+} from 'angular2/core';
+
+import { NgForm } from 'angular2/common';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Form modal. ng-content brings in the actual form.

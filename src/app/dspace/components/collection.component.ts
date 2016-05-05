@@ -1,14 +1,14 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {Collection} from "../models/collection.model";
+import { DSpaceDirectory } from '../dspace.directory';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
+import { Collection } from "../models/collection.model";
 
-import {ItemListComponent} from './item-list.component';
+import { ItemListComponent } from './item-list.component';
 
-import {CollectionViewComponent} from './collection-view.component';
-import {ItemCreateComponent} from './item-create.component';
+import { CollectionViewComponent } from './collection-view.component';
+import { ItemCreateComponent } from './item-create.component';
 
 /**
  * Collection component for displaying the current collection.

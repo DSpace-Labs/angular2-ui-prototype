@@ -1,25 +1,25 @@
-import {Component, OnInit} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, OnInit } from 'angular2/core';
+import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from './dspace/authorization/services/authorization.service';
-import {DSpaceDirectory} from './dspace/dspace.directory';
+import { AuthorizationService } from './dspace/authorization/services/authorization.service';
+import { DSpaceDirectory } from './dspace/dspace.directory';
 
-import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
-import {CollectionComponent} from './dspace/components/collection.component';
-import {CommunityComponent} from './dspace/components/community.component';
-import {CommunityCreateComponent} from './dspace/components/community-create.component';
-import {ContextComponent} from './navigation/components/context.component';
-import {DashboardComponent} from './dashboard.component';
-import {HomeComponent} from './home.component';
-import {ItemComponent} from './dspace/components/item.component';
-import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
-import {LoginComponent} from './dspace/authorization/components/login.component';
-import {RegistrationComponent} from './dspace/authorization/components/registration.component';
-import {SettingsComponent} from './settings.component';
-import {SetupComponent} from './setup.component';
+import { BreadcrumbComponent } from './navigation/components/breadcrumb.component';
+import { CollectionComponent } from './dspace/components/collection.component';
+import { CommunityComponent } from './dspace/components/community.component';
+import { CommunityCreateComponent } from './dspace/components/community-create.component';
+import { ContextComponent } from './navigation/components/context.component';
+import { DashboardComponent } from './dashboard.component';
+import { HomeComponent } from './home.component';
+import { ItemComponent } from './dspace/components/item.component';
+import { LoginFormComponent } from './dspace/authorization/components/login-form.component';
+import { LoginComponent } from './dspace/authorization/components/login.component';
+import { RegistrationComponent } from './dspace/authorization/components/registration.component';
+import { SettingsComponent } from './settings.component';
+import { SetupComponent } from './setup.component';
 
-import {User} from './dspace/models/user.model';
+import { User } from './dspace/models/user.model';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.

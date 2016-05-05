@@ -1,18 +1,18 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorsComponent} from './item/authors.component';
-import {DateComponent} from './item/date.component';
-import {MetadataComponent} from './item/metadata.component';
-import {ItemCollectionComponent} from './item/item-collection.component';
-import {UriComponent} from './item/uri.component';
-import {BitstreamsComponent} from './item/bitstreams.component';
-import {ThumbnailComponent} from './item/thumbnail.component';
-import {ItemComponent} from './item.component';
+import { AuthorsComponent } from './item/authors.component';
+import { DateComponent } from './item/date.component';
+import { MetadataComponent } from './item/metadata.component';
+import { ItemCollectionComponent } from './item/item-collection.component';
+import { UriComponent } from './item/uri.component';
+import { BitstreamsComponent } from './item/bitstreams.component';
+import { ThumbnailComponent } from './item/thumbnail.component';
+import { ItemComponent } from './item.component';
 
-import {Item} from '../models/item.model';
-import {ContextProviderService} from '../services/context-provider.service';
+import { Item } from '../models/item.model';
+import { ContextProviderService } from '../services/context-provider.service';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.

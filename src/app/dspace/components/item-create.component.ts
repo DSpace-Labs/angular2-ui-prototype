@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {Router} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { Router } from 'angular2/router';
 
 import {
     FORM_DIRECTIVES,
@@ -11,22 +11,22 @@ import {
     Validators
 } from 'angular2/common';
 
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../authorization/services/authorization.service';
-import {ContextProviderService} from '../services/context-provider.service';
-import {DSpaceService} from '../services/dspace.service';
-import {DSpaceDirectory} from '../dspace.directory';
-import {FormService} from '../../utilities/services/form.service';
+import { AuthorizationService } from '../authorization/services/authorization.service';
+import { ContextProviderService } from '../services/context-provider.service';
+import { DSpaceService } from '../services/dspace.service';
+import { DSpaceDirectory } from '../dspace.directory';
+import { FormService } from '../../utilities/services/form.service';
 
-import {Item} from "../models/item.model";
-import {Bitstream} from '../models/bitstream.model';
-import {Metadatum} from '../models/metadatum.model';
-import {MetadatumInput} from '../models/metadatum-input.model';
+import { Item } from "../models/item.model";
+import { Bitstream } from '../models/bitstream.model';
+import { Metadatum } from '../models/metadatum.model';
+import { MetadatumInput } from '../models/metadatum-input.model';
 
-import {FullPageLoaderComponent} from '../../utilities/components/full-page-loader.component';
+import { FullPageLoaderComponent } from '../../utilities/components/full-page-loader.component';
 
 /**
  * 
@@ -130,7 +130,7 @@ import {FullPageLoaderComponent} from '../../utilities/components/full-page-load
                                                             must have at most {{ input.validation.maxLength }} characters
                                                         </span>
                                                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.pattern">
-                                                            invalid
+                                                            invalid format
                                                         </span>
                                                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
                                                             required

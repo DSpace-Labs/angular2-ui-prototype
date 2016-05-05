@@ -1,7 +1,7 @@
-import {Injectable} from 'angular2/core';
-import {EventEmitter} from 'angular2/core';
+import { Injectable } from 'angular2/core';
+import { EventEmitter } from 'angular2/core';
 
-import {ContextProviderService} from '../../dspace/services/context-provider.service';
+import { ContextProviderService } from '../../dspace/services/context-provider.service';
 
 /**
  * Injectable service to process breadcrumb when a context is visited.

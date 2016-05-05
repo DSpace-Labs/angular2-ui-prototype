@@ -1,7 +1,7 @@
-import {Component} from 'angular2/core';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
+import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
 
 /**
  * Registration component.

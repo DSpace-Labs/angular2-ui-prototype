@@ -1,14 +1,14 @@
-import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input } from 'angular2/core';
+import { RouteParams } from 'angular2/router';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {DSpaceService} from '../services/dspace.service';
+import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceService } from '../services/dspace.service';
 
-import {ListEntryComponent} from './item/list/list-entry.component';
-import {Item} from '../models/item.model';
-import {Collection} from '../models/collection.model';
-import {PaginationComponent} from '../../navigation/components/pagination.component';
+import { ListEntryComponent } from './item/list/list-entry.component';
+import { Item } from '../models/item.model';
+import { Collection } from '../models/collection.model';
+import { PaginationComponent } from '../../navigation/components/pagination.component';
 
 /**
  * Renders a row of the item list.

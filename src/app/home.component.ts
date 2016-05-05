@@ -1,10 +1,10 @@
-import {Component} from 'angular2/core';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from './dspace/authorization/services/authorization.service';
-import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+import { AuthorizationService } from './dspace/authorization/services/authorization.service';
+import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 
-import {User} from './dspace/models/user.model';
+import { User } from './dspace/models/user.model';
 
 /**
  * Home component. Intended to be a splash page with news, recent submissions, 

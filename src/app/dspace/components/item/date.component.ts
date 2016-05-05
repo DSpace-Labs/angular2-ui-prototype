@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
-import {MetadataHelper} from '../../../utilities/metadata.helper';
-import {Metadatum} from '../../models/metadatum.model'
-import {ViewElementComponent} from './view-element.component'
+import { TruncateDatePipe } from "../../../utilities/pipes/truncatedate.pipe"
+import { MetadataHelper } from '../../../utilities/metadata.helper';
+import { Metadatum } from '../../models/metadatum.model'
+import { ViewElementComponent } from './view-element.component'
 
 /**
  * Component for the authors of the simple-item-view.

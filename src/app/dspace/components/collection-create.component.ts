@@ -1,14 +1,14 @@
-import {Component} from 'angular2/core';
-import {Router} from 'angular2/router';
-import {NgForm} from 'angular2/common';
+import { Component } from 'angular2/core';
+import { Router } from 'angular2/router';
+import { NgForm } from 'angular2/common';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../authorization/services/authorization.service';
-import {ContextProviderService} from '../services/context-provider.service';
-import {DSpaceService} from '../services/dspace.service';
-import {DSpaceDirectory} from '../dspace.directory';
-import {Collection} from "../models/collection.model";
+import { AuthorizationService } from '../authorization/services/authorization.service';
+import { ContextProviderService } from '../services/context-provider.service';
+import { DSpaceService } from '../services/dspace.service';
+import { DSpaceDirectory } from '../dspace.directory';
+import { Collection } from "../models/collection.model";
 
 /**
  * 

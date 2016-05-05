@@ -1,6 +1,6 @@
-import {Collection} from "./collection.model";
-import {DSOContainer} from "./dso-container.model";
-import {ObjectUtil} from "../../utilities/commons/object.util";
+import { Collection } from "./collection.model";
+import { DSOContainer } from "./dso-container.model";
+import { ObjectUtil } from "../../utilities/commons/object.util";
 
 /**
  * A model class for a Community.

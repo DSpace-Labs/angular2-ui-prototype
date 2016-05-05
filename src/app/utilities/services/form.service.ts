@@ -1,10 +1,10 @@
-import {Injectable} from 'angular2/core';
-import {Observable} from "rxjs/Observable";
+import { Injectable } from 'angular2/core';
+import { Observable } from "rxjs/Observable";
 
-import {HttpService} from './http.service';
-import {URLHelper} from "../url.helper";
+import { HttpService } from './http.service';
+import { URLHelper } from "../url.helper";
 
-import {MetadatumInput} from '../../dspace/models/metadatum-input.model';
+import { MetadatumInput } from '../../dspace/models/metadatum-input.model';
 
  /**
  * 

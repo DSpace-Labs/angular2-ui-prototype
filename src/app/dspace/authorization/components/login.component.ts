@@ -1,10 +1,10 @@
-import {Component} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {Router} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { NgForm } from 'angular2/common';
+import { Router } from 'angular2/router';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../services/authorization.service';
-import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
+import { AuthorizationService } from '../services/authorization.service';
+import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
 
 /**
  * Login form component.

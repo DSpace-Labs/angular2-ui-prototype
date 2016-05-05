@@ -1,12 +1,12 @@
-import {Injectable, Inject} from 'angular2/core';
-import {Response} from 'angular2/http';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from "rxjs/Observable";
+import { Injectable, Inject } from 'angular2/core';
+import { Response } from 'angular2/http';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from "rxjs/Observable";
 
-import {User} from '../../models/user.model';
+import { User } from '../../models/user.model';
 
-import {DSpaceService} from '../../services/dspace.service';
-import {StorageService} from '../../../utilities/services/storage.service';
+import { DSpaceService } from '../../services/dspace.service';
+import { StorageService } from '../../../utilities/services/storage.service';
 
 /**
  * Authorization service used for authentication and authorization.
