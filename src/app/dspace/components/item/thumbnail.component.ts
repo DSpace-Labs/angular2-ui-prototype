@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from "../../models/bitstream.model"
@@ -10,7 +10,6 @@ import {Bitstream} from "../../models/bitstream.model"
  */
 @Component({
     selector: 'item-thumbnail',
-    inputs: ['itemBitstreams'],
     pipes: [TranslatePipe],
     template: `
                 <div class="thumbnail-wrapper">
@@ -23,6 +22,9 @@ import {Bitstream} from "../../models/bitstream.model"
 })
 export class ThumbnailComponent {
 
-    private itemBitstreams: Array<Bitstream>;
+    /**
+     * 
+     */
+    @Input() private itemBitstreams: Array<Bitstream>;
 
 }

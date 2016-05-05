@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from '../../../models/bitstream.model';
@@ -9,7 +9,6 @@ import {ViewElementComponent} from '../view-element.component';
  */
 @Component({
     selector: 'item-full-bitstreams',
-    inputs: ['itemBitstreams'],
     directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template: `
@@ -47,8 +46,14 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullBitstreamsComponent {
 
+    /**
+     * 
+     */
     private componentTitle: string = "item-view.full.full-bitstreams.title";
 
-    private itemBitstreams: Bitstream;
+    /**
+     * 
+     */
+    @Input() private itemBitstreams: Bitstream;
 
 }

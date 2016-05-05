@@ -13,7 +13,6 @@ import {PaginationComponent} from './pagination.component';
  */
 @Component({
     selector: 'tree',
-    inputs: ['directories'],
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
@@ -56,10 +55,10 @@ export class TreeComponent {
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
-	directories: Array<any>;
+	@Input() private directories: Array<any>;
     
-    subCommunitiesAndCollections(directory: any): Array<any> {
+    private subCommunitiesAndCollections(directory: any): Array<any> {
         return directory.subcommunities.concat(directory.collections);
     }
-    
+
 }

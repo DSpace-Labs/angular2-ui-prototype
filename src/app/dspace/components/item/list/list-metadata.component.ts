@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -16,7 +16,6 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
  */
 @Component({
     selector: 'item-list-metadata',
-    inputs: ['item'],
     directives: [ROUTER_DIRECTIVES],
     pipes: [TranslatePipe,
             TruncatePipe,
@@ -32,7 +31,7 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
 })
 export class ListMetadataComponent implements OnInit {
 
-    private item: Item;
+    @Input() private item: Item;
 
     private author: String;
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
 import {BreadcrumbService} from '../services/breadcrumb.service';
@@ -11,7 +11,6 @@ import {PaginationService} from '../services/pagination.service';
  */
 @Component({
     selector: 'pagination',
-    inputs: ['context'],
     directives: [ROUTER_DIRECTIVES],
     template: `
                 <div *ngIf="context.limit < context.total" class="form-inline">
@@ -42,27 +41,27 @@ export class PaginationComponent implements OnInit {
      * An input variable that is passed into the component [context].
      * Represents the current context.
      */
-    context: any;
+    @Input() private context: any;
 
     /**
      * A String that represents the current component.
      */
-    component: string;
+    private component: string;
 
     /**
      * A number that represents the previous page.
      */
-    previous: number;
+    private previous: number;
     
     /**
      * A number that represents the next page.
      */
-    next: number;
+    private next: number;
     
      /**
      * A number array that represents options for a context pagination limit.
      */
-    limitOptions: Array<number>;
+    private limitOptions: Array<number>;
     
     /**
      * 
@@ -106,7 +105,7 @@ export class PaginationComponent implements OnInit {
      * @param page
      *          The page being navigated to.
      */
-    page(id, page): void {
+    private page(id, page): void {
         this.context.loaded = false;
         this.breadcrumbService.update({
             name:  this.context.name,
@@ -130,7 +129,7 @@ export class PaginationComponent implements OnInit {
      * @param option
      *          Select option which holds current value selected.
      */
-    updateLimit(limit): void {
+    private updateLimit(limit): void {
         let previousPage = this.context.page;
         this.pagingStore.clearPages(this.context);
         this.context.loaded = false;
@@ -146,7 +145,7 @@ export class PaginationComponent implements OnInit {
     /**
      * Method to request the navigation for the given context.
      */
-    loadContextNav(): void {
+    private loadContextNav(): void {
         if (this.context.type == 'item') {
             // possibly load metadata page
         }
