@@ -129,6 +129,9 @@ import {FullPageLoaderComponent} from '../../utilities/components/full-page-load
                                                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
                                                             must have at most {{ input.validation.maxLength }} characters
                                                         </span>
+                                                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.pattern">
+                                                            invalid
+                                                        </span>
                                                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
                                                             required
                                                         </span>
@@ -245,7 +248,8 @@ export class ItemCreateComponent {
      * 
      */
     private addBitstream(event): void {
-        var files = event.srcElement.files;
+        console.log(event);
+        var files = event.srcElement ? event.srcElement.files : event.target.files;
         for(let file of files) {
             this.files.push(file);
         }
