@@ -26,6 +26,9 @@ import {Bitstream} from '../models/bitstream.model';
 import {Metadatum} from '../models/metadatum.model';
 import {MetadatumInput} from '../models/metadatum-input.model';
 
+/**
+ * 
+ */
 @Component({
     selector: 'item-create',
     pipes: [TranslatePipe],
@@ -154,16 +157,34 @@ import {MetadatumInput} from '../models/metadatum-input.model';
 })
 export class ItemCreateComponent {
 
+    /**
+     * 
+     */
     private active: boolean = false;
 
+    /**
+     * 
+     */
     private item: Item;
 
+    /**
+     * 
+     */
     private files: Array<any>;
 
+    /**
+     * 
+     */
     private metadatumInputs: Array<MetadatumInput>;
 
+    /**
+     * 
+     */
     private form: ControlGroup;
 
+    /**
+     * 
+     */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
@@ -177,7 +198,10 @@ export class ItemCreateComponent {
         this.init();
     }
 
-    init(): void {
+    /**
+     * 
+     */
+    private init(): void {
         this.item = new Item();
         this.files = new Array<any>();
         this.formService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
@@ -193,14 +217,20 @@ export class ItemCreateComponent {
         });
     }
 
-    addBitstream(event): void {
+    /**
+     * 
+     */
+    private addBitstream(event): void {
         var files = event.srcElement.files;
         for(let file of files) {
             this.files.push(file);
         }
     }
     
-    removeBitstream(file): void {
+    /**
+     * 
+     */
+    private removeBitstream(file): void {
         for(let i = this.files.length - 1; i > 0; i--) {
             if(this.files[i].name == file.name) {
                 this.files.splice(i, 1);
@@ -209,7 +239,10 @@ export class ItemCreateComponent {
         }
     }
 
-    addMetadatumInput(input: MetadatumInput): void {
+    /**
+     * 
+     */
+    private addMetadatumInput(input: MetadatumInput): void {
         let clonedInput = this.cloneInput(input);
         let validators = this.createValidators(clonedInput);
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
@@ -221,7 +254,10 @@ export class ItemCreateComponent {
         this.form.addControl(clonedInput.id, new Control('', Validators.compose(validators)));
     }
 
-    removeMetadatumInput(input: MetadatumInput): void {
+    /**
+     * 
+     */
+    private removeMetadatumInput(input: MetadatumInput): void {
         this.form.removeControl(input.id);
         for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
             if(this.metadatumInputs[i].key == input.key) {
@@ -231,7 +267,10 @@ export class ItemCreateComponent {
         }
     }
 
-    cloneInput(input: MetadatumInput): MetadatumInput {
+    /**
+     * 
+     */
+    private cloneInput(input: MetadatumInput): MetadatumInput {
         let clonedInput = new MetadatumInput(JSON.parse(JSON.stringify(input)));
         clonedInput.repeat = clonedInput.repeat ? clonedInput.repeat++ : 1;
         clonedInput.value = '';
@@ -241,7 +280,10 @@ export class ItemCreateComponent {
         return clonedInput;
     }
 
-    createValidators(input: MetadatumInput): Array<any> {
+    /**
+     * 
+     */
+    private createValidators(input: MetadatumInput): Array<any> {
         let validators: Array<any> = new Array<any>();
         for(let key in input.validation) {
             if(key == 'required') {
@@ -256,7 +298,10 @@ export class ItemCreateComponent {
         return validators;
     }
 
-    createItem(): void {
+    /**
+     * 
+     */
+    private createItem(): void {
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.item.metadata = new Array<Metadatum>();
@@ -293,7 +338,10 @@ export class ItemCreateComponent {
         });
     }
 
-    reset(): void {
+    /**
+     * 
+     */
+    private reset(): void {
         this.active = false;
         this.init();
     }

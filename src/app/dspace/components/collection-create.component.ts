@@ -10,6 +10,9 @@ import {DSpaceService} from '../services/dspace.service';
 import {DSpaceDirectory} from '../dspace.directory';
 import {Collection} from "../models/collection.model";
 
+/**
+ * 
+ */
 @Component({
     selector: 'collection-create',
     pipes: [TranslatePipe],
@@ -51,8 +54,14 @@ import {Collection} from "../models/collection.model";
 })
 export class CollectionCreateComponent {
 
+    /**
+     * 
+     */
     private active: boolean = true;
 
+    /**
+     * 
+     */
     private collection: Collection = new Collection();
 
     /**
@@ -72,7 +81,10 @@ export class CollectionCreateComponent {
         translate.use('en');
     }
 
-    createCollection(): void {
+    /**
+     * 
+     */
+    private createCollection(): void {
 
         let token = this.authorization.user.token;
         
@@ -92,7 +104,10 @@ export class CollectionCreateComponent {
 
     }
 
-    reset(): void {
+    /**
+     * 
+     */
+    private reset(): void {
         this.collection = new Collection();
         this.active = false;
         setTimeout(() => this.active = true, 0);
