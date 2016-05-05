@@ -1,0 +1,26 @@
+[
+    {
+        "key": "name",
+        "language": "en",
+        "gloss": "Name",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": true,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "shortDescription",
+        "language": "en",
+        "gloss": "Short Description",
+        "type": "TEXTAREA",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 8,
+            "maxLength": 1024
+        }
+    }
+]

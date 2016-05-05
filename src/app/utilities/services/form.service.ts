@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { HttpService } from './http.service';
 import { URLHelper } from "../url.helper";
 
-import { MetadatumInput } from '../../dspace/models/metadatum-input.model';
+import { FormInput } from '../models/form-input.model';
 
  /**
  * 
@@ -21,15 +21,15 @@ export class FormService {
     /**
      * Get the metadata input form json.
      */
-    getItemMetadataForm(): Observable<Array<MetadatumInput>> {
+    getForm(form: string): Observable<Array<FormInput>> {
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
+            url: URLHelper.relativeToAbsoluteUIURL('/static/forms/' + form + '.json')
         }).map(json => {
-            let metadataInputs = new Array<MetadatumInput>();
-            for(let metadataInput of json) {
-                metadataInputs.push(new MetadatumInput(metadataInput));
+            let inputs = new Array<FormInput>();
+            for(let input of json) {
+                inputs.push(new FormInput(input));
             }
-            return metadataInputs;
+            return inputs;
         });
     }
 

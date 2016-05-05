@@ -1,13 +1,11 @@
-import { DSpaceObject } from "./dspaceobject.model";
-import { ObjectUtil } from "../../utilities/commons/object.util";
-import { StringUtil } from "../../utilities/commons/string.util";
+import { ObjectUtil } from "../commons/object.util";
 
-import { Metadatum } from './metadatum.model';
+import { Metadatum } from '../../dspace/models/metadatum.model';
 
 /**
  *
  */
-export class MetadatumInput extends Metadatum {
+export class FormInput extends Metadatum {
 
     /**
      *

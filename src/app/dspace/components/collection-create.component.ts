@@ -1,6 +1,15 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
-import { NgForm } from 'angular2/common';
+
+import {
+    FORM_DIRECTIVES,
+    FORM_BINDINGS,
+    ControlGroup,
+    Control,
+    FormBuilder,
+    NgForm,
+    Validators
+} from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -8,7 +17,12 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
+import { FormService } from '../../utilities/services/form.service';
+
+import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
+
 import { Collection } from "../models/collection.model";
+import { FormInput } from '../../utilities/models/form-input.model';
 
 /**
  * 
@@ -16,37 +30,15 @@ import { Collection } from "../models/collection.model";
 @Component({
     selector: 'collection-create',
     pipes: [TranslatePipe],
+    directives: [FormFieldsetComponent],
     template: ` 
-                <form *ngIf="active" #createCollectionForm="ngForm" (ngSubmit)="createCollection()" novalidate>
+                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
                     
-                    <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
-                        <label for="name">Name</label>
-                        <input type="text" 
-                               id="name" 
-                               placeholder="Enter Collection Name" 
-                               [(ngModel)]="collection.name"
-                               #name="ngForm"
-                               class="form-control"
-                               minlength="4"
-                               maxlength="64"
-                               required>
-
-                        <span [hidden]="name.valid || name.pristine" class="validaiton-helper">
-                            <span *ngIf="name.errors && name.errors.minlength">
-                                Collection name must have at least 4 characters
-                            </span>
-                            <span *ngIf="name.errors && name.errors.maxlength">
-                                Collection name must have at most 64 characters
-                            </span>
-                            <span *ngIf="name.errors && name.errors.required">
-                                Collection name required
-                            </span>
-                        </span>
-                    </fieldset>
+                    <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
 
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!name.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
                     </div>
 
                 </form>
@@ -57,12 +49,27 @@ export class CollectionCreateComponent {
     /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
-    private active: boolean = true;
+    private active: boolean = false;
+
+    /**
+     * Item input fields.
+     */
+    private inputs: Array<FormInput>;
+
+    /**
+     * The forms control group.
+     */
+    private form: ControlGroup;
+
+    /**
+     * Indicates item creation in progress.
+     */
+    private creating: boolean = false;
 
     /**
      * Collection being created. ngModel
      */
-    private collection: Collection = new Collection();
+    private collection: Collection;
 
     /**
      *
@@ -72,29 +79,79 @@ export class CollectionCreateComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param translate
      *      TranslateService
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceDirectory, 
+                private formService: FormService,
+                private dspace: DSpaceDirectory,
                 private translate: TranslateService,
+                private builder: FormBuilder,
                 private router: Router) {
         translate.setDefaultLang('en');
         translate.use('en');
+        this.init();
+    }
+
+    /**
+     * Initialize the form and validators.
+     */
+    private init(): void {
+        this.collection = new Collection();
+        this.formService.getForm('collection').subscribe(inputs => {
+            this.inputs = inputs;
+            let formControls = {};
+            for(let input of this.inputs) {
+                input.value = input.default ? input.default : '';
+                let validators = this.createValidators(input);
+                formControls[input.id] = new Control('', Validators.compose(validators));
+            }
+            this.form = this.builder.group(formControls);
+            this.active = true;
+        },
+        errors => {
+            console.log(errors);
+        });
+    }
+
+    /**
+     * 
+     */
+    private createValidators(input: FormInput): Array<any> {
+        let validators: Array<any> = new Array<any>();
+        for(let key in input.validation) {
+            if(key == 'required') {
+                if(input.validation[key]) {
+                    validators.push(Validators.required);
+                }
+            }
+            else {
+                validators.push(Validators[key](input.validation[key]));
+            }
+        }
+        return validators;
     }
 
     /**
      * Create collection.
      */
     private createCollection(): void {
+        this.creating = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
+
+        this.setModelValues();
+
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 this.reset();
@@ -103,18 +160,30 @@ export class CollectionCreateComponent {
             }
         },
         error => {
+            this.reset();
             console.log(error);
         });
 
     }
 
     /**
+     *
+     */
+    private setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.value) {
+                this.collection[input.key] = input.value;
+            }
+        }
+    }
+
+    /**
      * Resets the form.
      */
     private reset(): void {
-        this.collection = new Collection();
+        this.creating = false;
         this.active = false;
-        setTimeout(() => this.active = true, 0);
+        this.init();
     }
 
 }

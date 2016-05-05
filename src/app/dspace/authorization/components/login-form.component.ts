@@ -123,13 +123,6 @@ export class LoginFormComponent {
     }
 
     /**
-     * Opens the modal.
-     */
-    openLoginModal(): void {
-        this.login.show();
-    }
-
-    /**
      * Callback to invoke chosen action.
      *
      * @param action
@@ -161,11 +154,18 @@ export class LoginFormComponent {
             this.reset();
         }
     }
+
+    /**
+     * Opens the modal.
+     */
+    private openLoginModal(): void {
+        this.login.show();
+    }
     
     /**
      * Resets the form. 
      */
-    reset(): void {
+    private reset(): void {
         this.email = '';
         this.password = '';
         this.active = false;
