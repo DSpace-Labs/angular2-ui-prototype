@@ -37,7 +37,7 @@ import {PaginationComponent} from './pagination.component';
                         <span *ngIf="directory.type == 'collection'" class="badge">{{ directory.numberItems }}</span>
 
                         <div *ngIf="directory.expanded && directory.type == 'community'">
-                            <tree [directories]="directory.subcommunities.concat(directory.collections)"></tree>
+                            <tree [directories]="subCommunitiesAndCollections(directory)"></tree>
                         </div>
 
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
@@ -57,5 +57,9 @@ export class TreeComponent {
      * are lazy loaded.
      */
 	directories: Array<any>;
+    
+    subCommunitiesAndCollections(directory: any): Array<any> {
+        return directory.subcommunities.concat(directory.collections);
+    }
     
 }
