@@ -28,11 +28,11 @@ export class BitstreamsComponent {
     /**
      * 
      */
-    private componentTitle: string = "item-view.bitstreams.title";
+    @Input() private itemBitstreams: Array<Bitstream>;
 
     /**
      * 
      */
-    @Input() private itemBitstreams: Array<Bitstream>;
+    private componentTitle: string = "item-view.bitstreams.title";
 
 }

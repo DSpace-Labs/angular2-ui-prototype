@@ -78,6 +78,10 @@ export class ContextComponent {
      *
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param translate
+     *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,

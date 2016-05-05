@@ -4,24 +4,54 @@ import {StringUtil} from "../../utilities/commons/string.util";
 
 import {Metadatum} from './metadatum.model';
 
+/**
+ *
+ */
 export class MetadatumInput extends Metadatum {
 
+    /**
+     *
+     */
     gloss: string;
 
+    /**
+     *
+     */
     type: string;
 
+    /**
+     *
+     */
     options: Array<any>;
 
+    /**
+     *
+     */
     repeatable: boolean;
 
+    /**
+     *
+     */
     repeat: number;
 
+    /**
+     *
+     */
     validation: any;
 
+    /**
+     *
+     */
     edit: boolean;
 
+    /**
+     *
+     */
     default: any;
 
+    /**
+     *
+     */
     constructor(json: any) {
        super(json);
        if (ObjectUtil.isNotEmpty(json)) {
@@ -35,6 +65,9 @@ export class MetadatumInput extends Metadatum {
         }
     }
 
+    /**
+     *
+     */
     get id(): string {
         return this.repeat ? this.key + '.' + this.repeat : this.key;
     }

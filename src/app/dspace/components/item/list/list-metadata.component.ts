@@ -24,23 +24,41 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
               `
                 <!-- create a router link to the simple item-view -->
                 <a [routerLink]="[item.component, { id: item.id }]" class="item-list-url">{{ item.name }}</a>
-                <h5 *ngIf="shouldRenderHeader()">{{author}} <span *ngIf="shouldRenderDate()">({{date | truncatedate}})</span></h5>
+                <h5 *ngIf="renderHeader()">{{ author }} <span *ngIf="renderDate()">({{ date | truncatedate }})</span></h5>
                 <!-- the abstract truncated -->
-                <p *ngIf="shouldRenderAbstract()">{{abstract | truncate : 200}}</p>
+                <p *ngIf="renderAbstract()">{{ abstract | truncate : 200 }}</p>
               `
 })
 export class ListMetadataComponent implements OnInit {
 
+    /**
+     *
+     */
     @Input() private item: Item;
 
+    /**
+     *
+     */
     private author: String;
 
+    /**
+     *
+     */
     private abstract: String;
 
+    /**
+     *
+     */
     private date: String;
 
+    /**
+     *
+     */
     constructor(private metadataHelper: MetadataHelper) {}
 
+    /**
+     *
+     */
     ngOnInit() {
         let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract", "dc.date.accessioned"]);
         if (filteredData != null) {
@@ -58,15 +76,24 @@ export class ListMetadataComponent implements OnInit {
         }
     }
 
-    shouldRenderHeader(): boolean {
-        return ObjectUtil.hasValue(this.author) || this.shouldRenderDate();
+    /**
+     *
+     */
+    private renderHeader(): boolean {
+        return ObjectUtil.hasValue(this.author) || this.renderDate();
     }
 
-    shouldRenderDate(): boolean {
+    /**
+     *
+     */
+    private renderDate(): boolean {
         return ObjectUtil.hasValue(this.date);
     }
 
-    shouldRenderAbstract(): boolean {
+    /**
+     *
+     */
+    private renderAbstract(): boolean {
         return ObjectUtil.hasValue(this.abstract);
     }
 

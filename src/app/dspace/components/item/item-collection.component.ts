@@ -14,7 +14,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <a *ngIf="hasValidParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
+                    <a *ngIf="validParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
                 </view-element>
               `
 })
@@ -33,7 +33,7 @@ export class ItemCollectionComponent {
     /**
      * 
      */
-    private hasValidParent(): number {
+    private validParent(): number {
         return (this.itemParent && this.itemParent.component && this.itemParent.id);
     }
 

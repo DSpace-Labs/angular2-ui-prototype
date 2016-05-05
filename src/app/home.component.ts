@@ -35,7 +35,7 @@ export class HomeComponent {
     /**
      * Simple array of strings templated in the view using *ngFor.
      */
-    serverTemplating: Array<String>;
+    private serverTemplating: Array<String>;
 
     /**
      *

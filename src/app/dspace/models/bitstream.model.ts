@@ -13,12 +13,24 @@ export class Bitstream extends DSpaceObject {
      */
     retrieveLink: string;
 
+    /**
+     *
+     */
     format: string;
 
+    /**
+     *
+     */
     sizeBytes: number;
 
+    /**
+     *
+     */
     bundleName: string = "ORIGINAL";
     
+    /**
+     *
+     */
     mimeType: string;
 
     /**
@@ -43,6 +55,9 @@ export class Bitstream extends DSpaceObject {
         }
     }
 
+    /**
+     *
+     */
     getName(): string {
         return this.name;
     }

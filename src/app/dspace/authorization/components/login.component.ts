@@ -7,15 +7,15 @@ import {AuthorizationService} from '../services/authorization.service';
 import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
 
 /**
- * 
+ * Login form component.
  */
 @Component({
     selector: 'login',
     pipes: [TranslatePipe],
     template: `
                 <form *ngIf="active" class="login-form" (ngSubmit)="login()" novalidate>
-                	
-                	<fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
+                    
+                    <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
                         <label for="login-email">{{'login.email-gloss' | translate}}</label>
                         <input type="text" 
                                id="login-email" 
@@ -66,18 +66,18 @@ import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service
                     </div>
 
                     <span class="pull-right">
-	                	<button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{'login.cancel' | translate}}</button>
-	                    <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{'login.confirm' | translate}}</button>
-                	</span>
+                        <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{'login.cancel' | translate}}</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{'login.confirm' | translate}}</button>
+                    </span>
                 </form>
               `
 })
 export class LoginComponent {
 
-	/**
-	 *
-	 */
-	private active: boolean = true;
+    /**
+     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
+     */
+    private active: boolean = true;
 
     /**
      * Email used as DSpace username for login.
@@ -107,9 +107,11 @@ export class LoginComponent {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param translate
      *      TranslateService
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
-    			private breadcrumb: BreadcrumbService,
+                private breadcrumb: BreadcrumbService,
                 private translate: TranslateService,
                 private router: Router) {
         breadcrumb.visit({
@@ -122,31 +124,40 @@ export class LoginComponent {
         translate.use('en');
     }
 
+    /**
+     * Get token and then call status to get fullname.
+     */
     login(): void {
-    	this.loading = true;
-        this.authorization.login(this.email, this.password).subscribe(response => {           
+        this.loading = true;
+        this.authorization.login(this.email, this.password).subscribe(response => {
             if(response.status == 200) {
                 let token = response.text();
                 this.authorization.status(token).subscribe(response => {
-                	this.router.navigate(['/Home']);
+                    this.router.navigate(['/Home']);
                     this.reset();
                 },
                 error => {
-                	this.loading = false;
+                    this.loading = false;
                     this.unauthorized = true;
                 });
             }
         },
         error => {
-        	this.loading = false;
+            this.loading = false;
             this.unauthorized = true;
         });
     }
 
+    /**
+     * Action for when cancel button is pressed.
+     */
     cancel(): void {
-    	this.reset();
+        this.reset();
     }
 
+    /**
+     * Resets the form.
+     */
     reset(): void {
         this.email = '';
         this.password = '';

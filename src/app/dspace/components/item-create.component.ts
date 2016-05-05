@@ -158,32 +158,48 @@ import {MetadatumInput} from '../models/metadatum-input.model';
 export class ItemCreateComponent {
 
     /**
-     * 
+     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     private active: boolean = false;
 
     /**
-     * 
+     * Item being created. ngModel
      */
     private item: Item;
 
     /**
-     * 
+     * Bitstreams.
      */
     private files: Array<any>;
 
     /**
-     * 
+     * Metadata input fields.
      */
     private metadatumInputs: Array<MetadatumInput>;
 
     /**
-     * 
+     * The forms control group.
      */
     private form: ControlGroup;
 
     /**
-     * 
+     *
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param dspaceService
+     *      DSpaceService is a singleton service to interact with the dspace service.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
+     * @param dspace
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param translate
+     *      TranslateService
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
@@ -199,7 +215,7 @@ export class ItemCreateComponent {
     }
 
     /**
-     * 
+     * Initialize the form and validators.
      */
     private init(): void {
         this.item = new Item();
@@ -299,7 +315,7 @@ export class ItemCreateComponent {
     }
 
     /**
-     * 
+     * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */
     private createItem(): void {
         let token = this.authorization.user.token;
@@ -339,7 +355,7 @@ export class ItemCreateComponent {
     }
 
     /**
-     * 
+     * Reset the form.
      */
     private reset(): void {
         this.active = false;

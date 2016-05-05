@@ -18,6 +18,9 @@ export class FormService {
      */
     constructor(private httpService: HttpService) {}
 
+    /**
+     * Get the metadata input form json.
+     */
     getItemMetadataForm(): Observable<Array<MetadatumInput>> {
         return this.httpService.get({
             url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')

@@ -55,21 +55,29 @@ import {Collection} from "../models/collection.model";
 export class CollectionCreateComponent {
 
     /**
-     * 
+     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     private active: boolean = true;
 
     /**
-     * 
+     * Collection being created. ngModel
      */
     private collection: Collection = new Collection();
 
     /**
      *
-     * @param dspace
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
+     * @param dspace
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param translate
      *      TranslateService
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
@@ -82,20 +90,16 @@ export class CollectionCreateComponent {
     }
 
     /**
-     * 
+     * Create collection.
      */
     private createCollection(): void {
-
         let token = this.authorization.user.token;
-        
         let currentContext = this.contextProvider.context;
-
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 this.reset();
                 this.dspace.refresh(currentContext);
                 this.router.navigate(['/Communities', { id: currentContext.id }]);
-
             }
         },
         error => {
@@ -105,7 +109,7 @@ export class CollectionCreateComponent {
     }
 
     /**
-     * 
+     * Resets the form.
      */
     private reset(): void {
         this.collection = new Collection();
@@ -114,5 +118,3 @@ export class CollectionCreateComponent {
     }
 
 }
-
-                       

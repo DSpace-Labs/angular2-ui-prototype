@@ -1,3 +1,7 @@
+
+/**
+ *
+ */
 export class ObjectUtil {
     /**
      Returns true if the passed value is null or undefined. 

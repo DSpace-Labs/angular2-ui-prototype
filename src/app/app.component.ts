@@ -126,7 +126,7 @@ export class AppComponent implements OnInit {
     /**
      * Logout.
      */
-    logout(): void {
+    private logout(): void {
         this.authorization.logout();
     }
 

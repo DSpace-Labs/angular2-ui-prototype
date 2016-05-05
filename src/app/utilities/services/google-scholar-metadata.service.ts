@@ -33,10 +33,16 @@ export class GoogleScholarMetadataService {
         this._googleScholarTags = new Array<MetaTag>();
     }
 
+    /**
+     *
+     */
     get item(): Item {
         return this._item;
     }
 
+    /**
+     *
+     */
     set item(item: Item) {
         this._item = item;
     }

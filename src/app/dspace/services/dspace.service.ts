@@ -204,6 +204,16 @@ export class DSpaceService {
         });
     }
 
+    /**
+     * Method to create community.
+     *
+     * @param community
+     *      Community being created
+     * @param token
+     *      DSpace user token
+     * @param parentCommunityId
+     *      DSpace parent community id
+     */
     createCommunity(community: Community, token: string, parentCommunityId?: string): Observable<Response> {
         let path = parentCommunityId ? '/communities/' + parentCommunityId + '/communities' : '/communities';
         return this.httpService.post({
@@ -215,6 +225,16 @@ export class DSpaceService {
         });
     }
 
+    /**
+     * Method to create collection.
+     *
+     * @param collection
+     *      Collection being created
+     * @param token
+     *      DSpace user token
+     * @param parentCommunityId
+     *      DSpace parent community id
+     */
     createCollection(collection: Collection, token: string, parentCommunityId: string): Observable<Response> {
         let path = '/communities/' + parentCommunityId + '/collections';
         return this.httpService.post({
@@ -226,6 +246,16 @@ export class DSpaceService {
         });
     }
 
+    /**
+     * Method to create item.
+     *
+     * @param item
+     *      Item being created
+     * @param token
+     *      DSpace user token
+     * @param parentCollectionId
+     *      DSpace parent collection id
+     */
     createItem(item: Item, token: string, parentCollectionId: string): Observable<Response> {
         let path = '/collections/' + parentCollectionId + '/items';
         return this.httpService.post({
@@ -237,6 +267,16 @@ export class DSpaceService {
         });
     }
 
+    /**
+     * Method to add bitstream to existing item.
+     *
+     * @param item
+     *      Item in which to add bitstream
+     * @param file
+     *      Augmented file with description property added
+     * @param token
+     *      DSpace user token
+     */
     addBitstream(item: Item, file: any, token: string): any {
         file.description = file.description ? file.description : file.name;
         let path = '/items/' + item.id + '/bitstreams?name=' + file.name + '&description=' + file.description;

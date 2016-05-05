@@ -9,6 +9,9 @@ import {Pipe, PipeTransform} from 'angular2/core'
 })
 export class TruncateDatePipe implements PipeTransform {
 
+	/**
+     *
+     */
     transform(value: string, args: Array<string>) : string {
         let limit = (args && args.length > 0) ? parseInt(args[0], 10) : 10; // 10 as default truncate value
         return value.length > limit ? value.substring(0, limit) : value;

@@ -75,7 +75,7 @@ import {FormModalComponent, ModalAction} from '../../../utilities/components/for
 export class LoginFormComponent {
 
     /**
-     *
+     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     private active: boolean = true;
 
@@ -137,7 +137,7 @@ export class LoginFormComponent {
      */
     onAction(action: ModalAction): void {
         if(action == ModalAction.CONFIRM) {
-            this.authorization.login(this.email, this.password).subscribe(response => {           
+            this.authorization.login(this.email, this.password).subscribe(response => {
                 if(response.status == 200) {
                     let token = response.text();
 
@@ -162,6 +162,9 @@ export class LoginFormComponent {
         }
     }
     
+    /**
+     * Resets the form. 
+     */
     reset(): void {
         this.email = '';
         this.password = '';

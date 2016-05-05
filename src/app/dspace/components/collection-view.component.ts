@@ -30,13 +30,17 @@ export class CollectionViewComponent {
     /**
      * An object that represents the current collection.
      */
-    collection: Collection;
+    private collection: Collection;
 
     /**
      *
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param translate
+     *      TranslateService
      */
     constructor(private contextProvider: ContextProviderService,
-                      private translate: TranslateService) {
+                private translate: TranslateService) {
         this.collection = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.collection = currentContext;
@@ -46,10 +50,10 @@ export class CollectionViewComponent {
     }
 
     /**
-     *
+     * Check if context provides a collection.
      */
-    collectionProvided(): boolean {
-        return this.collection && this.collection.type == 'collection' ? true : false;
+    private collectionProvided(): boolean {
+        return this.collection && this.collection.type == 'collection';
     }
 
 }

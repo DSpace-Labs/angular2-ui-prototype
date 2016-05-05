@@ -31,10 +31,14 @@ export class CommunityViewComponent {
     /**
      * An object that represents the current community.
      */
-    community: Community;
+    private community: Community;
 
     /**
      *
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param translate
+     *      TranslateService
      */
     constructor(private contextProvider: ContextProviderService,
                 private translate: TranslateService) {
@@ -47,10 +51,10 @@ export class CommunityViewComponent {
     }
 
     /**
-     *
+     * Check if context provides a community.
      */
-    communityProvided(): boolean {
-        return this.community && this.community.type == 'community' ? true : false;
+    private communityProvided(): boolean {
+        return this.community && this.community.type == 'community';
     }
 
 }

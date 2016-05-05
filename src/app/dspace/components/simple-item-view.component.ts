@@ -57,10 +57,14 @@ export class SimpleItemViewComponent {
     /**
      * The current item.
      */
-    item : Item;
+    private item : Item;
 
     /**
      *
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param translate
+     *      TranslateService
      */
     constructor(private contextProvider: ContextProviderService,
                 private translate: TranslateService) {
@@ -73,10 +77,10 @@ export class SimpleItemViewComponent {
     }
 
     /**
-     *
+     * Check if context provides an item.
      */
-    itemProvided(): boolean {
-        return this.item && this.item.type == 'item' ? true : false;
+    private itemProvided(): boolean {
+        return this.item && this.item.type == 'item';
     }
 
 }

@@ -49,11 +49,11 @@ export class FullBitstreamsComponent {
     /**
      * 
      */
-    private componentTitle: string = "item-view.full.full-bitstreams.title";
+    @Input() private itemBitstreams: Bitstream;
 
     /**
      * 
      */
-    @Input() private itemBitstreams: Bitstream;
+    private componentTitle: string = "item-view.full.full-bitstreams.title";
 
 }

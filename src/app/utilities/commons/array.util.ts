@@ -1,5 +1,8 @@
 import {ObjectUtil} from "./object.util";
 
+/**
+ *
+ */
 export class ArrayUtil {
 
     /**

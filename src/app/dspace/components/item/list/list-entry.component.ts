@@ -5,7 +5,9 @@ import {ListMetadataComponent} from './list-metadata.component';
 import {ThumbnailComponent} from '../thumbnail.component';
 import {Item} from '../../../models/item.model';
 
-
+/**
+ *
+ */
 @Component({
     selector: 'list-entry',
     directives:[ListMetadataComponent, ThumbnailComponent],

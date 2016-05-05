@@ -38,16 +38,25 @@ export class Metadatum {
         }
     }
 
+    /**
+     *
+     */
     get schema(): string {
         let parts = this.key.split('.');
         return parts[0] ? parts[0] : null;
     }
 
+    /**
+     *
+     */
     get element(): string {
         let parts = this.key.split('.');
         return parts[1] ? parts[1] : null;
     }
 
+    /**
+     *
+     */
     get qualifier(): string {
         let parts = this.key.split('.');
         return parts[2] ? parts[2] : null;

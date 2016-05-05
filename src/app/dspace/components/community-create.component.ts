@@ -55,21 +55,29 @@ import {Community} from "../models/community.model";
 export class CommunityCreateComponent {
 
     /**
-     * 
+     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     private active: boolean = true;
 
     /**
-     * 
+     * Community being created. ngModel
      */
     private community: Community = new Community();
 
     /**
      *
-     * @param dspace
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
+     * @param dspace
+     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param translate
      *      TranslateService
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
@@ -82,19 +90,14 @@ export class CommunityCreateComponent {
     }
 
     /**
-     * 
+     * Create community.
      */
     private createCommunity(): void {
-
         let token = this.authorization.user.token;
-        
         let currentContext = this.contextProvider.context;
-
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-
                 this.reset();
-
                 if(currentContext.root) {
                     this.dspace.refresh();
                     this.router.navigate(['/Dashboard']);
@@ -103,7 +106,6 @@ export class CommunityCreateComponent {
                     this.dspace.refresh(currentContext);
                     this.router.navigate(['/Communities', { id: currentContext.id }]);
                 }
-                
             }
         },
         error => {
@@ -113,7 +115,7 @@ export class CommunityCreateComponent {
     }
 
     /**
-     * 
+     * Reset form.
      */
     private reset(): void {
         this.community = new Community();

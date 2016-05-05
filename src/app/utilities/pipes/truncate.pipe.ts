@@ -10,6 +10,9 @@ import {ObjectUtil} from "../commons/object.util";
 })
 export class TruncatePipe implements PipeTransform {
 
+    /**
+     *
+     */
     transform(value: string, args: Array<string>) : string {
         if (ObjectUtil.hasValue(value)) {
             let limit = (args && args.length > 0) ? parseInt(args[0], 10) : 10; // 10 as default truncate value

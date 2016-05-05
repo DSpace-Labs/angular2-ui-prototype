@@ -1,5 +1,8 @@
 import {ObjectUtil} from "./object.util.ts";
 
+/**
+ *
+ */
 export class StringUtil {
 
     /**
@@ -15,7 +18,6 @@ export class StringUtil {
     static isEmpty(value: string): boolean {
         return ObjectUtil.isEmpty(value);
     }
-
 
     /**
      Verifies that a value is not `null` or an empty string.

@@ -1,6 +1,9 @@
 import {GlobalConfig} from "../../../config";
 import {ArrayUtil} from "./commons/array.util";
 
+/**
+ *
+ */
 export class URLHelper {
 
     /**

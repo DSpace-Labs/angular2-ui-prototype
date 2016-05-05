@@ -30,11 +30,11 @@ export class ItemListComponent {
     /**
      *
      */
-    @Input() private collection : Collection;
+    @Input() private collection: Collection;
 
     /**
-     *
+     * Pass an array of items to this component.
      */
-    @Input() private items : Array<Item>; // pass an array of items to this component.
+    @Input() private items: Array<Item>;
 
 }

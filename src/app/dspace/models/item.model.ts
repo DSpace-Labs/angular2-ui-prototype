@@ -10,18 +10,39 @@ import {ArrayUtil} from "../../utilities/commons/array.util";
  */
 export class Item extends DSOContainer {
 
+    /**
+     *
+     */
     bitstreams : Array<Bitstream> = new Array<Bitstream>();
 
+    /**
+     *
+     */
     parentCollection : Collection;
 
+    /**
+     *
+     */
     lastModified: string; //TODO: change to date, deserialize
 
+    /**
+     *
+     */
     archived: boolean;
 
+    /**
+     *
+     */
     withdrawn: boolean;
 
+    /**
+     *
+     */
     fullItem: boolean;
 
+    /**
+     *
+     */
     constructor(json?: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
         if (ObjectUtil.isNotEmpty(json)) {
@@ -38,10 +59,16 @@ export class Item extends DSOContainer {
         }
     }
 
+    /**
+     *
+     */
     getBitstreamsByBundleName(bundleName: string): Array<Bitstream> {
         return ArrayUtil.filterBy(this.bitstreams, 'bundleName', bundleName);
     }
 
+    /**
+     *
+     */
     sanatize(): void {
         super.sanatize();
         this.fullItem = undefined;

@@ -12,10 +12,19 @@ import {ObjectUtil} from '../utilities/commons/object.util'
 @Injectable()
 export class DSpaceDirectory {
 
+    /**
+     * The DSpace directory.
+     */
     public directory: Array<Object>;
 
+    /**
+     * Whether directory is being loaded.
+     */
     private loading: boolean;
 
+    /**
+     * Whether directory is ready.
+     */
     private ready: boolean;
 
     /**
@@ -38,6 +47,12 @@ export class DSpaceDirectory {
         this.ready = false;
     }
 
+    /**
+     * Refresh the current context.
+     *
+     * @param context
+     *      Current context
+     */
     refresh(context?: any): void {
         if(context) {
             this.pagingStore.clearPages(context);
@@ -61,6 +76,12 @@ export class DSpaceDirectory {
         }
     }
 
+    /**
+     * Recursively increment the item count of all parent communities.
+     *
+     * @param context
+     *      Current context
+     */
     incrementItemCount(context: any): void {
         if(context.type == 'community') {
             context.countItems++;
