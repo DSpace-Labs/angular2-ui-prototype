@@ -26,6 +26,8 @@ import {Bitstream} from '../models/bitstream.model';
 import {Metadatum} from '../models/metadatum.model';
 import {MetadatumInput} from '../models/metadatum-input.model';
 
+import {FullPageLoaderComponent} from '../../utilities/components/full-page-loader.component';
+
 /**
  * 
  */
@@ -33,8 +35,9 @@ import {MetadatumInput} from '../models/metadatum-input.model';
     selector: 'item-create',
     pipes: [TranslatePipe],
     bindings: [FORM_BINDINGS],
-    directives: [FORM_DIRECTIVES],
+    directives: [FORM_DIRECTIVES, FullPageLoaderComponent],
     template: ` 
+                <full-page-loader *ngIf="creating"></full-page-loader>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     
                     <fieldset class="form-group" [class.has-error]="!name.valid && !name.pristine">
@@ -183,6 +186,11 @@ export class ItemCreateComponent {
     private form: ControlGroup;
 
     /**
+     * Indicates item creation in progress.
+     */
+    private creating: boolean = false;
+
+    /**
      *
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
@@ -318,6 +326,7 @@ export class ItemCreateComponent {
      * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */
     private createItem(): void {
+        this.creating = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.item.metadata = new Array<Metadatum>();
@@ -350,6 +359,7 @@ export class ItemCreateComponent {
             }
         },
         error => {
+            this.reset();
             console.log(error);
         });
     }
@@ -358,6 +368,7 @@ export class ItemCreateComponent {
      * Reset the form.
      */
     private reset(): void {
+        this.creating = false;
         this.active = false;
         this.init();
     }
