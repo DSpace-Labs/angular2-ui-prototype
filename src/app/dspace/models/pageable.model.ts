@@ -1,27 +1,54 @@
-import {IPaging} from "../interfaces/paging.interface";
+import {Paging} from "../interfaces/paging.interface";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * 
  */
-export abstract class Pageable implements IPaging {
+export abstract class Pageable implements Paging {
 
-    ready: boolean; // indicates object ready
+    /**
+     * indicates object ready
+     */
+    ready: boolean; 
 
-    loaded: boolean; // indicates navigation loaded
+    /**
+     * indicates navigation loaded
+     */
+    loaded: boolean;
 
+    /**
+     * 
+     */
     offset: number;
 
+    /**
+     * 
+     */
     page: number;
 
+    /**
+     * 
+     */
     limit: number;
 
+    /**
+     * 
+     */
     component: string;
 
+    /**
+     * 
+     */
     pageCount: number;
 
+    /**
+     * 
+     */
     total: number;
 
+    /**
+     * 
+     */
     constructor(json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {
             this.ready = json.ready ? json.ready : false;
@@ -35,6 +62,9 @@ export abstract class Pageable implements IPaging {
         }
     }
 
+    /**
+     * 
+     */
     sanatize(): void {
         this.ready = undefined;
         this.loaded = undefined;

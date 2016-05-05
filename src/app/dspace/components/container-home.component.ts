@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {IContainerHomepage} from "../interfaces/container-homepage.interface";
+import {ContainerHomepage} from "../interfaces/container-homepage.interface";
 import {ContainerLogoComponent} from "./container-logo.component";
 
 /**
@@ -25,6 +25,6 @@ export class ContainerHomeComponent {
     /**
      * The Container being rendered
      */
-    @Input() private container: IContainerHomepage;
+    @Input() private container: ContainerHomepage;
 
 }
