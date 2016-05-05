@@ -17,13 +17,13 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
-import { FormService } from '../../utilities/services/form.service';
+import { FormService } from '../../utilities/form/form.service';
 
-import { AbstractCreateComponent } from '../../utilities/components/abstract-create.component';
-import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
+import { AbstractCreateComponent } from '../../utilities/form/abstract-create.component';
+import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 
 import { Collection } from "../models/collection.model";
-import { FormInput } from '../../utilities/models/form-input.model';
+import { FormInput } from '../../utilities/form/form-input.model';
 
 /**
  * 

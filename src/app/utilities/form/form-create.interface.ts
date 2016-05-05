@@ -1,6 +1,6 @@
 import { ControlGroup } from 'angular2/common';
 
-import { FormInput } from '../models/form-input.model';
+import { FormInput } from './form-input.model';
 
 /**
  *

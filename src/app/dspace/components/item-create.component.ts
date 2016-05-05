@@ -19,16 +19,16 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
-import { FormService } from '../../utilities/services/form.service';
+import { FormService } from '../../utilities/form/form.service';
 
-import { AbstractCreateComponent } from '../../utilities/components/abstract-create.component';
-import { FullPageLoaderComponent } from '../../utilities/components/full-page-loader.component';
-import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
+import { AbstractCreateComponent } from '../../utilities/form/abstract-create.component';
+import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
+import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
 import { Bitstream } from '../models/bitstream.model';
-import { FormInput } from '../../utilities/models/form-input.model';
+import { FormInput } from '../../utilities/form/form-input.model';
 import { Item } from "../models/item.model";
 import { Metadatum } from '../models/metadatum.model';
 

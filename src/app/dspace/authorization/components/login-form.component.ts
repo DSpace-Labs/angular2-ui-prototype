@@ -4,7 +4,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 
-import { FormModalComponent, ModalAction } from '../../../utilities/components/form-modal.component';
+import { FormModalComponent, ModalAction } from '../../../utilities/form/form-modal.component';
 
 /**
  * Login form. Uses form-modal component.

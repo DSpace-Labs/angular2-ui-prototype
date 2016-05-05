@@ -34,7 +34,7 @@ import { ContextProviderService } from './app/dspace/services/context-provider.s
 import { DSpaceConstants } from './app/dspace/dspace.constants';
 import { DSpaceDirectory } from './app/dspace/dspace.directory';
 import { DSpaceService } from './app/dspace/services/dspace.service';
-import { FormService } from './app/utilities/services/form.service';
+import { FormService } from './app/utilities/form/form.service';
 import { FileSystemLoader } from "./server/i18n/filesystem.translateloader";
 import { GoogleScholarMetadataService } from './app/utilities/services/google-scholar-metadata.service.ts';
 import { HttpService } from './app/utilities/services/http.service';

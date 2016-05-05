@@ -9,9 +9,9 @@ import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { ValidationMessageComponent } from '../../utilities/components/validation-message.component';
+import { ValidationMessageComponent } from '../../utilities/form/validation-message.component';
 
-import { FormInput } from '../../utilities/models/form-input.model';
+import { FormInput } from '../../utilities/form/form-input.model';
 
 /**
  * Form modal. ng-content brings in the actual form.

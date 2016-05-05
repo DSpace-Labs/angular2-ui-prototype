@@ -1,8 +1,8 @@
 import { ControlGroup } from 'angular2/common';
 
-import { FormCreate } from '../interfaces/form-create.interface';
+import { FormCreate } from './form-create.interface';
 
-import { FormInput } from '../models/form-input.model';
+import { FormInput } from './form-input.model';
 
 /**
  *

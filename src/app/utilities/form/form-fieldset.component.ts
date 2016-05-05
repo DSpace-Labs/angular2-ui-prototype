@@ -6,7 +6,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ValidationMessageComponent } from './validation-message.component';
 
-import { FormInput } from '../models/form-input.model';
+import { FormInput } from './form-input.model';
 
 /**
  * Form modal. ng-content brings in the actual form.

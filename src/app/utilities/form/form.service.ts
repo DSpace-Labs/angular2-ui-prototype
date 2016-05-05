@@ -1,10 +1,10 @@
 import { Injectable } from 'angular2/core';
 import { Observable } from "rxjs/Observable";
 
-import { HttpService } from './http.service';
+import { HttpService } from '../services/http.service';
 import { URLHelper } from "../url.helper";
 
-import { FormInput } from '../models/form-input.model';
+import { FormInput } from './form-input.model';
 
  /**
  * 
