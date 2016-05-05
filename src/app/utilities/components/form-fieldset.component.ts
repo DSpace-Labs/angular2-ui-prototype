@@ -15,7 +15,7 @@ import { FormInput } from '../models/form-input.model';
     selector: 'form-fieldset',
     pipes: [TranslatePipe],
     directives: [FORM_DIRECTIVES,
-    			 ValidationMessageComponent],
+                 ValidationMessageComponent],
     template: `
                 <fieldset class="form-group" *ngFor="let input of inputs" [class.has-error]="!form.controls[input.id].valid && !form.controls[input.id].pristine">
 
@@ -40,7 +40,7 @@ import { FormInput } from '../models/form-input.model';
 })
 export class FormFieldsetComponent {
 
-	/**
+    /**
      * The forms control group.
      */
     @Input("form") private form: ControlGroup;

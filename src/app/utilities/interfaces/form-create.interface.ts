@@ -7,7 +7,7 @@ import { FormInput } from '../models/form-input.model';
  */
 export interface FormCreate {
 
-	/**
+    /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     active: boolean;
@@ -27,12 +27,24 @@ export interface FormCreate {
      */
     creating: boolean;
     
+    /**
+     *
+     */
     init(): void;
 
+    /**
+     *
+     */
     createValidators(input: FormInput): Array<any>;
 
-	setModelValues(): void;
+    /**
+     *
+     */
+    setModelValues(): void;
 
+    /**
+     *
+     */
     reset(): void;
 
 }

@@ -1,8 +1,8 @@
 import { 
-	Component,
-	EventEmitter,
-	Input,
-	Output
+    Component,
+    EventEmitter,
+    Input,
+    Output
 } from 'angular2/core';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
@@ -51,7 +51,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 })
 export class ItemBitstreamAddComponent {
 
-	/**
+    /**
      * Bitstreams.
      */
     @Input("files") private files: Array<any>;
@@ -66,7 +66,7 @@ export class ItemBitstreamAddComponent {
      */
     @Output('removeBitstreamEmitter') removeBitstreamEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-	/**
+    /**
      *
      * @param translate
      *      TranslateService

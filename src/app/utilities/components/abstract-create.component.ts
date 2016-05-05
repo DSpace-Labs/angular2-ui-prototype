@@ -9,7 +9,7 @@ import { FormInput } from '../models/form-input.model';
  */
 export class AbstractCreateComponent implements FormCreate {
 
-	/**
+    /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
      */
     active: boolean = false;
@@ -38,13 +38,13 @@ export class AbstractCreateComponent implements FormCreate {
      *
      */
     createValidators(input: FormInput): Array<any> {
-    	return new Array<any>();
+        return new Array<any>();
     };
 
     /**
      *
      */
-	setModelValues(): void {}
+    setModelValues(): void {}
 
     /**
      * Reset the form.

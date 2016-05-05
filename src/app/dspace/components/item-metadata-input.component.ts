@@ -1,8 +1,8 @@
 import { 
-	Component,
-	EventEmitter,
-	Input,
-	Output
+    Component,
+    EventEmitter,
+    Input,
+    Output
 } from 'angular2/core';
 
 import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
@@ -20,7 +20,7 @@ import { FormInput } from '../../utilities/models/form-input.model';
     selector: 'item-metadata-input',
     pipes: [TranslatePipe],
     directives: [FORM_DIRECTIVES,
-    			 ValidationMessageComponent],
+                 ValidationMessageComponent],
     template: `
                 <hr>
                 <label>Metadata</label>
@@ -74,7 +74,7 @@ import { FormInput } from '../../utilities/models/form-input.model';
 })
 export class ItemMetadataInputComponent {
 
-	/**
+    /**
      * The forms control group.
      */
     @Input("form") private form: ControlGroup;

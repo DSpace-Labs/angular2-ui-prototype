@@ -34,7 +34,7 @@ import { FormInput } from '../models/form-input.model';
 })
 export class ValidationMessageComponent {
 
-	/**
+    /**
      * The forms control group.
      */
     @Input("form") private form: ControlGroup;
