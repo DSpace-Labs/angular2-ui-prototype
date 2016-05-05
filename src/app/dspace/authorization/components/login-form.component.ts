@@ -4,24 +4,24 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {AuthorizationService} from '../services/authorization.service';
 
-import {FormModal, ModalAction} from '../../../utilities/components/form-modal.component';
+import {FormModalComponent, ModalAction} from '../../../utilities/components/form-modal.component';
 
 /**
  * Login form. Uses form-modal component.
  */
 @Component({
   	selector: 'login-form',
-  	directives: [FormModal],
+  	directives: [FormModalComponent],
   	pipes: [TranslatePipe],
   	template: `
                 <form-modal *ngIf="active"
                     id="login"
                     [title]="'login.title'"
-                    [cancel-label]="'login.cancel'"
-                    [confirm-label]="'login.confirm'"
+                    [cancelLabel]="'login.cancel'"
+                    [confirmLabel]="'login.confirm'"
                     [valid]="loginEmail.valid && loginPassword.valid"
-                    (loaded)="onLoaded($event)"
-                    (action)="onAction($event)">
+                    (loadedEmitter)="onLoaded($event)"
+                    (actionEmitter)="onAction($event)">
 
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
                         <label for="login-email">{{'login.email-gloss' | translate}}</label>
@@ -82,7 +82,7 @@ export class LoginFormComponent {
     /**
      * Actual FormModal used to show and hide modal.
      */
-    private login: FormModal;
+    private login: FormModalComponent;
 
     /**
      * Email used as DSpace username for login.
@@ -118,7 +118,7 @@ export class LoginFormComponent {
      * @param modal
      *      FormModal
      */
-    onLoaded(modal: FormModal): void {
+    onLoaded(modal: FormModalComponent): void {
         this.login = modal;
     }
 

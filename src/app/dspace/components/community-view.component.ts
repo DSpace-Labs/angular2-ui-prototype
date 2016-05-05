@@ -21,7 +21,7 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
     pipes: [TranslatePipe],
     template: ` 
                 <div *ngIf="communityProvided()">
-                    <container-home [container]=community></container-home>
+                    <container-home [container]="community"></container-home>
                     <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
                 </div>
               `

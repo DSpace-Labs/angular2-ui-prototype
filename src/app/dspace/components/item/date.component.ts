@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
@@ -25,7 +25,7 @@ import {ViewElementComponent} from './view-element.component'
                 </view-element>
               `
 })
-export class DateComponent {
+export class DateComponent implements OnInit {
 
     private componentTitle: string = "item-view.date.title";
 

@@ -1,4 +1,4 @@
-import {Pipe} from 'angular2/core'
+import {Pipe, PipeTransform} from 'angular2/core'
 import {ObjectUtil} from "../commons/object.util";
 
 /**
@@ -8,7 +8,7 @@ import {ObjectUtil} from "../commons/object.util";
 @Pipe({
     name: 'truncate'
 })
-export class TruncatePipe {
+export class TruncatePipe implements PipeTransform {
 
     transform(value: string, args: Array<string>) : string {
         if (ObjectUtil.hasValue(value)) {

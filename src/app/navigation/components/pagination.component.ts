@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
 import {BreadcrumbService} from '../services/breadcrumb.service';
@@ -36,7 +36,7 @@ import {PaginationService} from '../services/pagination.service';
                 </div>
               `
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit {
 
     /**
      * An input variable that is passed into the component [context].

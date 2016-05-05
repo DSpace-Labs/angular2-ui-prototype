@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -24,7 +24,7 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class MetadataComponent {
+export class MetadataComponent implements OnInit {
 
     private componentTitle: string = "item-view.metadata.title";
 

@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -25,7 +25,7 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
             `
 })
-export class AuthorsComponent {
+export class AuthorsComponent implements OnInit {
 
     private componentTitle: string = "item-view.authors.title"; // this string is written as it appears in the i18n file.
 

@@ -8,7 +8,7 @@ import {ViewElementComponent} from '../view-element.component';
  * Renders an overview of all bitstreams attached to this item.
  */
 @Component({
-    selector: 'itemFullBistreams',
+    selector: 'item-full-bitstreams',
     inputs: ['itemBitstreams'],
     directives: [ViewElementComponent],
     pipes: [TranslatePipe],

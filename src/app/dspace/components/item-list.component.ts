@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -17,15 +17,14 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
 @Component({
     selector: 'item-list',
     directives: [ListEntryComponent, PaginationComponent],
-    inputs: ['items', 'collection'],
-    template:
-        `
-            <div *ngFor="let item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
-                <list-entry [item]="item"></list-entry>
-            </div>
+    inputs: ['collection', 'items'],
+    template: `
+                <div *ngFor="let item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
+                    <list-entry [item]="item"></list-entry>
+                </div>
 
-            <pagination [context]="collection"></pagination>
-        `
+                <pagination [context]="collection"></pagination>
+              `
 })
 export class ItemListComponent {
 
@@ -37,6 +36,6 @@ export class ItemListComponent {
     /**
      *
      */
-    items : Item[]; // pass an array of items to this component.
+    items : Array<Item>; // pass an array of items to this component.
 
 }

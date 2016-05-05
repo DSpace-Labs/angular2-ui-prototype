@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -89,7 +89,7 @@ import {User} from './dspace/models/user.model';
         { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent }
 
 ])
-export class AppComponent {
+export class AppComponent implements OnInit {
 
     /**
      * Logged in user.
