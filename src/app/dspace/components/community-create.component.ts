@@ -19,6 +19,7 @@ import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/services/form.service';
 
+import { AbstractCreateComponent } from '../../utilities/components/abstract-create.component';
 import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
 
 import { Community } from "../models/community.model";
@@ -44,27 +45,7 @@ import { FormInput } from '../../utilities/models/form-input.model';
                 </form>
               `
 })
-export class CommunityCreateComponent {
-
-    /**
-     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
-     */
-    private active: boolean = false;
-
-    /**
-     * Item input fields.
-     */
-    private inputs: Array<FormInput>;
-
-    /**
-     * The forms control group.
-     */
-    private form: ControlGroup;
-
-    /**
-     * Indicates item creation in progress.
-     */
-    private creating: boolean = false;
+export class CommunityCreateComponent extends AbstractCreateComponent {
 
     /**
      * Community being created. ngModel
@@ -98,6 +79,7 @@ export class CommunityCreateComponent {
                 private translate: TranslateService,
                 private builder: FormBuilder,
                 private router: Router) {
+        super();
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
@@ -106,7 +88,7 @@ export class CommunityCreateComponent {
     /**
      * Initialize the form and validators.
      */
-    private init(): void {
+    init(): void {
         this.community = new Community();
         this.formService.getForm('community').subscribe(inputs => {
             this.inputs = inputs;
@@ -127,7 +109,7 @@ export class CommunityCreateComponent {
     /**
      * 
      */
-    private createValidators(input: FormInput): Array<any> {
+    createValidators(input: FormInput): Array<any> {
         let validators: Array<any> = new Array<any>();
         for(let key in input.validation) {
             if(key == 'required') {
@@ -140,6 +122,26 @@ export class CommunityCreateComponent {
             }
         }
         return validators;
+    }
+
+    /**
+     *
+     */
+    setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.value) {
+                this.community[input.key] = input.value;
+            }
+        }
+    }
+
+    /**
+     * Reset form.
+     */
+    reset(): void {
+        this.creating = false;
+        this.active = false;
+        this.init();
     }
 
     /**
@@ -169,26 +171,6 @@ export class CommunityCreateComponent {
             this.reset();
             console.log(error);
         });
-    }
-
-     /**
-     *
-     */
-    private setModelValues(): void {
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.community[input.key] = input.value;
-            }
-        }
-    }
-
-    /**
-     * Reset form.
-     */
-    private reset(): void {
-        this.creating = false;
-        this.active = false;
-        this.init();
     }
 
 }

@@ -21,6 +21,7 @@ import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/services/form.service';
 
+import { AbstractCreateComponent } from '../../utilities/components/abstract-create.component';
 import { FullPageLoaderComponent } from '../../utilities/components/full-page-loader.component';
 import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
@@ -67,27 +68,7 @@ import { Metadatum } from '../models/metadatum.model';
                 </form>
               `
 })
-export class ItemCreateComponent {
-
-    /**
-     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
-     */
-    private active: boolean = false;
-
-    /**
-     * Item input fields.
-     */
-    private inputs: Array<FormInput>;
-
-    /**
-     * The forms control group.
-     */
-    private form: ControlGroup;
-
-    /**
-     * Indicates item creation in progress.
-     */
-    private creating: boolean = false;
+export class ItemCreateComponent extends AbstractCreateComponent {
 
     /**
      * Metadata input fields.
@@ -131,6 +112,7 @@ export class ItemCreateComponent {
                 private translate: TranslateService,
                 private builder: FormBuilder,
                 private router: Router) {
+        super();
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
@@ -139,7 +121,7 @@ export class ItemCreateComponent {
     /**
      * Initialize the form and validators.
      */
-    private init(): void {
+    init(): void {
         this.item = new Item();
         this.files = new Array<any>();
         Observable.forkJoin([
@@ -173,7 +155,7 @@ export class ItemCreateComponent {
     /**
      * 
      */
-    private createValidators(input: FormInput): Array<any> {
+    createValidators(input: FormInput): Array<any> {
         let validators: Array<any> = new Array<any>();
         for(let key in input.validation) {
             if(key == 'required') {
@@ -186,6 +168,37 @@ export class ItemCreateComponent {
             }
         }
         return validators;
+    }
+
+    /**
+     *
+     */
+    setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.value) {
+                this.item[input.key] = input.value;
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    setMetadataValues(): void {
+        for(let input of this.metadatumInputs) {
+            if(input.value) {
+                this.item.metadata.push(new Metadatum(input));
+            }
+        }
+    }
+
+    /**
+     * Reset the form.
+     */
+    reset(): void {
+        this.creating = false;
+        this.active = false;
+        this.init();
     }
 
     /**
@@ -299,37 +312,4 @@ export class ItemCreateComponent {
         });
     }
 
-    /**
-     *
-     */
-    private setModelValues(): void {
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.item[input.key] = input.value;
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    private setMetadataValues(): void {
-        for(let input of this.metadatumInputs) {
-            if(input.value) {
-                this.item.metadata.push(new Metadatum(input));
-            }
-        }
-    }
-
-    /**
-     * Reset the form.
-     */
-    private reset(): void {
-        this.creating = false;
-        this.active = false;
-        this.init();
-    }
-
 }
-
-                       

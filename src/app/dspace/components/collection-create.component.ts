@@ -19,6 +19,7 @@ import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/services/form.service';
 
+import { AbstractCreateComponent } from '../../utilities/components/abstract-create.component';
 import { FormFieldsetComponent } from '../../utilities/components/form-fieldset.component';
 
 import { Collection } from "../models/collection.model";
@@ -44,27 +45,7 @@ import { FormInput } from '../../utilities/models/form-input.model';
                 </form>
               `
 })
-export class CollectionCreateComponent {
-
-    /**
-     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
-     */
-    private active: boolean = false;
-
-    /**
-     * Item input fields.
-     */
-    private inputs: Array<FormInput>;
-
-    /**
-     * The forms control group.
-     */
-    private form: ControlGroup;
-
-    /**
-     * Indicates item creation in progress.
-     */
-    private creating: boolean = false;
+export class CollectionCreateComponent extends AbstractCreateComponent {
 
     /**
      * Collection being created. ngModel
@@ -98,6 +79,7 @@ export class CollectionCreateComponent {
                 private translate: TranslateService,
                 private builder: FormBuilder,
                 private router: Router) {
+        super();
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
@@ -106,7 +88,7 @@ export class CollectionCreateComponent {
     /**
      * Initialize the form and validators.
      */
-    private init(): void {
+    init(): void {
         this.collection = new Collection();
         this.formService.getForm('collection').subscribe(inputs => {
             this.inputs = inputs;
@@ -127,7 +109,7 @@ export class CollectionCreateComponent {
     /**
      * 
      */
-    private createValidators(input: FormInput): Array<any> {
+    createValidators(input: FormInput): Array<any> {
         let validators: Array<any> = new Array<any>();
         for(let key in input.validation) {
             if(key == 'required') {
@@ -140,6 +122,26 @@ export class CollectionCreateComponent {
             }
         }
         return validators;
+    }
+
+    /**
+     *
+     */
+    setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.value) {
+                this.collection[input.key] = input.value;
+            }
+        }
+    }
+
+    /**
+     * Resets the form.
+     */
+    reset(): void {
+        this.creating = false;
+        this.active = false;
+        this.init();
     }
 
     /**
@@ -164,26 +166,6 @@ export class CollectionCreateComponent {
             console.log(error);
         });
 
-    }
-
-    /**
-     *
-     */
-    private setModelValues(): void {
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.collection[input.key] = input.value;
-            }
-        }
-    }
-
-    /**
-     * Resets the form.
-     */
-    private reset(): void {
-        this.creating = false;
-        this.active = false;
-        this.init();
     }
 
 }
