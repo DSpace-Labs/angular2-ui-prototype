@@ -13,7 +13,6 @@ import {PaginationComponent} from './pagination.component';
  */
 @Component({
     selector: 'tree',
-    inputs: ['directories'],
     directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
     template: `
     			<ul class="list-group">
@@ -37,7 +36,7 @@ import {PaginationComponent} from './pagination.component';
                         <span *ngIf="directory.type == 'collection'" class="badge">{{ directory.numberItems }}</span>
 
                         <div *ngIf="directory.expanded && directory.type == 'community'">
-                            <tree [directories]="directory.subcommunities.concat(directory.collections)"></tree>
+                            <tree [directories]="subCommunitiesAndCollections(directory)"></tree>
                         </div>
 
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
@@ -56,6 +55,10 @@ export class TreeComponent {
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
-	directories: Array<any>;
+	@Input() private directories: Array<any>;
     
+    private subCommunitiesAndCollections(directory: any): Array<any> {
+        return directory.subcommunities.concat(directory.collections);
+    }
+
 }

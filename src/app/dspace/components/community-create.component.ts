@@ -10,6 +10,9 @@ import {DSpaceService} from '../services/dspace.service';
 import {DSpaceDirectory} from '../dspace.directory';
 import {Community} from "../models/community.model";
 
+/**
+ * 
+ */
 @Component({
     selector: 'community-create',
     pipes: [TranslatePipe],
@@ -51,8 +54,14 @@ import {Community} from "../models/community.model";
 })
 export class CommunityCreateComponent {
 
+    /**
+     * 
+     */
     private active: boolean = true;
 
+    /**
+     * 
+     */
     private community: Community = new Community();
 
     /**
@@ -72,7 +81,10 @@ export class CommunityCreateComponent {
         translate.use('en');
     }
 
-    createCommunity(): void {
+    /**
+     * 
+     */
+    private createCommunity(): void {
 
         let token = this.authorization.user.token;
         
@@ -100,7 +112,10 @@ export class CommunityCreateComponent {
 
     }
 
-    reset(): void {
+    /**
+     * 
+     */
+    private reset(): void {
         this.community = new Community();
         this.active = false;
         setTimeout(() => this.active = true, 0);

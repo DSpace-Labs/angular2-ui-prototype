@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, AfterViewInit, OnDestroy} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {DSpaceDirectory} from '../../dspace/dspace.directory';
@@ -22,7 +22,7 @@ import {BreadcrumbService} from '../services/breadcrumb.service';
                 </ul>
     		  `
 })
-export class BreadcrumbComponent {
+export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
 
     // TODO: probably should have a breadcrumb object
 

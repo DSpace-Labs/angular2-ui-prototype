@@ -8,9 +8,7 @@ import {Item} from '../../../models/item.model';
 
 @Component({
     selector: 'list-entry',
-    inputs: ['item'],
-    directives:[ListMetadataComponent,
-                ThumbnailComponent],
+    directives:[ListMetadataComponent, ThumbnailComponent],
     pipes: [TranslatePipe],
     template:
         `
@@ -24,7 +22,10 @@ import {Item} from '../../../models/item.model';
 })
 export class ListEntryComponent {
 
-    item: Item;
+    /**
+     * 
+     */
+    @Input() private item: Item;
 
 }
 

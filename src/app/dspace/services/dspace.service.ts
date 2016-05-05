@@ -8,8 +8,6 @@ import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
 import {URLHelper} from "../../utilities/url.helper";
 
-import {MetadatumInput} from '../models/metadatum-input.model';
-
 /**
  * Injectable service to provide an interface with the DSpace REST API 
  * through the utility http service. The responses here are returned as
@@ -23,7 +21,6 @@ import {MetadatumInput} from '../models/metadatum-input.model';
  */
 @Injectable()
 export class DSpaceService {
-
 
     /**
      * @param httpService 
@@ -251,19 +248,6 @@ export class DSpaceService {
                 { key: 'rest-dspace-token', value: token }
             ]
         }, file, token);
-    }
-
-
-    getItemMetadataForm(): Observable<Array<MetadatumInput>> {
-        return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteUIURL('/static/forms/item-metadata.json')
-        }).map(json => {
-            let metadataInputs = new Array<MetadatumInput>();
-            for(let metadataInput of json) {
-                metadataInputs.push(new MetadatumInput(metadataInput));
-            }
-            return metadataInputs;
-        });
     }
 
 }

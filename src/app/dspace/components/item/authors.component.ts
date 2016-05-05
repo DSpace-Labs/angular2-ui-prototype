@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -13,7 +13,6 @@ import {ViewElementComponent} from './view-element.component';
 @Component({
     selector: 'item-authors',
     directives: [ViewElementComponent],
-    inputs: ['itemData'],
     pipes: [TranslatePipe],
     template:
             `
@@ -25,25 +24,45 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
             `
 })
-export class AuthorsComponent {
+export class AuthorsComponent implements OnInit {
 
-    private componentTitle: string = "item-view.authors.title"; // this string is written as it appears in the i18n file.
+    /**
+     *  
+     */
+    @Input() private itemData: Array<Metadatum>;
+    
+    /**
+     * this string is written as it appears in the i18n file.
+     */
+    private componentTitle: string = "item-view.authors.title"; 
 
-    private itemData: Array<Metadatum>; // Our input
+    /**
+     * the fields that we want to show on this page.
+     */
+    private fields: Array<string>; 
 
-    private fields: Array<string>; // the fields that we want to show on this page.
+    /**
+     * the values that we will filter out of the metadata.
+     */
+    private filteredFields: Array<Metadatum>; 
 
-    private filteredFields: Array<Metadatum>; // the values that we will filter out of the metadata.
-
+    /**
+     *  
+     */
     constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.contributor.author", "dc.creator", "dc.contributor"];
     }
 
+    /**
+     *  
+     */
     ngOnInit() {
         this.filterMetadata();
     }
 
-    // filter the metadata, only displays the ones we have listed in the 'fields' variable.
+    /**
+     * filter the metadata, only displays the ones we have listed in the 'fields' variable. 
+     */ 
     private filterMetadata(): void {
         this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }

@@ -5,7 +5,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
-import {CollectionComponent} from './item/collection.component';
+import {ItemCollectionComponent} from './item/item-collection.component';
 import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
@@ -24,7 +24,7 @@ import {ContextProviderService} from '../services/context-provider.service';
     selector: 'simple-item-view',
     directives: [AuthorsComponent,
                  DateComponent,
-                 CollectionComponent,
+                 ItemCollectionComponent,
                  UriComponent,
                  ROUTER_DIRECTIVES,
                  BitstreamsComponent,

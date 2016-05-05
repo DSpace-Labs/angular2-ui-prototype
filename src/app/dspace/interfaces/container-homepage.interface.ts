@@ -4,7 +4,7 @@ import {Bitstream} from "../models/bitstream.model";
  * An interface representing all the constituents that make up a the homepage 
  * of a DSOContainer (a Collection or a Community)
  */
-export interface IContainerHomepage {
+export interface ContainerHomepage {
 
     /**
      * The logo: a Bitstream

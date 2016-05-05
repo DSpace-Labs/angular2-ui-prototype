@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -16,7 +16,6 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
  */
 @Component({
     selector: 'item-list-metadata',
-    inputs: ['item'],
     directives: [ROUTER_DIRECTIVES],
     pipes: [TranslatePipe,
             TruncatePipe,
@@ -30,10 +29,9 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
                 <p *ngIf="shouldRenderAbstract()">{{abstract | truncate : 200}}</p>
               `
 })
+export class ListMetadataComponent implements OnInit {
 
-export class ListMetadataComponent {
-
-    private item: Item;
+    @Input() private item: Item;
 
     private author: String;
 
@@ -50,7 +48,7 @@ export class ListMetadataComponent {
                 if (filteredData[i].element == "creator") {
                     this.author = (filteredData[i].value);
                 }
-                if (filteredData[i].element == "description" && filteredData[i].value!="Not available") {
+                if (filteredData[i].element == "description" && filteredData[i].value != "Not available") {
                     this.abstract = filteredData[i].value;
                 }
                 if(filteredData[i].element == "date") {

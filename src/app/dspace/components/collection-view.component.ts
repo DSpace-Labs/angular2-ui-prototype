@@ -20,7 +20,7 @@ import {ItemListComponent} from './item-list.component';
     pipes: [TranslatePipe],
     template: ` 
                 <div *ngIf="collectionProvided()">
-                    <container-home [container]=collection></container-home>
+                    <container-home [container]="collection"></container-home>
                     <item-list *ngIf="collection.items.length> 0" [collection]="collection" [items]="collection.items"></item-list>
                 </div>
               `

@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -10,7 +10,6 @@ import {ViewElementComponent} from '../view-element.component';
  */
 @Component({
     selector: 'item-full-collections',
-    inputs: ['itemParent'],
     directives: [ROUTER_DIRECTIVES, ViewElementComponent],
     pipes: [TranslatePipe],
     template: `
@@ -25,8 +24,14 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullCollectionsComponent {
 
-    private componentTitle: string = "item-view.full.full-collections.title";
+    /**
+     * 
+     */
+    @Input() private itemParent: Collection;
 
-    private itemParent: Collection;
+    /**
+     * 
+     */
+    private componentTitle: string = "item-view.full.full-collections.title";
 
 }
