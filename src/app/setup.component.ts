@@ -17,12 +17,14 @@ export class SetupComponent {
 
     /**
      *
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param translate
      *      TranslateService
      */
-    constructor(private breadcrumb: BreadcrumbService,
+    constructor(private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService) {
-        breadcrumb.visit({
+        breadcrumbService.visit({
             name: 'Setup',
             type: 'setup',
             component: '/Setup',

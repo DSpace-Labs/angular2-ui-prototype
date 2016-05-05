@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Metadatum} from '../../../models/metadatum.model'
@@ -9,7 +9,6 @@ import {ViewElementComponent} from '../view-element.component';
  */
 @Component({
     selector: 'item-full-metadata',
-    inputs: ['itemData'],
     pipes: [TranslatePipe],
     template: `
                 <view-element>
@@ -23,8 +22,8 @@ import {ViewElementComponent} from '../view-element.component';
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="#metadatum of itemData">
-                                    <td>{{ metadatum.key }}</td> <!-- need to use a getter here because a key is composed of other fields -->
+                                <tr *ngFor="let metadatum of itemData">
+                                    <td>{{ metadatum.key }}</td>
                                     <td class="word-break">{{ metadatum.value }}</td>
                                     <td>{{ metadatum.language }}</td>
                                 </tr>
@@ -36,6 +35,9 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullMetadataComponent {
 
-    private itemData: Array<Metadatum>; // We get all metadata related to the item in question from the 'full-item-view'
+    /**
+     * 
+     */
+    @Input() private itemData: Array<Metadatum>; // We get all metadata related to the item in question from the 'full-item-view'
 
 }

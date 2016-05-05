@@ -43,7 +43,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
                 </div>
               `
 })
-export class FormModal implements OnInit {
+export class FormModalComponent implements OnInit {
 
     /**
      * Modal title.
@@ -53,12 +53,12 @@ export class FormModal implements OnInit {
     /**
      * Modal cancel label gloss.
      */
-    @Input('cancel-label') cancelLabel: string = 'Cancel';
+    @Input('cancelLabel') cancelLabel: string = 'Cancel';
 
     /**
      * Modal confirm label gloss.
      */
-    @Input('confirm-label') confirmLabel: string = 'Confirm';
+    @Input('confirmLabel') confirmLabel: string = 'Confirm';
 
     /**
      * Wether inputs are valid. Enables confirm action.
@@ -68,12 +68,12 @@ export class FormModal implements OnInit {
     /**
      * EventEmitter used to emit the chosen action.
      */
-    @Output('action') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
+    @Output('actionEmitter') actionEmitter: EventEmitter<ModalAction> = new EventEmitter<ModalAction>();
   
     /**
      * EventEmitter used to emit when the modal has been loaded.
      */
-    @Output('loaded') loadedEmitter: EventEmitter<FormModal> = new EventEmitter<FormModal>();
+    @Output('loadedEmitter') loadedEmitter: EventEmitter<FormModalComponent> = new EventEmitter<FormModalComponent>();
 
     /**
      * Indicates form is being processed.

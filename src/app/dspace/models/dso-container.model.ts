@@ -1,13 +1,13 @@
 import {DSpaceObject} from "./dspaceobject.model";
 import {Bitstream} from "./bitstream.model";
-import {IContainerHomepage} from "../interfaces/container-homepage.interface";
+import {ContainerHomepage} from "../interfaces/container-homepage.interface";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 /**
  * An abstract model class for a DSOContainer, which is a DSpace Object that acts as a container for 
  * others and has a homepage (a Community or a Collection)
  */
-export abstract class DSOContainer extends DSpaceObject implements IContainerHomepage {
+export abstract class DSOContainer extends DSpaceObject implements ContainerHomepage {
 
     /**
      * The logo: a Bitstream.

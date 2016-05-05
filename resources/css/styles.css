@@ -1,8 +1,11 @@
 
-
 html, body {
     height: 100%;
     margin: 0;
+}
+
+.space-top {
+    margin-top: 6px;
 }
 
 .space-right {
@@ -15,11 +18,11 @@ html, body {
 }
 
 .clickable {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .form-inline select {
-	margin-left: 15px;
+    margin-left: 15px;
 }
 
 .thumbnail-placeholder {
@@ -48,6 +51,38 @@ html, body {
 .form-loader {
     text-align: center;
     margin-bottom: 5px;
+}
+
+.full-page-loader {
+    display: block;
+    position: fixed;
+    opacity: 1;
+    z-index: 100;
+    top: 25%;
+    left: 45%;
+    height: 200px;
+    width: 200px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }
 
 /* bootstrap overrides */

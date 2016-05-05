@@ -26,6 +26,11 @@
 
     "register.title": "Register",
 
+    "context.create-community": "Create Community",
+    "context.create-collection": "Create Collection",
+    "context.create-item": "Create Item",
+    "context.edit-item": "Edit Item",
+
     "item.key": "Key",
     "item.value": "Value",
     "item.language": "Language",

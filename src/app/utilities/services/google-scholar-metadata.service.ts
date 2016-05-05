@@ -1,11 +1,11 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Location} from 'angular2/router';
 
-import {Item} from "../../dspace/models/item.model";
-import {Metadatum} from "../../dspace/models/metadatum.model";
 import {ArrayUtil} from "../commons/array.util";
 import {StringUtil} from "../commons/string.util";
 import {ObjectUtil} from "../commons/object.util";
+
+import {Item} from "../../dspace/models/item.model";
+import {Metadatum} from "../../dspace/models/metadatum.model";
 import {MetaTag} from "../meta-tag/meta-tag.model";
 import {MetaTagService} from "../meta-tag/meta-tag.service";
 import {URLHelper} from "../url.helper";
@@ -28,18 +28,21 @@ export class GoogleScholarMetadataService {
      *
      * @param metaTagService`
      *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
-     * @param location
-     *      Location
      */
-    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
-                @Inject(Location) private location: Location) {
+    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService) {
         this._googleScholarTags = new Array<MetaTag>();
     }
 
+    /**
+     *
+     */
     get item(): Item {
         return this._item;
     }
 
+    /**
+     *
+     */
     set item(item: Item) {
         this._item = item;
     }
@@ -184,7 +187,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
     private setCitationAbstractGSTag(): void {
-        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.location.path());
+        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.item.component.toLowerCase(), '/' + this.item.id);
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 
@@ -340,6 +343,5 @@ export class GoogleScholarMetadataService {
         this.metaTagService.removeTags(this._googleScholarTags);
         this._googleScholarTags = new Array<MetaTag>();
     }
-
 
 }

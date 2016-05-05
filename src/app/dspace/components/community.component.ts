@@ -1,14 +1,13 @@
 import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Community} from "../models/community.model";
-import {TreeComponent} from '../../navigation/components/tree.component';
-import {PaginationComponent} from '../../navigation/components/pagination.component';
-import {ContainerHomeComponent} from "./container-home.component.ts";
+
+import {CommunityViewComponent} from './community-view.component';
+import {CommunityCreateComponent} from './community-create.component';
+import {CollectionCreateComponent} from './collection-create.component';
 
 /**
  * Community component for displaying the current community.
@@ -16,21 +15,19 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
  */
 @Component({
     selector: 'community',
-    directives: [TreeComponent, ContainerHomeComponent],
-    pipes: [TranslatePipe],
+    directives: [RouterOutlet],
     template: ` 
-                <div *ngIf="community">
-                    <container-home [container]=community></container-home>
-                    <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
-                </div>
+                <router-outlet></router-outlet>
               `
 })
-export class CommunityComponent {
+@RouteConfig([
 
-    /**
-     * An object that represents the current community.
-     */
-    community: Community;
+        { path: "/", name: "Community", component: CommunityViewComponent, useAsDefault: true },
+        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
+        { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent }
+
+])
+export class CommunityComponent {
 
     /**
      *
@@ -40,21 +37,13 @@ export class CommunityComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param translate
-     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService, 
-                translate: TranslateService) {
+                private breadcrumb: BreadcrumbService) {
         directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
-            this.community = community;
-            breadcrumb.visit(this.community);
+            breadcrumb.visit(community);
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 }
-
-                       

@@ -8,7 +8,6 @@ import {Collection} from '../models/collection.model';
 import {Item} from '../models/item.model';
 import {URLHelper} from "../../utilities/url.helper";
 
-
 /**
  * Injectable service to provide an interface with the DSpace REST API 
  * through the utility http service. The responses here are returned as
@@ -23,13 +22,11 @@ import {URLHelper} from "../../utilities/url.helper";
 @Injectable()
 export class DSpaceService {
 
-
     /**
      * @param httpService 
      *      HttpService is a singleton service to provide basic xhr requests.
      */
-    constructor(private httpService: HttpService) {
-    }
+    constructor(private httpService: HttpService) {}
 
     /**
      * Method to fetch top communities for navigation purposes.
@@ -171,10 +168,126 @@ export class DSpaceService {
         return this.httpService.post({
             url: URLHelper.relativeToAbsoluteRESTURL('/login'),
             data: {
-                email: email,
-                password: password
+                'email': email,
+                'password': password
             }
-        }); 
+        });
+    }
+
+    /**
+     * Method to get user status. 
+     *
+     * @param token
+     *      DSpace user token
+     */
+    status(token): Observable<Response> {
+        return this.httpService.get({
+            url: URLHelper.relativeToAbsoluteRESTURL('/status'),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
+        });
+    }
+
+    /**
+     * Method to logout. 
+     *
+     * @param token
+     *      DSpace user token
+     */
+    logout(token: string): Observable<Response> {
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL('/logout'),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
+        });
+    }
+
+    /**
+     * Method to create community.
+     *
+     * @param community
+     *      Community being created
+     * @param token
+     *      DSpace user token
+     * @param parentCommunityId
+     *      DSpace parent community id
+     */
+    createCommunity(community: Community, token: string, parentCommunityId?: string): Observable<Response> {
+        let path = parentCommunityId ? '/communities/' + parentCommunityId + '/communities' : '/communities';
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: community
+        });
+    }
+
+    /**
+     * Method to create collection.
+     *
+     * @param collection
+     *      Collection being created
+     * @param token
+     *      DSpace user token
+     * @param parentCommunityId
+     *      DSpace parent community id
+     */
+    createCollection(collection: Collection, token: string, parentCommunityId: string): Observable<Response> {
+        let path = '/communities/' + parentCommunityId + '/collections';
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: collection
+        });
+    }
+
+    /**
+     * Method to create item.
+     *
+     * @param item
+     *      Item being created
+     * @param token
+     *      DSpace user token
+     * @param parentCollectionId
+     *      DSpace parent collection id
+     */
+    createItem(item: Item, token: string, parentCollectionId: string): Observable<Response> {
+        let path = '/collections/' + parentCollectionId + '/items';
+        return this.httpService.post({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: item
+        });
+    }
+
+    /**
+     * Method to add bitstream to existing item.
+     *
+     * @param item
+     *      Item in which to add bitstream
+     * @param file
+     *      Augmented file with description property added
+     * @param token
+     *      DSpace user token
+     */
+    addBitstream(item: Item, file: any, token: string): any {
+        file.description = file.description ? file.description : file.name;
+        let path = '/items/' + item.id + '/bitstreams?name=' + file.name + '&description=' + file.description;
+        return this.httpService.upload({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [
+                { key: 'Content-Type', value: file.type },
+                { key: 'Accept', value: 'application/json' },
+                { key: 'rest-dspace-token', value: token }
+            ]
+        }, file, token);
     }
 
 }

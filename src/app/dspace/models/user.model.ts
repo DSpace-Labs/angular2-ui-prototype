@@ -4,9 +4,14 @@
  */
 export class User {
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
+     private _fullname: string;
+
+    /**
+     *
+     */
     private _email: string;
     
     /**
@@ -17,37 +22,52 @@ export class User {
     /**
      *
      */
-    constructor(email: string, token: string) {
-    	this.email = email;
-    	this.token = token;
+    constructor(json: any) {
+        this.fullname = json.fullname ? json.fullname : null;
+        this.email = json.email ? json.email : null;
+        this.token = json.token ? json.token : null;
+    }
+
+    /**
+     *
+     */
+    set fullname(fullname: string) {
+        this._fullname = fullname;
+    }
+
+    /**
+     *
+     */
+    get fullname(): string {
+        return this._fullname;
     }
 
     /**
      *
      */
     set email(email: string) {
-    	this._email = email;
+        this._email = email;
     }
 
     /**
      *
      */
     get email(): string {
-    	return this._email;
+        return this._email;
     }
 
     /**
      *
      */
     set token(token: string) {
-    	this._token = token;
+        this._token = token;
     }
 
     /**
      *
      */
     get token(): string {
-    	return this._token;
+        return this._token;
     }
 
 }

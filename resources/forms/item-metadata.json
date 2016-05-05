@@ -1,0 +1,125 @@
+[
+    {
+        "key": "dc.title",
+        "language": "en",
+        "gloss": "Title",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": true,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "dc.type",
+        "language": "en",
+        "gloss": "Document Type",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 2,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "dc.date.created",
+        "language": "en",
+        "gloss": "Publication Date",
+        "type": "DATE",
+        "repeatable": false,
+        "validation": {
+            "required": false
+        }
+    },
+    {
+        "key": "dc.language.iso",
+        "language": "en",
+        "gloss": "Language",
+        "type": "SELECT",
+        "options": [
+            {
+                "gloss": "English",
+                "value": "en"
+            }
+        ],
+        "repeatable": false,
+        "validation": {
+            "required": false
+        },
+        "default": "en"
+    },
+    {
+        "key": "dc.contributor.author",
+        "language": "en",
+        "gloss": "Author",
+        "type": "TEXT",
+        "repeatable": true,
+        "validation": {
+            "required": true,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "dc.description",
+        "language": "en",
+        "gloss": "Description",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 4,
+            "maxLength": 512
+        }
+    },
+    {
+        "key": "dc.description.abstract",
+        "language": "en",
+        "gloss": "Abstract",
+        "type": "TEXTAREA",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 16,
+            "maxLength": 2056
+        }
+    },
+    {
+        "key": "dc.subject",
+        "language": "en",
+        "gloss": "Subject",
+        "type": "TEXT",
+        "repeatable": true,
+        "validation": {
+            "required": false,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "dc.rights",
+        "language": "en",
+        "gloss": "Rights",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    },
+    {
+        "key": "dc.rights.uri",
+        "language": "en",
+        "gloss": "Rights URI",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": false,
+            "minLength": 4,
+            "maxLength": 64
+        }
+    }
+]

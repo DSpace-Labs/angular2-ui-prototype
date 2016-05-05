@@ -1,3 +1,6 @@
-export interface IHashable {
+/**
+ *
+ */
+export interface Hashable {
     hashCode(): string;
 }

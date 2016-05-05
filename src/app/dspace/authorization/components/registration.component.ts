@@ -4,7 +4,7 @@ import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
 
 /**
- * 
+ * Registration component.
  */
 @Component({
     selector: 'register',
@@ -17,6 +17,8 @@ export class RegistrationComponent {
 
     /**
      *
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param translate
      *      TranslateService
      */

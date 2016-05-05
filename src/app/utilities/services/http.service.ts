@@ -1,6 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
 
+import {Observable} from 'rxjs/Rx';
+
 /**
  * Injectable service to be used to make xhr requests. Basic functionality.
  */
@@ -16,14 +18,25 @@ export class HttpService {
     /**
      * Convinience method to instantiate and assign headers.
      *
-     * @param hdrsArr
-     *      an array of objects, {key: string, value: string}, containing headers
+     * @param request
+     *      an object, {uri: string, data: Object}, used to GET or POST
      */
-    buildHeaders(hdrsArr) {
+    buildHeaders(request: any): Headers {
         let headers = new Headers();
-        hdrsArr.forEach((header) => {
+
+        let headerArray = [
+            { key: 'Content-Type', value: 'application/json' },
+            { key: 'Accept', value: 'application/json' }
+        ];
+
+        if(request.headers) {
+            headerArray = headerArray.concat(request.headers);
+        }
+
+        headerArray.forEach((header) => {
             headers.append(header.key, header.value);
         });
+
         return headers;
     }
 
@@ -31,17 +44,13 @@ export class HttpService {
      * Method to make a http POST request.
      *
      * @param request
-     *      an object, {uri: string, data: Object}, used to POST
+     *      an object, {uri: string, data: Object, headers: Array}, used to POST
      */
-    post(request) {
-        //console.log(request)
+    post(request: any): any {
 
         let body = JSON.stringify(request.data);
-        
-        let headers = this.buildHeaders([
-            { key: 'Content-Type', value: 'application/json' },
-            { key: 'Accept', value: 'application/json' }
-        ]);
+
+        let headers = this.buildHeaders(request);
 
         let options = new RequestOptions({ headers: headers });
 
@@ -53,25 +62,47 @@ export class HttpService {
      * to a json object.
      *
      * @param request
-     *      an object, {url: string}, used to GET
+     *      an object, {url: string, headers: Array}, used to GET
      */
-    get(request) {
-        //console.log(request);
+    get(request: any): any {
 
-        let headers = this.buildHeaders([
-            { key: 'Content-Type', value: 'application/json' },
-            { key: 'Accept', value: 'application/json' }
-        ]);
+        let headers = this.buildHeaders(request);
 
         let options = new RequestOptions({
-            method: RequestMethod.Get,
-            url: request.url,
             headers: headers,
             search: request.search
         });
         
-        return this.http.request(new Request(options)).map(response => {
+        return this.http.get(request.url, options).map(response => {
             return response.json();
+        });
+    }
+
+    upload(request: any, file: any, token: string): any {
+        return Observable.create(observer => {
+            let formData: FormData = new FormData();
+            let xhr: XMLHttpRequest = new XMLHttpRequest();
+
+            formData.append("uploads[]", file, file.name);
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        observer.next(JSON.parse(xhr.response));
+                        observer.complete();
+                    } else {
+                        observer.error(xhr.response);
+                    }
+                }
+            };
+
+            xhr.open('POST', request.url, true);
+
+            for(let header of request.headers) {
+                xhr.setRequestHeader(header.key, header.value);
+            }
+            
+            xhr.send(formData);
         });
     }
 
