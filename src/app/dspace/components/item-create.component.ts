@@ -19,6 +19,7 @@ import {AuthorizationService} from '../authorization/services/authorization.serv
 import {ContextProviderService} from '../services/context-provider.service';
 import {DSpaceService} from '../services/dspace.service';
 import {DSpaceDirectory} from '../dspace.directory';
+import {FormService} from '../../utilities/services/form.service';
 
 import {Item} from "../models/item.model";
 import {Bitstream} from '../models/bitstream.model';
@@ -166,7 +167,8 @@ export class ItemCreateComponent {
     constructor(private authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceDirectory, 
+                private formService: FormService,
+                private dspace: DSpaceDirectory,
                 private translate: TranslateService,
                 private builder: FormBuilder,
                 private router: Router) {
@@ -178,7 +180,7 @@ export class ItemCreateComponent {
     init(): void {
         this.item = new Item();
         this.files = new Array<any>();
-        this.dspaceService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
+        this.formService.getItemMetadataForm().subscribe((metadatumInputs:Array<MetadatumInput>) => {
             this.metadatumInputs = metadatumInputs;
             let formControls = {};
             for(let input of this.metadatumInputs) {

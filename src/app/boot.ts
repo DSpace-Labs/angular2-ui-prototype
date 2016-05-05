@@ -24,6 +24,7 @@ import {ContextProviderService} from './dspace/services/context-provider.service
 import {DSpaceConstants} from './dspace/dspace.constants';
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceService} from './dspace/services/dspace.service';
+import {FormService} from './utilities/services/form.service';
 import {GoogleScholarMetadataService} from './utilities/services/google-scholar-metadata.service.ts';
 import {HttpService} from './utilities/services/http.service';
 import {MetadataHelper} from './utilities/metadata.helper';
@@ -58,6 +59,7 @@ bootstrap(AppComponent, [
     DSpaceConstants,
     DSpaceDirectory,
     DSpaceService,
+    FormService,
     GoogleScholarMetadataService,
     HttpService,
     MetadataHelper,
