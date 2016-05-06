@@ -66,6 +66,8 @@ export class SimpleItemViewComponent {
         });
     }
 
+
+
     itemProvided(): boolean {
         return this.item && this.item.type == 'item' ? true : false;
     }

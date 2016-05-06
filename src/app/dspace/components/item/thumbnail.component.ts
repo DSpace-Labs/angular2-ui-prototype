@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnChanges} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from "../../models/bitstream.model"
@@ -22,7 +22,7 @@ import {Item} from '../../models/item.model';
                 </div>
               `
 })
-export class ThumbnailComponent {
+export class ThumbnailComponent implements OnChanges{
 
 
     private thumbnaillink : String;
@@ -33,7 +33,7 @@ export class ThumbnailComponent {
     {
     }
 
-    ngOnInit()
+    ngOnChanges()
     {
         if(this.thumbnaillink!=null)
         {

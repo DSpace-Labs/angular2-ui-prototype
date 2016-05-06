@@ -49,7 +49,7 @@ export class FullBitstreamsComponent {
 
     private componentTitle: string = "item-view.full.full-bitstreams.title";
 
-    private itemBitstreams: Bitstream[];
+    private itemBitstreams: Array<Bitstream>;
 
     private itemThumbnail : String;
     // The default 'holder.js' image
