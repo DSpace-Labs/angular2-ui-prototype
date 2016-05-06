@@ -16,10 +16,10 @@ import { ObjectUtil } from "../../../../utilities/commons/object.util";
  */
 @Component({
     selector: 'item-list-metadata',
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [TranslatePipe,
-            TruncatePipe,
-            TruncateDatePipe],
+    directives: [ ROUTER_DIRECTIVES ],
+    pipes: [ TranslatePipe,
+             TruncatePipe,
+             TruncateDatePipe ],
     template:
               `
                 <!-- create a router link to the simple item-view -->

@@ -30,18 +30,15 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'community-create',
-    pipes: [TranslatePipe],
-    directives: [FormFieldsetComponent],
+    pipes: [ TranslatePipe ],
+    directives: [ FormFieldsetComponent ],
     template: ` 
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>
-                    
+                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>                    
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
-
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
                         <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
                     </div>
-
                 </form>
               `
 })
@@ -107,24 +104,6 @@ export class CommunityCreateComponent extends AbstractCreateComponent {
     }
 
     /**
-     * 
-     */
-    createValidators(input: FormInput): Array<any> {
-        let validators: Array<any> = new Array<any>();
-        for(let key in input.validation) {
-            if(key == 'required') {
-                if(input.validation[key]) {
-                    validators.push(Validators.required);
-                }
-            }
-            else {
-                validators.push(Validators[key](input.validation[key]));
-            }
-        }
-        return validators;
-    }
-
-    /**
      *
      */
     setModelValues(): void {
@@ -151,9 +130,7 @@ export class CommunityCreateComponent extends AbstractCreateComponent {
         this.creating = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
-
-        this.setModelValues();  
-
+        this.setModelValues();
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 this.reset();

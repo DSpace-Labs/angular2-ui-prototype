@@ -13,36 +13,29 @@ import { PaginationComponent } from './pagination.component';
  */
 @Component({
     selector: 'tree',
-    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
+    directives: [ ROUTER_DIRECTIVES,
+                  TreeComponent,
+                  ListComponent,
+                  PaginationComponent ],
     template: `
     			<ul class="list-group">
                     <li *ngFor="let directory of directories" class="list-group-item">
-
                         <span *ngIf="directory.type == 'community' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
-
                         <span *ngIf="directory.type == 'community' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-minus clickable"></span>
-
                         <span *ngIf="directory.type == 'collection' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
-
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
-
                         <!-- Router link -->
                         <a *ngIf="!directory.page" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
                         <a *ngIf="directory.page && !directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
                         <a *ngIf="directory.page && directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
-
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
-
                         <span *ngIf="directory.type == 'collection'" class="badge">{{ directory.numberItems }}</span>
-
                         <div *ngIf="directory.expanded && directory.type == 'community'">
                             <tree [directories]="subCommunitiesAndCollections(directory)"></tree>
                         </div>
-
                         <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
                             <list [collection]="directory"></list>
                         </div>
-
                     </li>
                 </ul>
     		  `

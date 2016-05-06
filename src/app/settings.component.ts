@@ -8,9 +8,9 @@ import { BreadcrumbService } from './navigation/services/breadcrumb.service';
  */
 @Component({
     selector: 'settings',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
-                <span>{{'settings.title' | translate}}</span>
+                <span>{{ 'settings.title' | translate }}</span>
               `
 })
 export class SettingsComponent {

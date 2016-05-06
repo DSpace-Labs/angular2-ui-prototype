@@ -11,22 +11,22 @@ import { FormInput } from './form-input.model';
  */
 @Component({
     selector: 'validation-message',
-    pipes: [TranslatePipe],
-    directives: [FORM_DIRECTIVES],
+    pipes: [ TranslatePipe ],
+    directives: [ FORM_DIRECTIVES ],
     template: `
                 <div *ngIf="form.controls[input.id]">
                     <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">
                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.minlength">
-                            must have at least {{ input.validation.minLength }} characters
+                            {{ input.validation.minLength.message | translate }}
                         </span>
                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
-                            must have at most {{ input.validation.maxLength }} characters
+                            {{ input.validation.maxLength.message | translate }}
                         </span>
                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.pattern">
-                            invalid format
+                            {{ input.validation.pattern.message | translate }}
                         </span>
                         <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
-                            required
+                            {{ input.validation.required.message | translate }}
                         </span>
                     </span>
                 </div>

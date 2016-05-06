@@ -13,8 +13,8 @@ import { ViewElementComponent } from './view-element.component';
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div class="item" *ngFor="let metadatum of filteredFields.metadata">

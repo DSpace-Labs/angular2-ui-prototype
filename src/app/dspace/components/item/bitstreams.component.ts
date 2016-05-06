@@ -10,14 +10,14 @@ import { ViewElementComponent } from './view-element.component'
  */
 @Component({
     selector: 'item-bitstreams',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="let bitstream of itemBitstreams;">
                         <a [attr.href]="bitstream.retrieveLink">
                             <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
-                            <span>{{bitstream.name}}</span>
+                            <span>{{ bitstream.name }}</span>
                         </a>
                     </div>
                 </view-element>

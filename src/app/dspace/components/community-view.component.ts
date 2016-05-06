@@ -17,8 +17,8 @@ import { ContainerHomeComponent } from "./container-home.component.ts";
  */
 @Component({
     selector: 'community',
-    directives: [ContainerHomeComponent, TreeComponent],
-    pipes: [TranslatePipe],
+    directives: [ ContainerHomeComponent, TreeComponent ],
+    pipes: [ TranslatePipe ],
     template: ` 
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>

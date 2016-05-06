@@ -20,6 +20,9 @@ export class PagingStoreService {
      */
     private comcolsPages: Map<number, any>;
     
+    /**
+     * 
+     */
     constructor(private dspaceConstants: DSpaceConstants) {
         this.itemsPages = new Map<number, any>();
         this.comcolsPages = new Map<number, any>();

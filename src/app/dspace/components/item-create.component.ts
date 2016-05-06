@@ -37,29 +37,25 @@ import { Metadatum } from '../models/metadatum.model';
  */
 @Component({
     selector: 'item-create',
-    pipes: [TranslatePipe],
-    bindings: [FORM_BINDINGS],
-    directives: [FORM_DIRECTIVES,
-                 FullPageLoaderComponent,
-                 FormFieldsetComponent,
-                 ItemBitstreamAddComponent,
-                 ItemMetadataInputComponent],
+    pipes: [ TranslatePipe ],
+    bindings: [ FORM_BINDINGS ],
+    directives: [ FORM_DIRECTIVES,
+                  FullPageLoaderComponent,
+                  FormFieldsetComponent,
+                  ItemBitstreamAddComponent,
+                  ItemMetadataInputComponent ],
     template: ` 
                 <full-page-loader *ngIf="creating"></full-page-loader>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
-                    
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
-
                     <item-bitstream-add [files]="files" 
                                         (addBitstreamEmitter)="addBitstream($event)"
                                         (removeBitstreamEmitter)="removeBitstream($event)">
                     </item-bitstream-add>
-
                     <item-metadata-input [form]="form" [metadatumInputs]="metadatumInputs"
                                          (addMetadatumInputEmitter)="addMetadatumInput($event)"
                                          (removeMetadatumInputEmitter)="removeMetadatumInput($event)">
                     </item-metadata-input>
-
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
                         <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
@@ -153,24 +149,6 @@ export class ItemCreateComponent extends AbstractCreateComponent {
     }
 
     /**
-     * 
-     */
-    createValidators(input: FormInput): Array<any> {
-        let validators: Array<any> = new Array<any>();
-        for(let key in input.validation) {
-            if(key == 'required') {
-                if(input.validation[key]) {
-                    validators.push(Validators.required);
-                }
-            }
-            else {
-                validators.push(Validators[key](input.validation[key]));
-            }
-        }
-        return validators;
-    }
-
-    /**
      *
      */
     setModelValues(): void {
@@ -215,16 +193,11 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      * 
      */
     private removeBitstream(file: any): void {
-        if(this.files.length > 1) {
-            for(let i = this.files.length - 1; i > 0; i--) {
-                if(this.files[i].name == file.name) {
-                    this.files.splice(i, 1);
-                    break;
-                }
+        for(let i = this.files.length - 1; i >= 0; i--) {
+            if(this.files[i].name == file.name) {
+                this.files.splice(i, 1);
+                break;
             }
-        }
-        else {
-            this.files = new Array<any>();
         }
     }
 
@@ -232,15 +205,15 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      * 
      */
     private addMetadatumInput(input: FormInput): void {
-        let clonedInput = this.cloneInput(input);
-        let validators = this.createValidators(clonedInput);
-        for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
-            if(this.metadatumInputs[i].key == clonedInput.key) {
+        for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
+            if(this.metadatumInputs[i].key == input.key) {
+                let clonedInput = this.cloneInput(this.metadatumInputs[i]);
+                let validators = this.createValidators(clonedInput);
                 this.metadatumInputs.splice(i+1, 0, clonedInput);
+                this.form.addControl(clonedInput.id, new Control('', Validators.compose(validators)));
                 break;
             }
         }
-        this.form.addControl(clonedInput.id, new Control('', Validators.compose(validators)));
     }
 
     /**
@@ -248,7 +221,7 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      */
     private removeMetadatumInput(input: FormInput): void {
         this.form.removeControl(input.id);
-        for(let i = this.metadatumInputs.length - 1; i > 0; i--) {
+        for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
             if(this.metadatumInputs[i].key == input.key) {
                 this.metadatumInputs.splice(i, 1);
                 break;
@@ -261,10 +234,10 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      */
     private cloneInput(input: FormInput): FormInput {
         let clonedInput = new FormInput(JSON.parse(JSON.stringify(input)));
-        clonedInput.repeat = clonedInput.repeat ? clonedInput.repeat++ : 1;
+        clonedInput.repeat = clonedInput.repeat ? ++clonedInput.repeat : 1;
         clonedInput.value = '';
-        if(clonedInput.validation.required) {
-            clonedInput.validation.required = false;
+        if(clonedInput.validation.required && clonedInput.validation.required.value) {
+            clonedInput.validation.required.value = false;
         }
         return clonedInput;
     }
@@ -276,16 +249,11 @@ export class ItemCreateComponent extends AbstractCreateComponent {
         this.creating = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
-
         this.item.metadata = new Array<Metadatum>();
-
         this.setModelValues();
-
         this.setMetadataValues();
-
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
-            if(response.status == 200) {
-                
+            if(response.status == 200) {                
                 this.item.id = JSON.parse(response.text()).id;
 
                 let bitStreamObservables = new Array<any>();

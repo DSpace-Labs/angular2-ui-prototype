@@ -18,9 +18,9 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'item-metadata-input',
-    pipes: [TranslatePipe],
-    directives: [FORM_DIRECTIVES,
-                 ValidationMessageComponent],
+    pipes: [ TranslatePipe ],
+    directives: [ FORM_DIRECTIVES,
+                  ValidationMessageComponent ],
     template: `
                 <hr>
                 <label>Metadata</label>
@@ -28,43 +28,30 @@ import { FormInput } from '../../utilities/form/form-input.model';
                     <tbody>
                         <tr *ngFor="let input of metadatumInputs">
                             <td>
-
                                 <div class="row">
                                     <div class="col-md-11 col-xs-10">
-                                        <label>{{input.gloss}}</label>
-                                        <span class="text-danger" *ngIf="input.validation.required">*required</span>
-                                        <label class="pull-right">{{input.key}}</label>
+                                        <label>{{ input.gloss }}</label>
+                                        <span class="text-danger" *ngIf="input.validation.required && input.validation.required.value">*required</span>
+                                        <label class="pull-right">{{ input.key }}</label>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-11 col-xs-10">
-
                                         <fieldset class="form-group" [class.has-error]="!form.controls[input.id].valid && !form.controls[input.id].pristine">
-
-                                            <input *ngIf="input.type == 'CHECKBOX'" type="checkbox" name="{{input.id}}" id="{{input.id}}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                                            <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                                            <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                                            <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
-
-                                            <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                                            <input *ngIf="input.type == 'CHECKBOX'" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                                            <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                                            <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                                            <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
+                                            <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                                                 <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                                             </select>
-                                            
                                             <validation-message [form]="form" [input]="input"></validation-message>
-
                                         </fieldset>
-
                                     </div>
-
                                     <div class="col-xs-1" *ngIf="input.repeatable">
                                         <span *ngIf="!input.repeat" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
                                         <span *ngIf="input.repeat" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
                                     </div>
-
                                 </div>
                             </td>
                         </tr>

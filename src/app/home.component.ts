@@ -13,15 +13,15 @@ import { User } from './dspace/models/user.model';
  */
 @Component({
     selector: 'home',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <div *ngIf="user">
-                    <h3>{{user.fullname}}</h3>
-                    <h4>{{user.email}}</h4>
+                    <h3>{{ user.fullname }}</h3>
+                    <h4>{{ user.email }}</h4>
                 </div>
                 <hr *ngIf="user">
                 <ul>
-                    <li *ngFor="let template of serverTemplating">{{template}}</li>
+                    <li *ngFor="let template of serverTemplating">{{ template }}</li>
                 </ul>
               `
 })

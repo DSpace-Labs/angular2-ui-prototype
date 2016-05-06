@@ -79,6 +79,9 @@ export class AuthorizationService {
         return loginResponse;
     }
 
+    /**
+     * 
+     */
     status(token: string): Observable<Response> {
 
         let statusResponse: Observable<Response> = this.dspace.status(token);

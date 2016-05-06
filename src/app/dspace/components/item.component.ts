@@ -23,8 +23,8 @@ import { Item } from "../models/item.model";
  */
 @Component({
     selector: 'item',
-    directives: [RouterOutlet],
-    providers: [GoogleScholarMetadataService],
+    directives: [ RouterOutlet ],
+    providers: [ GoogleScholarMetadataService ],
     template: `
                 <router-outlet></router-outlet>
               `

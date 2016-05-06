@@ -1,5 +1,5 @@
 import { Component, OnInit } from 'angular2/core';
-import { ROUTER_DIRECTIVES, RouteConfig } from 'angular2/router';
+import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
@@ -28,10 +28,10 @@ import { User } from './dspace/models/user.model';
  */
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES,
-                 BreadcrumbComponent,
-                 ContextComponent,
-                 LoginFormComponent],
+    directives: [ ROUTER_DIRECTIVES,
+                  BreadcrumbComponent,
+                  ContextComponent,
+                  LoginFormComponent ],
     pipes: [TranslatePipe],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -107,7 +107,8 @@ export class AppComponent implements OnInit {
      */
     constructor(private dspace: DSpaceDirectory,
                 private authorization: AuthorizationService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private router: Router) {
         this.user = authorization.user;
         authorization.userObservable.subscribe(user => {
             this.user = user;
@@ -128,6 +129,7 @@ export class AppComponent implements OnInit {
      */
     private logout(): void {
         this.authorization.logout();
+        this.router.navigate(['/Dashboard']);
     }
 
 }

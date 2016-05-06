@@ -9,7 +9,7 @@ import { PaginationComponent } from './pagination.component';
  */
 @Component({
     selector: 'list',
-    directives: [ROUTER_DIRECTIVES, PaginationComponent],
+    directives: [ ROUTER_DIRECTIVES, PaginationComponent ],
     template: `
     			<ul class="list-group">
                     <li *ngFor="let item of collection.items" class="list-group-item">

@@ -8,7 +8,7 @@ import { ContainerLogoComponent } from "./container-logo.component";
  */
 @Component({
     selector: 'container-home',
-    directives: [ContainerLogoComponent],
+    directives: [ ContainerLogoComponent ],
     template: `
                 <h1 class="page-header">{{ container.name }}</h1>
                 <container-logo *ngIf="container.logo" [logo]="container.logo"></container-logo>

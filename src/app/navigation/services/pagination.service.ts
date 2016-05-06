@@ -16,23 +16,38 @@ export class PaginationService {
      */
     private limitOptions: Array<number>;
 
+    /**
+     * 
+     */
     constructor() {
         this.defaultLimit = 10;
         this.limitOptions = [5, 10, 20, 50, 100];
     }
     
+    /**
+     * 
+     */
     getDefaultLimit(): number {
         return this.defaultLimit;    
     }
     
+    /**
+     * 
+     */
     setDefaultLimit(defaultLimit): void {
         this.defaultLimit = defaultLimit;
     }
     
+    /**
+     * 
+     */
     getLimitOptions(): Array<number> {
         return this.limitOptions;
     }
     
+    /**
+     * 
+     */
     setLimitOptions(limitOptions): void {
         this.limitOptions = limitOptions;
     }

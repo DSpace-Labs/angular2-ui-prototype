@@ -13,8 +13,8 @@ import { User } from '../../dspace/models/user.model';
  */
 @Component({
     selector: 'context',
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [TranslatePipe],
+    directives: [ ROUTER_DIRECTIVES ],
+    pipes: [ TranslatePipe ],
     template: `
                 <div class="panel panel-default" *ngIf="context">
                     <div class="panel-heading">
@@ -54,9 +54,7 @@ import { User } from '../../dspace/models/user.model';
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
                     <div class="panel-body" *ngIf="context.type == 'item'">
-                        <div *ngIf="user">
-                            {{ 'context.edit-item' | translate }}
-                        </div>
+                        <div *ngIf="user">{{ 'context.edit-item' | translate }}</div>
                     </div>
                 </div>
               `

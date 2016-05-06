@@ -13,8 +13,8 @@ import { TreeComponent } from './navigation/components/tree.component';
  */
 @Component({
     selector: "directory",
-    pipes: [TranslatePipe],
-    directives: [TreeComponent],
+    pipes: [ TranslatePipe ],
+    directives: [ TreeComponent ],
     template: `
                 <tree [directories]="dspace.directory"></tree>
               `

@@ -16,7 +16,7 @@ import { ItemCreateComponent } from './item-create.component';
  */
 @Component({
     selector: 'collection',
-    directives: [RouterOutlet],
+    directives: [ RouterOutlet ],
     template: ` 
                 <router-outlet></router-outlet>
               `

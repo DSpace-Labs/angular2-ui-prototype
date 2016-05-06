@@ -6,9 +6,18 @@
         "type": "TEXT",
         "repeatable": false,
         "validation": {
-            "required": true,
-            "minLength": 4,
-            "maxLength": 64
+            "required": {
+            	"value": true,
+            	"message": "community.name.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "community.name.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "community.name.maxLength"
+            }
         }
     },
     {
@@ -18,9 +27,18 @@
         "type": "TEXTAREA",
         "repeatable": false,
         "validation": {
-            "required": false,
-            "minLength": 8,
-            "maxLength": 1024
+            "required": {
+            	"value": false,
+            	"message": "community.shortDescription.required"
+            },
+            "minLength": {
+            	"value": 8,
+            	"message": "community.shortDescription.minLength"
+            },
+            "maxLength": {
+            	"value": 1024,
+            	"message": "community.shortDescription.maxLength"
+            }
         }
     }
 ]

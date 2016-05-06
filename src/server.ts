@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 import 'angular2-universal/polyfills';
 
@@ -83,6 +84,8 @@ app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
+app.use(bodyParser.json());
+
 // Define location of Static Resources
 // Map the /static URL path to the ./dist/server/static local directory
 app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
@@ -103,7 +106,7 @@ function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
     res.render('index', {
-        directives: [AppComponent, TitleComponent],
+        directives: [ AppComponent, TitleComponent ],
         platformProviders: [
             provide(ORIGIN_URL, {useValue: GlobalConfig.ui.baseURL}),
             provide(BASE_URL, {useValue: baseUrl}),

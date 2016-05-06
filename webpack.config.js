@@ -19,6 +19,10 @@ var defaultConfig = {
     //
     // See: https://github.com/wbuchwalter/tslint-loader
     module: {
+        noParse: [
+            path.join(__dirname, 'zone.js', 'dist'),
+            path.join(__dirname, 'angular2', 'bundles')
+        ],
         preLoaders: [
             {
                 test: /\.ts$/,
