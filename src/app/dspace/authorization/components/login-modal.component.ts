@@ -23,7 +23,7 @@ import { FormModalComponent, ModalAction } from '../../../utilities/form/form-mo
  * Login form. Uses form-modal component.
  */
 @Component({
-  	selector: 'login-form',
+  	selector: 'login-modal',
   	directives: [ FormFieldsetComponent, FormModalComponent ],
   	pipes: [ TranslatePipe ],
   	template: `
@@ -42,7 +42,7 @@ import { FormModalComponent, ModalAction } from '../../../utilities/form/form-mo
                 </form-modal>
               `
 })
-export class LoginFormComponent extends FormComponent {
+export class LoginModalComponent extends FormComponent {
 
     /**
      * Actual FormModal used to show and hide modal.

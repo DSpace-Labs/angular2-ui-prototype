@@ -3,6 +3,8 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 
+import { Breadcrumb } from './navigation/models/breadcrumb.model';
+
 /**
  * 
  */
@@ -15,6 +17,8 @@ import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 })
 export class SetupComponent {
 
+    private breadcrumb: Breadcrumb = new Breadcrumb('setup', true);
+
     /**
      *
      * @param breadcrumbService
@@ -24,12 +28,7 @@ export class SetupComponent {
      */
     constructor(private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService) {
-        breadcrumbService.visit({
-            name: 'Setup',
-            type: 'setup',
-            component: '/Setup',
-            root: true,
-        });
+        breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
     }

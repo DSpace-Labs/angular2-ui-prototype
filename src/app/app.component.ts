@@ -13,7 +13,7 @@ import { ContextComponent } from './navigation/components/context.component';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
-import { LoginFormComponent } from './dspace/authorization/components/login-form.component';
+import { LoginModalComponent } from './dspace/authorization/components/login-modal.component';
 import { LoginComponent } from './dspace/authorization/components/login.component';
 import { RegistrationComponent } from './dspace/authorization/components/registration.component';
 import { SettingsComponent } from './settings.component';
@@ -31,7 +31,7 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   BreadcrumbComponent,
                   ContextComponent,
-                  LoginFormComponent ],
+                  LoginModalComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -70,7 +70,7 @@ import { User } from './dspace/models/user.model';
                     </div>
                 </div>
 
-                <login-form #login></login-form>
+                <login-modal #login></login-modal>
               `
 })
 @RouteConfig([

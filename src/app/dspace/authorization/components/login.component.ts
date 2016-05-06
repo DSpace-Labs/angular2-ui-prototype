@@ -20,6 +20,8 @@ import { FormService } from '../../../utilities/form/form.service';
 import { FormComponent } from '../../../utilities/form/form.component';
 import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.component';
 
+import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
+
 /**
  * Login form component.
  */
@@ -45,6 +47,8 @@ import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.com
 })
 export class LoginComponent extends FormComponent {
 
+    private breadcrumb: Breadcrumb = new Breadcrumb('login', true);
+
     /**
      * Email used as DSpace username for login.
      */
@@ -62,6 +66,8 @@ export class LoginComponent extends FormComponent {
 
     /**
      *
+     * @param breadcrumbService
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
      * @param translate
@@ -73,12 +79,14 @@ export class LoginComponent extends FormComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private formService: FormService,
+    constructor(private breadcrumbService: BreadcrumbService,
+                private formService: FormService,
                 private translate: TranslateService,
                 private builder: FormBuilder,
                 private authorization: AuthorizationService,
                 private router: Router) {
         super();
+        breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
