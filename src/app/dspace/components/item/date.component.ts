@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
@@ -23,7 +23,7 @@ import {ViewComponent} from '../../models/viewcomponent.model';
                 </view-element>
               `
 })
-export class DateComponent extends ViewComponent implements OnInit{
+export class DateComponent extends ViewComponent implements OnChanges {
 
     /**
      * 
@@ -34,7 +34,7 @@ export class DateComponent extends ViewComponent implements OnInit{
      * 
      */
     private componentTitle: string = "item-view.date.title";
-    private itemData: Array<Metadatum>;
+
 
     constructor()
     {
@@ -44,7 +44,7 @@ export class DateComponent extends ViewComponent implements OnInit{
     /**
      * 
      */
-    ngOnInit() {
+    ngOnChanges() {
         super.filterMetadata(this.itemData);
     }
 

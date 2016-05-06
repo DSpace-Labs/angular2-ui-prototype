@@ -25,7 +25,7 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class MetadataComponent extends ViewComponent implements OnInit {
+export class MetadataComponent extends ViewComponent {
 
     /**
      *
@@ -36,7 +36,6 @@ export class MetadataComponent extends ViewComponent implements OnInit {
      *
      */
     private componentTitle: string = "item-view.metadata.title";
-    private itemData: Array<Metadatum>;
 
     constructor() {
         super(["dc.contributor.author",
@@ -54,7 +53,7 @@ export class MetadataComponent extends ViewComponent implements OnInit {
     /**
      *
      */
-    ngOnInit() {
+    ngOnChanges() {
         super.filterMetadata(this.itemData);
     }
 

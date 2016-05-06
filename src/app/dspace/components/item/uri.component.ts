@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnChanges} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ViewComponent} from '../../models/viewcomponent.model';
@@ -22,7 +22,7 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class UriComponent extends ViewComponent implements OnInit{
+export class UriComponent extends ViewComponent implements OnChanges{
 
     /**
      * 
@@ -33,7 +33,7 @@ export class UriComponent extends ViewComponent implements OnInit{
      * 
      */
     private componentTitle: string = "item-view.uri.title";
-    private itemData: Array<Metadatum>;
+
 
     constructor() {
         super(["dc.identifier.uri"]);
