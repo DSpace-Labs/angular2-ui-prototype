@@ -7,6 +7,7 @@ import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
 import {ItemCollectionComponent} from './item/item-collection.component';
 import {UriComponent} from './item/uri.component';
+import {AbstractComponent} from './item/abstract.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
 import {ItemComponent} from './item.component';
@@ -26,6 +27,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                  DateComponent,
                  ItemCollectionComponent,
                  UriComponent,
+                 AbstractComponent,
                  ROUTER_DIRECTIVES,
                  BitstreamsComponent,
                  ThumbnailComponent],
@@ -44,6 +46,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                                 <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                             </div>
                             <div class="col-md-8">
+                                <item-abstract [itemData]="item.metadata"></item-abstract>
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemParent]="item.parentCollection"></item-collection>
                             </div>

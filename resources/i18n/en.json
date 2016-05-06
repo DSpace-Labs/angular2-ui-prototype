@@ -55,6 +55,7 @@
     "item-view.date.title": "date",
     "item-view.metadata.title": "metadata",
     "item-view.uri.title": "uri",
+    "item-view.uri.abstract": "abstract",
     "item-view.show-full": "Show full item record",
     "item-view.show-simple": "Show simple item record",
 
