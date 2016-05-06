@@ -1,10 +1,24 @@
 import { Component } from 'angular2/core';
-import { NgForm } from 'angular2/common';
 import { Router } from 'angular2/router';
+
+import {
+    FORM_DIRECTIVES,
+    FORM_BINDINGS,
+    ControlGroup,
+    Control,
+    FormBuilder,
+    NgForm,
+    Validators
+} from 'angular2/common';
+
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
+import { FormService } from '../../../utilities/form/form.service';
+
+import { FormComponent } from '../../../utilities/form/form.component';
+import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.component';
 
 /**
  * Login form component.
@@ -12,72 +26,24 @@ import { BreadcrumbService } from '../../../navigation/services/breadcrumb.servi
 @Component({
     selector: 'login',
     pipes: [ TranslatePipe ],
+    directives: [ FormFieldsetComponent ],
     template: `
-                <form *ngIf="active" class="form" (ngSubmit)="login()" novalidate>
-                    
-                    <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                        <label for="login-email">{{ 'login.email-gloss' | translate }}</label>
-                        <input type="text" 
-                               id="login-email" 
-                               placeholder="{{ 'login.email-placeholder' | translate }}" 
-                               [(ngModel)]="email"
-                               #loginEmail="ngForm"
-                               class="form-control"
-                               pattern="\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\w+)*(\\.\\w{2,3})+"
-                               required>
-
-                        <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
-                            <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                {{ 'login.email-invalid' | translate }}
-                            </span>
-                            <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                {{ 'login.email-required' | translate }}
-                            </span>
-                        </span>
-                    </fieldset>
-
-                    <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                        <label for="login-password">{{ 'login.password-gloss' | translate }}</label>
-                        <input type="password" 
-                               id="login-password" 
-                               placeholder="{{ 'login.password-placeholder' | translate }}" 
-                               [(ngModel)]="password"
-                               #loginPassword="ngForm"
-                               class="form-control"
-                               minlength="6"
-                               required>
-
-                        <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
-                            <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                {{ 'login.password-minlength' | translate }}
-                            </span>
-                            <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                {{ 'login.password-required' | translate }}
-                            </span>
-                        </span>
-                    </fieldset>
-
+                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="login()" novalidate>
+                    <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
                         {{ 'login.unauthorized' | translate }}
                     </span>
-
                     <div class="form-loader">
-                        <img *ngIf="loading" src="./static/images/loading.gif" alt="Loading">
+                        <img *ngIf="processing" src="./static/images/loading.gif" alt="Loading">
                     </div>
-
                     <span class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{ 'login.cancel' | translate }}</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{ 'login.confirm' | translate }}</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid && processing">{{ 'login.confirm' | translate }}</button>
                     </span>
                 </form>
               `
 })
-export class LoginComponent {
-
-    /**
-     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
-     */
-    private active: boolean = true;
+export class LoginComponent extends FormComponent {
 
     /**
      * Email used as DSpace username for login.
@@ -95,55 +61,86 @@ export class LoginComponent {
     private unauthorized: boolean;
 
     /**
-     * Indicates form is being processed.
-     */
-    private loading: boolean = false;
-
-    /**
      *
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
-     * @param breadcrumbService
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param translate
      *      TranslateService
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private authorization: AuthorizationService,
-                private breadcrumbService: BreadcrumbService,
+    constructor(private formService: FormService,
                 private translate: TranslateService,
+                private builder: FormBuilder,
+                private authorization: AuthorizationService,
                 private router: Router) {
-        breadcrumbService.visit({
-            name: 'Login',
-            type: 'login',
-            component: '/Login',
-            root: true,
-        });
+        super();
         translate.setDefaultLang('en');
         translate.use('en');
+        this.init();
+    }
+
+    /**
+     * Initialize the form and validators.
+     */
+    init(): void {
+        this.email = '';
+        this.password = '';
+        this.unauthorized = false;
+        this.formService.getForm('login').subscribe(inputs => {
+            this.inputs = inputs;
+            let formControls = {};
+            for(let input of this.inputs) {
+                input.value = input.default ? input.default : '';
+                let validators = this.createValidators(input);
+                formControls[input.id] = new Control('', Validators.compose(validators));
+            }
+            this.form = this.builder.group(formControls);
+            this.active = true;
+        },
+        errors => {
+            console.log(errors);
+        });
+    }
+    
+    /**
+     *
+     */
+    setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.key == 'email') {
+                this.email = input.value;
+            }
+            if(input.key == 'password') {
+                this.password = input.value;
+            }
+        }
     }
 
     /**
      * Get token and then call status to get fullname.
      */
     login(): void {
-        this.loading = true;
+        this.processing = true;
+        this.setModelValues();
         this.authorization.login(this.email, this.password).subscribe(response => {
             if(response.status == 200) {
                 let token = response.text();
                 this.authorization.status(token).subscribe(response => {
                     this.router.navigate(['/Home']);
-                    this.reset();
                 },
                 error => {
-                    this.loading = false;
+                    this.processing = false;
                     this.unauthorized = true;
                 });
             }
         },
         error => {
-            this.loading = false;
+            this.processing = false;
             this.unauthorized = true;
         });
     }
@@ -159,12 +156,9 @@ export class LoginComponent {
      * Resets the form.
      */
     reset(): void {
-        this.email = '';
-        this.password = '';
+        this.processing = false;
         this.active = false;
-        this.loading = false;
-        this.unauthorized = false;
-        setTimeout(() => this.active = true, 0);
+        this.init();
     }
 
 }

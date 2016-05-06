@@ -1,9 +1,22 @@
 import { Component } from 'angular2/core';
-import { NgForm } from 'angular2/common';
+
+import {
+    FORM_DIRECTIVES,
+    FORM_BINDINGS,
+    ControlGroup,
+    Control,
+    FormBuilder,
+    NgForm,
+    Validators
+} from 'angular2/common';
+
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
+import { FormService } from '../../../utilities/form/form.service';
 
+import { FormComponent } from '../../../utilities/form/form.component';
+import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.component';
 import { FormModalComponent, ModalAction } from '../../../utilities/form/form-modal.component';
 
 /**
@@ -11,73 +24,25 @@ import { FormModalComponent, ModalAction } from '../../../utilities/form/form-mo
  */
 @Component({
   	selector: 'login-form',
-  	directives: [ FormModalComponent ],
+  	directives: [ FormFieldsetComponent, FormModalComponent ],
   	pipes: [ TranslatePipe ],
   	template: `
-                <form-modal *ngIf="active"
-                    id="login"
+                <form-modal *ngIf="active" 
+                    [form]="form"
                     [title]="'login.title'"
                     [cancelLabel]="'login.cancel'"
                     [confirmLabel]="'login.confirm'"
-                    [valid]="loginEmail.valid && loginPassword.valid"
+                    [valid]="form.valid && !processing"
                     (loadedEmitter)="onLoaded($event)"
                     (actionEmitter)="onAction($event)">
-
-                    <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                        <label for="login-email">{{ 'login.email-gloss' | translate }}</label>
-                        <input type="text" 
-                               id="login-email" 
-                               placeholder="{{ 'login.email-placeholder' | translate }}" 
-                               [(ngModel)]="email"
-                               #loginEmail="ngForm"
-                               class="form-control"
-                               pattern="\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\w+)*(\\.\\w{2,3})+"
-                               required>
-
-                        <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
-                            <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                {{ 'login.email-invalid' | translate }}
-                            </span>
-                            <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                {{ 'login.email-required' | translate }}
-                            </span>
-                        </span>
-                    </fieldset>
-
-                    <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                        <label for="login-password">{{ 'login.password-gloss' | translate }}</label>
-                        <input type="password" 
-                               id="login-password" 
-                               placeholder="{{ 'login.password-placeholder' | translate }}" 
-                               [(ngModel)]="password"
-                               #loginPassword="ngForm"
-                               class="form-control"
-                               minlength="6"
-                               required>
-
-                        <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
-                            <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                {{ 'login.password-minlength' | translate }}
-                            </span>
-                            <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                {{ 'login.password-required' | translate }}
-                            </span>
-                        </span>
-                    </fieldset>
-
+                    <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
                         {{ 'login.unauthorized' | translate }}
                     </span>
-
                 </form-modal>
               `
 })
-export class LoginFormComponent {
-
-    /**
-     * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
-     */
-    private active: boolean = true;
+export class LoginFormComponent extends FormComponent {
 
     /**
      * Actual FormModal used to show and hide modal.
@@ -101,15 +66,62 @@ export class LoginFormComponent {
 
     /**
      *
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
+     * @param translate
+     *      TranslateService
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
-     * @param translate 
-     *      TranslateService
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor(private authorization: AuthorizationService,
-                private translate: TranslateService) {
+    constructor(private formService: FormService,
+                private translate: TranslateService,
+                private builder: FormBuilder,
+                private authorization: AuthorizationService) {
+        super();
         translate.setDefaultLang('en');
         translate.use('en');
+        this.init();
+    }
+
+    /**
+     * Initialize the form and validators.
+     */
+    init(): void {
+        this.email = '';
+        this.password = '';
+        this.unauthorized = false;
+        this.formService.getForm('login').subscribe(inputs => {
+            this.inputs = inputs;
+            let formControls = {};
+            for(let input of this.inputs) {
+                input.value = input.default ? input.default : '';
+                let validators = this.createValidators(input);
+                formControls[input.id] = new Control('', Validators.compose(validators));
+            }
+            this.form = this.builder.group(formControls);
+            this.active = true;
+        },
+        errors => {
+            console.log(errors);
+        });
+    }
+    
+    /**
+     *
+     */
+    setModelValues(): void {
+        for(let input of this.inputs) {
+            if(input.key == 'email') {
+                this.email = input.value;
+            }
+            if(input.key == 'password') {
+                this.password = input.value;
+            }
+        }
     }
 
     /**
@@ -130,6 +142,8 @@ export class LoginFormComponent {
      */
     onAction(action: ModalAction): void {
         if(action == ModalAction.CONFIRM) {
+            this.processing = true;
+            this.setModelValues();
             this.authorization.login(this.email, this.password).subscribe(response => {
                 if(response.status == 200) {
                     let token = response.text();
@@ -140,12 +154,14 @@ export class LoginFormComponent {
                         this.reset();
                     },
                     error => {
+                        this.processing = false;
                         this.unauthorized = true;
                         this.login.finished();
                     });
                 }
             },
             error => {
+                this.processing = false;
                 this.unauthorized = true;
                 this.login.finished();
             });
@@ -163,14 +179,12 @@ export class LoginFormComponent {
     }
     
     /**
-     * Resets the form. 
+     * Resets the form.
      */
-    private reset(): void {
-        this.email = '';
-        this.password = '';
+    reset(): void {
+        this.processing = false;
         this.active = false;
-        this.unauthorized = false;
-        setTimeout(() => this.active = true, 0);
+        this.init();
     }
 
 }

@@ -6,7 +6,7 @@ import {
     OnInit
 } from 'angular2/core';
 
-import { NgForm } from 'angular2/common';
+import { ControlGroup, NgForm } from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -21,7 +21,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 <div class="modal form-modal" tabindex="-1" role="dialog" [class.form-modal-fadein]="showModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form class="modal-form" #modalForm="ngForm" (ngSubmit)="confirmAction()" novalidate>
+                            <form class="modal-form" [ngFormModel]="form" (ngSubmit)="confirmAction()" novalidate>
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-label="Close" (click)="cancelAction()">
                                         <span aria-hidden="true">&times;</span>
@@ -45,6 +45,11 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
               `
 })
 export class FormModalComponent implements OnInit {
+
+    /**
+     * The forms control group.
+     */
+    @Input('form') form: ControlGroup;
 
     /**
      * Modal title.
