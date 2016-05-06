@@ -20,40 +20,40 @@ import { User } from '../../dspace/models/user.model';
                     <div class="panel-heading">
                         <h3 class="panel-title">{{context.name}}</h3>
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'dashboard'">
+                    <div class="panel-body" *ngIf="dashboard()">
                         <ul *ngIf="user">
                             <li><a [routerLink]="['/CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
                         </ul>
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'home'">
+                    <div class="panel-body" *ngIf="home()">
                         
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'login'">
+                    <div class="panel-body" *ngIf="login()">
                         
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'register'">
+                    <div class="panel-body" *ngIf="register()">
                         
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'settings'">
+                    <div class="panel-body" *ngIf="settings()">
                         
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'setup'">
+                    <div class="panel-body" *ngIf="setup()">
                         
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'community'">
+                    <div class="panel-body" *ngIf="community()">
                         <ul *ngIf="user">
                             <li><a [routerLink]="[context.component, { id: context.id }, 'CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
                             <li><a [routerLink]="[context.component, { id: context.id }, 'CollectionCreate']">{{ 'context.create-collection' | translate }}</a></li>
                         </ul>
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'collection'">
+                    <div class="panel-body" *ngIf="collection()">
                         <ul *ngIf="user">
                             <li><a [routerLink]="[context.component, { id: context.id }, 'ItemCreate']">{{ 'context.create-item' | translate }}</a></li>
                         </ul>
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
-                    <div class="panel-body" *ngIf="context.type == 'item'">
+                    <div class="panel-body" *ngIf="item()">
                         <div *ngIf="user">{{ 'context.edit-item' | translate }}</div>
                     </div>
                 </div>
@@ -94,6 +94,69 @@ export class ContextComponent {
         });
         translate.setDefaultLang('en');
         translate.use('en');
+    }
+
+    /**
+     *
+     */
+    private dashboard(): boolean {
+        return this.context.type == 'dashboard';
+    }
+
+    /**
+     *
+     */
+    private home(): boolean {
+        return this.context.type == 'home';
+    }
+
+    /**
+     *
+     */
+    private login(): boolean {
+        return this.context.type == 'login';
+    }
+
+    /**
+     *
+     */
+    private register(): boolean {
+        return this.context.type == 'register';
+    }
+
+    /**
+     *
+     */
+    private settings(): boolean {
+        return this.context.type == 'settings';
+    }
+
+    /**
+     *
+     */
+    private setup(): boolean {
+        return this.context.type == 'setup';
+    }
+
+    /**
+     *
+     */
+    private community(): boolean {
+        return this.context.type == 'community';
+    }
+
+    /**
+     *
+     */
+    private collection(): boolean {
+        return this.context.type == 'collection';
+    }
+
+    /**
+     *
+     */
+    private item(): boolean {
+        return this.context.type == 'item';
     }
 
 }

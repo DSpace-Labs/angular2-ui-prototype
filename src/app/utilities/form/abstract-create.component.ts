@@ -41,7 +41,7 @@ export class AbstractCreateComponent implements FormCreate {
         let validators: Array<any> = new Array<any>();
         for(let key in input.validation) {
             if(key == 'required') {
-                if(input.validation[key]) {
+                if(input.validation[key] && input.validation[key].value) {
                     validators.push(Validators.required);
                 }
             }

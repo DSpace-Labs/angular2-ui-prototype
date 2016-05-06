@@ -14,10 +14,10 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="let breadcrumb of trail">
-                        <a *ngIf="breadcrumb.id && !breadcrumb.page" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="breadcrumb.id && breadcrumb.page && !breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="breadcrumb.id && breadcrumb.page && breadcrumb.limit" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="!breadcrumb.id" [routerLink]="['/Dashboard']">{{ breadcrumb.name }}</a>
+                        <a *ngIf="rootBreadcrumb(breadcrumb)" [routerLink]="['/Dashboard']">{{ breadcrumb.name }}</a>
+                        <a *ngIf="contextBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="contextBreadcrumbWithPage(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="contextBreadcrumbWithPageAndLimit(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>
                     </li>
                 </ul>
     		  `
@@ -49,12 +49,33 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
+     * Method provided by Angular2. Invoked after the component view is ready.
+     */
+    ngAfterViewInit() {
+        this.subscription = this.breadcrumbService.emitter.subscribe(obj => {
+            if(obj.action == 'visit') {
+                this.buildTrail(obj.context);
+            }
+            else {
+                this.updateBreadcrumb(obj.breadcrumb);
+            }
+        });
+    }
+
+    /**
+     * Method provided by Angular2. Invoked when destroying the component.
+     */
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    /**
      * Method to build the breadcrumb trail when a given context is visited.
      * 
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    buildTrail(context): void {
+    private buildTrail(context): void {
         let root = this.breadcrumbService.getRoot();
         this.trail = new Array<any>();
         if (Object.keys(context).length > 0 && !context.root) {
@@ -67,7 +88,10 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    updateBreadcrumb(updatedBreadcrumb): void {
+    /**
+     *
+     */
+    private updateBreadcrumb(updatedBreadcrumb): void {
         for(let breadcrumb of this.trail) {
             if(breadcrumb.name == updatedBreadcrumb.name) {
                 breadcrumb = updatedBreadcrumb;
@@ -82,7 +106,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
-    dropBreadcrumb(context): Promise<any> {
+    private dropBreadcrumb(context): Promise<any> {
         let bc = this;
         return new Promise(function (resolve, reject) { 
             bc.trail.unshift({
@@ -117,24 +141,31 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * Method provided by Angular2. Invoked after the component view is ready.
+     *
      */
-    ngAfterViewInit() {
-        this.subscription = this.breadcrumbService.emitter.subscribe(obj => {
-            if(obj.action == 'visit') {
-                this.buildTrail(obj.context);
-            }
-            else {
-                this.updateBreadcrumb(obj.breadcrumb);
-            }
-        });
+    private rootBreadcrumb(breadcrumb: any): boolean {
+        return !breadcrumb.id;
     }
 
     /**
-     * Method provided by Angular2. Invoked when destroying the component.
+     *
      */
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
+    private contextBreadcrumb(breadcrumb: any): boolean {
+        return breadcrumb.id && !breadcrumb.page;
+    }
+
+    /**
+     *
+     */
+    private contextBreadcrumbWithPage(breadcrumb: any): boolean {
+        return breadcrumb.id && breadcrumb.page && !breadcrumb.limit;
+    }
+
+    /**
+     *
+     */
+    private contextBreadcrumbWithPageAndLimit(breadcrumb: any): boolean {
+        return breadcrumb.id && breadcrumb.page && breadcrumb.limit;
     }
 
 }

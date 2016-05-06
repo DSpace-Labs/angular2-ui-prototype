@@ -15,17 +15,17 @@ import { FormInput } from './form-input.model';
     directives: [ FORM_DIRECTIVES ],
     template: `
                 <div *ngIf="form.controls[input.id]">
-                    <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">
-                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.minlength">
+                    <span [hidden]="hideValidationMessage()" class="validaiton-helper text-danger">
+                        <span *ngIf="minLengthError()">
                             {{ input.validation.minLength.message | translate }}
                         </span>
-                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.maxlength">
+                        <span *ngIf="maxLengthError()">
                             {{ input.validation.maxLength.message | translate }}
                         </span>
-                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.pattern">
+                        <span *ngIf="patternError()">
                             {{ input.validation.pattern.message | translate }}
                         </span>
-                        <span *ngIf="form.controls[input.id].errors && form.controls[input.id].errors.required">
+                        <span *ngIf="requiredError()">
                             {{ input.validation.required.message | translate }}
                         </span>
                     </span>
@@ -52,6 +52,41 @@ export class ValidationMessageComponent {
     constructor(private translate: TranslateService) {
         translate.setDefaultLang('en');
         translate.use('en');
+    }
+
+    /**
+     *
+     */
+    private hideValidationMessage(): boolean {
+        return this.form.controls[this.input.id].valid || this.form.controls[this.input.id].pristine;
+    }
+
+    /**
+     *
+     */
+    private minLengthError(): boolean {
+        return this.form.controls[this.input.id].errors && this.form.controls[this.input.id].errors['minlength'];
+    }
+
+    /**
+     *
+     */
+    private maxLengthError(): boolean {
+        return this.form.controls[this.input.id].errors && this.form.controls[this.input.id].errors['maxlength'];
+    }
+
+    /**
+     *
+     */
+    private patternError(): boolean {
+        return this.form.controls[this.input.id].errors && this.form.controls[this.input.id].errors['pattern'];
+    }
+
+    /**
+     *
+     */
+    private requiredError(): boolean {
+        return this.form.controls[this.input.id].errors && this.form.controls[this.input.id].errors['required'];
     }
 
 }

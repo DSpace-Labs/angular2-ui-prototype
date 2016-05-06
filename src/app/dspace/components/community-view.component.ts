@@ -22,7 +22,7 @@ import { ContainerHomeComponent } from "./container-home.component.ts";
     template: ` 
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
-                    <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
+                    <tree [directories]="subCommunitiesAndCollections(communit)"></tree>
                 </div>
               `
 })
@@ -55,6 +55,13 @@ export class CommunityViewComponent {
      */
     private communityProvided(): boolean {
         return this.community && this.community.type == 'community';
+    }
+
+    /**
+     *
+     */
+    private subCommunitiesAndCollections(community: any): Array<any> {
+        return community.subcommunities.concat(community.collections);
     }
 
 }

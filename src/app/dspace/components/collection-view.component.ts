@@ -21,7 +21,7 @@ import { ItemListComponent } from './item-list.component';
     template: ` 
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>
-                    <item-list *ngIf="collection.items.length> 0" [collection]="collection" [items]="collection.items"></item-list>
+                    <item-list *ngIf="collection.items.length > 0" [collection]="collection" [items]="collection.items"></item-list>
                 </div>
               `
 })

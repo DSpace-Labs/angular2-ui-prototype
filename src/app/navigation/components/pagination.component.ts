@@ -16,19 +16,19 @@ import { PaginationService } from '../services/pagination.service';
                 <div *ngIf="context.limit < context.total" class="form-inline">
                     <nav>
                         <ul class="pager">
-                            <li class="previous" [class.disabled]="context.page == 1">
+                            <li class="previous" [class.disabled]="firstPage()">
                                 <!-- Router Link -->
-                                <a *ngIf="context.page != 1" [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
+                                <a *ngIf="!firstPage()" [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
                                     <span aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                                 </a>
-                                <span *ngIf="context.page == 1" aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
+                                <span *ngIf="firstPage()" aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                             </li>
-                            <li class="next" [class.disabled]="context.page == context.pageCount">
+                            <li class="next" [class.disabled]="lastPage()">
                                 <!-- Router Link -->
-                                <a *ngIf="context.page != context.pageCount" [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
+                                <a *ngIf="!lastPage()" [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
                                     <span aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                                 </a>
-                                <span *ngIf="context.page == context.pageCount" aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
+                                <span *ngIf="lastPage()" aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                             </li>
                         </ul>
                     </nav>
@@ -156,6 +156,20 @@ export class PaginationComponent implements OnInit {
             this.dspace.loadNav('community', this.context);
             this.dspace.loadNav('collection', this.context);
         }
+    }
+
+    /**
+     *
+     */
+    private firstPage(): boolean {
+        return this.context.page == 1;
+    }
+
+    /**
+     *
+     */
+    private lastPage(): boolean {
+        return this.context.page == this.context.pageCount;
     }
 
 }
