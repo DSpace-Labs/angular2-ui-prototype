@@ -29,7 +29,7 @@
   "dependencies": {
     "angular2": "2.0.0-beta.17",
     "angular2-universal": "0.99.0",
-    "body-parser": "1.15.0",
+    "body-parser": "1.15.1",
     "bootstrap": "3.3.6",
     "express": "4.13.4",
     "ng2-translate": "2.0.0",
