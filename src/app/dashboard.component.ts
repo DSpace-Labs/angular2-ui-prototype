@@ -37,7 +37,6 @@ export class DashboardComponent {
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService ) {
-        console.log(this.breadcrumb);
         breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
