@@ -73,11 +73,7 @@ export class Item extends DSOContainer {
      */
     addMetadata(metadata? : Metadatum)
     {
-        console.log("in addMetadata");
-        this.metadata.push(metadata);
-        // alert with observable
-        console.log(this.metadata);
-        // generate observable here?
+         this.metadata.push(metadata);
         this.newMetadata.next(true); // let's see if I can catch this elsewhere
     }
 

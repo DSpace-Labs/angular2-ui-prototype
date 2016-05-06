@@ -36,7 +36,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                     <div class="item-summary-view-metadata">
                         <h1>{{item.name}}</h1>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
                                 <item-thumbnail></item-thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
@@ -44,7 +44,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                                 <h3>{{'item-view.show-full' | translate}}</h3>
                                 <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-sm-8">
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemParent]="item.parentCollection"></item-collection>
                             </div>
