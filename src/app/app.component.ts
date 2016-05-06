@@ -74,7 +74,8 @@ import { User } from './dspace/models/user.model';
               `
 })
 @RouteConfig([
-    
+        
+
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
@@ -86,8 +87,9 @@ import { User } from './dspace/models/user.model';
         { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
         { path: "/items/:id/...", name: "Items", component: ItemComponent },
 
-        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent }
+        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
 
+        { path: '/**', redirectTo: ['/Dashboard'] }
 ])
 export class AppComponent implements OnInit {
 

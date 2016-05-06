@@ -69,15 +69,15 @@ export class CommunityCreateComponent extends AbstractCreateComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private authorization: AuthorizationService,
+    constructor(authorization: AuthorizationService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private formService: FormService,
                 private dspace: DSpaceDirectory,
                 private translate: TranslateService,
                 private builder: FormBuilder,
-                private router: Router) {
-        super();
+                router: Router) {
+        super(authorization, router);
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
