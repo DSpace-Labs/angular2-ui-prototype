@@ -3,6 +3,7 @@ import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
 import {ObjectUtil} from "../../utilities/commons/object.util";
+import {URLHelper} from "../../utilities/url.helper";
 
 /**
  * A model class for an Item. Item has bitstreams, metadata, collections...
@@ -54,7 +55,8 @@ export class Item extends DSOContainer {
             let primaryBitstream = this.getPrimaryStream(bitstreams);
             if (primaryBitstream != null)
             {
-                var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name + ".jpg").forEach(x => this.thumbnail = "http://localhost:5050/rest" + x.retrieveLink); // if filter returns, it will be the first one.
+                bitstreams.filter(bstream => bstream.bundleName == "THUMBNAIL" && bstream.name == primaryBitstream.name + ".jpg")
+                          .forEach(result => this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(result.retrieveLink)); // if filter returns, it will be the first one.
             }
         }
     }
