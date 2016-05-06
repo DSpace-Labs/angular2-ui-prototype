@@ -26,7 +26,7 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
                 <a [routerLink]="[item.component, { id: item.id }]" class="item-list-url">{{ item.name }}</a>
                 <h5 *ngIf="renderHeader()">{{ author }} <span *ngIf="renderDate()">({{ date | truncatedate }})</span></h5>
                 <!-- the abstract truncated -->
-                <p *ngIf="renderAbstract()">{{ abstract | truncate : 200 }}</p>
+                <p *ngIf="renderAbstract()">{{ abstract | truncate:[200] }}</p>
               `
 })
 export class ListMetadataComponent implements OnInit {
