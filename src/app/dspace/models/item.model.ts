@@ -68,7 +68,16 @@ export class Item extends DSOContainer {
      */
     private getPrimaryStream(bitstreams) : Bitstream
     {
-        var primary = bitstreams.filter(x => x.bundleName=="ORIGINAL" && x.sequenceId == 1);
+        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL" && x.sequenceId == 1);
         return primary != null ? primary[0] : null;
     }
+}
+
+/**
+ * To let typescript recognize the datatypes that we expect to get from the json
+ */
+interface jsonbitstream{
+    name : String;
+    bundleName : String;
+    sequenceId : number;
 }
