@@ -1,25 +1,25 @@
-import {Component} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {Router} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { NgForm } from 'angular2/common';
+import { Router } from 'angular2/router';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../services/authorization.service';
-import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
+import { AuthorizationService } from '../services/authorization.service';
+import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
 
 /**
  * Login form component.
  */
 @Component({
     selector: 'login',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <form *ngIf="active" class="login-form" (ngSubmit)="login()" novalidate>
                     
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                        <label for="login-email">{{'login.email-gloss' | translate}}</label>
+                        <label for="login-email">{{ 'login.email-gloss' | translate }}</label>
                         <input type="text" 
                                id="login-email" 
-                               placeholder="{{'login.email-placeholder' | translate}}" 
+                               placeholder="{{ 'login.email-placeholder' | translate }}" 
                                [(ngModel)]="email"
                                #loginEmail="ngForm"
                                class="form-control"
@@ -28,19 +28,19 @@ import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service
 
                         <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
                             <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                {{'login.email-invalid' | translate}}
+                                {{ 'login.email-invalid' | translate }}
                             </span>
                             <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                {{'login.email-required' | translate}}
+                                {{ 'login.email-required' | translate }}
                             </span>
                         </span>
                     </fieldset>
 
                     <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                        <label for="login-password">{{'login.password-gloss' | translate}}</label>
+                        <label for="login-password">{{ 'login.password-gloss' | translate }}</label>
                         <input type="password" 
                                id="login-password" 
-                               placeholder="{{'login.password-placeholder' | translate}}" 
+                               placeholder="{{ 'login.password-placeholder' | translate }}" 
                                [(ngModel)]="password"
                                #loginPassword="ngForm"
                                class="form-control"
@@ -49,16 +49,16 @@ import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service
 
                         <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
                             <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                {{'login.password-minlength' | translate}}
+                                {{ 'login.password-minlength' | translate }}
                             </span>
                             <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                {{'login.password-required' | translate}}
+                                {{ 'login.password-required' | translate }}
                             </span>
                         </span>
                     </fieldset>
 
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
-                        {{'login.unauthorized' | translate}}
+                        {{ 'login.unauthorized' | translate }}
                     </span>
 
                     <div class="form-loader">
@@ -66,8 +66,8 @@ import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service
                     </div>
 
                     <span class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{'login.cancel' | translate}}</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{'login.confirm' | translate}}</button>
+                        <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{ 'login.cancel' | translate }}</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginEmail.valid || !loginPassword.valid">{{ 'login.confirm' | translate }}</button>
                     </span>
                 </form>
               `
@@ -111,10 +111,10 @@ export class LoginComponent {
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
-                private breadcrumb: BreadcrumbService,
+                private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService,
                 private router: Router) {
-        breadcrumb.visit({
+        breadcrumbService.visit({
             name: 'Login',
             type: 'login',
             component: '/Login',

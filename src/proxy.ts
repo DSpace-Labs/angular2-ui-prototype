@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import {GlobalConfig} from '../config';
-import {URLHelper} from "./app/utilities/url.helper";
+import { GlobalConfig } from '../config';
+import { URLHelper } from "./app/utilities/url.helper";
 
 var http = require('http'),
     httpProxy = require('http-proxy'),

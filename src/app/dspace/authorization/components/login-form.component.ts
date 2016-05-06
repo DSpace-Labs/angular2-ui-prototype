@@ -1,18 +1,18 @@
-import {Component} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { NgForm } from 'angular2/common';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from '../services/authorization.service';
+import { AuthorizationService } from '../services/authorization.service';
 
-import {FormModalComponent, ModalAction} from '../../../utilities/components/form-modal.component';
+import { FormModalComponent, ModalAction } from '../../../utilities/form/form-modal.component';
 
 /**
  * Login form. Uses form-modal component.
  */
 @Component({
   	selector: 'login-form',
-  	directives: [FormModalComponent],
-  	pipes: [TranslatePipe],
+  	directives: [ FormModalComponent ],
+  	pipes: [ TranslatePipe ],
   	template: `
                 <form-modal *ngIf="active"
                     id="login"
@@ -24,10 +24,10 @@ import {FormModalComponent, ModalAction} from '../../../utilities/components/for
                     (actionEmitter)="onAction($event)">
 
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
-                        <label for="login-email">{{'login.email-gloss' | translate}}</label>
+                        <label for="login-email">{{ 'login.email-gloss' | translate }}</label>
                         <input type="text" 
                                id="login-email" 
-                               placeholder="{{'login.email-placeholder' | translate}}" 
+                               placeholder="{{ 'login.email-placeholder' | translate }}" 
                                [(ngModel)]="email"
                                #loginEmail="ngForm"
                                class="form-control"
@@ -36,19 +36,19 @@ import {FormModalComponent, ModalAction} from '../../../utilities/components/for
 
                         <span [hidden]="loginEmail.valid || loginEmail.pristine" class="validaiton-helper">
                             <span *ngIf="loginEmail.errors && loginEmail.errors.pattern">
-                                {{'login.email-invalid' | translate}}
+                                {{ 'login.email-invalid' | translate }}
                             </span>
                             <span *ngIf="loginEmail.errors && loginEmail.errors.required">
-                                {{'login.email-required' | translate}}
+                                {{ 'login.email-required' | translate }}
                             </span>
                         </span>
                     </fieldset>
 
                     <fieldset class="form-group" [class.has-error]="!loginPassword.valid && !loginPassword.pristine">
-                        <label for="login-password">{{'login.password-gloss' | translate}}</label>
+                        <label for="login-password">{{ 'login.password-gloss' | translate }}</label>
                         <input type="password" 
                                id="login-password" 
-                               placeholder="{{'login.password-placeholder' | translate}}" 
+                               placeholder="{{ 'login.password-placeholder' | translate }}" 
                                [(ngModel)]="password"
                                #loginPassword="ngForm"
                                class="form-control"
@@ -57,16 +57,16 @@ import {FormModalComponent, ModalAction} from '../../../utilities/components/for
 
                         <span [hidden]="loginPassword.valid || loginPassword.pristine" class="validaiton-helper">
                             <span *ngIf="loginPassword.errors && loginPassword.errors.minlength">
-                                {{'login.password-minlength' | translate}}
+                                {{ 'login.password-minlength' | translate }}
                             </span>
                             <span *ngIf="loginPassword.errors && loginPassword.errors.required">
-                                {{'login.password-required' | translate}}
+                                {{ 'login.password-required' | translate }}
                             </span>
                         </span>
                     </fieldset>
 
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
-                        {{'login.unauthorized' | translate}}
+                        {{ 'login.unauthorized' | translate }}
                     </span>
 
                 </form-modal>
@@ -123,13 +123,6 @@ export class LoginFormComponent {
     }
 
     /**
-     * Opens the modal.
-     */
-    openLoginModal(): void {
-        this.login.show();
-    }
-
-    /**
      * Callback to invoke chosen action.
      *
      * @param action
@@ -161,11 +154,18 @@ export class LoginFormComponent {
             this.reset();
         }
     }
+
+    /**
+     * Opens the modal.
+     */
+    private openLoginModal(): void {
+        this.login.show();
+    }
     
     /**
      * Resets the form. 
      */
-    reset(): void {
+    private reset(): void {
         this.email = '';
         this.password = '';
         this.active = false;

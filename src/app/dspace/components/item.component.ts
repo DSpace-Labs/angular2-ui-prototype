@@ -1,24 +1,30 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams, CanDeactivate, ComponentInstruction} from 'angular2/router';
+import { Component } from 'angular2/core';
+import {
+    RouteConfig,
+    RouterOutlet,
+    RouteParams,
+    CanDeactivate,
+    ComponentInstruction
+} from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataService} from "../../utilities/services/google-scholar-metadata.service.ts";
-import {ObjectUtil} from "../../utilities/commons/object.util";
+import { DSpaceDirectory } from '../dspace.directory';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
+import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
+import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
+import { ObjectUtil } from "../../utilities/commons/object.util";
 
-import {SimpleItemViewComponent} from './simple-item-view.component';
-import {FullItemViewComponent} from './full-item-view.component';
+import { SimpleItemViewComponent } from './simple-item-view.component';
+import { FullItemViewComponent } from './full-item-view.component';
 
-import {Item} from "../models/item.model";
+import { Item } from "../models/item.model";
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.
  */
 @Component({
     selector: 'item',
-    directives: [RouterOutlet],
-    providers: [GoogleScholarMetadataService],
+    directives: [ RouterOutlet ],
+    providers: [ GoogleScholarMetadataService ],
     template: `
                 <router-outlet></router-outlet>
               `
@@ -35,18 +41,18 @@ export class ItemComponent implements CanDeactivate {
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      */
-    constructor(private params: RouteParams,
-                private directory: DSpaceDirectory,
+    constructor(private dspace: DSpaceDirectory,
                 private breadcrumbService: BreadcrumbService,
-                private gsMeta: GoogleScholarMetadataService) {
-        directory.loadObj('item', params.get("id")).then((item:Item) => {
+                private gsMeta: GoogleScholarMetadataService,
+                private params: RouteParams) {
+        dspace.loadObj('item', params.get("id")).then((item:Item) => {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
         });

@@ -1,8 +1,8 @@
-import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component, Input } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
 
-import {ListComponent } from './list.component';
-import {PaginationComponent} from './pagination.component';
+import { ListComponent } from './list.component';
+import { PaginationComponent } from './pagination.component';
 
 /**
  * Tree component for navigation through the dspace index of 
@@ -13,39 +13,34 @@ import {PaginationComponent} from './pagination.component';
  */
 @Component({
     selector: 'tree',
-    directives: [ROUTER_DIRECTIVES, TreeComponent, ListComponent, PaginationComponent],
+    directives: [ ROUTER_DIRECTIVES,
+                  TreeComponent,
+                  ListComponent,
+                  PaginationComponent ],
     template: `
-    			<ul class="list-group">
+                <ul class="list-group">
                     <li *ngFor="let directory of directories" class="list-group-item">
-
-                        <span *ngIf="directory.type == 'community' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
-
-                        <span *ngIf="directory.type == 'community' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-minus clickable"></span>
-
-                        <span *ngIf="directory.type == 'collection' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
-
-                        <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
+                        <span *ngIf="collapsedCommunity(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
+                        <span *ngIf="expandedCommunity(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-minus clickable"></span>
+                        <span *ngIf="collapsedCollection(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
+                        <span *ngIf="expandedCollection(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
 
                         <!-- Router link -->
-                        <a *ngIf="!directory.page" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
-                        <a *ngIf="directory.page && !directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
-                        <a *ngIf="directory.page && directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
+                        <a *ngIf="!page(directory)" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
+                        <a *ngIf="pageWithoutLimit(directory)" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
+                        <a *ngIf="pageWithLimit(directory)" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
 
-                        <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
-
-                        <span *ngIf="directory.type == 'collection'" class="badge">{{ directory.numberItems }}</span>
-
-                        <div *ngIf="directory.expanded && directory.type == 'community'">
+                        <span *ngIf="community(directory)" class="badge">{{ directory.countItems }}</span>
+                        <span *ngIf="collection(directory)" class="badge">{{ directory.numberItems }}</span>
+                        <div *ngIf="expandedCommunity(directory)">
                             <tree [directories]="subCommunitiesAndCollections(directory)"></tree>
                         </div>
-
-                        <div *ngIf="directory.expanded && directory.type == 'collection' && directory.items.length > 0">
+                        <div *ngIf="expandedCollectionWithItems(directory)">
                             <list [collection]="directory"></list>
                         </div>
-
                     </li>
                 </ul>
-    		  `
+              `
 })
 export class TreeComponent {
 
@@ -55,10 +50,83 @@ export class TreeComponent {
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
-	@Input() private directories: Array<any>;
+    @Input() private directories: Array<any>;
     
+    /**
+     *
+     */
     private subCommunitiesAndCollections(directory: any): Array<any> {
         return directory.subcommunities.concat(directory.collections);
+    }
+
+    /**
+     *
+     */
+    private collapsedCommunity(directory: any): boolean {
+        return this.community(directory) && !directory.expanded;
+    }
+
+    /**
+     *
+     */
+    private expandedCommunity(directory: any): boolean {
+        return this.community(directory) && directory.expanded;
+    }
+
+    /**
+     *
+     */
+    private collapsedCollection(directory: any): boolean {
+        return this.collection(directory) && !directory.expanded;
+    }
+
+    /**
+     *
+     */
+    private expandedCollection(directory: any): boolean {
+        return this.collection(directory) && directory.expanded;
+    }
+
+    /**
+     *
+     */
+    private expandedCollectionWithItems(directory: any): boolean {
+        return this.expandedCollection(directory) && directory.items.length > 0;
+    }
+
+    /**
+     *
+     */
+    private community(directory: any): boolean {
+        return directory.type == 'community';
+    }
+
+    /**
+     *
+     */
+    private collection(directory: any): boolean {
+        return directory.type == 'collection';
+    }
+
+    /**
+     *
+     */
+    private page(directory: any): boolean {
+        return directory.page ? true : false;
+    }
+
+    /**
+     *
+     */
+    private pageWithoutLimit(directory: any): boolean {
+        return this.page(directory) && !directory.limit;
+    }
+
+    /**
+     *
+     */
+    private pageWithLimit(directory: any): boolean {
+        return this.page(directory) && directory.limit;
     }
 
 }

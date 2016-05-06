@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {TranslateLoader} from "ng2-translate/ng2-translate";
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
+import { TranslateLoader } from "ng2-translate/ng2-translate";
+import { Observable } from "rxjs/Observable";
+import { Observer } from "rxjs/Observer";
 
 /**
  * A TranslateLoader for ng2-translate, that loads translations 

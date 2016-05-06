@@ -1,43 +1,44 @@
-import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
-import {NgForm} from 'angular2/common';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    OnInit
+} from 'angular2/core';
+
+import { NgForm } from 'angular2/common';
+
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Form modal. ng-content brings in the actual form.
  */
 @Component({
     selector: 'form-modal',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <div class="modal-backdrop fade in" [style.display]="showModal ? 'block' : 'none'"></div>
                 <div class="modal form-modal" tabindex="-1" role="dialog" [class.form-modal-fadein]="showModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
-
                             <form class="modal-form" #modalForm="ngForm" (ngSubmit)="confirmAction()" novalidate>
-
                                 <div class="modal-header">
                                     <button type="button" class="close" aria-label="Close" (click)="cancelAction()">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    <h4 class="modal-title">{{title | translate}}</h4>
+                                    <h4 class="modal-title">{{ title | translate }}</h4>
                                 </div>
-
                                 <div class="modal-body">
                                     <ng-content></ng-content>
                                 </div>
-
                                 <div class="form-loader">
                                     <img *ngIf="loading" src="./static/images/loading.gif" alt="Loading">
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{cancelLabel | translate}}</button>
-                                    <button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{confirmLabel | translate}}</button>
+                                    <button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{ cancelLabel | translate }}</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{ confirmLabel | translate }}</button>
                                 </div>
-
                             </form>
-
                         </div>
                     </div>
                 </div>

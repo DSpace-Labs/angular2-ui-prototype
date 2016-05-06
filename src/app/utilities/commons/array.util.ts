@@ -1,4 +1,4 @@
-import {ObjectUtil} from "./object.util";
+import { ObjectUtil } from "./object.util";
 
 /**
  *

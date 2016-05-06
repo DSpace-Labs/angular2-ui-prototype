@@ -1,4 +1,4 @@
-import {Bitstream} from "../models/bitstream.model";
+import { Bitstream } from "../models/bitstream.model";
 
 /**
  * An interface representing all the constituents that make up a the homepage 

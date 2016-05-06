@@ -1,16 +1,16 @@
-import {Component} from 'angular2/core';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {BreadcrumbService} from '../../../navigation/services/breadcrumb.service';
+import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
 
 /**
  * Registration component.
  */
 @Component({
     selector: 'register',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
-                <span>{{'register.title' | translate}}</span>
+                
               `
 })
 export class RegistrationComponent {
@@ -22,9 +22,9 @@ export class RegistrationComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(private breadcrumb: BreadcrumbService,
+    constructor(private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService) {
-        breadcrumb.visit({
+        breadcrumbService.visit({
             name: 'Register',
             type: 'register',
             component: '/Register',

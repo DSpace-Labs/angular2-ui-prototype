@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from 'angular2/core'
-import {ObjectUtil} from "../commons/object.util";
+import { Pipe, PipeTransform } from 'angular2/core'
+import { ObjectUtil } from "../commons/object.util";
 
 /**
  * Pipe to truncate a value in Angular2. (Take a substring, starting at 0)

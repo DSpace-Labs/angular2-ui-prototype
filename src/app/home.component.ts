@@ -1,10 +1,10 @@
-import {Component} from 'angular2/core';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component } from 'angular2/core';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {AuthorizationService} from './dspace/authorization/services/authorization.service';
-import {BreadcrumbService} from './navigation/services/breadcrumb.service';
+import { AuthorizationService } from './dspace/authorization/services/authorization.service';
+import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 
-import {User} from './dspace/models/user.model';
+import { User } from './dspace/models/user.model';
 
 /**
  * Home component. Intended to be a splash page with news, recent submissions, 
@@ -13,15 +13,15 @@ import {User} from './dspace/models/user.model';
  */
 @Component({
     selector: 'home',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <div *ngIf="user">
-                    <h3>{{user.fullname}}</h3>
-                    <h4>{{user.email}}</h4>
+                    <h3>{{ user.fullname }}</h3>
+                    <h4>{{ user.email }}</h4>
                 </div>
                 <hr *ngIf="user">
                 <ul>
-                    <li *ngFor="let template of serverTemplating">{{template}}</li>
+                    <li *ngFor="let template of serverTemplating">{{ template }}</li>
                 </ul>
               `
 })
