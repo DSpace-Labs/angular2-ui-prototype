@@ -1,3 +1,6 @@
-export interface IEquatable<T> {
+/**
+ *
+ */
+export interface Equatable<T> {
     equals(other: T): boolean;
 }

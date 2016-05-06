@@ -1,17 +1,16 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
+import {BreadcrumbService} from '../services/breadcrumb.service';
 import {DSpaceDirectory} from '../../dspace/dspace.directory';
 import {PagingStoreService} from '../../dspace/services/paging-store.service';
 import {PaginationService} from '../services/pagination.service';
-import {BreadcrumbService} from '../services/breadcrumb.service';
 
 /**
  * Pagination component for controlling paging among a given context. Currently, only items.
  */
 @Component({
     selector: 'pagination',
-    inputs: ['context'],
     directives: [ROUTER_DIRECTIVES],
     template: `
                 <div *ngIf="context.limit < context.total" class="form-inline">
@@ -19,48 +18,50 @@ import {BreadcrumbService} from '../services/breadcrumb.service';
                         <ul class="pager">
                             <li class="previous" [class.disabled]="context.page == 1">
                                 <!-- Router Link -->
-                                <a [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
+                                <a *ngIf="context.page != 1" [routerLink]="[component, {id: context.id, page: previous, limit: context.limit}]" (click)="page(context.id, previous)">
                                     <span aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                                 </a>
+                                <span *ngIf="context.page == 1" aria-label="Previous"><span aria-hidden="true"><span class="glyphicon glyphicon-backward"></span> Previous</span></span>
                             </li>
                             <li class="next" [class.disabled]="context.page == context.pageCount">
                                 <!-- Router Link -->
-                                <a [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
+                                <a *ngIf="context.page != context.pageCount" [routerLink]="[component, {id: context.id, page: next, limit: context.limit}]" (click)="page(context.id, next)">
                                     <span aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                                 </a>
+                                <span *ngIf="context.page == context.pageCount" aria-label="Next"><span aria-hidden="true">Next <span class="glyphicon glyphicon-forward"></span></span></span>
                             </li>
                         </ul>
                     </nav>
                 </div>
               `
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit {
 
     /**
      * An input variable that is passed into the component [context].
      * Represents the current context.
      */
-    context: any;
+    @Input() private context: any;
 
     /**
      * A String that represents the current component.
      */
-    component: string;
+    private component: string;
 
     /**
      * A number that represents the previous page.
      */
-    previous: number;
+    private previous: number;
     
     /**
      * A number that represents the next page.
      */
-    next: number;
+    private next: number;
     
      /**
      * A number array that represents options for a context pagination limit.
      */
-    limitOptions: Array<number>;
+    private limitOptions: Array<number>;
     
     /**
      * 
@@ -70,10 +71,10 @@ export class PaginationComponent {
      *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
+     * @param breadcrumb
+     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param router
      *      Router
-     * @param routeParams
-     *      RouteParams
      */
     constructor(private dspaceDirectory: DSpaceDirectory,
                 private pagingStore: PagingStoreService,
@@ -87,7 +88,8 @@ export class PaginationComponent {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent") {
+        // TODO: figure out a better way to do this
+        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityViewComponent") {
             this.component = "/"
         }
         else {
@@ -103,7 +105,7 @@ export class PaginationComponent {
      * @param page
      *          The page being navigated to.
      */
-    page(id, page): void {
+    private page(id, page): void {
         this.context.loaded = false;
         this.breadcrumbService.update({
             name:  this.context.name,
@@ -127,7 +129,7 @@ export class PaginationComponent {
      * @param option
      *          Select option which holds current value selected.
      */
-    updateLimit(limit): void {
+    private updateLimit(limit): void {
         let previousPage = this.context.page;
         this.pagingStore.clearPages(this.context);
         this.context.loaded = false;
@@ -143,7 +145,7 @@ export class PaginationComponent {
     /**
      * Method to request the navigation for the given context.
      */
-    loadContextNav(): void {
+    private loadContextNav(): void {
         if (this.context.type == 'item') {
             // possibly load metadata page
         }

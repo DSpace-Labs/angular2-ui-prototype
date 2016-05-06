@@ -1,15 +1,14 @@
-﻿import {Component} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {Component} from 'angular2/core';
+import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {Collection} from "../models/collection.model";
-import {ListComponent} from '../../navigation/components/list.component';
-import {PaginationComponent} from '../../navigation/components/pagination.component';
-import {ContainerHomeComponent} from "./container-home.component";
 
 import {ItemListComponent} from './item-list.component';
+
+import {CollectionViewComponent} from './collection-view.component';
+import {ItemCreateComponent} from './item-create.component';
 
 /**
  * Collection component for displaying the current collection.
@@ -17,21 +16,18 @@ import {ItemListComponent} from './item-list.component';
  */
 @Component({
     selector: 'collection',
-directives: [ListComponent, ContainerHomeComponent, ItemListComponent],
-    pipes: [TranslatePipe],
+    directives: [RouterOutlet],
     template: ` 
-                <div *ngIf="collection">
-                    <container-home [container]=collection></container-home>
-                    <item-list *ngIf="collection.items.length>0" [collection]="collection" [items]="collection.items"></item-list>
-                </div>
+                <router-outlet></router-outlet>
               `
 })
-export class CollectionComponent {
+@RouteConfig([
 
-    /**
-     * An object that represents the current collection.
-     */
-    collection: Collection;
+        { path: "/", name: "Collection", component: CollectionViewComponent, useAsDefault: true },
+        { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent }
+
+])
+export class CollectionComponent {
 
     /**
      *
@@ -41,22 +37,13 @@ export class CollectionComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param translate
-     *      TranslateService
      */
     constructor(private params: RouteParams, 
                 private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService, 
-                translate: TranslateService) {
+                private breadcrumb: BreadcrumbService) {
         directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
-            this.collection = collection;
-            breadcrumb.visit(this.collection);
+            breadcrumb.visit(collection);
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 }
-
-                    
-                   

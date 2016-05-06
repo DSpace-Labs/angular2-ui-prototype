@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {IContainerHomepage} from "../interfaces/container-homepage.interface";
+import {Component, Input} from 'angular2/core';
+import {ContainerHomepage} from "../interfaces/container-homepage.interface";
 import {ContainerLogoComponent} from "./container-logo.component";
 
 /**
@@ -8,7 +8,6 @@ import {ContainerLogoComponent} from "./container-logo.component";
  */
 @Component({
     selector: 'container-home',
-    inputs: ['container'],
     directives: [ContainerLogoComponent],
     template: `
                 <h1 class="page-header">{{ container.name }}</h1>
@@ -26,6 +25,6 @@ export class ContainerHomeComponent {
     /**
      * The Container being rendered
      */
-    container: IContainerHomepage;
+    @Input() private container: ContainerHomepage;
 
 }

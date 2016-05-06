@@ -5,10 +5,11 @@ import {ListMetadataComponent} from './list-metadata.component';
 import {ThumbnailComponent} from '../thumbnail.component';
 import {Item} from '../../../models/item.model';
 
-
+/**
+ *
+ */
 @Component({
     selector: 'list-entry',
-    inputs: ['item'],
     directives:[ListMetadataComponent, ThumbnailComponent],
     pipes: [TranslatePipe],
     template:
@@ -21,9 +22,12 @@ import {Item} from '../../../models/item.model';
             </div>
             `
 })
+export class ListEntryComponent {
 
-export class ListEntryComponent
-{
-    item : Item;
+    /**
+     * 
+     */
+    @Input() private item: Item;
+
 }
 

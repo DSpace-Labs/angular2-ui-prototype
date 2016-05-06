@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
@@ -12,20 +12,27 @@ import {ViewComponent} from '../../models/viewcomponent.model';
  */
 @Component({
     selector: 'item-date',
-    inputs: ['itemData'],
     directives: [ViewElementComponent],
     pipes: [TruncateDatePipe, TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div *ngFor="#metadatum of filteredFields">
+                    <div *ngFor="let metadatum of filteredFields">
                         <p>{{ metadatum.value | truncatedate}}</p>
                         <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
                     </div>
                 </view-element>
               `
 })
-export class DateComponent extends ViewComponent{
+export class DateComponent extends ViewComponent implements OnInit{
 
+    /**
+     * 
+     */
+    @Input() private itemData: Array<Metadatum>;
+    
+    /**
+     * 
+     */
     private componentTitle: string = "item-view.date.title";
     private itemData: Array<Metadatum>;
 
@@ -34,6 +41,9 @@ export class DateComponent extends ViewComponent{
         super(["dc.date.accessioned"]);
     }
 
+    /**
+     * 
+     */
     ngOnInit() {
         super.filterMetadata(this.itemData);
     }

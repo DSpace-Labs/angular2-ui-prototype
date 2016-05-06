@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {ViewComponent} from '../../models/viewcomponent.model';
@@ -12,20 +12,26 @@ import {ViewElementComponent} from './view-element.component';
  */
 @Component({
     selector: 'item-uri',
-    inputs: ['itemData'],
     directives: [ViewElementComponent],
-    providers: [MetadataHelper],
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div *ngFor="#metadatum of filteredFields;">
+                    <div *ngFor="let metadatum of filteredFields;">
                         <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
                     </div>
                 </view-element>
               `
 })
-export class UriComponent extends ViewComponent{
+export class UriComponent extends ViewComponent implements OnInit{
 
+    /**
+     * 
+     */
+    @Input() private itemData: Array<Metadatum>;
+    
+    /**
+     * 
+     */
     private componentTitle: string = "item-view.uri.title";
     private itemData: Array<Metadatum>;
 

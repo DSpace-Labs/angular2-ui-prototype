@@ -1,3 +1,7 @@
+
+/**
+ *
+ */
 export class ObjectUtil {
     /**
      Returns true if the passed value is null or undefined. 
@@ -9,7 +13,7 @@ export class ObjectUtil {
      ObjectUtil.hasNoValue([]);            // false
      ObjectUtil.hasNoValue(function() {}); // false
      */
-    static hasNoValue(obj?: any) {
+    static hasNoValue(obj?: any): boolean {
         return obj === null || obj === undefined;
     }
 
@@ -23,7 +27,7 @@ export class ObjectUtil {
      ObjectUtil.hasValue([]);            // true
      ObjectUtil.hasValue(function() {}); // true
      */
-    static hasValue(obj?: any) {
+    static hasValue(obj?: any): boolean {
         return !ObjectUtil.hasNoValue(obj);
     }
 
@@ -42,7 +46,7 @@ export class ObjectUtil {
      ObjectUtil.isEmpty('\n\t');          // false
      ObjectUtil.isEmpty('  ');            // false
      */
-    static isEmpty(obj?: any) {
+    static isEmpty(obj?: any): boolean {
         let hasNoValue = ObjectUtil.hasNoValue(obj);
         if (hasNoValue) {
             return hasNoValue;
@@ -91,7 +95,8 @@ export class ObjectUtil {
      ObjectUtil.isNotEmpty('\n\t');          // true
      ObjectUtil.isNotEmpty('  ');            // true
      */
-    static isNotEmpty(obj?: any) {
+    static isNotEmpty(obj?: any): boolean {
         return !ObjectUtil.isEmpty(obj);
     }
+
 }

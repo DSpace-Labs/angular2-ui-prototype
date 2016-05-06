@@ -1,11 +1,10 @@
-﻿import {Component} from 'angular2/core';
-import {RouterOutlet, RouteConfig, RouteParams, CanDeactivate, ComponentInstruction, Location} from 'angular2/router';
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import {Component} from 'angular2/core';
+import {RouteConfig, RouterOutlet, RouteParams, CanDeactivate, ComponentInstruction} from 'angular2/router';
 
 import {DSpaceDirectory} from '../dspace.directory';
 import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
 import {MetaTagService} from "../../utilities/meta-tag/meta-tag.service";
-import {GoogleScholarMetadataService} from "../../utilities/google-scholar-metadata.service.ts";
+import {GoogleScholarMetadataService} from "../../utilities/services/google-scholar-metadata.service.ts";
 import {ObjectUtil} from "../../utilities/commons/object.util";
 
 import {SimpleItemViewComponent} from './simple-item-view.component';
@@ -19,7 +18,6 @@ import {Item} from "../models/item.model";
 @Component({
     selector: 'item',
     directives: [RouterOutlet],
-    pipes: [TranslatePipe],
     providers: [GoogleScholarMetadataService],
     template: `
                 <router-outlet></router-outlet>
@@ -34,33 +32,26 @@ import {Item} from "../models/item.model";
 export class ItemComponent implements CanDeactivate {
 
     /**
-     * The current item.
-     */
-    item: Item;
-
-    /**
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      * @param directory
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
-     * @param translate
-     *      TranslateService
      */
     constructor(private params: RouteParams,
                 private directory: DSpaceDirectory,
-                private breadcrumb: BreadcrumbService,
+                private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService) {
         directory.loadObj('item', params.get("id")).then((item:Item) => {
-            this.item = item;
-            breadcrumb.visit(this.item);
-            this.gsMeta.setGoogleScholarMetaTags(this.item);
+            breadcrumbService.visit(item);
+            this.gsMeta.setGoogleScholarMetaTags(item);
         });
     }
+
     /**
      * This method is called automatically when the user navigates away from this route. It is used
      * here to clear the google scholar meta tags.

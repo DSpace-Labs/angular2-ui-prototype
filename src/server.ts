@@ -4,24 +4,22 @@ import * as express from 'express';
 import 'angular2-universal/polyfills';
 
 import {
+    provide,
+    enableProdMode,
     expressEngine,
     REQUEST_URL,
+    ORIGIN_URL,
+    BASE_URL,
+    NODE_ROUTER_PROVIDERS,
     NODE_LOCATION_PROVIDERS,
     NODE_HTTP_PROVIDERS,
     NODE_PRELOAD_CACHE_HTTP_PROVIDERS
 } from 'angular2-universal';
 
-import {
-    provide,
-    enableProdMode
-} from 'angular2/core';
-
-import {
-    APP_BASE_HREF,
-    ROUTER_PROVIDERS
-} from 'angular2/router';
-
 import {TranslateService, TranslateLoader} from "ng2-translate/ng2-translate";
+
+// Config
+import {GlobalConfig} from "../config";
 
 // App Component
 import {AppComponent} from './app/app.component';
@@ -30,19 +28,21 @@ import {AppComponent} from './app/app.component';
 import {TitleComponent} from './server/title.component';
 
 // App Injectables
+import {AuthorizationService} from './app/dspace/authorization/services/authorization.service';
 import {BreadcrumbService} from './app/navigation/services/breadcrumb.service';
-import {PaginationService} from './app/navigation/services/pagination.service';
-import {DSpaceDirectory} from './app/dspace/dspace.directory';
-import {DSpaceConstants} from './app/dspace/dspace.constants';
-import {DSpaceService} from './app/dspace/services/dspace.service';
-
-import {HttpService} from './app/utilities/http.service';
-import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
-import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
-import {MetadataHelper} from './app/utilities/metadata.helper';
-import {GoogleScholarMetadataService} from './app/utilities/google-scholar-metadata.service.ts';
 import {ContextProviderService} from './app/dspace/services/context-provider.service';
+import {DSpaceConstants} from './app/dspace/dspace.constants';
+import {DSpaceDirectory} from './app/dspace/dspace.directory';
+import {DSpaceService} from './app/dspace/services/dspace.service';
+import {FormService} from './app/utilities/services/form.service';
+import {FileSystemLoader} from "./server/i18n/filesystem.translateloader";
+import {GoogleScholarMetadataService} from './app/utilities/services/google-scholar-metadata.service.ts';
+import {HttpService} from './app/utilities/services/http.service';
+import {MetadataHelper} from './app/utilities/metadata.helper';
+import {MetaTagService} from "./app/utilities/meta-tag/meta-tag.service";
+import {PaginationService} from './app/navigation/services/pagination.service';
 import {PagingStoreService} from './app/dspace/services/paging-store.service';
+import {StorageService} from './app/utilities/services/storage.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -102,34 +102,39 @@ app.set('port', PORT);
 function ngApp(req, res) {
     let baseUrl = '/';
     let url = req.originalUrl || '/';
-    console.log('url: ' + url);
     res.render('index', {
         directives: [AppComponent, TitleComponent],
+        platformProviders: [
+            provide(ORIGIN_URL, {useValue: GlobalConfig.ui.baseURL}),
+            provide(BASE_URL, {useValue: baseUrl}),
+        ],
         providers: [
-            provide(APP_BASE_HREF, { useValue: baseUrl }),
-            provide(REQUEST_URL, { useValue: url }),
-            ROUTER_PROVIDERS,
+            NODE_ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
+            provide(REQUEST_URL, { useValue: url }),
             provide(TranslateLoader, {
                 useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
             }),
-            TranslateService,
+            AuthorizationService,
             BreadcrumbService,
-            PaginationService,
-            DSpaceDirectory,
+            ContextProviderService,
             DSpaceConstants,
+            DSpaceDirectory,
             DSpaceService,
-            PagingStoreService,
+            FormService,
             GoogleScholarMetadataService,
             HttpService,
-            ContextProviderService,
+            MetadataHelper,
             MetaTagService,
-            MetadataHelper
+            PaginationService,
+            PagingStoreService,
+            StorageService,
+            TranslateService
         ],
         preboot: {
-            replay: 'hydrate',
             appRoot: 'dspace',
+            replay: 'hydrate',
             //listen: any,
             //freeze: any,
             //pauseEvent: string,

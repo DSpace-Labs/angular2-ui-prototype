@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -15,19 +15,26 @@ import {ViewElementComponent} from './view-element.component';
     selector: 'item-metadata',
     inputs: ['itemData'],
     directives: [ViewElementComponent],
-    providers: [MetadataHelper],
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div class="item" *ngFor="#metadatum of filteredFields.metadata">
+                    <div class="item" *ngFor="let metadatum of filteredFields.metadata">
                         <strong >{{ metadatum.key }}</strong>
                         <p>{{ metadatum.value }}</p>
                     </div>
                 </view-element>
               `
 })
-export class MetadataComponent extends ViewComponent{
+export class MetadataComponent extends ViewComponent implements OnInit {
 
+    /**
+     *
+     */
+    @Input() private itemData: Array<Metadatum>;
+
+    /**
+     *
+     */
     private componentTitle: string = "item-view.metadata.title";
     private itemData: Array<Metadatum>;
 
@@ -44,6 +51,9 @@ export class MetadataComponent extends ViewComponent{
                        "dc.type"]); // list of fields we want to filter for
     }
 
+    /**
+     *
+     */
     ngOnInit() {
         super.filterMetadata(this.itemData);
     }

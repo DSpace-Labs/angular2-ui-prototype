@@ -1,11 +1,10 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
 /**
  * Component for the collections of the simple-item-view.
  */
 @Component({
     selector: 'view-element',
-    inputs: ['header'],
     template: `
                 <div id="simple-view-element">
                     <h3 *ngIf="header">{{header}}</h3>
@@ -14,5 +13,10 @@ import {Component} from 'angular2/core';
               `
 })
 export class ViewElementComponent {
+
+    /**
+     * 
+     */
+    @Input() private header: string;
 
 }

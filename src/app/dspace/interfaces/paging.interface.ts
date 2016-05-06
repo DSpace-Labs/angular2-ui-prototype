@@ -1,7 +1,7 @@
 /**
  * Interface used for paging.
  */
-export interface IPaging {
+export interface Paging {
     
     /**
      * indicating object ready

@@ -1,4 +1,4 @@
-﻿import {EventEmitter, Injectable} from 'angular2/core';
+import {EventEmitter, Injectable} from 'angular2/core';
 
 import {DSpaceService} from './services/dspace.service';
 import {PagingStoreService} from './services/paging-store.service';
@@ -12,10 +12,19 @@ import {ObjectUtil} from '../utilities/commons/object.util'
 @Injectable()
 export class DSpaceDirectory {
 
+    /**
+     * The DSpace directory.
+     */
     public directory: Array<Object>;
 
+    /**
+     * Whether directory is being loaded.
+     */
     private loading: boolean;
 
+    /**
+     * Whether directory is ready.
+     */
     private ready: boolean;
 
     /**
@@ -36,6 +45,53 @@ export class DSpaceDirectory {
         this.directory = new Array<Object>();
         this.loading = false;
         this.ready = false;
+    }
+
+    /**
+     * Refresh the current context.
+     *
+     * @param context
+     *      Current context
+     */
+    refresh(context?: any): void {
+        if(context) {
+            this.pagingStore.clearPages(context);
+            context.loaded = false;
+            context.limit = null;
+            if(context.type == 'community') {
+                context.subcommunities.splice(0, context.subcommunities.length);
+                context.collections.splice(0, context.collections.length);
+                this.loadNav('community', context);
+                this.loadNav('collection', context);
+            }
+            else if(context.type == 'collection') {
+                context.items.splice(0, context.items.length);
+                this.loadNav('item', context);
+                this.incrementItemCount(context);
+            }
+        }
+        else {
+            this.ready = false;
+            this.loadDirectory();
+        }
+    }
+
+    /**
+     * Recursively increment the item count of all parent communities.
+     *
+     * @param context
+     *      Current context
+     */
+    incrementItemCount(context: any): void {
+        if(context.type == 'community') {
+            context.countItems++;
+        }
+        else if(context.type == 'collection') {
+            context.numberItems++;
+        }
+        if(context.parentCommunity) {
+            this.incrementItemCount(context.parentCommunity);
+        }
     }
 
     /**

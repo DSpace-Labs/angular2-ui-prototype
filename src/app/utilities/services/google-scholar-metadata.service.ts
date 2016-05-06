@@ -1,13 +1,14 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Location} from 'angular2/router';
-import {Item} from "../dspace/models/item.model";
-import {Metadatum} from "../dspace/models/metadatum.model";
-import {ArrayUtil} from "./commons/array.util";
-import {StringUtil} from "./commons/string.util";
-import {ObjectUtil} from "./commons/object.util";
-import {MetaTag} from "./meta-tag/meta-tag.model";
-import {MetaTagService} from "./meta-tag/meta-tag.service";
-import {URLHelper} from "./url.helper";
+
+import {ArrayUtil} from "../commons/array.util";
+import {StringUtil} from "../commons/string.util";
+import {ObjectUtil} from "../commons/object.util";
+
+import {Item} from "../../dspace/models/item.model";
+import {Metadatum} from "../../dspace/models/metadatum.model";
+import {MetaTag} from "../meta-tag/meta-tag.model";
+import {MetaTagService} from "../meta-tag/meta-tag.service";
+import {URLHelper} from "../url.helper";
 
 @Injectable()
 export class GoogleScholarMetadataService {
@@ -27,18 +28,21 @@ export class GoogleScholarMetadataService {
      *
      * @param metaTagService`
      *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
-     * @param location
-     *      Location
      */
-    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService, 
-                @Inject(Location) private location: Location) {
+    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService) {
         this._googleScholarTags = new Array<MetaTag>();
     }
 
+    /**
+     *
+     */
     get item(): Item {
         return this._item;
     }
 
+    /**
+     *
+     */
     set item(item: Item) {
         this._item = item;
     }
@@ -183,7 +187,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_abstract_html_url" ... >  to the <head>
      */
     private setCitationAbstractGSTag(): void {
-        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.location.path());
+        let itemUrl = URLHelper.relativeToAbsoluteUIURL(this.item.component.toLowerCase(), '/' + this.item.id);
         this.setGSTagsForField('citation_abstract_html_url', [itemUrl]);
     }
 
@@ -191,9 +195,13 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_pdf_url" ... >  to the <head>
      */
     private setCitationPDFGSTag(): void {
-        //TODO after item page is merged
-        // let values = [];
-        // this.setGSTagsForField('citation_pdf_url', values);
+        if (ObjectUtil.hasValue(this._item)) {
+            let bitstreamsInOriginalBundle = this._item.getBitstreamsByBundleName('ORIGINAL');
+            let pdfBitstream = ArrayUtil.findBy(bitstreamsInOriginalBundle, 'mimeType', 'application/pdf');
+            if (ObjectUtil.hasValue(pdfBitstream)) {
+                this.setGSTagsForField('citation_pdf_url', [pdfBitstream.retrieveLink]);
+            }
+        }
     }
 
     /**
@@ -208,7 +216,7 @@ export class GoogleScholarMetadataService {
      * Add <meta name="citation_keywords" ... >  to the <head>
      */
     private setCitationKeywordsGSTag(): void {
-        let values = this.getMetaTagContentsFor(['dc.subject', 'dc.type'], false, true);
+        let values = this.getMetaTagContentsFor(['dc.subject'], false, true);
         this.setGSTagsForField('citation_keywords', values);
     }
 
@@ -335,6 +343,5 @@ export class GoogleScholarMetadataService {
         this.metaTagService.removeTags(this._googleScholarTags);
         this._googleScholarTags = new Array<MetaTag>();
     }
-
 
 }
