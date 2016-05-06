@@ -41,7 +41,12 @@ export class Item extends DSOContainer {
     fullItem: boolean;
 
     /**
+     * Create a new DSpaceObject.
      *
+     * @param json
+     *      A plain old javascript object representing an Item as would be returned
+     *      from the REST api. It uses json.parentCollection, json.lastModified, json.archived, 
+     *      json.withdrawn, and json.bitstreams
      */
     constructor(json?: any) {
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)

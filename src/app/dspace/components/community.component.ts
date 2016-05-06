@@ -31,17 +31,17 @@ export class CommunityComponent {
 
     /**
      *
-     * @param params
-     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
+    constructor(private dspace: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService,
+                private params: RouteParams) {
+        dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             breadcrumb.visit(community);
         });
     }

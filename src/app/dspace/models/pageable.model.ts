@@ -47,7 +47,12 @@ export abstract class Pageable implements Paging {
     total: number;
 
     /**
-     * 
+     * Create a new DSpaceObject.
+     *
+     * @param json
+     *      A plain old javascript object representing an Pageable as would be returned
+     *      from the directory service. It uses json.ready, json.loaded, json.offset, 
+     *      json.page, json.limit, json.component, json.pageCount, and json.total
      */
     constructor(json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {

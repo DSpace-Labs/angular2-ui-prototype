@@ -26,6 +26,8 @@ export class BreadcrumbService {
 
     /**
      * 
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
      */
     constructor(private contextProvider : ContextProviderService) {
         this.root = {

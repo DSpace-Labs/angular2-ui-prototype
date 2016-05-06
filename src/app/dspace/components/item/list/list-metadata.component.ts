@@ -53,6 +53,8 @@ export class ListMetadataComponent implements OnInit {
 
     /**
      *
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {}
 

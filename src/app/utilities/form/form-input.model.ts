@@ -48,7 +48,12 @@ export class FormInput extends Metadatum {
     default: any;
 
     /**
-     *
+     * Create a new Metadatum.
+     * 
+     * @param json
+     *      A plain old javascript object representing a MetadatumInput as would be created from the 
+     *      form service. It uses json.gloss, json.type, json.options, json.repeat, json.repeatable, 
+     *      json.validation, json.edit, and json.default
      */
     constructor(json: any) {
         super(json);

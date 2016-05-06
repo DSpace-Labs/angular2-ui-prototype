@@ -9,7 +9,6 @@ import { ViewElementComponent } from './view-element.component';
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
-
 @Component({
     selector: 'item-authors',
     directives: [ ViewElementComponent ],
@@ -48,6 +47,8 @@ export class AuthorsComponent implements OnInit {
 
     /**
      *  
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.contributor.author", "dc.creator", "dc.contributor"];

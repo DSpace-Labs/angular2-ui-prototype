@@ -40,7 +40,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
      *
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private dspace: DSpaceDirectory,

@@ -22,6 +22,8 @@ export class PagingStoreService {
     
     /**
      * 
+     * @param dspaceConstants
+     *      DSpaceConstants is a singleton service with constants.
      */
     constructor(private dspaceConstants: DSpaceConstants) {
         this.itemsPages = new Map<number, any>();

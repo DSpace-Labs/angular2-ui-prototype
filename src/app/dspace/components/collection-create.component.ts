@@ -33,6 +33,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
     pipes: [ TranslatePipe ],
     directives: [ FormFieldsetComponent ],
     template: ` 
+                <h3>Create Collection</h3><hr>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">

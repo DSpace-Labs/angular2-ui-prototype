@@ -22,9 +22,9 @@ export class RegistrationComponent {
      * @param translate
      *      TranslateService
      */
-    constructor(private breadcrumb: BreadcrumbService,
+    constructor(private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService) {
-        breadcrumb.visit({
+        breadcrumbService.visit({
             name: 'Register',
             type: 'register',
             component: '/Register',

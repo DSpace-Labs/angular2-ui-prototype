@@ -33,16 +33,16 @@ export class CollectionComponent {
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
-            breadcrumb.visit(collection);
+                private dspace: DSpaceDirectory, 
+                private breadcrumbService: BreadcrumbService) {
+        dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
+            breadcrumbService.visit(collection);
         });
     }
 

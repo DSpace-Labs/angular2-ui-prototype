@@ -111,10 +111,10 @@ export class LoginComponent {
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private authorization: AuthorizationService,
-                private breadcrumb: BreadcrumbService,
+                private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService,
                 private router: Router) {
-        breadcrumb.visit({
+        breadcrumbService.visit({
             name: 'Login',
             type: 'login',
             component: '/Login',

@@ -65,18 +65,18 @@ export class PaginationComponent implements OnInit {
     
     /**
      * 
-     * @param dspaceDirectory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param pagingStore
      *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param router
-     *      Router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor(private dspaceDirectory: DSpaceDirectory,
+    constructor(private dspace: DSpaceDirectory,
                 private pagingStore: PagingStoreService,
                 private paginationService: PaginationService,
                 private breadcrumbService: BreadcrumbService,
@@ -150,11 +150,11 @@ export class PaginationComponent implements OnInit {
             // possibly load metadata page
         }
         else if (this.context.type == 'collection') {
-            this.dspaceDirectory.loadNav('item', this.context);
+            this.dspace.loadNav('item', this.context);
         }
         else {
-            this.dspaceDirectory.loadNav('community', this.context);
-            this.dspaceDirectory.loadNav('collection', this.context);
+            this.dspace.loadNav('community', this.context);
+            this.dspace.loadNav('collection', this.context);
         }
     }
 

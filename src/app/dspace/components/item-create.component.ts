@@ -45,6 +45,7 @@ import { Metadatum } from '../models/metadatum.model';
                   ItemBitstreamAddComponent,
                   ItemMetadataInputComponent ],
     template: ` 
+                <h3>Create Item</h3><hr>
                 <full-page-loader *ngIf="creating"></full-page-loader>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>

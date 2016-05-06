@@ -104,6 +104,8 @@ export class AppComponent implements OnInit {
      *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate 
      *      TranslateService
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
     constructor(private dspace: DSpaceDirectory,
                 private authorization: AuthorizationService,

@@ -18,16 +18,18 @@ import { PaginationComponent } from './pagination.component';
                   ListComponent,
                   PaginationComponent ],
     template: `
-    			<ul class="list-group">
+                <ul class="list-group">
                     <li *ngFor="let directory of directories" class="list-group-item">
                         <span *ngIf="directory.type == 'community' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
                         <span *ngIf="directory.type == 'community' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-minus clickable"></span>
                         <span *ngIf="directory.type == 'collection' && !directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
                         <span *ngIf="directory.type == 'collection' && directory.expanded" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
+
                         <!-- Router link -->
                         <a *ngIf="!directory.page" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
                         <a *ngIf="directory.page && !directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
                         <a *ngIf="directory.page && directory.limit" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
+
                         <span *ngIf="directory.type == 'community'" class="badge">{{ directory.countItems }}</span>
                         <span *ngIf="directory.type == 'collection'" class="badge">{{ directory.numberItems }}</span>
                         <div *ngIf="directory.expanded && directory.type == 'community'">
@@ -38,7 +40,7 @@ import { PaginationComponent } from './pagination.component';
                         </div>
                     </li>
                 </ul>
-    		  `
+              `
 })
 export class TreeComponent {
 
@@ -48,8 +50,11 @@ export class TreeComponent {
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
-	@Input() private directories: Array<any>;
+    @Input() private directories: Array<any>;
     
+    /**
+     *
+     */
     private subCommunitiesAndCollections(directory: any): Array<any> {
         return directory.subcommunities.concat(directory.collections);
     }
