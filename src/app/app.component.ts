@@ -32,7 +32,7 @@ import { User } from './dspace/models/user.model';
                   BreadcrumbComponent,
                   ContextComponent,
                   LoginFormComponent ],
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">

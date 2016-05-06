@@ -137,15 +137,18 @@ function ngApp(req, res) {
         ],
         preboot: {
             appRoot: 'dspace',
+            listen: 'attributes',
             replay: 'hydrate',
-            //listen: any,
-            //freeze: any,
+            freeze: 'spinner',
             //pauseEvent: string,
             //resumeEvent: string,
             //completeEvent: string,
             //presets: any,
+            focus: true,
             uglify: true,
             buffer: true,
+            keyPress: true,
+            buttonPress: true,
             debug: false
         },
         async: true
