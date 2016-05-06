@@ -2,17 +2,18 @@ import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
+import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
-import { DateComponent } from './item/date.component';
-import { MetadataComponent } from './item/metadata.component';
-import { ItemCollectionComponent } from './item/item-collection.component';
-import { UriComponent } from './item/uri.component';
 import { BitstreamsComponent } from './item/bitstreams.component';
-import { ThumbnailComponent } from './item/thumbnail.component';
+import { DateComponent } from './item/date.component';
+import { ItemCollectionComponent } from './item/item-collection.component';
 import { ItemComponent } from './item.component';
+import { MetadataComponent } from './item/metadata.component';
+import { ThumbnailComponent } from './item/thumbnail.component';
+import { UriComponent } from './item/uri.component';
 
-import { Item } from '../models/item.model';
 import { ContextProviderService } from '../services/context-provider.service';
+import { Item } from '../models/item.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -26,6 +27,7 @@ import { ContextProviderService } from '../services/context-provider.service';
                  DateComponent,
                  ItemCollectionComponent,
                  UriComponent,
+                 AbstractComponent,
                  ROUTER_DIRECTIVES,
                  BitstreamsComponent,
                  ThumbnailComponent],
@@ -35,7 +37,7 @@ import { ContextProviderService } from '../services/context-provider.service';
                     <div class="item-summary-view-metadata">
                         <h1>{{item.name}}</h1>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-sm-4">
                                 <item-thumbnail></item-thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
@@ -43,7 +45,8 @@ import { ContextProviderService } from '../services/context-provider.service';
                                 <h3>{{'item-view.show-full' | translate}}</h3>
                                 <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-sm-8">
+                                <item-abstract [itemData]="item.metadata"></item-abstract>
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemParent]="item.parentCollection"></item-collection>
                             </div>
