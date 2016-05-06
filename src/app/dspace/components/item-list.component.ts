@@ -17,22 +17,24 @@ import {PaginationComponent} from '../../navigation/components/pagination.compon
 @Component({
     selector: 'item-list',
     directives: [ListEntryComponent, PaginationComponent],
-    inputs: ['items', 'collection'],
-    template:
-        `
-            <div *ngFor="#item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
-                <list-entry [item]="item"></list-entry>
-            </div>
+    template: `
+                <div *ngFor="let item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
+                    <list-entry [item]="item"></list-entry>
+                </div>
 
-            <pagination [context]="collection"></pagination>
-        `
+                <pagination [context]="collection"></pagination>
+              `
 })
-
-
-
 export class ItemListComponent {
 
-    collection : Collection;
-    items : Item[]; // pass an array of items to this component.
+    /**
+     *
+     */
+    @Input() private collection: Collection;
+
+    /**
+     * Pass an array of items to this component.
+     */
+    @Input() private items: Array<Item>;
 
 }

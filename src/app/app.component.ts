@@ -1,19 +1,25 @@
-﻿import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
+import {AuthorizationService} from './dspace/authorization/services/authorization.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
-import {ContextComponent} from './navigation/components/context.component';
+
 import {BreadcrumbComponent} from './navigation/components/breadcrumb.component';
-import {HomeComponent} from './home.component';
-import {LoginComponent} from './login.component';
-import {RegisterComponent} from './register.component';
+import {CollectionComponent} from './dspace/components/collection.component';
+import {CommunityComponent} from './dspace/components/community.component';
+import {CommunityCreateComponent} from './dspace/components/community-create.component';
+import {ContextComponent} from './navigation/components/context.component';
 import {DashboardComponent} from './dashboard.component';
+import {HomeComponent} from './home.component';
+import {ItemComponent} from './dspace/components/item.component';
+import {LoginFormComponent} from './dspace/authorization/components/login-form.component';
+import {LoginComponent} from './dspace/authorization/components/login.component';
+import {RegistrationComponent} from './dspace/authorization/components/registration.component';
 import {SettingsComponent} from './settings.component';
 import {SetupComponent} from './setup.component';
-import {CommunityComponent} from './dspace/components/community.component';
-import {CollectionComponent} from './dspace/components/collection.component';
-import {ItemComponent} from './dspace/components/item.component';
+
+import {User} from './dspace/models/user.model';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -22,8 +28,10 @@ import {ItemComponent} from './dspace/components/item.component';
  */
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES, BreadcrumbComponent, ContextComponent],
-    styles: [],
+    directives: [ROUTER_DIRECTIVES,
+                 BreadcrumbComponent,
+                 ContextComponent,
+                 LoginFormComponent],
     pipes: [TranslatePipe],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -38,12 +46,15 @@ import {ItemComponent} from './dspace/components/item.component';
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Home']">{{ 'header.home' | translate }}</a></li>
                                 <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
                             </ul>
-                            <ul class="nav navbar-nav navbar-right">
+                            <ul class="nav navbar-nav navbar-right" *ngIf="!user">
                                 <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
-                                <li><a [routerLink]="['/Login']"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                                <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right" *ngIf="user">
+                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
+                                <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -58,6 +69,8 @@ import {ItemComponent} from './dspace/components/item.component';
                         <router-outlet></router-outlet>
                     </div>
                 </div>
+
+                <login-form #login></login-form>
               `
 })
 @RouteConfig([
@@ -65,26 +78,40 @@ import {ItemComponent} from './dspace/components/item.component';
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
-        { path: "/register", name: "Register", component: RegisterComponent },
         { path: "/login", name: "Login", component: LoginComponent },
+        { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
-        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
-        { path: "/items/:id/...", name: "Items", component: ItemComponent }
+        { path: "/communities/:id/...", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
+        { path: "/items/:id/...", name: "Items", component: ItemComponent },
+
+        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent }
 
 ])
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+    /**
+     * Logged in user.
+     */
+    private user: User;
 
     /**
      *
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate 
      *      TranslateService
      */
     constructor(private dspace: DSpaceDirectory,
-                translate: TranslateService) {
+                private authorization: AuthorizationService,
+                private translate: TranslateService) {
+        this.user = authorization.user;
+        authorization.userObservable.subscribe(user => {
+            this.user = user;
+        });
         translate.setDefaultLang('en');
         translate.use('en');
     }
@@ -94,6 +121,13 @@ export class AppComponent {
      */
     ngOnInit() {
         this.dspace.loadDirectory();
+    }
+
+    /**
+     * Logout.
+     */
+    private logout(): void {
+        this.authorization.logout();
     }
 
 }

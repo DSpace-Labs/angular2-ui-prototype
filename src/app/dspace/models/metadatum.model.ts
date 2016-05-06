@@ -8,19 +8,9 @@ import {StringUtil} from "../../utilities/commons/string.util";
 export class Metadatum {
 
     /**
-     * The schema for this Metadatum. e.g. 'dc'
+     * The key for this Metadatum. e.g. 'dc.contributor.author'
      */
-    schema: string;
-
-    /**
-     * The element for this Metadatum. e.g. 'contributor'
-     */
-    element: string;
-
-    /**
-     * The qualifier for this Metadatum. e.g. 'author'
-     */
-    qualifier: string;
+    key: string;
 
     /**
      * The value for this Metadatum. e.g. 'Smith, Donald Jr.'
@@ -33,57 +23,43 @@ export class Metadatum {
     language: string;
 
     /**
-     * The DSpaceObject this object is metadata for
-     */
-    dso: DSpaceObject;
-
-    /**
      * Create a new Metadatum.
      * 
-     * @param dso
-     *      The DSpaceObject this object is metadata for
      * @param json
      *      A plain old javascript object representing a Metadatum as would be returned from the 
      *      REST api. It uses json.key (which consists of schema.element.qualifier), json.value 
      *      and json.language
      */
-    constructor(dso: DSpaceObject, json?: any) {
+    constructor(json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {
             this.key = json.key;
             this.value = json.value;
             this.language = json.language;
         }
-        this.dso = dso;
     }
 
     /**
-     * Get the key for this Metadatum as a single string.
-     * 
-     * @returns {string}
-     *      schema.element.qualifier
+     *
      */
-    get key(): string {
-        return [this.schema, this.element, this.qualifier].filter((value: string) => {
-            return StringUtil.isNotBlank(value);
-        }).join('.');
+    get schema(): string {
+        let parts = this.key.split('.');
+        return parts[0] ? parts[0] : null;
     }
 
     /**
-     * Set the key for this Metadatum with a single string.
-     * 
-     * @param key
-     *      should be in the format schema.element.qualifier
+     *
      */
-    set key(key: string) {
-        if (StringUtil.isBlank(key)) {
-            this.schema = this.element = this.qualifier = null;
-        }
-        else {
-            let keyArray = key.split('.');
-            this.schema = keyArray[0];
-            this.element = keyArray[1];
-            this.qualifier = keyArray[2];
-        }
+    get element(): string {
+        let parts = this.key.split('.');
+        return parts[1] ? parts[1] : null;
+    }
+
+    /**
+     *
+     */
+    get qualifier(): string {
+        let parts = this.key.split('.');
+        return parts[2] ? parts[2] : null;
     }
 
 }

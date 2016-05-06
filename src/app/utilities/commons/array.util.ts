@@ -1,5 +1,8 @@
 import {ObjectUtil} from "./object.util";
 
+/**
+ *
+ */
 export class ArrayUtil {
 
     /**
@@ -10,7 +13,7 @@ export class ArrayUtil {
      * ArrayUtil.isEmpty([]);             // true
      * ArrayUtil.isEmpty([0,1,2]);        // false
      */
-    static isEmpty(array: Array<any>) {
+    static isEmpty(array: Array<any>): boolean {
         return ObjectUtil.hasNoValue(array) || array.length === 0;
     }
 
@@ -22,7 +25,7 @@ export class ArrayUtil {
      * ArrayUtil.isNotEmpty([]);          // false
      * ArrayUtil.isNotEmpty([0,1,2]);     // true
      */
-    static isNotEmpty(array: Array<any>) {
+    static isNotEmpty(array: Array<any>): boolean {
         return ObjectUtil.hasValue(array) && array.length > 0;
     }
 

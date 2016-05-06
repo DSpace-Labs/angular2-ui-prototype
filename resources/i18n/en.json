@@ -1,38 +1,64 @@
 {
-  "header.repository-name": "Angular 2 DSpace UI Prototype"
-  ,"header.home": "Home"
-  ,"header.dashboard": "Dashboard"
-  ,"header.register": "Register"
-  ,"header.login": "Login"
-  ,"home.title":"Home"
-  ,"home.welcome1":"Hello, World!"
-  ,"home.welcome2":"This is server side templated"
-  ,"home.welcome3":"SEO and javascript"
-  ,"login.title":"Login"
-  ,"register.title":"Register"
-  ,"item.key": "Key"
-  ,"item.value": "Value"
-  ,"item.language":"Language"
-  ,"item.metadata-number-indicator": "#"
-  ,"settings.title": "Settings"
-  ,"setup.title": "Setup"
-  ,"item-view.full.full-bitstreams.title" : "Files in this item"
-  ,"item-view.full.full-bitstreams.description.name" : "name:"
-  ,"item-view.full.full-bitstreams.description.size" : "size:"
-  ,"item-view.full.full-bitstreams.description.format" : "format:"
-  ,"item-view.full.full-bitstreams.view-open":"View/Open"
-  ,"item-view.full.full-collections.title":"This item appears in the following collection(s)"
-  ,"item-view.full.full-metadata.thead.key" : "Key"
-  ,"item-view.full.full-metadata.thead.value" : "Value"
-  ,"item-view.full.full-metadata.thead.lang" : "Language"
-  ,"item-view.authors.title" : "author"
-  ,"item-view.bitstreams.title" : "download"
-  ,"item-view.collection.title" : "collections"
-  ,"item-view.date.title" : "date"
-  ,"item-view.metadata.title" :"metadata"
-  ,"item-view.uri.title" : "uri"
-  ,"item-view.show-full" : "Show full item record"
-  ,"item-view.show-simple": "Show simple item record"
-  ,"dashboard.recent-submissions": "Show recent submissions"
-  ,"community.recent-submissions": "Show recent submissions"
+    "header.repository-name": "Angular 2 DSpace UI Prototype",
+    "header.home": "Home",
+    "header.dashboard": "Dashboard",
+    "header.register": "Register",
+    "header.login": "Login",
+    "header.logout": "Logout",
+
+    "home.title": "Home",
+    "home.welcome1": "Hello, World!",
+    "home.welcome2": "This is server side templated",
+    "home.welcome3": "SEO and javascript",
+
+    "login.title": "Login",
+    "login.confirm": "Login",
+    "login.cancel": "Cancel",
+    "login.email-gloss": "Email",
+    "login.email-placeholder": "Enter email",
+    "login.email-invalid": "Invalid email",
+    "login.email-required": "Email is required",
+    "login.password-gloss": "Password",
+    "login.password-placeholder": "Enter password",
+    "login.password-minlength": "Password must be at least 6 characters",
+    "login.password-required": "Password is required",
+    "login.unauthorized": "Incorrect email or password",
+
+    "register.title": "Register",
+
+    "context.create-community": "Create Community",
+    "context.create-collection": "Create Collection",
+    "context.create-item": "Create Item",
+    "context.edit-item": "Edit Item",
+
+    "item.key": "Key",
+    "item.value": "Value",
+    "item.language": "Language",
+    "item.metadata-number-indicator": "#",
+
+    "settings.title": "Settings",
+
+    "setup.title": "Setup",
+
+    "item-view.full.full-bitstreams.title": "Files in this item",
+    "item-view.full.full-bitstreams.description.name": "name:",
+    "item-view.full.full-bitstreams.description.size": "size:",
+    "item-view.full.full-bitstreams.description.format": "format:",
+    "item-view.full.full-bitstreams.view-open": "View/Open",
+    "item-view.full.full-collections.title": "This item appears in the following collection(s)",
+    "item-view.full.full-metadata.thead.key": "Key",
+    "item-view.full.full-metadata.thead.value": "Value",
+    "item-view.full.full-metadata.thead.lang": "Language",
+    "item-view.authors.title": "author",
+    "item-view.bitstreams.title": "download",
+    "item-view.collection.title": "collections",
+    "item-view.date.title": "date",
+    "item-view.metadata.title": "metadata",
+    "item-view.uri.title": "uri",
+    "item-view.show-full": "Show full item record",
+    "item-view.show-simple": "Show simple item record",
+
+    "dashboard.recent-submissions": "Show recent submissions",
+
+    "community.recent-submissions": "Show recent submissions"
 }

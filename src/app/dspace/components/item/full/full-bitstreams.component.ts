@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from '../../../models/bitstream.model';
@@ -15,7 +15,7 @@ import {ViewElementComponent} from '../view-element.component';
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">
-                        <div *ngFor="#bitstream of itemBitstreams;" class="file-wrapper row">
+                        <div *ngFor="let bitstream of itemBitstreams;" class="file-wrapper row">
 
                             <!-- thumbnail -->
                             <div class="col-xs-6 col-sm-3">
@@ -47,7 +47,10 @@ import {ViewElementComponent} from '../view-element.component';
 })
 export class FullBitstreamsComponent {
 
-    private componentTitle: string = "item-view.full.full-bitstreams.title";
+    /**
+     * 
+     */
+    @Input() private itemBitstreams: Bitstream;
 
     private itemBitstreams: Array<Bitstream>;
 
@@ -64,5 +67,9 @@ export class FullBitstreamsComponent {
         }
     }
 
+    /**
+     * 
+     */
+    private componentTitle: string = "item-view.full.full-bitstreams.title";
 
 }

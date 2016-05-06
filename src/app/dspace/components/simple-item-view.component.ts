@@ -1,11 +1,11 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {AuthorsComponent} from './item/authors.component';
 import {DateComponent} from './item/date.component';
 import {MetadataComponent} from './item/metadata.component';
-import {CollectionComponent} from './item/collection.component';
+import {ItemCollectionComponent} from './item/item-collection.component';
 import {UriComponent} from './item/uri.component';
 import {BitstreamsComponent} from './item/bitstreams.component';
 import {ThumbnailComponent} from './item/thumbnail.component';
@@ -24,7 +24,7 @@ import {ContextProviderService} from '../services/context-provider.service';
     selector: 'simple-item-view',
     directives: [AuthorsComponent,
                  DateComponent,
-                 CollectionComponent,
+                 ItemCollectionComponent,
                  UriComponent,
                  ROUTER_DIRECTIVES,
                  BitstreamsComponent,
@@ -57,19 +57,32 @@ export class SimpleItemViewComponent {
     /**
      * The current item.
      */
-    item : Item;
+    private item : Item;
 
-    constructor(private contextProvider : ContextProviderService) {
+    /**
+     *
+     * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
+     * @param translate
+     *      TranslateService
+     */
+    constructor(private contextProvider: ContextProviderService,
+                private translate: TranslateService) {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
+        translate.setDefaultLang('en');
+        translate.use('en');
     }
 
 
 
-    itemProvided(): boolean {
-        return this.item && this.item.type == 'item' ? true : false;
+    /**
+     * Check if context provides an item.
+     */
+    private itemProvided(): boolean {
+        return this.item && this.item.type == 'item';
     }
 
 }

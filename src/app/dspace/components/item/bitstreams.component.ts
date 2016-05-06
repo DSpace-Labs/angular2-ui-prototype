@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {Bitstream} from "../../models/bitstream.model"
@@ -11,11 +11,10 @@ import {ViewElementComponent} from './view-element.component'
 @Component({
     selector: 'item-bitstreams',
     directives: [ViewElementComponent],
-    inputs: ['itemBitstreams'],
     pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
-                    <div *ngFor="#bitstream of itemBitstreams;">
+                    <div *ngFor="let bitstream of itemBitstreams;">
                         <a [attr.href]="bitstream.retrieveLink">
                             <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
                             <span>{{bitstream.name}}</span>
@@ -26,8 +25,14 @@ import {ViewElementComponent} from './view-element.component'
 })
 export class BitstreamsComponent {
 
-    private componentTitle: string = "item-view.bitstreams.title";
+    /**
+     * 
+     */
+    @Input() private itemBitstreams: Array<Bitstream>;
 
-    private itemBitstreams: Array<Bitstream>;
+    /**
+     * 
+     */
+    private componentTitle: string = "item-view.bitstreams.title";
 
 }

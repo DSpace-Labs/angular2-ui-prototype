@@ -17,6 +17,7 @@ import {StringUtil} from "../commons/string.util";
  */
 @Injectable()
 export class MetaTagService {
+
     /**
      * An array of the <meta> elements that were in the <head> before
      * this service was initialized for the first time
@@ -32,6 +33,17 @@ export class MetaTagService {
      * The internal reference to the DOM document.
      */
     private _document = null;
+
+    /**
+     * Construct the MetaTagService.
+     *
+     * @param document
+     *      the DOM document
+     */
+    constructor(@Inject(DOCUMENT) document) {
+        this._document = document;
+        this.initTags();
+    }
 
     /**
      * Initialize the internal tag arrays.
@@ -113,7 +125,7 @@ export class MetaTagService {
                 });
         }
         else {
-            return [];
+            return new Array<Node>();
         }
     }
 
@@ -155,7 +167,7 @@ export class MetaTagService {
      *      that collection as a Node array
      */
     private htmlCollectionToNodeArray(collection: HTMLCollection): Array<Node> {
-        return [].slice.call(collection);
+        return new Array<Node>().slice.call(collection);
     }
 
     /**
@@ -203,6 +215,7 @@ export class MetaTagService {
             }
             currentNode = currentNode.previousSibling;
         } while (ObjectUtil.hasNoValue(lastMetaNode) && ObjectUtil.hasValue(currentNode));
+
         return lastMetaNode;
     }
 
@@ -241,17 +254,6 @@ export class MetaTagService {
         return tagArray.filter((tag:MetaTag) => {
             return !tag.equals(tagToExclude);
         });
-    }
-
-    /**
-     * Construct the MetaTagService.
-     *
-     * @param document
-     *      the DOM document
-     */
-    constructor(@Inject(DOCUMENT) document) {
-        this._document = document;
-        this.initTags();
     }
 
     /**

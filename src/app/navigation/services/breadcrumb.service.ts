@@ -9,6 +9,9 @@ import {ContextProviderService} from '../../dspace/services/context-provider.ser
 @Injectable()
 export class BreadcrumbService {
 
+    /**
+     *
+     */
     private root: {
         name: string,
         type: string,
@@ -54,7 +57,7 @@ export class BreadcrumbService {
         this.emitter.next({action: 'update', breadcrumb: breadcrumb});
     }
 
-    getRoot() {
+    getRoot(): any {
         return this.root;
     }
 

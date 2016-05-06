@@ -1,8 +1,8 @@
-import {IHashable} from "../lang/hashable.interface";
-import {IEquatable} from "../lang/equatable.interface";
-import {ObjectUtil} from "../commons/object.util";
-
 import * as hash from 'object-hash';
+
+import {Hashable} from "../lang/hashable.interface";
+import {Equatable} from "../lang/equatable.interface";
+import {ObjectUtil} from "../commons/object.util";
 
 /**
  * A class representing a <meta> tag.
@@ -15,7 +15,8 @@ import * as hash from 'object-hash';
  * MetaTag objects have an equals() method that uses their hashCode
  * to determine equality
  */
-export class MetaTag implements IHashable, IEquatable<MetaTag> {
+export class MetaTag implements Hashable, Equatable<MetaTag> {
+
     /**
      * MetaTags need to be hashable, and the hash for null and undefined differs.
      * So these properties are all set to null to normalize that behavior
@@ -27,49 +28,78 @@ export class MetaTag implements IHashable, IEquatable<MetaTag> {
     private _scheme: string = null;
     private _lang: string = null;
     
+    /**
+     *
+     */
     get id(): string {
         return this._id;
     }
 
+    /**
+     *
+     */
     set id(value: string) {
         this._id = ObjectUtil.hasValue(value) ? value : null;
     }
 
+    /**
+     *
+     */
     get name(): string {
         return this._name;
     }
 
+    /**
+     *
+     */
     set name(value: string) {
         this._name = ObjectUtil.hasValue(value) ? value : null;
     }
 
+    /**
+     *
+     */
     get content(): string {
         return this._content;
     }
 
+    /**
+     *
+     */
     set content(value: string) {
         this._content = ObjectUtil.hasValue(value) ? value : null;
     }
 
+    /**
+     *
+     */
     get scheme(): string {
         return this._scheme;
     }
 
+    /**
+     *
+     */
     set scheme(value: string) {
         this._scheme = ObjectUtil.hasValue(value) ? value : null;
     }
 
+    /**
+     *
+     */
     get lang(): string {
         return this._lang;
     }
 
+    /**
+     *
+     */
     set lang(value: string) {
         this._lang = ObjectUtil.hasValue(value) ? value : null;
     }
 
     /**
-     * Returns a SHA1 hash of this object, provided by the object-hash
-     * library
+     * Returns a SHA1 hash of this object, provided by the object-hash library
      *
      * @returns {string}
      *      a SHA1 hash of this object

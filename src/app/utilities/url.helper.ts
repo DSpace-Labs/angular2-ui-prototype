@@ -1,6 +1,9 @@
 import {GlobalConfig} from "../../../config";
 import {ArrayUtil} from "./commons/array.util";
 
+/**
+ *
+ */
 export class URLHelper {
 
     /**
@@ -13,7 +16,7 @@ export class URLHelper {
      *      a single slash between each part, no trailing slash before the params,
      *      and only one question mark
      */
-    public static normalizeURL(url: string): string{
+    public static normalizeURL(url: string): string {
         // make sure protocol is followed by two slashes
         url = url.replace(/:\//g, '://');
 
@@ -62,7 +65,7 @@ export class URLHelper {
      * @returns {string}
      *      an absolute URL to the REST API
      */
-    public static relativeToAbsoluteRESTURL(...parts:Array<string>):string {
+    public static relativeToAbsoluteRESTURL(...parts:Array<string>): string {
         return URLHelper.combineURLParts(GlobalConfig.rest.baseURL, GlobalConfig.rest.nameSpace, ...parts);
     }
 
@@ -78,7 +81,8 @@ export class URLHelper {
      * @returns {string}
      *      an absolute URL to the UI server
      */
-    public static relativeToAbsoluteUIURL(...parts:Array<string>):string {
+    public static relativeToAbsoluteUIURL(...parts:Array<string>): string {
         return URLHelper.combineURLParts(GlobalConfig.ui.baseURL, GlobalConfig.ui.nameSpace, ...parts);
     }
+
 }

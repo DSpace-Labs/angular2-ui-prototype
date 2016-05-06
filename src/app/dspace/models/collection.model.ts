@@ -23,10 +23,10 @@ export class Collection extends DSOContainer {
      */
     parentCommunity : Community;
 
-
-
+    /**
+     * 
+     */
     license: string; // TODO: probably should have a license object
-
 
     /**
      * Create a new Collection
@@ -36,7 +36,7 @@ export class Collection extends DSOContainer {
      *      REST API. Currently only json.items is used, apart from the standard DSpaceObject
      *      properties.
      */
-    constructor(json: any) {
+    constructor(json?: any) {
         super(json);
         if(ObjectUtil.isNotEmpty(json) && Array.isArray(json.items)) {
             this.numberItems = json.numberItems;

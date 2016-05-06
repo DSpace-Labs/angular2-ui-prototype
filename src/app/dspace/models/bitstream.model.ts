@@ -12,16 +12,32 @@ export class Bitstream extends DSpaceObject {
      * A link that can be used to download the file this Bitstream represents.
      */
     retrieveLink: string;
-    
-    id: number;
-    
+
+    /**
+     *
+     */
     format: string;
+
+    /**
+     *
+     */
+    sizeBytes: number;
+
+    /**
+     *
+     */
+    bundleName: string = "ORIGINAL";
     
     size: number;
     
     name: string;
 
     bundle : string;
+    /**
+     *
+     */
+    mimeType: string;
+
     /**
      * Create a new bitstream
      *
@@ -31,9 +47,14 @@ export class Bitstream extends DSpaceObject {
      *      the standard DSpaceObject properties
      */
     constructor(json?: any) {
-        if(json != null) {
-            super(json); // a DSpaceObject does not contain 'retrieveLink', format, size
-            if (ObjectUtil.isNotEmpty(json) && StringUtil.isNotBlank(json.retrieveLink)) {
+        super(json);
+        this.type = "bitstream";
+        if (ObjectUtil.isNotEmpty(json)) {
+            this.format = json.format;
+            this.sizeBytes = json.sizeBytes;
+            this.bundleName = json.bundleName;
+            this.mimeType = json.mimeType;
+            if (StringUtil.isNotBlank(json.retrieveLink)) {
                 this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
                 this.format = json.mimeType;
                 this.size = json.sizeBytes;
@@ -42,6 +63,9 @@ export class Bitstream extends DSpaceObject {
         }
     }
 
+    /**
+     *
+     */
     getName(): string {
         return this.name;
     }

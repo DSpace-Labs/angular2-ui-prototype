@@ -9,7 +9,7 @@ import {Component} from 'angular2/core';
     template: `
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="/">
-        <title>BINGO</title>
+        <title>{{ title }}</title>
 `
 })
 export class HeadComponent {

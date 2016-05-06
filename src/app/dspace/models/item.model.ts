@@ -3,6 +3,7 @@ import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
 import {ObjectUtil} from "../../utilities/commons/object.util";
+import {ArrayUtil} from "../../utilities/commons/array.util";
 import {URLHelper} from "../../utilities/url.helper";
 
 /**
@@ -10,16 +11,34 @@ import {URLHelper} from "../../utilities/url.helper";
  */
 export class Item extends DSOContainer {
 
-    bitstreams : Array<Bitstream> = [];
+    /**
+     *
+     */
+    bitstreams : Array<Bitstream> = new Array<Bitstream>();
 
+    /**
+     *
+     */
     parentCollection : Collection;
 
+    /**
+     *
+     */
     lastModified: string; //TODO: change to date, deserialize
 
+    /**
+     *
+     */
     archived: boolean;
 
+    /**
+     *
+     */
     withdrawn: boolean;
 
+    /**
+     *
+     */
     fullItem: boolean;
 
     thumbnail : string; // url to the thumbnail of this item.
@@ -71,6 +90,23 @@ export class Item extends DSOContainer {
         var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL" && x.sequenceId == 1);
         return primary != null ? primary[0] : null;
     }
+
+    /**
+     *
+     */
+    getBitstreamsByBundleName(bundleName: string): Array<Bitstream> {
+        return ArrayUtil.filterBy(this.bitstreams, 'bundleName', bundleName);
+    }
+
+    /**
+     *
+     */
+    sanatize(): void {
+        super.sanatize();
+        this.fullItem = undefined;
+    }
+    
+    
 }
 
 /**
@@ -81,3 +117,5 @@ interface jsonbitstream{
     bundleName : String;
     sequenceId : number;
 }
+ 
+
