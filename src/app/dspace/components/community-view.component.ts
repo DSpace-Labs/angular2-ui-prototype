@@ -22,7 +22,7 @@ import { ContainerHomeComponent } from "./container-home.component.ts";
     template: ` 
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
-                    <tree [directories]="subCommunitiesAndCollections(communit)"></tree>
+                    <tree [directories]="subCommunitiesAndCollections(community)"></tree>
                 </div>
               `
 })
