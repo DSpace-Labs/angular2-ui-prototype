@@ -13,28 +13,19 @@ import { FormInput } from './form-input.model';
  */
 @Component({
     selector: 'form-fieldset',
-    pipes: [TranslatePipe],
-    directives: [FORM_DIRECTIVES,
-                 ValidationMessageComponent],
+    pipes: [ TranslatePipe ],
+    directives: [ FORM_DIRECTIVES, ValidationMessageComponent ],
     template: `
                 <fieldset class="form-group" *ngFor="let input of inputs" [class.has-error]="!form.controls[input.id].valid && !form.controls[input.id].pristine">
-
-                    <input *ngIf="input.type == 'CHECKBOX'" type="checkbox" name="{{input.id}}" id="{{input.id}}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                    <label for="input.id">{{input.gloss}}</label>
-                    
-                    <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                    <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-
-                    <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
-
-                    <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{input.id}}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <input *ngIf="input.type == 'CHECKBOX'" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <label for="input.id">{{ input.gloss }}</label>
+                    <input *ngIf="input.type == 'TEXT'" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <input *ngIf="input.type == 'DATE'" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <textarea *ngIf="input.type == 'TEXTAREA'" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
+                    <select *ngIf="input.type == 'SELECT'" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                         <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                     </select>
-                    
                     <validation-message [form]="form" [input]="input"></validation-message>
-
                 </fieldset>
               `
 })

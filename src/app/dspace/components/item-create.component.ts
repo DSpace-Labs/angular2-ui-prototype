@@ -37,29 +37,25 @@ import { Metadatum } from '../models/metadatum.model';
  */
 @Component({
     selector: 'item-create',
-    pipes: [TranslatePipe],
-    bindings: [FORM_BINDINGS],
-    directives: [FORM_DIRECTIVES,
-                 FullPageLoaderComponent,
-                 FormFieldsetComponent,
-                 ItemBitstreamAddComponent,
-                 ItemMetadataInputComponent],
+    pipes: [ TranslatePipe ],
+    bindings: [ FORM_BINDINGS ],
+    directives: [ FORM_DIRECTIVES,
+                  FullPageLoaderComponent,
+                  FormFieldsetComponent,
+                  ItemBitstreamAddComponent,
+                  ItemMetadataInputComponent ],
     template: ` 
                 <full-page-loader *ngIf="creating"></full-page-loader>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
-                    
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
-
                     <item-bitstream-add [files]="files" 
                                         (addBitstreamEmitter)="addBitstream($event)"
                                         (removeBitstreamEmitter)="removeBitstream($event)">
                     </item-bitstream-add>
-
                     <item-metadata-input [form]="form" [metadatumInputs]="metadatumInputs"
                                          (addMetadatumInputEmitter)="addMetadatumInput($event)"
                                          (removeMetadatumInputEmitter)="removeMetadatumInput($event)">
                     </item-metadata-input>
-
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
                         <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
@@ -253,16 +249,11 @@ export class ItemCreateComponent extends AbstractCreateComponent {
         this.creating = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
-
         this.item.metadata = new Array<Metadatum>();
-
         this.setModelValues();
-
         this.setMetadataValues();
-
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
-            if(response.status == 200) {
-                
+            if(response.status == 200) {                
                 this.item.id = JSON.parse(response.text()).id;
 
                 let bitStreamObservables = new Array<any>();

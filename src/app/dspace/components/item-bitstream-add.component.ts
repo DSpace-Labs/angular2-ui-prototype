@@ -12,7 +12,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
  */
 @Component({
     selector: 'item-bitstream-add',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: ` 
                 <hr>
                 <label>Bitstreams</label>                        
@@ -38,7 +38,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                                     <label class="space-top">{{ file.name }}</label>
                                 </td>
                                 <td class="col-md-9 col-xs-8">
-                                    <input class="form-control" type="text" id="{{file.name}}" [(ngModel)]="file.description">
+                                    <input class="form-control" type="text" id="{{ file.name }}" [(ngModel)]="file.description">
                                 </td>
                                 <td class="col-xs-1 text-center">
                                     <span class="glyphicon glyphicon-remove clickable space-top" aria-hidden="true" (click)="removeBitstream(file)"></span>

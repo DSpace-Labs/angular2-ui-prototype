@@ -24,6 +24,9 @@ export class BreadcrumbService {
      */
     emitter: EventEmitter<any>;
 
+    /**
+     * 
+     */
     constructor(private contextProvider : ContextProviderService) {
         this.root = {
             name: 'Dashboard',
@@ -57,10 +60,16 @@ export class BreadcrumbService {
         this.emitter.next({action: 'update', breadcrumb: breadcrumb});
     }
 
+    /**
+     * 
+     */
     getRoot(): any {
         return this.root;
     }
 
+    /**
+     * 
+     */
     setRoot(root) {
         this.root = root;
     }

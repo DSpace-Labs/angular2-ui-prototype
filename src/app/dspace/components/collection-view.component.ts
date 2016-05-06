@@ -16,8 +16,8 @@ import { ItemListComponent } from './item-list.component';
  */
 @Component({
     selector: 'collection',
-    directives: [ContainerHomeComponent, ItemListComponent],
-    pipes: [TranslatePipe],
+    directives: [ ContainerHomeComponent, ItemListComponent ],
+    pipes: [ TranslatePipe ],
     template: ` 
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>

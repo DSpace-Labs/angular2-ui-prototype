@@ -9,8 +9,8 @@ import { ViewElementComponent } from '../view-element.component';
  */
 @Component({
     selector: 'item-full-bitstreams',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">
@@ -27,17 +27,17 @@ import { ViewElementComponent } from '../view-element.component';
                             <!-- description -->
                             <div class="col-xs-6 col-sm-7">
                                 <dl class="file-metadata dl-horizontal">
-                                    <dt>{{'item-view.full.full-bitstreams.description.name' | translate}}</dt>
+                                    <dt>{{ 'item-view.full.full-bitstreams.description.name' | translate }}</dt>
                                     <dd class="word-break">{{bitstream.name}}</dd>
-                                    <dt>{{'item-view.full.full-bitstreams.description.size' | translate}}</dt>
+                                    <dt>{{ 'item-view.full.full-bitstreams.description.size' | translate }}</dt>
                                     <dd class="word-break">{{bitstream.size}}</dd>
-                                    <dt>{{'item-view.full.full-bitstreams.description.format' | translate}}</dt>
+                                    <dt>{{ 'item-view.full.full-bitstreams.description.format' | translate }}</dt>
                                     <dd class="word-break">{{bitstream.format}}</dd>
                                 </dl>
                             </div>
 
                             <div class="file-link col-xs-6 col-xs-offset-6 col-sm-2 col-sm-offset-0">
-                                <a [attr.href]="bitstream.retrieveLink">{{'item-view.full.full-bitstreams.view-open' | translate}}</a>
+                                <a [attr.href]="bitstream.retrieveLink">{{ 'item-view.full.full-bitstreams.view-open' | translate }}</a>
                             </div>
                         </div>
                     </div>

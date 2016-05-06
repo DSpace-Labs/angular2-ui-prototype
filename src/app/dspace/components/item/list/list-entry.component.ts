@@ -10,8 +10,8 @@ import { Item } from '../../../models/item.model';
  */
 @Component({
     selector: 'list-entry',
-    directives:[ListMetadataComponent, ThumbnailComponent],
-    pipes: [TranslatePipe],
+    directives: [ ListMetadataComponent, ThumbnailComponent ],
+    pipes: [ TranslatePipe ],
     template:
         `
             <div class="col-sm-2 hidden-xs">

@@ -16,12 +16,12 @@ import { PaginationComponent } from '../../navigation/components/pagination.comp
  */
 @Component({
     selector: 'item-list',
-    directives: [ListEntryComponent, PaginationComponent],
+    directives: [ ListEntryComponent, PaginationComponent ],
     template: `
-                <div *ngFor="let item of items" id="list-entries" class="row item-list-row">  <!-- for each item, we create an item-list-entry element -->
+                <!-- for each item, we create an item-list-entry element -->
+                <div *ngFor="let item of items" id="list-entries" class="row item-list-row">
                     <list-entry [item]="item"></list-entry>
                 </div>
-
                 <pagination [context]="collection"></pagination>
               `
 })

@@ -52,7 +52,7 @@ bootstrap(AppComponent, [
     ...BROWSER_HTTP_PROVIDERS,
     provide(TranslateLoader, {
         useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
-        deps: [Http]
+        deps: [ Http ]
     }),
     AuthorizationService,
     BreadcrumbService,

@@ -9,16 +9,16 @@ import { ViewElementComponent } from '../view-element.component';
  */
 @Component({
     selector: 'item-full-metadata',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element>
                     <div id="metadata">
                         <table class="table table-hover">
                             <thead class="thead-inverse">
                                 <tr>
-                                    <th>{{'item-view.full.full-metadata.thead.key' | translate}}</th>
-                                    <th>{{'item-view.full.full-metadata.thead.value' | translate}}</th>
-                                    <th>{{'item-view.full.full-metadata.thead.lang' | translate}}</th>
+                                    <th>{{ 'item-view.full.full-metadata.thead.key' | translate }}</th>
+                                    <th>{{ 'item-view.full.full-metadata.thead.value' | translate }}</th>
+                                    <th>{{ 'item-view.full.full-metadata.thead.lang' | translate }}</th>
                                 </tr>
                             </thead>
                             <tbody>

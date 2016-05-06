@@ -11,7 +11,7 @@ import { PaginationService } from '../services/pagination.service';
  */
 @Component({
     selector: 'pagination',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ ROUTER_DIRECTIVES ],
     template: `
                 <div *ngIf="context.limit < context.total" class="form-inline">
                     <nav>

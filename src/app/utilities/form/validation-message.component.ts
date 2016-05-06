@@ -11,8 +11,8 @@ import { FormInput } from './form-input.model';
  */
 @Component({
     selector: 'validation-message',
-    pipes: [TranslatePipe],
-    directives: [FORM_DIRECTIVES],
+    pipes: [ TranslatePipe ],
+    directives: [ FORM_DIRECTIVES ],
     template: `
                 <div *ngIf="form.controls[input.id]">
                     <span [hidden]="form.controls[input.id].valid || form.controls[input.id].pristine" class="validaiton-helper text-danger">

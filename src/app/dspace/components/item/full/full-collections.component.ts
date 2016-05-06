@@ -10,8 +10,8 @@ import { ViewElementComponent } from '../view-element.component';
  */
 @Component({
     selector: 'item-full-collections',
-    directives: [ROUTER_DIRECTIVES, ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ROUTER_DIRECTIVES, ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <ul>

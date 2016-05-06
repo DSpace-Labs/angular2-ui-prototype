@@ -28,10 +28,10 @@ import { User } from './dspace/models/user.model';
  */
 @Component({
     selector: 'dspace',
-    directives: [ROUTER_DIRECTIVES,
-                 BreadcrumbComponent,
-                 ContextComponent,
-                 LoginFormComponent],
+    directives: [ ROUTER_DIRECTIVES,
+                  BreadcrumbComponent,
+                  ContextComponent,
+                  LoginFormComponent ],
     pipes: [TranslatePipe],
     template: `
                 <nav class="navbar navbar-inverse">

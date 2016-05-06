@@ -7,7 +7,7 @@ import { Component, Input } from 'angular2/core';
     selector: 'view-element',
     template: `
                 <div id="simple-view-element">
-                    <h3 *ngIf="header">{{header}}</h3>
+                    <h3 *ngIf="header">{{ header }}</h3>
                     <ng-content></ng-content>
                 </div>
               `

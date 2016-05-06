@@ -10,8 +10,8 @@ import { ViewElementComponent } from './view-element.component';
  */
 @Component({
     selector: 'item-collection',
-    directives: [ROUTER_DIRECTIVES, ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ROUTER_DIRECTIVES, ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <a *ngIf="validParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>

@@ -8,7 +8,7 @@ import { BreadcrumbService } from '../../../navigation/services/breadcrumb.servi
  */
 @Component({
     selector: 'register',
-    pipes: [TranslatePipe],
+    pipes: [ TranslatePipe ],
     template: `
                 
               `

@@ -15,7 +15,7 @@ import { CollectionCreateComponent } from './collection-create.component';
  */
 @Component({
     selector: 'community',
-    directives: [RouterOutlet],
+    directives: [ RouterOutlet ],
     template: ` 
                 <router-outlet></router-outlet>
               `
