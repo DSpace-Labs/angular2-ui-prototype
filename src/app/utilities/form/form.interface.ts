@@ -5,7 +5,7 @@ import { FormInput } from './form-input.model';
 /**
  *
  */
-export interface FormCreate {
+export interface Form {
 
     /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
@@ -23,9 +23,9 @@ export interface FormCreate {
     form: ControlGroup;
 
     /**
-     * Indicates item creation in progress.
+     * Indicates processing in progress.
      */
-    creating: boolean;
+    processing: boolean;
     
     /**
      *

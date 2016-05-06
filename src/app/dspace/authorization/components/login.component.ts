@@ -13,7 +13,7 @@ import { BreadcrumbService } from '../../../navigation/services/breadcrumb.servi
     selector: 'login',
     pipes: [ TranslatePipe ],
     template: `
-                <form *ngIf="active" class="login-form" (ngSubmit)="login()" novalidate>
+                <form *ngIf="active" class="form" (ngSubmit)="login()" novalidate>
                     
                     <fieldset class="form-group" [class.has-error]="!loginEmail.valid && !loginEmail.pristine">
                         <label for="login-email">{{ 'login.email-gloss' | translate }}</label>

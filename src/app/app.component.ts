@@ -89,7 +89,7 @@ import { User } from './dspace/models/user.model';
 
         { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
 
-        { path: '/**', redirectTo: ['/Dashboard'] }
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
 

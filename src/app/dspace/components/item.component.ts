@@ -34,7 +34,7 @@ import { Item } from "../models/item.model";
         { path: "/", name: "SimpleItemView", component: SimpleItemViewComponent, useAsDefault: true },
         { path: "/full", name: "FullItemView", component: FullItemViewComponent },
 
-        { path: '/**', redirectTo: ['/Dashboard'] }
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 
 ])
 export class ItemComponent implements CanDeactivate {
