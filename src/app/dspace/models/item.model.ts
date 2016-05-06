@@ -54,7 +54,7 @@ export class Item extends DSOContainer {
             let primaryBitstream = this.getPrimaryStream(bitstreams);
             if (primaryBitstream != null)
             {
-                var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name + ".jpg").forEach(x => this.thumbnail = x.retrieveLink); // if filter returns, it will be the first one.
+                var x = bitstreams.filter(x => x.bundleName == "THUMBNAIL" && x.name == primaryBitstream.name + ".jpg").forEach(x => this.thumbnail = "http://localhost:5050/rest" + x.retrieveLink); // if filter returns, it will be the first one.
             }
         }
     }

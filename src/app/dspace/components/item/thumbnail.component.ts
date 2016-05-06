@@ -37,7 +37,7 @@ export class ThumbnailComponent implements OnChanges{
     {
         if(this.thumbnaillink!=null)
         {
-            this._thumbnailSource = "http://localhost:5050/rest"+this.thumbnaillink;
+            this._thumbnailSource = this.thumbnaillink;
         }
     }
 
