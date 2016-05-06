@@ -32,7 +32,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
                                 <div class="row">
                                     <div class="col-md-11 col-xs-10">
                                         <label>{{input.gloss}}</label>
-                                        <span class="text-danger" *ngIf="input.validation.required">*required</span>
+                                        <span class="text-danger" *ngIf="input.validation.required && input.validation.required.value">*required</span>
                                         <label class="pull-right">{{input.key}}</label>
                                     </div>
                                 </div>

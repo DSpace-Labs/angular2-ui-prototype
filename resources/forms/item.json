@@ -6,29 +6,18 @@
         "type": "TEXT",
         "repeatable": false,
         "validation": {
-            "required": true,
-            "minLength": 4,
-            "maxLength": 64
-        }
-    },
-    {
-        "key": "archived",
-        "language": "en",
-        "gloss": "Archived",
-        "type": "CHECKBOX",
-        "repeatable": false,
-        "validation": {
-            "required": false
-        }
-    },
-    {
-        "key": "withdrawn",
-        "language": "en",
-        "gloss": "Withdrawn",
-        "type": "CHECKBOX",
-        "repeatable": false,
-        "validation": {
-            "required": false
+            "required": {
+            	"value": true,
+            	"message": "item.name.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.name.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "item.name.maxLength"
+            }
         }
     }
 ]

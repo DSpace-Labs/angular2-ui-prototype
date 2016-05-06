@@ -51,11 +51,12 @@ export class FormInput extends Metadatum {
      *
      */
     constructor(json: any) {
-       super(json);
-       if (ObjectUtil.isNotEmpty(json)) {
+        super(json);
+        if (ObjectUtil.isNotEmpty(json)) {
             this.gloss = json.gloss;
             this.type = json.type;
             this.options = json.options;
+            this.repeat = json.repeat;
             this.repeatable = json.repeatable;
             this.validation = json.validation;
             this.edit = false;

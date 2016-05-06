@@ -1,4 +1,4 @@
-import { ControlGroup } from 'angular2/common';
+import { ControlGroup, Validators } from 'angular2/common';
 
 import { FormCreate } from './form-create.interface';
 
@@ -38,7 +38,18 @@ export class AbstractCreateComponent implements FormCreate {
      *
      */
     createValidators(input: FormInput): Array<any> {
-        return new Array<any>();
+        let validators: Array<any> = new Array<any>();
+        for(let key in input.validation) {
+            if(key == 'required') {
+                if(input.validation[key]) {
+                    validators.push(Validators.required);
+                }
+            }
+            else {
+                validators.push(Validators[key](input.validation[key].value));
+            }
+        }
+        return validators;
     };
 
     /**

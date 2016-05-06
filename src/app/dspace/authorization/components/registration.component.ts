@@ -10,7 +10,7 @@ import { BreadcrumbService } from '../../../navigation/services/breadcrumb.servi
     selector: 'register',
     pipes: [TranslatePipe],
     template: `
-                <span>{{'register.title' | translate}}</span>
+                
               `
 })
 export class RegistrationComponent {
