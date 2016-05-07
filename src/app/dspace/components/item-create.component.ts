@@ -256,24 +256,35 @@ export class ItemCreateComponent extends CreateComponent {
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;
-                let bitStreamObservables = new Array<any>();
-                for(let file of this.files) {
-                    bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
+                if(this.files.length > 0) {
+                    let bitStreamObservables = new Array<any>();
+                    for(let file of this.files) {
+                        bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
+                    }
+                    Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
+                        this.finish(currentContext);
+                    },
+                    errors => {
+                        this.finish(currentContext);
+                    });
                 }
-                Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                    this.dspace.refresh(currentContext);
-                    this.router.navigate(['/Collections', { id: currentContext.id }]);
-                },
-                errors => {
-                    this.dspace.refresh(currentContext);
-                    this.router.navigate(['/Collections', { id: currentContext.id }]);
-                });
+                else {
+                    this.finish(currentContext);
+                }
             }
         },
         error => {
             console.log(error);
             this.reset();
         });
+    }
+
+    /**
+     * 
+     */
+    private finish(currentContext: any): void {
+        this.dspace.refresh(currentContext);
+        this.router.navigate(['/Collections', { id: currentContext.id }]);
     }
 
 }
