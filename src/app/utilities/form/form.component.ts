@@ -1,4 +1,10 @@
 import { ControlGroup, Validators } from 'angular2/common';
+import { Router } from 'angular2/router';
+
+import { FormBuilder } from 'angular2/common';
+
+import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
+import { FormService } from './form.service';
 
 import { SecureComponent } from '../../dspace/authorization/components/secure.component';
 
@@ -10,6 +16,26 @@ import { FormInput } from './form-input.model';
  *
  */
 export class FormComponent implements Form {
+    
+    /**
+     *
+     */
+    formService: FormService;
+    
+    /**
+     *
+     */
+    builder: FormBuilder;
+    
+    /**
+     *
+     */
+    authorization: AuthorizationService;
+    
+    /**
+     *
+     */
+    router: Router;
 
     /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
@@ -30,29 +56,32 @@ export class FormComponent implements Form {
      * Indicates processing in progress.
      */
     processing: boolean = false;
+    
+    /**
+     *
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param router
+     *      Router is a singleton service provided by Angular2.
+     */
+    constructor(formService: FormService,
+                builder: FormBuilder,
+                authorization: AuthorizationService,
+                router: Router) {
+        this.formService = formService;
+        this.builder = builder;
+        this.authorization = authorization;
+        this.router = router;
+    }
 
     /**
      *
      */
     init(): void {};
-
-    /**
-     *
-     */
-    createValidators(input: FormInput): Array<any> {
-        let validators: Array<any> = new Array<any>();
-        for(let key in input.validation) {
-            if(key == 'required') {
-                if(input.validation[key] && input.validation[key].value) {
-                    validators.push(Validators.required);
-                }
-            }
-            else {
-                validators.push(Validators[key](input.validation[key].value));
-            }
-        }
-        return validators;
-    };
 
     /**
      *

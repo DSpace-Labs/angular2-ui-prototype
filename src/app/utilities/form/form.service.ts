@@ -1,4 +1,6 @@
 import { Injectable } from 'angular2/core';
+import { Validators } from 'angular2/common';
+
 import { Observable } from "rxjs/Observable";
 
 import { HttpService } from '../services/http.service';
@@ -32,5 +34,23 @@ export class FormService {
             return inputs;
         });
     }
+    
+    /**
+     *
+     */
+    createValidators(input: FormInput): Array<any> {
+        let validators: Array<any> = new Array<any>();
+        for(let key in input.validation) {
+            if(key == 'required') {
+                if(input.validation[key] && input.validation[key].value) {
+                    validators.push(Validators.required);
+                }
+            }
+            else {
+                validators.push(Validators[key](input.validation[key].value));
+            }
+        }
+        return validators;
+    };
 
 }

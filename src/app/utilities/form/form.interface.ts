@@ -35,11 +35,6 @@ export interface Form {
     /**
      *
      */
-    createValidators(input: FormInput): Array<any>;
-
-    /**
-     *
-     */
     setModelValues(): void;
 
     /**
