@@ -36,7 +36,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default btn-sm" (click)="cancelAction()">{{ cancelLabel | translate }}</button>
-                                    <button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="!valid">{{ confirmLabel | translate }}</button>
+                                    <button type="submit" class="btn btn-primary btn-sm" (click)="confirmAction()" [disabled]="disabled">{{ confirmLabel | translate }}</button>
                                 </div>
                             </form>
                         </div>
@@ -69,7 +69,7 @@ export class FormModalComponent implements OnInit {
     /**
      * Wether inputs are valid. Enables confirm action.
      */
-    @Input('valid') valid: boolean;
+    @Input('disabled') disabled: boolean;
 
     /**
      * EventEmitter used to emit the chosen action.

@@ -144,11 +144,11 @@ function ngApp(req, res) {
             //resumeEvent: string,
             //completeEvent: string,
             //presets: any,
-            focus: false,
-            uglify: false,
+            focus: true,
+            uglify: true,
             buffer: false,
-            keyPress: false,
-            buttonPress: false,
+            keyPress: true,
+            buttonPress: true,
             debug: false
         },
         async: true
