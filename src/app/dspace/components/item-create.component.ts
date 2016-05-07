@@ -282,9 +282,9 @@ export class ItemCreateComponent extends FormSecureComponent {
     /**
      * 
      */
-    private finish(currentContext: any): void {
-        this.dspace.refresh(currentContext);
+    private finish(currentContext: any): void {        
         this.router.navigate(['/Collections', { id: currentContext.id }]);
+        this.dspace.refresh(currentContext);
     }
 
 }

@@ -136,8 +136,8 @@ export class CollectionCreateComponent extends FormSecureComponent {
         this.setModelValues();
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                this.dspace.refresh(currentContext);
                 this.router.navigate(['/Communities', { id: currentContext.id }]);
+                this.dspace.refresh(currentContext);
             }
         },
         error => {

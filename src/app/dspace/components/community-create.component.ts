@@ -137,12 +137,12 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 if(currentContext.root) {
-                    this.dspace.refresh();
                     this.router.navigate(['/Dashboard']);
+                    this.dspace.refresh();
                 }
                 else {
+                    this.router.navigate(['/Communities', { id: currentContext.id }]);
                     this.dspace.refresh(currentContext);
-                    this.router.navigate(['/Communities', { id: currentContext.id }]);                    
                 }
             }
         },
