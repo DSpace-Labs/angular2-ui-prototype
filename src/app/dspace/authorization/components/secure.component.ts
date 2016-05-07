@@ -8,8 +8,14 @@ import { AuthorizationService } from '../services/authorization.service';
  */
 export class SecureComponent implements OnActivate {
 
+    /**
+     * singleton service to interact with the authorization service.
+     */
 	authorization: AuthorizationService;
 
+    /**
+     * singleton service provided by Angular2.
+     */
 	router: Router;
 
 	/**
@@ -22,16 +28,13 @@ export class SecureComponent implements OnActivate {
  	constructor(authorization: AuthorizationService, router: Router) { 
  		this.authorization = authorization;
  		this.router = router;
- 		console.log('secure component')
  	}
 
  	/**
  	 *
  	 */
  	routerOnActivate(next: ComponentInstruction, prev: ComponentInstruction) {
- 		console.log('secure routing')
 		if (!this.authorization.isAuthenticated()) {
-			console.log('goto login')
 			this.router.navigate(['/Login']);
 		}
 	}

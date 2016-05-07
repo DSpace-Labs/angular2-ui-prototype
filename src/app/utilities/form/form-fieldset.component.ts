@@ -20,6 +20,7 @@ import { FormInput } from './form-input.model';
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <label for="input.id">{{ input.gloss }}</label>
                     <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <textarea *ngIf="textAreaInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
                     <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
@@ -70,6 +71,13 @@ export class FormFieldsetComponent {
      */
     private textInput(input: FormInput): boolean {
         return input.type == 'TEXT';
+    }
+    
+    /**
+     *
+     */
+    private passwordInput(input: FormInput): boolean {
+        return input.type == 'PASSWORD';
     }
 
     /**

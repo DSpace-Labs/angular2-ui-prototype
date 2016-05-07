@@ -21,7 +21,7 @@ import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
 
-import { AbstractCreateComponent } from '../../utilities/form/abstract-create.component';
+import { CreateComponent } from '../../utilities/form/create.component';
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
@@ -46,7 +46,7 @@ import { Metadatum } from '../models/metadatum.model';
                   ItemMetadataInputComponent ],
     template: ` 
                 <h3>Create Item</h3><hr>
-                <full-page-loader *ngIf="creating"></full-page-loader>
+                <full-page-loader *ngIf="processing"></full-page-loader>
                 <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <item-bitstream-add [files]="files" 
@@ -59,13 +59,13 @@ import { Metadatum } from '../models/metadatum.model';
                     </item-metadata-input>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid && processing">Submit</button>
                     </div>
 
                 </form>
               `
 })
-export class ItemCreateComponent extends AbstractCreateComponent {
+export class ItemCreateComponent extends CreateComponent {
 
     /**
      * Metadata input fields.
@@ -84,8 +84,6 @@ export class ItemCreateComponent extends AbstractCreateComponent {
 
     /**
      *
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
@@ -98,16 +96,18 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      *      TranslateService
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(authorization: AuthorizationService,
-                private contextProvider: ContextProviderService,
+    constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private formService: FormService,
                 private dspace: DSpaceDirectory,
                 private translate: TranslateService,
                 private builder: FormBuilder,
+                authorization: AuthorizationService,
                 router: Router) {
         super(authorization, router);
         translate.setDefaultLang('en');
@@ -175,7 +175,7 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      * Reset the form.
      */
     reset(): void {
-        this.creating = false;
+        this.processing = false;
         this.active = false;
         this.init();
     }
@@ -247,7 +247,7 @@ export class ItemCreateComponent extends AbstractCreateComponent {
      * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */
     private createItem(): void {
-        this.creating = true;
+        this.processing = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.item.metadata = new Array<Metadatum>();
@@ -256,28 +256,23 @@ export class ItemCreateComponent extends AbstractCreateComponent {
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {                
                 this.item.id = JSON.parse(response.text()).id;
-
                 let bitStreamObservables = new Array<any>();
                 for(let file of this.files) {
                     bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                 }
-
                 Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                    this.reset();
-                    this.dspace.refresh(currentContext);
                     this.router.navigate(['/Collections', { id: currentContext.id }]);
+                    this.dspace.refresh(currentContext);
                 },
-                errors => {
-                    console.log(errors);
-                    this.reset();
-                    this.dspace.refresh(currentContext);
+                errors => {                    
                     this.router.navigate(['/Collections', { id: currentContext.id }]);
+                    this.dspace.refresh(currentContext);
                 });
             }
         },
         error => {
-            this.reset();
             console.log(error);
+            this.reset();
         });
     }
 

@@ -26,7 +26,7 @@ import { ItemCreateComponent } from './item-create.component';
         { path: "/", name: "Collection", component: CollectionViewComponent, useAsDefault: true },
         { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent },
 
-        { path: '/**', redirectTo: ['/Dashboard'] }
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 
 ])
 export class CollectionComponent {

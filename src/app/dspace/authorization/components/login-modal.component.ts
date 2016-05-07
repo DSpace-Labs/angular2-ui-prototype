@@ -1,5 +1,4 @@
 import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
 
 import {
     FORM_DIRECTIVES,
@@ -14,40 +13,41 @@ import {
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
-import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
 import { FormService } from '../../../utilities/form/form.service';
 
 import { FormComponent } from '../../../utilities/form/form.component';
 import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.component';
-
-import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
+import { FormModalComponent, ModalAction } from '../../../utilities/form/form-modal.component';
 
 /**
- * Login form component.
+ * Login form. Uses form-modal component.
  */
 @Component({
-    selector: 'login',
-    pipes: [ TranslatePipe ],
-    directives: [ FormFieldsetComponent ],
-    template: `
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="login()" novalidate>
+  	selector: 'login-modal',
+  	directives: [ FormFieldsetComponent, FormModalComponent ],
+  	pipes: [ TranslatePipe ],
+  	template: `
+                <form-modal *ngIf="active" 
+                    [form]="form"
+                    [title]="'login.title'"
+                    [cancelLabel]="'login.cancel'"
+                    [confirmLabel]="'login.confirm'"
+                    [valid]="form.valid && !processing"
+                    (loadedEmitter)="onLoaded($event)"
+                    (actionEmitter)="onAction($event)">
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
                         {{ 'login.unauthorized' | translate }}
                     </span>
-                    <div class="form-loader">
-                        <img *ngIf="processing" src="./static/images/loading.gif" alt="Loading">
-                    </div>
-                    <span class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{ 'login.cancel' | translate }}</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid && processing">{{ 'login.confirm' | translate }}</button>
-                    </span>
-                </form>
+                </form-modal>
               `
 })
-export class LoginComponent extends FormComponent {
+export class LoginModalComponent extends FormComponent {
 
-    private breadcrumb: Breadcrumb = new Breadcrumb('login', true);
+    /**
+     * Actual FormModal used to show and hide modal.
+     */
+    private login: FormModalComponent;
 
     /**
      * Email used as DSpace username for login.
@@ -66,8 +66,6 @@ export class LoginComponent extends FormComponent {
 
     /**
      *
-     * @param breadcrumbService
-     *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
      * @param translate
@@ -79,14 +77,11 @@ export class LoginComponent extends FormComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private breadcrumbService: BreadcrumbService,
-                private formService: FormService,
+    constructor(private formService: FormService,
                 private translate: TranslateService,
                 private builder: FormBuilder,
-                private authorization: AuthorizationService,
-                private router: Router) {
+                private authorization: AuthorizationService) {
         super();
-        breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
@@ -130,36 +125,59 @@ export class LoginComponent extends FormComponent {
     }
 
     /**
-     * Get token and then call status to get fullname.
+     * Callback to assign modal after being loaded.
+     *
+     * @param modal
+     *      FormModal
      */
-    login(): void {
-        this.processing = true;
-        this.setModelValues();
-        this.authorization.login(this.email, this.password).subscribe(response => {
-            if(response.status == 200) {
-                let token = response.text();
-                this.authorization.status(token).subscribe(response => {
-                    this.router.navigate(['/Home']);
-                },
-                error => {
-                    this.processing = false;
-                    this.unauthorized = true;
-                });
-            }
-        },
-        error => {
-            this.processing = false;
-            this.unauthorized = true;
-        });
+    onLoaded(modal: FormModalComponent): void {
+        this.login = modal;
     }
 
     /**
-     * Action for when cancel button is pressed.
+     * Callback to invoke chosen action.
+     *
+     * @param action
+     *      ModalAction of chosen action, CONFIRM or CANCEL
      */
-    cancel(): void {
-        this.reset();
+    onAction(action: ModalAction): void {
+        if(action == ModalAction.CONFIRM) {
+            this.processing = true;
+            this.setModelValues();
+            this.authorization.login(this.email, this.password).subscribe(response => {
+                if(response.status == 200) {
+                    let token = response.text();
+
+                    this.authorization.status(token).subscribe(response => {
+                        this.login.hide();
+                        this.login.finished();
+                        this.reset();
+                    },
+                    error => {
+                        this.processing = false;
+                        this.unauthorized = true;
+                        this.login.finished();
+                    });
+                }
+            },
+            error => {
+                this.processing = false;
+                this.unauthorized = true;
+                this.login.finished();
+            });
+        }
+        else if(action == ModalAction.CANCEL) {
+            this.reset();
+        }
     }
 
+    /**
+     * Opens the modal.
+     */
+    private openLoginModal(): void {
+        this.login.show();
+    }
+    
     /**
      * Resets the form.
      */

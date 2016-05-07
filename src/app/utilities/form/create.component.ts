@@ -2,14 +2,14 @@ import { ControlGroup, Validators } from 'angular2/common';
 
 import { SecureComponent } from '../../dspace/authorization/components/secure.component';
 
-import { FormCreate } from './form-create.interface';
+import { Form } from './form.interface';
 
 import { FormInput } from './form-input.model';
 
 /**
  *
  */
-export class AbstractCreateComponent extends SecureComponent implements FormCreate {
+export class CreateComponent extends SecureComponent implements Form {
 
     /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
@@ -29,7 +29,7 @@ export class AbstractCreateComponent extends SecureComponent implements FormCrea
     /**
      * Indicates item creation in progress.
      */
-    creating: boolean = false;
+    processing: boolean = false;
 
     /**
      *
@@ -63,7 +63,7 @@ export class AbstractCreateComponent extends SecureComponent implements FormCrea
      * Reset the form.
      */
     reset(): void {
-        this.creating = false;
+        this.processing = false;
         this.active = false;
         this.init();
     }

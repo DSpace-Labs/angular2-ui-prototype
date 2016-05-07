@@ -7,6 +7,8 @@ import { DSpaceDirectory } from './dspace/dspace.directory';
 import { PaginationComponent } from './navigation/components/pagination.component';
 import { TreeComponent } from './navigation/components/tree.component';
 
+import { Breadcrumb } from './navigation/models/breadcrumb.model';
+
 /**
  * The dashboard component is the main index for browsing. Layout contains a 
  * sidebar context along with the community/collection/item tree.
@@ -20,6 +22,8 @@ import { TreeComponent } from './navigation/components/tree.component';
               `
 })
 export class DashboardComponent {
+        
+    private breadcrumb: Breadcrumb = new Breadcrumb('dashboard', true);
 
     /**
      *
@@ -33,12 +37,7 @@ export class DashboardComponent {
     constructor(private dspace: DSpaceDirectory,
                 private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService ) {
-        breadcrumbService.visit({
-            name: 'Dashboard',
-            type: 'dashboard',
-            component: '/Dashboard',
-            root: true,
-        });
+        breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
     }

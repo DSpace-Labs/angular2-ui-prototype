@@ -4,6 +4,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 
+import { Breadcrumb } from './navigation/models/breadcrumb.model';
 import { User } from './dspace/models/user.model';
 
 /**
@@ -26,6 +27,8 @@ import { User } from './dspace/models/user.model';
               `
 })
 export class HomeComponent {
+        
+    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
 
     /**
      * Logged in user.
