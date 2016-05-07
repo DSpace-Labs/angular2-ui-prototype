@@ -247,26 +247,26 @@ export class ItemCreateComponent extends CreateComponent {
      * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */
     private createItem(): void {
-        this.processing = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
+        this.processing = true;
         this.item.metadata = new Array<Metadatum>();
         this.setModelValues();
         this.setMetadataValues();
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
-            if(response.status == 200) {                
+            if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;
                 let bitStreamObservables = new Array<any>();
                 for(let file of this.files) {
                     bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                 }
                 Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                    this.router.navigate(['/Collections', { id: currentContext.id }]);
                     this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Collections', { id: currentContext.id }]);
                 },
-                errors => {                    
-                    this.router.navigate(['/Collections', { id: currentContext.id }]);
+                errors => {
                     this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Collections', { id: currentContext.id }]);
                 });
             }
         },
