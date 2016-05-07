@@ -6,8 +6,6 @@ import { FormBuilder } from 'angular2/common';
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { FormService } from './form.service';
 
-import { SecureComponent } from '../../dspace/authorization/components/secure.component';
-
 import { Form } from './form.interface';
 
 import { FormInput } from './form-input.model';
@@ -96,5 +94,12 @@ export class FormComponent implements Form {
         this.active = false;
         this.init();
     }
-
+    
+    /**
+     * 
+     */
+    disabled(): boolean {
+        return !this.form.valid || this.processing;
+    }
+    
 }

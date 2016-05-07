@@ -88,43 +88,10 @@ export class LoginComponent extends FormComponent {
     }
 
     /**
-     * Get token and then call status to get fullname.
-     */
-    authenticate(): void {
-        this.processing = true;
-        this.setModelValues();
-        this.authorization.login(this.email, this.password).subscribe(response => {
-            if(response.status == 200) {
-                let token = response.text();
-                this.authorization.status(token).subscribe(response => {
-                    this.router.navigate(['/Home']);
-                },
-                error => {
-                    this.processing = false;
-                    this.unauthorized = true;
-                });
-            }
-        },
-        error => {
-            this.processing = false;
-            this.unauthorized = true;
-        });
-    }
-
-    /**
      * Action for when cancel button is pressed.
      */
     cancel(): void {
         this.reset();
-    }
-
-    /**
-     * Resets the form.
-     */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
     }
 
 }

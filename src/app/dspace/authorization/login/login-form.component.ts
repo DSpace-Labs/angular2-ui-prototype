@@ -32,12 +32,12 @@ import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
                     </div>
                     <span class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{ 'login.cancel' | translate }}</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid && processing">{{ 'login.confirm' | translate }}</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">{{ 'login.confirm' | translate }}</button>
                     </span>
                 </form>
               `
 })
-export class LoginViewComponent extends LoginComponent {
+export class LoginFormComponent extends LoginComponent {
 
     private breadcrumb: Breadcrumb = new Breadcrumb('login', true);
 
@@ -67,6 +67,30 @@ export class LoginViewComponent extends LoginComponent {
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
+    }
+    
+    /**
+     * Get token and then call status to get fullname.
+     */
+    authenticate(): void {
+        this.processing = true;
+        this.setModelValues();
+        this.authorization.login(this.email, this.password).subscribe(response => {
+            if(response.status == 200) {
+                let token = response.text();
+                this.authorization.status(token).subscribe(response => {
+                    this.router.navigate(['/Home']);
+                },
+                error => {
+                    this.processing = false;
+                    this.unauthorized = true;
+                });
+            }
+        },
+        error => {
+            this.processing = false;
+            this.unauthorized = true;
+        });
     }
 
     /**

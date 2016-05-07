@@ -41,5 +41,10 @@ export interface Form {
      *
      */
     reset(): void;
+    
+    /**
+     *
+     */
+    disabled(): boolean;
 
 }

@@ -14,14 +14,11 @@
     "login.title": "Login",
     "login.confirm": "Login",
     "login.cancel": "Cancel",
-        
     "login.email.pattern": "Invalid email",
     "login.email.required": "Email is required",
-    
     "login.password.minLength": "Password must be at least 6 characters",
     "login.password.maxLength": "Password must no more than 32 characters",
     "login.password.required": "Password is required",
-    
     "login.unauthorized": "Incorrect email or password",
 
     "register.title": "Register",

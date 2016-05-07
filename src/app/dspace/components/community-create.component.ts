@@ -19,8 +19,8 @@ import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
 
-import { CreateComponent } from '../../utilities/form/create.component';
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
+import { FormSecureComponent } from '../../utilities/form/form-secure.component';
 import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
 
 import { Community } from "../models/community.model";
@@ -40,12 +40,12 @@ import { FormInput } from '../../utilities/form/form-input.model';
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid && processing">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">Submit</button>
                     </div>
                 </form>
               `
 })
-export class CommunityCreateComponent extends CreateComponent {
+export class CommunityCreateComponent extends FormSecureComponent {
 
     /**
      * Community being created. ngModel
@@ -58,12 +58,12 @@ export class CommunityCreateComponent extends CreateComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param formService
-     *      FormService is a singleton service to retrieve form data.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param translate
      *      TranslateService
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -73,13 +73,13 @@ export class CommunityCreateComponent extends CreateComponent {
      */
     constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private formService: FormService,
                 private dspace: DSpaceDirectory,
                 private translate: TranslateService,
-                private builder: FormBuilder,
+                formService: FormService,
+                builder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
-        super(authorization, router);
+        super(formService, builder, authorization, router);
         translate.setDefaultLang('en');
         translate.use('en');
         this.init();
@@ -95,7 +95,7 @@ export class CommunityCreateComponent extends CreateComponent {
             let formControls = {};
             for(let input of this.inputs) {
                 input.value = input.default ? input.default : '';
-                let validators = this.createValidators(input);
+                let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
             this.form = this.builder.group(formControls);

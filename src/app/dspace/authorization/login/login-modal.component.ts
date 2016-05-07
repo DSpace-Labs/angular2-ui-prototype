@@ -25,7 +25,7 @@ import { LoginComponent } from './login.component';
                     [title]="'login.title'"
                     [cancelLabel]="'login.cancel'"
                     [confirmLabel]="'login.confirm'"
-                    [valid]="form.valid && !processing"
+                    [valid]="!disabled()"
                     (loadedEmitter)="onLoaded($event)"
                     (actionEmitter)="onAction($event)">
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
