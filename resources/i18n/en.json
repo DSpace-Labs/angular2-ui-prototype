@@ -16,8 +16,8 @@
     "login.cancel": "Cancel",
     "login.email.pattern": "Invalid email",
     "login.email.required": "Email is required",
-    "login.password.minLength": "Password must be at least 6 characters",
-    "login.password.maxLength": "Password must no more than 32 characters",
+    "login.password.minLength": "Password must have at least 6 characters",
+    "login.password.maxLength": "Password must have at most 32 characters",
     "login.password.required": "Password is required",
     "login.unauthorized": "Incorrect email or password",
 
@@ -62,31 +62,31 @@
     
     "community.name.required": "Community name is required.",
     "community.name.minLength": "Community name must have at least 4 characters.",
-    "community.name.maxLength": "Community name must be no more than 128 characters.",
+    "community.name.maxLength": "Community name must have at most 128 characters.",
     
     "community.shortDescription.required": "Community short description is required.",
     "community.shortDescription.minLength": "Community short description must have at least 8 characters.",
-    "community.shortDescription.maxLength": "Community short description must be no more than 1024 characters.",
+    "community.shortDescription.maxLength": "Community short description must have at most 1024 characters.",
     
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
-    "collection.name.maxLength": "Collection name must be no more than 128 characters.",
+    "collection.name.maxLength": "Collection name must have at most 128 characters.",
     
     "collection.shortDescription.required": "Collection short description is required.",
     "collection.shortDescription.minLength": "Collection short description must have at least 8 characters.",
-    "collection.shortDescription.maxLength": "Collection short description must be no more than 1024 characters.",
+    "collection.shortDescription.maxLength": "Collection short description must have at most 1024 characters.",
     
     "item.name.required": "Item name is required.",
     "item.name.minLength": "Item name must have at least 4 characters.",
-    "item.name.maxLength": "Item name must be no more than 128 characters.",
+    "item.name.maxLength": "Item name must have at most 128 characters.",
     
     "item.metadata.dc.title.required": "Item metadata dc.title is required.",
     "item.metadata.dc.title.minLength": "Item metadata dc.title must have at least 4 characters.",
-    "item.metadata.dc.title.maxLength": "Item metadata dc.title must be no more than 128 characters.",
+    "item.metadata.dc.title.maxLength": "Item metadata dc.title must have at most 128 characters.",
     
     "item.metadata.dc.type.required": "Item metadata dc.type is required.",
     "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 4 characters.",
-    "item.metadata.dc.type.maxLength": "Item metadata dc.type must be no more than 128 characters.",
+    "item.metadata.dc.type.maxLength": "Item metadata dc.type must have at most 128 characters.",
     
     "item.metadata.dc.date.created.required": "Item metadata dc.date.created is required.",
     
@@ -94,27 +94,27 @@
     
     "item.metadata.dc.contributor.author.required": "Item metadata dc.contributor.author is required.",
     "item.metadata.dc.contributor.author.minLength": "Item metadata dc.contributor.author must have at least 4 characters.",
-    "item.metadata.dc.contributor.author.maxLength": "Item metadata dc.contributor.author must be no mores than 128 characters.",
+    "item.metadata.dc.contributor.author.maxLength": "Item metadata dc.contributor.author must have at most 128 characters.",
     
     "item.metadata.dc.description.required": "Item metadata dc.description is required.",
     "item.metadata.dc.description.minLength": "Item metadata dc.description must have at least 8 characters.",
-    "item.metadata.dc.description.maxLength": "Item metadata dc.description must be no more than 512 characters.",
+    "item.metadata.dc.description.maxLength": "Item metadata dc.description must have at most 512 characters.",
     
     "item.metadata.dc.description.abstract.required": "Item metadata dc.description.abstract is required.",
     "item.metadata.dc.description.abstract.minLength": "Item metadata dc.description.abstract must have at least 16 characters.",
-    "item.metadata.dc.description.abstract.maxLength": "Item metadata dc.description.abstract must be no more than 2056 characters.",
+    "item.metadata.dc.description.abstract.maxLength": "Item metadata dc.description.abstract must have at most 2056 characters.",
     
     "item.metadata.dc.subject.required": "Item metadata dc.subject is required.",
     "item.metadata.dc.subject.minLength": "Item metadata dc.subject must have at least 4 characters.",
-    "item.metadata.dc.subject.maxLength": "Item metadata dc.subject mustbe no more than 128 characters.",
+    "item.metadata.dc.subject.maxLength": "Item metadata dc.subject must have at most 128 characters.",
     
     "item.metadata.dc.rights.required": "Item metadata dc.rights is required.",
     "item.metadata.dc.rights.minLength": "Item metadata dc.rights must have at least 4 characters.",
-    "item.metadata.dc.rights.maxLength": "Item metadata dc.rights must be no more than 128 characters.",
+    "item.metadata.dc.rights.maxLength": "Item metadata dc.rights must have at most 128 characters.",
     
     "item.metadata.dc.rights.uri.required": "Item metadata dc.rights.uri is required.",
     "item.metadata.dc.rights.uri.minLength": "Item metadata dc.rights.uri must have at least 4 characters.",
-    "item.metadata.dc.rights.uri.maxLength": "Item metadata dc.rights.uri must be no more than 512 characters.",
+    "item.metadata.dc.rights.uri.maxLength": "Item metadata dc.rights.uri must have at most 512 characters.",
     "item.metadata.dc.rights.uri.pattern": "Item metadata dc.rights.uri must be a FQDN."
     
 }
