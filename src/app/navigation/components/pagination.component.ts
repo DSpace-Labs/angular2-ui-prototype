@@ -106,7 +106,7 @@ export class PaginationComponent implements OnInit {
      *          The page being navigated to.
      */
     private page(id, page): void {
-        this.context.loaded = false;
+        this.context.unload();
         this.breadcrumbService.update({
             name:  this.context.name,
             component:  this.context.component,
@@ -132,7 +132,7 @@ export class PaginationComponent implements OnInit {
     private updateLimit(limit): void {
         let previousPage = this.context.page;
         this.pagingStore.clearPages(this.context);
-        this.context.loaded = false;
+        this.context.unload();
         this.context.page = this.context.page > 1 ? Math.ceil(((this.context.page - 1) * this.context.limit) / limit) : 1;
         this.context.limit = limit;
         this.context.pageCount = Math.ceil(this.context.total / this.context.limit);

@@ -56,7 +56,7 @@ export class DSpaceDirectory {
     refresh(context?: any): void {
         if(context) {
             this.pagingStore.clearPages(context);
-            context.loaded = false;
+            context.unload();
             context.limit = null;
             if(context.type == 'community') {
                 context.subcommunities.splice(0, context.subcommunities.length);
@@ -126,28 +126,27 @@ export class DSpaceDirectory {
      *      current context in which needing to load navigation.
      */
     loadNav(type, context): void {
-        if(context.loaded) {
-            return;
-        }
-        if (!context.limit) {
-            this.paging(context);
-        }
-        let cachedPage = this.pagingStore.getPage(context);
-        if (cachedPage) {
-            context[this.dspaceConstants[type].DSPACE] = cachedPage;
-        }
-        else {
-            this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
-                context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
-                context.loaded = true;
-                this.pagingStore.addPage(context);
-            },
-            error => {
-                console.error('Error: ' + JSON.stringify(error, null, 4));
-            },
-            () => {
-                console.log('finished fetching ' + this.dspaceConstants[type].DSPACE + ' page ' + context.page + ' of ' + context.name);
-            });
+        if(!context.loaded[type]) {
+            if (!context.limit) {
+                this.paging(context);
+            }
+            let cachedPage = this.pagingStore.getPage(type, context);
+            if (cachedPage) {
+                context[this.dspaceConstants[type].DSPACE] = cachedPage;
+            }
+            else {
+                this.dspaceService['fetch' + this.dspaceConstants[type].COMPONENT](context).subscribe(nav => {
+                    context[this.dspaceConstants[type].DSPACE] = this.prepare(context, nav);
+                    this.pagingStore.addPage(type, context);
+                    context.loaded[type] = true;
+                },
+                error => {
+                    console.error('Error: ' + JSON.stringify(error, null, 4));
+                },
+                () => {
+                    console.log('finished fetching ' + this.dspaceConstants[type].DSPACE + ' page ' + context.page + ' of ' + context.name);
+                });
+            }
         }
     }
 

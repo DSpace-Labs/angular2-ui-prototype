@@ -117,8 +117,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
                 page: context.page,
                 limit: context.limit
             });            
-            if ((context.parentCommunity && context.parentCommunity.type) || 
-                (context.parentCollection && context.parentCollection.type)) {
+            if ((context.parentCommunity && context.parentCommunity.type) || (context.parentCollection && context.parentCollection.type)) {
                 let parentType = context.parentCommunity ? 'Community' : 'Collection';
                 if (context['parent' + parentType].ready) {
                     bc.dropBreadcrumb(context['parent' + parentType]).then(() => {
