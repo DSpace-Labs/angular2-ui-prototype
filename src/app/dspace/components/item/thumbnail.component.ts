@@ -9,7 +9,7 @@ import {Item} from '../../models/item.model';
  * It gets the item bitstreams because I *think* that we could let the thumbnail download a bitstream?
  */
 @Component({
-    selector: 'item-thumbnail',
+    selector: 'thumbnail',
     inputs: ['thumbnaillink'],
     pipes: [TranslatePipe],
     template: `

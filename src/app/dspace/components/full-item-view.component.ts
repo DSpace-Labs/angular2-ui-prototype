@@ -32,7 +32,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                         <!-- the rendering of different parts of the page is delegated to other components -->
                         <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
 
-                        <item-full-bitstreams [itemBitstreams]="item.bitstreams" [itemThumbnail]="item.thumbnail"></item-full-bitstreams>
+                        <item-full-bitstreams [itemBitstreams]="item.bitstreams" [thumbnail]="item.thumbnail"></item-full-bitstreams>
 
                         <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
 
