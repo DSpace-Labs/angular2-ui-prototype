@@ -19,6 +19,8 @@ import { RegistrationComponent } from './dspace/authorization/components/registr
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
+import {SidebarComponent} from './dspace/components/sidebar/sidebar.component';
+
 import { User } from './dspace/models/user.model';
 
 /**
@@ -31,7 +33,8 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   BreadcrumbComponent,
                   ContextComponent,
-                  LoginFormComponent ],
+                  LoginFormComponent,
+                  SidebarComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -64,6 +67,7 @@ import { User } from './dspace/models/user.model';
                 <div class="container">
                     <div class="col-md-4">
                         <context></context>
+                        <sidebar></sidebar>
                     </div>
                     <div class="col-md-8">
                         <router-outlet></router-outlet>

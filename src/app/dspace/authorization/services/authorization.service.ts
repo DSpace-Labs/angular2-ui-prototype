@@ -35,7 +35,7 @@ export class AuthorizationService {
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
      */
-    constructor(@Inject(StorageService) private storageService: StorageService,
+    constructor(@Inject(StorageService) private  storageService: StorageService,
                 private dspaceService: DSpaceService) {
         this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
