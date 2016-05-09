@@ -19,7 +19,7 @@ import { FormService } from '../../utilities/form/form.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
+import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
 
 import { Community } from "../models/community.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -129,12 +129,14 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 if(currentContext.root) {
-                    this.router.navigate(['/Dashboard']);
+                    this.reset();
                     this.dspace.refresh();
+                    this.router.navigate(['/Dashboard']);
                 }
                 else {
-                    this.router.navigate(['/Communities', { id: currentContext.id }]);
+                    this.reset();
                     this.dspace.refresh(currentContext);
+                    this.router.navigate(['/Communities', { id: currentContext.id }]);
                 }
             }
         },
