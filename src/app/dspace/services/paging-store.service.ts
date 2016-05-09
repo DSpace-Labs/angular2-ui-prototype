@@ -76,7 +76,13 @@ export class PagingStoreService {
      *      context: community, collection, or item
      */
     clearPages(context): void {
-        this[context.type + 'Pages'].set(context.id, new Map<number, any>());
+        if(context.type == 'community') {
+            this.collectionPages.set(context.id, new Map<number, any>());
+            this.communityPages.set(context.id, new Map<number, any>());
+        }
+        else {
+            this.itemPages.set(context.id, new Map<number, any>());
+        }
     }
 
 }

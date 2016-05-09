@@ -65,7 +65,7 @@ export class AbstractComponent implements OnInit {
      *
      */
     private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }
 
 }

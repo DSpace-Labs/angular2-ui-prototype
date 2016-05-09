@@ -1,6 +1,5 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
-
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -12,6 +11,8 @@ import {
 } from 'angular2/common';
 
 import { Observable } from 'rxjs/Rx';
+
+import { TranslateService } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
@@ -82,6 +83,8 @@ export class ItemCreateComponent extends FormSecureComponent {
 
     /**
      *
+     * @param translate
+     *      TranslateService
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
@@ -99,7 +102,8 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private contextProvider: ContextProviderService,
+    constructor(private translate: TranslateService,
+                private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
                 private notificationService: NotificationService,
@@ -282,7 +286,7 @@ export class ItemCreateComponent extends FormSecureComponent {
         this.reset();
         this.dspace.refresh(currentContext);
         this.router.navigate(['/Collections', { id: currentContext.id }]);
-        this.notificationService.notify('SUCCESS', itemName + ' was created under ' + currentContext.name, 15);
+        this.notificationService.notify('SUCCESS', this.translate.instant('item.create.success') + itemName + this.translate.instant('create.success'), 15);
     }
 
 }
