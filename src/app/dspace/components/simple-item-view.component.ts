@@ -83,6 +83,8 @@ export class SimpleItemViewComponent {
                 });
             }
         });
+
+        console.log("constructed");
     }
 
     /**

@@ -90,7 +90,7 @@ export class FullItemViewComponent {
                 mduri.setKey("dc.identifier.uri");
                 mduri.setValue("http://www.google.be");
                 this.item.addMetadata(mduri);
-            },15000);
+            },1000);
         }
     }
 }
