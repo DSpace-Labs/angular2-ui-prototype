@@ -7,7 +7,7 @@ import {
 
 import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ValidationMessageComponent } from '../../utilities/form/validation-message.component';
 
@@ -80,16 +80,6 @@ export class ItemMetadataInputComponent {
      * 
      */
     @Output('removeMetadatumInputEmitter') removeMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      * 

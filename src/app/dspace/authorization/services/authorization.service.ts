@@ -132,6 +132,13 @@ export class AuthorizationService {
     }
 
     /**
+     *
+     */
+    isAuthenticated(): boolean {
+        return this.user ? true : false;
+    }
+
+    /**
      * Sets the currently logged in user.
      *
      * @param user

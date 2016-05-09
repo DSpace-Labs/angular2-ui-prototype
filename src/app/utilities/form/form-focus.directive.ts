@@ -1,0 +1,28 @@
+import { Directive, ElementRef, Input, OnChanges } from 'angular2/core';
+
+/**
+ * 
+ */
+@Directive({
+    selector: '[focus]'
+})
+export class FormFocusDirective implements OnChanges {
+
+    /**
+     * 
+     */
+    @Input() focus: boolean;
+
+    /**
+     * 
+     */
+    constructor(private element: ElementRef) {}
+
+    /**
+     * 
+     */
+    ngOnChanges() {
+        this.element.nativeElement.autofocus = this.focus;
+    }
+
+}

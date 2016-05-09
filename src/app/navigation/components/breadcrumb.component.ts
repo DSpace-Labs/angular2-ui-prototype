@@ -14,7 +14,7 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="let breadcrumb of trail">
-                        <a *ngIf="rootBreadcrumb(breadcrumb)" [routerLink]="['/Dashboard']">{{ breadcrumb.name }}</a>
+                        <a *ngIf="rootBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component]">{{ breadcrumb.name }}</a>
                         <a *ngIf="contextBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
                         <a *ngIf="contextBreadcrumbWithPage(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
                         <a *ngIf="contextBreadcrumbWithPageAndLimit(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>

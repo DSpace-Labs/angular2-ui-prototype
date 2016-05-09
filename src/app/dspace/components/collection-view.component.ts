@@ -1,6 +1,5 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { Collection } from "../models/collection.model";
@@ -17,7 +16,6 @@ import { ItemListComponent } from './item-list.component';
 @Component({
     selector: 'collection',
     directives: [ ContainerHomeComponent, ItemListComponent ],
-    pipes: [ TranslatePipe ],
     template: ` 
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>
@@ -36,17 +34,12 @@ export class CollectionViewComponent {
      *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
-     * @param translate
-     *      TranslateService
      */
-    constructor(private contextProvider: ContextProviderService,
-                private translate: TranslateService) {
+    constructor(private contextProvider: ContextProviderService) {
         this.collection = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.collection = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**

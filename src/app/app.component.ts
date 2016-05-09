@@ -1,5 +1,6 @@
 import { Component, OnInit } from 'angular2/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
+
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
@@ -13,9 +14,9 @@ import { ContextComponent } from './navigation/components/context.component';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
-import { LoginFormComponent } from './dspace/authorization/components/login-form.component';
-import { LoginComponent } from './dspace/authorization/components/login.component';
-import { RegistrationComponent } from './dspace/authorization/components/registration.component';
+import { LoginModalComponent } from './dspace/authorization/login/login-modal.component';
+import { LoginFormComponent } from './dspace/authorization/login/login-form.component';
+import { RegistrationComponent } from './dspace/authorization/registration/registration.component';
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
@@ -31,8 +32,8 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   BreadcrumbComponent,
                   ContextComponent,
-                  LoginFormComponent ],
-    pipes: [TranslatePipe],
+                  LoginModalComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
@@ -70,15 +71,16 @@ import { User } from './dspace/models/user.model';
                     </div>
                 </div>
 
-                <login-form #login></login-form>
+                <login-modal #login></login-modal>
               `
 })
 @RouteConfig([
-    
+        
+
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
-        { path: "/login", name: "Login", component: LoginComponent },
+        { path: "/login", name: "Login", component: LoginFormComponent },
         { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
@@ -86,8 +88,9 @@ import { User } from './dspace/models/user.model';
         { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
         { path: "/items/:id/...", name: "Items", component: ItemComponent },
 
-        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent }
+        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
 
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
 
