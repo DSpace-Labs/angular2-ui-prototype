@@ -9,7 +9,7 @@ import {ViewElementComponent} from '../view-element.component';
  */
 @Component({
     selector: 'item-full-bitstreams',
-    inputs: ['itemBitstreams','itemThumbnail'],
+    inputs: ['itemThumbnail'],
     directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template: `
@@ -50,9 +50,7 @@ export class FullBitstreamsComponent {
     /**
      * 
      */
-    @Input() private itemBitstreams: Bitstream;
-
-    private itemBitstreams: Array<Bitstream>;
+    @Input() private itemBitstreams: Bitstream[];
 
     private itemThumbnail : String;
     // The default 'holder.js' image
