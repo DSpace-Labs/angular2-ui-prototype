@@ -15,6 +15,7 @@ import {ItemComponent} from './item.component';
 
 import {Item} from '../models/item.model'
 import {ItemStoreService} from '../services/item-store.service'
+import {AbstractComponent} from "./item/abstract.component";
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -29,6 +30,7 @@ import {ItemStoreService} from '../services/item-store.service'
                  DateComponent,
                  CollectionComponent,
                  UriComponent,
+                 AbstractComponent,
                  ROUTER_DIRECTIVES,
                  BitstreamsComponent,
                  ThumbnailComponent],
@@ -45,7 +47,7 @@ import {ItemStoreService} from '../services/item-store.service'
                                     <div class="item-summary-view-metadata">
                                         <h1>{{item.name}}</h1>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-sm-4">
                                                 <item-thumbnail></item-thumbnail>
                                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                                 <item-date [itemData]="item.metadata"></item-date>
@@ -53,7 +55,8 @@ import {ItemStoreService} from '../services/item-store.service'
                                                 <h3>{{'item-view.show-full' | translate}}</h3>
                                                 <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{'item-view.show-full' | translate}}</a>
                                             </div>
-                                            <div class="col-md-8">
+                                            <div class="col-sm-8">
+                                                <item-abstract [itemData]="item.metadata"></item-abstract>
                                                 <item-uri [itemData]="item.metadata"></item-uri>
                                                 <item-collection [itemParent]="item.parentCollection"></item-collection>
                                             </div>
