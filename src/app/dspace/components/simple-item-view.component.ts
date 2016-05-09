@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -56,7 +56,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                 </div>
               `
 })
-export class SimpleItemViewComponent {
+export class SimpleItemViewComponent implements OnInit { // uses OnInit for testing purposes.
 
     /**
      * The current item.

@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, OnChanges } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -37,7 +37,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                 </div>
               `
 })
-export class FullItemViewComponent {
+export class FullItemViewComponent implements OnChanges {
 
     /**
      * The current item.

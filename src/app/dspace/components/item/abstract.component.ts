@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnChanges} from 'angular2/core';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-
+import {ViewComponent} from '../../models/viewcomponent.model'
 import {MetadataHelper} from '../../../utilities/metadata.helper';
 import {Metadatum} from '../../models/metadatum.model'
 import {ViewElementComponent} from './view-element.component';
@@ -22,7 +22,7 @@ import {ViewElementComponent} from './view-element.component';
                 </view-element>
               `
 })
-export class AbstractComponent implements OnInit {
+export class AbstractComponent extends ViewComponent implements OnChanges {
 
     /**
      *
@@ -34,37 +34,14 @@ export class AbstractComponent implements OnInit {
      */
     private componentTitle: string = "item-view.header.abstract";
 
-    /**
-     * the fields that we want to show on this page.
-     */
-    private fields: Array<string>; //
 
-    /**
-     * the values that we will filter out of the metadata.
-     */
-    private filteredFields: Array<Metadatum>;
-
-    /**
-     *
-     * @param metadataHelper
-     *      MetadataHelper is a singleton service used to filter metadata fields.
-     */
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.description.abstract"];
+    constructor() {
+        super(["dc.description.abstract"]);
     }
 
-    /**
-     *
-     */
-    ngOnInit() {
-        this.filterMetadata();
+    ngOnChanges() {
+        super.filterMetadata(this.itemData);
     }
 
-    /**
-     *
-     */
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
-    }
 
 }
