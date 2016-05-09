@@ -3,7 +3,7 @@ import { Router } from 'angular2/router';
 
 import { FormBuilder, NgForm } from 'angular2/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 import { FormService } from '../../../utilities/form/form.service';
@@ -44,8 +44,6 @@ export class LoginModalComponent extends LoginComponent {
 
     /**
      *
-     * @param translate
-     *      TranslateService
      * @param formService
      *      FormService is a singleton service to retrieve form data.
      * @param builder
@@ -55,14 +53,11 @@ export class LoginModalComponent extends LoginComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private translate: TranslateService,
-                formService: FormService,
+    constructor(formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
-        translate.setDefaultLang('en');
-        translate.use('en');
         this.init();
     }
 

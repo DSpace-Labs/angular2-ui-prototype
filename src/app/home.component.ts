@@ -1,4 +1,5 @@
 import { Component } from 'angular2/core';
+
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
@@ -62,8 +63,6 @@ export class HomeComponent {
         authorization.userObservable.subscribe(user => {
             this.user = user;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
         translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {
             this.serverTemplating = [res["home.welcome1"], res["home.welcome2"], res["home.welcome3"]];
         });

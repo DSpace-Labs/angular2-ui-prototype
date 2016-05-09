@@ -8,7 +8,7 @@ import {
 
 import { ControlGroup, NgForm } from 'angular2/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Form modal. ng-content brings in the actual form.
@@ -90,16 +90,6 @@ export class FormModalComponent implements OnInit {
      * Whether the modal is being displayed or not.
      */
     private showModal: boolean = false;
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      *

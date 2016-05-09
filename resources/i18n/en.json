@@ -17,7 +17,7 @@
     "login.email.pattern": "Invalid email",
     "login.email.required": "Email is required",
     "login.password.minLength": "Password must have at least 6 characters",
-    "login.password.maxLength": "Password must have at most 32 characters",
+    "login.password.maxLength": "Password must have at most 128 characters",
     "login.password.required": "Password is required",
     "login.unauthorized": "Incorrect email or password",
 

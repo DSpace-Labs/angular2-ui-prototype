@@ -1,8 +1,5 @@
 import { Component, Inject, Input } from 'angular2/core';
-
 import { ControlGroup } from 'angular2/common';
-
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ValidationMessageComponent } from './validation-message.component';
 
@@ -15,7 +12,6 @@ import { FormFocusDirective } from './form-focus.directive';
  */
 @Component({
     selector: 'form-fieldset',
-    pipes: [ TranslatePipe ],
     directives: [ FormFocusDirective, ValidationMessageComponent ],
     template: `
                 <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [class.has-error]="hasError(input)">
@@ -43,16 +39,6 @@ export class FormFieldsetComponent {
      * Item input fields.
      */
     @Input("inputs") private inputs: Array<FormInput>;
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      *

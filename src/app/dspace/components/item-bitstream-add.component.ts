@@ -5,14 +5,11 @@ import {
     Output
 } from 'angular2/core';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
-
 /**
  * 
  */
 @Component({
     selector: 'item-bitstream-add',
-    pipes: [ TranslatePipe ],
     template: ` 
                 <hr>
                 <label>Bitstreams</label>                        
@@ -65,16 +62,6 @@ export class ItemBitstreamAddComponent {
      * 
      */
     @Output('removeBitstreamEmitter') removeBitstreamEmitter: EventEmitter<any> = new EventEmitter<any>();
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      * 

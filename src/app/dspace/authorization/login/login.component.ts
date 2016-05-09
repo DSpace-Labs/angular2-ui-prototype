@@ -1,9 +1,6 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
-
 import { Control, FormBuilder, Validators } from 'angular2/common';
-
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 import { FormService } from '../../../utilities/form/form.service';

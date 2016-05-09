@@ -32,7 +32,7 @@
             	"message": "login.password.minLength"
             },
             "maxLength": {
-            	"value": 32,
+            	"value": 128,
             	"message": "login.password.maxLength"
             }
         }

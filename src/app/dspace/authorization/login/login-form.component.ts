@@ -1,9 +1,8 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
-
 import { FORM_DIRECTIVES, FormBuilder, NgForm } from 'angular2/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
@@ -45,8 +44,6 @@ export class LoginFormComponent extends LoginComponent {
      *
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param translate
-     *      TranslateService
      * @param formService
      *      FormService is a singleton service to retrieve form data.
      * @param builder
@@ -57,15 +54,12 @@ export class LoginFormComponent extends LoginComponent {
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private breadcrumbService: BreadcrumbService,
-                private translate: TranslateService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
         breadcrumbService.visit(this.breadcrumb);
-        translate.setDefaultLang('en');
-        translate.use('en');
         this.init();
     }
     

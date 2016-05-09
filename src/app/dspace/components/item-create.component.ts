@@ -13,8 +13,6 @@ import {
 
 import { Observable } from 'rxjs/Rx';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
-
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
@@ -37,7 +35,6 @@ import { Metadatum } from '../models/metadatum.model';
  */
 @Component({
     selector: 'item-create',
-    pipes: [ TranslatePipe ],
     bindings: [ FORM_BINDINGS ],
     directives: [ FORM_DIRECTIVES,
                   FullPageLoaderComponent,
@@ -90,8 +87,6 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      DSpaceService is a singleton service to interact with the dspace service.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param translate
-     *      TranslateService
      * @param formService
      *      FormService is a singleton service to retrieve form data.
      * @param builder
@@ -104,14 +99,11 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
-                private translate: TranslateService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
-        translate.setDefaultLang('en');
-        translate.use('en');
         this.init();
     }
 

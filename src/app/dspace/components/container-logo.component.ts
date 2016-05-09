@@ -1,4 +1,5 @@
 import { Component, Input } from "angular2/core";
+
 import { Bitstream } from "../models/bitstream.model";
 
 /**
