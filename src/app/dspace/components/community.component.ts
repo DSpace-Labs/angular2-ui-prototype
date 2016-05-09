@@ -3,11 +3,12 @@ import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
-import { Community } from "../models/community.model";
 
 import { CommunityViewComponent } from './community-view.component';
 import { CommunityCreateComponent } from './community-create.component';
 import { CollectionCreateComponent } from './collection-create.component';
+
+import { Community } from "../models/community.model";
 
 /**
  * Community component for displaying the current community.

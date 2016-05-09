@@ -3,12 +3,12 @@ import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
-import { Collection } from "../models/collection.model";
-
-import { ItemListComponent } from './item-list.component';
 
 import { CollectionViewComponent } from './collection-view.component';
 import { ItemCreateComponent } from './item-create.component';
+import { ItemListComponent } from './item-list.component';
+
+import { Collection } from "../models/collection.model";
 
 /**
  * Collection component for displaying the current collection.
