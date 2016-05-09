@@ -1,6 +1,6 @@
 import { Component, Inject, Input } from 'angular2/core';
 
-import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
+import { ControlGroup } from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -16,7 +16,7 @@ import { FormFocusDirective } from './form-focus.directive';
 @Component({
     selector: 'form-fieldset',
     pipes: [ TranslatePipe ],
-    directives: [ FORM_DIRECTIVES, FormFocusDirective, ValidationMessageComponent ],
+    directives: [ FormFocusDirective, ValidationMessageComponent ],
     template: `
                 <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [class.has-error]="hasError(input)">
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">

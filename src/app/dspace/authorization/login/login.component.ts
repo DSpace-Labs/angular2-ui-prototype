@@ -53,8 +53,8 @@ export class LoginComponent extends FormComponent {
      * Initialize the form and validators.
      */
     init(): void {
-        this.email = '';
-        this.password = '';
+        this.email = undefined;
+        this.password = undefined;
         this.unauthorized = false;
         this.formService.getForm('login').subscribe(inputs => {
             this.inputs = inputs;
