@@ -1,14 +1,14 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {Collection} from "../models/collection.model";
+import { DSpaceDirectory } from '../dspace.directory';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
+import { Collection } from "../models/collection.model";
 
-import {ItemListComponent} from './item-list.component';
+import { ItemListComponent } from './item-list.component';
 
-import {CollectionViewComponent} from './collection-view.component';
-import {ItemCreateComponent} from './item-create.component';
+import { CollectionViewComponent } from './collection-view.component';
+import { ItemCreateComponent } from './item-create.component';
 
 /**
  * Collection component for displaying the current collection.
@@ -16,7 +16,7 @@ import {ItemCreateComponent} from './item-create.component';
  */
 @Component({
     selector: 'collection',
-    directives: [RouterOutlet],
+    directives: [ RouterOutlet ],
     template: ` 
                 <router-outlet></router-outlet>
               `
@@ -33,16 +33,16 @@ export class CollectionComponent {
      *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param breadcrumb
+     * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
-            breadcrumb.visit(collection);
+                private dspace: DSpaceDirectory, 
+                private breadcrumbService: BreadcrumbService) {
+        dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
+            breadcrumbService.visit(collection);
         });
     }
 

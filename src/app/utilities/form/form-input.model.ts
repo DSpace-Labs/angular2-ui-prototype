@@ -1,13 +1,11 @@
-import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util";
-import {StringUtil} from "../../utilities/commons/string.util";
+import { ObjectUtil } from "../commons/object.util";
 
-import {Metadatum} from './metadatum.model';
+import { Metadatum } from '../../dspace/models/metadatum.model';
 
 /**
  *
  */
-export class MetadatumInput extends Metadatum {
+export class FormInput extends Metadatum {
 
     /**
      *
@@ -50,14 +48,20 @@ export class MetadatumInput extends Metadatum {
     default: any;
 
     /**
-     *
+     * Create a new Metadatum.
+     * 
+     * @param json
+     *      A plain old javascript object representing a MetadatumInput as would be created from the 
+     *      form service. It uses json.gloss, json.type, json.options, json.repeat, json.repeatable, 
+     *      json.validation, json.edit, and json.default
      */
     constructor(json: any) {
-       super(json);
-       if (ObjectUtil.isNotEmpty(json)) {
+        super(json);
+        if (ObjectUtil.isNotEmpty(json)) {
             this.gloss = json.gloss;
             this.type = json.type;
             this.options = json.options;
+            this.repeat = json.repeat;
             this.repeatable = json.repeatable;
             this.validation = json.validation;
             this.edit = false;

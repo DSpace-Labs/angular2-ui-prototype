@@ -1,12 +1,12 @@
-import {Injectable, Inject} from 'angular2/core';
-import {Response} from 'angular2/http';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from "rxjs/Observable";
+import { Injectable, Inject } from 'angular2/core';
+import { Response } from 'angular2/http';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from "rxjs/Observable";
 
-import {User} from '../../models/user.model';
+import { DSpaceService } from '../../services/dspace.service';
+import { StorageService } from '../../../utilities/services/storage.service';
 
-import {DSpaceService} from '../../services/dspace.service';
-import {StorageService} from '../../../utilities/services/storage.service';
+import { User } from '../../models/user.model';
 
 /**
  * Authorization service used for authentication and authorization.
@@ -32,11 +32,11 @@ export class AuthorizationService {
     /**
      * @param storageService
      *      StorageService is a singleton service to interact with the storage service.
-     * @param dspace
+     * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
      */
     constructor(@Inject(StorageService) private storageService: StorageService,
-                private dspace: DSpaceService) {
+                private dspaceService: DSpaceService) {
         this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
@@ -65,7 +65,7 @@ export class AuthorizationService {
      */
     login(email: string, password: string): Observable<Response> {
 
-        let loginResponse: Observable<Response> = this.dspace.login(email, password);
+        let loginResponse: Observable<Response> = this.dspaceService.login(email, password);
         
         loginResponse.subscribe(response => {
             if(response.status == 200) {
@@ -79,9 +79,12 @@ export class AuthorizationService {
         return loginResponse;
     }
 
+    /**
+     * 
+     */
     status(token: string): Observable<Response> {
 
-        let statusResponse: Observable<Response> = this.dspace.status(token);
+        let statusResponse: Observable<Response> = this.dspaceService.status(token);
 
         statusResponse.subscribe(response => {
             this.user = new User(response);
@@ -107,7 +110,7 @@ export class AuthorizationService {
 
         let token = this.user.token;
 
-        let logoutResponse: Observable<Response> = this.dspace.logout(token);
+        let logoutResponse: Observable<Response> = this.dspaceService.logout(token);
         
         logoutResponse.subscribe(response => {
             if(response.status == 200) {

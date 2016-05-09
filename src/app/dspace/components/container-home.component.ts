@@ -1,6 +1,6 @@
-import {Component, Input} from 'angular2/core';
-import {ContainerHomepage} from "../interfaces/container-homepage.interface";
-import {ContainerLogoComponent} from "./container-logo.component";
+import { Component, Input } from 'angular2/core';
+import { ContainerHomepage } from "../interfaces/container-homepage.interface";
+import { ContainerLogoComponent } from "./container-logo.component";
 
 /**
  * A component to render container (i.e. Community or Collection) homepages
@@ -8,7 +8,7 @@ import {ContainerLogoComponent} from "./container-logo.component";
  */
 @Component({
     selector: 'container-home',
-    directives: [ContainerLogoComponent],
+    directives: [ ContainerLogoComponent ],
     template: `
                 <h1 class="page-header">{{ container.name }}</h1>
                 <container-logo *ngIf="container.logo" [logo]="container.logo"></container-logo>

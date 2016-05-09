@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {Item} from '../../../models/item.model';
-import {Metadatum} from '../../../models/metadatum.model';
-import {MetadataHelper} from '../../../../utilities/metadata.helper';
-import {TruncatePipe} from '../../../../utilities/pipes/truncate.pipe';
-import {TruncateDatePipe} from '../../../../utilities/pipes/truncatedate.pipe';
-import {ObjectUtil} from "../../../../utilities/commons/object.util";
+import { Item } from '../../../models/item.model';
+import { Metadatum } from '../../../models/metadatum.model';
+import { MetadataHelper } from '../../../../utilities/metadata.helper';
+import { TruncatePipe } from '../../../../utilities/pipes/truncate.pipe';
+import { TruncateDatePipe } from '../../../../utilities/pipes/truncatedate.pipe';
+import { ObjectUtil } from "../../../../utilities/commons/object.util";
 
 /**
  * This component will display some metadata of the item in the list view.
@@ -16,10 +16,10 @@ import {ObjectUtil} from "../../../../utilities/commons/object.util";
  */
 @Component({
     selector: 'item-list-metadata',
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [TranslatePipe,
-            TruncatePipe,
-            TruncateDatePipe],
+    directives: [ ROUTER_DIRECTIVES ],
+    pipes: [ TranslatePipe,
+             TruncatePipe,
+             TruncateDatePipe ],
     template:
               `
                 <!-- create a router link to the simple item-view -->
@@ -53,6 +53,8 @@ export class ListMetadataComponent implements OnInit {
 
     /**
      *
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {}
 

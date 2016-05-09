@@ -1,10 +1,10 @@
-import {EventEmitter, Injectable} from 'angular2/core';
+import { EventEmitter, Injectable } from 'angular2/core';
 
-import {DSpaceService} from './services/dspace.service';
-import {PagingStoreService} from './services/paging-store.service';
-import {DSpaceConstants} from './dspace.constants';
-import {PaginationService} from '../navigation/services/pagination.service';
-import {ObjectUtil} from '../utilities/commons/object.util'
+import { DSpaceService } from './services/dspace.service';
+import { PagingStoreService } from './services/paging-store.service';
+import { DSpaceConstants } from './dspace.constants';
+import { PaginationService } from '../navigation/services/pagination.service';
+import { ObjectUtil } from '../utilities/commons/object.util'
 
 /**
  * Injectable service to provide navigation and context.

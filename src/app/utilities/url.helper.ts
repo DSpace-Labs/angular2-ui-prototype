@@ -1,5 +1,5 @@
-import {GlobalConfig} from "../../../config";
-import {ArrayUtil} from "./commons/array.util";
+import { GlobalConfig } from "../../../config";
+import { ArrayUtil } from "./commons/array.util";
 
 /**
  *

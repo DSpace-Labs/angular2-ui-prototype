@@ -1,0 +1,23 @@
+[
+    {
+        "key": "name",
+        "language": "en",
+        "gloss": "Name",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "item.name.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.name.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "item.name.maxLength"
+            }
+        }
+    }
+]

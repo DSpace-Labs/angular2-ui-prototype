@@ -1,5 +1,5 @@
-import {Injectable} from 'angular2/core';
-import {Metadatum} from '../dspace/models/metadatum.model'
+import { Injectable } from 'angular2/core';
+import { Metadatum } from '../dspace/models/metadatum.model'
 
 /**
 * A class to deal with some metadata functionality

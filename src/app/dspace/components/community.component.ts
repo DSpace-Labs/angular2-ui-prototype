@@ -1,13 +1,13 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
-import {Community} from "../models/community.model";
+import { DSpaceDirectory } from '../dspace.directory';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
+import { Community } from "../models/community.model";
 
-import {CommunityViewComponent} from './community-view.component';
-import {CommunityCreateComponent} from './community-create.component';
-import {CollectionCreateComponent} from './collection-create.component';
+import { CommunityViewComponent } from './community-view.component';
+import { CommunityCreateComponent } from './community-create.component';
+import { CollectionCreateComponent } from './collection-create.component';
 
 /**
  * Community component for displaying the current community.
@@ -15,7 +15,7 @@ import {CollectionCreateComponent} from './collection-create.component';
  */
 @Component({
     selector: 'community',
-    directives: [RouterOutlet],
+    directives: [ RouterOutlet ],
     template: ` 
                 <router-outlet></router-outlet>
               `
@@ -31,17 +31,17 @@ export class CommunityComponent {
 
     /**
      *
-     * @param params
-     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param directory
+     * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumb
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param params
+     *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      */
-    constructor(private params: RouteParams, 
-                private directory: DSpaceDirectory, 
-                private breadcrumb: BreadcrumbService) {
-        directory.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
+    constructor(private dspace: DSpaceDirectory, 
+                private breadcrumb: BreadcrumbService,
+                private params: RouteParams) {
+        dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             breadcrumb.visit(community);
         });
     }

@@ -9,11 +9,10 @@ import {ViewElementComponent} from './view-element.component';
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
-
 @Component({
     selector: 'item-authors',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template:
             `
                 <view-element [header]="componentTitle | translate"> <!--translate it before passing it on.-->

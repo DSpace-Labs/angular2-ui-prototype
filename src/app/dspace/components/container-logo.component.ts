@@ -1,5 +1,5 @@
-import {Component, Input} from "angular2/core";
-import {Bitstream} from "../models/bitstream.model";
+import { Component, Input } from "angular2/core";
+import { Bitstream } from "../models/bitstream.model";
 
 /**
  * A Component to render a logo

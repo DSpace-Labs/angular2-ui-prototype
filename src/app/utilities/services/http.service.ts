@@ -1,7 +1,14 @@
-import {Injectable} from 'angular2/core';
-import {Http, Headers, RequestOptions, Request, RequestMethod, Response} from 'angular2/http';
+import { Injectable} from 'angular2/core';
+import {
+    Http,
+    Headers,
+    RequestOptions,
+    Request,
+    RequestMethod,
+    Response
+} from 'angular2/http';
 
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 /**
  * Injectable service to be used to make xhr requests. Basic functionality.

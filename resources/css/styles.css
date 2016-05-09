@@ -57,7 +57,7 @@ html, body {
     display: block;
     position: fixed;
     opacity: 1;
-    z-index: 100;
+    z-index: 1030;
     top: 25%;
     left: 45%;
     height: 200px;
