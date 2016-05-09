@@ -29,6 +29,7 @@ export class NotificationService {
      *
      */
     constructor() {
+        this._notifications = new Array<Notification>();
         this.notificationsSubject = new Subject<Array<Notification>>();
         this.notificationsObservable = this.notificationsSubject.asObservable();
     }
@@ -51,16 +52,29 @@ export class NotificationService {
     /**
      *
      */
+    notify(type: string, message: string, duration?: number): void {
+        let notification = duration ? new Notification(type, message, duration) : new Notification(type, message);
+        this.add(notification);
+    }
+
+    /**
+     *
+     */
     add(notification: Notification): void {
         this.notifications.push(notification);
         this.notificationsSubject.next(this._notifications);
+        if(notification.duration) {
+            setTimeout(() => {
+                this.remove(notification);
+            }, notification.duration);
+        }
     }
 
     /**
      *
      */
     remove(notification: Notification): void {
-        for(let i = this.notifications.length; i >= 0; i--) {
+        for(let i = this.notifications.length - 1; i >= 0; i--) {
             if(this.notifications[i].id == notification.id) {
                 this.notifications.splice(i, 1);
                 break;

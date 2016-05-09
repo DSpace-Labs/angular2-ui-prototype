@@ -41,6 +41,7 @@ import { GoogleScholarMetadataService } from './app/utilities/services/google-sc
 import { HttpService } from './app/utilities/services/http.service';
 import { MetadataHelper } from './app/utilities/metadata.helper';
 import { MetaTagService } from "./app/utilities/meta-tag/meta-tag.service";
+import { NotificationService } from './app/utilities/notification/notification.service';
 import { PaginationService } from './app/navigation/services/pagination.service';
 import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
@@ -130,6 +131,7 @@ function ngApp(req, res) {
             HttpService,
             MetadataHelper,
             MetaTagService,
+            NotificationService,
             PaginationService,
             PagingStoreService,
             StorageService,

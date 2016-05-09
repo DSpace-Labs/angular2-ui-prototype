@@ -16,6 +16,7 @@ import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
@@ -59,6 +60,8 @@ export class CollectionCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -69,6 +72,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
     constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -128,18 +132,25 @@ export class CollectionCreateComponent extends FormSecureComponent {
         this.setModelValues();
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                this.reset();
-                this.dspace.refresh(currentContext);
-                setTimeout(() => {
-                    this.router.navigate(['/Communities', { id: currentContext.id }]);
-                });
+                this.finish(this.collection.name, currentContext);
             }
         },
         error => {
             console.log(error);
             this.reset();
         });
+    }
 
+    /**
+     * 
+     */
+    private finish(collectionName: string, currentContext: any): void {
+        this.reset();
+        this.dspace.refresh(currentContext);
+        setTimeout(() => {
+            this.router.navigate(['/Communities', { id: currentContext.id }]);
+            this.notificationService.notify('SUCCESS', collectionName + ' was created under ' + currentContext.name, 15);
+        });
     }
 
 }

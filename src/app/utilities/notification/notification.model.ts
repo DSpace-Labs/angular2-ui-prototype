@@ -6,7 +6,12 @@ export class Notification {
     /**
      *
      */
-    private _id: number; // doubles as timestamp
+    private _timestamp: number;
+
+    /**
+     *
+     */
+    private _id: number;
 
     /**
      *
@@ -28,10 +33,25 @@ export class Notification {
      */
     constructor(type: string, message: string, duration?: number) {
         var date = new Date();
-        this.id = date.getTime();
+        this.timestamp = date.getTime();
+        this.id = this.timestamp + Math.floor(Math.random() * 10000);
         this.type = type;
         this.message = message;
-        this.duration = duration ? duration * 1000 : 15000; // default is 15 seconds
+        this.duration = duration ? duration * 1000 : undefined; // undefined never expires
+    }
+
+    /**
+     *
+     */
+    get timestamp(): number {
+        return this._timestamp;
+    }
+
+    /**
+     *
+     */
+    set timestamp(timestamp: number) {
+        this._timestamp = timestamp;
     }
 
     /**
@@ -88,6 +108,34 @@ export class Notification {
      */
     set duration(duration: number) {
         this._duration = duration;
+    }
+
+    /**
+     *
+     */
+    success(): boolean {
+        return this.type.toUpperCase() == "SUCCESS";
+    }
+
+    /**
+     *
+     */
+    warning(): boolean {
+        return this.type.toUpperCase() == "WARNING";
+    }
+
+    /**
+     *
+     */
+    danger(): boolean {
+        return this.type.toUpperCase() == "DANGER";
+    }
+
+    /**
+     *
+     */
+    info(): boolean {
+        return this.type.toUpperCase() == "INFO";
     }
 
 }

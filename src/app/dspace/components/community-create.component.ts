@@ -16,6 +16,7 @@ import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
@@ -59,6 +60,8 @@ export class CommunityCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -69,6 +72,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -128,26 +132,34 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.setModelValues();
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                if(currentContext.root) {
-                    this.reset();
-                    this.dspace.refresh();
-                    setTimeout(() => {
-                        this.router.navigate(['/Dashboard']);
-                    });
-                }
-                else {
-                    this.reset();
-                    this.dspace.refresh(currentContext);
-                    setTimeout(() => {
-                        this.router.navigate(['/Communities', { id: currentContext.id }]);
-                    });
-                }
+                this.finish(this.community.name, currentContext);
             }
         },
         error => {
             console.log(error);
             this.reset();
         });
+    }
+
+    /**
+     * 
+     */
+    private finish(communityName: string, currentContext?: any): void {
+        this.reset();
+        if(currentContext.root) {
+            this.dspace.refresh();
+            setTimeout(() => {
+                this.router.navigate(['/Dashboard']);
+                this.notificationService.notify('SUCCESS', communityName + ' was created', 15);
+            });
+        }
+        else {
+            this.dspace.refresh(currentContext);
+            setTimeout(() => {
+                this.router.navigate(['/Communities', { id: currentContext.id }]);
+                this.notificationService.notify('SUCCESS', communityName + ' was created under ' + currentContext.name, 15);
+            });
+        }
     }
 
 }

@@ -18,6 +18,7 @@ import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
@@ -89,6 +90,8 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -99,6 +102,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -254,14 +258,14 @@ export class ItemCreateComponent extends FormSecureComponent {
                         bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                     }
                     Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     },
                     errors => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     });
                 }
                 else {
-                    this.finish(currentContext);
+                    this.finish(this.item.name, currentContext);
                 }
             }
         },
@@ -274,11 +278,12 @@ export class ItemCreateComponent extends FormSecureComponent {
     /**
      * 
      */
-    private finish(currentContext: any): void {
+    private finish(itemName: string, currentContext: any): void {
         this.reset();
         this.dspace.refresh(currentContext);
         setTimeout(() => {
             this.router.navigate(['/Collections', { id: currentContext.id }]);
+            this.notificationService.notify('SUCCESS', itemName + ' was created under ' + currentContext.name, 15);
         });
     }
 
