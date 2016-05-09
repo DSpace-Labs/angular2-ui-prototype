@@ -147,10 +147,8 @@ export class CollectionCreateComponent extends FormSecureComponent {
     private finish(collectionName: string, currentContext: any): void {
         this.reset();
         this.dspace.refresh(currentContext);
-        setTimeout(() => {
-            this.router.navigate(['/Communities', { id: currentContext.id }]);
-            this.notificationService.notify('SUCCESS', collectionName + ' was created under ' + currentContext.name, 15);
-        });
+        this.router.navigate(['/Communities', { id: currentContext.id }]);
+        this.notificationService.notify('SUCCESS', collectionName + ' was created under ' + currentContext.name, 15);
     }
 
 }

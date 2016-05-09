@@ -148,17 +148,13 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.reset();
         if(currentContext.root) {
             this.dspace.refresh();
-            setTimeout(() => {
-                this.router.navigate(['/Dashboard']);
-                this.notificationService.notify('SUCCESS', communityName + ' was created', 15);
-            });
+            this.router.navigate(['/Dashboard']);
+            this.notificationService.notify('SUCCESS', communityName + ' was created', 15);
         }
         else {
             this.dspace.refresh(currentContext);
-            setTimeout(() => {
-                this.router.navigate(['/Communities', { id: currentContext.id }]);
-                this.notificationService.notify('SUCCESS', communityName + ' was created under ' + currentContext.name, 15);
-            });
+            this.router.navigate(['/Communities', { id: currentContext.id }]);
+            this.notificationService.notify('SUCCESS', communityName + ' was created under ' + currentContext.name, 15);
         }
     }
 

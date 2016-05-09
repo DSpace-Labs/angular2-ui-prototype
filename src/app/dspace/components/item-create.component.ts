@@ -281,10 +281,8 @@ export class ItemCreateComponent extends FormSecureComponent {
     private finish(itemName: string, currentContext: any): void {
         this.reset();
         this.dspace.refresh(currentContext);
-        setTimeout(() => {
-            this.router.navigate(['/Collections', { id: currentContext.id }]);
-            this.notificationService.notify('SUCCESS', itemName + ' was created under ' + currentContext.name, 15);
-        });
+        this.router.navigate(['/Collections', { id: currentContext.id }]);
+        this.notificationService.notify('SUCCESS', itemName + ' was created under ' + currentContext.name, 15);
     }
 
 }
