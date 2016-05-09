@@ -15,7 +15,7 @@ import {ViewElementComponent} from './view-element.component';
     directives: [ ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate">
                     <div *ngFor="let metadatum of filteredFields;">
                         <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
                         <a [attr.href]="metadatum.value">{{ metadatum.value }}</a>

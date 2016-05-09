@@ -75,7 +75,6 @@ export class SimpleItemViewComponent {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
-
             // this actually gets called when navigating to a collection
             if(this.item.newMetadata)
             {
@@ -86,8 +85,6 @@ export class SimpleItemViewComponent {
                 });
             }
         });
-
-        console.log("constructed");
     }
 
     /**

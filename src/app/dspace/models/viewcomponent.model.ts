@@ -21,4 +21,9 @@ export class ViewComponent
     {
         this.filteredFields = this.metadataHelper.filterMetadata(metadata,this.fields);
     }
+
+    hasMetadata() : boolean
+    {
+        return this.filteredFields.length > 0;
+    }
 }

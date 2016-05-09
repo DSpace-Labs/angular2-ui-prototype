@@ -15,7 +15,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [ TranslatePipe ],
     template:
             `
-                <view-element [header]="componentTitle | translate"> <!--translate it before passing it on.-->
+                <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate">
                     <!-- calls the view-element component, which takes care of rendering based on the 'header' input parameter, and the child elements of view-element-->
                     <div *ngFor="let metadatum of filteredFields;">
                         <p>{{ metadatum.value }}</p>
