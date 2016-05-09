@@ -21,7 +21,7 @@ import { FormService } from '../../utilities/form/form.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
+import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
@@ -274,9 +274,12 @@ export class ItemCreateComponent extends FormSecureComponent {
     /**
      * 
      */
-    private finish(currentContext: any): void {        
-        this.router.navigate(['/Collections', { id: currentContext.id }]);
+    private finish(currentContext: any): void {
+        this.reset();
         this.dspace.refresh(currentContext);
+        setTimeout(() => {
+            this.router.navigate(['/Collections', { id: currentContext.id }]);
+        });
     }
 
 }

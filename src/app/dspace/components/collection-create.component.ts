@@ -19,7 +19,7 @@ import { FormService } from '../../utilities/form/form.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
+import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
 
 import { Collection } from "../models/collection.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -128,8 +128,11 @@ export class CollectionCreateComponent extends FormSecureComponent {
         this.setModelValues();
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                this.router.navigate(['/Communities', { id: currentContext.id }]);
+                this.reset();
                 this.dspace.refresh(currentContext);
+                setTimeout(() => {
+                    this.router.navigate(['/Communities', { id: currentContext.id }]);
+                });
             }
         },
         error => {

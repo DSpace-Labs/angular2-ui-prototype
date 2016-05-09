@@ -32,7 +32,7 @@
             	"message": "item.metadata.dc.type.required"
             },
             "minLength": {
-            	"value": 4,
+            	"value": 3,
             	"message": "item.metadata.dc.type.minLength"
             },
             "maxLength": {

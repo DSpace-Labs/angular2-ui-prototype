@@ -85,7 +85,7 @@
     "item.metadata.dc.title.maxLength": "Item metadata dc.title must have at most 128 characters.",
     
     "item.metadata.dc.type.required": "Item metadata dc.type is required.",
-    "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 4 characters.",
+    "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 3 characters.",
     "item.metadata.dc.type.maxLength": "Item metadata dc.type must have at most 128 characters.",
     
     "item.metadata.dc.date.created.required": "Item metadata dc.date.created is required.",
