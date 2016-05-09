@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {MetadataHelper} from '../../../utilities/metadata.helper';
-import {Metadatum} from '../../models/metadatum.model'
-import {ViewElementComponent} from './view-element.component';
+import { MetadataHelper } from '../../../utilities/metadata.helper';
+import { Metadatum } from '../../models/metadatum.model'
+import { ViewElementComponent } from './view-element.component';
 
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -13,8 +13,8 @@ import {ViewElementComponent} from './view-element.component';
 @Component({
     selector: 'item-metadata',
     inputs: ['itemData'],
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div class="item" *ngFor="let metadatum of filteredFields.metadata">
@@ -48,6 +48,8 @@ export class MetadataComponent implements OnInit {
 
     /**
      *
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.contributor.author",

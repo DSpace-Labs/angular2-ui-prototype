@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import { Component } from 'angular2/core';
 
 /**
  * Title component for server side rendering of the title.

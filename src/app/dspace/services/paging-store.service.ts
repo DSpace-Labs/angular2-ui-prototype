@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import { Injectable } from 'angular2/core';
 
-import {DSpaceConstants} from '../dspace.constants';
+import { DSpaceConstants } from '../dspace.constants';
 
 /**
  * Injectable service to cache session context which have been visited.
@@ -20,6 +20,11 @@ export class PagingStoreService {
      */
     private comcolsPages: Map<number, any>;
     
+    /**
+     * 
+     * @param dspaceConstants
+     *      DSpaceConstants is a singleton service with constants.
+     */
     constructor(private dspaceConstants: DSpaceConstants) {
         this.itemsPages = new Map<number, any>();
         this.comcolsPages = new Map<number, any>();

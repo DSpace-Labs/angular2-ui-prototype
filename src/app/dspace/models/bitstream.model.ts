@@ -1,7 +1,7 @@
-import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util";
-import {StringUtil} from "../../utilities/commons/string.util";
-import {URLHelper} from "../../utilities/url.helper";
+import { DSpaceObject } from "./dspaceobject.model";
+import { ObjectUtil } from "../../utilities/commons/object.util";
+import { StringUtil } from "../../utilities/commons/string.util";
+import { URLHelper } from "../../utilities/url.helper";
 
 /**
  * A model class for a Bitstream. Bitstreams represent files in DSpace.

@@ -1,6 +1,6 @@
-import {DSpaceObject} from "./dspaceobject.model";
-import {ObjectUtil} from "../../utilities/commons/object.util";
-import {StringUtil} from "../../utilities/commons/string.util";
+import { DSpaceObject } from "./dspaceobject.model";
+import { ObjectUtil } from "../../utilities/commons/object.util";
+import { StringUtil } from "../../utilities/commons/string.util";
 
 /**
  * A model class for a single metadata record.

@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {MetadataHelper} from '../../../utilities/metadata.helper';
-import {Metadatum} from '../../models/metadatum.model'
-import {ViewElementComponent} from './view-element.component';
+import { MetadataHelper } from '../../../utilities/metadata.helper';
+import { Metadatum } from '../../models/metadatum.model'
+import { ViewElementComponent } from './view-element.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -11,12 +11,13 @@ import {ViewElementComponent} from './view-element.component';
  */
 @Component({
     selector: 'item-uri',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="let metadatum of filteredFields;">
-                        <a [attr.href]="metadatum.value">{{ metadatum.value}}</a> <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
+                        <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
+                        <a [attr.href]="metadatum.value">{{ metadatum.value }}</a>
                     </div>
                 </view-element>
               `
@@ -45,6 +46,8 @@ export class UriComponent implements OnInit {
 
     /**
      * 
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.identifier.uri"];

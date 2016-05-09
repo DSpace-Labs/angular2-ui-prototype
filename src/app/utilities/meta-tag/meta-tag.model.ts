@@ -1,8 +1,8 @@
 import * as hash from 'object-hash';
 
-import {Hashable} from "../lang/hashable.interface";
-import {Equatable} from "../lang/equatable.interface";
-import {ObjectUtil} from "../commons/object.util";
+import { Hashable } from "../lang/hashable.interface";
+import { Equatable } from "../lang/equatable.interface";
+import { ObjectUtil } from "../commons/object.util";
 
 /**
  * A class representing a <meta> tag.

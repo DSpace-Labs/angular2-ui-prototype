@@ -19,6 +19,10 @@ var defaultConfig = {
     //
     // See: https://github.com/wbuchwalter/tslint-loader
     module: {
+        noParse: [
+            path.join(__dirname, 'zone.js', 'dist'),
+            path.join(__dirname, 'angular2', 'bundles')
+        ],
         preLoaders: [
             {
                 test: /\.ts$/,
@@ -70,8 +74,8 @@ var commonConfig = {
 var clientConfig = {
     // Cache modules to improve performance (in builds)
     cache: true,
-    // Entry point for this bundle (./src/app/boot.ts)
-    entry: "./src/app/boot",
+    // Entry point for this bundle (./src/app/main.ts)
+    entry: "./src/app/main",
     output: {
         // The output build directory as absolute path (required).
         // Our final app is built into [src]/dist/

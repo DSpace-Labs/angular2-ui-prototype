@@ -1,15 +1,15 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, RouteParams} from 'angular2/router';
+import { Component } from 'angular2/core';
+import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import {TranslateService, TranslatePipe} from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {DSpaceDirectory} from '../dspace.directory';
-import {Community} from "../models/community.model";
-import {ContextProviderService} from '../services/context-provider.service';
-import {BreadcrumbService} from '../../navigation/services/breadcrumb.service';
+import { DSpaceDirectory } from '../dspace.directory';
+import { Community } from "../models/community.model";
+import { ContextProviderService } from '../services/context-provider.service';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 
-import {TreeComponent} from '../../navigation/components/tree.component';
-import {ContainerHomeComponent} from "./container-home.component.ts";
+import { TreeComponent } from '../../navigation/components/tree.component';
+import { ContainerHomeComponent } from "./container-home.component.ts";
 
 /**
  * Community component for displaying the current community.
@@ -17,12 +17,12 @@ import {ContainerHomeComponent} from "./container-home.component.ts";
  */
 @Component({
     selector: 'community',
-    directives: [ContainerHomeComponent, TreeComponent],
-    pipes: [TranslatePipe],
+    directives: [ ContainerHomeComponent, TreeComponent ],
+    pipes: [ TranslatePipe ],
     template: ` 
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
-                    <tree [directories]="community.subcommunities.concat(community.collections)"></tree>
+                    <tree [directories]="subCommunitiesAndCollections(community)"></tree>
                 </div>
               `
 })
@@ -55,6 +55,13 @@ export class CommunityViewComponent {
      */
     private communityProvided(): boolean {
         return this.community && this.community.type == 'community';
+    }
+
+    /**
+     *
+     */
+    private subCommunitiesAndCollections(community: any): Array<any> {
+        return community.subcommunities.concat(community.collections);
     }
 
 }

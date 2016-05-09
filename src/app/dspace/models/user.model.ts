@@ -20,7 +20,11 @@ export class User {
     private _token: string;
 
     /**
+     * Create a new DSpaceObject.
      *
+     * @param json
+     *      A plain old javascript object representing a User made from data returned
+     *      from the REST api. It uses json.fullname, json.email, json.token
      */
     constructor(json: any) {
         this.fullname = json.fullname ? json.fullname : null;

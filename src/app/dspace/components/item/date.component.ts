@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { Component, Input, OnInit } from 'angular2/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {TruncateDatePipe} from "../../../utilities/pipes/truncatedate.pipe"
-import {MetadataHelper} from '../../../utilities/metadata.helper';
-import {Metadatum} from '../../models/metadatum.model'
-import {ViewElementComponent} from './view-element.component'
+import { TruncateDatePipe } from "../../../utilities/pipes/truncatedate.pipe"
+import { MetadataHelper } from '../../../utilities/metadata.helper';
+import { Metadatum } from '../../models/metadatum.model'
+import { ViewElementComponent } from './view-element.component'
 
 /**
  * Component for the authors of the simple-item-view.
@@ -12,13 +12,12 @@ import {ViewElementComponent} from './view-element.component'
  */
 @Component({
     selector: 'item-date',
-    directives: [ViewElementComponent],
-    providers: [MetadataHelper],
-    pipes: [TruncateDatePipe, TranslatePipe],
+    directives: [ ViewElementComponent ],
+    pipes: [ TruncateDatePipe, TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div *ngFor="let metadatum of filteredFields">
-                        <p>{{ metadatum.value | truncatedate}}</p>
+                        <p>{{ metadatum.value | truncatedate }}</p>
                         <!-- calling our truncate pipe without arguments will is equals to truncate : 10. (Display the first 10 chars or the string) -->
                     </div>
                 </view-element>
@@ -48,6 +47,8 @@ export class DateComponent implements OnInit {
 
     /**
      * 
+     * @param metadataHelper
+     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor(private metadataHelper: MetadataHelper) {
         this.fields = ["dc.date.accessioned"];

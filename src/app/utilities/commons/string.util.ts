@@ -1,4 +1,4 @@
-import {ObjectUtil} from "./object.util.ts";
+import { ObjectUtil } from "./object.util.ts";
 
 /**
  *

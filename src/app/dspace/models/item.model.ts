@@ -47,7 +47,12 @@ export class Item extends DSOContainer {
     thumbnail : string; // url to the thumbnail of this item.
 
     /**
+     * Create a new DSpaceObject.
      *
+     * @param json
+     *      A plain old javascript object representing an Item as would be returned
+     *      from the REST api. It uses json.parentCollection, json.lastModified, json.archived, 
+     *      json.withdrawn, and json.bitstreams
      */
     constructor(json?: any) { // this could be either an item, or json.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)

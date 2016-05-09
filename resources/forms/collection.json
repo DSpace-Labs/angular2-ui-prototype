@@ -1,0 +1,44 @@
+[
+    {
+        "key": "name",
+        "language": "en",
+        "gloss": "Name",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "collection.name.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "collection.name.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "collection.name.maxLength"
+            }
+        }
+    },
+    {
+        "key": "shortDescription",
+        "language": "en",
+        "gloss": "Short Description",
+        "type": "TEXTAREA",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "collection.shortDescription.required"
+            },
+            "minLength": {
+            	"value": 8,
+            	"message": "collection.shortDescription.minLength"
+            },
+            "maxLength": {
+            	"value": 1024,
+            	"message": "collection.shortDescription.maxLength"
+            }
+        }
+    }
+]
