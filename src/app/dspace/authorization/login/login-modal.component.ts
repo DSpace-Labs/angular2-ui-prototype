@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
 
-import { FormBuilder, NgForm } from 'angular2/common';
+import { FORM_DIRECTIVES, FormBuilder, NgForm } from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -17,7 +17,7 @@ import { LoginComponent } from './login.component';
  */
 @Component({
   	selector: 'login-modal',
-  	directives: [ FormFieldsetComponent, FormModalComponent ],
+  	directives: [ FORM_DIRECTIVES, FormFieldsetComponent, FormModalComponent ],
   	pipes: [ TranslatePipe ],
   	template: `
                 <form-modal *ngIf="active" 

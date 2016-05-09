@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import { Router } from 'angular2/router';
 
-import { FormBuilder, NgForm } from 'angular2/common';
+import { FORM_DIRECTIVES, FormBuilder, NgForm } from 'angular2/common';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -18,11 +18,11 @@ import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
  * Login form component.
  */
 @Component({
-    selector: 'login',
+    selector: 'login-form',
     pipes: [ TranslatePipe ],
-    directives: [ FormFieldsetComponent ],
+    directives: [ FORM_DIRECTIVES, FormFieldsetComponent ],
     template: `
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="authenticate()" novalidate>
+                <form *ngIf="active" class="login-form" [ngFormModel]="form" (ngSubmit)="authenticate()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <span *ngIf="unauthorized" class="validaiton-helper text-danger">
                         {{ 'login.unauthorized' | translate }}
@@ -32,7 +32,7 @@ import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
                     </div>
                     <span class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="cancel()">{{ 'login.cancel' | translate }}</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">{{ 'login.confirm' | translate }}</button>
+                        <button type="submit" class="btn btn-primary btn-sm" (click)="authenticate()" [disabled]="disabled()">{{ 'login.confirm' | translate }}</button>
                     </span>
                 </form>
               `
@@ -91,13 +91,6 @@ export class LoginFormComponent extends LoginComponent {
             this.processing = false;
             this.unauthorized = true;
         });
-    }
-
-    /**
-     * Action for when cancel button is pressed.
-     */
-    cancel(): void {
-        this.reset();
     }
 
 }

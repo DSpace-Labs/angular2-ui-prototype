@@ -47,15 +47,14 @@ export class LoginComponent extends FormComponent {
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
-        this.init();
     }
 
     /**
      * Initialize the form and validators.
      */
     init(): void {
-        this.email = undefined;
-        this.password = undefined;
+        this.email = '';
+        this.password = '';
         this.unauthorized = false;
         this.formService.getForm('login').subscribe(inputs => {
             this.inputs = inputs;
