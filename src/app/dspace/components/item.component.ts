@@ -32,7 +32,9 @@ import { Item } from "../models/item.model";
 @RouteConfig([
     
         { path: "/", name: "SimpleItemView", component: SimpleItemViewComponent, useAsDefault: true },
-        { path: "/full", name: "FullItemView", component: FullItemViewComponent }
+        { path: "/full", name: "FullItemView", component: FullItemViewComponent },
+
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 
 ])
 export class ItemComponent implements CanDeactivate {

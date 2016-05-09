@@ -24,7 +24,9 @@ import { CollectionCreateComponent } from './collection-create.component';
 
         { path: "/", name: "Community", component: CommunityViewComponent, useAsDefault: true },
         { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
-        { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent }
+        { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent },
+
+        { path: '/**', redirectTo: [ '/Dashboard' ] }
 
 ])
 export class CommunityComponent {

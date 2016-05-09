@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from 'angular2/core';
+
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { MetadataHelper } from '../../../utilities/metadata.helper';
