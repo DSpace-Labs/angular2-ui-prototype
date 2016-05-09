@@ -1,6 +1,7 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
@@ -66,17 +67,12 @@ export class SimpleItemViewComponent {
      *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
-     * @param translate
-     *      TranslateService
      */
-    constructor(private contextProvider: ContextProviderService,
-                private translate: TranslateService) {
+    constructor(private contextProvider: ContextProviderService) {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**

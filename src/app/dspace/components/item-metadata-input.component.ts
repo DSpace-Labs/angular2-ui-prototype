@@ -7,9 +7,9 @@ import {
 
 import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { ValidationMessageComponent } from '../../utilities/form/validation-message.component';
+import { FormValidationMessageComponent } from '../../utilities/form/form-validation-message.component';
 
 import { FormInput } from '../../utilities/form/form-input.model';
 
@@ -19,8 +19,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
 @Component({
     selector: 'item-metadata-input',
     pipes: [ TranslatePipe ],
-    directives: [ FORM_DIRECTIVES,
-                  ValidationMessageComponent ],
+    directives: [ FORM_DIRECTIVES, FormValidationMessageComponent ],
     template: `
                 <hr>
                 <label>Metadata</label>
@@ -45,7 +44,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
                                             <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                                                 <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                                             </select>
-                                            <validation-message [form]="form" [input]="input"></validation-message>
+                                            <form-validation-message [form]="form" [input]="input"></form-validation-message>
                                         </fieldset>
                                     </div>
                                     <div class="col-xs-1" *ngIf="input.repeatable">
@@ -80,16 +79,6 @@ export class ItemMetadataInputComponent {
      * 
      */
     @Output('removeMetadatumInputEmitter') removeMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      * 

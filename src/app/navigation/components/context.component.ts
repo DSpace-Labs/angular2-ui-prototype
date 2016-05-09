@@ -1,6 +1,6 @@
 import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { ContextProviderService } from '../../dspace/services/context-provider.service';
@@ -78,12 +78,9 @@ export class ContextComponent {
      *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
-     * @param translate
-     *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
-                private contextProvider: ContextProviderService,
-                private translate: TranslateService) {
+                private contextProvider: ContextProviderService) {
         this.user = authorization.user;
         authorization.userObservable.subscribe(user => {
             this.user = user;
@@ -92,8 +89,6 @@ export class ContextComponent {
         contextProvider.contextObservable.subscribe(currentContext => {
             this.context = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**
