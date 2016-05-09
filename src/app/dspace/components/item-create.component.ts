@@ -274,6 +274,7 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         },
         error => {
+            this.notificationService.notify('DANGER', this.translate.instant('item.create.error') + this.item.name);
             console.log(error);
             this.reset();
         });

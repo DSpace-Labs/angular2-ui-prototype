@@ -140,6 +140,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
             }
         },
         error => {
+            this.notificationService.notify('DANGER', this.translate.instant('collection.create.error') + this.collection.name);
             console.log(error);
             this.reset();
         });

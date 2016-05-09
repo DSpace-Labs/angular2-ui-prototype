@@ -69,7 +69,7 @@ export class PagingStoreService {
         pages.set(context.page, type == 'item' ? context.items : type == 'collection' ? context.collections : context.subcommunities);
     }
 
-     /**
+    /**
      * Method to clear pages by type and id. 
      *
      * @param context
@@ -80,8 +80,11 @@ export class PagingStoreService {
             this.collectionPages.set(context.id, new Map<number, any>());
             this.communityPages.set(context.id, new Map<number, any>());
         }
-        else {
+        else if(context.type == 'collection') {
             this.itemPages.set(context.id, new Map<number, any>());
+        }
+        else {
+            // clear anything pageable of items, possibly metadata
         }
     }
 

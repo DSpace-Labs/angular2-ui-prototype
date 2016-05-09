@@ -140,6 +140,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
             }
         },
         error => {
+            this.notificationService.notify('DANGER', this.translate.instant('community.create.error') + this.community.name);
             console.log(error);
             this.reset();
         });
