@@ -38,7 +38,7 @@ import { Item } from '../models/item.model';
                         <h1>{{item.name}}</h1>
                         <div class="row">
                             <div class="col-sm-4">
-                                <item-thumbnail></item-thumbnail>
+                                <thumbnail [thumbnaillink]="item.thumbnail"></thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>
@@ -75,8 +75,6 @@ export class SimpleItemViewComponent {
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
 

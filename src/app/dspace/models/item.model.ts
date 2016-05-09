@@ -56,8 +56,6 @@ export class Item extends DSOContainer {
      */
     constructor(json?: any) { // this could be either an item, or json.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        console.log("we will look for the thumbnails..");
-        console.log(json);
         this.findThumbnail(json.bitstreams);
         if (ObjectUtil.isNotEmpty(json))
         {
@@ -90,8 +88,6 @@ export class Item extends DSOContainer {
                           .forEach(result => this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(result.retrieveLink)); // if filter returns, it will be the first one.
             }
         }
-
-        console.log("did we find a thumbnail?: " + this.thumbnail);
     }
 
     /**

@@ -29,12 +29,5 @@ export class ListEntryComponent {
      */
     @Input() private item: Item;
 
-
-    ngOnInit()
-    {
-        // does this item not have a thumbnail?
-        console.log("in the oninit of list entry");
-        console.log(this.item);
-    }
 }
 

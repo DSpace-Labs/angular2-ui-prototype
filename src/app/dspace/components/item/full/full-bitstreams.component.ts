@@ -11,7 +11,6 @@ import {ThumbnailComponent} from '../thumbnail.component';
  */
 @Component({
     selector: 'item-full-bitstreams',
-    inputs: ['thumbnail'],
     directives: [ViewElementComponent, ThumbnailComponent],
     pipes: [TranslatePipe],
     template: `
@@ -50,23 +49,19 @@ export class FullBitstreamsComponent {
      * 
      */
     @Input() private itemBitstreams: Bitstream[];
-    private primaryBitstreams : Bitstream[];
+    private primaryBitstreams : Bitstream[]; // we only want to display the primary bitstream.
+
+    @Input() private thumbnail : string;
 
     private item : Item;
 
 
     constructor()
     {
-
     }
 
     ngOnInit()
     {
-        // filter the bitstreams for the primary bitstreams..
-        // let's debug this.
-
-        this.itemBitstreams.forEach(x => console.log(x));
-
         this.primaryBitstreams = this.itemBitstreams.filter((x) => x.bundleName=="ORIGINAL");
     }
 
