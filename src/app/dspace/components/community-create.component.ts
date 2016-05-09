@@ -131,12 +131,16 @@ export class CommunityCreateComponent extends FormSecureComponent {
                 if(currentContext.root) {
                     this.reset();
                     this.dspace.refresh();
-                    this.router.navigate(['/Dashboard']);
+                    setTimeout(() => {
+                        this.router.navigate(['/Dashboard']);
+                    });
                 }
                 else {
                     this.reset();
                     this.dspace.refresh(currentContext);
-                    this.router.navigate(['/Communities', { id: currentContext.id }]);
+                    setTimeout(() => {
+                        this.router.navigate(['/Communities', { id: currentContext.id }]);
+                    });
                 }
             }
         },

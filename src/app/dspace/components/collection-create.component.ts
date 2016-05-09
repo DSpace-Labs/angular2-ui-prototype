@@ -130,7 +130,9 @@ export class CollectionCreateComponent extends FormSecureComponent {
             if(response.status == 200) {
                 this.reset();
                 this.dspace.refresh(currentContext);
-                this.router.navigate(['/Communities', { id: currentContext.id }]);
+                setTimeout(() => {
+                    this.router.navigate(['/Communities', { id: currentContext.id }]);
+                });
             }
         },
         error => {
