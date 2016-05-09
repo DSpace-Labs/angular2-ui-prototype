@@ -12,7 +12,6 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                 
               `
 })
-export class FormFieldsetComponent {
-
+export class NotificationComponent {
 
 }
