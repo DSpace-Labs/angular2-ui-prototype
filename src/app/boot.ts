@@ -21,6 +21,7 @@ import {PagingStoreService} from './dspace/services/paging-store.service';
 import {ItemStoreService} from './dspace/services/item-store.service';
 import {DSpaceDirectory} from './dspace/dspace.directory';
 import {DSpaceConstants} from './dspace/dspace.constants';
+import {MetadataHelper} from "./utilities/metadata.helper";
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -50,6 +51,7 @@ bootstrap(AppComponent, [
     ItemStoreService,
     MetaTagService,
     PaginationService,
+    MetadataHelper,
     PagingStoreService,
     TranslateService
 ])

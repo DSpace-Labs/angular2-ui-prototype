@@ -16,6 +16,8 @@ export class Bitstream extends DSpaceObject {
     private _format : string;
     private _size: number;
     private _name: string;
+    private _bundleName: string;
+    private _mimeType: string;
     /**
      * Create a new bitstream
      *
@@ -33,6 +35,8 @@ export class Bitstream extends DSpaceObject {
                 this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
                 this.format = json.mimeType;
                 this.size = json.sizeBytes;
+                this.bundleName = json.bundleName;
+                this.mimeType = json.mimeType;
             }
         }
     }
@@ -76,5 +80,21 @@ export class Bitstream extends DSpaceObject {
 
     public set name(value:string) {
         this._name = value;
+    }
+
+    get bundleName():string {
+        return this._bundleName;
+    }
+
+    set bundleName(value:string) {
+        this._bundleName = value;
+    }
+
+    get mimeType():string {
+        return this._mimeType;
+    }
+
+    set mimeType(value:string) {
+        this._mimeType = value;
     }
 }
