@@ -32,7 +32,7 @@ export class AbstractComponent implements OnInit {
     /**
      *
      */
-    private componentTitle: string = "item-view.uri.abstract";
+    private componentTitle: string = "item-view.header.abstract";
 
     /**
      * the fields that we want to show on this page.

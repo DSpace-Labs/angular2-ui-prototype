@@ -33,6 +33,6 @@ export class BitstreamsComponent {
     /**
      * 
      */
-    private componentTitle: string = "item-view.bitstreams.title";
+    private componentTitle: string = "item-view.header.bitstreams";
 
 }

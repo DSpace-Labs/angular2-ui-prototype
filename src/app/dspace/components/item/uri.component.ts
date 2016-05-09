@@ -33,7 +33,7 @@ export class UriComponent extends ViewComponent implements OnChanges{
     /**
      * 
      */
-    private componentTitle: string = "item-view.uri.title";
+    private componentTitle: string = "item-view.header.uri";
 
 
     constructor() {

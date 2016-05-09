@@ -33,7 +33,7 @@ export class DateComponent extends ViewComponent implements OnChanges {
     /**
      * 
      */
-    private componentTitle: string = "item-view.date.title";
+    private componentTitle: string = "item-view.header.date";
 
 
     constructor()
