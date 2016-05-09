@@ -14,8 +14,6 @@ export class TruncatePipe implements PipeTransform {
      *
      */
     transform(value: string, args: Array<string>) : string {
-        console.log("in pipe");
-        console.log(args[0]);
         if (ObjectUtil.hasValue(value)) {
             let limit = (args && args.length > 0) ? parseInt(args[0], 10) : 10; // 10 as default truncate value
             return value.length > limit ? value.substring(0, limit) + "..." : value;

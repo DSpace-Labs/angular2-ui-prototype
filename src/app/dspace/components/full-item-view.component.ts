@@ -63,8 +63,6 @@ export class FullItemViewComponent {
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**
@@ -83,7 +81,6 @@ export class FullItemViewComponent {
         {
             setTimeout( () =>
             {
-                console.log("in timeout");
                 let mdauthor : Metadatum = new Metadatum();
                 mdauthor.setKey("dc.contributor.author");
                 mdauthor.setValue("John Doe");
@@ -95,6 +92,5 @@ export class FullItemViewComponent {
                 this.item.addMetadata(mduri);
             },15000);
         }
-
     }
 }

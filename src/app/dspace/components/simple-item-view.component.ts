@@ -72,14 +72,17 @@ export class SimpleItemViewComponent {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
-            this.item.newMetadata.subscribe(t =>
+
+            // this actually gets called when navigating to a collection
+            if(this.item.newMetadata)
             {
-                let tempArray = this.item.metadata.slice(0);
-                this.item.metadata = tempArray;
-            });
+                this.item.newMetadata.subscribe(t =>
+                {
+                    let tempArray = this.item.metadata.slice(0);
+                    this.item.metadata = tempArray;
+                });
+            }
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**
@@ -94,7 +97,6 @@ export class SimpleItemViewComponent {
         // test with altering this item.
         setTimeout( () =>
         {
-            console.log("in timeout");
             let mdauthor : Metadatum = new Metadatum();
             mdauthor.setKey("dc.contributor.author");
             mdauthor.setValue("John Doe");
@@ -105,7 +107,5 @@ export class SimpleItemViewComponent {
             mduri.setValue("http://www.google.be");
             this.item.addMetadata(mduri);
         },10000);
-
     }
-
 }
