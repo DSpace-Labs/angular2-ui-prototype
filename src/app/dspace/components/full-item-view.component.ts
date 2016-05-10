@@ -1,4 +1,4 @@
-import { Component, OnChanges } from 'angular2/core';
+import { Component } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -37,7 +37,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                 </div>
               `
 })
-export class FullItemViewComponent implements OnChanges {
+export class FullItemViewComponent {
 
     /**
      * The current item.
@@ -66,25 +66,5 @@ export class FullItemViewComponent implements OnChanges {
         return this.item && this.item.type == 'item';
     }
 
-    ngOnChanges()
-    {
-        // test method to update the array of metadata.
 
-        // test with altering this item.
-        if(this.item!=null)
-        {
-            setTimeout( () =>
-            {
-                let mdauthor : Metadatum = new Metadatum();
-                mdauthor.setKey("dc.contributor.author");
-                mdauthor.setValue("John Doe");
-                this.item.addMetadata(mdauthor);
-
-                let mduri : Metadatum = new Metadatum();
-                mduri.setKey("dc.identifier.uri");
-                mduri.setValue("http://www.google.be");
-                this.item.addMetadata(mduri);
-            },1000);
-        }
-    }
 }
