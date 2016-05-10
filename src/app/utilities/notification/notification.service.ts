@@ -66,12 +66,6 @@ export class NotificationService {
 
         let notificationsSubject = this.notificationsSubjects.get(channel);
         notificationsSubject.next(notifications);
-
-        if(notification.duration) {
-            setTimeout(() => {
-                this.remove(channel, notification);
-            }, notification.duration);
-        }
     }
 
     /**
