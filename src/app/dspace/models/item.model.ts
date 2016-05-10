@@ -87,8 +87,6 @@ export class Item extends DSOContainer {
         if(bitstreams != null)
         {
             let primaryStream = this.getPrimaryStream(bitstreams);
-            console.log("primary stream");
-            console.log(primaryStream);
             bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x =>
             {
                 this.thumbnails[x.name.substr(0,x.name.length-".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
