@@ -67,4 +67,23 @@ export class FullItemViewComponent {
     }
 
 
+    /** Actually need this test for the current problem **/
+    ngOnInit()
+    {
+        // test with altering this item.
+        setTimeout( () =>
+        {
+            console.log("adding to the item");
+            let mdauthor : Metadatum = new Metadatum();
+            mdauthor.setKey("dc.contributor.author");
+            mdauthor.setValue("John Doe");
+            this.item.addMetadata(mdauthor);
+
+            let mduri : Metadatum = new Metadatum();
+            mduri.setKey("dc.identifier.uri");
+            mduri.setValue("http://www.google.be");
+            this.item.addMetadata(mduri);
+        },10000);
+    }
+
 }

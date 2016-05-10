@@ -75,16 +75,9 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
-            // this actually gets called when navigating to a collection
-            if(this.item.newMetadata)
-            {
-                this.item.newMetadata.subscribe(t =>
-                {
-                    let tempArray = this.item.metadata.slice(0);
-                    this.item.metadata = tempArray;
-                });
-            }
         });
+
+
     }
 
     /**
@@ -93,5 +86,6 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
     }
+
 
 }

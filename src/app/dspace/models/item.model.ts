@@ -78,8 +78,13 @@ export class Item extends DSOContainer {
      */
     addMetadata(metadata? : Metadatum)
     {
-         this.metadata.push(metadata);
-        this.newMetadata.next(true); // let's see if I can catch this elsewhere
+        if(this.metadata == null)
+        {
+            this.metadata = new Array<Metadatum>();
+        }
+        let tempArray = this.metadata.slice(0);
+        tempArray.push(metadata);
+        this.metadata = tempArray;
     }
 
     /**
