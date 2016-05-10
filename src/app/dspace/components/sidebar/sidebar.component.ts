@@ -36,7 +36,7 @@ import {HelpComponent} from './divisions/help.component';
             <!-- normal parts -->
 
             <sidebar-help></sidebar-help>
-            -->
+
         </div>
         `
 })
