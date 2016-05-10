@@ -91,7 +91,7 @@ export class Item extends DSOContainer {
             {
                 this.thumbnails[x.name.substr(0,x.name.length-".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
 
-                if (primaryStream != null && x.name == primaryStream.name+".jpg")
+                if (x.name == primaryStream.name+".jpg")
                 {
                     this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
                 }
@@ -106,7 +106,8 @@ export class Item extends DSOContainer {
      */
     private getPrimaryStream(bitstreams) : Bitstream
     {
-        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL").sort(x => x.sequenceId).pop(); // extract the one with the lowest value
+
+        var primary = ArrayUtil.findBy(bitstreams,'bundleName','ORIGINAL');
         return primary != null ? primary : null;
     }
 
