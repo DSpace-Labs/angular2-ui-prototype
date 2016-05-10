@@ -1,12 +1,11 @@
-﻿import { Component } from '@angular/core';
-import { RouteConfig, RouterOutlet, RouteParams } from '@angular/router-deprecated';
+import { Component } from '@angular/core';
+import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 
-import { CommunityViewComponent } from './community-view.component';
-import { CommunityCreateComponent } from './community-create.component';
-import { CollectionCreateComponent } from './collection-create.component';
+import { ContainerHomeComponent } from "./container-home.component.ts";
+import { TreeComponent } from '../../navigation/components/tree.component';
 
 import { Community } from "../models/community.model";
 
@@ -16,21 +15,20 @@ import { Community } from "../models/community.model";
  */
 @Component({
     selector: 'community',
-    directives: [ RouterOutlet ],
+    directives: [ ContainerHomeComponent, TreeComponent ],
     template: ` 
-                <router-outlet></router-outlet>
+                <div *ngIf="communityProvided()">
+                    <container-home [container]="community"></container-home>
+                    <tree [directories]="subCommunitiesAndCollections(community)"></tree>
+                </div>
               `
 })
-@RouteConfig([
-
-        { path: "/", name: "Community", component: CommunityViewComponent, useAsDefault: true },
-        { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
-        { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent },
-
-        { path: '/**', redirectTo: [ '/Dashboard' ] }
-
-])
 export class CommunityComponent {
+
+    /**
+     * An object that represents the current community.
+     */
+    private community: Community;
 
     /**
      *
@@ -45,8 +43,23 @@ export class CommunityComponent {
                 private breadcrumb: BreadcrumbService,
                 private params: RouteParams) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
-            breadcrumb.visit(community);
+            this.community = community;
+            breadcrumb.visit(this.community);
         });
+    }
+
+    /**
+     * Check if context provides a community.
+     */
+    private communityProvided(): boolean {
+        return this.community && this.community.type == 'community';
+    }
+
+    /**
+     *
+     */
+    private subCommunitiesAndCollections(community: any): Array<any> {
+        return community.subcommunities.concat(community.collections);
     }
 
 }
