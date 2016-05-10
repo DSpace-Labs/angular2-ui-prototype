@@ -29,7 +29,7 @@ export class GoogleScholarMetadataService {
      * @param metaTagService`
      *      MetaTagService is a singleton service to add and remove <meta> tags to the DOM.
      */
-    constructor(@Inject(MetaTagService) private metaTagService: MetaTagService) {
+    constructor(@Inject(MetaTagService)  metaTagService: MetaTagService) {
         this._googleScholarTags = new Array<MetaTag>();
     }
 
