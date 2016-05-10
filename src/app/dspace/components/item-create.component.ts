@@ -241,9 +241,8 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      FormInput to be removed from metadata
      */
     private removeMetadatumInput(input: FormInput): void {
-        this.form.removeControl(input.id);
         for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
-            if(this.metadatumInputs[i].key == input.key) {
+            if(this.metadatumInputs[i].id == input.id) {
                 this.metadatumInputs.splice(i, 1);
                 break;
             }
