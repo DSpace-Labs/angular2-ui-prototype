@@ -274,9 +274,8 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('DANGER', this.translate.instant('item.create.error') + this.item.name);
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
             console.log(error);
-            this.reset();
         });
     }
 
@@ -287,7 +286,7 @@ export class ItemCreateComponent extends FormSecureComponent {
         this.reset();
         this.dspace.refresh(currentContext);
         this.router.navigate(['/Collections', { id: currentContext.id }]);
-        this.notificationService.notify('SUCCESS', this.translate.instant('item.create.success') + itemName + this.translate.instant('create.success'), 15);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
 
 }

@@ -69,7 +69,7 @@ import { User } from './dspace/models/user.model';
                         <context></context>
                     </div>
                     <div class="col-md-8">
-                        <notification></notification>
+                        <notification [channel]="channel"></notification>
                         <router-outlet></router-outlet>
                     </div>
                 </div>
@@ -96,6 +96,11 @@ import { User } from './dspace/models/user.model';
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
+
+    /**
+     *
+     */
+    private channel: string = "app";
 
     /**
      * Logged in user.

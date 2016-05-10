@@ -140,9 +140,8 @@ export class CollectionCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('DANGER', this.translate.instant('collection.create.error') + this.collection.name);
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('collection.create.error', { name: this.collection.name }));
             console.log(error);
-            this.reset();
         });
     }
 
@@ -153,7 +152,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
         this.reset();
         this.dspace.refresh(currentContext);
         this.router.navigate(['/Communities', { id: currentContext.id }]);
-        this.notificationService.notify('SUCCESS', this.translate.instant('collection.create.success') + collectionName + this.translate.instant('create.success'), 15);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
     }
 
 }

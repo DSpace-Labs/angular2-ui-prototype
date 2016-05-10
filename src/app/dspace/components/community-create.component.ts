@@ -140,9 +140,8 @@ export class CommunityCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('DANGER', this.translate.instant('community.create.error') + this.community.name);
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('community.create.error', { name: this.community.name }));
             console.log(error);
-            this.reset();
         });
     }
 
@@ -159,7 +158,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
             this.dspace.refresh(currentContext);
             this.router.navigate(['/Communities', { id: currentContext.id }]);
         }
-        this.notificationService.notify('SUCCESS', this.translate.instant('community.create.success') + communityName + this.translate.instant('create.success'), 15);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
     }
 
 }

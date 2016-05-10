@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, Input, OnInit } from 'angular2/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -23,7 +23,9 @@ import { Notification } from './notification.model';
                 </div>
               `
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
+
+    @Input("channel") private channel: string;
 
     /**
      *
@@ -33,9 +35,14 @@ export class NotificationComponent {
     /**
      *
      */
-    constructor(private notificationService: NotificationService) {
-        this.notifications = notificationService.notifications;
-        notificationService.notificationsObservable.subscribe(notifications => {
+    constructor(private notificationService: NotificationService) {}
+
+    /**
+     *
+     */
+    ngOnInit() {
+        this.notifications = new Array<Notification>();
+        this.notificationService.registerChannel(this.channel).subscribe(notifications => {
             this.notifications = notifications;
         });
     }
@@ -44,7 +51,7 @@ export class NotificationComponent {
      *
      */
     private dismiss(notification: Notification): void {
-        this.notificationService.remove(notification);
+        this.notificationService.remove(this.channel, notification);
     }
 
 }
