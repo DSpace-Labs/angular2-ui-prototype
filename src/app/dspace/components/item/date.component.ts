@@ -4,7 +4,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 import { TruncateDatePipe } from "../../../utilities/pipes/truncatedate.pipe"
 import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
-import { ViewElementComponent } from '../../view-element.component'
+import { ViewElementComponent } from './view-element.component'
 
 import {ViewComponent} from '../../models/viewcomponent.model';
 
@@ -43,7 +43,7 @@ export class DateComponent extends ViewComponent implements OnChanges {
      * @param metadataHelper
      *      MetadataHelper is a singleton service used to filter metadata fields.
      */
-    constructor(private metadataHelper: MetadataHelper) {
+    constructor() {
         super(["dc.date.accessioned"]);
     }
 
