@@ -34,6 +34,9 @@ export class NotificationService {
         this.notificationsObservables = new Map<string, Observable<Array<Notification>>>();
     }
 
+    /**
+     *
+     */
     registerChannel(channel: string): Observable<Array<Notification>> {
         this.notificationsMap.set(channel, new Array<Notification>());
 

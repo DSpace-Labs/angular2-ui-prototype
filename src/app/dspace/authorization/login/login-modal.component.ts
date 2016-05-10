@@ -16,10 +16,10 @@ import { LoginComponent } from './login.component';
  * Login form. Uses form-modal component.
  */
 @Component({
-  	selector: 'login-modal',
-  	directives: [ FormFieldsetComponent, FormModalComponent ],
-  	pipes: [ TranslatePipe ],
-  	template: `
+    selector: 'login-modal',
+    directives: [ FormFieldsetComponent, FormModalComponent ],
+    pipes: [ TranslatePipe ],
+    template: `
                 <form-modal *ngIf="active" 
                     [form]="form"
                     [title]="'login.title'"

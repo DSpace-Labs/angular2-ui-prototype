@@ -107,7 +107,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the community values with ngModel values from inputs.
      */
     setModelValues(): void {
         for(let input of this.inputs) {
@@ -146,7 +146,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Refresh the form and context, navigate to origin context, and add notification.
      */
     private finish(communityName: string, currentContext?: any): void {
         this.reset();

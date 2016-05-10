@@ -150,7 +150,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the item values with ngModel values from inputs.
      */
     setModelValues(): void {
         for(let input of this.inputs) {
@@ -161,7 +161,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the item metadata values with ngModel values from metadata inputs.
      */
     setMetadataValues(): void {
         for(let input of this.metadatumInputs) {
@@ -181,7 +181,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Add bitstream from item being created.
+     *
+     * @param file
+     *      Agmented file to add to item being created
      */
     private addBitstream(event: any): void {
         var files = event.srcElement ? event.srcElement.files : event.target.files;
@@ -191,7 +194,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
     
     /**
-     * 
+     * Remove bitstream from item being created.
+     *
+     * @param file
+     *      Agmented file to remove from item being created
      */
     private removeBitstream(file: any): void {
         for(let i = this.files.length - 1; i >= 0; i--) {
@@ -203,7 +209,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Add metadatum input.
+     *
+     * @param input
+     *      FormInput to be added to metadata
      */
     private addMetadatumInput(input: FormInput): void {
         for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
@@ -218,7 +227,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Removes metadatum input.
+     *
+     * @param input
+     *      FormInput to be removed from metadata
      */
     private removeMetadatumInput(input: FormInput): void {
         this.form.removeControl(input.id);
@@ -231,7 +243,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Clones a input.
+     *
+     * @param input
+     *      FormInput to be cloned
      */
     private cloneInput(input: FormInput): FormInput {
         let clonedInput = new FormInput(JSON.parse(JSON.stringify(input)));
@@ -280,7 +295,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Refresh the form and context, navigate to origin context, and add notification.
      */
     private finish(itemName: string, currentContext: any): void {
         this.reset();

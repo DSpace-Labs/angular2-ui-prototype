@@ -28,12 +28,14 @@ export class NotificationComponent implements OnInit {
     @Input("channel") private channel: string;
 
     /**
-     *
+     * Notifications for this notification component.
      */
     private notifications: Array<Notification>;
 
     /**
      *
+     * @param notificationService
+     *      NotificationService is is singleton service used to manage notifications.
      */
     constructor(private notificationService: NotificationService) {}
 
@@ -48,7 +50,10 @@ export class NotificationComponent implements OnInit {
     }
 
     /**
+     * Dismiss notification.
      *
+     * @param notification
+     *      Notification to dismiss
      */
     private dismiss(notification: Notification): void {
         this.notificationService.remove(this.channel, notification);
