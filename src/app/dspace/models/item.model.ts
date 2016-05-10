@@ -6,6 +6,8 @@ import {ObjectUtil} from "../../utilities/commons/object.util";
 import {ArrayUtil} from "../../utilities/commons/array.util";
 import {URLHelper} from "../../utilities/url.helper";
 
+
+
 /**
  * A model class for an Item. Item has bitstreams, metadata, collections...
  */
@@ -44,7 +46,10 @@ export class Item extends DSOContainer {
     /*
      * thumbnail url, including the rest url
      */
-    thumbnail : string; // url to the thumbnail of this item.
+    thumbnail : string; // url representing the primary thumbnail
+
+    thumbnails : { [name:string] : string} = {}; // all the thumbnails of this item.
+
 
     /**
      * Create a new DSpaceObject.
@@ -81,12 +86,18 @@ export class Item extends DSOContainer {
     {
         if(bitstreams != null)
         {
-            let primaryBitstream = this.getPrimaryStream(bitstreams);
-            if (primaryBitstream != null)
+            let primaryStream = this.getPrimaryStream(bitstreams);
+            console.log("primary stream");
+            console.log(primaryStream);
+            bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x =>
             {
-                bitstreams.filter(bstream => bstream.bundleName == "THUMBNAIL" && bstream.name == primaryBitstream.name + ".jpg")
-                          .forEach(result => this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(result.retrieveLink)); // if filter returns, it will be the first one.
-            }
+                this.thumbnails[x.name.substr(0,x.name.length-".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+
+                if (primaryStream != null && x.name == primaryStream.name+".jpg")
+                {
+                    this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+                }
+            });
         }
     }
 
@@ -97,8 +108,7 @@ export class Item extends DSOContainer {
      */
     private getPrimaryStream(bitstreams) : Bitstream
     {
-        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL")
-                                .sort(x => x.sequenceId).pop(); // extract the one with the lowest value
+        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL").sort(x => x.sequenceId).pop(); // extract the one with the lowest value
         return primary != null ? primary : null;
     }
 
