@@ -97,8 +97,9 @@ export class Item extends DSOContainer {
      */
     private getPrimaryStream(bitstreams) : Bitstream
     {
-        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL" && x.sequenceId == 1);
-        return primary != null ? primary[0] : null;
+        var primary = bitstreams.filter((x : jsonbitstream) => x.bundleName=="ORIGINAL")
+                                .sort(x => x.sequenceId).pop(); // extract the one with the lowest value
+        return primary != null ? primary : null;
     }
 
     /**

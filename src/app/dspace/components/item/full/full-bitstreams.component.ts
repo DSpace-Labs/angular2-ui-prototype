@@ -1,10 +1,12 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Input, OnInit } from 'angular2/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import {Item} from '../../../models/item.model';
 import {Bitstream} from '../../../models/bitstream.model';
 import {ViewElementComponent} from '../view-element.component';
 import {ThumbnailComponent} from '../thumbnail.component';
+
+import { ArrayUtil } from '../../../../utilities/commons/array.util'
 
 /**
  * Renders an overview of all bitstreams attached to this item.
@@ -16,7 +18,7 @@ import {ThumbnailComponent} from '../thumbnail.component';
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">
-                        <div *ngFor="let bitstream of primaryBitstreams;" class="file-wrapper row">
+                        <div *ngFor="let bitstream of originalBitstreams;" class="file-wrapper row">
 
                             <!-- thumbnail -->
                             <div class="col-xs-6 col-sm-3">
@@ -43,13 +45,13 @@ import {ThumbnailComponent} from '../thumbnail.component';
                 </view-element>
               `
 })
-export class FullBitstreamsComponent {
+export class FullBitstreamsComponent implements OnInit {
 
     /**
      * 
      */
     @Input() private itemBitstreams: Bitstream[];
-    private primaryBitstreams : Bitstream[]; // we only want to display the primary bitstream.
+    private originalBitstreams : Bitstream[]; // we only want to display the primary bitstream.
 
     @Input() private thumbnail : string;
 
@@ -62,7 +64,8 @@ export class FullBitstreamsComponent {
 
     ngOnInit()
     {
-        this.primaryBitstreams = this.itemBitstreams.filter((x) => x.bundleName=="ORIGINAL");
+        this.originalBitstreams = this.itemBitstreams.filter((x) => x.bundleName=="ORIGINAL")
+      //  this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams,'bundleName','ORIGINAL');
     }
 
     /**
