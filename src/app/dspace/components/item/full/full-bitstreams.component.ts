@@ -31,7 +31,7 @@ import {ThumbnailComponent} from '../thumbnail.component';
                                     <dt>{{ 'item-view.full.full-bitstreams.description.size' | translate }}</dt>
                                     <dd class="word-break">{{bitstream.size}}</dd>
                                     <dt>{{ 'item-view.full.full-bitstreams.description.format' | translate }}</dt>
-                                    <dd class="word-break">{{bitstream.format}}</dd>
+                                    <dd class="word-break">{{bitstream.mimeType}}</dd>
                                 </dl>
                             </div>
 

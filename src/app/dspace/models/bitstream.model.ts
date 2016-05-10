@@ -16,17 +16,12 @@ export class Bitstream extends DSpaceObject {
     /**
      *
      */
-    format: string;
-
-    /**
-     *
-     */
     sizeBytes: number;
 
     /**
      *
      */
-    bundleName: string = "ORIGINAL";
+    bundleName: string;
     
     size: number;
     
@@ -50,24 +45,16 @@ export class Bitstream extends DSpaceObject {
         super(json);
         this.type = "bitstream";
         if (ObjectUtil.isNotEmpty(json)) {
-            this.format = json.format;
+            this.mimeType = json.format;
             this.sizeBytes = json.sizeBytes;
             this.bundleName = json.bundleName;
             this.mimeType = json.mimeType;
             if (StringUtil.isNotBlank(json.retrieveLink)) {
                 this.retrieveLink = URLHelper.relativeToAbsoluteRESTURL(json.retrieveLink);
-                this.format = json.mimeType;
+                this.mimeType = json.mimeType;
                 this.size = json.sizeBytes;
                 this.bundle = json.bundleName;
             }
         }
     }
-
-    /**
-     *
-     */
-    getName(): string {
-        return this.name;
-    }
-
 }
