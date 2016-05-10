@@ -1,11 +1,11 @@
-import { Component } from 'angular2/core';
+import { Component } from '@angular/core';
 import {
     RouteConfig,
     RouterOutlet,
     RouteParams,
     CanDeactivate,
     ComponentInstruction
-} from 'angular2/router';
+} from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';

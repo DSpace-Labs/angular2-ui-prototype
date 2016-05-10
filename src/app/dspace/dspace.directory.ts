@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from 'angular2/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 import { DSpaceService } from './services/dspace.service';
 import { PagingStoreService } from './services/paging-store.service';

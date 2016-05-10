@@ -1,7 +1,7 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 
-import { FormBuilder, NgForm } from 'angular2/common';
+import { FormBuilder, NgForm } from '@angular/common';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 

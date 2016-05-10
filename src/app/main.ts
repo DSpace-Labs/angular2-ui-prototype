@@ -8,9 +8,9 @@ import {
     BROWSER_HTTP_PROVIDERS
 } from 'angular2-universal';
 
-import { Http } from 'angular2/http';
+import { Http } from '@angular/http';
 
-import { provide } from 'angular2/core';
+import { provide } from '@angular/core';
 
 import {
     TranslateLoader,

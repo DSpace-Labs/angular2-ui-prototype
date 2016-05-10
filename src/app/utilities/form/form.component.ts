@@ -1,7 +1,7 @@
-import { ControlGroup, Validators } from 'angular2/common';
-import { Router } from 'angular2/router';
+import { ControlGroup, Validators } from '@angular/common';
+import { Router } from '@angular/router-deprecated';
 
-import { FormBuilder } from 'angular2/common';
+import { FormBuilder } from '@angular/common';
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { FormService } from './form.service';

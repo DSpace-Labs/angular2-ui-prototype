@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';

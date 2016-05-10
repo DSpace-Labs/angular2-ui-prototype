@@ -1,6 +1,6 @@
-import { DOM } from "angular2/src/platform/dom/dom_adapter";
-import { Injectable, Inject } from "angular2/core";
-import { DOCUMENT } from 'angular2/platform/common_dom';
+import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import { Injectable, Inject } from "@angular/core";
+import { DOCUMENT } from '@angular/platform-browser';
 
 import { MetaTag } from "./meta-tag.model";
 import { ArrayUtil } from "../commons/array.util";
@@ -90,21 +90,21 @@ export class MetaTagService {
      *      a Node representing that <meta> element
      */
     private metaTagToNode(newTag: MetaTag): Node {
-        let meta = DOM.createElement('meta');
+        let meta = getDOM().createElement('meta');
         if (ObjectUtil.isNotEmpty(newTag.id)) {
-            DOM.setAttribute(meta, 'id', newTag.id);
+            getDOM().setAttribute(meta, 'id', newTag.id);
         }
         if (ObjectUtil.isNotEmpty(newTag.name)) {
-            DOM.setAttribute(meta, 'name', newTag.name);
+            getDOM().setAttribute(meta, 'name', newTag.name);
         }
         if (ObjectUtil.isNotEmpty(newTag.content)) {
-            DOM.setAttribute(meta, 'content', newTag.content);
+            getDOM().setAttribute(meta, 'content', newTag.content);
         }
         if (ObjectUtil.isNotEmpty(newTag.scheme)) {
-            DOM.setAttribute(meta, 'scheme', newTag.scheme);
+            getDOM().setAttribute(meta, 'scheme', newTag.scheme);
         }
         if (ObjectUtil.isNotEmpty(newTag.lang)) {
-            DOM.setAttribute(meta, 'xml:lang', newTag.lang);
+            getDOM().setAttribute(meta, 'xml:lang', newTag.lang);
         }
         return meta;
     }
@@ -233,10 +233,10 @@ export class MetaTagService {
     private insertMetaNodeIntoDOM(meta: Node): void {
         let lastMetaNode = this.getLastMetaNode();
         if (ObjectUtil.hasValue(lastMetaNode)) {
-            DOM.insertAfter(lastMetaNode, meta);
+            getDOM().insertAfter(lastMetaNode, meta);
         }
         else {
-            DOM.insertBefore(this._document.head.firstChild, meta);
+            getDOM().insertBefore(this._document.head.firstChild, meta);
         }
     }
 
@@ -296,7 +296,7 @@ export class MetaTagService {
      * from the DOM and the internal MetaTag arrays.
      *
      * @param tagsToRemove
-     *      the list of MetaTag objects to remove.      
+     *      the list of MetaTag objects to remove.
      */
     public removeTags(tagsToRemove: Array<MetaTag>): void {
         if (ArrayUtil.isNotEmpty(tagsToRemove)) {
