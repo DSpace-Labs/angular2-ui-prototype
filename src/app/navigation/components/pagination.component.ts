@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from 'angular2/core';
-import { ROUTER_DIRECTIVES, Router } from 'angular2/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 
 import { BreadcrumbService } from '../services/breadcrumb.service';
 import { DSpaceDirectory } from '../../dspace/dspace.directory';

@@ -3,7 +3,7 @@ import {
     EventEmitter,
     Input,
     Output
-} from 'angular2/core';
+} from '@angular/core';
 
 /**
  * 

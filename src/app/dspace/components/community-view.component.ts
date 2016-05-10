@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
+import { Component } from '@angular/core';
+import { RouteConfig, RouterOutlet, RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { Community } from "../models/community.model";

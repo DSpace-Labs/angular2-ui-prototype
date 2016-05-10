@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 
 import {
     FORM_DIRECTIVES,
@@ -9,7 +9,7 @@ import {
     FormBuilder,
     NgForm,
     Validators
-} from 'angular2/common';
+} from '@angular/common';
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';

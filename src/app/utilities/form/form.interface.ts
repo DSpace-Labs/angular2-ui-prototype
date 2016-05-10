@@ -1,4 +1,4 @@
-import { ControlGroup } from 'angular2/common';
+import { ControlGroup } from '@angular/common';
 
 import { FormInput } from './form-input.model';
 

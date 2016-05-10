@@ -1,4 +1,4 @@
-import { Injectable} from 'angular2/core';
+import { Injectable} from '@angular/core';
 import {
     Http,
     Headers,
@@ -6,7 +6,7 @@ import {
     Request,
     RequestMethod,
     Response
-} from 'angular2/http';
+} from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 

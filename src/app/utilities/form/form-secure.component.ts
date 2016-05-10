@@ -1,6 +1,6 @@
-import { OnActivate, ComponentInstruction, Router } from 'angular2/router';
+import { OnActivate, ComponentInstruction, Router } from '@angular/router-deprecated';
 
-import { FormBuilder } from 'angular2/common';
+import { FormBuilder } from '@angular/common';
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { FormService } from './form.service';
