@@ -34,8 +34,8 @@ import { FormInput } from '../../utilities/form/form-input.model';
     directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Collection</h3><hr>
-                <loader *ngIf="processing" [message]="message()"></loader>
-                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -118,12 +118,20 @@ export class CollectionCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Resets the form.
+     *
      */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('collection.create.processing', { name: this.collection.name });
+    }
+
+    /**
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(collectionName: string, currentContext: any): void {
+        this.reset();
+        this.dspace.refresh(currentContext);
+        this.router.navigate(['/Communities', { id: currentContext.id }]);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
     }
 
     /**
@@ -143,23 +151,6 @@ export class CollectionCreateComponent extends FormSecureComponent {
             this.notificationService.notify('app', 'DANGER', this.translate.instant('collection.create.error', { name: this.collection.name }));
             console.log(error);
         });
-    }
-
-    /**
-     * Refresh the form and context, navigate to origin context, and add notification.
-     */
-    private finish(collectionName: string, currentContext: any): void {
-        this.reset();
-        this.dspace.refresh(currentContext);
-        this.router.navigate(['/Communities', { id: currentContext.id }]);
-        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
-    }
-
-    /**
-     *
-     */
-    private message(): string {
-        return this.translate.instant('collection.create.processing', { name: this.collection.name });
     }
 
 }

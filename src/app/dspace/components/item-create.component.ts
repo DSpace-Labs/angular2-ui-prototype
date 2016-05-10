@@ -45,8 +45,8 @@ import { Metadatum } from '../models/metadatum.model';
                   ItemMetadataInputComponent ],
     template: ` 
                 <h3>Create Item</h3><hr>
-                <loader *ngIf="processing" [message]="message()"></loader>
-                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <item-bitstream-add [files]="files" 
                                         (addBitstreamEmitter)="addBitstream($event)"
@@ -172,12 +172,20 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Reset the form.
+     *
      */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('item.create.processing', { name: this.item.name });
+    }
+
+    /**
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(itemName: string, currentContext: any): void {
+        this.reset();
+        this.dspace.refresh(currentContext);
+        this.router.navigate(['/Collections', { id: currentContext.id }]);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
 
     /**
@@ -292,23 +300,6 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
             console.log(error);
         });
-    }
-
-    /**
-     * Refresh the form and context, navigate to origin context, and add notification.
-     */
-    private finish(itemName: string, currentContext: any): void {
-        this.reset();
-        this.dspace.refresh(currentContext);
-        this.router.navigate(['/Collections', { id: currentContext.id }]);
-        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
-    }
-
-    /**
-     *
-     */
-    private message(): string {
-        return this.translate.instant('item.create.processing', { name: this.item.name });
     }
 
 }

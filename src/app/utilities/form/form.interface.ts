@@ -47,4 +47,19 @@ export interface Form {
      */
     disabled(): boolean;
 
+    /**
+     *
+     */
+    showForm(): boolean;
+
+    /**
+     *
+     */
+    processingMessage(): string;
+
+    /**
+     *
+     */
+    finish(name: string, currentContext: any): void;
+
 }

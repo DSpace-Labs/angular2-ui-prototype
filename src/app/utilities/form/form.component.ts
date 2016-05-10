@@ -101,5 +101,24 @@ export class FormComponent implements Form {
     disabled(): boolean {
         return !this.form.valid || this.processing;
     }
+
+    /**
+     *
+     */
+    showForm(): boolean {
+        return this.active && !this.processing;
+    };
+
+    /**
+     *
+     */
+    processingMessage(): string {
+        return '';
+    };
+
+    /**
+     *
+     */
+    finish(name: string, currentContext: any): void {};
     
 }

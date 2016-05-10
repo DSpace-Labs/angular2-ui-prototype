@@ -34,8 +34,8 @@ import { FormInput } from '../../utilities/form/form-input.model';
     directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Community</h3><hr>
-                <loader *ngIf="processing" [message]="message()"></loader>
-                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>                    
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -118,12 +118,26 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Reset form.
+     *
      */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('community.create.processing', { name: this.community.name });
+    }
+
+    /**
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(communityName: string, currentContext: any): void {
+        this.reset();
+        if(currentContext.root) {
+            this.dspace.refresh();
+            this.router.navigate(['/Dashboard']);
+        }
+        else {
+            this.dspace.refresh(currentContext);
+            this.router.navigate(['/Communities', { id: currentContext.id }]);
+        }
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
     }
 
     /**
@@ -143,29 +157,6 @@ export class CommunityCreateComponent extends FormSecureComponent {
             this.notificationService.notify('app', 'DANGER', this.translate.instant('community.create.error', { name: this.community.name }));
             console.log(error);
         });
-    }
-
-    /**
-     * Refresh the form and context, navigate to origin context, and add notification.
-     */
-    private finish(communityName: string, currentContext?: any): void {
-        this.reset();
-        if(currentContext.root) {
-            this.dspace.refresh();
-            this.router.navigate(['/Dashboard']);
-        }
-        else {
-            this.dspace.refresh(currentContext);
-            this.router.navigate(['/Communities', { id: currentContext.id }]);
-        }
-        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
-    }
-
-    /**
-     *
-     */
-    private message(): string {
-        return this.translate.instant('community.create.processing', { name: this.community.name });
     }
 
 }
