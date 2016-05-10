@@ -9,8 +9,9 @@ import {
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
-import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
 import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
+import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
+
 import { ObjectUtil } from "../../utilities/commons/object.util";
 
 import { SimpleItemViewComponent } from './simple-item-view.component';

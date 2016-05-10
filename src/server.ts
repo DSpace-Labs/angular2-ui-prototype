@@ -17,7 +17,9 @@ import {
     NODE_PRELOAD_CACHE_HTTP_PROVIDERS
 } from 'angular2-universal';
 
-import { TranslateService, TranslateLoader } from "ng2-translate/ng2-translate";
+import { Http } from '@angular/http';
+
+import { TranslateService, TranslateLoader, TranslateStaticLoader } from "ng2-translate/ng2-translate";
 
 // Config
 import { GlobalConfig } from "../config";
@@ -36,11 +38,11 @@ import { DSpaceConstants } from './app/dspace/dspace.constants';
 import { DSpaceDirectory } from './app/dspace/dspace.directory';
 import { DSpaceService } from './app/dspace/services/dspace.service';
 import { FormService } from './app/utilities/form/form.service';
-import { FileSystemLoader } from "./server/i18n/filesystem.translateloader";
 import { GoogleScholarMetadataService } from './app/utilities/services/google-scholar-metadata.service.ts';
 import { HttpService } from './app/utilities/services/http.service';
 import { MetadataHelper } from './app/utilities/metadata.helper';
 import { MetaTagService } from "./app/utilities/meta-tag/meta-tag.service";
+import { NotificationService } from './app/utilities/notification/notification.service';
 import { PaginationService } from './app/navigation/services/pagination.service';
 import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
@@ -117,7 +119,8 @@ function ngApp(req, res) {
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,
             provide(REQUEST_URL, { useValue: url }),
             provide(TranslateLoader, {
-                useFactory: () => new FileSystemLoader(path.join(root, 'dist', 'i18n'), '.json')
+                useFactory: (http: Http) => new TranslateStaticLoader(http, 'i18n', '.json'),
+                deps: [ Http ]
             }),
             AuthorizationService,
             BreadcrumbService,
@@ -130,6 +133,7 @@ function ngApp(req, res) {
             HttpService,
             MetadataHelper,
             MetaTagService,
+            NotificationService,
             PaginationService,
             PagingStoreService,
             StorageService,

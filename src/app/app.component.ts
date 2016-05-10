@@ -16,6 +16,7 @@ import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
 import { LoginModalComponent } from './dspace/authorization/login/login-modal.component';
 import { LoginFormComponent } from './dspace/authorization/login/login-form.component';
+import { NotificationComponent } from './utilities/notification/notification.component';
 import { RegistrationComponent } from './dspace/authorization/registration/registration.component';
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
@@ -32,7 +33,8 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   BreadcrumbComponent,
                   ContextComponent,
-                  LoginModalComponent ],
+                  LoginModalComponent,
+                  NotificationComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -67,6 +69,7 @@ import { User } from './dspace/models/user.model';
                         <context></context>
                     </div>
                     <div class="col-md-8">
+                        <notification [channel]="channel"></notification>
                         <router-outlet></router-outlet>
                     </div>
                 </div>
@@ -93,6 +96,11 @@ import { User } from './dspace/models/user.model';
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
+
+    /**
+     *
+     */
+    private channel: string = "app";
 
     /**
      * Logged in user.

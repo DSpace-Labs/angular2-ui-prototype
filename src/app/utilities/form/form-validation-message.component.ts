@@ -10,7 +10,7 @@ import { FormInput } from './form-input.model';
  * Form modal. ng-content brings in the actual form.
  */
 @Component({
-    selector: 'validation-message',
+    selector: 'form-validation-message',
     pipes: [ TranslatePipe ],
     directives: [ FORM_DIRECTIVES ],
     template: `
@@ -32,7 +32,7 @@ import { FormInput } from './form-input.model';
                 </div>
               `
 })
-export class ValidationMessageComponent {
+export class FormValidationMessageComponent {
 
     /**
      * The forms control group.

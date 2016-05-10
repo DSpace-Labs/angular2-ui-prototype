@@ -3,6 +3,8 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
+import { ContextProviderService } from '../services/context-provider.service';
+
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
 import { BitstreamsComponent } from './item/bitstreams.component';
@@ -13,7 +15,6 @@ import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import { ContextProviderService } from '../services/context-provider.service';
 import { Item } from '../models/item.model';
 
 /**

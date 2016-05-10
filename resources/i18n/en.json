@@ -68,6 +68,10 @@
     "community.shortDescription.minLength": "Community short description must have at least 8 characters.",
     "community.shortDescription.maxLength": "Community short description must have at most 1024 characters.",
     
+    "community.create.success": "Community {{name}} was created sucessfully.",
+    "community.create.error": "Error creating community {{name}}.",
+
+
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
     "collection.name.maxLength": "Collection name must have at most 128 characters.",
@@ -76,6 +80,10 @@
     "collection.shortDescription.minLength": "Collection short description must have at least 8 characters.",
     "collection.shortDescription.maxLength": "Collection short description must have at most 1024 characters.",
     
+    "collection.create.success": "Collection {{name}} was created successfully.",
+    "collection.create.error": "Error creating collection {{name}}.",
+
+
     "item.name.required": "Item name is required.",
     "item.name.minLength": "Item name must have at least 4 characters.",
     "item.name.maxLength": "Item name must have at most 128 characters.",
@@ -85,7 +93,7 @@
     "item.metadata.dc.title.maxLength": "Item metadata dc.title must have at most 128 characters.",
     
     "item.metadata.dc.type.required": "Item metadata dc.type is required.",
-    "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 4 characters.",
+    "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 3 characters.",
     "item.metadata.dc.type.maxLength": "Item metadata dc.type must have at most 128 characters.",
     
     "item.metadata.dc.date.created.required": "Item metadata dc.date.created is required.",
@@ -115,6 +123,9 @@
     "item.metadata.dc.rights.uri.required": "Item metadata dc.rights.uri is required.",
     "item.metadata.dc.rights.uri.minLength": "Item metadata dc.rights.uri must have at least 4 characters.",
     "item.metadata.dc.rights.uri.maxLength": "Item metadata dc.rights.uri must have at most 512 characters.",
-    "item.metadata.dc.rights.uri.pattern": "Item metadata dc.rights.uri must be a FQDN."
+    "item.metadata.dc.rights.uri.pattern": "Item metadata dc.rights.uri must be a FQDN.",
     
+    "item.create.success": "Item {{name}} was created successfully.",
+    "item.create.error": "Error creating item {{name}}."
+
 }

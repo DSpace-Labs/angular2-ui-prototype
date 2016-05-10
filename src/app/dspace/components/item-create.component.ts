@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
-
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -13,15 +12,18 @@ import {
 
 import { Observable } from 'rxjs/Rx';
 
+import { TranslateService } from "ng2-translate/ng2-translate";
+
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/form/full-page-loader.component';
+import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
@@ -81,6 +83,8 @@ export class ItemCreateComponent extends FormSecureComponent {
 
     /**
      *
+     * @param translate
+     *      TranslateService
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
@@ -89,6 +93,8 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -96,9 +102,11 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private contextProvider: ContextProviderService,
+    constructor(private translate: TranslateService,
+                private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -254,29 +262,31 @@ export class ItemCreateComponent extends FormSecureComponent {
                         bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                     }
                     Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     },
                     errors => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     });
                 }
                 else {
-                    this.finish(currentContext);
+                    this.finish(this.item.name, currentContext);
                 }
             }
         },
         error => {
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
             console.log(error);
-            this.reset();
         });
     }
 
     /**
      * 
      */
-    private finish(currentContext: any): void {        
-        this.router.navigate(['/Collections', { id: currentContext.id }]);
+    private finish(itemName: string, currentContext: any): void {
+        this.reset();
         this.dspace.refresh(currentContext);
+        this.router.navigate(['/Collections', { id: currentContext.id }]);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
 
 }

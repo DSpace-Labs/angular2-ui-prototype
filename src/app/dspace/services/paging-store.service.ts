@@ -11,14 +11,19 @@ import { DSpaceConstants } from '../dspace.constants';
 export class PagingStoreService {
     
     /**
-     * A map of the visited items pages.
+     * A map of the visited item pages.
      */
-    private itemsPages: Map<number, any>;
+    private itemPages: Map<number, any>;
     
     /**
-     * A map of the visited aggregated communities and collections pages.
+     * A map of the visited collection pages.
      */
-    private comcolsPages: Map<number, any>;
+    private collectionPages: Map<number, any>;
+
+    /**
+     * A map of the visited community pages.
+     */
+    private communityPages: Map<number, any>;
     
     /**
      * 
@@ -26,18 +31,21 @@ export class PagingStoreService {
      *      DSpaceConstants is a singleton service with constants.
      */
     constructor(private dspaceConstants: DSpaceConstants) {
-        this.itemsPages = new Map<number, any>();
-        this.comcolsPages = new Map<number, any>();
+        this.itemPages = new Map<number, any>();
+        this.collectionPages = new Map<number, any>();
+        this.communityPages = new Map<number, any>();
     }
 
     /**
      * Method to retrieve context page by id and page.
      *
+     * @param type
+     *      community, collection, or item
      * @param context
      *      context: community, collection, or item
      */
-    getPage(context): any {
-        let pages = this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].get(context.id);
+    getPage(type, context): any {
+        let pages = this[type + 'Pages'].get(context.id);
         if(!pages) {
             return null;
         }
@@ -47,27 +55,37 @@ export class PagingStoreService {
     /**
      * Method to add context page to the store. 
      *
+     * @param type
+     *      community, collection, or item
      * @param context
      *      context: community, collection, or item
      */
-    addPage(context): void {
-        let subtypes = this.dspaceConstants[context.type].SUBTYPES;
-        let pages = this[subtypes + 'Pages'].get(context.id);
+    addPage(type, context): void {
+        let pages = this[type + 'Pages'].get(context.id);
         if(!pages) {
-            this[subtypes + 'Pages'].set(context.id, new Map<number, any>());
-            pages = this[subtypes + 'Pages'].get(context.id);
+            this[type + 'Pages'].set(context.id, new Map<number, any>());
+            pages = this[type + 'Pages'].get(context.id);
         }
-        pages.set(context.page, context.type == 'collection' ? context.items : context.subcommunities.concat(context.collections));
+        pages.set(context.page, type == 'item' ? context.items : type == 'collection' ? context.collections : context.subcommunities);
     }
 
-     /**
+    /**
      * Method to clear pages by type and id. 
      *
      * @param context
      *      context: community, collection, or item
      */
     clearPages(context): void {
-        this[this.dspaceConstants[context.type].SUBTYPES + 'Pages'].set(context.id, new Map<number, any>());
+        if(context.type == 'community') {
+            this.collectionPages.set(context.id, new Map<number, any>());
+            this.communityPages.set(context.id, new Map<number, any>());
+        }
+        else if(context.type == 'collection') {
+            this.itemPages.set(context.id, new Map<number, any>());
+        }
+        else {
+            // clear anything pageable of items, possibly metadata
+        }
     }
 
 }

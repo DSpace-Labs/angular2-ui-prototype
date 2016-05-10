@@ -1,7 +1,7 @@
 import { Component, Inject, Input } from '@angular/core';
 import { ControlGroup } from '@angular/common';
 
-import { ValidationMessageComponent } from './validation-message.component';
+import { FormValidationMessageComponent } from './form-validation-message.component';
 
 import { FormInput } from './form-input.model';
 
@@ -12,7 +12,7 @@ import { FormFocusDirective } from './form-focus.directive';
  */
 @Component({
     selector: 'form-fieldset',
-    directives: [ FormFocusDirective, ValidationMessageComponent ],
+    directives: [ FormFocusDirective, FormValidationMessageComponent ],
     template: `
                 <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [class.has-error]="hasError(input)">
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
@@ -24,7 +24,7 @@ import { FormFocusDirective } from './form-focus.directive';
                     <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                         <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                     </select>
-                    <validation-message [form]="form" [input]="input"></validation-message>
+                    <form-validation-message [form]="form" [input]="input"></form-validation-message>
                 </fieldset>
               `
 })

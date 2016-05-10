@@ -9,40 +9,40 @@ export abstract class Pageable implements Paging {
     /**
      * indicates object ready
      */
-    ready: boolean; 
+    ready: boolean;
 
     /**
-     * indicates navigation loaded
+     * indicating navigation for object subcommunities, collections, or items loaded
      */
-    loaded: boolean;
+    loaded: any;
 
     /**
-     * 
+     *
      */
     offset: number;
 
     /**
-     * 
+     *
      */
     page: number;
 
     /**
-     * 
+     *
      */
     limit: number;
 
     /**
-     * 
+     *
      */
     component: string;
 
     /**
-     * 
+     *
      */
     pageCount: number;
 
     /**
-     * 
+     *
      */
     total: number;
 
@@ -51,19 +51,19 @@ export abstract class Pageable implements Paging {
      *
      * @param json
      *      A plain old javascript object representing an Pageable as would be returned
-     *      from the directory service. It uses json.ready, json.loaded, json.offset, 
-     *      json.page, json.limit, json.component, json.pageCount, and json.total
+     *      from the directory service. It uses json.ready, json.offset, json.page,
+     *      json.limit, json.component, json.pageCount, and json.total
      */
     constructor(json?: any) {
         if (ObjectUtil.isNotEmpty(json)) {
             this.ready = json.ready ? json.ready : false;
-            this.loaded = json.loaded ? json.loaded : false;
             this.offset = json.offset ? json.offset : 0;
             this.page = json.page ? json.page : 1;
             this.limit = json.limit;
             this.component = json.component;
             this.pageCount = json.pageCount;
             this.total = json.total;
+            this.unload();
         }
     }
 
@@ -79,6 +79,14 @@ export abstract class Pageable implements Paging {
         this.component = undefined;
         this.pageCount = undefined;
         this.total = undefined;
+    }
+
+    unload(): void {
+        this.loaded = {
+            community: false,
+            collection: false,
+            item: false
+        }
     }
 
 }

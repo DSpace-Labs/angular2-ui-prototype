@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouteConfig, RouterOutlet, RouteParams } from '@angular/router-deprecated';
 
-import { DSpaceDirectory } from '../dspace.directory';
-import { Collection } from "../models/collection.model";
 import { ContextProviderService } from '../services/context-provider.service';
-import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 
 import { ContainerHomeComponent } from "./container-home.component";
 import { ItemListComponent } from './item-list.component';
+
+import { Collection } from "../models/collection.model";
 
 /**
  * Collection component for displaying the current collection.
