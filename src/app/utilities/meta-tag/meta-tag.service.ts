@@ -1,4 +1,4 @@
-import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 import { Injectable, Inject } from "@angular/core";
 import { DOCUMENT } from '@angular/platform-browser';
 
