@@ -21,7 +21,7 @@ import { NotificationService } from '../../utilities/notification/notification.s
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 
 import { Community } from "../models/community.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -31,11 +31,11 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'community-create',
-    directives: [ FormFieldsetComponent, FullPageLoaderComponent ],
+    directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Community</h3><hr>
-                <full-page-loader *ngIf="processing"></full-page-loader>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>                    
+                <loader *ngIf="processing" [message]="message()"></loader>
+                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>                    
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -159,6 +159,13 @@ export class CommunityCreateComponent extends FormSecureComponent {
             this.router.navigate(['/Communities', { id: currentContext.id }]);
         }
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
+    }
+
+    /**
+     *
+     */
+    private message(): string {
+        return this.translate.instant('community.create.processing', { name: this.community.name });
     }
 
 }

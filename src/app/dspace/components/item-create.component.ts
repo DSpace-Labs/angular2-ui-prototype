@@ -23,7 +23,7 @@ import { NotificationService } from '../../utilities/notification/notification.s
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
@@ -39,14 +39,14 @@ import { Metadatum } from '../models/metadatum.model';
     selector: 'item-create',
     bindings: [ FORM_BINDINGS ],
     directives: [ FORM_DIRECTIVES,
-                  FullPageLoaderComponent,
+                  LoaderComponent,
                   FormFieldsetComponent,
                   ItemBitstreamAddComponent,
                   ItemMetadataInputComponent ],
     template: ` 
                 <h3>Create Item</h3><hr>
-                <full-page-loader *ngIf="processing"></full-page-loader>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
+                <loader *ngIf="processing" [message]="message()"></loader>
+                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <item-bitstream-add [files]="files" 
                                         (addBitstreamEmitter)="addBitstream($event)"
@@ -302,6 +302,13 @@ export class ItemCreateComponent extends FormSecureComponent {
         this.dspace.refresh(currentContext);
         this.router.navigate(['/Collections', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
+    }
+
+    /**
+     *
+     */
+    private message(): string {
+        return this.translate.instant('item.create.processing', { name: this.item.name });
     }
 
 }

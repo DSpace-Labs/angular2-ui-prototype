@@ -68,6 +68,7 @@
     "community.shortDescription.minLength": "Community short description must have at least 8 characters.",
     "community.shortDescription.maxLength": "Community short description must have at most 1024 characters.",
     
+    "community.create.processing": "Community {{name}} is being created. Please wait.",
     "community.create.success": "Community {{name}} was created sucessfully.",
     "community.create.error": "Error creating community {{name}}.",
 
@@ -80,6 +81,7 @@
     "collection.shortDescription.minLength": "Collection short description must have at least 8 characters.",
     "collection.shortDescription.maxLength": "Collection short description must have at most 1024 characters.",
     
+    "collection.create.processing": "Collection {{name}} is being created. Please wait.",
     "collection.create.success": "Collection {{name}} was created successfully.",
     "collection.create.error": "Error creating collection {{name}}.",
 
@@ -125,6 +127,7 @@
     "item.metadata.dc.rights.uri.maxLength": "Item metadata dc.rights.uri must have at most 512 characters.",
     "item.metadata.dc.rights.uri.pattern": "Item metadata dc.rights.uri must be a FQDN.",
     
+    "item.create.processing": "Item {{name}} is being created. Please wait.",
     "item.create.success": "Item {{name}} was created successfully.",
     "item.create.error": "Error creating item {{name}}."
 

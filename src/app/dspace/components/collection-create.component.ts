@@ -21,7 +21,7 @@ import { NotificationService } from '../../utilities/notification/notification.s
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 
 import { Collection } from "../models/collection.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -31,11 +31,11 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'collection-create',
-    directives: [ FormFieldsetComponent, FullPageLoaderComponent ],
+    directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Collection</h3><hr>
-                <full-page-loader *ngIf="processing"></full-page-loader>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
+                <loader *ngIf="processing" [message]="message()"></loader>
+                <form *ngIf="active && !processing" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -153,6 +153,13 @@ export class CollectionCreateComponent extends FormSecureComponent {
         this.dspace.refresh(currentContext);
         this.router.navigate(['/Communities', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
+    }
+
+    /**
+     *
+     */
+    private message(): string {
+        return this.translate.instant('collection.create.processing', { name: this.collection.name });
     }
 
 }
