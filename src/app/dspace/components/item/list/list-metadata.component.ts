@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from 'angular2/core';
 import { ROUTER_DIRECTIVES } from 'angular2/router';
-import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { Item } from '../../../models/item.model';
 import { Metadatum } from '../../../models/metadatum.model';
@@ -17,9 +16,7 @@ import { ObjectUtil } from "../../../../utilities/commons/object.util";
 @Component({
     selector: 'item-list-metadata',
     directives: [ ROUTER_DIRECTIVES ],
-    pipes: [ TranslatePipe,
-             TruncatePipe,
-             TruncateDatePipe ],
+    pipes: [ TruncatePipe, TruncateDatePipe ],
     template:
               `
                 <!-- create a router link to the simple item-view -->

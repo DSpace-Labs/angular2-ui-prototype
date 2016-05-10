@@ -1,8 +1,6 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
-
 import { DSpaceDirectory } from '../dspace.directory';
 import { Community } from "../models/community.model";
 import { ContextProviderService } from '../services/context-provider.service';
@@ -18,7 +16,6 @@ import { ContainerHomeComponent } from "./container-home.component.ts";
 @Component({
     selector: 'community',
     directives: [ ContainerHomeComponent, TreeComponent ],
-    pipes: [ TranslatePipe ],
     template: ` 
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
@@ -37,17 +34,12 @@ export class CommunityViewComponent {
      *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
-     * @param translate
-     *      TranslateService
      */
-    constructor(private contextProvider: ContextProviderService,
-                private translate: TranslateService) {
+    constructor(private contextProvider: ContextProviderService) {
         this.community = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.community = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**
