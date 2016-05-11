@@ -52,7 +52,6 @@ export class SidebarService
         accountComponent.addRoute("Register","Register");
         this.components.push(accountComponent);
 
-
     }
 
 
