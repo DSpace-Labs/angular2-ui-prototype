@@ -150,6 +150,11 @@ var serverConfig = {
             {
               from: path.join(__dirname, 'resources', 'images'),
               to: path.join('static', 'images')
+            },
+            // Copy favicon (./resources/favicon.ico)
+            {
+              from: path.join(__dirname, 'resources', 'favicon.ico'),
+              to: 'static'
             }
           ])
       ]

@@ -40,14 +40,17 @@ export class Community extends DSOContainer {
         if (ObjectUtil.isNotEmpty(json)) {
             this.countItems = json.countItems;
             this.parentCommunity = new Community(json.parentCommunity);
+            
+            this.collections = new Array<Collection>();
+            this.subcommunities = new Array<Community>();
 
-            if (Array.isArray(json.collections)) {
+            if (Array.isArray(json.collections) && json.collections.length > 0) {
                 this.collections = json.collections.map((collectionJSON) => {
                     return new Collection(collectionJSON);
                 });
             }
 
-            if (Array.isArray(json.subcommunities)) {
+            if (Array.isArray(json.subcommunities) && json.subcommunities.length > 0) {
                 this.subcommunities = json.subcommunities.map((subCommunityJSON) => {
                     return new Community(subCommunityJSON);
                 });

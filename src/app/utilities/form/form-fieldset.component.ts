@@ -1,31 +1,30 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Inject, Input } from '@angular/core';
+import { ControlGroup } from '@angular/common';
 
-import { FORM_DIRECTIVES, ControlGroup } from 'angular2/common';
-
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
-
-import { ValidationMessageComponent } from './validation-message.component';
+import { FormValidationMessageComponent } from './form-validation-message.component';
 
 import { FormInput } from './form-input.model';
+
+import { FormFocusDirective } from './form-focus.directive';
 
 /**
  * Form modal. ng-content brings in the actual form.
  */
 @Component({
     selector: 'form-fieldset',
-    pipes: [ TranslatePipe ],
-    directives: [ FORM_DIRECTIVES, ValidationMessageComponent ],
+    directives: [ FormFocusDirective, FormValidationMessageComponent ],
     template: `
-                <fieldset class="form-group" *ngFor="let input of inputs" [class.has-error]="hasError(input)">
+                <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [class.has-error]="hasError(input)">
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <label for="input.id">{{ input.gloss }}</label>
-                    <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" [focus]="i == 0">
+                    <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <textarea *ngIf="textAreaInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
                     <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                         <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                     </select>
-                    <validation-message [form]="form" [input]="input"></validation-message>
+                    <form-validation-message [form]="form" [input]="input"></form-validation-message>
                 </fieldset>
               `
 })
@@ -40,16 +39,6 @@ export class FormFieldsetComponent {
      * Item input fields.
      */
     @Input("inputs") private inputs: Array<FormInput>;
-
-    /**
-     *
-     * @param translate
-     *      TranslateService
-     */
-    constructor(private translate: TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
-    }
 
     /**
      *
@@ -70,6 +59,13 @@ export class FormFieldsetComponent {
      */
     private textInput(input: FormInput): boolean {
         return input.type == 'TEXT';
+    }
+    
+    /**
+     *
+     */
+    private passwordInput(input: FormInput): boolean {
+        return input.type == 'PASSWORD';
     }
 
     /**

@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { ContextProviderService } from '../../dspace/services/context-provider.service';
@@ -42,14 +42,14 @@ import { User } from '../../dspace/models/user.model';
                     </div>
                     <div class="panel-body" *ngIf="community()">
                         <ul *ngIf="user">
-                            <li><a [routerLink]="[context.component, { id: context.id }, 'CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
-                            <li><a [routerLink]="[context.component, { id: context.id }, 'CollectionCreate']">{{ 'context.create-collection' | translate }}</a></li>
+                            <li><a [routerLink]="['/CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
+                            <li><a [routerLink]="['/CollectionCreate']">{{ 'context.create-collection' | translate }}</a></li>
                         </ul>
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
                     <div class="panel-body" *ngIf="collection()">
                         <ul *ngIf="user">
-                            <li><a [routerLink]="[context.component, { id: context.id }, 'ItemCreate']">{{ 'context.create-item' | translate }}</a></li>
+                            <li><a [routerLink]="['/ItemCreate']">{{ 'context.create-item' | translate }}</a></li>
                         </ul>
                         <div *ngIf="context.sidebarText" [innerHTML]="context.sidebarText"></div>
                     </div>
@@ -78,12 +78,9 @@ export class ContextComponent {
      *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
-     * @param translate
-     *      TranslateService
      */
     constructor(private authorization: AuthorizationService,
-                private contextProvider: ContextProviderService,
-                private translate: TranslateService) {
+                private contextProvider: ContextProviderService) {
         this.user = authorization.user;
         authorization.userObservable.subscribe(user => {
             this.user = user;
@@ -92,8 +89,6 @@ export class ContextComponent {
         contextProvider.contextObservable.subscribe(currentContext => {
             this.context = currentContext;
         });
-        translate.setDefaultLang('en');
-        translate.use('en');
     }
 
     /**
