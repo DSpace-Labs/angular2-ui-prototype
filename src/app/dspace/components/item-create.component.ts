@@ -166,7 +166,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     setMetadataValues(): void {
         for(let input of this.metadatumInputs) {
             if(input.value) {
-                this.item.metadata.push(new Metadatum(input));
+                this.item.addMetadata(new Metadatum(input)); // use addMetadata to trigger changedetection
             }
         }
     }
@@ -272,7 +272,6 @@ export class ItemCreateComponent extends FormSecureComponent {
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.processing = true;
-        this.item.metadata = new Array<Metadatum>();
         this.setModelValues();
         this.setMetadataValues();
         this.dspaceService.createItem(this.item, token, currentContext.id).subscribe(response => {
