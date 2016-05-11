@@ -62,6 +62,8 @@ export class SidebarSection
     get index() : number { return this._index; }
     set index(index : number) { this._index = index; }
 
+    get id() : number { return this._id; }
+    set id(id : number) { this._id = id; }
     /**
      * Angular2 currently does not suport iterating over a map, this is one way to get it to work anyway.
      * https://github.com/angular/angular/issues/2246

@@ -44,6 +44,7 @@ export class SidebarService
         helpComponent.addRoute("Feedback","Home");
         //helpComponent.visible = false;
         helpComponent.index = 20;
+        helpComponent.id = 3;
         this.addSection(helpComponent);
 
 
@@ -55,6 +56,7 @@ export class SidebarService
         accountComponent.addRoute("Login","Login");
         accountComponent.addRoute("Register","Register");
         accountComponent.index = 1100;
+        accountComponent.id = 3;
         this.addSection(accountComponent);
 
         // find a way to make this work correctly.
@@ -87,12 +89,21 @@ export class SidebarService
         return sortedVisibleComponents;
     }
 
-    // adds a component.
+    /**
+     *
+     * create new component or replace existing component based on the component's id.
+     * this also has the advantage of setting a new array as the _components array
+     * which we want for angular's change detection
+     * @param component
+     */
     addSection(component : SidebarSection)
     {
         // check if this section already exists.
 
-        this._components.push(component);
+        let newComponentArray = this._components.filter(x => x.id != component.id);
+        newComponentArray.push(component);
+        this._components = newComponentArray;
+
     }
 
     // remove a component based on an ID
