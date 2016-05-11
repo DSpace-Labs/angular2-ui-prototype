@@ -3,7 +3,6 @@ import {Bitstream}from './bitstream.model';
 import {Metadatum}from './metadatum.model';
 import {Collection}from './collection.model';
 import {ObjectUtil} from "../../utilities/commons/object.util";
-import {Subject} from 'rxjs/Subject';
 import {ArrayUtil} from "../../utilities/commons/array.util";
 
 /**
