@@ -34,21 +34,12 @@ export class SidebarComponent
         contextProvider.contextObservable.subscribe( x => this.context = x);
         }
 
+        // Catch any event that causes the components array to change.
         this.sidebarComponents = this.sidebarService.components;
-        console.log("got some components");
-        for(let comp of this.sidebarComponents)
+        sidebarService.sidebarSubject.subscribe(() =>
         {
-            console.log(comp.componentName);
-        }
+            this.sidebarComponents = sidebarService.components;
+        });
     }
 
-    dashboard() : boolean
-    {
-        return this.context.type == "dashboard";
-    }
-
-    collection() : boolean
-    {
-        return this.context.type == "collection";
-    }
 }

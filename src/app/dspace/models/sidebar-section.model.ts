@@ -1,5 +1,5 @@
 
-
+// TODO: fix the used style guide.
 export class SidebarSection
 {
 
@@ -53,6 +53,18 @@ export class SidebarSection
     {
         // what to do if a dev wants to override a route? Return an error?
         this.routes[name] = url;
+    }
+
+    /**
+     * Adds an object containing routes
+     * Overwrites manually added routes at this point
+     * @param routes
+     */
+    addRoutes(routes)
+    {
+        console.log(routes);
+        this.routes = routes;
+        console.log(this.routes);
     }
 
 

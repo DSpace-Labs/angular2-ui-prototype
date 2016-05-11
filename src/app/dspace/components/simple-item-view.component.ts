@@ -4,6 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContextProviderService } from '../services/context-provider.service';
+import { SidebarService } from '../../utilities/services/sidebar.service';
 
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
@@ -64,16 +65,29 @@ export class SimpleItemViewComponent {
      */
     private item : Item;
 
+
+    private routes : { [name:string] : string } = {};
     /**
      *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      */
-    constructor(private contextProvider: ContextProviderService) {
+    constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService) {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
+
+        console.log("subscribing to the observable");
+
+        //sidebarService.sidebarSubject.
+
+        // sidebar service test.
+
+        this.routes["Edit Item"]="Home"; // home to test
+        this.routes["Export metadata"]="Home";
+        sidebarService.buildSection(5,"SimpleComponent",this.routes, true);
+
     }
 
     /**
@@ -83,4 +97,11 @@ export class SimpleItemViewComponent {
         return this.item && this.item.type == 'item';
     }
 
+    /**
+     * Remove the added section.
+     */
+    ngOnDestroy()
+    {
+        this.sidebarService.removeComponent(5);
+    }
 }

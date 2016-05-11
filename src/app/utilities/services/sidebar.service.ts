@@ -1,6 +1,8 @@
 import { Injectable, Inject} from '@angular/core';
 import { SidebarSection} from '../../dspace/models/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -19,10 +21,19 @@ export class SidebarService
 
     // we need to make sure that the router links exist.
 
+    /**
+     * breaking away from the style guide here because we want some logic in the getter.
+     * @type {Array}
+     * @private
+     */
     private _components : SidebarSection[] = [];
+
+
+    sidebarSubject : Subject<any>;
 
     constructor()
     {
+        this.sidebarSubject = new Subject<any>();
         this.populateDefault();
     }
 
@@ -74,11 +85,11 @@ export class SidebarService
      * Returns an ordered array of the visible components.
      * @returns {SidebarSection[]}
      */
-    get components()
+    get components() // TODO: rename to getFilteredComponents or something, to follow style guidelines
     {
         // first make sure that the ones without an index, appear last.
         let max = Math.max.apply(Math,this._components.filter(x => ObjectUtil.hasValue(x.index)).map(x => x.index))+1;
-        this._components.forEach(component =>
+        this._components.forEach(component=>
         {
             if(ObjectUtil.hasNoValue(component.index))
             {
@@ -89,6 +100,8 @@ export class SidebarService
         return sortedVisibleComponents;
     }
 
+    set components(components){this.components = components}
+
     /**
      *
      * create new component or replace existing component based on the component's id.
@@ -98,17 +111,41 @@ export class SidebarService
      */
     addSection(component : SidebarSection)
     {
-        // check if this section already exists.
-
-        let newComponentArray = this._components.filter(x => x.id != component.id);
+        console.log("adding section");
+        let newComponentArray = this.components.filter(x => x.id != component.id);
         newComponentArray.push(component);
         this._components = newComponentArray;
-
+        // generate subject event
+        this.sidebarSubject.next(true);
     }
+
+    /**
+     * Typescript supports overloading of methods, when the amount of parameters is different
+     * (Because the transpiled javascript does not have types, using the same number of arguments will cause problems)
+     * @param id
+     * @param componentname
+     * @param routes array of display name - route name
+     * @param visible
+     * @param index
+     */
+    buildSection(id, componentname, routes, visible?, index?)
+    {
+        let section = new SidebarSection();
+        section.id = id;
+        section.componentName = componentname;
+        section.visible = visible;
+        section.index = index;
+        section.addRoutes(routes);
+        console.log("added routes");
+        this.addSection(section);
+    }
+
 
     // remove a component based on an ID
     removeComponent(id)
     {
-
+        this._components = this._components.filter(component => component.id != id);
+        this.sidebarSubject.next(true); // create an observable event.
     }
+
 }
