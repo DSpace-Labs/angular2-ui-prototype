@@ -1,43 +1,22 @@
 import {Component, Input, OnInit} from 'angular2/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
-import {HomeSidebarComponent} from './home-sidebar.component';
-import {CollectionSidebarComponent} from './collection-sidebar.component';
 
 import { ContextProviderService } from '../../../dspace/services/context-provider.service';
-
-import {AccountComponent} from './divisions/account.component';
-import {BrowseComponent} from './divisions/browse.component';
-import {HelpComponent} from './divisions/help.component';
-
+import {SidebarService} from '../../../utilities/services/sidebar.service.ts';
+import {SidebarSection} from '../../models/sidebar-section.model';
+import {SidebarSectionComponent} from './sidebar-section.component';
 /**
- * What appears in this sidebar is decided by the component currently active
+ * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.
  * Using the sidebarservice
  */
 @Component({
     selector: "sidebar",
-    directives: [ROUTER_DIRECTIVES, HomeSidebarComponent, CollectionSidebarComponent, BrowseComponent,HelpComponent,AccountComponent],
+    directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <h1>testing the sidebar </h1>
-        <div class="">
-        <!-- put some wordbreak here -->
-
-            <!--
-            <sidebar-browse></sidebar-browse>
-            <sidebar-account></sidebar-account>
-            <h4>Context</h4>
-            <div *ngIf="dashboard()">
-                <home-sidebar></home-sidebar>
+            <div *ngFor="let component of sidebarComponents">
+                <sidebar-section [sidebarcomponent]="component"></sidebar-section>
             </div>
-
-            <div *ngIf="collection()">
-                <collection-sidebar></collection-sidebar>
-            </div>
-            <!-- normal parts -->
-
-            <sidebar-help></sidebar-help>
-
-        </div>
         `
 })
 
@@ -46,13 +25,21 @@ export class SidebarComponent
 
     private context : any;
 
-    constructor(private contextProvider: ContextProviderService)
+    private sidebarComponents;
+
+    constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
     {
         if(contextProvider != null){
         this.context = contextProvider.context;
         contextProvider.contextObservable.subscribe( x => this.context = x);
         }
-        console.log("in the sidebar constructor");
+
+        this.sidebarComponents = this.sidebarService.components;
+        console.log("got some components");
+        for(let comp of this.sidebarComponents)
+        {
+            console.log(comp.componentName);
+        }
     }
 
     dashboard() : boolean
