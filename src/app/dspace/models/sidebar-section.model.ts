@@ -5,6 +5,10 @@ export class SidebarSection
 
     private _id : number;
 
+    /**
+     * The order for which an item appears in the sidebar.
+     * When a collision, we will see what the sort returns.
+     */
     private _index : number;
 
     private _componentName : string;

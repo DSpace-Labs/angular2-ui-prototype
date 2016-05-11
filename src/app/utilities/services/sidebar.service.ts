@@ -1,4 +1,4 @@
-import { Injectable, Inject} from 'angular2/core';
+import { Injectable, Inject} from '@angular/core';
 import { SidebarSection} from '../../dspace/models/sidebar-section.model.ts';
 
 /**
@@ -41,7 +41,7 @@ export class SidebarService
         helpComponent.addRoute("Imprint","Home");
         helpComponent.addRoute("Feedback","Home");
         helpComponent.visible = false;
-        this.components.push(helpComponent);
+        this._components.push(helpComponent);
 
         // account component
         // needs to be overriden when the user is logged in.
@@ -50,8 +50,16 @@ export class SidebarService
         accountComponent.componentName = "Account";
         accountComponent.addRoute("Login","Login");
         accountComponent.addRoute("Register","Register");
-        this.components.push(accountComponent);
+        this._components.push(accountComponent);
 
+        // find a way to make this work correctly.
+        // when an item is switched to visible, the UI should update straight away.
+        /*setTimeout( () =>
+        {
+            console.log("in the timeout");
+            helpComponent.visible=true;
+        },10000);
+        */
     }
 
 

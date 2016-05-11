@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
+import {Component, Input, OnInit} from '@angular/core';
+import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { ContextProviderService } from '../../../dspace/services/context-provider.service';
 import {SidebarService} from '../../../utilities/services/sidebar.service.ts';

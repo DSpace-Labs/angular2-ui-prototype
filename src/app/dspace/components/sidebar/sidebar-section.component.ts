@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
+import {Component, Input, OnInit} from '@angular/core';
+import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 
 /**
@@ -22,20 +22,4 @@ export class SidebarSectionComponent
 
     sidebarcomponent;
 
-    constructor()
-    {
-    }
-
-    ngOnInit()
-    {
-        // let's see which component was passed.
-        console.log("in the on init of sidebar-section");
-        console.log(this.sidebarcomponent);
-
-        for(var x in this.sidebarcomponent.routes)
-        {
-            console.log(x);
-        }
-
-    }
 }
