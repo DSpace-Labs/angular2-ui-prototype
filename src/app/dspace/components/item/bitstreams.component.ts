@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -25,7 +25,7 @@ import { ArrayUtil } from '../../../utilities/commons/array.util'
                 </view-element>
               `
 })
-export class BitstreamsComponent {
+export class BitstreamsComponent implements OnInit {
 
     /**
      * 
@@ -37,10 +37,15 @@ export class BitstreamsComponent {
      */
     private componentTitle: string = "item-view.header.bitstreams";
 
+    /**
+     * 
+     */
     private originalBitstreams : Array<Bitstream>;
 
-    ngOnInit()
-    {
+    /**
+     * 
+     */
+    ngOnInit() {
         this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams, 'bundleName', 'ORIGINAL');
     }
 }
