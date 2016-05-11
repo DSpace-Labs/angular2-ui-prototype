@@ -62,14 +62,4 @@ export class Metadatum {
         return parts[2] ? parts[2] : null;
     }
 
-    /* Test methods */
-    setKey(k){
-        this.key = k;
-    }
-
-    setValue(v){
-        this.value =v;
-    }
-
-
 }
