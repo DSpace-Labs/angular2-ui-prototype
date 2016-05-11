@@ -39,13 +39,10 @@ export class NotificationService {
      */
     registerChannel(channel: string): Observable<Array<Notification>> {
         this.notifications.set(channel, new Array<Notification>());
-
         let notificationsSubject = new Subject<Array<Notification>>();
         this.notificationsSubjects.set(channel, notificationsSubject);
-
         let notificationsObservable = notificationsSubject.asObservable();
         this.notificationsObservables.set(channel, notificationsObservable);
-
         return notificationsObservable;
     }
 
@@ -63,7 +60,6 @@ export class NotificationService {
     add(channel: string, notification: Notification): void {
         let notifications = this.notifications.get(channel);
         notifications.push(notification);
-
         let notificationsSubject = this.notificationsSubjects.get(channel);
         notificationsSubject.next(notifications);
     }
@@ -73,14 +69,12 @@ export class NotificationService {
      */
     remove(channel: string, notification: Notification): void {
         let notifications = this.notifications.get(channel);
-
         for(let i = notifications.length - 1; i >= 0; i--) {
             if(notifications[i].id == notification.id) {
                 notifications.splice(i, 1);
                 break;
             }
         }
-
         let notificationsSubject = this.notificationsSubjects.get(channel);
         notificationsSubject.next(notifications);
     }
