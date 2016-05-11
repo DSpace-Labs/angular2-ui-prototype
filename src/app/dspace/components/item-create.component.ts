@@ -274,7 +274,6 @@ export class ItemCreateComponent extends FormSecureComponent {
         this.processing = true;
         this.setModelValues();
         this.setMetadataValues();
-
         this.dspaceService.createItem(this.item.sanitize(), token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;

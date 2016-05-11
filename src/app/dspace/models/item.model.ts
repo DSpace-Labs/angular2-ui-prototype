@@ -46,12 +46,12 @@ export class Item extends DSOContainer {
     /*
      * thumbnail url, including the rest url
      */
-    thumbnail : string; // url representing the primary thumbnail
+    thumbnail: string; // url representing the primary thumbnail
 
     /**
      *
      */
-    thumbnails : { [name:string] : string } = {}; // all the thumbnails of this item.
+    thumbnails: { [name:string]: string } = {}; // all the thumbnails of this item.
 
 
     /**
@@ -64,7 +64,6 @@ export class Item extends DSOContainer {
      */
     constructor(json?: any) { // this could be either an item, or json.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        
         if (ObjectUtil.isNotEmpty(json)) {
             this.findThumbnail(json.bitstreams);
             this.parentCollection = new Collection(json.parentCollection);
@@ -72,8 +71,6 @@ export class Item extends DSOContainer {
             this.archived = json.archived;
             this.withdrawn = json.withdrawn;
             this.fullItem = json.fullItem ? json.fullItem : false;
-
-
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
                     return new Bitstream(bitstream);
@@ -89,7 +86,7 @@ export class Item extends DSOContainer {
      * @param metadata
      */
     addMetadata(metadata?: Metadatum) {
-        if(this.metadata == null) {
+        if(!this.metadata) {
             this.metadata = new Array<Metadatum>();
         }
         // slice, shallow copy, but new array object. We want a new array for angular's change detection.
@@ -102,15 +99,16 @@ export class Item extends DSOContainer {
      * If this bitstream is a thumbnail, save the string to the thumbnail.
      */
     private findThumbnail(bitstreams?: Array<jsonbitstream>) {
-        if(bitstreams != null) {
+        if(bitstreams) {
             let primaryStream = this.getPrimaryStream(bitstreams);
-            bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x => {
-                this.thumbnails[x.name.substr(0,x.name.length-".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
-
-                if (x.name == primaryStream.name + ".jpg") {
-                    this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
-                }
-            });
+            if(primaryStream) {
+                bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x => {
+                    this.thumbnails[x.name.substr(0, x.name.length - ".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+                    if (x.name == primaryStream.name + ".jpg") {
+                        this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+                    }
+                });
+            }
         }
     }
 
@@ -120,8 +118,8 @@ export class Item extends DSOContainer {
      * @returns Bitstream
      */
     private getPrimaryStream(bitstreams: Array<jsonbitstream>): jsonbitstream {
-        var primary = ArrayUtil.findBy(bitstreams,'bundleName','ORIGINAL');
-        return primary != null ? primary : null;
+        var primary = ArrayUtil.findBy(bitstreams, 'bundleName', 'ORIGINAL');
+        return primary ? primary : null;
     }
 
     /**
