@@ -43,14 +43,15 @@ export class Item extends DSOContainer {
      */
     fullItem: boolean;
 
-
-
     /*
      * thumbnail url, including the rest url
      */
-    thumbnail : string; // url representing the primary thumbnail
+    thumbnail: string; // url representing the primary thumbnail
 
-    thumbnails : { [name:string] : string} = {}; // all the thumbnails of this item.
+    /**
+     *
+     */
+    thumbnails: { [name:string]: string } = {}; // all the thumbnails of this item.
 
 
     /**
@@ -63,16 +64,13 @@ export class Item extends DSOContainer {
      */
     constructor(json?: any) { // this could be either an item, or json.
         super(json); // Creates a DSpaceObject with some of the information about this item (name,id,..)
-        this.findThumbnail(json.bitstreams);
-        if (ObjectUtil.isNotEmpty(json))
-        {
+        if (ObjectUtil.isNotEmpty(json)) {
+            this.findThumbnail(json.bitstreams);
             this.parentCollection = new Collection(json.parentCollection);
             this.lastModified = json.lastModified;
             this.archived = json.archived;
             this.withdrawn = json.withdrawn;
             this.fullItem = json.fullItem ? json.fullItem : false;
-
-
             if (Array.isArray(json.bitstreams)) {
                 this.bitstreams = json.bitstreams.map((bitstream) => {
                     return new Bitstream(bitstream);
@@ -87,10 +85,8 @@ export class Item extends DSOContainer {
      * Uses a temparray to trigger the change detection of angular.
      * @param metadata
      */
-    addMetadata(metadata? : Metadatum)
-    {
-        if(this.metadata == null)
-        {
+    addMetadata(metadata?: Metadatum) {
+        if(!this.metadata) {
             this.metadata = new Array<Metadatum>();
         }
         // slice, shallow copy, but new array object. We want a new array for angular's change detection.
@@ -102,20 +98,17 @@ export class Item extends DSOContainer {
     /**
      * If this bitstream is a thumbnail, save the string to the thumbnail.
      */
-    private findThumbnail(bitstreams: Array<jsonbitstream>)
-    {
-        if(bitstreams != null)
-        {
+    private findThumbnail(bitstreams?: Array<jsonbitstream>) {
+        if(bitstreams) {
             let primaryStream = this.getPrimaryStream(bitstreams);
-            bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x =>
-            {
-                this.thumbnails[x.name.substr(0,x.name.length-".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
-
-                if (x.name == primaryStream.name+".jpg")
-                {
-                    this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
-                }
-            });
+            if(primaryStream) {
+                bitstreams.filter(x => x.bundleName == "THUMBNAIL").forEach(x => {
+                    this.thumbnails[x.name.substr(0, x.name.length - ".JPG".length)] = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+                    if (x.name == primaryStream.name + ".jpg") {
+                        this.thumbnail = URLHelper.relativeToAbsoluteRESTURL(x.retrieveLink);
+                    }
+                });
+            }
         }
     }
 
@@ -124,11 +117,9 @@ export class Item extends DSOContainer {
      * @param bitstreams
      * @returns Bitstream
      */
-    private getPrimaryStream(bitstreams: Array<jsonbitstream>) : jsonbitstream
-    {
-
-        var primary = ArrayUtil.findBy(bitstreams,'bundleName','ORIGINAL');
-        return primary != null ? primary : null;
+    private getPrimaryStream(bitstreams: Array<jsonbitstream>): jsonbitstream {
+        var primary = ArrayUtil.findBy(bitstreams, 'bundleName', 'ORIGINAL');
+        return primary ? primary : null;
     }
 
     /**
@@ -141,9 +132,11 @@ export class Item extends DSOContainer {
     /**
      *
      */
-    sanatize(): void {
-        super.sanatize();
+    sanitize(): Item {
+        this.thumbnail = undefined;
+        this.thumbnails = undefined;
         this.fullItem = undefined;
+        return this;
     }
     
     
@@ -152,11 +145,9 @@ export class Item extends DSOContainer {
 /**
  * To let typescript recognize the datatypes that we expect to get from the json
  */
-interface jsonbitstream{
-    name : string;
-    bundleName : string;
-    sequenceId : number;
+interface jsonbitstream {
+    name: string;
+    bundleName: string;
+    sequenceId: number;
     retrieveLink: string;
 }
- 
-

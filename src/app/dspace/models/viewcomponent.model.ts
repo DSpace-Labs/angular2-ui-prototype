@@ -25,8 +25,7 @@ export class ViewComponent
      * e.g "dc.contributor.author, dc.identifier.other,.."
      * @param fields
      */
-    constructor(public fields : Array<String>)
-    {
+    constructor(public fields: Array<String>) {
         this.metadataHelper = new MetadataHelper();
     }
 
@@ -35,8 +34,7 @@ export class ViewComponent
      * Expects an array of metadata
      * @param metadata
      */
-    protected filterMetadata(metadata : Array<Metadatum>) : void
-    {
+    protected filterMetadata(metadata: Array<Metadatum>): void {
         this.filteredFields = this.metadataHelper.filterMetadata(metadata,this.fields);
     }
 
@@ -44,8 +42,7 @@ export class ViewComponent
      * Checks if there is a result after filtering the metadata for the required fields.
      * @returns {boolean}
      */
-    hasMetadata() : boolean
-    {
+    hasMetadata(): boolean {
         return ArrayUtil.isNotEmpty(this.filteredFields);
     }
 }

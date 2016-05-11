@@ -118,7 +118,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Message to display while processing collection create.
      */
     processingMessage(): string {
         return this.translate.instant('collection.create.processing', { name: this.collection.name });
@@ -148,8 +148,9 @@ export class CollectionCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('app', 'DANGER', this.translate.instant('collection.create.error', { name: this.collection.name }));
             console.log(error);
+            this.processing = false;
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('collection.create.error', { name: this.collection.name }));
         });
     }
 
