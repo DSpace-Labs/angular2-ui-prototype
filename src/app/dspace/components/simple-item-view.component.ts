@@ -63,7 +63,7 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
     /**
      * The current item.
      */
-    private item : Item;
+    private item: Item;
 
     /**
      *

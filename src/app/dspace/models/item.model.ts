@@ -79,13 +79,12 @@ export class Item extends DSOContainer {
         }
     }
 
-
     /**
      * Add to metadata array of DSO.
      * Uses a temparray to trigger the change detection of angular.
      * @param metadata
      */
-    addMetadata(metadata?: Metadatum) {
+    addMetadata(metadata?: Metadatum): void {
         if(!this.metadata) {
             this.metadata = new Array<Metadatum>();
         }
@@ -98,7 +97,7 @@ export class Item extends DSOContainer {
     /**
      * If this bitstream is a thumbnail, save the string to the thumbnail.
      */
-    private findThumbnail(bitstreams?: Array<jsonbitstream>) {
+    private findThumbnail(bitstreams?: Array<jsonbitstream>): void {
         if(bitstreams) {
             let primaryStream = this.getPrimaryStream(bitstreams);
             if(primaryStream) {

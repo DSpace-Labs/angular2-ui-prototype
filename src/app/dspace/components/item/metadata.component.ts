@@ -38,6 +38,9 @@ export class MetadataComponent extends ViewComponent {
      */
     private componentTitle: string = "item-view.header.metadata";
 
+    /**
+     *
+     */
     constructor() {
         super(["dc.contributor.author",
                        "dc.date.accessioned",
