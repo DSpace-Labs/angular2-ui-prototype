@@ -34,8 +34,10 @@ export abstract class DSpaceObject extends Pageable {
 
     /**
      * An array of the metadata for this DSpaceObject.
+     * This is protected because we want to restrict how people interact with the metadata
+     * e.g, additions to this array (directly) will *NOT* be noticed by angular's change detection!
      */
-    metadata: Array<Metadatum>;
+    protected metadata: Array<Metadatum>;
 
     /**
      * Create a new DSpaceObject.
@@ -60,5 +62,11 @@ export abstract class DSpaceObject extends Pageable {
             }
         }
     }
+
+    /**
+     *
+     * @returns {Array<Metadatum>}
+     */
+    getmetadata() : Array<Metadatum> { return this.metadata; }
 
 }

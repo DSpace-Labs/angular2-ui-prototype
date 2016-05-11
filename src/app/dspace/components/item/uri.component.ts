@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { MetadataHelper } from '../../../utilities/metadata.helper';
-import { Metadatum } from '../../models/metadatum.model'
-import { ViewElementComponent } from './view-element.component';
+import {ViewComponent} from '../../models/viewcomponent.model';
+import {MetadataHelper} from '../../../utilities/metadata.helper';
+import {Metadatum} from '../../models/metadatum.model'
+import {ViewElementComponent} from './view-element.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -15,7 +16,7 @@ import { ViewElementComponent } from './view-element.component';
     directives: [ ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate">
                     <div *ngFor="let metadatum of filteredFields;">
                         <!-- renders a clickable URI (in this case of the value inside dc.identifier.uri, e.g the handle)-->
                         <a [attr.href]="metadatum.value">{{ metadatum.value }}</a>
@@ -23,7 +24,7 @@ import { ViewElementComponent } from './view-element.component';
                 </view-element>
               `
 })
-export class UriComponent implements OnInit {
+export class UriComponent extends ViewComponent implements OnChanges{
 
     /**
      * 
@@ -33,39 +34,15 @@ export class UriComponent implements OnInit {
     /**
      * 
      */
-    private componentTitle: string = "item-view.uri.title";
+    private componentTitle: string = "item-view.header.uri";
 
-    /**
-     * the fields that we want to show on this page.
-     */
-    private fields: Array<string>; // 
 
-    /**
-     * the values that we will filter out of the metadata.
-     */
-    private filteredFields: Array<Metadatum>; 
-
-    /**
-     * 
-     * @param metadataHelper
-     *      MetadataHelper is a singleton service used to filter metadata fields.
-     */
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.identifier.uri"];
+    constructor() {
+        super(["dc.identifier.uri"]);
     }
 
-    /**
-     * 
-     */
-    ngOnInit() {
-        this.filterMetadata();
-    }
-
-    /**
-     * 
-     */
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+    ngOnChanges() {
+        super.filterMetadata(this.itemData);
     }
 
 }

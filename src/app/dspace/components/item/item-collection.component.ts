@@ -29,7 +29,7 @@ export class ItemCollectionComponent {
     /**
      * 
      */
-    private componentTitle: string = "item-view.collection.title";
+    private componentTitle: string = "item-view.header.collections";
 
     /**
      * 

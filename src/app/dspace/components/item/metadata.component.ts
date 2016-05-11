@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { MetadataHelper } from '../../../utilities/metadata.helper';
-import { Metadatum } from '../../models/metadatum.model'
-import { ViewElementComponent } from './view-element.component';
+import {MetadataHelper} from '../../../utilities/metadata.helper';
+import {Metadatum} from '../../models/metadatum.model'
+import {ViewComponent} from '../../models/viewcomponent.model';
+import {ViewElementComponent} from './view-element.component';
 
 /**
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
@@ -17,7 +18,7 @@ import { ViewElementComponent } from './view-element.component';
     directives: [ ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate">
                     <div class="item" *ngFor="let metadatum of filteredFields.metadata">
                         <strong >{{ metadatum.key }}</strong>
                         <p>{{ metadatum.value }}</p>
@@ -25,7 +26,7 @@ import { ViewElementComponent } from './view-element.component';
                 </view-element>
               `
 })
-export class MetadataComponent implements OnInit {
+export class MetadataComponent extends ViewComponent {
 
     /**
      *
@@ -35,25 +36,10 @@ export class MetadataComponent implements OnInit {
     /**
      *
      */
-    private componentTitle: string = "item-view.metadata.title";
+    private componentTitle: string = "item-view.header.metadata";
 
-    /**
-     * The fields that we want to show on this page.
-     */
-    private fields: Array<string>;
-
-    /**
-     * The values that we will filter out of the metadata.
-     */
-    private filteredFields: Array<Metadatum>;
-
-    /**
-     *
-     * @param metadataHelper
-     *      MetadataHelper is a singleton service used to filter metadata fields.
-     */
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.contributor.author",
+    constructor() {
+        super(["dc.contributor.author",
                        "dc.date.accessioned",
                        "dc.date.available",
                        "dc.date.issued",
@@ -62,21 +48,14 @@ export class MetadataComponent implements OnInit {
                        "dc.rights.uri",
                        "dc.subject",
                        "dc.title",
-                       "dc.type"]; // list of fields we want to filter for
+                       "dc.type"]); // list of fields we want to filter for
     }
 
     /**
      *
      */
-    ngOnInit() {
-        this.filterMetadata();
-    }
-
-    /**
-     *
-     */
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+    ngOnChanges() {
+        super.filterMetadata(this.itemData);
     }
 
 }
