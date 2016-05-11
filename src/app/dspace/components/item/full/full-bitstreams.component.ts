@@ -65,7 +65,7 @@ export class FullBitstreamsComponent implements OnInit {
 
     ngOnInit()
     {
-        this.originalBitstreams = this.itemBitstreams.filter((x) => x.bundleName=="ORIGINAL")
+        this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams, 'bundleName', 'ORIGINAL');
     }
 
     /**

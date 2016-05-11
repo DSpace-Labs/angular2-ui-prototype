@@ -82,7 +82,7 @@ export class Item extends DSOContainer {
     /**
      * If this bitstream is a thumbnail, save the string to the thumbnail.
      */
-    private findThumbnail(bitstreams)
+    private findThumbnail(bitstreams: Array<jsonbitstream>)
     {
         if(bitstreams != null)
         {
@@ -104,7 +104,7 @@ export class Item extends DSOContainer {
      * @param bitstreams
      * @returns Bitstream
      */
-    private getPrimaryStream(bitstreams) : Bitstream
+    private getPrimaryStream(bitstreams: Array<jsonbitstream>) : jsonbitstream
     {
 
         var primary = ArrayUtil.findBy(bitstreams,'bundleName','ORIGINAL');
@@ -133,9 +133,10 @@ export class Item extends DSOContainer {
  * To let typescript recognize the datatypes that we expect to get from the json
  */
 interface jsonbitstream{
-    name : String;
-    bundleName : String;
+    name : string;
+    bundleName : string;
     sequenceId : number;
+    retrieveLink: string;
 }
  
 
