@@ -23,7 +23,7 @@ import { ArrayUtil } from '../../../../utilities/commons/array.util'
                             <!-- thumbnail -->
                             <div class="col-xs-6 col-sm-3">
                                 <!-- the link we pass needs to match the current items name -->
-                                <thumbnail [thumbnaillink]="matchingThumbnailUrl(bitstream.name)"></thumbnail>
+                                <thumbnail [thumbnailLink]="matchingThumbnailUrl(bitstream.name)"></thumbnail>
                             </div>
 
                             <!-- description -->
@@ -51,31 +51,39 @@ export class FullBitstreamsComponent implements OnInit {
     /**
      * 
      */
-    @Input() private itemBitstreams: Bitstream[];
-    private originalBitstreams : Bitstream[]; // we only want to display the primary bitstream.
+    @Input() private itemBitstreams: Array<Bitstream>;
 
-    @Input() private thumbnails : { [name:string] : string};
+    /**
+     * 
+     */
+    @Input() private thumbnails: { [name:string]: string };
 
-    private item : Item;
+    /**
+     * we only want to display the primary bitstream.
+     */
+    private originalBitstreams: Array<Bitstream>;
 
-
-    constructor()
-    {
-    }
-
-    ngOnInit()
-    {
-        this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams, 'bundleName', 'ORIGINAL');
-    }
+    /**
+     * 
+     */
+    private item: Item;
 
     /**
      * 
      */
     private componentTitle: string = "item-view.full.full-bitstreams.title";
 
+    /**
+     * 
+     */
+    ngOnInit() {
+        this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams, 'bundleName', 'ORIGINAL');
+    }
 
-    matchingThumbnailUrl(bitstreamname): string
-    {
+    /**
+     * 
+     */
+    matchingThumbnailUrl(bitstreamname): string {
           return this.thumbnails[bitstreamname];
     }
 

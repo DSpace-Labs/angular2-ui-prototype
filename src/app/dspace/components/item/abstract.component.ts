@@ -16,7 +16,8 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template: `
                 <view-element *ngIf="hasMetadata()">
-                    <h3 class="visible-xs">{{componentTitle | translate}}</h3> <!-- not passed to view-element because it has a special layout options -->
+                    <!-- not passed to view-element because it has a special layout options -->
+                    <h3 class="visible-xs">{{componentTitle | translate}}</h3>
                     <div *ngFor="let metadatum of filteredFields;">
                         <p>{{metadatum.value}}</p>
                     </div>
@@ -35,14 +36,18 @@ export class AbstractComponent extends ViewComponent implements OnChanges {
      */
     private componentTitle: string = "item-view.header.abstract";
 
-
+    /**
+     *
+     */
     constructor() {
         super(["dc.description.abstract"]);
     }
 
+    /**
+     *
+     */
     ngOnChanges() {
         super.filterMetadata(this.itemData);
     }
-
 
 }

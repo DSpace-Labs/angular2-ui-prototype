@@ -41,7 +41,7 @@ import {Item} from '../models/item.model';
                         <h1>{{item.name}}</h1>
                         <div class="row">
                             <div class="col-sm-4">
-                                <thumbnail [thumbnaillink]="item.thumbnail"></thumbnail>
+                                <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>
@@ -63,7 +63,7 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
     /**
      * The current item.
      */
-    private item : Item;
+    private item: Item;
 
     /**
      *

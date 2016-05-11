@@ -70,7 +70,7 @@ export abstract class Pageable implements Paging {
     /**
      * 
      */
-    sanatize(): void {
+    sanitize(): void {
         this.ready = undefined;
         this.loaded = undefined;
         this.offset = undefined;

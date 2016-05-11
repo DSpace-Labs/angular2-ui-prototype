@@ -26,17 +26,27 @@ import {ViewElementComponent} from './view-element.component';
 })
 export class AuthorsComponent extends ViewComponent implements OnChanges {
 
-    private componentTitle: string = "item-view.header.authors"; // this string is written as it appears in the i18n file.
-    @Input() private itemData: Array<Metadatum>; // The data that got passed to this component from the simple/full item-view.
+    /**
+     * The data that got passed to this component from the simple/full item-view.
+     */
+    @Input() private itemData: Array<Metadatum>;
 
-    constructor()
-    {
+    /**
+     * this string is written as it appears in the i18n file.
+     */
+    private componentTitle: string = "item-view.header.authors";
+
+    /**
+     *
+     */
+    constructor() {
         super(["dc.contributor.author", "dc.creator", "dc.contributor"]);
     }
 
-    // we need to find changes that are happening in the metadata array. (removal/addition specifically)
-    ngOnChanges()
-    {
+    /**
+     * we need to find changes that are happening in the metadata array. (removal/addition specifically)
+     */
+    ngOnChanges() {
         super.filterMetadata(this.itemData);
     }
 

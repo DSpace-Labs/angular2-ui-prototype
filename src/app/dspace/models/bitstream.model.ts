@@ -23,11 +23,16 @@ export class Bitstream extends DSpaceObject {
      */
     bundleName: string;
     
+    /**
+     * what is this variable for? why not use sizeBytes? which is a property name from DSpace
+     */
     size: number;
     
-    name: string;
+    /**
+     *
+     */
+    bundle: string;
 
-    bundle : string;
     /**
      *
      */
@@ -57,4 +62,5 @@ export class Bitstream extends DSpaceObject {
             }
         }
     }
+
 }

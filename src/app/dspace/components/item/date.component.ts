@@ -37,19 +37,18 @@ export class DateComponent extends ViewComponent implements OnChanges {
      */
     private componentTitle: string = "item-view.header.date";
 
-
     /**
      *
-     * @param metadataHelper
-     *      MetadataHelper is a singleton service used to filter metadata fields.
      */
     constructor() {
         super(["dc.date.accessioned"]);
     }
 
-   ngOnChanges()
-   {
+    /**
+     *
+     */
+    ngOnChanges() {
        super.filterMetadata(this.itemData);
-   }
+    }
 
 }
