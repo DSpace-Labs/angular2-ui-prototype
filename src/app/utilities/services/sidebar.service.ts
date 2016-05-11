@@ -1,5 +1,6 @@
 import { Injectable, Inject} from '@angular/core';
 import { SidebarSection} from '../../dspace/models/sidebar-section.model.ts';
+import { ObjectUtil } from "../../utilities/commons/object.util";
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -27,6 +28,7 @@ export class SidebarService
 
     /**
      * Created some default components
+     * Some of these values are used as a test.
      *
      */
     private populateDefault() : void
@@ -40,8 +42,10 @@ export class SidebarService
         helpComponent.addRoute("About","Home");
         helpComponent.addRoute("Imprint","Home");
         helpComponent.addRoute("Feedback","Home");
-        helpComponent.visible = false;
-        this._components.push(helpComponent);
+        //helpComponent.visible = false;
+        helpComponent.index = 20;
+        this.addSection(helpComponent);
+
 
         // account component
         // needs to be overriden when the user is logged in.
@@ -50,7 +54,8 @@ export class SidebarService
         accountComponent.componentName = "Account";
         accountComponent.addRoute("Login","Login");
         accountComponent.addRoute("Register","Register");
-        this._components.push(accountComponent);
+        accountComponent.index = 1100;
+        this.addSection(accountComponent);
 
         // find a way to make this work correctly.
         // when an item is switched to visible, the UI should update straight away.
@@ -63,15 +68,31 @@ export class SidebarService
     }
 
 
+    /**
+     * Returns an ordered array of the visible components.
+     * @returns {SidebarSection[]}
+     */
     get components()
     {
-        return this._components.filter(comp => comp.visible);
+        // first make sure that the ones without an index, appear last.
+        let max = Math.max.apply(Math,this._components.filter(x => ObjectUtil.hasValue(x.index)).map(x => x.index))+1;
+        this._components.forEach(component =>
+        {
+            if(ObjectUtil.hasNoValue(component.index))
+            {
+                component.index = max;
+            }
+        });
+        var sortedVisibleComponents = this._components.filter(component => component.visible).sort(function(c1,c2) { return c1.index - c2.index;});
+        return sortedVisibleComponents;
     }
 
     // adds a component.
-    addComponent()
+    addSection(component : SidebarSection)
     {
-        // this will create a component and add it.
+        // check if this section already exists.
+
+        this._components.push(component);
     }
 
     // remove a component based on an ID

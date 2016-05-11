@@ -3,6 +3,9 @@
 export class SidebarSection
 {
 
+    /**
+     * This number can be used to overwrite a component.
+     */
     private _id : number;
 
     /**
@@ -55,6 +58,9 @@ export class SidebarSection
 
     get visible() : boolean { return this._visible; }
     set visible(isvisible : boolean) {this._visible = isvisible; }
+
+    get index() : number { return this._index; }
+    set index(index : number) { this._index = index; }
 
     /**
      * Angular2 currently does not suport iterating over a map, this is one way to get it to work anyway.
