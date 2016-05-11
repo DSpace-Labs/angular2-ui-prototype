@@ -8,9 +8,9 @@ import {
     BROWSER_HTTP_PROVIDERS
 } from 'angular2-universal';
 
-import { Http } from 'angular2/http';
+import { Http } from '@angular/http';
 
-import { provide } from 'angular2/core';
+import { provide } from '@angular/core';
 
 import {
     TranslateLoader,
@@ -30,6 +30,7 @@ import { GoogleScholarMetadataService } from './utilities/services/google-schola
 import { HttpService } from './utilities/services/http.service';
 import { MetadataHelper } from './utilities/metadata.helper';
 import { MetaTagService } from "./utilities/meta-tag/meta-tag.service";
+import { NotificationService } from './utilities/notification/notification.service';
 import { PaginationService } from './navigation/services/pagination.service';
 import { PagingStoreService } from './dspace/services/paging-store.service';
 import { StorageService } from './utilities/services/storage.service';
@@ -66,6 +67,7 @@ bootstrap(AppComponent, [
     HttpService,
     MetadataHelper,
     MetaTagService,
+    NotificationService,
     PaginationService,
     PagingStoreService,
     StorageService,

@@ -1,6 +1,5 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -9,18 +8,20 @@ import {
     FormBuilder,
     NgForm,
     Validators
-} from 'angular2/common';
+} from '@angular/common';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslateService } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
-import { AbstractCreateComponent } from '../../utilities/form/abstract-create.component';
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
+import { FormSecureComponent } from '../../utilities/form/form-secure.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 
 import { Collection } from "../models/collection.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -30,20 +31,20 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'collection-create',
-    pipes: [ TranslatePipe ],
-    directives: [ FormFieldsetComponent ],
+    directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Collection</h3><hr>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createCollection()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!form.valid">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">Submit</button>
                     </div>
                 </form>
               `
 })
-export class CollectionCreateComponent extends AbstractCreateComponent {
+export class CollectionCreateComponent extends FormSecureComponent {
 
     /**
      * Collection being created. ngModel
@@ -52,34 +53,35 @@ export class CollectionCreateComponent extends AbstractCreateComponent {
 
     /**
      *
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param translate
+     *      TranslateService
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param formService
-     *      FormService is a singleton service to retrieve form data.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param translate
-     *      TranslateService
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private authorization: AuthorizationService,
+    constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private formService: FormService,
                 private dspace: DSpaceDirectory,
-                private translate: TranslateService,
-                private builder: FormBuilder,
-                private router: Router) {
-        super();
-        translate.setDefaultLang('en');
-        translate.use('en');
+                private notificationService: NotificationService,
+                formService: FormService,
+                builder: FormBuilder,
+                authorization: AuthorizationService,
+                router: Router) {
+        super(formService, builder, authorization, router);
         this.init();
     }
 
@@ -93,7 +95,7 @@ export class CollectionCreateComponent extends AbstractCreateComponent {
             let formControls = {};
             for(let input of this.inputs) {
                 input.value = input.default ? input.default : '';
-                let validators = this.createValidators(input);
+                let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
             this.form = this.builder.group(formControls);
@@ -105,7 +107,7 @@ export class CollectionCreateComponent extends AbstractCreateComponent {
     }
 
     /**
-     *
+     * Sets the collection values with ngModel values from inputs.
      */
     setModelValues(): void {
         for(let input of this.inputs) {
@@ -116,34 +118,39 @@ export class CollectionCreateComponent extends AbstractCreateComponent {
     }
 
     /**
-     * Resets the form.
+     *
      */
-    reset(): void {
-        this.creating = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('collection.create.processing', { name: this.collection.name });
+    }
+
+    /**
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(collectionName: string, currentContext: any): void {
+        this.reset();
+        this.dspace.refresh(currentContext);
+        this.router.navigate(['/Communities', { id: currentContext.id }]);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
     }
 
     /**
      * Create collection.
      */
     private createCollection(): void {
-        this.creating = true;
+        this.processing = true;
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.setModelValues();
         this.dspaceService.createCollection(this.collection, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                this.reset();
-                this.dspace.refresh(currentContext);
-                this.router.navigate(['/Communities', { id: currentContext.id }]);
+                this.finish(this.collection.name, currentContext);
             }
         },
         error => {
-            this.reset();
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('collection.create.error', { name: this.collection.name }));
             console.log(error);
         });
-
     }
 
 }

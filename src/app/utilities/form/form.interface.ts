@@ -1,11 +1,11 @@
-import { ControlGroup } from 'angular2/common';
+import { ControlGroup } from '@angular/common';
 
 import { FormInput } from './form-input.model';
 
 /**
  *
  */
-export interface FormCreate {
+export interface Form {
 
     /**
      * Used to remove and add the form to reset validations. Suggested by Angular2 form examples.
@@ -23,19 +23,14 @@ export interface FormCreate {
     form: ControlGroup;
 
     /**
-     * Indicates item creation in progress.
+     * Indicates processing in progress.
      */
-    creating: boolean;
+    processing: boolean;
     
     /**
      *
      */
     init(): void;
-
-    /**
-     *
-     */
-    createValidators(input: FormInput): Array<any>;
 
     /**
      *
@@ -46,5 +41,25 @@ export interface FormCreate {
      *
      */
     reset(): void;
+    
+    /**
+     *
+     */
+    disabled(): boolean;
+
+    /**
+     *
+     */
+    showForm(): boolean;
+
+    /**
+     *
+     */
+    processingMessage(): string;
+
+    /**
+     *
+     */
+    finish(name: string, currentContext: any): void;
 
 }

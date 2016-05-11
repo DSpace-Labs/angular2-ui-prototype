@@ -1,5 +1,5 @@
-import { Injectable, Inject } from 'angular2/core';
-import { Response } from 'angular2/http';
+import { Injectable, Inject } from '@angular/core';
+import { Response } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from "rxjs/Observable";
 
@@ -129,6 +129,13 @@ export class AuthorizationService {
         });
 
         return logoutResponse;
+    }
+
+    /**
+     *
+     */
+    isAuthenticated(): boolean {
+        return this.user ? true : false;
     }
 
     /**

@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from '@angular/core';
+
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 import {MetadataHelper} from '../../../utilities/metadata.helper';
@@ -15,7 +16,7 @@ import {ViewElementComponent} from './view-element.component';
     pipes: [TranslatePipe],
     template: `
                 <view-element>
-                    <h3 class="visible-xs">{{componentTitle | translate}}</h3>
+                    <h3 class="visible-xs">{{ componentTitle | translate }}</h3>
                     <div *ngFor="let metadatum of filteredFields;">
                         <p>{{metadatum.value}}</p>
                     </div>
@@ -64,7 +65,7 @@ export class AbstractComponent implements OnInit {
      *
      */
     private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }
 
 }

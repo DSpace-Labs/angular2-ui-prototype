@@ -1,4 +1,4 @@
-import { Injectable, Inject } from 'angular2/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { ArrayUtil } from "../commons/array.util";
 import { StringUtil } from "../commons/string.util";

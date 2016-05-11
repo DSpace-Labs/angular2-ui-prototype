@@ -1,14 +1,13 @@
-import { Component } from 'angular2/core';
-import { RouteConfig, RouterOutlet, RouteParams } from 'angular2/router';
+import { Component } from '@angular/core';
+import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
-import { Collection } from "../models/collection.model";
 
+import { ContainerHomeComponent } from "./container-home.component";
 import { ItemListComponent } from './item-list.component';
 
-import { CollectionViewComponent } from './collection-view.component';
-import { ItemCreateComponent } from './item-create.component';
+import { Collection } from "../models/collection.model";
 
 /**
  * Collection component for displaying the current collection.
@@ -16,18 +15,20 @@ import { ItemCreateComponent } from './item-create.component';
  */
 @Component({
     selector: 'collection',
-    directives: [ RouterOutlet ],
+    directives: [ ContainerHomeComponent, ItemListComponent ],
     template: ` 
-                <router-outlet></router-outlet>
+                <div *ngIf="collectionProvided()">
+                    <container-home [container]="collection"></container-home>
+                    <item-list *ngIf="collection.items.length > 0" [collection]="collection" [items]="collection.items"></item-list>
+                </div>
               `
 })
-@RouteConfig([
-
-        { path: "/", name: "Collection", component: CollectionViewComponent, useAsDefault: true },
-        { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent }
-
-])
 export class CollectionComponent {
+
+    /**
+     * An object that represents the current collection.
+     */
+    private collection: Collection;
 
     /**
      *
@@ -42,8 +43,16 @@ export class CollectionComponent {
                 private dspace: DSpaceDirectory, 
                 private breadcrumbService: BreadcrumbService) {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
-            breadcrumbService.visit(collection);
+            this.collection = collection;
+            breadcrumbService.visit(this.collection);
         });
+    }
+
+    /**
+     * Check if context provides a collection.
+     */
+    private collectionProvided(): boolean {
+        return this.collection && this.collection.type == 'collection';
     }
 
 }

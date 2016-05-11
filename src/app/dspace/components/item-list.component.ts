@@ -1,6 +1,5 @@
-import { Component, Input } from 'angular2/core';
-import { RouteParams } from 'angular2/router';
-import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { Component, Input } from '@angular/core';
+import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
 import { DSpaceService } from '../services/dspace.service';

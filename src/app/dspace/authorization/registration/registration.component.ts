@@ -1,7 +1,9 @@
-import { Component } from 'angular2/core';
+import { Component } from '@angular/core';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
+
+import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
 
 /**
  * Registration component.
@@ -15,6 +17,8 @@ import { BreadcrumbService } from '../../../navigation/services/breadcrumb.servi
 })
 export class RegistrationComponent {
 
+    private breadcrumb: Breadcrumb = new Breadcrumb('register', true);
+
     /**
      *
      * @param breadcrumbService
@@ -24,12 +28,7 @@ export class RegistrationComponent {
      */
     constructor(private breadcrumbService: BreadcrumbService,
                 private translate: TranslateService) {
-        breadcrumbService.visit({
-            name: 'Register',
-            type: 'register',
-            component: '/Register',
-            root: true,
-        });
+        breadcrumbService.visit(this.breadcrumb);
         translate.setDefaultLang('en');
         translate.use('en');
     }

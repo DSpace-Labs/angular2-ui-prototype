@@ -1,4 +1,5 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Input } from '@angular/core';
+
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { Metadatum } from '../../../models/metadatum.model'
