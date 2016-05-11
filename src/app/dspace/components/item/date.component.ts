@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from 'angular2/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { TruncateDatePipe } from "../../../utilities/pipes/truncatedate.pipe"

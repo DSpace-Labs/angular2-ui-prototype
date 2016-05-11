@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from 'angular2/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import {Item} from '../../../models/item.model';

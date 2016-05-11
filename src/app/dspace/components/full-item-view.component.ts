@@ -12,7 +12,6 @@ import { ItemComponent } from './item.component';
 
 import {Metadatum} from '../models/metadatum.model';
 import {Item} from '../models/item.model';
-import {ContextProviderService} from '../services/context-provider.service';
 
 /**
  * Item component for displaying the current item.

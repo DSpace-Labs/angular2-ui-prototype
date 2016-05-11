@@ -17,7 +17,6 @@ import { UriComponent } from './item/uri.component';
 
 import {Metadatum} from '../models/metadatum.model';
 import {Item} from '../models/item.model';
-import {ContextProviderService} from '../services/context-provider.service';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
