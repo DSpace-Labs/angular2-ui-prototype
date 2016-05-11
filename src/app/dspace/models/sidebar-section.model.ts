@@ -9,7 +9,7 @@ export class SidebarSection
 
     private _componentName : string;
 
-    private _visible : boolean;
+    private _visible : boolean = true;
 
     private _children : Array<SidebarSection>; // children of this model.
 
@@ -29,7 +29,7 @@ export class SidebarSection
 
     }
 
-    get componentName(){return this._componentName;}
+    get componentName() : string {return this._componentName;}
     set componentName(name : string)
     {
         this._componentName = name;
@@ -48,6 +48,9 @@ export class SidebarSection
         this.routes[name] = url;
     }
 
+
+    get visible() : boolean { return this._visible; }
+    set visible(isvisible : boolean) {this._visible = isvisible; }
 
     /**
      * Angular2 currently does not suport iterating over a map, this is one way to get it to work anyway.

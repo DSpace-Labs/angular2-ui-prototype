@@ -27,24 +27,38 @@ export class SidebarService
 
     /**
      * Created some default components
+     *
      */
     private populateDefault() : void
     {
         console.log("creating some default components");
 
+        // help component
+        // each component needs a component name, so we can pass this.
         let helpComponent = new SidebarSection();
         helpComponent.componentName = "Help";
-        helpComponent.addRoute("About","#");
-        helpComponent.addRoute("Imprint","#");
-        helpComponent.addRoute("Feedback","#");
-
+        helpComponent.addRoute("About","Home");
+        helpComponent.addRoute("Imprint","Home");
+        helpComponent.addRoute("Feedback","Home");
+        helpComponent.visible = false;
         this.components.push(helpComponent);
+
+        // account component
+        // needs to be overriden when the user is logged in.
+
+        let accountComponent = new SidebarSection();
+        accountComponent.componentName = "Account";
+        accountComponent.addRoute("Login","Login");
+        accountComponent.addRoute("Register","Register");
+        this.components.push(accountComponent);
+
+
     }
 
 
     get components()
     {
-        return this._components;
+        return this._components.filter(comp => comp.visible);
     }
 
     // adds a component.

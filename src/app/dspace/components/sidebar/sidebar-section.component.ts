@@ -13,7 +13,7 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
     template:
         `
             <h4> {{sidebarcomponent.componentName}} </h4>
-            <a *ngFor="let route of sidebarcomponent.keys()" class="list-group-item" [routerLink]="['Home']"> {{ route }} </a>
+            <a *ngFor="let route of sidebarcomponent.keys()" class="list-group-item" [routerLink]="[sidebarcomponent.routes[route]]"> {{ route }} </a>
         `
 })
 
