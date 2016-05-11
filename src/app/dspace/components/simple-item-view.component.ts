@@ -39,7 +39,7 @@ import {ContextProviderService} from '../services/context-provider.service';
                         <h1>{{item.name}}</h1>
                         <div class="row">
                             <div class="col-sm-4">
-                                <item-thumbnail></item-thumbnail>
+                                <thumbnail [thumbnaillink]="item.thumbnail"></thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>
@@ -79,6 +79,8 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
 
 
     }
+
+
 
     /**
      * Check if context provides an item.
