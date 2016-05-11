@@ -13,7 +13,7 @@ export class NotificationService {
     /**
      *
      */
-    private notificationsMap: Map<string, Array<Notification>>;
+    private notifications: Map<string, Array<Notification>>;
 
     /**
      *
@@ -29,7 +29,7 @@ export class NotificationService {
      *
      */
     constructor() {
-        this.notificationsMap = new Map<string, Array<Notification>>();
+        this.notifications = new Map<string, Array<Notification>>();
         this.notificationsSubjects = new Map<string, Subject<Array<Notification>>>();
         this.notificationsObservables = new Map<string, Observable<Array<Notification>>>();
     }
@@ -38,7 +38,7 @@ export class NotificationService {
      *
      */
     registerChannel(channel: string): Observable<Array<Notification>> {
-        this.notificationsMap.set(channel, new Array<Notification>());
+        this.notifications.set(channel, new Array<Notification>());
 
         let notificationsSubject = new Subject<Array<Notification>>();
         this.notificationsSubjects.set(channel, notificationsSubject);
@@ -61,7 +61,7 @@ export class NotificationService {
      *
      */
     add(channel: string, notification: Notification): void {
-        let notifications = this.notificationsMap.get(channel);
+        let notifications = this.notifications.get(channel);
         notifications.push(notification);
 
         let notificationsSubject = this.notificationsSubjects.get(channel);
@@ -72,7 +72,7 @@ export class NotificationService {
      *
      */
     remove(channel: string, notification: Notification): void {
-        let notifications = this.notificationsMap.get(channel);
+        let notifications = this.notifications.get(channel);
 
         for(let i = notifications.length - 1; i >= 0; i--) {
             if(notifications[i].id == notification.id) {

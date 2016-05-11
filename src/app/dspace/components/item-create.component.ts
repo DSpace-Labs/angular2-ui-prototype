@@ -91,10 +91,10 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      DSpaceService is a singleton service to interact with the dspace service.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param formService
-     *      FormService is a singleton service to retrieve form data.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -172,7 +172,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Message to display while processing item create.
      */
     processingMessage(): string {
         return this.translate.instant('item.create.processing', { name: this.item.name });
@@ -296,8 +296,9 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
             console.log(error);
+            this.processing = false;
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
         });
     }
 

@@ -42,7 +42,7 @@
     "ng2-bootstrap": "^1.0.16",
     "ng2-translate": "2.1.0",
     "object-hash": "1.1.2",
-    "preboot": "2.0.10",
+    "preboot": "2.1.1",
     "rxjs": "5.0.0-beta.6"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
     "rimraf": "2.5.2",
     "ts-loader": "0.8.2",
     "ts-node": "0.7.2",
-    "tslint": "3.10.0",
+    "tslint": "3.10.1",
     "tslint-loader": "2.1.4",
     "typedoc": "0.3.12",
     "typescript": "1.8.10",
