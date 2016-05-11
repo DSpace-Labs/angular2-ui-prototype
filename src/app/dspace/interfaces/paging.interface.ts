@@ -7,12 +7,12 @@ export interface Paging {
      * indicating object ready
      */
     ready: boolean;
-    
+
     /**
-     * indicating navigation for object loaded, i.e. current page of items of a collection
+     * indicating navigation for object subcommunities, collections, or items loaded
      */
-    loaded: boolean;
-    
+    loaded: any;
+
     /**
      * paging offset, offset = page - 1 * limit
      */

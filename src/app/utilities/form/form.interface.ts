@@ -1,4 +1,4 @@
-import { ControlGroup } from 'angular2/common';
+import { ControlGroup } from '@angular/common';
 
 import { FormInput } from './form-input.model';
 
@@ -46,5 +46,20 @@ export interface Form {
      *
      */
     disabled(): boolean;
+
+    /**
+     *
+     */
+    showForm(): boolean;
+
+    /**
+     *
+     */
+    processingMessage(): string;
+
+    /**
+     *
+     */
+    finish(name: string, currentContext: any): void;
 
 }

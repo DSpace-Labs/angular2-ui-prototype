@@ -1,7 +1,9 @@
-import { Component } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
+
+import { ContextProviderService } from '../services/context-provider.service';
 
 import { FullMetadataComponent } from './item/full/full-metadata.component.ts';
 import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
@@ -9,7 +11,6 @@ import { FullCollectionsComponent } from './item/full/full-collections.component
 import { ItemComponent } from './item.component';
 
 import { Item } from '../models/item.model';
-import { ContextProviderService } from '../services/context-provider.service';
 
 /**
  * Item component for displaying the current item.

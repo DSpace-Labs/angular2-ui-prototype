@@ -1,5 +1,5 @@
-import { Component, OnInit } from 'angular2/core';
-import { ROUTER_DIRECTIVES, RouteConfig, Router } from 'angular2/router';
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -8,14 +8,17 @@ import { DSpaceDirectory } from './dspace/dspace.directory';
 
 import { BreadcrumbComponent } from './navigation/components/breadcrumb.component';
 import { CollectionComponent } from './dspace/components/collection.component';
+import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
 import { ContextComponent } from './navigation/components/context.component';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
+import { ItemCreateComponent } from './dspace/components/item-create.component';
 import { LoginModalComponent } from './dspace/authorization/login/login-modal.component';
 import { LoginFormComponent } from './dspace/authorization/login/login-form.component';
+import { NotificationComponent } from './utilities/notification/notification.component';
 import { RegistrationComponent } from './dspace/authorization/registration/registration.component';
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
@@ -32,7 +35,8 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   BreadcrumbComponent,
                   ContextComponent,
-                  LoginModalComponent ],
+                  LoginModalComponent,
+                  NotificationComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -67,6 +71,7 @@ import { User } from './dspace/models/user.model';
                         <context></context>
                     </div>
                     <div class="col-md-8">
+                        <notification [channel]="channel"></notification>
                         <router-outlet></router-outlet>
                     </div>
                 </div>
@@ -75,7 +80,6 @@ import { User } from './dspace/models/user.model';
               `
 })
 @RouteConfig([
-        
 
         { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
@@ -84,15 +88,22 @@ import { User } from './dspace/models/user.model';
         { path: "/register", name: "Register", component: RegistrationComponent },
 
         { path: "/", name: "Dashboard", component: DashboardComponent },
-        { path: "/communities/:id/...", name: "Communities", component: CommunityComponent },
-        { path: "/collections/:id/...", name: "Collections", component: CollectionComponent },
+        { path: "/communities/:id", name: "Communities", component: CommunityComponent },
+        { path: "/collections/:id", name: "Collections", component: CollectionComponent },
         { path: "/items/:id/...", name: "Items", component: ItemComponent },
 
         { path: "/create-community", name: "CommunityCreate", component: CommunityCreateComponent },
+        { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent },
+        { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent },
 
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
+
+    /**
+     * Notification channel.
+     */
+    private channel: string = "app";
 
     /**
      * Logged in user.

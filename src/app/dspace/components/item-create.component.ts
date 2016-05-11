@@ -1,6 +1,5 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -9,19 +8,22 @@ import {
     FormBuilder,
     NgForm,
     Validators
-} from 'angular2/common';
+} from '@angular/common';
 
 import { Observable } from 'rxjs/Rx';
+
+import { TranslateService } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
@@ -37,14 +39,14 @@ import { Metadatum } from '../models/metadatum.model';
     selector: 'item-create',
     bindings: [ FORM_BINDINGS ],
     directives: [ FORM_DIRECTIVES,
-                  FullPageLoaderComponent,
+                  LoaderComponent,
                   FormFieldsetComponent,
                   ItemBitstreamAddComponent,
                   ItemMetadataInputComponent ],
     template: ` 
                 <h3>Create Item</h3><hr>
-                <full-page-loader *ngIf="processing"></full-page-loader>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <item-bitstream-add [files]="files" 
                                         (addBitstreamEmitter)="addBitstream($event)"
@@ -81,6 +83,8 @@ export class ItemCreateComponent extends FormSecureComponent {
 
     /**
      *
+     * @param translate
+     *      TranslateService
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
@@ -89,6 +93,8 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -96,9 +102,11 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private contextProvider: ContextProviderService,
+    constructor(private translate: TranslateService,
+                private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -142,7 +150,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the item values with ngModel values from inputs.
      */
     setModelValues(): void {
         for(let input of this.inputs) {
@@ -153,7 +161,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the item metadata values with ngModel values from metadata inputs.
      */
     setMetadataValues(): void {
         for(let input of this.metadatumInputs) {
@@ -164,16 +172,27 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Reset the form.
+     *
      */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('item.create.processing', { name: this.item.name });
     }
 
     /**
-     * 
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(itemName: string, currentContext: any): void {
+        this.reset();
+        this.dspace.refresh(currentContext);
+        this.router.navigate(['/Collections', { id: currentContext.id }]);
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
+    }
+
+    /**
+     * Add bitstream from item being created.
+     *
+     * @param file
+     *      Agmented file to add to item being created
      */
     private addBitstream(event: any): void {
         var files = event.srcElement ? event.srcElement.files : event.target.files;
@@ -183,7 +202,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
     
     /**
-     * 
+     * Remove bitstream from item being created.
+     *
+     * @param file
+     *      Agmented file to remove from item being created
      */
     private removeBitstream(file: any): void {
         for(let i = this.files.length - 1; i >= 0; i--) {
@@ -195,7 +217,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Add metadatum input.
+     *
+     * @param input
+     *      FormInput to be added to metadata
      */
     private addMetadatumInput(input: FormInput): void {
         for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
@@ -210,12 +235,14 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Removes metadatum input.
+     *
+     * @param input
+     *      FormInput to be removed from metadata
      */
     private removeMetadatumInput(input: FormInput): void {
-        this.form.removeControl(input.id);
         for(let i = this.metadatumInputs.length - 1; i >= 0; i--) {
-            if(this.metadatumInputs[i].key == input.key) {
+            if(this.metadatumInputs[i].id == input.id) {
                 this.metadatumInputs.splice(i, 1);
                 break;
             }
@@ -223,7 +250,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * 
+     * Clones a input.
+     *
+     * @param input
+     *      FormInput to be cloned
      */
     private cloneInput(input: FormInput): FormInput {
         let clonedInput = new FormInput(JSON.parse(JSON.stringify(input)));
@@ -254,31 +284,20 @@ export class ItemCreateComponent extends FormSecureComponent {
                         bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
                     }
                     Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     },
                     errors => {
-                        this.finish(currentContext);
+                        this.finish(this.item.name, currentContext);
                     });
                 }
                 else {
-                    this.finish(currentContext);
+                    this.finish(this.item.name, currentContext);
                 }
             }
         },
         error => {
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
             console.log(error);
-            this.reset();
-        });
-    }
-
-    /**
-     * 
-     */
-    private finish(currentContext: any): void {
-        this.reset();
-        this.dspace.refresh(currentContext);
-        setTimeout(() => {
-            this.router.navigate(['/Collections', { id: currentContext.id }]);
         });
     }
 

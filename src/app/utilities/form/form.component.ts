@@ -1,7 +1,7 @@
-import { ControlGroup, Validators } from 'angular2/common';
-import { Router } from 'angular2/router';
+import { ControlGroup, Validators } from '@angular/common';
+import { Router } from '@angular/router-deprecated';
 
-import { FormBuilder } from 'angular2/common';
+import { FormBuilder } from '@angular/common';
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { FormService } from './form.service';
@@ -101,5 +101,24 @@ export class FormComponent implements Form {
     disabled(): boolean {
         return !this.form.valid || this.processing;
     }
+
+    /**
+     *
+     */
+    showForm(): boolean {
+        return this.active && !this.processing;
+    };
+
+    /**
+     *
+     */
+    processingMessage(): string {
+        return '';
+    };
+
+    /**
+     *
+     */
+    finish(name: string, currentContext: any): void {};
     
 }

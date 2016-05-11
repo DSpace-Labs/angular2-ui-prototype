@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
-import { Control, FormBuilder, Validators } from 'angular2/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { Control, FormBuilder, Validators } from '@angular/common';
 
 import { AuthorizationService } from '../services/authorization.service';
 import { FormService } from '../../../utilities/form/form.service';

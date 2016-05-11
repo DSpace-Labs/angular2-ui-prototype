@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, OnDestroy } from 'angular2/core';
-import { ROUTER_DIRECTIVES } from 'angular2/router';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../../dspace/dspace.directory';
 import { BreadcrumbService } from '../services/breadcrumb.service';
@@ -117,8 +117,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
                 page: context.page,
                 limit: context.limit
             });            
-            if ((context.parentCommunity && context.parentCommunity.type) || 
-                (context.parentCollection && context.parentCollection.type)) {
+            if ((context.parentCommunity && context.parentCommunity.type) || (context.parentCollection && context.parentCollection.type)) {
                 let parentType = context.parentCommunity ? 'Community' : 'Collection';
                 if (context['parent' + parentType].ready) {
                     bc.dropBreadcrumb(context['parent' + parentType]).then(() => {

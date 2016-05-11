@@ -1,6 +1,5 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -9,17 +8,20 @@ import {
     FormBuilder,
     NgForm,
     Validators
-} from 'angular2/common';
+} from '@angular/common';
+
+import { TranslateService } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
 import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
 
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FullPageLoaderComponent } from '../../utilities/full-page-loader.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 
 import { Community } from "../models/community.model";
 import { FormInput } from '../../utilities/form/form-input.model';
@@ -29,11 +31,11 @@ import { FormInput } from '../../utilities/form/form-input.model';
  */
 @Component({
     selector: 'community-create',
-    directives: [ FormFieldsetComponent, FullPageLoaderComponent ],
+    directives: [ FormFieldsetComponent, LoaderComponent ],
     template: ` 
                 <h3>Create Community</h3><hr>
-                <full-page-loader *ngIf="processing"></full-page-loader>
-                <form *ngIf="active" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>                    
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createCommunity()" novalidate>
                     <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
@@ -51,6 +53,8 @@ export class CommunityCreateComponent extends FormSecureComponent {
 
     /**
      *
+     * @param translate
+     *      TranslateService
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
@@ -59,6 +63,8 @@ export class CommunityCreateComponent extends FormSecureComponent {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param formService
      *      FormService is a singleton service to retrieve form data.
+     * @param notificationService
+     *      NotificationService is a singleton service to notify user of alerts.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -66,9 +72,11 @@ export class CommunityCreateComponent extends FormSecureComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private contextProvider: ContextProviderService,
+    constructor(private translate: TranslateService,
+                private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
                 private dspace: DSpaceDirectory,
+                private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -99,7 +107,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Sets the community values with ngModel values from inputs.
      */
     setModelValues(): void {
         for(let input of this.inputs) {
@@ -110,12 +118,26 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Reset form.
+     *
      */
-    reset(): void {
-        this.processing = false;
-        this.active = false;
-        this.init();
+    processingMessage(): string {
+        return this.translate.instant('community.create.processing', { name: this.community.name });
+    }
+
+    /**
+     * Refresh the form and context, navigate to origin context, and add notification.
+     */
+    finish(communityName: string, currentContext: any): void {
+        this.reset();
+        if(currentContext.root) {
+            this.dspace.refresh();
+            this.router.navigate(['/Dashboard']);
+        }
+        else {
+            this.dspace.refresh(currentContext);
+            this.router.navigate(['/Communities', { id: currentContext.id }]);
+        }
+        this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
     }
 
     /**
@@ -128,25 +150,12 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.setModelValues();
         this.dspaceService.createCommunity(this.community, token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
-                if(currentContext.root) {
-                    this.reset();
-                    this.dspace.refresh();
-                    setTimeout(() => {
-                        this.router.navigate(['/Dashboard']);
-                    });
-                }
-                else {
-                    this.reset();
-                    this.dspace.refresh(currentContext);
-                    setTimeout(() => {
-                        this.router.navigate(['/Communities', { id: currentContext.id }]);
-                    });
-                }
+                this.finish(this.community.name, currentContext);
             }
         },
         error => {
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('community.create.error', { name: this.community.name }));
             console.log(error);
-            this.reset();
         });
     }
 

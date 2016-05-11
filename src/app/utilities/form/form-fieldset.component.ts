@@ -1,5 +1,5 @@
-import { Component, Inject, Input } from 'angular2/core';
-import { ControlGroup } from 'angular2/common';
+import { Component, Inject, Input } from '@angular/core';
+import { ControlGroup } from '@angular/common';
 
 import { FormValidationMessageComponent } from './form-validation-message.component';
 

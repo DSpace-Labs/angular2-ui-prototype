@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
@@ -65,7 +65,7 @@ export class AbstractComponent implements OnInit {
      *
      */
     private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData, this.fields);
     }
 
 }

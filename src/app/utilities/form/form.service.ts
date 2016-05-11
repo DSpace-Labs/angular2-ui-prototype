@@ -1,5 +1,5 @@
-import { Injectable } from 'angular2/core';
-import { Validators } from 'angular2/common';
+import { Injectable } from '@angular/core';
+import { Validators } from '@angular/common';
 
 import { Observable } from "rxjs/Observable";
 
