@@ -41,7 +41,6 @@ export class Item extends DSOContainer {
      */
     fullItem: boolean;
 
-    newMetadata : Subject<Boolean>;
 
 
     /**
@@ -66,14 +65,12 @@ export class Item extends DSOContainer {
                 });
             }
         }
-        // create the observable
-        this.newMetadata = new Subject<Boolean>();
     }
 
+
     /**
-     * Adds a metadata element to the existing item.
-     * Also generates an Rx event, so our components can be informed of this update.
-     * Subject, Observable.
+     * Add to metadata array of DSO.
+     * Uses a temparray to trigger the change detection of angular.
      * @param metadata
      */
     addMetadata(metadata? : Metadatum)
@@ -82,6 +79,7 @@ export class Item extends DSOContainer {
         {
             this.metadata = new Array<Metadatum>();
         }
+        // slice, shallow copy, but new array object. We want a new array for angular's change detection.
         let tempArray = this.metadata.slice(0);
         tempArray.push(metadata);
         this.metadata = tempArray;
