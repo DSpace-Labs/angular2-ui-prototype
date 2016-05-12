@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { SidebarSection} from '../../models/sidebar-section.model';
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.
@@ -10,17 +11,18 @@ import { SidebarSection} from '../../models/sidebar-section.model';
 @Component({
     selector: "sidebar-section",
     inputs: ["sidebarcomponent"],
+    pipes: [TranslatePipe],
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{sidebarcomponent.componentName}}</h3>
+                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <ul class="panel-body">
                         <li *ngFor="let route of sidebarcomponent.keys()" class="panel">
-                              <a [routerLink]="[sidebarcomponent.routes[route]]"> {{ route }} </a>
+                              <a [routerLink]="[sidebarcomponent.routes[route]]"> {{ route | translate }} </a>
                         </li>
                     </ul>
 
