@@ -18,7 +18,7 @@ export class SidebarSection
 
     visible : boolean = true;
 
-    private _children : Array<SidebarSection>; // children of this model.
+    childsections : Array<SidebarSection> = new Array<SidebarSection>(); // children of this model.
 
 
     /**
@@ -28,7 +28,6 @@ export class SidebarSection
      * @type {{}}
      */
     private routes : { [name:string] : string } = {};
-
 
 
     constructor()
@@ -57,6 +56,13 @@ export class SidebarSection
     addRoutes(routes)
     {
         this.routes = routes;
+    }
+
+    addChild(child : SidebarSection)
+    {
+        console.log("adding a child..");
+        console.log(child);
+        this.childsections.push(child);
     }
 
     /**
@@ -129,6 +135,12 @@ class Builder
     {
         // empty what is already set, reuse this builder object to build new component
         this.section = new SidebarSection();
+    }
+
+    addChild(child : SidebarSection) : Builder
+    {
+        this.section.addChild(child);
+        return this;
     }
 
     build() : SidebarSection

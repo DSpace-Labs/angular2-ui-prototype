@@ -44,17 +44,23 @@ export class SidebarService
      */
     private populateDefault() : void
     {
-        console.log("creating some default components");
-
-        // help component
-        // each component needs a component name, so we can pass this.
         let builder = SidebarSection.getBuilder();
         let helpComponent = builder.name("Help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
         this.addSection(helpComponent);
 
+
         builder.resetBuild();
-        let accountComponent = builder.name("Account").id(2).route("Login","Login").route("Register","Home").build();
+        //let's try to give a child component to account
+        let childComponent = builder.name("Child").id(3).route("Stairway","Home").route("Highway","Home").build();
+
+
+        let builder2 = SidebarSection.getBuilder();
+        console.log("the next component will get a child..");
+        console.log(childComponent);
+        let accountComponent = builder2.name("Account").id(2).route("Login","Login").route("Register","Home").addChild(childComponent).build();
         this.addSection(accountComponent);
+
+
 
         // find a way to make this work correctly.
         // when an item is switched to visible, the UI should update straight away.
@@ -97,7 +103,6 @@ export class SidebarService
      */
     addSection(component : SidebarSection)
     {
-        console.log("adding section");
         let newComponentArray = this.components.filter(x => x.id != component.id);
         newComponentArray.push(component);
         this._components = newComponentArray;
