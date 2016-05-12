@@ -54,4 +54,5 @@ export abstract class DSOContainer extends DSpaceObject implements ContainerHome
             this.sidebarText = json.sidebarText;
         }
     }
+
 }

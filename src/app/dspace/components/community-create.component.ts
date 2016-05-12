@@ -61,10 +61,10 @@ export class CommunityCreateComponent extends FormSecureComponent {
      *      DSpaceService is a singleton service to interact with the dspace service.
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
-     * @param formService
-     *      FormService is a singleton service to retrieve form data.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
      * @param builder
      *      FormBuilder is a singleton service provided by Angular2.
      * @param authorization
@@ -118,7 +118,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Message to display while processing community create.
      */
     processingMessage(): string {
         return this.translate.instant('community.create.processing', { name: this.community.name });
@@ -154,8 +154,9 @@ export class CommunityCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            this.notificationService.notify('app', 'DANGER', this.translate.instant('community.create.error', { name: this.community.name }));
             console.log(error);
+            this.processing = false;
+            this.notificationService.notify('app', 'DANGER', this.translate.instant('community.create.error', { name: this.community.name }));
         });
     }
 

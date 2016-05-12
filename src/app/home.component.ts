@@ -53,12 +53,7 @@ export class HomeComponent {
     constructor(private breadcrumbService: BreadcrumbService,
                 private authorization: AuthorizationService,
                 private translate : TranslateService) {
-        breadcrumbService.visit({
-            name: 'Home',
-            type: 'home',
-            component: '/Home',
-            root: true,
-        });
+        breadcrumbService.visit(this.breadcrumb);
         this.user = authorization.user;
         authorization.userObservable.subscribe(user => {
             this.user = user;

@@ -79,7 +79,7 @@ export class Notification {
      *
      */
     set type(type: string) {
-        this._type = type;
+        this._type = type.toLowerCase();
     }
 
     /**
@@ -108,34 +108,6 @@ export class Notification {
      */
     set duration(duration: number) {
         this._duration = duration;
-    }
-
-    /**
-     *
-     */
-    success(): boolean {
-        return this.type.toUpperCase() == "SUCCESS";
-    }
-
-    /**
-     *
-     */
-    warning(): boolean {
-        return this.type.toUpperCase() == "WARNING";
-    }
-
-    /**
-     *
-     */
-    danger(): boolean {
-        return this.type.toUpperCase() == "DANGER";
-    }
-
-    /**
-     *
-     */
-    info(): boolean {
-        return this.type.toUpperCase() == "INFO";
     }
 
 }

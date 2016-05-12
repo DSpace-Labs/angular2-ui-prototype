@@ -89,7 +89,7 @@ export class PaginationComponent implements OnInit {
      */
     ngOnInit() {
         // TODO: figure out a better way to do this
-        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityViewComponent") {
+        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent") {
             this.component = "/"
         }
         else {

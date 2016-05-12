@@ -1,28 +1,29 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { Bitstream } from '../../../models/bitstream.model';
-import { ViewElementComponent } from '../view-element.component';
+import {Item} from '../../../models/item.model';
+import {Bitstream} from '../../../models/bitstream.model';
+import {ViewElementComponent} from '../view-element.component';
+import {ThumbnailComponent} from '../thumbnail.component';
+
+import { ArrayUtil } from '../../../../utilities/commons/array.util'
 
 /**
  * Renders an overview of all bitstreams attached to this item.
  */
 @Component({
     selector: 'item-full-bitstreams',
-    directives: [ ViewElementComponent ],
-    pipes: [ TranslatePipe ],
+    directives: [ViewElementComponent, ThumbnailComponent],
+    pipes: [TranslatePipe],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">
-                        <div *ngFor="let bitstream of itemBitstreams;" class="file-wrapper row">
+                        <div *ngFor="let bitstream of originalBitstreams;" class="file-wrapper row">
 
                             <!-- thumbnail -->
                             <div class="col-xs-6 col-sm-3">
-                                <!-- perform a test to see if a thumbnail is available -->
-                                <a [attr.href]="bitstream.retrieveLink" class="image-link">
-                                    <img src="./static/images/NoThumbnail.svg">
-                                </a>
+                                <!-- the link we pass needs to match the current items name -->
+                                <thumbnail [thumbnailLink]="matchingThumbnailUrl(bitstream.name)"></thumbnail>
                             </div>
 
                             <!-- description -->
@@ -33,7 +34,7 @@ import { ViewElementComponent } from '../view-element.component';
                                     <dt>{{ 'item-view.full.full-bitstreams.description.size' | translate }}</dt>
                                     <dd class="word-break">{{bitstream.size}}</dd>
                                     <dt>{{ 'item-view.full.full-bitstreams.description.format' | translate }}</dt>
-                                    <dd class="word-break">{{bitstream.format}}</dd>
+                                    <dd class="word-break">{{bitstream.mimeType}}</dd>
                                 </dl>
                             </div>
 
@@ -45,16 +46,45 @@ import { ViewElementComponent } from '../view-element.component';
                 </view-element>
               `
 })
-export class FullBitstreamsComponent {
+export class FullBitstreamsComponent implements OnInit {
 
     /**
      * 
      */
-    @Input() private itemBitstreams: Bitstream;
+    @Input() private itemBitstreams: Array<Bitstream>;
+
+    /**
+     * 
+     */
+    @Input() private thumbnails: { [name:string]: string };
+
+    /**
+     * we only want to display the primary bitstream.
+     */
+    private originalBitstreams: Array<Bitstream>;
+
+    /**
+     * 
+     */
+    private item: Item;
 
     /**
      * 
      */
     private componentTitle: string = "item-view.full.full-bitstreams.title";
+
+    /**
+     * 
+     */
+    ngOnInit() {
+        this.originalBitstreams = ArrayUtil.filterBy(this.itemBitstreams, 'bundleName', 'ORIGINAL');
+    }
+
+    /**
+     * 
+     */
+    matchingThumbnailUrl(bitstreamname): string {
+          return this.thumbnails[bitstreamname];
+    }
 
 }

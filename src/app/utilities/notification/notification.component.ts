@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
+import { AlertComponent } from 'ng2-bootstrap/ng2-bootstrap';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { NotificationService } from './notification.service';
@@ -12,15 +12,11 @@ import { Notification } from './notification.model';
 @Component({
     selector: 'notification',
     pipes: [ TranslatePipe ],
+    directives: [ AlertComponent ],
     template: `
-                <div class="alert fade in" *ngFor="let notification of notifications"
-                     [class.alert-success]="notification.success()"
-                     [class.alert-warning]="notification.warning()"
-                     [class.alert-danger]="notification.danger()"
-                     [class.alert-info]="notification.info()">
-                     <button type="button" class="close" aria-label="Close" (click)="dismiss(notification)"><span aria-hidden="true">&times;</span></button>
+                <alert *ngFor="let notification of notifications" [type]="notification.type" dismissible="true" dismissOnTimeout="{{notification.duration}}" (close)="dismiss(notification)">
                     {{ notification.message }}
-                </div>
+                </alert>
               `
 })
 export class NotificationComponent implements OnInit {

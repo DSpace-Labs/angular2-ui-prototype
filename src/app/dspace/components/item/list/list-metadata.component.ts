@@ -23,7 +23,7 @@ import { ObjectUtil } from "../../../../utilities/commons/object.util";
                 <a [routerLink]="[item.component, { id: item.id }]" class="item-list-url">{{ item.name }}</a>
                 <h5 *ngIf="renderHeader()">{{ author }} <span *ngIf="renderDate()">({{ date | truncatedate }})</span></h5>
                 <!-- the abstract truncated -->
-                <p *ngIf="renderAbstract()">{{ abstract | truncate : 200 }}</p>
+                <p *ngIf="renderAbstract()">{{ abstract | truncate:[200] }}</p>
               `
 })
 export class ListMetadataComponent implements OnInit {
@@ -59,7 +59,7 @@ export class ListMetadataComponent implements OnInit {
      *
      */
     ngOnInit() {
-        let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.metadata, ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract", "dc.date.accessioned"]);
+        let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.getmetadata(), ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract", "dc.date.accessioned"]);
         if (filteredData != null) {
             for (let i:number = 0; i < filteredData.length; i++) {
                 if (filteredData[i].element == "creator") {

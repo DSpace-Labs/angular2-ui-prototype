@@ -16,7 +16,8 @@ import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import { Item } from '../models/item.model';
+import {Metadatum} from '../models/metadatum.model';
+import {Item} from '../models/item.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -41,7 +42,7 @@ import { Item } from '../models/item.model';
                         <h1>{{item.name}}</h1>
                         <div class="row">
                             <div class="col-sm-4">
-                                <item-thumbnail></item-thumbnail>
+                                <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>
@@ -58,12 +59,12 @@ import { Item } from '../models/item.model';
                 </div>
               `
 })
-export class SimpleItemViewComponent {
+export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
 
     /**
      * The current item.
      */
-    private item : Item;
+    private item: Item;
 
 
     private routes : { [name:string] : string } = {};
@@ -90,12 +91,15 @@ export class SimpleItemViewComponent {
 
     }
 
+
+
     /**
      * Check if context provides an item.
      */
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
     }
+
 
     /**
      * Remove the added section.

@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { Component, Input, OnChanges } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { TruncateDatePipe } from "../../../utilities/pipes/truncatedate.pipe"
 import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
 import { ViewElementComponent } from './view-element.component'
+
+import {ViewComponent} from '../../models/viewcomponent.model';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -24,49 +25,30 @@ import { ViewElementComponent } from './view-element.component'
                 </view-element>
               `
 })
-export class DateComponent implements OnInit {
+export class DateComponent extends ViewComponent implements OnChanges {
 
     /**
-     * 
+     *
      */
     @Input() private itemData: Array<Metadatum>;
-    
-    /**
-     * 
-     */
-    private componentTitle: string = "item-view.date.title";
 
     /**
-     * the fields that we want to show on this page.
+     *
      */
-    private fields: Array<string>;
+    private componentTitle: string = "item-view.header.date";
 
     /**
-     * the values that we will filter out of the metadata.
+     *
      */
-    private filteredFields: Array<Metadatum>;
-
-    /**
-     * 
-     * @param metadataHelper
-     *      MetadataHelper is a singleton service used to filter metadata fields.
-     */
-    constructor(private metadataHelper: MetadataHelper) {
-        this.fields = ["dc.date.accessioned"];
+    constructor() {
+        super(["dc.date.accessioned"]);
     }
 
     /**
-     * 
+     *
      */
-    ngOnInit() {
-        this.filterMetadata();
-    }
-
-    /**
-     * 
-     */
-    private filterMetadata(): void {
-        this.filteredFields = this.metadataHelper.filterMetadata(this.itemData,this.fields);
+    ngOnChanges() {
+       super.filterMetadata(this.itemData);
     }
 
 }

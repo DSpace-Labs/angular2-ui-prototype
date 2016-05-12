@@ -16,7 +16,7 @@ export class MetadataHelper {
         let filteredMetadata: Array<Metadatum> = new Array<Metadatum>();
         for(let metadatum of metadata) {
             if(keys.indexOf(metadatum.key) > -1) {
-                filteredMetadata.push(metadatum);
+                filteredMetadata.push(metadatum); // we store this item in here.
             }
         }
         return filteredMetadata; // return filtered metadata
