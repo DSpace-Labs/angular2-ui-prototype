@@ -6,17 +6,17 @@ export class SidebarSection
     /**
      * This number can be used to overwrite a component.
      */
-    private _id : number;
+    id : number;
 
     /**
      * The order for which an item appears in the sidebar.
      * When a collision, we will see what the sort returns.
      */
-    private _index : number;
+    index : number;
 
-    private _componentName : string;
+    componentName : string;
 
-    private _visible : boolean = true;
+    visible : boolean = true;
 
     private _children : Array<SidebarSection>; // children of this model.
 
@@ -34,12 +34,6 @@ export class SidebarSection
     constructor()
     {
 
-    }
-
-    get componentName() : string {return this._componentName;}
-    set componentName(name : string)
-    {
-        this._componentName = name;
     }
 
     /**
@@ -62,20 +56,9 @@ export class SidebarSection
      */
     addRoutes(routes)
     {
-        console.log(routes);
         this.routes = routes;
-        console.log(this.routes);
     }
 
-
-    get visible() : boolean { return this._visible; }
-    set visible(isvisible : boolean) {this._visible = isvisible; }
-
-    get index() : number { return this._index; }
-    set index(index : number) { this._index = index; }
-
-    get id() : number { return this._id; }
-    set id(id : number) { this._id = id; }
     /**
      * Angular2 currently does not suport iterating over a map, this is one way to get it to work anyway.
      * https://github.com/angular/angular/issues/2246
@@ -84,12 +67,72 @@ export class SidebarSection
     {
         return Object.keys(this.routes);
     }
+
+    static getBuilder() : Builder
+    {
+        return new Builder();
+    }
+
 }
+
 
 /**
  * A class to build a sidebar section
  */
 class Builder
 {
-    private build;
+
+    private section : SidebarSection;
+
+    constructor()
+    {
+        this.section = new SidebarSection();
+    }
+
+    id(id : number) : Builder
+    {
+        this.section.id = id;
+        return this;
+    }
+
+    name(name : string) : Builder
+    {
+        this.section.componentName = name;
+        return this;
+    }
+
+    index(index : number) : Builder
+    {
+        this.section.index = index;
+        return this;
+    }
+
+    visible(visible : boolean) : Builder
+    {
+        this.section.visible = visible;
+        return this;
+    }
+
+    routes(routes) : Builder
+    {
+        this.section.addRoutes(routes);
+        return this;
+    }
+
+    route(name : string, url : string) : Builder
+    {
+        this.section.addRoute(name,url);
+        return this;
+    }
+
+    resetBuild() : void
+    {
+        // empty what is already set, reuse this builder object to build new component
+        this.section = new SidebarSection();
+    }
+
+    build() : SidebarSection
+    {
+        return this.section;
+    }
 }

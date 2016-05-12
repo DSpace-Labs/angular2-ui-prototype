@@ -16,8 +16,9 @@ import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import {Metadatum} from '../models/metadatum.model';
-import {Item} from '../models/item.model';
+import { Metadatum } from '../models/metadatum.model';
+import { Item } from '../models/item.model';
+import { SidebarSection } from '../models/sidebar-section.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -81,14 +82,13 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
 
         console.log("subscribing to the observable");
 
-        //sidebarService.sidebarSubject.
 
-        // sidebar service test.
-
+        // you can add routes as an object, or seperately by chaining "route"
+        let builder = SidebarSection.getBuilder();
         this.routes["Edit Item"]="Home"; // home to test
         this.routes["Export metadata"]="Home";
-        sidebarService.buildSection(5,"SimpleComponent",this.routes, true);
-
+        builder.name("Collection").routes(this.routes).id(5);
+        sidebarService.addSection(builder.build());
     }
 
 

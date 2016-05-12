@@ -1,5 +1,5 @@
 import { Injectable, Inject} from '@angular/core';
-import { SidebarSection} from '../../dspace/models/sidebar-section.model.ts';
+import { SidebarSection } from '../../dspace/models/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -48,25 +48,12 @@ export class SidebarService
 
         // help component
         // each component needs a component name, so we can pass this.
-        let helpComponent = new SidebarSection();
-        helpComponent.componentName = "Help";
-        helpComponent.addRoute("About","Home");
-        helpComponent.addRoute("Imprint","Home");
-        helpComponent.addRoute("Feedback","Home");
-        //helpComponent.visible = false;
-        helpComponent.index = 20;
-        helpComponent.id = 3;
+        let builder = SidebarSection.getBuilder();
+        let helpComponent = builder.name("Help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
         this.addSection(helpComponent);
 
-
-        // account component
-        // needs to be overriden when the user is logged in.
-
-        let accountComponent = new SidebarSection();
-        accountComponent.componentName = "Account";
-        accountComponent.addRoute("Login","Login");
-        accountComponent.addRoute("Register","Register");
-        accountComponent.index = 1100;
+        builder.resetBuild();
+        let accountComponent = builder.name("Account").id(2).route("Login","Login").route("Register","Home").build();
         this.addSection(accountComponent);
 
         // find a way to make this work correctly.
@@ -118,33 +105,11 @@ export class SidebarService
         this.sidebarSubject.next(true);
     }
 
-    /**
-     * Typescript supports overloading of methods, when the amount of parameters is different
-     * (Because the transpiled javascript does not have types, using the same number of arguments will cause problems)
-     * @param id
-     * @param componentname
-     * @param routes array of display name - route name
-     * @param visible
-     * @param index
-     */
-    buildSection(id, componentname, routes, visible?, index?)
-    {
-        let section = new SidebarSection();
-        section.id = id;
-        section.componentName = componentname;
-        section.visible = visible;
-        section.index = index;
-        section.addRoutes(routes);
-        console.log("added routes");
-        this.addSection(section);
-    }
-
-
     // remove a component based on an ID
     removeComponent(id)
     {
         this._components = this._components.filter(component => component.id != id);
         this.sidebarSubject.next(true); // create an observable event.
     }
-
 }
+
