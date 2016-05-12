@@ -129,6 +129,8 @@
     
     "item.create.processing": "Item {{name}} is being created. Please wait.",
     "item.create.success": "Item {{name}} was created successfully.",
-    "item.create.error": "Error creating item {{name}}."
+    "item.create.error": "Error creating item {{name}}.",
+
+    "sidebar.help": "Help"
 
 }

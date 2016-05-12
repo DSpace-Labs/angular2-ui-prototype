@@ -45,7 +45,7 @@ export class SidebarService
     private populateDefault() : void
     {
         let builder = SidebarSection.getBuilder();
-        let helpComponent = builder.name("Help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
+        let helpComponent = builder.name("sidebar.help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
         this.addSection(helpComponent);
 
 
@@ -55,21 +55,9 @@ export class SidebarService
 
 
         let builder2 = SidebarSection.getBuilder();
-        console.log("the next component will get a child..");
-        console.log(childComponent);
         let accountComponent = builder2.name("Account").id(2).route("Login","Login").route("Register","Home").addChild(childComponent).build();
         this.addSection(accountComponent);
 
-
-
-        // find a way to make this work correctly.
-        // when an item is switched to visible, the UI should update straight away.
-        /*setTimeout( () =>
-        {
-            console.log("in the timeout");
-            helpComponent.visible=true;
-        },10000);
-        */
     }
 
 
@@ -77,7 +65,7 @@ export class SidebarService
      * Returns an ordered array of the visible components.
      * @returns {SidebarSection[]}
      */
-    get components() // TODO: rename to getFilteredComponents or something, to follow style guidelines
+    get components()
     {
         // first make sure that the ones without an index, appear last.
         let max = Math.max.apply(Math,this._components.filter(x => ObjectUtil.hasValue(x.index)).map(x => x.index))+1;
@@ -92,7 +80,14 @@ export class SidebarService
         return sortedVisibleComponents;
     }
 
-    set components(components){this.components = components}
+    /**
+     *
+     * @param components
+     */
+    set components(components)
+    {
+        this.components = components
+    }
 
     /**
      *

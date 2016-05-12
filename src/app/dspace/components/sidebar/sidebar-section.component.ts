@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
-import { SidebarSectionChildrenComponent } from './sidebar-section-children.component.ts';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { SidebarSection} from '../../models/sidebar-section.model';
 
