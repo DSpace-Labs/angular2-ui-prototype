@@ -27,10 +27,22 @@ import {SidebarSectionComponent} from './sidebar-section.component';
 export class SidebarComponent
 {
 
+    /**
+     *
+     */
     private context : any;
 
+    /**
+     *
+     */
     private sidebarComponents;
 
+
+    /**
+     *
+     * @param contextProvider
+     * @param sidebarService
+     */
     constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
     {
         if(contextProvider != null)

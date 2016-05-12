@@ -34,23 +34,36 @@ import { SidebarSection} from '../../models/sidebar-section.model';
         `
 })
 
-export class SidebarSectionComponent
+export class SidebarSectionComponent implements OnInit
 {
 
+    /**
+     *
+     */
     sidebarcomponent : SidebarSection;
+
+    /**
+     *
+     */
     children : Array<SidebarSection>;
 
     constructor()
     {
-
     }
 
+    /**
+     *
+     */
     ngOnInit()
     {
         this.children = this.sidebarcomponent.childsections;
     }
 
 
+    /**
+     *
+     * @returns {boolean}
+     */
     hasChildren()
     {
         return (ArrayUtil.isNotEmpty(this.children)) ? true : false;
