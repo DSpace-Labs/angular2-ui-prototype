@@ -14,10 +14,10 @@ import {SidebarSectionComponent} from './sidebar-section.component';
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div id="sidebar" class="sidebar-offcanvas">
+            <div id="sidebar" class="">
                 <aside class="sidebar-menu">
-                    <section *ngFor="let component of sidebarComponents" class="sidebar-section">
-                        <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
+                    <section *ngFor="let component of sidebarComponents" class="">
+                        <sidebar-section [sidebarcomponent]="component"></sidebar-section>
                     </section>
                 </aside>
             </div>
@@ -33,9 +33,11 @@ export class SidebarComponent
 
     constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
     {
-        if(contextProvider != null){
-        this.context = contextProvider.context;
-        contextProvider.contextObservable.subscribe( x => this.context = x);
+        if(contextProvider != null)
+        {
+            // when we update the context, we could update the sidebar.
+            this.context = contextProvider.context;
+            contextProvider.contextObservable.subscribe( x => this.context = x);
         }
 
         // Catch any event that causes the components array to change.
