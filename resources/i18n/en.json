@@ -131,6 +131,12 @@
     "item.create.success": "Item {{name}} was created successfully.",
     "item.create.error": "Error creating item {{name}}.",
 
-    "sidebar.help": "Help"
+    "sidebar.help.header": "Help",
+    "sidebar.help.about": "About",
+    "sidebar.help.feedback": "Feedback",
+    "sidebar.account.header" : "Account",
+    "sidebar.account.login": "Login",
+    "sidebar.account.register": "Register",
+    "sidebar.account.logout" : "Logout"
 
 }

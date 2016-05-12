@@ -26,6 +26,13 @@ export class SidebarSection
      */
     visible : boolean = true;
 
+
+    /**
+     * The name of this components (route)
+     */
+    url: string;
+
+
     /**
      * The childsections this section contains
      * @type {any[]}
