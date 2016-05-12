@@ -23,7 +23,9 @@ import { RegistrationComponent } from './dspace/authorization/registration/regis
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
-import {SidebarComponent} from './dspace/components/sidebar/sidebar.component';
+import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
+import { SidebarService } from './utilities/services/sidebar.service';
+import { SidebarSection } from './dspace/models/sidebar-section.model';
 
 import { User } from './dspace/models/user.model';
 
@@ -129,13 +131,17 @@ export class AppComponent implements OnInit {
     constructor(private dspace: DSpaceDirectory,
                 private authorization: AuthorizationService,
                 private translate: TranslateService,
-                private router: Router) {
-        this.user = authorization.user;
-        authorization.userObservable.subscribe(user => {
-            this.user = user;
-        });
-        translate.setDefaultLang('en');
-        translate.use('en');
+                private router: Router,
+                private sidebarService : SidebarService) {
+
+                    this.user = authorization.user;
+
+                    authorization.userObservable.subscribe(user => {
+                        this.user = user;
+                    });
+
+                    translate.setDefaultLang('en');
+                    translate.use('en');
     }
 
     /**
@@ -143,6 +149,7 @@ export class AppComponent implements OnInit {
      */
     ngOnInit() {
         this.dspace.loadDirectory();
+        this.populateStandardSidebar();
     }
 
     /**
@@ -153,4 +160,24 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/Dashboard']);
     }
 
+
+    /**
+     * Fills the sidebar with some standard components.
+     */
+    populateStandardSidebar()
+    {
+        let builder = SidebarSection.getBuilder();
+        let helpComponent = builder.name("sidebar.help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
+        this.sidebarService.addSection(helpComponent);
+
+
+        builder.resetBuild();
+        //let's try to give a child component to account
+        let childComponent = builder.name("Child").id(3).route("Stairway","Home").route("Highway","Home").build();
+
+
+        let builder2 = SidebarSection.getBuilder();
+        let accountComponent = builder2.name("Account").id(2).route("Login","Login").route("Register","Home").addChild(childComponent).build();
+        this.sidebarService.addSection(accountComponent);
+    }
 }
