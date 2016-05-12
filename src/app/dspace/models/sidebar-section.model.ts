@@ -85,3 +85,11 @@ export class SidebarSection
         return Object.keys(this.routes);
     }
 }
+
+/**
+ * A class to build a sidebar section
+ */
+class Builder
+{
+    private build;
+}

@@ -14,8 +14,12 @@ import {SidebarSectionComponent} from './sidebar-section.component';
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div *ngFor="let component of sidebarComponents">
-                <sidebar-section [sidebarcomponent]="component"></sidebar-section>
+            <div id="sidebar" class="sidebar-offcanvas">
+                <aside class="sidebar-menu">
+                    <section *ngFor="let component of sidebarComponents" class="sidebar-section">
+                        <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
+                    </section>
+                </aside>
             </div>
         `
 })

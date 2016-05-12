@@ -84,6 +84,53 @@ html, body {
     display: block;
 }
 
+/* sidebar theming */
+
+.sidebar-section {
+    margin-bottom: 40px;
+}
+.sidebar-section ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar-section ul li > * {
+    display: block;
+    padding: 0 0 0 15px;
+}
+.sidebar-section > .sidebar-simple-section-element {
+    font-weight: 100;
+    letter-spacing: 0.1em;
+    color: #fff;
+    background-color: #1f3f5e;
+    border-color: #1f3f5e;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.sidebar-section > ul {
+    background-color: transparent;
+}
+.sidebar-section > ul > li {
+    border: 1px solid #ddd;
+    border-top: 0;
+}
+.sidebar-section > ul > li:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.sidebar-section > ul > li > * {
+    padding-left: 0;
+}
+.sidebar-section .sidebar-simple-section-element a, .sidebar-section .sidebar-simple-section-element span {
+    padding: 10px 15px;
+    display: block;
+    background-color: transparent;
+}
+.sidebar-section .sidebar-simple-section-element a:hover, .sidebar-section .sidebar-simple-section-element a:focus, .sidebar-section .sidebar-simple-section-element span:hover, .sidebar-section .sidebar-simple-section-element span:focus {
+    text-decoration: none;
+}
+
+
 /* bootstrap overrides */
 
 .navbar {

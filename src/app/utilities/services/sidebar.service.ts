@@ -67,7 +67,6 @@ export class SidebarService
         accountComponent.addRoute("Login","Login");
         accountComponent.addRoute("Register","Register");
         accountComponent.index = 1100;
-        accountComponent.id = 3;
         this.addSection(accountComponent);
 
         // find a way to make this work correctly.

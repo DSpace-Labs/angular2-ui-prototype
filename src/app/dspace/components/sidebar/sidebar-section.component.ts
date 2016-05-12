@@ -12,8 +12,15 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
     directives: [ROUTER_DIRECTIVES],
     template:
         `
-            <h4> {{sidebarcomponent.componentName}} </h4>
-            <a *ngFor="let route of sidebarcomponent.keys()" class="list-group-item" [routerLink]="[sidebarcomponent.routes[route]]"> {{ route }} </a>
+            <div class="sidebar-simple-section-element">
+                <span>{{sidebarcomponent.componentName}}</span>
+            </div>
+            <ul>
+                <li *ngFor="let route of sidebarcomponent.keys()" class="sidebar-simple-section-element">
+                      <a [routerLink]="[sidebarcomponent.routes[route]]"> {{ route }} </a>
+                </li>
+            </ul>
+
         `
 })
 
