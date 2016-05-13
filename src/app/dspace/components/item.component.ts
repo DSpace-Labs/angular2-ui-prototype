@@ -82,6 +82,9 @@ export class ItemComponent implements CanDeactivate {
         if (ObjectUtil.hasValue(this.gsMeta)) {
             this.gsMeta.clearGoogleScholarMetaTags();
         }
+
+        // removing from the sidebar
+        this.sidebarService.removeComponent("itemsidebar");
         return true;
     }
 
@@ -100,15 +103,4 @@ export class ItemComponent implements CanDeactivate {
         let itemSection = builder.name("sidebar.item-context.header").addChild(viewSection).addChild(editSection).id("itemsidebar").index(2).build();
         this.sidebarService.addSection(itemSection);
     }
-
-
-
-    /**
-     * Remove the added section.
-     */
-    ngOnDestroy()
-    {
-        this.sidebarService.removeComponent("itemsidebar");
-    }
-
 }

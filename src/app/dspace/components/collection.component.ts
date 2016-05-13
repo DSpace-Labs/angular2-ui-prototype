@@ -66,12 +66,23 @@ export class CollectionComponent {
      */
     private populateSidebar()
     {
-        let builder= SidebarSection.getBuilder();
-        let collectionhome = builder.name("sidebar.context-collection.home").routeid(this.collection.id).route("Collections").build();
-        builder.resetBuild();
-        let browseComponent = builder.name("sidebar.context-collection.browse").route("Home").build();
-        builder.resetBuild();
-        let collectionSection = builder.name("sidebar.context-collection.header").id("context-collection").addChild(collectionhome).addChild(browseComponent).build();
+        let collectionhome =  SidebarSection.getBuilder()
+                                            .name("sidebar.context-collection.home")
+                                            .routeid(this.collection.id)
+                                            .route("Collections")
+                                            .build();
+
+        let browseComponent = SidebarSection.getBuilder()
+                                                .name("sidebar.context-collection.browse")
+                                                .route("Home")
+                                                .build();
+
+        let collectionSection = SidebarSection.getBuilder()
+                                                .name("sidebar.context-collection.header")
+                                                .id("context-collection")
+                                                .addChild(collectionhome)
+                                                .addChild(browseComponent)
+                                                .build();
         this.sidebarService.addSection(collectionSection);
     }
 

@@ -184,6 +184,15 @@ class Builder
         return this;
     }
 
+    addChildren(children : Array<SidebarSection>) : Builder
+    {
+        for(let child of children)
+        {
+            this.section.addChild(child);
+        }
+        return this;
+    }
+
     /**
      *
      * @returns {SidebarSection}

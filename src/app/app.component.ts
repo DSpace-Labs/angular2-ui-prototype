@@ -138,11 +138,14 @@ export class AppComponent implements OnInit {
 
                     authorization.userObservable.subscribe(user => {
                         this.user = user;
-                        this.sidebarService.changeVisibility('account-logout',false)
+                     //   repopulate the sidebar, because now the user is logged in / logged out, so we want to show different components
+                        this.populateStandardSidebar();
                     });
 
                     translate.setDefaultLang('en');
                     translate.use('en');
+
+            console.log("in constructor");
     }
 
     /**
@@ -167,27 +170,56 @@ export class AppComponent implements OnInit {
      */
     populateStandardSidebar()
     {
-        let builder = SidebarSection.getBuilder();
-        let aboutComponent = builder.name("About").route("Home").id("about").index(35).build();
-        builder.resetBuild();
-        let helpComponent = builder.name("sidebar.help.header").id("helpheader").index(0).addChild(aboutComponent).visible(true).build();
+        let aboutComponent = SidebarSection.getBuilder()
+                                            .name("About")
+                                            .route("Home")
+                                            .id("about")
+                                            .build();
+
+        let helpComponent = SidebarSection.getBuilder()
+                                            .name("sidebar.help.header")
+                                            .id("helpheader")
+                                            .index(0)
+                                            .addChild(aboutComponent)
+                                            .build();
         this.sidebarService.addSection(helpComponent);
-        // login component
-        builder = SidebarSection.getBuilder();
-        let loginComponent = builder.name("sidebar.account.login").route("Login").build();
-        builder.resetBuild();
-        let registerComponent = builder.name("sidebar.account.register").route("Home").visible(true).build();
-        builder.resetBuild();
-        let logoutComponent = builder.name("sidebar.account.logout").route("Home").id("account-logout").build();
-        builder.resetBuild();
-        let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).addChild(logoutComponent).id("my-account").build();
+
+        let loginComponent = SidebarSection.getBuilder()
+                                            .name("sidebar.account.login")
+                                            .route("Login")
+                                            .build();
+
+        let registerComponent = SidebarSection.getBuilder()
+                                                .name("sidebar.account.register")
+                                                .route("Home")
+                                                .build();
+
+        let logoutComponent = SidebarSection.getBuilder()
+                                                .name("sidebar.account.logout")
+                                                .route("Home")
+                                                .id("account-logout")
+                                                .visible(false)
+                                                .build();
+
+        let accountComponent = SidebarSection.getBuilder()
+                                                .name("sidebar.account.header")
+                                                .addChildren([loginComponent,registerComponent,logoutComponent])
+                                                .id("my-account")
+                                                .build();
+
         this.sidebarService.addSection(accountComponent);
 
         // build submissions
-        builder = SidebarSection.getBuilder();
-        let createSubmissionComponent = builder.name("sidebar.submissions.submit").route("Home").build();
-        builder.resetBuild();
-        let submissionComponent = builder.id('submissions').name('sidebar.submissions.header').visible(true).addChild(createSubmissionComponent).build(); // need to change this visibility depending on the authorization service
+        let createSubmissionComponent = SidebarSection.getBuilder()
+                                                        .name("sidebar.submissions.submit")
+                                                        .route("Home")
+                                                        .build();
+
+        let submissionComponent = SidebarSection.getBuilder()
+                                                    .name('sidebar.submissions.header')
+                                                    .id('submissions')
+                                                    .addChild(createSubmissionComponent)
+                                                    .build(); // need to change this visibility depending on the authorization service
         this.sidebarService.addSection(submissionComponent);
     }
 }
