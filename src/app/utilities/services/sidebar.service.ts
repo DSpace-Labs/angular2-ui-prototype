@@ -1,6 +1,7 @@
 import { Injectable, Inject} from '@angular/core';
 import { SidebarSection } from '../../dspace/models/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
+import { ArrayUtil } from "../../utilities/commons/array.util";
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
@@ -43,18 +44,31 @@ export class SidebarService
      */
     get components()
     {
-        // first make sure that the ones without an index, appear last.
-        let max = Math.max.apply(Math,this._components.filter(x => ObjectUtil.hasValue(x.index)).map(x => x.index))+1;
-        this._components.forEach(component=>
-        {
-            if(ObjectUtil.hasNoValue(component.index))
-            {
-                component.index = max;
-            }
-        });
-        var sortedVisibleComponents = this._components.filter(component => component.visible).sort(function(c1,c2) { return c1.index - c2.index;});
-        return sortedVisibleComponents;
+       return this.filterAndOrderSections(this._components);
     }
+
+    /**
+     *
+     * @param section
+     */
+    filterAndOrderSections(sections : Array<SidebarSection>)
+    {
+        sections = sections.filter(section => section.visible); // filter for the visible sections
+
+        sections.forEach(section =>
+        {
+           if(ObjectUtil.isEmpty(section.index))
+           {
+               section.index = section.index + 1.0001;
+           }
+           if(ArrayUtil.isNotEmpty(section.childsections))
+           {
+                section.childsections = this.filterAndOrderSections(section.childsections);
+           }
+        });
+        return sections.sort(function(c1,c2) { return c1.index-c2.index;});
+    }
+
 
     /**
      *

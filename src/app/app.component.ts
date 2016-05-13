@@ -172,19 +172,19 @@ export class AppComponent implements OnInit {
 
         builder.resetBuild();
 
-        let helpComponent = builder.name("sidebar.help.header").id(40).index(40).addChild(aboutComponent).visible(true).build();
+        let helpComponent = builder.name("sidebar.help.header").id(40).index(0).addChild(aboutComponent).visible(true).build();
         this.sidebarService.addSection(helpComponent);
 
 
         // login component
 
-        let builder = SidebarSection.getBuilder();
-        let loginComponent = builder.name("sidebar.account.login").route("Login").index(2).build();
+        builder = SidebarSection.getBuilder();
+        let loginComponent = builder.name("sidebar.account.login").route("Login").index(200).build();
 
 
         builder.resetBuild();
 
-        let registerComponent = builder.name("sidebar.account.register").route("Home").index(1).build();
+        let registerComponent = builder.name("sidebar.account.register").route("Home").visible(true).build();
 
         builder.resetBuild();
 
