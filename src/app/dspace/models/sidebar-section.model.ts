@@ -1,5 +1,3 @@
-
-// TODO: fix the used style guide.
 export class SidebarSection
 {
 
@@ -33,6 +31,10 @@ export class SidebarSection
      */
     route: string;
 
+
+    /**
+     *
+     */
     routeid : number;
 
 
@@ -171,6 +173,11 @@ class Builder
         return this;
     }
 
+    /**
+     *
+     * @param id
+     * @returns {Builder}
+     */
     routeid(id : number) : Builder
     {
         this.section.routeid = id;
