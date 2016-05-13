@@ -20,9 +20,15 @@ export class SidebarService
      */
     private _components : SidebarSection[] = [];
 
-
+    /**
+     *
+     */
     sidebarSubject : Subject<any>;
 
+
+    /**
+     *
+     */
     constructor()
     {
         this.sidebarSubject = new Subject<any>();
@@ -86,17 +92,26 @@ export class SidebarService
         this.sidebarSubject.next(true);
     }
 
-    // remove a component based on an ID
+    /**
+     *
+     * @param id
+     */
     removeComponent(id)
     {
-        this._components = this._components.filter(component => component.id != id);
+        let component = this.getComponentByID(this._components, id);
+        component = this._components.filter(c => c.id != id);
         this.sidebarSubject.next(true); // create an observable event.
     }
 
+    /**
+     *
+     * @param id
+     * @param visible
+     */
     changeVisibility(id : string, visible :boolean)
     {
         // look through all of the components / child components to find out if the visibility needs to change.
-        let component = this.getComponentByID(this._components,'account-logout');
+        let component = this.getComponentByID(this._components,id);
         component.visible = visible;
         this.sidebarSubject.next(true); // generate update event.
     }
@@ -109,7 +124,7 @@ export class SidebarService
     {
         let section = sections.filter(s => s.id == id);
         if(ArrayUtil.isNotEmpty(section)){
-            return section[0]; // normally there will only be one
+            return section[0];
         }
         let foundSection = null;
         sections.forEach(s =>

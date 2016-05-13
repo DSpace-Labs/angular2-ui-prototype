@@ -138,6 +138,7 @@ export class AppComponent implements OnInit {
 
                     authorization.userObservable.subscribe(user => {
                         this.user = user;
+                        this.sidebarService.changeVisibility('account-logout',false)
                     });
 
                     translate.setDefaultLang('en');
@@ -181,9 +182,5 @@ export class AppComponent implements OnInit {
         builder.resetBuild();
         let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).addChild(logoutComponent).id("my-account").build();
         this.sidebarService.addSection(accountComponent);
-
-
-        this.sidebarService.changeVisibility("account-logout",false);
-
     }
 }
