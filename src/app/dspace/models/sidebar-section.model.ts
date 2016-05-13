@@ -28,9 +28,10 @@ export class SidebarSection
 
 
     /**
-     * The name of this components (route)
+     * The route of this component as it appears in the router
+     * If this does not match the name in the router, Angular2 will throw an error.
      */
-    url: string;
+    route: string;
 
 
     /**
@@ -40,13 +41,6 @@ export class SidebarSection
     childsections : Array<SidebarSection> = new Array<SidebarSection>(); // children of this model.
 
 
-    /**
-     * A map of routes.
-     * A route contains a name (to display), and a routing-name (name as it appears in the router).
-     * Name should be an i18n string.
-     * @type {{}}
-     */
-    private routes : { [name:string] : string } = {};
 
 
     /**
@@ -54,29 +48,6 @@ export class SidebarSection
      */
     constructor()
     {
-    }
-
-    /**
-     * Adds a route.
-     * This route needs to be in the router links.
-     * Renders with the router-link component.
-     * @param name
-     * @param url
-     */
-    addRoute(name : string, url : string)
-    {
-        // what to do if a dev wants to override a route? Return an error?
-        this.routes[name] = url;
-    }
-
-    /**
-     * Adds an object containing routes
-     * Overwrites manually added routes at this point
-     * @param routes
-     */
-    addRoutes(routes)
-    {
-        this.routes = routes;
     }
 
 
@@ -89,14 +60,6 @@ export class SidebarSection
         this.childsections.push(child);
     }
 
-    /**
-     * Angular2 currently does not suport iterating over a map, this is one way to get it to work anyway.
-     * https://github.com/angular/angular/issues/2246
-     */
-    keys()
-    {
-        return Object.keys(this.routes);
-    }
 
     /**
      *
@@ -173,16 +136,6 @@ class Builder
         return this;
     }
 
-    /**
-     *
-     * @param routes
-     * @returns {Builder}
-     */
-    routes(routes) : Builder
-    {
-        this.section.addRoutes(routes);
-        return this;
-    }
 
     /**
      *
@@ -190,9 +143,9 @@ class Builder
      * @param url
      * @returns {Builder}
      */
-    route(name : string, url : string) : Builder
+    route(route : string) : Builder
     {
-        this.section.addRoute(name,url);
+        this.section.route = route;
         return this;
     }
 

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
+import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -16,20 +17,27 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
     template:
         `
             <div class="panel panel-default">
-                <div class="panel-heading">
+
+            <!-- if this component has children we want to render it differently -->
+
+
+                <div *ngIf="!hasRoute()" class="panel-heading">
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
-                <div class="panel-body">
-                    <ul class="panel-body">
-                        <li *ngFor="let route of sidebarcomponent.keys()" class="panel">
-                              <a [routerLink]="[sidebarcomponent.routes[route]]"> {{ route | translate }} </a>
+
+                <div *ngIf="hasRoute()">
+                    <a [routerLink]="[sidebarcomponent.route]">{{sidebarcomponent.componentName | translate}}</a>
+                </div>
+
+
+
+                <!-- render the children of this component -->
+                <div class="child-section" *ngIf="hasChildren()" >
+                    <ul>
+                        <li *ngFor="let child of children" class="panel">
+                           <sidebar-section *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
                         </li>
                     </ul>
-
-                    <!-- render the children of this component -->
-                    <div class="child-section" *ngIf="hasChildren()" *ngFor="let child of children">
-                        <sidebar-section *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
-                    </div>
                 </div>
             </div>
         `
@@ -68,6 +76,11 @@ export class SidebarSectionComponent implements OnInit
     hasChildren()
     {
         return (ArrayUtil.isNotEmpty(this.children)) ? true : false;
+    }
+
+    hasRoute()
+    {
+        return ObjectUtil.hasValue(this.sidebarcomponent.route);
     }
 
 }

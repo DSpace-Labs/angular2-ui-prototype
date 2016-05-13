@@ -85,10 +85,14 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
 
         // you can add routes as an object, or seperately by chaining "route"
         let builder = SidebarSection.getBuilder();
-        this.routes["Edit Item"]="Home"; // home to test
-        this.routes["Export metadata"]="Home";
-        builder.name("Collection").routes(this.routes).id(5);
-        sidebarService.addSection(builder.build());
+
+        let editSection = builder.name("sidebar.item.edit").route("Home").build();
+
+        builder.resetBuild();
+
+        let itemSection = builder.name("sidebar.item.header").addChild(editSection).id(5).build();
+
+        this.sidebarService.addSection(itemSection);
     }
 
 

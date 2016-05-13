@@ -167,17 +167,29 @@ export class AppComponent implements OnInit {
     populateStandardSidebar()
     {
         let builder = SidebarSection.getBuilder();
-        let helpComponent = builder.name("sidebar.help").id(1).index(1).route("About","Home").route("Imprint","Home").route("Feedback","Home").build();
-        this.sidebarService.addSection(helpComponent);
+        let aboutComponent = builder.name("About").route("Home").id(2).index(35).build();
 
 
         builder.resetBuild();
-        //let's try to give a child component to account
-        let childComponent = builder.name("Child").id(3).route("Stairway","Home").route("Highway","Home").build();
+
+        let helpComponent = builder.name("sidebar.help.header").id(40).index(40).addChild(aboutComponent).visible(true).build();
+        this.sidebarService.addSection(helpComponent);
 
 
-        let builder2 = SidebarSection.getBuilder();
-        let accountComponent = builder2.name("Account").id(2).route("Login","Login").route("Register","Home").addChild(childComponent).build();
+        // login component
+
+        let builder = SidebarSection.getBuilder();
+        let loginComponent = builder.name("sidebar.account.login").route("Login").index(2).build();
+
+
+        builder.resetBuild();
+
+        let registerComponent = builder.name("sidebar.account.register").route("Home").index(1).build();
+
+        builder.resetBuild();
+
+        let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).id(3).index(30).build();
         this.sidebarService.addSection(accountComponent);
+
     }
 }
