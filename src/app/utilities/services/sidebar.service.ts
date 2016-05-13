@@ -13,15 +13,6 @@ import { Observable } from 'rxjs/Observable';
 export class SidebarService
 {
 
-    // We need to store objects of type 'sidebar-division'
-    // These objects need a name, id, ..
-    // The name can be their identifier
-    // We need one generic component which knows how to render these models
-    // We loop in the sidebar component over all components in the array contained in this class
-    // we pass the data of these array entries to the generic component, in order to be rendered.
-
-    // we need to make sure that the router links exist.
-
     /**
      * breaking away from the style guide here because we want some logic in the getter.
      * @type {Array}
@@ -100,6 +91,34 @@ export class SidebarService
     {
         this._components = this._components.filter(component => component.id != id);
         this.sidebarSubject.next(true); // create an observable event.
+    }
+
+    changeVisibility(id : string, visible :boolean)
+    {
+        // look through all of the components / child components to find out if the visibility needs to change.
+        let component = this.getComponentByID(this._components,'account-logout');
+        component.visible = visible;
+        this.sidebarSubject.next(true); // generate update event.
+    }
+
+    /**
+     * Returns component matching an ID
+     * Handy for functions that need to change something about a component
+     */
+    getComponentByID(sections : Array<SidebarSection>, id : string)
+    {
+        let section = sections.filter(s => s.id == id);
+        if(ArrayUtil.isNotEmpty(section)){
+            return section[0]; // normally there will only be one
+        }
+        let foundSection = null;
+        sections.forEach(s =>
+        {
+             foundSection =  this.getComponentByID(s.childsections,id);
+        });
+        if(foundSection!=null){
+            return foundSection;
+        }
     }
 }
 

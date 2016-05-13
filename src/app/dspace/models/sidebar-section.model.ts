@@ -4,9 +4,9 @@ export class SidebarSection
 {
 
     /**
-     * This number can be used to overwrite a component.
+     * This string can be used to overwrite a component.
      */
-    id : number;
+    id : string;
 
     /**
      * The order for which an item appears in the sidebar.
@@ -97,7 +97,7 @@ class Builder
      * @param id
      * @returns {Builder}
      */
-    id(id : number) : Builder
+    id(id : string) : Builder
     {
         this.section.id = id;
         return this;

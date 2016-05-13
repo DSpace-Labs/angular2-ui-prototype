@@ -167,29 +167,23 @@ export class AppComponent implements OnInit {
     populateStandardSidebar()
     {
         let builder = SidebarSection.getBuilder();
-        let aboutComponent = builder.name("About").route("Home").id(2).index(35).build();
-
-
+        let aboutComponent = builder.name("About").route("Home").id("about").index(35).build();
         builder.resetBuild();
-
-        let helpComponent = builder.name("sidebar.help.header").id(40).index(0).addChild(aboutComponent).visible(true).build();
+        let helpComponent = builder.name("sidebar.help.header").id("helpheader").index(0).addChild(aboutComponent).visible(true).build();
         this.sidebarService.addSection(helpComponent);
-
-
         // login component
-
         builder = SidebarSection.getBuilder();
-        let loginComponent = builder.name("sidebar.account.login").route("Login").index(200).build();
-
-
+        let loginComponent = builder.name("sidebar.account.login").route("Login").build();
         builder.resetBuild();
-
         let registerComponent = builder.name("sidebar.account.register").route("Home").visible(true).build();
-
         builder.resetBuild();
-
-        let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).id(3).index(30).build();
+        let logoutComponent = builder.name("sidebar.account.logout").route("Home").id("account-logout").build();
+        builder.resetBuild();
+        let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).addChild(logoutComponent).id("my-account").build();
         this.sidebarService.addSection(accountComponent);
+
+
+        this.sidebarService.changeVisibility("account-logout",false);
 
     }
 }

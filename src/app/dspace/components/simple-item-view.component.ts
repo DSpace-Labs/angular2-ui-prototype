@@ -80,8 +80,6 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
             this.item = currentContext;
         });
 
-        console.log("subscribing to the observable");
-
 
         // you can add routes as an object, or seperately by chaining "route"
         let builder = SidebarSection.getBuilder();
@@ -90,7 +88,7 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
 
         builder.resetBuild();
 
-        let itemSection = builder.name("sidebar.item.header").addChild(editSection).id(5).build();
+        let itemSection = builder.name("sidebar.item.header").addChild(editSection).id('itemsidebar').index(2).build();
 
         this.sidebarService.addSection(itemSection);
     }
@@ -110,6 +108,6 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
      */
     ngOnDestroy()
     {
-        this.sidebarService.removeComponent(5);
+        this.sidebarService.removeComponent('itemsidebar');
     }
 }
