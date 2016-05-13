@@ -8,7 +8,7 @@ The goal of this extended prototype is to evaluate the Angular 2 framework as a 
 
 ## Implementation Phases
 
-### Phase 1 : Initial Google Scholar Proof-of-Concept
+### Phase 1 : Initial Google Scholar Proof-of-Concept (COMPLETE)
 
 In Phase 1 of this UI Prototype, we will be rapidly developing a basic Angular 2 UI using Angular Universal (isomorphic Javascript for Angular 2). The purpose of the initial prototype is to simply prove (or disprove) that Angular Universal's server-side rendering capabilities will meet the SEO needs of Google Scholar.
 
@@ -16,29 +16,34 @@ In Phase 1, all development will occur using Node / NPM (these are akin to Maven
 
 After this phase is complete, we'd simply have a prototype Angular 2 UI that can be installed via Node and pointed at an existing DSpace installation's REST API.
 
-### Phase 2 : Migrate UI into Spring Boot / DSpace
+### Phase 2 : Demonstration for OR16 Conference
 
-Assuming that Phase 1 proves that Angular 2 meets our SEO needs, we will then work to migrate the prototype Angular 2 UI into Spring Boot (alongside the DSpace Java API, REST API, etc). This will involve migrating the existing Angular2 Node / NPM build process into either Maven (or Gradle), using an available Node plugin for those build tools.
+In Phase 2 we will be building an enhanced prototype for demonstration at the [OR16 Conference in Dublin](http://or2016.net/). This enhanced prototype will include (but is not limited to):
+* Basic Authentication
+* Editing / Creating of Communities, Collections, Items
+* Improved theme (likely similar to Mirage 2)
+
+### Phase 3 : Migrate UI into Spring Boot / DSpace
+
+After OR16, we will work to bring the Angular 2 UI into/alongside Spring Boot (alongside the DSpace Java API, REST API, etc). This will involve migrating the existing Angular2 Node / NPM build process into either Maven (or Gradle), using an available Node plugin for those build tools.
 
 After this phase is complete, we'd have an Angular 2 UI that is provided as part of the normal DSpace installation process.
 
-(NOTE: If for some reason, Phase 1 shows that Angular 2 will NOT meet our SEO needs, then this project will end at Phase 1.)
-
-
 ## Requirements
 
- - [Node.js](https://nodejs.org/)
- - (Optional) An external DSpace 5.x site. At this time, the prototype simply points at the REST API for http://demo.dspace.org
-     - REST API location can be changed in `package.json` (see the "watch" and "test" commands under `scripts`).
+ - [Node.js](https://nodejs.org/), preferrably 4.4.x (may not work for earlier versions)
+ - (Optional) An external DSpace 5.x site. At this time, the prototype simply points at the REST API for https://training-ir.tdl.org
+     - REST API location can be changed in `config.ts` in the root directory.
+     - In the future, we will be updating this to work with the DSpace 6.x REST API.
 
 ## Getting Started
 
 Here's how you can install the current prototype:
 
- - `npm install` Installs local dependencies.
- - `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from command line)
- - `npm run build` Builds the project. *Required when typescript is changed.*
- - `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
+ 1. `npm install` Installs local dependencies.
+ 2. `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from command line)
+ 3. `npm run build` Builds the project. *Required when typescript is changed.*
+ 4. `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
      - Alternatively, `npm run test` Runs node server and a proxy to work around CORS and security issues of DSpace REST API. Visit http://localhost:3000/
 
 Other available commands:
@@ -65,6 +70,10 @@ Here's where various parts of the codebase are located:
   - `src/server/` is the server-side typescript components
   - `resources/` is where all static resources (CSS, images, etc) are kept
   - [Bootstrap](http://getbootstrap.com/) is pulled in dynamically via NPM
+
+## Learning Resources
+
+We've begun to gather a list of useful resources for learning more about these technologies on our [Wiki](https://github.com/DSpace-Labs/angular2-ui-prototype/wiki). In particular, take a look at [Developer Resources](https://github.com/DSpace-Labs/angular2-ui-prototype/wiki/Developer-Resources)
 
 # Collaboration
 
