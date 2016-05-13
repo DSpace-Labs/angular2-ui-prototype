@@ -26,7 +26,8 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 </div>
 
                 <div *ngIf="hasRoute()">
-                    <a [routerLink]="[sidebarcomponent.route]">{{sidebarcomponent.componentName | translate}}</a>
+                    <a *ngIf="!hasParams()" [routerLink]="[sidebarcomponent.route]">{{sidebarcomponent.componentName | translate}}</a>
+                    <a *ngIf="hasParams()" [routerLink]="[sidebarcomponent.route,{id:sidebarcomponent.routeid}]">{{sidebarcomponent.componentName}}</a>
                 </div>
 
 
@@ -73,14 +74,27 @@ export class SidebarSectionComponent implements OnInit
      *
      * @returns {boolean}
      */
-    hasChildren()
+    hasChildren() : boolean
     {
         return (ArrayUtil.isNotEmpty(this.children)) ? true : false;
     }
 
-    hasRoute()
+    /**
+     *
+     * @returns {boolean}
+     */
+    hasRoute() : boolean
     {
         return ObjectUtil.hasValue(this.sidebarcomponent.route);
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    hasParams() : boolean
+    {
+        return ObjectUtil.hasValue(this.sidebarcomponent.routeid);
     }
 
 }

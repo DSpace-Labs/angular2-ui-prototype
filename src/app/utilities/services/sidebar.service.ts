@@ -98,10 +98,11 @@ export class SidebarService
      */
     removeComponent(id)
     {
-        let component = this.getComponentByID(this._components, id);
-        component = this._components.filter(c => c.id != id);
+        let components = this._components.filter(x => x.id != id);
+        this._components = components;
         this.sidebarSubject.next(true); // create an observable event.
     }
+
 
     /**
      *

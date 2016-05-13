@@ -45,18 +45,15 @@ export class SidebarComponent
      */
     constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
     {
-        if(contextProvider != null)
-        {
+        if(contextProvider != null) {
             // when we update the context, we could update the sidebar.
             this.context = contextProvider.context;
-            contextProvider.contextObservable.subscribe( x => this.context = x);
+            contextProvider.contextObservable.subscribe(x => this.context = x);
         }
-
         // Catch any event that causes the components array to change.
         this.sidebarComponents = this.sidebarService.components;
         sidebarService.sidebarSubject.subscribe(() =>
         {
-            console.log('some changes happened');
             this.sidebarComponents = sidebarService.components;
         });
     }

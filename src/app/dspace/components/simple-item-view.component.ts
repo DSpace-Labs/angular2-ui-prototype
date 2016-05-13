@@ -81,16 +81,6 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
         });
 
 
-        // you can add routes as an object, or seperately by chaining "route"
-        let builder = SidebarSection.getBuilder();
-
-        let editSection = builder.name("sidebar.item.edit").route("Home").build();
-
-        builder.resetBuild();
-
-        let itemSection = builder.name("sidebar.item.header").addChild(editSection).id('itemsidebar').index(2).build();
-
-        this.sidebarService.addSection(itemSection);
     }
 
 
@@ -100,14 +90,5 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
      */
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
-    }
-
-
-    /**
-     * Remove the added section.
-     */
-    ngOnDestroy()
-    {
-        this.sidebarService.removeComponent('itemsidebar');
     }
 }

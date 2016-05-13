@@ -33,6 +33,8 @@ export class SidebarSection
      */
     route: string;
 
+    routeid : number;
+
 
     /**
      * The childsections this section contains
@@ -166,6 +168,12 @@ class Builder
     addChild(child : SidebarSection) : Builder
     {
         this.section.addChild(child);
+        return this;
+    }
+
+    routeid(id : number) : Builder
+    {
+        this.section.routeid = id;
         return this;
     }
 

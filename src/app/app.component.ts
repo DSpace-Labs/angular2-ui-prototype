@@ -182,5 +182,12 @@ export class AppComponent implements OnInit {
         builder.resetBuild();
         let accountComponent = builder.name("sidebar.account.header").addChild(loginComponent).addChild(registerComponent).addChild(logoutComponent).id("my-account").build();
         this.sidebarService.addSection(accountComponent);
+
+        // build submissions
+        builder = SidebarSection.getBuilder();
+        let createSubmissionComponent = builder.name("sidebar.submissions.submit").route("Home").build();
+        builder.resetBuild();
+        let submissionComponent = builder.id('submissions').name('sidebar.submissions.header').visible(true).addChild(createSubmissionComponent).build(); // need to change this visibility depending on the authorization service
+        this.sidebarService.addSection(submissionComponent);
     }
 }

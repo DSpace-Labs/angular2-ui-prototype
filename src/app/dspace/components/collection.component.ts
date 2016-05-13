@@ -9,6 +9,9 @@ import { ItemListComponent } from './item-list.component';
 
 import { Collection } from "../models/collection.model";
 
+import { SidebarService } from '../../utilities/services/sidebar.service';
+import { SidebarSection } from '../models/sidebar-section.model';
+
 /**
  * Collection component for displaying the current collection.
  * View contains sidebar context and tree hierarchy below current collection.
@@ -41,11 +44,14 @@ export class CollectionComponent {
      */
     constructor(private params: RouteParams, 
                 private dspace: DSpaceDirectory, 
-                private breadcrumbService: BreadcrumbService) {
+                private breadcrumbService: BreadcrumbService,
+                private sidebarService : SidebarService) {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
+            this.populateSidebar();
         });
+
     }
 
     /**
@@ -53,6 +59,25 @@ export class CollectionComponent {
      */
     private collectionProvided(): boolean {
         return this.collection && this.collection.type == 'collection';
+    }
+
+    /**
+     *
+     */
+    private populateSidebar()
+    {
+        let builder= SidebarSection.getBuilder();
+        let collectionhome = builder.name("sidebar.context-collection.home").routeid(this.collection.id).route("Collections").build();
+        builder.resetBuild();
+        let browseComponent = builder.name("sidebar.context-collection.browse").route("Home").build();
+        builder.resetBuild();
+        let collectionSection = builder.name("sidebar.context-collection.header").id("context-collection").addChild(collectionhome).addChild(browseComponent).build();
+        this.sidebarService.addSection(collectionSection);
+    }
+
+    ngOnDestroy()
+    {
+        this.sidebarService.removeComponent('context-collection');
     }
 
 }
