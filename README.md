@@ -1,6 +1,6 @@
 # Angular 2 UI Prototype
 
-This project represents the "extended prototype" featuring [Angular 2](https://angular.io/) from the [DSpace UI Prototype Challenge](https://wiki.duraspace.org/display/DSPACE/DSpace+UI+Prototype+Challenge). This prototype is a collaboration by @mire, CINECA, DuraSpace and Texas A&M.
+This project represents the "extended prototype" featuring [Angular 2](https://angular.io/) from the [DSpace UI Prototype Challenge](https://wiki.duraspace.org/display/DSPACE/DSpace+UI+Prototype+Challenge). This prototype is a collaboration by @mire, Cineca, DuraSpace and Texas A&M.
 
 The goal of this extended prototype is to evaluate the Angular 2 framework as a plausible DSpace UI platform. This includes evaluating whether it meets the SEO needs of Google Scholar.
 
@@ -38,16 +38,21 @@ After this phase is complete, we'd have an Angular 2 UI that is provided as part
 
 ## Getting Started
 
-Here's how you can install the current prototype:
+Here's how you can install/run the current prototype:
 
- 1. `npm install` Installs local dependencies.
- 2. `npm run global` Installs [global dependencies](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) (allowing them to be used from command line)
- 3. `npm run build` Builds the project. *Required when typescript is changed.*
- 4. `npm run watch` Builds, runs, and watches for changes to build again. Visit http://localhost:3000/
-     - Alternatively, `npm run test` Runs node server and a proxy to work around CORS and security issues of DSpace REST API. Visit http://localhost:3000/
+ 1. `npm install` Installs local and [global](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) dependencies.
+     - Global dependencies are installed first (allowing them to be used from command line)
+     - Then local dependencies are installed into `./node_modules` subdirectory
+ 2. (Optional) If desired, change the location of the REST API you wish to use in [`config.ts`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/config.ts). By default, this prototype currently uses the REST API for https://training-ir.tdl.org
+     - NOTE: Currently, this prototype has ONLY been tested with DSpace 5.x REST APIs. It may not yet work with other versions of DSpace.
+ 3. `npm run watch` Builds the project, then starts up the node server and watches for any changes to files (if detected, automatically rebuilds the project to see changes immediately). Visit http://localhost:3000/
+     - Alternatively, you can separate this out into two steps:
+         - `npm run build` Builds the project. *Required to be re-run whenever typescript files are changed.*
+         - `npm run test` Runs node server and a (temporary) proxy to work around CORS and security issues of DSpace REST API. Visit http://localhost:3000/
 
 Other available commands:
- - `npm run docs` Generates the TypeDoc documentation (i.e. Typescript docs) in the `docs` directory. *Should be run and update to gh-pages when typescript is changed.* 
+ - `npm run docs` Generates the [TypeDoc](http://typedoc.io/) documentation (i.e. Typescript docs) in the `docs` directory. *Should be run and update to gh-pages when typescript is changed.*
+ - `npm run clean` Removes all local dependencies by deleting `./node_modules`. Only useful for testing a fresh install process.
 
 ## Implementation Details
 
