@@ -43,7 +43,9 @@ Here's how you can install/run the current prototype:
  1. `npm install` Installs local and [global](https://docs.npmjs.com/getting-started/installing-npm-packages-globally) dependencies.
      - Global dependencies are installed first (allowing them to be used from command line)
      - Then local dependencies are installed into `./node_modules` subdirectory
- 2. `npm run watch` Builds the project, then starts up the node server and watches for any changes to files (if detected, automatically rebuilds the project to see changes immediately). Visit http://localhost:3000/
+ 2. (Optional) If desired, change the location of the REST API you wish to use in [`config.ts`](https://github.com/DSpace-Labs/angular2-ui-prototype/blob/master/config.ts). By default, this prototype currently uses the REST API for https://training-ir.tdl.org
+     - NOTE: Currently, this prototype has ONLY been tested with DSpace 5.x REST APIs. It may not yet work with other versions of DSpace.
+ 3. `npm run watch` Builds the project, then starts up the node server and watches for any changes to files (if detected, automatically rebuilds the project to see changes immediately). Visit http://localhost:3000/
      - Alternatively, you can separate this out into two steps:
          - `npm run build` Builds the project. *Required to be re-run whenever typescript files are changed.*
          - `npm run test` Runs node server and a (temporary) proxy to work around CORS and security issues of DSpace REST API. Visit http://localhost:3000/
