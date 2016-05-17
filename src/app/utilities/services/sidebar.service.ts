@@ -92,17 +92,19 @@ export class SidebarService
         this.sidebarSubject.next(true);
     }
 
-    /**
-     *
-     * @param id
-     */
-    removeComponent(id)
-    {
-        let components = this._components.filter(x => x.id != id);
-        this._components = components;
-        this.sidebarSubject.next(true); // create an observable event.
-    }
 
+
+    /**
+     * Remove the matching sidebar section.
+     * @param section
+     */
+    removeSection(section : SidebarSection)
+    {
+        console.log("removing this section");
+        let components = this._components.filter(x => !x.equals(section));
+        this._components = components;
+        this.sidebarSubject.next(true);
+    }
 
     /**
      *

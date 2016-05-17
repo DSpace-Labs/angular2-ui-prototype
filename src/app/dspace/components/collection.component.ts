@@ -28,6 +28,10 @@ import { SidebarSection } from '../models/sidebar-section.model';
 })
 export class CollectionComponent {
 
+
+
+    sections : SidebarSection[]  =[];
+
     /**
      * An object that represents the current collection.
      */
@@ -84,11 +88,12 @@ export class CollectionComponent {
                                                 .addChild(browseComponent)
                                                 .build();
         this.sidebarService.addSection(collectionSection);
+        this.sections.push(collectionSection);
     }
 
     ngOnDestroy()
     {
-        this.sidebarService.removeComponent('context-collection');
+        this.sidebarService.removeSection(this.collection[0]);
     }
 
 }

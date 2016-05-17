@@ -45,6 +45,10 @@ export class ItemComponent implements CanDeactivate {
 
     item : Item;
 
+
+    sections : SidebarSection[] = [];
+
+
     /**
      *
      * @param params
@@ -84,7 +88,8 @@ export class ItemComponent implements CanDeactivate {
         }
 
         // removing from the sidebar
-        this.sidebarService.removeComponent("itemsidebar");
+        //this.sidebarService.removeComponent("itemsidebar");
+        this.sidebarService.removeSection(this.sections[0]);
         return true;
     }
 
@@ -95,12 +100,12 @@ export class ItemComponent implements CanDeactivate {
     private populateSidebar()
     {
         // you can add routes as an object, or seperately by chaining "route"
-        let builder = SidebarSection.getBuilder();
-        let editSection = builder.name("sidebar.item-context.edit").route("Home").build();
-        builder.resetBuild();
-        let viewSection = builder.name("sidebar.item-context.view").route("Home").routeid(this.item.id).build();
-        builder.resetBuild();
-        let itemSection = builder.name("sidebar.item-context.header").addChild(viewSection).addChild(editSection).id("itemsidebar").index(2).build();
+        let editSection = SidebarSection.getBuilder().name("sidebar.item-context.edit").route("Home").build();
+        let viewSection = SidebarSection.getBuilder().name("sidebar.item-context.view").route("Home").routeid(this.item.id).build();
+        let itemSection = SidebarSection.getBuilder().name("sidebar.item-context.header").addChild(viewSection).addChild(editSection).id("itemsidebar").index(2).build();
+        this.sections.push(itemSection);
+        // push the sections to an array
+
         this.sidebarService.addSection(itemSection);
     }
 }
