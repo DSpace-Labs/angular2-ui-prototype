@@ -18,13 +18,14 @@
   ],
   "scripts": {
     "global": "npm install --global http-proxy nodemon npm-check-updates rimraf ts-node typedoc typescript typings webpack",
-    "docs": "typedoc --options typedoc.json ./src",
-    "clean": "rimraf ./node_modules",
-    "build": "webpack",
+    "preinstall": "npm run global",
+    "postinstall": "typings install",
     "prebuild": "rimraf dist",
+    "build": "webpack",
+    "clean": "rimraf ./node_modules",
+    "docs": "typedoc --options typedoc.json ./src",
     "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\"",
-    "test": "concurrently \"nodemon dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\"",
-    "postinstall": "typings install"
+    "test": "concurrently \"nodemon dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\""
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",

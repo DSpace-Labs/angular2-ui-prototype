@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 import { DSpaceDirectory } from './dspace/dspace.directory';
@@ -39,6 +40,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 @Component({
     selector: 'dspace',
     directives: [ ROUTER_DIRECTIVES,
+                  CollapseDirective,
                   BreadcrumbComponent,
                   ContextComponent,
                   LoginModalComponent,
@@ -50,14 +52,16 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 <nav class="navbar navbar-inverse">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <!-- When clicked toggle navCollapsed setting -->
+                            <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
-                                <span class="icon-bar"></span> 
+                                <span class="icon-bar"></span>
                             </button>
                             <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
                         </div>
-                        <div class="collapse navbar-collapse" id="myNavbar">
+                        <!-- Collapse this menu when navCollapse is true -->
+                        <div [collapse]="navCollapsed" class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
                             </ul>
@@ -72,7 +76,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                         </div>
                     </div>
                 </nav>
-                
+
                 <breadcrumb></breadcrumb>
                 <div class="container">
                     <div class="col-md-4">
@@ -125,12 +129,18 @@ export class AppComponent implements OnInit {
 
 
     /**
+     * Is navbar collapsed?
+     * Default to true so that navbar is hidden by default when window is resized.
+     */
+    private navCollapsed: boolean = true;
+
+    /**
      *
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
-     * @param translate 
+     * @param translate
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
