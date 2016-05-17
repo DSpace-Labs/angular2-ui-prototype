@@ -155,15 +155,6 @@ class Builder
 
     /**
      *
-     */
-    resetBuild() : void
-    {
-        // empty what is already set, reuse this builder object to build new component
-        this.section = new SidebarSection();
-    }
-
-    /**
-     *
      * @param child
      * @returns {Builder}
      */
