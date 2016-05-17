@@ -21,6 +21,7 @@ import { FullItemViewComponent } from './full-item-view.component';
 import { Item } from "../models/item.model";
 
 import { SidebarSection } from '../models/sidebar-section.model';
+import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.
@@ -48,6 +49,8 @@ export class ItemComponent implements CanDeactivate {
 
     sections : SidebarSection[] = [];
 
+    sidebarHelper : ItemSidebarHelper;
+
 
     /**
      *
@@ -69,7 +72,8 @@ export class ItemComponent implements CanDeactivate {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
             this.item = item;
-            this.populateSidebar();
+            this.sidebarHelper = new ItemSidebarHelper();
+            this.sidebarHelper.populateSidebar(this.item);
         });
     }
 
@@ -89,23 +93,8 @@ export class ItemComponent implements CanDeactivate {
 
         // removing from the sidebar
         //this.sidebarService.removeComponent("itemsidebar");
-        this.sidebarService.removeSection(this.sections[0]);
+
         return true;
     }
 
-
-    /**
-     *
-     */
-    private populateSidebar()
-    {
-        // you can add routes as an object, or seperately by chaining "route"
-        let editSection = SidebarSection.getBuilder().name("sidebar.item-context.edit").route("Home").build();
-        let viewSection = SidebarSection.getBuilder().name("sidebar.item-context.view").route("Home").routeid(this.item.id).build();
-        let itemSection = SidebarSection.getBuilder().name("sidebar.item-context.header").addChild(viewSection).addChild(editSection).id("itemsidebar").index(2).build();
-        this.sections.push(itemSection);
-        // push the sections to an array
-
-        this.sidebarService.addSection(itemSection);
-    }
 }
