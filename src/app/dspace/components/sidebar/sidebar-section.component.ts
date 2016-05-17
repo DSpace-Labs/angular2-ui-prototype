@@ -16,11 +16,9 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div class="panel panel-default">
+            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
 
             <!-- if this component has children we want to render it differently -->
-
-
                 <div *ngIf="!hasRoute()" class="panel-heading">
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
@@ -69,6 +67,10 @@ export class SidebarSectionComponent implements OnInit
         this.children = this.sidebarcomponent.childsections;
     }
 
+    ngOnChanges()
+    {
+        console.log("running changes");
+    }
 
     /**
      *

@@ -155,8 +155,8 @@ export class AppComponent implements OnInit {
 
                     authorization.userObservable.subscribe(user => {
                         this.user = user;
-                     //   repopulate the sidebar, because now the user is logged in / logged out, so we want to show different components
-                        this.populateStandardSidebar();
+                        console.log("user observable changed");
+                        console.log(this.authorization.isAuthenticated());
                     });
 
                     translate.setDefaultLang('en');
@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.dspace.loadDirectory();
         this.sidebarHelper = new AppSidebarHelper(this.sidebarService);
-        this.sidebarHelper.populateSidebar();
+        this.sidebarHelper.populateSidebar(this.authorization.userObservable);
     }
 
     /**

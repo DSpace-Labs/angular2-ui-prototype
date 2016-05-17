@@ -27,10 +27,13 @@ export class AppSidebarHelper
 
 
     /**
-     *
+     * The visibility is bound the the authorizationservice
      */
-    populateSidebar()
+    populateSidebar(userObservable : any)
     {
+
+
+
         let aboutComponent = SidebarSection.getBuilder()
             .name("About")
             .route("Home")
@@ -48,6 +51,7 @@ export class AppSidebarHelper
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
+            .visible(true)
             .build();
 
         let registerComponent = SidebarSection.getBuilder()

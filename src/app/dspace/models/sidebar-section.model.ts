@@ -43,6 +43,12 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 
     /**
+     * If one is passed, we want to observe this for changes
+     */
+    visibilityObserver : any;
+
+
+    /**
      * The route of this component as it appears in the router
      * If this does not match the name in the router, Angular2 will throw an error.
      */
