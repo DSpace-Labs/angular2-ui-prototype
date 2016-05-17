@@ -100,7 +100,6 @@ export class SidebarService
      */
     removeSection(section : SidebarSection)
     {
-        console.log("removing this section");
         let components = this._components.filter(x => !x.equals(section));
         this._components = components;
         this.sidebarSubject.next(true);
