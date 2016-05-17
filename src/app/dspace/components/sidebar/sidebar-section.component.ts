@@ -26,8 +26,8 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 </div>
 
                 <div *ngIf="hasRoute()">
-                    <a *ngIf="!hasParams()" [routerLink]="[sidebarcomponent.route]">{{sidebarcomponent.componentName | translate}}</a>
-                    <a *ngIf="hasParams()" [routerLink]="[sidebarcomponent.route,{id:sidebarcomponent.routeid}]">{{sidebarcomponent.componentName}}</a>
+                    <a *ngIf="!hasParams()" [routerLink]="[sidebarcomponent.route]">{{ sidebarcomponent.componentName | translate }}</a>
+                    <a *ngIf="hasParams()" [routerLink]="[sidebarcomponent.route,{id:sidebarcomponent.routeid}]">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
 
 

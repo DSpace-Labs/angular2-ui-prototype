@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ReflectiveInjector } from '@angular/core';
 import {
     RouteConfig,
     RouterOutlet,
@@ -72,7 +72,9 @@ export class ItemComponent implements CanDeactivate {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
             this.item = item;
-            this.sidebarHelper = new ItemSidebarHelper();
+
+            // create the sidebar-helper to create the sidebar.
+            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService);
             this.sidebarHelper.populateSidebar(this.item);
         });
     }
@@ -90,10 +92,7 @@ export class ItemComponent implements CanDeactivate {
         if (ObjectUtil.hasValue(this.gsMeta)) {
             this.gsMeta.clearGoogleScholarMetaTags();
         }
-
-        // removing from the sidebar
-        //this.sidebarService.removeComponent("itemsidebar");
-
+        this.sidebarHelper.removeSections();
         return true;
     }
 

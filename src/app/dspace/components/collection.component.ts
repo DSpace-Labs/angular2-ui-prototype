@@ -11,6 +11,7 @@ import { Collection } from "../models/collection.model";
 
 import { SidebarService } from '../../utilities/services/sidebar.service';
 import { SidebarSection } from '../models/sidebar-section.model';
+import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.helper';
 
 /**
  * Collection component for displaying the current collection.
@@ -37,6 +38,13 @@ export class CollectionComponent {
      */
     private collection: Collection;
 
+
+    /**
+     *
+     */
+    sidebarHelper : CollectionSidebarHelper;
+
+
     /**
      *
      * @param params
@@ -53,7 +61,8 @@ export class CollectionComponent {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
-            this.populateSidebar();
+            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService);
+            this.sidebarHelper.populateSidebar(this.collection);
         });
 
     }
@@ -65,35 +74,10 @@ export class CollectionComponent {
         return this.collection && this.collection.type == 'collection';
     }
 
-    /**
-     *
-     */
-    private populateSidebar()
-    {
-        let collectionhome =  SidebarSection.getBuilder()
-                                            .name("sidebar.context-collection.home")
-                                            .routeid(this.collection.id)
-                                            .route("Collections")
-                                            .build();
-
-        let browseComponent = SidebarSection.getBuilder()
-                                                .name("sidebar.context-collection.browse")
-                                                .route("Home")
-                                                .build();
-
-        let collectionSection = SidebarSection.getBuilder()
-                                                .name("sidebar.context-collection.header")
-                                                .id("context-collection")
-                                                .addChild(collectionhome)
-                                                .addChild(browseComponent)
-                                                .build();
-        this.sidebarService.addSection(collectionSection);
-        this.sections.push(collectionSection);
-    }
 
     ngOnDestroy()
     {
-        this.sidebarService.removeSection(this.collection[0]);
+        this.sidebarHelper.removeSections();
     }
 
 }
