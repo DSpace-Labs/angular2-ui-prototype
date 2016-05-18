@@ -22,17 +22,17 @@ export class MetaTagService {
      * An array of the <meta> elements that were in the <head> before
      * this service was initialized for the first time
      */
-    private _preExistingTags: Array<MetaTag> = null;
+    private preExistingTags: Array<MetaTag> = null;
 
     /**
      * An array of the <meta> elements that were added by this service
      */
-    private _addedTags: Array<MetaTag> = null;
+    private addedTags: Array<MetaTag> = null;
 
     /**
      * The internal reference to the DOM document.
      */
-    private _document = null;
+    private document = null;
 
     /**
      * Construct the MetaTagService.
@@ -41,7 +41,7 @@ export class MetaTagService {
      *      the DOM document
      */
     constructor(@Inject(DOCUMENT) document) {
-        this._document = document;
+        this.document = document;
         this.initTags();
     }
 
@@ -54,13 +54,13 @@ export class MetaTagService {
      * _addedTags is set to an empty array.
      */
     private initTags(): void {
-        if (ObjectUtil.hasNoValue(this._preExistingTags)) {
-            this._preExistingTags = this.getMetaNodesInDOM()
+        if (ObjectUtil.hasNoValue(this.preExistingTags)) {
+            this.preExistingTags = this.getMetaNodesInDOM()
                 .map((meta: Node) => {
                     return this.nodeToMetaTag(meta);
                 });
         }
-        this._addedTags = new Array<MetaTag>();
+        this.addedTags = new Array<MetaTag>();
     }
 
     /**
@@ -117,7 +117,7 @@ export class MetaTagService {
      *      in the DOM in the order they appear.
      */
     private getMetaNodesInDOM(): Array<Node> {
-        let children = this.htmlCollectionToNodeArray(this._document.head.children);
+        let children = this.htmlCollectionToNodeArray(this.document.head.children);
         if (ArrayUtil.isNotEmpty(children)) {
             return children
                 .filter((child:Node) => {
@@ -207,7 +207,7 @@ export class MetaTagService {
      */
     private getLastMetaNode(): Node {
         let lastMetaNode:Node = null;
-        let currentNode = this._document.head.lastChild;
+        let currentNode = this.document.head.lastChild;
         do {
             //localName: for browsers, name: server-side
             if (currentNode.localName === 'meta' || currentNode.name === 'meta') {
@@ -236,7 +236,7 @@ export class MetaTagService {
             getDOM().insertAfter(lastMetaNode, meta);
         }
         else {
-            getDOM().insertBefore(this._document.head.firstChild, meta);
+            getDOM().insertBefore(this.document.head.firstChild, meta);
         }
     }
 
@@ -267,11 +267,11 @@ export class MetaTagService {
      */
     get tags(): Array<MetaTag> {
         let allTags: Array<MetaTag> = new Array<MetaTag>();
-        if (ArrayUtil.isNotEmpty(this._preExistingTags)) {
-            allTags = allTags.concat(this._preExistingTags);
+        if (ArrayUtil.isNotEmpty(this.preExistingTags)) {
+            allTags = allTags.concat(this.preExistingTags);
         }
-        if (ArrayUtil.isNotEmpty(this._addedTags)) {
-            allTags = allTags.concat(this._addedTags);
+        if (ArrayUtil.isNotEmpty(this.addedTags)) {
+            allTags = allTags.concat(this.addedTags);
         }
         return allTags;
     }
@@ -284,7 +284,7 @@ export class MetaTagService {
      */
     public addTag(newTag: MetaTag): void {
         if (this.tagDoesntAlreadyExist(newTag)) {
-            this._addedTags.push(newTag);
+            this.addedTags.push(newTag);
             let meta = this.metaTagToNode(newTag);
             this.insertMetaNodeIntoDOM(meta);
 
@@ -303,10 +303,10 @@ export class MetaTagService {
             this.getMetaNodesInDOM().filter((node:Node) => {
                 return this.tagIsPartOfArray(this.nodeToMetaTag(node), tagsToRemove);
             }).forEach((matchingNode: Node) => {
-                this._document.head.removeChild(matchingNode);
+                this.document.head.removeChild(matchingNode);
                 let matchingTag = this.nodeToMetaTag(matchingNode);
-                this._addedTags = this.excludeTagFromArray(matchingTag, this._addedTags);
-                this._preExistingTags = this.excludeTagFromArray(matchingTag, this._preExistingTags);
+                this.addedTags = this.excludeTagFromArray(matchingTag, this.addedTags);
+                this.preExistingTags = this.excludeTagFromArray(matchingTag, this.preExistingTags);
             });
         }
     }
