@@ -10,8 +10,8 @@ import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
 import { FullCollectionsComponent } from './item/full/full-collections.component';
 import { ItemComponent } from './item.component';
 
-import {Metadatum} from '../models/metadatum.model';
-import {Item} from '../models/item.model';
+import { Metadatum } from '../models/metadatum.model';
+import { Item } from '../models/item.model';
 
 /**
  * Item component for displaying the current item.

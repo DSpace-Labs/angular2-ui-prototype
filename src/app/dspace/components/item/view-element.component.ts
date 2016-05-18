@@ -12,6 +12,10 @@ import { Component, Input } from '@angular/core';
                 </div>
               `
 })
+
+/**
+ *
+ */
 export class ViewElementComponent {
 
     /**

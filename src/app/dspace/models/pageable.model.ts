@@ -81,6 +81,9 @@ export abstract class Pageable implements Paging {
         this.total = undefined;
     }
 
+    /**
+     *
+     */
     unload(): void {
         this.loaded = {
             community: false,

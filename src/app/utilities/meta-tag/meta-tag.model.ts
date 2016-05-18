@@ -144,13 +144,13 @@ class Builder {
     /**
      * The MetaTag object under construction
      */
-    private _build: MetaTag;
+    private build : MetaTag;
 
     /**
      * Create a new Builder.
      */
     constructor() {
-        this._build = new MetaTag();
+        this.build = new MetaTag();
     }
 
     /**
@@ -162,7 +162,7 @@ class Builder {
      *      this
      */
     public id(id: string): Builder {
-        this._build.id = id;
+        this.build.id = id;
         return this;
     }
 
@@ -175,7 +175,7 @@ class Builder {
      *      this
      */
     public name(name: string): Builder {
-        this._build.name = name;
+        this.build.name = name;
         return this;
     }
 
@@ -188,7 +188,7 @@ class Builder {
      *      this
      */
     public content(content: string): Builder {
-        this._build.content = content;
+        this.build.content = content;
         return this;
     }
 
@@ -201,7 +201,7 @@ class Builder {
      *      this
      */
     public scheme(scheme: string): Builder {
-        this._build.scheme = scheme;
+        this.build.scheme = scheme;
         return this;
     }
 
@@ -214,7 +214,7 @@ class Builder {
      *      this
      */
     public lang(lang: string): Builder {
-        this._build.lang = lang;
+        this.build.lang = lang;
         return this;
     }
 
@@ -225,7 +225,7 @@ class Builder {
      *      the constructed MetaTag
      */
     public build(): MetaTag {
-        return this._build;
+        return this.build;
     }
 
 }

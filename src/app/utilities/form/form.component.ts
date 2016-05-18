@@ -79,7 +79,7 @@ export class FormComponent implements Form {
     /**
      *
      */
-    init(): void {};
+    init(): void {}
 
     /**
      *
@@ -107,18 +107,18 @@ export class FormComponent implements Form {
      */
     showForm(): boolean {
         return this.active && !this.processing;
-    };
+    }
 
     /**
      *
      */
     processingMessage(): string {
         return '';
-    };
+    }
 
     /**
      *
      */
-    finish(name: string, currentContext: any): void {};
+    finish(name: string, currentContext: any): void {}
     
 }
