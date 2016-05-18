@@ -21,7 +21,6 @@ import { DSpaceDirectory } from '../dspace.directory';
 import { FormService } from '../../utilities/form/form.service';
 import { NotificationService } from '../../utilities/notification/notification.service';
 
-import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
 import { LoaderComponent } from '../../utilities/loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
@@ -33,22 +32,20 @@ import { Item } from "../models/item.model";
 import { Metadatum } from '../models/metadatum.model';
 
 /**
- * 
+ *
  */
 @Component({
     selector: 'item-create',
     bindings: [ FORM_BINDINGS ],
     directives: [ FORM_DIRECTIVES,
                   LoaderComponent,
-                  FormFieldsetComponent,
                   ItemBitstreamAddComponent,
                   ItemMetadataInputComponent ],
-    template: ` 
-                <h3>Create Item</h3><hr>
+    template: `
+                <h3>Create Item</h3>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
-                    <form-fieldset [form]="form" [inputs]="inputs"></form-fieldset>
-                    <item-bitstream-add [files]="files" 
+                    <item-bitstream-add [files]="files"
                                         (addBitstreamEmitter)="addBitstream($event)"
                                         (removeBitstreamEmitter)="removeBitstream($event)">
                     </item-bitstream-add>
@@ -116,31 +113,21 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Initialize the form and validators.
+     * Initialize the item metadata form and validators.
      */
     init(): void {
         this.item = new Item();
         this.files = new Array<any>();
-        Observable.forkJoin([
-            this.formService.getForm('item'), 
-            this.formService.getForm('item-metadata')
-        ]).subscribe(inputs => {
-
-            this.inputs = inputs[0];
+        this.formService.getForm('item').subscribe(inputs => {
+            // For an item, the form consists of MetadatumInputs
+            this.metadatumInputs = inputs;
             let formControls = {};
-            for(let input of this.inputs) {
+            for(let input of this.metadatumInputs) {
                 input.value = input.default ? input.default : '';
                 let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
             this.form = this.builder.group(formControls);
-
-            this.metadatumInputs = inputs[1];
-            for(let input of this.metadatumInputs) {
-                input.value = input.default ? input.default : '';
-                let validators = this.formService.createValidators(input);
-                this.form.addControl(input.id, new Control('', Validators.compose(validators)));
-            }
 
             this.active = true;
         },
@@ -200,7 +187,7 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.files.push(file);
         }
     }
-    
+
     /**
      * Remove bitstream from item being created.
      *
@@ -264,7 +251,7 @@ export class ItemCreateComponent extends FormSecureComponent {
         }
         return clonedInput;
     }
-    
+
     /**
      * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */

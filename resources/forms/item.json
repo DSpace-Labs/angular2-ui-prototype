@@ -1,22 +1,345 @@
 [
     {
-        "key": "name",
+        "key": "dc.title",
         "language": "en",
-        "gloss": "Name",
+        "gloss": "Title",
         "type": "TEXT",
         "repeatable": false,
         "validation": {
             "required": {
             	"value": true,
-            	"message": "item.name.required"
+            	"message": "item.metadata.dc.title.required"
             },
             "minLength": {
             	"value": 4,
-            	"message": "item.name.minLength"
+            	"message": "item.metadata.dc.title.minLength"
             },
             "maxLength": {
             	"value": 128,
-            	"message": "item.name.maxLength"
+            	"message": "item.metadata.dc.title.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.contributor.author",
+        "language": "en",
+        "gloss": "Author",
+        "type": "TEXT",
+        "repeatable": true,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "item.metadata.dc.contributor.author.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.metadata.dc.contributor.author.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "item.metadata.dc.contributor.author.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.date.issued",
+        "language": "en",
+        "gloss": "Publication Date",
+        "type": "DATE",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "item.metadata.dc.date.issued.required"
+            }
+        }
+    },
+    {
+        "key": "dc.publisher",
+        "language": "en",
+        "gloss": "Publisher",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.publisher.required"
+            }
+        }
+    },
+    {
+        "key": "dc.type",
+        "language": "en",
+        "gloss": "Document Type",
+        "type": "SELECT",
+        "options": [
+            {
+                "gloss": "(not specified)",
+                "value": ""
+            },
+            {
+                "gloss": "Animation",
+                "value": "Animation"
+            },
+            {
+                "gloss": "Article",
+                "value": "Article"
+            },
+            {
+                "gloss": "Book",
+                "value": "Book"
+            },
+            {
+                "gloss": "Book Chapter",
+                "value": "Book Chapter"
+            },
+            {
+                "gloss": "Dataset",
+                "value": "Dataset"
+            },
+            {
+                "gloss": "Image",
+                "value": "Image"
+            },
+            {
+                "gloss": "Image, 3-D",
+                "value": "Image, 3-D"
+            },
+            {
+                "gloss": "Learning Object",
+                "value": "Learning Object"
+            },
+            {
+                "gloss": "Map",
+                "value": "Map"
+            },
+            {
+                "gloss": "Musical Score",
+                "value": "Musical Score"
+            },
+            {
+                "gloss": "Plan or Blueprint",
+                "value": "Plan or Blueprint"
+            },
+            {
+                "gloss": "Preprint",
+                "value": "Preprint"
+            },
+            {
+                "gloss": "Presentation",
+                "value": "Presentation"
+            },
+            {
+                "gloss": "Recording, acoustical",
+                "value": "Recording, acoustical"
+            },
+            {
+                "gloss": "Recording, musical",
+                "value": "Recording, musical"
+            },
+            {
+                "gloss": "Recording, oral",
+                "value": "Recording, oral"
+            },
+            {
+                "gloss": "Software",
+                "value": "Software"
+            },
+            {
+                "gloss": "Technical Report",
+                "value": "Technical Report"
+            },
+            {
+                "gloss": "Thesis",
+                "value": "Thesis"
+            },
+            {
+                "gloss": "Video",
+                "value": "Video"
+            },
+            {
+                "gloss": "Working Paper",
+                "value": "Working Paper"
+            },
+            {
+                "gloss": "Other",
+                "value": "Other"
+            }
+        ],
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.type.required"
+            }
+        }
+    },
+    {
+        "key": "dc.language.iso",
+        "language": "en",
+        "gloss": "Language",
+        "type": "SELECT",
+        "options": [
+            {
+                "gloss": "",
+                "value": ""
+            },
+            {
+                "gloss": "English (United States)",
+                "value": "en_US"
+            },
+            {
+                "gloss": "English",
+                "value": "en"
+            },
+            {
+                "gloss": "Chinese",
+                "value": "zh"
+            },
+            {
+                "gloss": "French",
+                "value": "fr"
+            },
+            {
+                "gloss": "German",
+                "value": "de"
+            },
+            {
+                "gloss": "Italian",
+                "value": "it"
+            },
+            {
+                "gloss": "Japanese",
+                "value": "ja"
+            },
+            {
+                "gloss": "Spanish",
+                "value": "es"
+            },
+            {
+                "gloss": "Turkish",
+                "value": "tr"
+            },
+            {
+                "gloss": "(Other)",
+                "value": "other"
+            }
+        ],
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.language.iso.required"
+            }
+        },
+        "default": ""
+    },
+    {
+        "key": "dc.subject",
+        "language": "en",
+        "gloss": "Subject",
+        "type": "TEXT",
+        "repeatable": true,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "item.metadata.dc.subject.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.metadata.dc.subject.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "item.metadata.dc.subject.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.description",
+        "language": "en",
+        "gloss": "Description",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.description.required"
+            },
+            "minLength": {
+            	"value": 8,
+            	"message": "item.metadata.dc.description.minLength"
+            },
+            "maxLength": {
+            	"value": 512,
+            	"message": "item.metadata.dc.description.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.description.abstract",
+        "language": "en",
+        "gloss": "Abstract",
+        "type": "TEXTAREA",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": true,
+            	"message": "item.metadata.dc.description.abstract.required"
+            },
+            "minLength": {
+            	"value": 16,
+            	"message": "item.metadata.dc.description.abstract.minLength"
+            },
+            "maxLength": {
+            	"value": 2056,
+            	"message": "item.metadata.dc.description.abstract.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.rights",
+        "language": "en",
+        "gloss": "Rights",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.rights.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.metadata.dc.rights.minLength"
+            },
+            "maxLength": {
+            	"value": 128,
+            	"message": "item.metadata.dc.rights.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.rights.uri",
+        "language": "en",
+        "gloss": "Rights URI",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+            	"value": false,
+            	"message": "item.metadata.dc.rights.uri.required"
+            },
+            "minLength": {
+            	"value": 4,
+            	"message": "item.metadata.dc.rights.uri.minLength"
+            },
+            "maxLength": {
+            	"value": 512,
+            	"message": "item.metadata.dc.rights.uri.maxLength"
+            },
+            "pattern": {
+            	"value": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$",
+            	"message": "item.metadata.dc.rights.uri.pattern"
             }
         }
     }
