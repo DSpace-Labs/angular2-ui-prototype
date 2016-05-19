@@ -56,7 +56,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     childsections : Array<SidebarSection> = new Array<SidebarSection>(); // children of this model.
 
 
-
+    /**
+     *
+     */
     Routes : Array<Route>;
 
 
@@ -206,12 +208,17 @@ class Builder
         return this;
     }
 
-    route(name)
+
+    /**
+     *
+     * @param name
+     * @param params
+     * @returns {Builder}
+     */
+    route(name, params?)
     {
-
-        let childRoute = new Route(name);
+        let childRoute = new Route(name,params);
         this.section.Routes.push(childRoute);
-
         return this;
     }
 
@@ -225,12 +232,23 @@ class Builder
     }
 }
 
+/**
+ *
+ */
+class Route
+{
 
-class Route{
-
-    constructor(public name : string){
-
+    /**
+     *
+     * @param name
+     * @param params
+     */
+    constructor(public name : string, params?)
+    {
+        if(params!=null)
+        {
+            this.params = params;
+        }
     }
     params : any[];
-    primary:boolean = false;
 }

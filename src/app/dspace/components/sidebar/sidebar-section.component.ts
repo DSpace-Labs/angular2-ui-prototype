@@ -71,7 +71,7 @@ export class SidebarSectionComponent implements OnInit
 
 
     /**
-     *
+     * Returns the parameters for the router.
      * @returns {Array}
      */
     getAllParams()
@@ -80,10 +80,12 @@ export class SidebarSectionComponent implements OnInit
         this.sidebarcomponent.Routes.forEach(route =>
         {
             routes.push(route.name);
-            if(route.params!=null)routes.push(route.params);
+            if(route.params!=null)
+            {
+                routes.push(route.params);
+            }
         });
 
-        routes.push("Home");
         return routes;
     }
 
