@@ -39,7 +39,7 @@ export class CollectionSidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("Home")
+            .route("CollectionEdit",{id: this.collection.id})
             .build();
 
         let collectionSection = SidebarSection.getBuilder()

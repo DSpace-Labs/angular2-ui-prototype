@@ -34,7 +34,7 @@ export class ItemSidebarHelper
     {
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
-            .route("Home")
+            .route("ItemEdit",{id:this.item.id})
             .build();
         let viewItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.view")

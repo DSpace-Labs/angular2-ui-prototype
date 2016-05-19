@@ -105,6 +105,9 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
         { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent },
         { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent },
 
+        { path : "/collections/:id/edit", name : "CollectionEdit", component : CommunityCreateComponent},
+        { path : "/items/:id/edit", name : "ItemEdit", component : ItemCreateComponent},
+
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
