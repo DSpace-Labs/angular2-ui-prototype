@@ -1,4 +1,4 @@
-import { 
+import {
     Component,
     EventEmitter,
     Input,
@@ -6,17 +6,17 @@ import {
 } from '@angular/core';
 
 /**
- * 
+ *
  */
 @Component({
     selector: 'item-bitstream-add',
-    template: ` 
+    template: `
                 <hr>
-                <label>Bitstreams</label>                        
+                <label for="file-upload">Files</label>
                 <div class="row">
                     <div class="col-md-11 col-xs-10">
                         <span class="btn btn-primary btn-file">
-                            Add Bitstream <input type="file" (change)="addBitstream($event)"/>
+                            Add File <input id="file-upload" type="file" (change)="addBitstream($event)"/>
                         </span>
                     </div>
                 </div>
@@ -54,29 +54,27 @@ export class ItemBitstreamAddComponent {
     @Input("files") private files: Array<any>;
 
     /**
-     * 
+     *
      */
     @Output('addBitstreamEmitter') addBitstreamEmitter: EventEmitter<any> = new EventEmitter<any>();
-  
+
     /**
-     * 
+     *
      */
     @Output('removeBitstreamEmitter') removeBitstreamEmitter: EventEmitter<any> = new EventEmitter<any>();
 
     /**
-     * 
+     *
      */
     private addBitstream(event: any): void {
         this.addBitstreamEmitter.next(event);
     }
 
     /**
-     * 
+     *
      */
     private removeBitstream(file: any): void {
         this.removeBitstreamEmitter.next(file);
     }
 
 }
-
-                       

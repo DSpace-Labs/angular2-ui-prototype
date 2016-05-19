@@ -1,4 +1,4 @@
-import { 
+import {
     Component,
     EventEmitter,
     Input,
@@ -13,7 +13,9 @@ import { FormValidationMessageComponent } from '../../utilities/form/form-valida
 import { FormInput } from '../../utilities/form/form-input.model';
 
 /**
- * Form modal. ng-content brings in the actual form.
+ * Item Metadata Input fields component.
+ * This component displays all metadata input fields based on the configured list
+ * of metadatumInputs.
  */
 @Component({
     selector: 'item-metadata-input',
@@ -24,18 +26,23 @@ import { FormInput } from '../../utilities/form/form-input.model';
                 <label>Metadata</label>
                 <table class="table table-striped">
                     <tbody>
+                        <!-- Create a new row per metadata field -->
                         <tr *ngFor="let input of metadatumInputs">
                             <td>
+                                <!-- Label / header for this field -->
                                 <div class="row">
                                     <div class="col-md-11 col-xs-10">
-                                        <label>{{ input.gloss }}</label>
+                                        <!-- For accessibility, ensure label references input ID via "for" attribute -->
+                                        <label [attr.for]="input.id">{{ input.gloss }}</label>
                                         <span class="text-danger" *ngIf="required(input)">*required</span>
-                                        <label class="pull-right">{{ input.key }}</label>
+                                        <label class="pull-right text-muted" [attr.for]="input.id">{{ input.key }}</label>
                                     </div>
                                 </div>
+                                <!-- Field input -->
                                 <div class="row">
                                     <div class="col-md-11 col-xs-10">
                                         <fieldset class="form-group" [class.has-error]="hasError(input)">
+                                            <!-- Based on the *type* of field, display the appropriate input type (e.g. checkbox, text, date, textarea, etc) -->
                                             <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                                             <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                                             <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
@@ -46,6 +53,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
                                             <form-validation-message [form]="form" [input]="input"></form-validation-message>
                                         </fieldset>
                                     </div>
+                                    <!-- If this field is repeatable, add a plus symbol which can be used to add more values -->
                                     <div class="col-xs-1" *ngIf="input.repeatable">
                                         <span *ngIf="!repeat(input)" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
                                         <span *ngIf="repeat(input)" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
@@ -70,24 +78,24 @@ export class ItemMetadataInputComponent {
     @Input("metadatumInputs") private metadatumInputs: Array<FormInput>;
 
     /**
-     * 
+     *
      */
     @Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
-  
+
     /**
-     * 
+     *
      */
     @Output('removeMetadatumInputEmitter') removeMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
     /**
-     * 
+     *
      */
     private addMetadatumInput(input: FormInput): void {
         this.addMetadatumInputEmitter.next(input);
     }
 
     /**
-     * 
+     *
      */
     private removeMetadatumInput(input: FormInput): void {
         this.removeMetadatumInputEmitter.next(input);

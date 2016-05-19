@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'view-element',
     template: `
-                <div id="simple-view-element">
+                <div class="simple-view-element">
                     <h3 *ngIf="header">{{ header }}</h3>
                     <ng-content></ng-content>
                 </div>
@@ -19,7 +19,7 @@ import { Component, Input } from '@angular/core';
 export class ViewElementComponent {
 
     /**
-     * 
+     *
      */
     @Input() private header: string;
 

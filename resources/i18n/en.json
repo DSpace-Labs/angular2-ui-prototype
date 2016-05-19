@@ -1,4 +1,37 @@
 {
+    "collection.name.required": "Collection name is required.",
+    "collection.name.minLength": "Collection name must have at least 4 characters.",
+    "collection.name.maxLength": "Collection name must have at most 128 characters.",
+
+    "collection.shortDescription.required": "Collection short description is required.",
+    "collection.shortDescription.minLength": "Collection short description must have at least 8 characters.",
+    "collection.shortDescription.maxLength": "Collection short description must have at most 1024 characters.",
+
+    "collection.create.processing": "Collection {{name}} is being created. Please wait.",
+    "collection.create.success": "Collection {{name}} was created successfully.",
+    "collection.create.error": "Error creating collection {{name}}.",
+
+    "community.recent-submissions": "Show recent submissions",
+
+    "community.name.required": "Community name is required.",
+    "community.name.minLength": "Community name must have at least 4 characters.",
+    "community.name.maxLength": "Community name must have at most 128 characters.",
+
+    "community.shortDescription.required": "Community short description is required.",
+    "community.shortDescription.minLength": "Community short description must have at least 8 characters.",
+    "community.shortDescription.maxLength": "Community short description must have at most 1024 characters.",
+
+    "community.create.processing": "Community {{name}} is being created. Please wait.",
+    "community.create.success": "Community {{name}} was created sucessfully.",
+    "community.create.error": "Error creating community {{name}}.",
+
+    "context.create-community": "Create Community",
+    "context.create-collection": "Create Collection",
+    "context.create-item": "Create Item",
+    "context.edit-item": "Edit Item",
+
+    "dashboard.recent-submissions": "Show recent submissions",
+
     "header.repository-name": "Angular 2 DSpace UI Prototype",
     "header.home": "Home",
     "header.dashboard": "Dashboard",
@@ -8,34 +41,56 @@
 
     "home.title": "Home",
     "home.welcome1": "Hello, World!",
-    "home.welcome2": "This is server side templated",
-    "home.welcome3": "SEO and javascript",
-
-    "login.title": "Login",
-    "login.confirm": "Login",
-    "login.cancel": "Cancel",
-    "login.email.pattern": "Invalid email",
-    "login.email.required": "Email is required",
-    "login.password.minLength": "Password must have at least 6 characters",
-    "login.password.maxLength": "Password must have at most 128 characters",
-    "login.password.required": "Password is required",
-    "login.unauthorized": "Incorrect email or password",
-
-    "register.title": "Register",
-
-    "context.create-community": "Create Community",
-    "context.create-collection": "Create Collection",
-    "context.create-item": "Create Item",
-    "context.edit-item": "Edit Item",
+    "home.welcome2": "This is server side rendered",
+    "home.welcome3": "SEO + javascript",
 
     "item.key": "Key",
     "item.value": "Value",
     "item.language": "Language",
     "item.metadata-number-indicator": "#",
 
-    "settings.title": "Settings",
+    "item.metadata.dc.contributor.author.required": "Author is required.",
+    "item.metadata.dc.contributor.author.minLength": "Author must have at least 4 characters.",
+    "item.metadata.dc.contributor.author.maxLength": "Author must have at most 128 characters.",
 
-    "setup.title": "Setup",
+    "item.metadata.dc.date.issued.required": "Date is required.",
+
+    "item.metadata.dc.description.required": "Description is required.",
+    "item.metadata.dc.description.minLength": "Description must have at least 8 characters.",
+    "item.metadata.dc.description.maxLength": "Description must have at most 512 characters.",
+
+    "item.metadata.dc.description.abstract.required": "Abstract is required.",
+    "item.metadata.dc.description.abstract.minLength": "Abstract must have at least 16 characters.",
+    "item.metadata.dc.description.abstract.maxLength": "Abstract must have at most 2056 characters.",
+
+    "item.metadata.dc.language.iso.required": "Language is required.",
+
+    "item.metadata.dc.publisher.required": "Publisher is required.",
+
+    "item.metadata.dc.rights.required": "Rights statement is required.",
+    "item.metadata.dc.rights.minLength": "Rights statement must have at least 4 characters.",
+    "item.metadata.dc.rights.maxLength": "Rights statement must have at most 128 characters.",
+
+    "item.metadata.dc.rights.uri.required": "Rights URI is required.",
+    "item.metadata.dc.rights.uri.minLength": "Rights URI must have at least 4 characters.",
+    "item.metadata.dc.rights.uri.maxLength": "Rights URI must have at most 512 characters.",
+    "item.metadata.dc.rights.uri.pattern": "Rights URI must be a FQDN.",
+
+    "item.metadata.dc.subject.required": "Subject is required.",
+    "item.metadata.dc.subject.minLength": "Subject must have at least 4 characters.",
+    "item.metadata.dc.subject.maxLength": "Subject must have at most 128 characters.",
+
+    "item.metadata.dc.title.required": "Title is required.",
+    "item.metadata.dc.title.minLength": "Title must have at least 4 characters.",
+    "item.metadata.dc.title.maxLength": "Title must have at most 128 characters.",
+
+    "item.metadata.dc.type.required": "Type is required.",
+    "item.metadata.dc.type.minLength": "Type must have at least 3 characters.",
+    "item.metadata.dc.type.maxLength": "Type must have at most 128 characters.",
+
+    "item.create.processing": "Item {{name}} is being created. Please wait.",
+    "item.create.success": "Item {{name}} was created successfully.",
+    "item.create.error": "Error creating Item {{name}}.",
 
     "item-view.full.full-bitstreams.title": "Files in this item",
     "item-view.full.full-bitstreams.description.name": "name:",
@@ -56,79 +111,19 @@
     "item-view.show-full": "Show full item record",
     "item-view.show-simple": "Show simple item record",
 
-    "dashboard.recent-submissions": "Show recent submissions",
+    "login.title": "Login",
+    "login.confirm": "Login",
+    "login.cancel": "Cancel",
+    "login.email.pattern": "Invalid email",
+    "login.email.required": "Email is required",
+    "login.password.minLength": "Password must have at least 6 characters",
+    "login.password.maxLength": "Password must have at most 128 characters",
+    "login.password.required": "Password is required",
+    "login.unauthorized": "Incorrect email or password",
 
-    "community.recent-submissions": "Show recent submissions",
-    
-    "community.name.required": "Community name is required.",
-    "community.name.minLength": "Community name must have at least 4 characters.",
-    "community.name.maxLength": "Community name must have at most 128 characters.",
-    
-    "community.shortDescription.required": "Community short description is required.",
-    "community.shortDescription.minLength": "Community short description must have at least 8 characters.",
-    "community.shortDescription.maxLength": "Community short description must have at most 1024 characters.",
-    
-    "community.create.processing": "Community {{name}} is being created. Please wait.",
-    "community.create.success": "Community {{name}} was created sucessfully.",
-    "community.create.error": "Error creating community {{name}}.",
+    "register.title": "Register",
 
+    "settings.title": "Settings",
 
-    "collection.name.required": "Collection name is required.",
-    "collection.name.minLength": "Collection name must have at least 4 characters.",
-    "collection.name.maxLength": "Collection name must have at most 128 characters.",
-    
-    "collection.shortDescription.required": "Collection short description is required.",
-    "collection.shortDescription.minLength": "Collection short description must have at least 8 characters.",
-    "collection.shortDescription.maxLength": "Collection short description must have at most 1024 characters.",
-    
-    "collection.create.processing": "Collection {{name}} is being created. Please wait.",
-    "collection.create.success": "Collection {{name}} was created successfully.",
-    "collection.create.error": "Error creating collection {{name}}.",
-
-
-    "item.name.required": "Item name is required.",
-    "item.name.minLength": "Item name must have at least 4 characters.",
-    "item.name.maxLength": "Item name must have at most 128 characters.",
-    
-    "item.metadata.dc.title.required": "Item metadata dc.title is required.",
-    "item.metadata.dc.title.minLength": "Item metadata dc.title must have at least 4 characters.",
-    "item.metadata.dc.title.maxLength": "Item metadata dc.title must have at most 128 characters.",
-    
-    "item.metadata.dc.type.required": "Item metadata dc.type is required.",
-    "item.metadata.dc.type.minLength": "Item metadata dc.type must have at least 3 characters.",
-    "item.metadata.dc.type.maxLength": "Item metadata dc.type must have at most 128 characters.",
-    
-    "item.metadata.dc.date.created.required": "Item metadata dc.date.created is required.",
-    
-    "item.metadata.dc.language.iso.required": "Item metadata dc.language.iso is required.",
-    
-    "item.metadata.dc.contributor.author.required": "Item metadata dc.contributor.author is required.",
-    "item.metadata.dc.contributor.author.minLength": "Item metadata dc.contributor.author must have at least 4 characters.",
-    "item.metadata.dc.contributor.author.maxLength": "Item metadata dc.contributor.author must have at most 128 characters.",
-    
-    "item.metadata.dc.description.required": "Item metadata dc.description is required.",
-    "item.metadata.dc.description.minLength": "Item metadata dc.description must have at least 8 characters.",
-    "item.metadata.dc.description.maxLength": "Item metadata dc.description must have at most 512 characters.",
-    
-    "item.metadata.dc.description.abstract.required": "Item metadata dc.description.abstract is required.",
-    "item.metadata.dc.description.abstract.minLength": "Item metadata dc.description.abstract must have at least 16 characters.",
-    "item.metadata.dc.description.abstract.maxLength": "Item metadata dc.description.abstract must have at most 2056 characters.",
-    
-    "item.metadata.dc.subject.required": "Item metadata dc.subject is required.",
-    "item.metadata.dc.subject.minLength": "Item metadata dc.subject must have at least 4 characters.",
-    "item.metadata.dc.subject.maxLength": "Item metadata dc.subject must have at most 128 characters.",
-    
-    "item.metadata.dc.rights.required": "Item metadata dc.rights is required.",
-    "item.metadata.dc.rights.minLength": "Item metadata dc.rights must have at least 4 characters.",
-    "item.metadata.dc.rights.maxLength": "Item metadata dc.rights must have at most 128 characters.",
-    
-    "item.metadata.dc.rights.uri.required": "Item metadata dc.rights.uri is required.",
-    "item.metadata.dc.rights.uri.minLength": "Item metadata dc.rights.uri must have at least 4 characters.",
-    "item.metadata.dc.rights.uri.maxLength": "Item metadata dc.rights.uri must have at most 512 characters.",
-    "item.metadata.dc.rights.uri.pattern": "Item metadata dc.rights.uri must be a FQDN.",
-    
-    "item.create.processing": "Item {{name}} is being created. Please wait.",
-    "item.create.success": "Item {{name}} was created successfully.",
-    "item.create.error": "Error creating item {{name}}."
-
+    "setup.title": "Setup"
 }
