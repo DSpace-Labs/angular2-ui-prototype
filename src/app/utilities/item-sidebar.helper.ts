@@ -19,7 +19,7 @@ export class ItemSidebarHelper
      *
      * @param sidebarService
      */
-    constructor(private sidebarService : SidebarService)
+    constructor(private sidebarService : SidebarService, private item : Item)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -30,7 +30,7 @@ export class ItemSidebarHelper
      * Because we need some data from the item to populate the links
      * @param item
      */
-    populateSidebar(item : Item)
+    populateSidebar()
     {
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
@@ -38,7 +38,7 @@ export class ItemSidebarHelper
             .build();
         let viewItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.view")
-            .route('Items',{id:item.id})
+            .route('Items',{id:this.item.id})
             .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")

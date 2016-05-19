@@ -74,8 +74,8 @@ export class ItemComponent implements CanDeactivate {
             this.item = item;
 
             // create the sidebar-helper to create the sidebar.
-            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService);
-            this.sidebarHelper.populateSidebar(this.item);
+            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService,this.item);
+            this.sidebarHelper.populateSidebar();
         });
     }
 

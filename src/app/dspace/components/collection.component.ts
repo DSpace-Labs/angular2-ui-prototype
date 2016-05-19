@@ -59,8 +59,8 @@ export class CollectionComponent implements OnDestroy {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
-            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService);
-            this.sidebarHelper.populateSidebar(this.collection);
+            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService,this.collection);
+            this.sidebarHelper.populateSidebar();
         });
 
     }

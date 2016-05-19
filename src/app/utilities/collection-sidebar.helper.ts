@@ -19,7 +19,7 @@ export class CollectionSidebarHelper
      *
      * @param sidebarService
      */
-    constructor(private sidebarService : SidebarService)
+    constructor(private sidebarService : SidebarService, private collection : Collection)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -30,11 +30,11 @@ export class CollectionSidebarHelper
      * Because we need some data from the collection to populate the links
      * @param collection
      */
-    populateSidebar(collection : Collection)
+    populateSidebar()
     {
         let homeChildSection =  SidebarSection.getBuilder()
             .name("sidebar.context-collection.view")
-            .route("Collections",{id : collection.id})
+            .route("Collections",{id : this.collection.id})
             .build();
 
         let browseChildSection = SidebarSection.getBuilder()
