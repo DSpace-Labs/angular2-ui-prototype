@@ -5,7 +5,7 @@ import { SidebarService } from './services/sidebar.service';
 
 
 /**
- * Class to populate the sidebar on item-view pages.
+ * Class to populate the standard sidebar sidebar.
  */
 export class AppSidebarHelper
 {

@@ -144,6 +144,7 @@
     "sidebar.item-context.view" : "View",
     "sidebar.item-context.edit" : "Edit",
     "sidebar.context-collection.header": "Collection",
-    "sidebar.context-collection.home":"This collection",
-    "sidebar.context-collection.browse" : "Browse"
+    "sidebar.context-collection.view":"View",
+    "sidebar.context-collection.browse" : "Browse",
+    "sidebar.context-collection.edit": "Edit"
 }

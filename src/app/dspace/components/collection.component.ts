@@ -29,10 +29,6 @@ import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.help
 })
 export class CollectionComponent implements OnDestroy {
 
-
-
-    sections : SidebarSection[]  =[];
-
     /**
      * An object that represents the current collection.
      */
@@ -53,6 +49,8 @@ export class CollectionComponent implements OnDestroy {
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param sidebarService
+     *      SidebarService is a singleton service to interact with the sidebar component.
      */
     constructor(private params: RouteParams, 
                 private dspace: DSpaceDirectory, 

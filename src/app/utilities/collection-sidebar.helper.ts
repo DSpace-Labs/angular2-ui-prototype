@@ -5,7 +5,7 @@ import { SidebarService } from './services/sidebar.service';
 
 
 /**
- * Class to populate the sidebar on item-view pages.
+ * Class to populate the sidebar on collection pages.
  */
 export class CollectionSidebarHelper
 {
@@ -33,12 +33,12 @@ export class CollectionSidebarHelper
     populateSidebar(collection : Collection)
     {
         let homeChildSection =  SidebarSection.getBuilder()
-            .name("sidebar.context-collection.home")
+            .name("sidebar.context-collection.view")
             .route("Collections",{id : collection.id})
             .build();
 
         let browseChildSection = SidebarSection.getBuilder()
-            .name("sidebar.context-collection.browse")
+            .name("sidebar.context-collection.edit")
             .route("Home")
             .build();
 
