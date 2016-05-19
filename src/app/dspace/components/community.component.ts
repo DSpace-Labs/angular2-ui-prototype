@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
@@ -8,6 +8,9 @@ import { ContainerHomeComponent } from "./container-home.component.ts";
 import { TreeComponent } from '../../navigation/components/tree.component';
 
 import { Community } from "../models/community.model";
+
+import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper';
+import { SidebarService } from '../../utilities/services/sidebar.service';
 
 /**
  * Community component for displaying the current community.
@@ -23,12 +26,18 @@ import { Community } from "../models/community.model";
                 </div>
               `
 })
-export class CommunityComponent {
+export class CommunityComponent implements OnDestroy {
 
     /**
      * An object that represents the current community.
      */
     private community: Community;
+
+
+    /**
+     *
+     */
+    private sidebarHelper : CommunitySidebarHelper;
 
     /**
      *
@@ -41,10 +50,14 @@ export class CommunityComponent {
      */
     constructor(private dspace: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
-                private params: RouteParams) {
+                private params: RouteParams,
+                private sidebarService : SidebarService) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             this.community = community;
             breadcrumb.visit(this.community);
+
+            this.sidebarHelper = new CommunitySidebarHelper(sidebarService,this.community);
+            this.sidebarHelper.populateSidebar();
         });
     }
 
@@ -60,6 +73,15 @@ export class CommunityComponent {
      */
     private subCommunitiesAndCollections(community: any): Array<any> {
         return community.subcommunities.concat(community.collections);
+    }
+
+
+    /**
+     *
+     */
+    ngOnDestroy()
+    {
+        this.sidebarHelper.removeSections();
     }
 
 }

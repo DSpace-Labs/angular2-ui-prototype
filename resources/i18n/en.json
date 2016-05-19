@@ -146,5 +146,8 @@
     "sidebar.context-collection.header": "Collection",
     "sidebar.context-collection.view":"View",
     "sidebar.context-collection.browse" : "Browse",
-    "sidebar.context-collection.edit": "Edit"
+    "sidebar.context-collection.edit": "Edit",
+    "sidebar.context-community.header": "Community",
+    "sidebar.context-community.edit": "Edit",
+    "sidebar.context-community.view": "View"
 }

@@ -107,6 +107,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 
         { path : "/collections/:id/edit", name : "CollectionEdit", component : CommunityCreateComponent},
         { path : "/items/:id/edit", name : "ItemEdit", component : ItemCreateComponent},
+        { path : "/communities/:id/edit", name : "CommunityEdit", component : ItemCreateComponent},
 
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
