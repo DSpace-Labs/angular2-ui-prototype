@@ -31,9 +31,6 @@ export class AppSidebarHelper
      */
     populateSidebar(userObservable : any)
     {
-
-
-
         let aboutComponent = SidebarSection.getBuilder()
             .name("About")
             .route("Home")

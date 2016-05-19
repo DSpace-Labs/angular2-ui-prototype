@@ -39,7 +39,7 @@ export class ItemSidebarHelper
         let viewItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.view")
             .route('Items')
-            .routeid(item.id)
+            //.routeid(item.id)
             .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")

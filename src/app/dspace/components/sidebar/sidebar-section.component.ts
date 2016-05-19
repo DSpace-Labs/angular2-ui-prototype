@@ -18,16 +18,21 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
         `
             <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
 
-            <!-- if this component has children we want to render it differently -->
+            <!-- if this component has children we want to render it w/o a link -->
                 <div *ngIf="!hasRoute()" class="panel-heading">
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
 
+                <div id="test">
+                    <a [routerLink]="getAllParams()">Testing the router</a>
+                </div>
+
+<!--
                 <div *ngIf="hasRoute()">
                     <a *ngIf="!hasParams()" [routerLink]="[sidebarcomponent.route]">{{ sidebarcomponent.componentName | translate }}</a>
                     <a *ngIf="hasParams()" [routerLink]="[sidebarcomponent.route,{id:sidebarcomponent.routeid}]">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
-
+-->
 
 
                 <!-- render the children of this component -->
@@ -42,6 +47,8 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
         `
 })
 
+
+
 export class SidebarSectionComponent implements OnInit
 {
 
@@ -55,9 +62,31 @@ export class SidebarSectionComponent implements OnInit
      */
     children : Array<SidebarSection>;
 
+    /**
+     *
+     */
     constructor()
     {
     }
+
+
+    /**
+     *
+     * @returns {Array}
+     */
+    getAllParams()
+    {
+        let routes = [];
+        this.sidebarcomponent.Routes.forEach(route =>
+        {
+            routes.push(route.name);
+            if(route.params!=null)routes.push(route.params);
+        });
+
+        routes.push("Home");
+        return routes;
+    }
+
 
     /**
      *
@@ -67,10 +96,6 @@ export class SidebarSectionComponent implements OnInit
         this.children = this.sidebarcomponent.childsections;
     }
 
-    // ngOnChanges()
-    // {
-    //     console.log("running changes");
-    // }
 
     /**
      *
@@ -87,7 +112,7 @@ export class SidebarSectionComponent implements OnInit
      */
     hasRoute() : boolean
     {
-        return ObjectUtil.hasValue(this.sidebarcomponent.route);
+        return false;
     }
 
     /**
@@ -96,7 +121,7 @@ export class SidebarSectionComponent implements OnInit
      */
     hasParams() : boolean
     {
-        return ObjectUtil.hasValue(this.sidebarcomponent.routeid);
+        return false;
     }
 
 }

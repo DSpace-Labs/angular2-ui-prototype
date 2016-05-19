@@ -48,18 +48,6 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     visibilityObserver : any;
 
 
-    /**
-     * The route of this component as it appears in the router
-     * If this does not match the name in the router, Angular2 will throw an error.
-     */
-    route: string = null;
-
-
-    /**
-     *
-     */
-    routeid : number = null;
-
 
     /**
      * The childsections this section contains
@@ -69,12 +57,15 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 
 
+    Routes : Array<Route>;
+
 
     /**
      *
      */
     constructor()
     {
+        this.Routes = new Array<Route>()
     }
 
 
@@ -188,17 +179,6 @@ class Builder
     }
 
 
-    /**
-     *
-     * @param name
-     * @param url
-     * @returns {Builder}
-     */
-    route(route : string) : Builder
-    {
-        this.section.route = route;
-        return this;
-    }
 
     /**
      *
@@ -211,16 +191,6 @@ class Builder
         return this;
     }
 
-    /**
-     *
-     * @param id
-     * @returns {Builder}
-     */
-    routeid(id : number) : Builder
-    {
-        this.section.routeid = id;
-        return this;
-    }
 
     /**
      *
@@ -236,6 +206,15 @@ class Builder
         return this;
     }
 
+    route(name)
+    {
+
+        let childRoute = new Route(name);
+        this.section.Routes.push(childRoute);
+
+        return this;
+    }
+
     /**
      *
      * @returns {SidebarSection}
@@ -244,4 +223,14 @@ class Builder
     {
         return this.section;
     }
+}
+
+
+class Route{
+
+    constructor(public name : string){
+
+    }
+    params : any[];
+    primary:boolean = false;
 }
