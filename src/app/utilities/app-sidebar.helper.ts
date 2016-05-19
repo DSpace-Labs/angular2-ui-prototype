@@ -43,7 +43,7 @@ export class AppSidebarHelper
         let helpComponent = SidebarSection.getBuilder()
             .name("sidebar.help.header")
             .id("helpheader")
-            .index(0)
+            .index(100)
             .addChild(aboutComponent)
             .build();
         this.sidebarService.addSection(helpComponent);

@@ -32,13 +32,13 @@ export class CollectionSidebarHelper
      */
     populateSidebar(collection : Collection)
     {
-        let collectionhome =  SidebarSection.getBuilder()
+        let homeChildSection =  SidebarSection.getBuilder()
             .name("sidebar.context-collection.home")
             .routeid(collection.id)
             .route("Collections")
             .build();
 
-        let browseComponent = SidebarSection.getBuilder()
+        let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.browse")
             .route("Home")
             .build();
@@ -46,8 +46,8 @@ export class CollectionSidebarHelper
         let collectionSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
-            .addChild(collectionhome)
-            .addChild(browseComponent)
+            .addChild(homeChildSection)
+            .addChild(browseChildSection)
             .build();
         this.sidebarService.addSection(collectionSection);
         this.sections.push(collectionSection);

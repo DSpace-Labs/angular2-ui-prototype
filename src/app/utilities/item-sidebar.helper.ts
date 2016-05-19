@@ -32,9 +32,22 @@ export class ItemSidebarHelper
      */
     populateSidebar(item : Item)
     {
-        let editSection = SidebarSection.getBuilder().name("sidebar.item-context.edit").route("Home").build();
-        let viewSection = SidebarSection.getBuilder().name("sidebar.item-context.view").route("Home").routeid(item.id).build();
-        let itemSection = SidebarSection.getBuilder().name("sidebar.item-context.header").addChild(viewSection).addChild(editSection).id("itemsidebar").index(2).build();
+        let editItemChildSection = SidebarSection.getBuilder()
+            .name("sidebar.item-context.edit")
+            .route("Home")
+            .build();
+        let viewItemChildSection = SidebarSection.getBuilder()
+            .name("sidebar.item-context.view")
+            .route('Items')
+            .routeid(item.id)
+            .build();
+        let itemSection = SidebarSection.getBuilder()
+            .name("sidebar.item-context.header")
+            .addChild(viewItemChildSection)
+            .addChild(editItemChildSection)
+            .id("itemsidebar")
+            .index(2)
+            .build();
         this.sections.push(itemSection);
         this.sidebarService.addSection(itemSection);
     }

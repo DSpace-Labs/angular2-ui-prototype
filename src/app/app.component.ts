@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
@@ -12,7 +12,6 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
-import { ContextComponent } from './navigation/components/context.component';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
@@ -26,7 +25,6 @@ import { SetupComponent } from './setup.component';
 
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 import { SidebarService } from './utilities/services/sidebar.service';
-import { SidebarSection } from './dspace/models/sidebar-section.model';
 
 import { User } from './dspace/models/user.model';
 
@@ -42,7 +40,6 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
     directives: [ ROUTER_DIRECTIVES,
                   CollapseDirective,
                   BreadcrumbComponent,
-                  ContextComponent,
                   LoginModalComponent,
                   NotificationComponent, SidebarComponent
                 ],
@@ -80,7 +77,6 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 <breadcrumb></breadcrumb>
                 <div class="container">
                     <div class="col-md-4">
-                        <context></context>
                         <sidebar></sidebar>
                     </div>
                     <div class="col-md-8">

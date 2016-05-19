@@ -67,10 +67,10 @@ export class SidebarSectionComponent implements OnInit
         this.children = this.sidebarcomponent.childsections;
     }
 
-    ngOnChanges()
-    {
-        console.log("running changes");
-    }
+    // ngOnChanges()
+    // {
+    //     console.log("running changes");
+    // }
 
     /**
      *
