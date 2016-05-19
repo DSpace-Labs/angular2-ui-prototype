@@ -11,7 +11,6 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
  */
 @Component({
     selector: "sidebar-section",
-    inputs: ["sidebarcomponent"],
     pipes: [TranslatePipe],
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
@@ -48,7 +47,7 @@ export class SidebarSectionComponent implements OnInit
     /**
      *
      */
-    sidebarcomponent : SidebarSection;
+    @Input() private sidebarcomponent : SidebarSection;
 
     /**
      *

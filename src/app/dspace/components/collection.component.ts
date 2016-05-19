@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceDirectory } from '../dspace.directory';
@@ -27,7 +27,7 @@ import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.help
                 </div>
               `
 })
-export class CollectionComponent {
+export class CollectionComponent implements OnDestroy {
 
 
 

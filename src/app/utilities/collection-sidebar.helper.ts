@@ -34,7 +34,6 @@ export class CollectionSidebarHelper
     {
         let homeChildSection =  SidebarSection.getBuilder()
             .name("sidebar.context-collection.home")
-            //.routeid(collection.id)
             .route("Collections",{id : collection.id})
             .build();
 
