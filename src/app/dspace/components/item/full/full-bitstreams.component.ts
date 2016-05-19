@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import {Item} from '../../../models/item.model';
-import {Bitstream} from '../../../models/bitstream.model';
-import {ViewElementComponent} from '../view-element.component';
-import {ThumbnailComponent} from '../thumbnail.component';
+import { Item } from '../../../models/item.model';
+import { Bitstream } from '../../../models/bitstream.model';
+import { ViewElementComponent } from '../view-element.component';
+import { ThumbnailComponent } from '../thumbnail.component';
 
 import { ArrayUtil } from '../../../../utilities/commons/array.util'
 

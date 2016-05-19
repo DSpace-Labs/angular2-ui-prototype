@@ -1,10 +1,10 @@
-import {DSOContainer} from "./dso-container.model";
-import {Bitstream}from './bitstream.model';
-import {Metadatum}from './metadatum.model';
-import {Collection}from './collection.model';
-import {ObjectUtil} from "../../utilities/commons/object.util";
-import {ArrayUtil} from "../../utilities/commons/array.util";
-import {URLHelper} from "../../utilities/url.helper";
+import { DSOContainer } from "./dso-container.model";
+import { Bitstream } from './bitstream.model';
+import { Metadatum } from './metadatum.model';
+import { Collection } from './collection.model';
+import { ObjectUtil } from "../../utilities/commons/object.util";
+import { ArrayUtil } from "../../utilities/commons/array.util";
+import { URLHelper } from "../../utilities/url.helper";
 
 
 

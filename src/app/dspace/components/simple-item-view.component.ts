@@ -15,8 +15,7 @@ import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import {Metadatum} from '../models/metadatum.model';
-import {Item} from '../models/item.model';
+import { Item } from '../models/item.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
