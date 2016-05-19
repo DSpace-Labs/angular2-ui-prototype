@@ -1,6 +1,6 @@
-import {Metadatum}from './metadatum.model';
-import {MetadataHelper} from '../../utilities/metadata.helper';
-import {ArrayUtil} from '../../utilities/commons/array.util';
+import { Metadatum } from './metadatum.model';
+import { MetadataHelper } from '../../utilities/metadata.helper';
+import { ArrayUtil } from '../../utilities/commons/array.util';
 
 
 /**

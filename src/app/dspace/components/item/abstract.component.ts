@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 
-import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {ViewComponent} from '../../models/viewcomponent.model'
-import {MetadataHelper} from '../../../utilities/metadata.helper';
-import {Metadatum} from '../../models/metadatum.model'
-import {ViewElementComponent} from './view-element.component';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { ViewComponent } from '../../models/viewcomponent.model'
+import { MetadataHelper } from '../../../utilities/metadata.helper';
+import { Metadatum } from '../../models/metadatum.model'
+import { ViewElementComponent } from './view-element.component';
 
 /**
  * Component for the authors of the simple-item-view.
