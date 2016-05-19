@@ -23,16 +23,9 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
 
-                <div id="test">
-                    <a [routerLink]="getAllParams()">Testing the router</a>
-                </div>
-
-<!--
                 <div *ngIf="hasRoute()">
-                    <a *ngIf="!hasParams()" [routerLink]="[sidebarcomponent.route]">{{ sidebarcomponent.componentName | translate }}</a>
-                    <a *ngIf="hasParams()" [routerLink]="[sidebarcomponent.route,{id:sidebarcomponent.routeid}]">{{ sidebarcomponent.componentName | translate }}</a>
+                    <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
--->
 
 
                 <!-- render the children of this component -->
@@ -85,7 +78,6 @@ export class SidebarSectionComponent implements OnInit
                 routes.push(route.params);
             }
         });
-
         return routes;
     }
 
@@ -114,7 +106,7 @@ export class SidebarSectionComponent implements OnInit
      */
     hasRoute() : boolean
     {
-        return false;
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes);
     }
 
     /**
