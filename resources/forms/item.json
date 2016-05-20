@@ -75,95 +75,118 @@
         "options": [
             {
                 "gloss": "(not specified)",
-                "value": ""
+                "value": null,
+                "form": "item"
             },
             {
                 "gloss": "Animation",
-                "value": "Animation"
+                "value": "Animation",
+                "form": "types/animation"
             },
             {
                 "gloss": "Article",
-                "value": "Article"
+                "value": "Article",
+                "form": "types/artical"
             },
             {
                 "gloss": "Book",
-                "value": "Book"
+                "value": "Book",
+                "form": "types/book"
             },
             {
                 "gloss": "Book Chapter",
-                "value": "Book Chapter"
+                "value": "Book Chapter",
+                "form": "types/book-chapter"
             },
             {
                 "gloss": "Dataset",
-                "value": "Dataset"
+                "value": "Dataset",
+                "form": "types/dataset"
             },
             {
                 "gloss": "Image",
-                "value": "Image"
+                "value": "Image",
+                "form": "types/image"
             },
             {
                 "gloss": "Image, 3-D",
-                "value": "Image, 3-D"
+                "value": "Image, 3-D",
+                "form": "types/image-3d"
             },
             {
                 "gloss": "Learning Object",
-                "value": "Learning Object"
+                "value": "Learning Object",
+                "form": "types/learning-object"
             },
             {
                 "gloss": "Map",
-                "value": "Map"
+                "value": "Map",
+                "form": "types/map"
             },
             {
                 "gloss": "Musical Score",
-                "value": "Musical Score"
+                "value": "Musical Score",
+                "form": "types/musical-score"
             },
             {
                 "gloss": "Plan or Blueprint",
-                "value": "Plan or Blueprint"
+                "value": "Plan or Blueprint",
+                "form": "types/plan-or-blueprint"
             },
             {
                 "gloss": "Preprint",
-                "value": "Preprint"
+                "value": "Preprint",
+                "form": "types/preprint"
             },
             {
                 "gloss": "Presentation",
-                "value": "Presentation"
+                "value": "Presentation",
+                "form": "types/presentation"
             },
             {
                 "gloss": "Recording, acoustical",
-                "value": "Recording, acoustical"
+                "value": "Recording, acoustical",
+                "form": "types/recording-acoustical"
             },
             {
                 "gloss": "Recording, musical",
-                "value": "Recording, musical"
+                "value": "Recording, musical",
+                "form": "types/recording-musical"
             },
             {
                 "gloss": "Recording, oral",
-                "value": "Recording, oral"
+                "value": "Recording, oral",
+                "form": "types/recording-oral"
             },
             {
                 "gloss": "Software",
-                "value": "Software"
+                "value": "Software",
+                "form": "types/software"
             },
             {
                 "gloss": "Technical Report",
-                "value": "Technical Report"
+                "value": "Technical Report",
+                "form": "types/technical-report"
             },
             {
                 "gloss": "Thesis",
-                "value": "Thesis"
+                "value": "Thesis",
+                "form": "types/thesis"
             },
             {
                 "gloss": "Video",
-                "value": "Video"
+                "value": "Video",
+                "form": "types/video"
             },
             {
                 "gloss": "Working Paper",
-                "value": "Working Paper"
+                "value": "Working Paper",
+                "key": "types/working-paper"
             },
             {
                 "gloss": "Other",
-                "value": "Other"
+                "value": "Other",
+                "form": "types/other"
             }
         ],
         "repeatable": false,
