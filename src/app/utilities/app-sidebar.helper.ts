@@ -49,13 +49,15 @@ export class AppSidebarHelper
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
-            .visible(false)
+            .visible(true)
             .visibilityObservable(userObservable)
             .build();
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")
             .route("Home")
+            .visible(true)
+            .visibilityObservable(userObservable)
             .build();
 
         let logoutComponent = SidebarSection.getBuilder()
@@ -63,6 +65,7 @@ export class AppSidebarHelper
             .route("Home")
             .id("account-logout")
             .visible(false)
+            .visibilityObservable(userObservable)
             .build();
 
         let accountComponent = SidebarSection.getBuilder()
@@ -79,7 +82,6 @@ export class AppSidebarHelper
             .route("Home")
             .build();
 
-        console.log("rebuilding submission component");
 
         let submissionComponent = SidebarSection.getBuilder()
             .name('sidebar.submissions.header')
@@ -88,7 +90,28 @@ export class AppSidebarHelper
             .visibilityObservable(userObservable)
             .addChild(createSubmissionComponent)
             .build(); // need to change this visibility depending on the authorization service
+
         this.sidebarService.addSection(submissionComponent);
+
+        let createComComponent = SidebarSection.getBuilder()
+            .name("sidebar.context-dashboard.create-community")
+            .id("createcommunity")
+            .route("Home")
+            .build();
+
+
+        let contextComponent = SidebarSection.getBuilder()
+            .name("sidebar.context-dashboard.header")
+            .id("appcontext")
+            .visible(false)
+            .visibilityObservable(userObservable)
+            .addChild(createComComponent)
+            .build();
+
+        this.sidebarService.addSection(contextComponent);
+
+        // we only push this one, because this one is the only one that needs to get deleted when we navigate away.
+        this.sections.push(contextComponent);
     }
 
 
@@ -97,6 +120,9 @@ export class AppSidebarHelper
      */
     removeSections()
     {
+        console.log("running the remove..");
         this.sections.forEach(section => this.sidebarService.removeSection(section));
     }
+
+
 }

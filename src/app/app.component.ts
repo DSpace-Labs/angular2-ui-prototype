@@ -12,6 +12,7 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
+import { ContextComponent } from './navigation/components/context.component';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
@@ -40,8 +41,10 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
     directives: [ ROUTER_DIRECTIVES,
                   CollapseDirective,
                   BreadcrumbComponent,
+                  ContextComponent,
                   LoginModalComponent,
-                  NotificationComponent, SidebarComponent
+                  NotificationComponent,
+                  SidebarComponent
                 ],
     
     pipes: [ TranslatePipe ],
@@ -77,6 +80,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 <breadcrumb></breadcrumb>
                 <div class="container">
                     <div class="col-md-4">
+                    <context></context>
                         <sidebar></sidebar>
                     </div>
                     <div class="col-md-8">
@@ -166,7 +170,7 @@ export class AppComponent implements OnInit {
     /**
      * Method provided by Angular2. Invoked after the constructor.
      */
-    ngOnInit() {
+    ngOnInit(){
         this.dspace.loadDirectory();
         this.sidebarHelper = new AppSidebarHelper(this.sidebarService);
         this.sidebarHelper.populateSidebar(this.authorization.userObservable);

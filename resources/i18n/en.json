@@ -199,8 +199,13 @@
     "sidebar.context-collection.view":"View",
     "sidebar.context-collection.browse" : "Browse",
     "sidebar.context-collection.edit": "Edit",
+    "sidebar.context-collection.create-item": "Create item",
     "sidebar.context-community.header": "Community",
     "sidebar.context-community.edit": "Edit",
     "sidebar.context-community.view": "View",
+    "sidebar.context-community.create-collection": "Create collection",
+    "sidebar.context-community.create-community": "Create community",
+    "sidebar.context-dashboard.header":"Dashboard",
+    "sidebar.context-dashboard.create-community": "Create community",
     "setup.title": "Setup"
 }

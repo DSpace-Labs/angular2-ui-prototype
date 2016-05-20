@@ -42,11 +42,15 @@ export class CollectionSidebarHelper
             .route("CollectionEdit",{id: this.collection.id})
             .build();
 
+        let addItemSection = SidebarSection.getBuilder()
+            .name("sidebar.context-collection.create-item")
+            .route("Home")
+            .build();
+
         let collectionSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
-            .addChild(homeChildSection)
-            .addChild(browseChildSection)
+            .addChildren([homeChildSection,browseChildSection,addItemSection])
             .build();
         this.sidebarService.addSection(collectionSection);
         this.sections.push(collectionSection);

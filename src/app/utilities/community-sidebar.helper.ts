@@ -28,6 +28,7 @@ export class CommunitySidebarHelper
 
     /**
      * The community sidebar
+     * // They might all need an observable for the user authentication.
      */
     populateSidebar()
     {
@@ -41,11 +42,20 @@ export class CommunitySidebarHelper
             .route("CommunityEdit",{id: this.community.id})
             .build();
 
+        let createCommunity = SidebarSection.getBuilder()
+            .name("sidebar.context-community.create-community")
+            .route("Home")
+            .build();
+
+        let createCollection = SidebarSection.getBuilder()
+            .name("sidebar.context-community.create-collection")
+            .route("Home")
+            .build();
+
         let communitySection = SidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
-            .addChild(homeChildSection)
-            .addChild(browseChildSection)
+            .addChildren([homeChildSection,browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);
         this.sections.push(communitySection);
