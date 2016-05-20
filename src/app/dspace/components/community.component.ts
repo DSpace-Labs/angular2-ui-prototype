@@ -19,7 +19,7 @@ import { Community } from "../models/community.model";
     template: `
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
-                    <tree [directories]="subCommunitiesAndCollections(community)"></tree>
+                    <tree [hierarchies]="subCommunitiesAndCollections(community)"></tree>
                 </div>
               `
 })
@@ -39,7 +39,7 @@ export class CommunityComponent {
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      */
-    constructor(private dspace: DSpaceHierarchyService, 
+    constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumb: BreadcrumbService,
                 private params: RouteParams) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
