@@ -170,8 +170,8 @@ export class AppComponent implements OnInit {
      */
     ngOnInit(){
         this.dspace.loadDirectory();
-        this.sidebarHelper = new AppSidebarHelper(this.sidebarService);
-        this.sidebarHelper.populateSidebar(this.authorization.userObservable);
+        this.sidebarHelper = new AppSidebarHelper(this.sidebarService,this.authorization);
+        this.sidebarHelper.populateSidebar();
     }
 
     /**
