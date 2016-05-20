@@ -45,6 +45,11 @@ export class FormInput extends Metadatum {
     /**
      *
      */
+    hidden: boolean;
+
+    /**
+     *
+     */
     default: any;
 
     /**
@@ -65,6 +70,7 @@ export class FormInput extends Metadatum {
             this.repeatable = json.repeatable;
             this.validation = json.validation;
             this.edit = false;
+            this.hidden = false;
             this.default = json.default;
         }
     }
