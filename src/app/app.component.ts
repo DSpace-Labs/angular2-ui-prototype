@@ -137,7 +137,6 @@ export class AppComponent implements OnInit {
     private navCollapsed: boolean = true;
 
     /**
-     *
      * @param dspace
      *      DSpaceDirectory is a singleton service to interact with the dspace directory.
      * @param authorization
@@ -146,6 +145,8 @@ export class AppComponent implements OnInit {
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
+     * @param sidebarService
+     *      SidebarService is a singleton service provided by Angular2
      */
     constructor(private dspace: DSpaceDirectory,
                 private authorization: AuthorizationService,

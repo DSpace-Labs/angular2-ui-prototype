@@ -1,5 +1,6 @@
 import { Inject } from '@angular/core';
-import { SidebarSection } from '../dspace/models/sidebar-section.model';
+import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
+import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
 import { Community } from '../dspace/models/community.model';
 import { SidebarService } from './services/sidebar.service';
 
@@ -45,31 +46,31 @@ export class CommunitySidebarHelper
         {
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
-        let homeChildSection =  SidebarSection.getBuilder()
+        let homeChildSection =  RouteSidebarSection.getBuilder()
             .name("sidebar.context-community.view")
             .route("Communities",{id : this.community.id})
             .build();
 
-        let browseChildSection = SidebarSection.getBuilder()
+        let browseChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("CommunityEdit",{id: this.community.id})
             .build();
 
-        let createCommunity = SidebarSection.getBuilder()
+        let createCommunity = RouteSidebarSection.getBuilder()
             .name("sidebar.context-community.create-community")
             .route("CommunityCreate")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let createCollection = SidebarSection.getBuilder()
+        let createCollection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-community.create-collection")
             .route("CollectionCreate")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let communitySection = SidebarSection.getBuilder()
+        let communitySection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
             .addChildren([homeChildSection,browseChildSection,createCollection,createCommunity])

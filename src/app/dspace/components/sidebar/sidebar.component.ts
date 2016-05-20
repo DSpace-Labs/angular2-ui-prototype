@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
 
 import { ContextProviderService } from '../../../dspace/services/context-provider.service';
 import {SidebarService} from '../../../utilities/services/sidebar.service.ts';
-import {SidebarSection} from '../../models/sidebar-section.model';
+import {SidebarSection} from '../../models/sidebar/sidebar-section.model';
 import {SidebarSectionComponent} from './sidebar-section.component';
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.

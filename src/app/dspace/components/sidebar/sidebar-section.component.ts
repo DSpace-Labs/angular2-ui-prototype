@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
-import { SidebarSection} from '../../models/sidebar-section.model';
+import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
+import { RouteSidebarSection } from '../../models/sidebar/routesidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
@@ -69,15 +70,19 @@ export class SidebarSectionComponent implements OnInit
     getAllParams()
     {
         let routes = [];
-        this.sidebarcomponent.Routes.forEach(route =>
-        {
-            routes.push(route.name);
-            if(route.params!=null)
+        if(this.sidebarcomponent instanceof RouteSidebarSection){
+            let routesidebarsection = this.sidebarcomponent as RouteSidebarSection;
+            routesidebarsection.Routes.forEach(route =>
             {
-                routes.push(route.params);
-            }
-        });
-        return routes;
+                routes.push(route.name);
+                if(route.params!=null)
+                {
+                    routes.push(route.params);
+                }
+            });
+            return routes;
+        }
+        return null; // well we want to return something else here.
     }
 
 
@@ -110,7 +115,12 @@ export class SidebarSectionComponent implements OnInit
      */
     hasRoute() : boolean
     {
-        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes);
+        if(this.sidebarcomponent instanceof RouteSidebarSection)
+        {
+            let routesidebar = this.sidebarcomponent as RouteSidebarSection;
+            return ArrayUtil.isNotEmpty(routesidebar.Routes);
+        }
+        return false;
     }
 
     /**

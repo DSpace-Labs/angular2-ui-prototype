@@ -20,7 +20,7 @@ import { FullItemViewComponent } from './full-item-view.component';
 
 import { Item } from "../models/item.model";
 
-import { SidebarSection } from '../models/sidebar-section.model';
+import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
 import { AuthorizationService } from '../authorization/services/authorization.service';

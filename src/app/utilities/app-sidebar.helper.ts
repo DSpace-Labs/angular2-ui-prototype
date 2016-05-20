@@ -1,8 +1,8 @@
 import { Inject } from '@angular/core';
-import { SidebarSection } from '../dspace/models/sidebar-section.model';
+import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
-
+import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
 
 /**
  * Class to populate the standard sidebar sidebar.
@@ -44,13 +44,13 @@ export class AppSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
-        let aboutComponent = SidebarSection.getBuilder()
+        let aboutComponent = RouteSidebarSection.getBuilder()
             .name("About")
             .route("Home")
             .id("about")
             .build();
 
-        let helpComponent = SidebarSection.getBuilder()
+        let helpComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.help.header")
             .id("helpheader")
             .index(100)
@@ -58,21 +58,21 @@ export class AppSidebarHelper
             .build();
         this.sidebarService.addSection(helpComponent);
 
-        let loginComponent = SidebarSection.getBuilder()
+        let loginComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
             .visible(true)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let registerComponent = SidebarSection.getBuilder()
+        let registerComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.register")
             .route("Home")
             .visible(true)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let logoutComponent = SidebarSection.getBuilder()
+        let logoutComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.logout")
             .route("Home")
             .id("account-logout")
@@ -80,7 +80,7 @@ export class AppSidebarHelper
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let accountComponent = SidebarSection.getBuilder()
+        let accountComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.header")
             .addChildren([loginComponent,registerComponent,logoutComponent])
             .id("my-account")
@@ -89,13 +89,13 @@ export class AppSidebarHelper
         this.sidebarService.addSection(accountComponent);
 
         // build submissions
-        let createSubmissionComponent = SidebarSection.getBuilder()
+        let createSubmissionComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.submissions.submit")
             .route("Home")
             .build();
 
 
-        let submissionComponent = SidebarSection.getBuilder()
+        let submissionComponent = RouteSidebarSection.getBuilder()
             .name('sidebar.submissions.header')
             .id('submissions')
             .visible(false)
@@ -105,14 +105,14 @@ export class AppSidebarHelper
 
         this.sidebarService.addSection(submissionComponent);
 
-        let createComComponent = SidebarSection.getBuilder()
+        let createComComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.context-dashboard.create-community")
             .id("createcommunity")
             .route("CommunityCreate")
             .build();
 
 
-        let contextComponent = SidebarSection.getBuilder()
+        let contextComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.context-dashboard.header")
             .id("appcontext")
             .visible(false)

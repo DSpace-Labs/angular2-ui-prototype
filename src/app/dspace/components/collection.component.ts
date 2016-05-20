@@ -10,7 +10,7 @@ import { ItemListComponent } from './item-list.component';
 import { Collection } from "../models/collection.model";
 
 import { SidebarService } from '../../utilities/services/sidebar.service';
-import { SidebarSection } from '../models/sidebar-section.model';
+import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.helper';
 
 import { AuthorizationService } from '../authorization/services/authorization.service';

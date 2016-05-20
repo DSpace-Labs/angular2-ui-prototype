@@ -1,5 +1,6 @@
 import { Inject } from '@angular/core';
-import { SidebarSection } from '../dspace/models/sidebar-section.model';
+import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
+import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
 import { Item } from '../dspace/models/item.model';
 import { SidebarService } from './services/sidebar.service';
 
@@ -48,17 +49,17 @@ export class ItemSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
-        let editItemChildSection = SidebarSection.getBuilder()
+        let editItemChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
             .route("ItemEdit",{id:this.item.id}) // does not exist yet.
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
-        let viewItemChildSection = SidebarSection.getBuilder()
+        let viewItemChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.item-context.view")
             .route('Items',{id:this.item.id})
             .build();
-        let itemSection = SidebarSection.getBuilder()
+        let itemSection = RouteSidebarSection.getBuilder()
             .name("sidebar.item-context.header")
             .addChild(viewItemChildSection)
             .addChild(editItemChildSection)

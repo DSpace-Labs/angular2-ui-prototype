@@ -1,5 +1,6 @@
 import { Inject } from '@angular/core';
-import { SidebarSection } from '../dspace/models/sidebar-section.model';
+import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
+import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
 
@@ -45,26 +46,26 @@ export class CollectionSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
-        let homeChildSection =  SidebarSection.getBuilder()
+        let homeChildSection =  RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.view")
             .route("Collections",{id : this.collection.id})
             .build();
 
-        let browseChildSection = SidebarSection.getBuilder()
+        let browseChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("CollectionEdit",{id: this.collection.id})
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build()
 
-        let addItemSection = SidebarSection.getBuilder()
+        let addItemSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.create-item")
             .route("ItemCreate")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let collectionSection = SidebarSection.getBuilder()
+        let collectionSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
             .addChildren([homeChildSection,browseChildSection,addItemSection])
