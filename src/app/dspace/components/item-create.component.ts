@@ -44,7 +44,7 @@ import { Metadatum } from '../models/metadatum.model';
     template: `
                 <h3>Create Item</h3>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
-                
+
                 <!-- select to change form to a given type, which loads a new form -->                
                 <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
                     <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
@@ -77,7 +77,7 @@ export class ItemCreateComponent extends FormSecureComponent {
         "value": "",
         "form": "item"
     };
-    
+
     /**
      * Type input from the initial item.json
      */
@@ -315,19 +315,19 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
         });
     }
-    
+
     /**
      *
      */
     private hasTypeInput(): boolean {
         return this.typeInput ? true : false;    
     }
-    
+
     /**
      *
      */
     private typeSelected($event): void {
         this.init();
     }
-    
+
 }

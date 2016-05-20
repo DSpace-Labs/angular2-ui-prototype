@@ -7,16 +7,16 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": true,
-            	"message": "item.metadata.dc.title.required"
+                "value": true,
+                "message": "item.metadata.dc.title.required"
             },
             "minLength": {
-            	"value": 4,
-            	"message": "item.metadata.dc.title.minLength"
+                "value": 4,
+                "message": "item.metadata.dc.title.minLength"
             },
             "maxLength": {
-            	"value": 128,
-            	"message": "item.metadata.dc.title.maxLength"
+                "value": 128,
+                "message": "item.metadata.dc.title.maxLength"
             }
         }
     },
@@ -28,16 +28,16 @@
         "repeatable": true,
         "validation": {
             "required": {
-            	"value": true,
-            	"message": "item.metadata.dc.contributor.author.required"
+                "value": true,
+                "message": "item.metadata.dc.contributor.author.required"
             },
             "minLength": {
-            	"value": 4,
-            	"message": "item.metadata.dc.contributor.author.minLength"
+                "value": 4,
+                "message": "item.metadata.dc.contributor.author.minLength"
             },
             "maxLength": {
-            	"value": 128,
-            	"message": "item.metadata.dc.contributor.author.maxLength"
+                "value": 128,
+                "message": "item.metadata.dc.contributor.author.maxLength"
             }
         }
     },
@@ -49,8 +49,8 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": true,
-            	"message": "item.metadata.dc.date.issued.required"
+                "value": true,
+                "message": "item.metadata.dc.date.issued.required"
             }
         }
     },
@@ -62,8 +62,8 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.publisher.required"
+                "value": false,
+                "message": "item.metadata.dc.publisher.required"
             }
         }
     },
@@ -192,8 +192,8 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.type.required"
+                "value": false,
+                "message": "item.metadata.dc.type.required"
             }
         }
     },
@@ -251,8 +251,8 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.language.iso.required"
+                "value": false,
+                "message": "item.metadata.dc.language.iso.required"
             }
         },
         "default": ""
@@ -265,16 +265,16 @@
         "repeatable": true,
         "validation": {
             "required": {
-            	"value": true,
-            	"message": "item.metadata.dc.subject.required"
+                "value": true,
+                "message": "item.metadata.dc.subject.required"
             },
             "minLength": {
-            	"value": 4,
-            	"message": "item.metadata.dc.subject.minLength"
+                "value": 4,
+                "message": "item.metadata.dc.subject.minLength"
             },
             "maxLength": {
-            	"value": 128,
-            	"message": "item.metadata.dc.subject.maxLength"
+                "value": 128,
+                "message": "item.metadata.dc.subject.maxLength"
             }
         }
     },
@@ -286,16 +286,16 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.description.required"
+                "value": false,
+                "message": "item.metadata.dc.description.required"
             },
             "minLength": {
-            	"value": 8,
-            	"message": "item.metadata.dc.description.minLength"
+                "value": 8,
+                "message": "item.metadata.dc.description.minLength"
             },
             "maxLength": {
-            	"value": 512,
-            	"message": "item.metadata.dc.description.maxLength"
+                "value": 512,
+                "message": "item.metadata.dc.description.maxLength"
             }
         }
     },
@@ -307,16 +307,16 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": true,
-            	"message": "item.metadata.dc.description.abstract.required"
+                "value": true,
+                "message": "item.metadata.dc.description.abstract.required"
             },
             "minLength": {
-            	"value": 16,
-            	"message": "item.metadata.dc.description.abstract.minLength"
+                "value": 16,
+                "message": "item.metadata.dc.description.abstract.minLength"
             },
             "maxLength": {
-            	"value": 2056,
-            	"message": "item.metadata.dc.description.abstract.maxLength"
+                "value": 2056,
+                "message": "item.metadata.dc.description.abstract.maxLength"
             }
         }
     },
@@ -328,16 +328,16 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.rights.required"
+                "value": false,
+                "message": "item.metadata.dc.rights.required"
             },
             "minLength": {
-            	"value": 4,
-            	"message": "item.metadata.dc.rights.minLength"
+                "value": 4,
+                "message": "item.metadata.dc.rights.minLength"
             },
             "maxLength": {
-            	"value": 128,
-            	"message": "item.metadata.dc.rights.maxLength"
+                "value": 128,
+                "message": "item.metadata.dc.rights.maxLength"
             }
         }
     },
@@ -349,20 +349,20 @@
         "repeatable": false,
         "validation": {
             "required": {
-            	"value": false,
-            	"message": "item.metadata.dc.rights.uri.required"
+                "value": false,
+                "message": "item.metadata.dc.rights.uri.required"
             },
             "minLength": {
-            	"value": 4,
-            	"message": "item.metadata.dc.rights.uri.minLength"
+                "value": 4,
+                "message": "item.metadata.dc.rights.uri.minLength"
             },
             "maxLength": {
-            	"value": 512,
-            	"message": "item.metadata.dc.rights.uri.maxLength"
+                "value": 512,
+                "message": "item.metadata.dc.rights.uri.maxLength"
             },
             "pattern": {
-            	"value": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$",
-            	"message": "item.metadata.dc.rights.uri.pattern"
+                "value": "^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])(\\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]))*$",
+                "message": "item.metadata.dc.rights.uri.pattern"
             }
         }
     }
