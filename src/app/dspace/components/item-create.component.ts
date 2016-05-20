@@ -46,8 +46,8 @@ import { Metadatum } from '../models/metadatum.model';
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
                 
                 <!-- select to change form to a given type, which loads a new form -->                
-                <select *ngIf="hasTypeOptions()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
-                    <option *ngFor="let option of typeOptions" [ngValue]="option">{{ option.gloss }}</option>
+                <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
+                    <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
                 </select>
 
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
@@ -69,15 +69,19 @@ import { Metadatum } from '../models/metadatum.model';
 })
 export class ItemCreateComponent extends FormSecureComponent {
 
-    private formSelector: string = "item";
-    
+    /**
+     * Selected type from options within the initial item.json
+     */
     private selected = {
         "gloss": "(not specified)",
         "value": "",
         "form": "item"
     };
     
-    private typeOptions: Array<any>;
+    /**
+     * Type input from the initial item.json
+     */
+    private typeInput: FormInput;
     
     /**
      * Metadata input fields.
@@ -141,8 +145,11 @@ export class ItemCreateComponent extends FormSecureComponent {
             for(let input of this.metadatumInputs) {
                 input.value = input.default ? input.default : '';
                 if(input.key == 'dc.type') {
-                    this.typeOptions = input.options;
                     input.value = this.selected.value;
+                    // set the typeInput if it has not been set
+                    if(this.typeInput === undefined) {
+                        this.typeInput = input;
+                    }
                 }
                 let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
@@ -157,24 +164,26 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     * Sets the item values with ngModel values from inputs.
-     */
-    setModelValues(): void {
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.item[input.key] = input.value;
-            }
-        }
-    }
-
-    /**
      * Sets the item metadata values with ngModel values from metadata inputs.
      */
     setMetadataValues(): void {
+        let typeAdded = false;
         for(let input of this.metadatumInputs) {
             if(input.value) {
                 this.item.addMetadata(new Metadatum(input)); // use addMetadata to trigger changedetection
+                // set item name equal dc.title
+                if(input.key == "dc.title") {
+                    this.item.name = input.value;
+                }
+                if(input.key == "dc.type") {
+                    typeAdded = true;
+                }
             }
+        }
+        // if type was not added to metadata add it with currently selected type
+        if(!typeAdded) {
+            this.typeInput.value = this.selected.value;
+            this.item.addMetadata(new Metadatum(this.typeInput));
         }
     }
 
@@ -279,7 +288,6 @@ export class ItemCreateComponent extends FormSecureComponent {
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.processing = true;
-        this.setModelValues();
         this.setMetadataValues();
         this.dspaceService.createItem(this.item.sanitize(), token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
@@ -308,10 +316,16 @@ export class ItemCreateComponent extends FormSecureComponent {
         });
     }
     
-    private hasTypeOptions(): boolean {
-        return this.typeOptions ? true : false;    
+    /**
+     *
+     */
+    private hasTypeInput(): boolean {
+        return this.typeInput ? true : false;    
     }
     
+    /**
+     *
+     */
     private typeSelected($event): void {
         this.init();
     }
