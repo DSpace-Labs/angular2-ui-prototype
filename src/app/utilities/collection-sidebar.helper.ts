@@ -17,9 +17,17 @@ export class CollectionSidebarHelper
 
     /**
      *
-     * @param sidebarService
+     * @type {boolean}
      */
-    constructor(private sidebarService : SidebarService, private collection : Collection)
+    isAuthenticated : boolean = false;
+
+    /**
+     *
+     * @param sidebarService
+     * @param collection
+     * @param userObservable (optional)
+     */
+    constructor(private sidebarService : SidebarService, private collection : Collection, private authorization? : any)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -28,10 +36,15 @@ export class CollectionSidebarHelper
     /**
      * The collection sidebar requires a collection object
      * Because we need some data from the collection to populate the links
-     * @param collection
      */
     populateSidebar()
     {
+
+        if(this.authorization != null)
+        {
+            this.isAuthenticated = this.authorization.isAuthenticated();
+        }
+
         let homeChildSection =  SidebarSection.getBuilder()
             .name("sidebar.context-collection.view")
             .route("Collections",{id : this.collection.id})
@@ -40,11 +53,15 @@ export class CollectionSidebarHelper
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("CollectionEdit",{id: this.collection.id})
-            .build();
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
+            .build()
 
         let addItemSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.create-item")
-            .route("Home")
+            .route("ItemCreate")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let collectionSection = SidebarSection.getBuilder()

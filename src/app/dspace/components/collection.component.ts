@@ -13,6 +13,8 @@ import { SidebarService } from '../../utilities/services/sidebar.service';
 import { SidebarSection } from '../models/sidebar-section.model';
 import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.helper';
 
+import { AuthorizationService } from '../authorization/services/authorization.service';
+
 /**
  * Collection component for displaying the current collection.
  * View contains sidebar context and tree hierarchy below current collection.
@@ -55,11 +57,12 @@ export class CollectionComponent implements OnDestroy {
     constructor(private params: RouteParams, 
                 private dspace: DSpaceDirectory, 
                 private breadcrumbService: BreadcrumbService,
-                private sidebarService : SidebarService) {
+                private sidebarService : SidebarService,
+                private authorization : AuthorizationService) {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
-            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService,this.collection);
+            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService,this.collection, this.authorization);
             this.sidebarHelper.populateSidebar();
         });
 

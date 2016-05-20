@@ -17,9 +17,16 @@ export class AppSidebarHelper
 
     /**
      *
-     * @param sidebarService
+     * @type {boolean}
      */
-    constructor(private sidebarService : SidebarService)
+    isAuthenticated : boolean = false;
+
+    /**
+     *
+     * @param sidebarService
+     * @param authorization
+     */
+    constructor(private sidebarService : SidebarService, private authorization? : any)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -29,8 +36,13 @@ export class AppSidebarHelper
     /**
      * The visibility is bound the the authorizationservice
      */
-    populateSidebar(userObservable : any)
+    populateSidebar()
     {
+
+        if(this.authorization != null)
+        {
+            this.isAuthenticated = this.authorization.isAuthenticated();
+        }
 
         let aboutComponent = SidebarSection.getBuilder()
             .name("About")
@@ -50,14 +62,14 @@ export class AppSidebarHelper
             .name("sidebar.account.login")
             .route("Login")
             .visible(true)
-            .visibilityObservable(userObservable)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")
             .route("Home")
             .visible(true)
-            .visibilityObservable(userObservable)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let logoutComponent = SidebarSection.getBuilder()
@@ -65,7 +77,7 @@ export class AppSidebarHelper
             .route("Home")
             .id("account-logout")
             .visible(false)
-            .visibilityObservable(userObservable)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let accountComponent = SidebarSection.getBuilder()
@@ -87,7 +99,7 @@ export class AppSidebarHelper
             .name('sidebar.submissions.header')
             .id('submissions')
             .visible(false)
-            .visibilityObservable(userObservable)
+            .visibilityObservable(this.authorization.userObservable)
             .addChild(createSubmissionComponent)
             .build(); // need to change this visibility depending on the authorization service
 
@@ -96,7 +108,7 @@ export class AppSidebarHelper
         let createComComponent = SidebarSection.getBuilder()
             .name("sidebar.context-dashboard.create-community")
             .id("createcommunity")
-            .route("Home")
+            .route("CommunityCreate")
             .build();
 
 
@@ -104,7 +116,7 @@ export class AppSidebarHelper
             .name("sidebar.context-dashboard.header")
             .id("appcontext")
             .visible(false)
-            .visibilityObservable(userObservable)
+            .visibilityObservable(this.authorization.userObservable)
             .addChild(createComComponent)
             .build();
 
@@ -120,7 +132,6 @@ export class AppSidebarHelper
      */
     removeSections()
     {
-        console.log("running the remove..");
         this.sections.forEach(section => this.sidebarService.removeSection(section));
     }
 

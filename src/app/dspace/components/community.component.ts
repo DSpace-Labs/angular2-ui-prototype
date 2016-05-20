@@ -12,6 +12,8 @@ import { Community } from "../models/community.model";
 import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper';
 import { SidebarService } from '../../utilities/services/sidebar.service';
 
+import { AuthorizationService } from '../authorization/services/authorization.service';
+
 /**
  * Community component for displaying the current community.
  * View contains sidebar context and tree hierarchy below current community.
@@ -51,12 +53,13 @@ export class CommunityComponent implements OnDestroy {
     constructor(private dspace: DSpaceDirectory, 
                 private breadcrumb: BreadcrumbService,
                 private params: RouteParams,
-                private sidebarService : SidebarService) {
+                private sidebarService : SidebarService,
+                private authorization: AuthorizationService) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             this.community = community;
             breadcrumb.visit(this.community);
 
-            this.sidebarHelper = new CommunitySidebarHelper(sidebarService,this.community);
+            this.sidebarHelper = new CommunitySidebarHelper(sidebarService,this.community, this.authorization);
             this.sidebarHelper.populateSidebar();
         });
     }

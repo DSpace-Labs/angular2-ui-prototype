@@ -15,11 +15,21 @@ export class ItemSidebarHelper
      */
     sections : Array<SidebarSection>;
 
+
+    /**
+     *
+     * @type {boolean}
+     */
+    isAuthenticated : boolean = false;
+
+
     /**
      *
      * @param sidebarService
+     * @param item
+     * @param authorization
      */
-    constructor(private sidebarService : SidebarService, private item : Item)
+    constructor(private sidebarService : SidebarService, private item : Item, private authorization? : any)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -32,9 +42,17 @@ export class ItemSidebarHelper
      */
     populateSidebar()
     {
+
+        if(this.authorization != null)
+        {
+            this.isAuthenticated = this.authorization.isAuthenticated();
+        }
+
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
-            .route("ItemEdit",{id:this.item.id})
+            .route("ItemEdit",{id:this.item.id}) // does not exist yet.
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
         let viewItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.view")

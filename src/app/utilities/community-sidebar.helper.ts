@@ -17,9 +17,17 @@ export class CommunitySidebarHelper
 
     /**
      *
-     * @param sidebarService
+     * @type {boolean}
      */
-    constructor(private sidebarService : SidebarService, private community : Community)
+    isAuthenticated : boolean = false;
+
+    /**
+     *
+     * @param sidebarService
+     * @param community
+     * @param userObservable
+     */
+    constructor(private sidebarService : SidebarService, private community : Community, private authorization? : any)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -28,10 +36,15 @@ export class CommunitySidebarHelper
 
     /**
      * The community sidebar
-     * // They might all need an observable for the user authentication.
+     *
      */
     populateSidebar()
     {
+
+        if(this.authorization != null)
+        {
+            this.isAuthenticated = this.authorization.isAuthenticated();
+        }
         let homeChildSection =  SidebarSection.getBuilder()
             .name("sidebar.context-community.view")
             .route("Communities",{id : this.community.id})
@@ -44,12 +57,16 @@ export class CommunitySidebarHelper
 
         let createCommunity = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-community")
-            .route("Home")
+            .route("CommunityCreate")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let createCollection = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-collection")
-            .route("Home")
+            .route("CollectionCreate")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let communitySection = SidebarSection.getBuilder()

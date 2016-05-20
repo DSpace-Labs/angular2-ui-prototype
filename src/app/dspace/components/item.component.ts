@@ -23,6 +23,9 @@ import { Item } from "../models/item.model";
 import { SidebarSection } from '../models/sidebar-section.model';
 import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
+import { AuthorizationService } from '../authorization/services/authorization.service';
+
+
 /**
  * Item component for displaying the current item. Routes to simple or item view.
  */
@@ -67,14 +70,15 @@ export class ItemComponent implements CanDeactivate {
                 private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
                 private params: RouteParams,
-                private sidebarService : SidebarService) {
+                private sidebarService : SidebarService,
+                private authorization : AuthorizationService) {
         dspace.loadObj('item', params.get("id")).then((item:Item) => {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
             this.item = item;
 
             // create the sidebar-helper to create the sidebar.
-            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService,this.item);
+            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService,this.item,this.authorization);
             this.sidebarHelper.populateSidebar();
         });
     }
