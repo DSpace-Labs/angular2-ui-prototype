@@ -44,6 +44,12 @@ import { Metadatum } from '../models/metadatum.model';
     template: `
                 <h3>Create Item</h3>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                
+                <!-- select to change form to a given type, which loads a new form -->                
+                <select *ngIf="hasTypeOptions()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
+                    <option *ngFor="let option of typeOptions" [ngValue]="option">{{ option.gloss }}</option>
+                </select>
+
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
                     <item-bitstream-add [files]="files"
                                         (addBitstreamEmitter)="addBitstream($event)"
@@ -63,6 +69,16 @@ import { Metadatum } from '../models/metadatum.model';
 })
 export class ItemCreateComponent extends FormSecureComponent {
 
+    private formSelector: string = "item";
+    
+    private selected = {
+        "gloss": "(not specified)",
+        "value": "",
+        "form": "item"
+    };
+    
+    private typeOptions: Array<any>;
+    
     /**
      * Metadata input fields.
      */
@@ -118,12 +134,16 @@ export class ItemCreateComponent extends FormSecureComponent {
     init(): void {
         this.item = new Item();
         this.files = new Array<any>();
-        this.formService.getForm('item').subscribe(inputs => {
+        this.formService.getForm(this.selected.form).subscribe(inputs => {
             // For an item, the form consists of MetadatumInputs
             this.metadatumInputs = inputs;
             let formControls = {};
             for(let input of this.metadatumInputs) {
                 input.value = input.default ? input.default : '';
+                if(input.key == 'dc.type') {
+                    this.typeOptions = input.options;
+                    input.value = this.selected.value;
+                }
                 let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
@@ -287,5 +307,13 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
         });
     }
-
+    
+    private hasTypeOptions(): boolean {
+        return this.typeOptions ? true : false;    
+    }
+    
+    private typeSelected($event): void {
+        this.init();
+    }
+    
 }
