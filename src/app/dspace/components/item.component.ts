@@ -7,7 +7,7 @@ import {
     ComponentInstruction
 } from '@angular/router-deprecated';
 
-import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
 import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
@@ -31,7 +31,7 @@ import { Item } from "../models/item.model";
               `
 })
 @RouteConfig([
-    
+
         { path: "/", name: "SimpleItemView", component: SimpleItemViewComponent, useAsDefault: true },
         { path: "/full", name: "FullItemView", component: FullItemViewComponent },
 
@@ -45,13 +45,13 @@ export class ItemComponent implements CanDeactivate {
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
      */
-    constructor(private dspace: DSpaceDirectory,
+    constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
                 private params: RouteParams) {

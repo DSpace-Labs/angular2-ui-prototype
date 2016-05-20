@@ -2,7 +2,7 @@ import { Paging } from "../interfaces/paging.interface";
 import { ObjectUtil } from "../../utilities/commons/object.util";
 
 /**
- * 
+ *
  */
 export abstract class Pageable implements Paging {
 
@@ -51,7 +51,7 @@ export abstract class Pageable implements Paging {
      *
      * @param json
      *      A plain old javascript object representing an Pageable as would be returned
-     *      from the directory service. It uses json.ready, json.offset, json.page,
+     *      from the hierarchy service. It uses json.ready, json.offset, json.page,
      *      json.limit, json.component, json.pageCount, and json.total
      */
     constructor(json?: any) {
@@ -68,7 +68,7 @@ export abstract class Pageable implements Paging {
     }
 
     /**
-     * 
+     *
      */
     sanitize(): void {
         this.ready = undefined;

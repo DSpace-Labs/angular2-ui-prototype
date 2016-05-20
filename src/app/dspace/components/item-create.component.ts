@@ -17,7 +17,7 @@ import { TranslateService } from "ng2-translate/ng2-translate";
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
-import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { FormService } from '../../utilities/form/form.service';
 import { NotificationService } from '../../utilities/notification/notification.service';
 
@@ -87,7 +87,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
      * @param formService
@@ -102,7 +102,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceDirectory,
+                private dspace: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -132,7 +132,7 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.active = true;
         },
         errors => {
-            console.log(errors);
+            console.error('Error: ' + errors);
         });
     }
 
@@ -282,7 +282,7 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            console.log(error);
+            console.error(error);
             this.processing = false;
             this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
         });

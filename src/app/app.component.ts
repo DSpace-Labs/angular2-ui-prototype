@@ -5,7 +5,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
-import { DSpaceDirectory } from './dspace/dspace.directory';
+import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { BreadcrumbComponent } from './navigation/components/breadcrumb.component';
 import { CollectionComponent } from './dspace/components/collection.component';
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit {
     /**
      *
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate
@@ -131,7 +131,7 @@ export class AppComponent implements OnInit {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private dspace: DSpaceDirectory,
+    constructor(private dspace: DSpaceHierarchyService,
                 private authorization: AuthorizationService,
                 private translate: TranslateService,
                 private router: Router) {
@@ -147,7 +147,7 @@ export class AppComponent implements OnInit {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit() {
-        this.dspace.loadDirectory();
+        this.dspace.loadHierarchy();
     }
 
     /**
