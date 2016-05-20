@@ -31,6 +31,7 @@ export class AppSidebarHelper
      */
     populateSidebar(userObservable : any)
     {
+
         let aboutComponent = SidebarSection.getBuilder()
             .name("About")
             .route("Home")
@@ -48,7 +49,8 @@ export class AppSidebarHelper
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
-            .visible(true)
+            .visible(false)
+            .visibilityObservable(userObservable)
             .build();
 
         let registerComponent = SidebarSection.getBuilder()
@@ -77,9 +79,13 @@ export class AppSidebarHelper
             .route("Home")
             .build();
 
+        console.log("rebuilding submission component");
+
         let submissionComponent = SidebarSection.getBuilder()
             .name('sidebar.submissions.header')
             .id('submissions')
+            .visible(false)
+            .visibilityObservable(userObservable)
             .addChild(createSubmissionComponent)
             .build(); // need to change this visibility depending on the authorization service
         this.sidebarService.addSection(submissionComponent);

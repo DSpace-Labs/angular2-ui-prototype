@@ -155,8 +155,6 @@ export class AppComponent implements OnInit {
 
                     authorization.userObservable.subscribe(user => {
                         this.user = user;
-                        console.log("user observable changed");
-                        console.log(this.authorization.isAuthenticated());
                     });
 
                     translate.setDefaultLang('en');

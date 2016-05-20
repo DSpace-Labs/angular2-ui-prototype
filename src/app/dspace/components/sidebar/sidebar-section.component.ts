@@ -30,7 +30,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 <!-- render the children of this component -->
                 <div class="child-section" *ngIf="hasChildren()" >
                     <ul>
-                        <li *ngFor="let child of children" class="panel">
+                        <li *ngFor="let child of visibleChildren()" class="panel">
                            <sidebar-section *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
                         </li>
                     </ul>
@@ -89,6 +89,11 @@ export class SidebarSectionComponent implements OnInit
         this.children = this.sidebarcomponent.childsections;
     }
 
+
+    visibleChildren()
+    {
+        return this.children.filter(child => child.visible);
+    }
 
     /**
      *

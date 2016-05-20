@@ -50,7 +50,8 @@ export class SidebarService
      */
     filterAndOrderSections(sections : Array<SidebarSection>)
     {
-        sections = sections.filter(section => section.visible); // filter for the visible sections
+        // don't filter for them, because we will check visibility in the component
+        //sections = sections.filter(section => section.visible); // filter for the visible sections
 
         sections.forEach(section =>
         {

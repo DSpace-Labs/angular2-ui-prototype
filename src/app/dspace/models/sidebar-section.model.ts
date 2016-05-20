@@ -2,7 +2,7 @@ import * as hash from 'object-hash';
 import { Equatable} from "../../utilities/lang/equatable.interface";
 import { Hashable } from "../../utilities/lang/hashable.interface";
 import { ObjectUtil } from '../../utilities/commons/object.util';
-
+import { User } from './user.model';
 /**
  * A class representing a sidebar section
  *
@@ -71,6 +71,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     }
 
 
+
+
+
     /**
      * Add a childsection
      * @param child
@@ -90,7 +93,25 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
         return new Builder();
     }
 
+    lastObservedValue : any;
 
+    startObserving()
+    {
+        if(this.visibilityObserver != null)
+        {
+            this.visibilityObserver.subscribe(obs =>
+            {
+                // Well, this solution makes it a lot less usable.
+                // need to implement something like 'ObjectUtil.equals' and make sure all models implement 'Equatable'
+                // note: typescript does not support boolean ^ boolean
+                if(obs instanceof User !== (this.lastObservedValue instanceof User))
+                {
+                    this.visible = !this.visible;
+                    this.lastObservedValue = obs;
+                }
+            });
+        }
+    }
 
     // interface methods
 
@@ -180,7 +201,11 @@ class Builder
         return this;
     }
 
-
+    visibilityObservable(observable : any) : Builder
+    {
+        this.section.visibilityObserver = observable;
+        return this;
+    }
 
     /**
      *
@@ -223,11 +248,13 @@ class Builder
     }
 
     /**
-     *
+     * // initiate the observable
      * @returns {SidebarSection}
      */
     build() : SidebarSection
     {
+        console.log("starting observable");
+        this.section.startObserving();
         return this.section;
     }
 }
