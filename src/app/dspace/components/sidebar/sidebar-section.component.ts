@@ -4,6 +4,7 @@ import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
 import { RouteSidebarSection } from '../../models/sidebar/routesidebar-section.model';
+import { HrefSidebarSection } from '../../models/sidebar/hrefsidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
@@ -19,6 +20,9 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
             <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
 
             <!-- if this component has children we want to render it w/o a link -->
+
+            <div *ngIf="isRouteSection()">
+                <!-- this is rendered if there is a route -->
                 <div *ngIf="!hasRoute()" class="panel-heading">
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
@@ -26,7 +30,11 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 <div *ngIf="hasRoute()">
                     <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
+            </div>
 
+            <div *ngIf="!isRouteSection()">
+                <a [href]="sidebarcomponent.url">{{sidebarcomponent.urlname}}</a>
+            </div>
 
                 <!-- render the children of this component -->
                 <div class="child-section" *ngIf="hasChildren()" >
@@ -130,6 +138,13 @@ export class SidebarSectionComponent implements OnInit
     hasParams() : boolean
     {
         return false;
+    }
+
+    isRouteSection()
+    {
+        console.log(this.sidebarcomponent.componentName);
+        console.log(this.sidebarcomponent instanceof RouteSidebarSection);
+        return this.sidebarcomponent instanceof RouteSidebarSection;
     }
 
 }

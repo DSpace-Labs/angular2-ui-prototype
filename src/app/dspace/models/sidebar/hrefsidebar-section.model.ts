@@ -2,14 +2,21 @@ import { SidebarSection } from './sidebar-section.model';
 
 
 /**
- * Extension to the sidebarsection which uses routes
+ * Extension to the sidebarsection which uses href elements
  *
  */
 export class HrefSidebarSection extends SidebarSection
 {
 
-
+    /**
+     *
+     */
     urlname : string; // name for i18n
+
+
+    /**
+     *
+     */
     url : string; // href
 
     /**

@@ -3,6 +3,7 @@ import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
 import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
+import { HrefSidebarSection } from '../dspace/models/sidebar/hrefsidebar-section.model';
 
 /**
  * Class to populate the standard sidebar sidebar.
