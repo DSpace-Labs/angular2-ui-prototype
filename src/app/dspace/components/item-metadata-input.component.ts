@@ -27,7 +27,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
                 <table class="table table-striped">
                     <tbody>
                         <!-- Create a new row per metadata field -->
-                        <tr *ngFor="let input of metadatumInputs">
+                        <tr *ngFor="let input of metadatumInputs" [hidden]="input.hidden">
                             <td>
                                 <!-- Label / header for this field -->
                                 <div class="row">
