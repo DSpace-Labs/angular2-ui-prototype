@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
-import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { DSpaceService } from '../services/dspace.service';
 
 import { ListEntryComponent } from './item/list/list-entry.component';

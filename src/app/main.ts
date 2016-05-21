@@ -22,8 +22,8 @@ import { AppComponent } from './app.component';
 import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { ContextProviderService } from './dspace/services/context-provider.service';
-import { DSpaceConstants } from './dspace/dspace.constants';
-import { DSpaceDirectory } from './dspace/dspace.directory';
+import { DSpaceConstantsService } from './dspace/services/dspace-constants.service';
+import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 import { DSpaceService } from './dspace/services/dspace.service';
 import { FormService } from './utilities/form/form.service';
 import { GoogleScholarMetadataService } from './utilities/services/google-scholar-metadata.service.ts';
@@ -58,8 +58,8 @@ bootstrap(AppComponent, [
     AuthorizationService,
     BreadcrumbService,
     ContextProviderService,
-    DSpaceConstants,
-    DSpaceDirectory,
+    DSpaceConstantsService,
+    DSpaceHierarchyService,
     DSpaceService,
     FormService,
     GoogleScholarMetadataService,

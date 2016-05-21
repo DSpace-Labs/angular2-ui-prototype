@@ -5,10 +5,10 @@ import { ListComponent } from './list.component';
 import { PaginationComponent } from './pagination.component';
 
 /**
- * Tree component for navigation through the dspace index of 
+ * Tree component for navigation through the dspace index of
  * communities, collections, and items. Keys off an enhanced property
  * on the given context named expanded. Displays +/- glyphicon for communities
- * and a open/closed folder for collections. The title of the given context is 
+ * and a open/closed folder for collections. The title of the given context is
  * a link.
  */
 @Component({
@@ -19,24 +19,24 @@ import { PaginationComponent } from './pagination.component';
                   PaginationComponent ],
     template: `
                 <ul class="list-group">
-                    <li *ngFor="let directory of directories" class="list-group-item">
-                        <span *ngIf="collapsedCommunity(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-plus clickable"></span>
-                        <span *ngIf="expandedCommunity(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-minus clickable"></span>
-                        <span *ngIf="collapsedCollection(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
-                        <span *ngIf="expandedCollection(directory)" (click)="directory.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
+                    <li *ngFor="let hierarchy of hierarchies" class="list-group-item">
+                        <span *ngIf="collapsedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-plus clickable"></span>
+                        <span *ngIf="expandedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-minus clickable"></span>
+                        <span *ngIf="collapsedCollection(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
+                        <span *ngIf="expandedCollection(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
 
                         <!-- Router link -->
-                        <a *ngIf="!page(directory)" [routerLink]="[directory.component, {id:directory.id}]">{{ directory.name }}</a>
-                        <a *ngIf="pageWithoutLimit(directory)" [routerLink]="[directory.component, {id:directory.id, page: directory.page}]">{{ directory.name }}</a>
-                        <a *ngIf="pageWithLimit(directory)" [routerLink]="[directory.component, {id:directory.id, page: directory.page, limit: directory.limit}]">{{ directory.name }}</a>
+                        <a *ngIf="!page(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id}]">{{ hierarchy.name }}</a>
+                        <a *ngIf="pageWithoutLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page}]">{{ hierarchy.name }}</a>
+                        <a *ngIf="pageWithLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page, limit: hierarchy.limit}]">{{ hierarchy.name }}</a>
 
-                        <span *ngIf="community(directory)" class="badge">{{ directory.countItems }}</span>
-                        <span *ngIf="collection(directory)" class="badge">{{ directory.numberItems }}</span>
-                        <div *ngIf="expandedCommunity(directory)">
-                            <tree [directories]="subCommunitiesAndCollections(directory)"></tree>
+                        <span *ngIf="community(hierarchy)" class="badge">{{ hierarchy.countItems }}</span>
+                        <span *ngIf="collection(hierarchy)" class="badge">{{ hierarchy.numberItems }}</span>
+                        <div *ngIf="expandedCommunity(hierarchy)">
+                            <tree [hierarchies]="subCommunitiesAndCollections(hierarchy)"></tree>
                         </div>
-                        <div *ngIf="expandedCollectionWithItems(directory)">
-                            <list [collection]="directory"></list>
+                        <div *ngIf="expandedCollectionWithItems(hierarchy)">
+                            <list [collection]="hierarchy"></list>
                         </div>
                     </li>
                 </ul>
@@ -45,88 +45,88 @@ import { PaginationComponent } from './pagination.component';
 export class TreeComponent {
 
     /**
-     * An input variable that is passed into the component [directories]. 
-     * Represents the current level of the index hierarchy. The children navigation 
+     * An input variable that is passed into the component [hierarchies].
+     * Represents the current level(s) of the index hierarchy. The children navigation
      * is loaded upon selecting a given context. The subsequent children navigation
      * are lazy loaded.
      */
-    @Input() private directories: Array<any>;
-    
+    @Input() private hierarchies: Array<any>;
+
     /**
      *
      */
-    private subCommunitiesAndCollections(directory: any): Array<any> {
-        return directory.subcommunities.concat(directory.collections);
+    private subCommunitiesAndCollections(hierarchy: any): Array<any> {
+        return hierarchy.subcommunities.concat(hierarchy.collections);
     }
 
     /**
      *
      */
-    private collapsedCommunity(directory: any): boolean {
-        return this.community(directory) && !directory.expanded;
+    private collapsedCommunity(hierarchy: any): boolean {
+        return this.community(hierarchy) && !hierarchy.expanded;
     }
 
     /**
      *
      */
-    private expandedCommunity(directory: any): boolean {
-        return this.community(directory) && directory.expanded;
+    private expandedCommunity(hierarchy: any): boolean {
+        return this.community(hierarchy) && hierarchy.expanded;
     }
 
     /**
      *
      */
-    private collapsedCollection(directory: any): boolean {
-        return this.collection(directory) && !directory.expanded;
+    private collapsedCollection(hierarchy: any): boolean {
+        return this.collection(hierarchy) && !hierarchy.expanded;
     }
 
     /**
      *
      */
-    private expandedCollection(directory: any): boolean {
-        return this.collection(directory) && directory.expanded;
+    private expandedCollection(hierarchy: any): boolean {
+        return this.collection(hierarchy) && hierarchy.expanded;
     }
 
     /**
      *
      */
-    private expandedCollectionWithItems(directory: any): boolean {
-        return this.expandedCollection(directory) && directory.items.length > 0;
+    private expandedCollectionWithItems(hierarchy: any): boolean {
+        return this.expandedCollection(hierarchy) && hierarchy.items.length > 0;
     }
 
     /**
      *
      */
-    private community(directory: any): boolean {
-        return directory.type == 'community';
+    private community(hierarchy: any): boolean {
+        return hierarchy.type == 'community';
     }
 
     /**
      *
      */
-    private collection(directory: any): boolean {
-        return directory.type == 'collection';
+    private collection(hierarchy: any): boolean {
+        return hierarchy.type == 'collection';
     }
 
     /**
      *
      */
-    private page(directory: any): boolean {
-        return directory.page ? true : false;
+    private page(hierarchy: any): boolean {
+        return hierarchy.page ? true : false;
     }
 
     /**
      *
      */
-    private pageWithoutLimit(directory: any): boolean {
-        return this.page(directory) && !directory.limit;
+    private pageWithoutLimit(hierarchy: any): boolean {
+        return this.page(hierarchy) && !hierarchy.limit;
     }
 
     /**
      *
      */
-    private pageWithLimit(directory: any): boolean {
-        return this.page(directory) && directory.limit;
+    private pageWithLimit(hierarchy: any): boolean {
+        return this.page(hierarchy) && hierarchy.limit;
     }
 
 }
