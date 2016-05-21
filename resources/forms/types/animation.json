@@ -1,0 +1,44 @@
+[
+    {
+        "key": "dc.title",
+        "language": "en",
+        "gloss": "Title",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+                "value": true,
+                "message": "item.metadata.dc.title.required"
+            },
+            "minLength": {
+                "value": 4,
+                "message": "item.metadata.dc.title.minLength"
+            },
+            "maxLength": {
+                "value": 128,
+                "message": "item.metadata.dc.title.maxLength"
+            }
+        }
+    },
+    {
+        "key": "dc.description",
+        "language": "en",
+        "gloss": "Description",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+                "value": false,
+                "message": "item.metadata.dc.description.required"
+            },
+            "minLength": {
+                "value": 8,
+                "message": "item.metadata.dc.description.minLength"
+            },
+            "maxLength": {
+                "value": 512,
+                "message": "item.metadata.dc.description.maxLength"
+            }
+        }
+    }
+]
