@@ -1,5 +1,135 @@
 [
     {
+        "key": "dc.type",
+        "language": "en",
+        "gloss": "Document Type",
+        "type": "SELECT",
+        "options": [
+            {
+                "gloss": "(not specified)",
+                "value": "(not specified)",
+                "form": "item"
+            },
+            {
+                "gloss": "Animation",
+                "value": "Animation",
+                "form": "types/animation"
+            },
+            {
+                "gloss": "Article",
+                "value": "Article",
+                "form": "types/article"
+            },
+            {
+                "gloss": "Book",
+                "value": "Book",
+                "form": "types/book"
+            },
+            {
+                "gloss": "Book Chapter",
+                "value": "Book Chapter",
+                "form": "types/book-chapter"
+            },
+            {
+                "gloss": "Dataset",
+                "value": "Dataset",
+                "form": "types/dataset"
+            },
+            {
+                "gloss": "Image",
+                "value": "Image",
+                "form": "types/image"
+            },
+            {
+                "gloss": "Image, 3-D",
+                "value": "Image, 3-D",
+                "form": "types/image"
+            },
+            {
+                "gloss": "Learning Object",
+                "value": "Learning Object",
+                "form": "types/learning-object"
+            },
+            {
+                "gloss": "Map",
+                "value": "Map",
+                "form": "types/map"
+            },
+            {
+                "gloss": "Musical Score",
+                "value": "Musical Score",
+                "form": "types/musical-score"
+            },
+            {
+                "gloss": "Plan or Blueprint",
+                "value": "Plan or Blueprint",
+                "form": "types/plan-or-blueprint"
+            },
+            {
+                "gloss": "Preprint",
+                "value": "Preprint",
+                "form": "types/preprint"
+            },
+            {
+                "gloss": "Presentation",
+                "value": "Presentation",
+                "form": "types/presentation"
+            },
+            {
+                "gloss": "Recording, acoustical",
+                "value": "Recording, acoustical",
+                "form": "types/recording"
+            },
+            {
+                "gloss": "Recording, musical",
+                "value": "Recording, musical",
+                "form": "types/recording"
+            },
+            {
+                "gloss": "Recording, oral",
+                "value": "Recording, oral",
+                "form": "types/recording"
+            },
+            {
+                "gloss": "Software",
+                "value": "Software",
+                "form": "types/software"
+            },
+            {
+                "gloss": "Technical Report",
+                "value": "Technical Report",
+                "form": "types/technical-report"
+            },
+            {
+                "gloss": "Thesis",
+                "value": "Thesis",
+                "form": "types/thesis"
+            },
+            {
+                "gloss": "Video",
+                "value": "Video",
+                "form": "types/video"
+            },
+            {
+                "gloss": "Working Paper",
+                "value": "Working Paper",
+                "key": "types/working-paper"
+            },
+            {
+                "gloss": "Other",
+                "value": "Other",
+                "form": "item"
+            }
+        ],
+        "repeatable": false,
+        "validation": {
+            "required": {
+                "value": false,
+                "message": "item.metadata.dc.type.required"
+            }
+        }
+    },
+    {
         "key": "dc.title",
         "language": "en",
         "gloss": "Title",
@@ -64,136 +194,6 @@
             "required": {
                 "value": false,
                 "message": "item.metadata.dc.publisher.required"
-            }
-        }
-    },
-    {
-        "key": "dc.type",
-        "language": "en",
-        "gloss": "Document Type",
-        "type": "SELECT",
-        "options": [
-            {
-                "gloss": "(not specified)",
-                "value": "(not specified)",
-                "form": "item"
-            },
-            {
-                "gloss": "Animation",
-                "value": "Animation",
-                "form": "types/animation"
-            },
-            {
-                "gloss": "Article",
-                "value": "Article",
-                "form": "types/artical"
-            },
-            {
-                "gloss": "Book",
-                "value": "Book",
-                "form": "types/book"
-            },
-            {
-                "gloss": "Book Chapter",
-                "value": "Book Chapter",
-                "form": "types/book-chapter"
-            },
-            {
-                "gloss": "Dataset",
-                "value": "Dataset",
-                "form": "types/dataset"
-            },
-            {
-                "gloss": "Image",
-                "value": "Image",
-                "form": "types/image"
-            },
-            {
-                "gloss": "Image, 3-D",
-                "value": "Image, 3-D",
-                "form": "types/image-3d"
-            },
-            {
-                "gloss": "Learning Object",
-                "value": "Learning Object",
-                "form": "types/learning-object"
-            },
-            {
-                "gloss": "Map",
-                "value": "Map",
-                "form": "types/map"
-            },
-            {
-                "gloss": "Musical Score",
-                "value": "Musical Score",
-                "form": "types/musical-score"
-            },
-            {
-                "gloss": "Plan or Blueprint",
-                "value": "Plan or Blueprint",
-                "form": "types/plan-or-blueprint"
-            },
-            {
-                "gloss": "Preprint",
-                "value": "Preprint",
-                "form": "types/preprint"
-            },
-            {
-                "gloss": "Presentation",
-                "value": "Presentation",
-                "form": "types/presentation"
-            },
-            {
-                "gloss": "Recording, acoustical",
-                "value": "Recording, acoustical",
-                "form": "types/recording-acoustical"
-            },
-            {
-                "gloss": "Recording, musical",
-                "value": "Recording, musical",
-                "form": "types/recording-musical"
-            },
-            {
-                "gloss": "Recording, oral",
-                "value": "Recording, oral",
-                "form": "types/recording-oral"
-            },
-            {
-                "gloss": "Software",
-                "value": "Software",
-                "form": "types/software"
-            },
-            {
-                "gloss": "Technical Report",
-                "value": "Technical Report",
-                "form": "types/technical-report"
-            },
-            {
-                "gloss": "Thesis",
-                "value": "Thesis",
-                "form": "types/thesis"
-            },
-            {
-                "gloss": "Video",
-                "value": "Video",
-                "form": "types/video"
-            },
-            {
-                "gloss": "Working Paper",
-                "value": "Working Paper",
-                "key": "types/working-paper"
-            },
-            {
-                "gloss": "Other",
-                "value": "Other",
-                "form": "types/other"
-            }
-        ],
-        "repeatable": false,
-        "validation": {
-            "required": {
-                "value": false,
-                "message": "item.metadata.dc.type.required"
             }
         }
     },
