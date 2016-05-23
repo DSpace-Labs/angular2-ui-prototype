@@ -23,17 +23,22 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
             <div *ngIf="isRouteSection()">
                 <!-- this is rendered if there is a route -->
-                <div *ngIf="!hasRoute()" class="panel-heading">
+                <div *ngIf="!hasDestination()" class="panel-heading">
                     <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
                 </div>
 
-                <div *ngIf="hasRoute()">
+                <div *ngIf="hasDestination()">
                     <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
             </div>
 
-            <div *ngIf="!isRouteSection()">
-                <a [href]="sidebarcomponent.url">{{sidebarcomponent.urlname}}</a>
+            <div *ngIf="!isRouteSection()"> <!-- it has a url instead of a route -->
+                <div *ngIf="!hasDestination()" class="panel-heading">
+                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
+                </div>
+                <div *ngIf="hasDestination()">
+                    <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                </div>
             </div>
 
                 <!-- render the children of this component -->
@@ -119,14 +124,20 @@ export class SidebarSectionComponent implements OnInit
 
     /**
      *
+     * Checks wether there is a route or a url set.
      * @returns {boolean}
      */
-    hasRoute() : boolean
+    hasDestination() : boolean
     {
         if(this.sidebarcomponent instanceof RouteSidebarSection)
         {
             let routesidebar = this.sidebarcomponent as RouteSidebarSection;
             return ArrayUtil.isNotEmpty(routesidebar.Routes);
+        }
+        else if(this.sidebarcomponent instanceof HrefSidebarSection)
+        {
+            let hrefsidebar = this.sidebarcomponent as HrefSidebarSection;
+            return ObjectUtil.hasValue(hrefsidebar.url);
         }
         return false;
     }
