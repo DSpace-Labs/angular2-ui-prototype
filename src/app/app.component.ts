@@ -32,6 +32,7 @@ import { SidebarService } from './utilities/services/sidebar.service';
 import { User } from './dspace/models/user.model';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
+import { AdminSidebarComponent } from './dspace/components/sidebar/admin-sidebar.component';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -112,6 +113,8 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
         { path: "/logout", name: "Logout", component: LogoutComponent},
 
         { path: "/404", name: "E404", component: NotFoundComponent},
+
+        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
 
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
