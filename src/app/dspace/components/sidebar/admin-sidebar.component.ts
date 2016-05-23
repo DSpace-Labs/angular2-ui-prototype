@@ -17,11 +17,30 @@ import {SidebarSectionComponent} from './sidebar-section.component';
         `
             <h1>Edit the sidebar</h1>
             <!-- show the sidebar here, with some added options (to add links) -->
+            <!-- put this all in a table -->
 
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="row"> <!-- name of label-->
+                                <div class="col-md-11 col-xs-10">
+                                    <label>Section name</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-11 col-xs-10">
+                                    <fieldset class="form-group">
+                                        <input  class="form-control" required [(ngModel)]="sectionName"  type="text"/>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <form id="addsidebarsection">
-                <fieldset>
-                    <label>Section name:<input  required [(ngModel)]="sectionName"  type="text"/></label>
-                </fieldset>
                 <fieldset>
                     <label>Url:<input [(ngModel)]="sectionUrl" required type="text"/></label>
                     <label>Url name: <input [(ngModel)]="sectionUrlName" required type="text"/></label>
@@ -46,10 +65,17 @@ export class AdminSidebarComponent
     sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
     sectionUrlName: string;
 
+
+    // test the addition thingie
+    /**
+     *
+     */
+    @Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
+
+
     constructor(private sidebarService : SidebarService)
     {
-        // we name one section
-        // the section can have multiple children
+
     }
 
 
