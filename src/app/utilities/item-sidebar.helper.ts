@@ -51,7 +51,7 @@ export class ItemSidebarHelper
 
         let editItemChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
-            .route("ItemEdit",{id:this.item.id}) // does not exist yet.
+            .route("E404") // does not exist yet.
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();

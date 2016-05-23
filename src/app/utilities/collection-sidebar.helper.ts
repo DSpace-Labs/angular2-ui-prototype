@@ -53,7 +53,7 @@ export class CollectionSidebarHelper
 
         let browseChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("CollectionEdit",{id: this.collection.id})
+            .route("E404")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build()
