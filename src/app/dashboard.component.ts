@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
@@ -30,7 +30,7 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
                 <tree [hierarchies]="dspace.hierarchy"></tree>
               `
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
 
 
     /**
