@@ -6,7 +6,7 @@ import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-secti
 import { HrefSidebarSection } from '../dspace/models/sidebar/hrefsidebar-section.model';
 
 /**
- * Class to populate the standard sidebar sidebar.
+ * Class to populate the dashboard sidebar.
  */
 export class DashboardSidebarHelper
 {

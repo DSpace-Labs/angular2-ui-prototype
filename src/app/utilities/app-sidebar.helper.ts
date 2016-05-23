@@ -84,6 +84,7 @@ export class AppSidebarHelper
             .name("sidebar.account.header")
             .addChildren([loginComponent,registerComponent,logoutComponent])
             .id("my-account")
+            .index(0) // show this as the first component
             .build();
 
         this.sidebarService.addSection(accountComponent);
