@@ -19,14 +19,14 @@ import {SidebarSectionComponent} from './sidebar-section.component';
             <!-- show the sidebar here, with some added options (to add links) -->
 
             <form id="addsidebarsection">
-
-            <fieldset>
-                <label>Section name:<input  [(ngModel)]="sectionName"  type="text"/></label>
-            </fieldset>
-
-                <label>Url:<input [(ngModel)]="sectionUrl" type="text"/></label>
-                <label>Index:<input [(ngModel)]="sectionIndex" type="text"/></label>
-                <button value="Add" (click)="addSection()">Add</button>
+                <fieldset>
+                    <label>Section name:<input  required [(ngModel)]="sectionName"  type="text"/></label>
+                </fieldset>
+                <fieldset>
+                    <label>Url:<input [(ngModel)]="sectionUrl" required type="text"/></label>
+                    <label>Index:<input [(ngModel)]="sectionIndex" type="text"/></label>
+                    <button value="Add" (click)="addSection()">Add</button>
+                </fieldset>
             </form>
 
         `
@@ -61,6 +61,13 @@ export class AdminSidebarComponent
         let sidebarComponent = HrefSidebarSection.getBuilder()
                                 .url(this.sectionName,this.sectionUrl).index(this.sectionIndex)
                                 .name("test").id(this.sectionName).build(); // generate a section id oursevles?
-        this.sidebarService.addSection(sidebarComponent);
+
+
+
+        let mainComponent = HrefSidebarSection.getBuilder()
+                            .name(this.sectionName)
+                            .addChild(sidebarComponent)
+                            .build();
+        this.sidebarService.addSection(mainComponent);
     }
 }
