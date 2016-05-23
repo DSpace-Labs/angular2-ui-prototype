@@ -20,9 +20,9 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
             <div *ngIf="sidebarcomponent.visible" class="">
             <!-- if this component has children we want to render it w/o a link -->
 
-            <div *ngIf="isRouteSection()" class="panel panel-default">
+            <div *ngIf="isRouteSection()">
                 <!-- this is rendered if there is a route -->
-                <div *ngIf="!hasDestination()" class="panel-heading">
+                <div *ngIf="!hasDestination()" class="sidebar-heading">
                     <h3 class="panel-title">{{ sidebarcomponent.componentName | translate}}</h3>
                 </div>
 
@@ -44,6 +44,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 <div class="sidebar-section" *ngIf="hasChildren()" >
                     <ul>
                         <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
+                            <p>rendering a child</p>
                            <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
                         </li>
                     </ul>

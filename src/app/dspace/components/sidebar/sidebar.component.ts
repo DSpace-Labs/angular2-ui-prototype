@@ -23,11 +23,6 @@ import {SidebarSectionComponent} from './sidebar-section.component';
                     </section>
                 </aside>
             </div>
-
-            <!-- testing bootstrap -->
-            <div class="panel-heading">
-                <h3>TestingBootstrap</h3>
-            </div>
         `
 })
 
