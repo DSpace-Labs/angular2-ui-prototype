@@ -24,6 +24,7 @@ import {SidebarSectionComponent} from './sidebar-section.component';
                 </fieldset>
                 <fieldset>
                     <label>Url:<input [(ngModel)]="sectionUrl" required type="text"/></label>
+                    <label>Url name: <input [(ngModel)]="sectionUrlName" required type="text"/></label>
                     <label>Index:<input [(ngModel)]="sectionIndex" type="text"/></label>
                     <button value="Add" (click)="addSection()">Add</button>
                 </fieldset>
@@ -43,7 +44,7 @@ export class AdminSidebarComponent
     sectionName : string;
     sectionUrl : string;
     sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
-
+    sectionUrlName: string;
 
     constructor(private sidebarService : SidebarService)
     {
@@ -59,14 +60,17 @@ export class AdminSidebarComponent
         // will need to switch over the ones that are set.
         // or I can pass undefined and have the builder check these thigns?
         let sidebarComponent = HrefSidebarSection.getBuilder()
-                                .url(this.sectionName,this.sectionUrl).index(this.sectionIndex)
-                                .name("test").id(this.sectionName).build(); // generate a section id oursevles?
+                                .url(this.sectionUrl).index(this.sectionIndex).name(this.sectionUrlName)
+                                .id(this.sectionName+"-"+this.sectionUrl).build(); // generate a section id oursevles?
 
 
 
+
+        // if the main component Id already exists, look up the component, and add to the existing component.
         let mainComponent = HrefSidebarSection.getBuilder()
                             .name(this.sectionName)
                             .addChild(sidebarComponent)
+                            .id(this.sectionName)
                             .build();
         this.sidebarService.addSection(mainComponent);
     }
