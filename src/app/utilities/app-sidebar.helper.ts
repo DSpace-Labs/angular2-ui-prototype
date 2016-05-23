@@ -58,12 +58,14 @@ export class AppSidebarHelper
             .build();
         this.sidebarService.addSection(helpComponent);
 
+        let otherComponent = RouteSidebarSection.getBuilder().name("sidebar-test").route("Home").visible(true).build();
         let loginComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
-            .visible(true)
+            .visible(true).addChild(otherComponent)
             .visibilityObservable(this.authorization.userObservable)
             .build();
+
 
         let registerComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.register")

@@ -17,24 +17,23 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
-
+            <div *ngIf="sidebarcomponent.visible" class="sidebar-simple-section-element">
             <!-- if this component has children we want to render it w/o a link -->
 
-            <div *ngIf="isRouteSection()">
+            <div *ngIf="isRouteSection()" class="">
                 <!-- this is rendered if there is a route -->
                 <div *ngIf="!hasDestination()" class="panel-heading">
-                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
+                    <span>{{ sidebarcomponent.componentName | translate}}</span>
                 </div>
 
-                <div *ngIf="hasDestination()">
+                <div *ngIf="hasDestination()" class="sidebar-link">
                     <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
                 </div>
             </div>
 
-            <div *ngIf="!isRouteSection()"> <!-- it has a url instead of a route -->
-                <div *ngIf="!hasDestination()" class="panel-heading">
-                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
+            <div *ngIf="!isRouteSection()" class=""> <!-- it has a url instead of a route -->
+                <div *ngIf="!hasDestination()" class="sidebar-simple-section-element">
+                    <span>{{sidebarcomponent.componentName | translate}}</span>
                 </div>
                 <div *ngIf="hasDestination()">
                     <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
@@ -42,10 +41,10 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
             </div>
 
                 <!-- render the children of this component -->
-                <div class="child-section" *ngIf="hasChildren()" >
+                <div class="sidebar-section" *ngIf="hasChildren()" >
                     <ul>
-                        <li *ngFor="let child of visibleChildren()" class="panel">
-                           <sidebar-section *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
+                        <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
+                           <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
                         </li>
                     </ul>
                 </div>
