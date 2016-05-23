@@ -75,7 +75,7 @@ export class AppSidebarHelper
 
         let logoutComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.logout")
-            .route("Home")
+            .route("Logout")
             .id("account-logout")
             .visible(false)
             .visibilityObservable(this.authorization.userObservable)

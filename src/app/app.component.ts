@@ -12,6 +12,7 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
+import { LogoutComponent } from './dspace/components/logout.component';
 
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
@@ -110,6 +111,8 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
         { path : "/collections/:id/edit", name : "CollectionEdit", component : CommunityCreateComponent},
         { path : "/items/:id/edit", name : "ItemEdit", component : ItemCreateComponent},
         { path : "/communities/:id/edit", name : "CommunityEdit", component : ItemCreateComponent},
+
+        { path: "/logout", name: "Logout", component: LogoutComponent},
 
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
