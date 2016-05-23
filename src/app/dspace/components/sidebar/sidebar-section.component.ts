@@ -142,8 +142,6 @@ export class SidebarSectionComponent implements OnInit
 
     isRouteSection()
     {
-        console.log(this.sidebarcomponent.componentName);
-        console.log(this.sidebarcomponent instanceof RouteSidebarSection);
         return this.sidebarcomponent instanceof RouteSidebarSection;
     }
 
