@@ -34,8 +34,8 @@ import { TitleComponent } from './server/title.component';
 import { AuthorizationService } from './app/dspace/authorization/services/authorization.service';
 import { BreadcrumbService } from './app/navigation/services/breadcrumb.service';
 import { ContextProviderService } from './app/dspace/services/context-provider.service';
-import { DSpaceConstants } from './app/dspace/dspace.constants';
-import { DSpaceDirectory } from './app/dspace/dspace.directory';
+import { DSpaceConstantsService } from './app/dspace/services/dspace-constants.service';
+import { DSpaceHierarchyService } from './app/dspace/services/dspace-hierarchy.service';
 import { DSpaceService } from './app/dspace/services/dspace.service';
 import { FormService } from './app/utilities/form/form.service';
 import { GoogleScholarMetadataService } from './app/utilities/services/google-scholar-metadata.service.ts';
@@ -126,8 +126,8 @@ function ngApp(req, res) {
             AuthorizationService,
             BreadcrumbService,
             ContextProviderService,
-            DSpaceConstants,
-            DSpaceDirectory,
+            DSpaceConstantsService,
+            DSpaceHierarchyService,
             DSpaceService,
             FormService,
             GoogleScholarMetadataService,

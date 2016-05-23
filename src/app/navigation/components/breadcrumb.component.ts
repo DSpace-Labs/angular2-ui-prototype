@@ -1,11 +1,11 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
-import { DSpaceDirectory } from '../../dspace/dspace.directory';
+import { DSpaceHierarchyService } from '../../dspace/services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../services/breadcrumb.service';
 
 /**
- * Breadcrumb component for displaying current set of breadcrumbs of the 
+ * Breadcrumb component for displaying current set of breadcrumbs of the
  * hierarchy to the given context. e.g. Dashboard / Community / Collection / Item
  */
 @Component({
@@ -39,11 +39,11 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
     /**
      *
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
-    constructor(private dspace: DSpaceDirectory,
+    constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService) {
 
     }
@@ -71,7 +71,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
 
     /**
      * Method to build the breadcrumb trail when a given context is visited.
-     * 
+     *
      * @param context
      *      The current context. Represents a dspace object community, collection, or item.
      */
@@ -108,7 +108,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
      */
     private dropBreadcrumb(context): Promise<any> {
         let bc = this;
-        return new Promise(function (resolve, reject) { 
+        return new Promise(function (resolve, reject) {
             bc.trail.unshift({
                 name: context.name,
                 type: context.type,
@@ -116,7 +116,7 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
                 id: context.id,
                 page: context.page,
                 limit: context.limit
-            });            
+            });
             if ((context.parentCommunity && context.parentCommunity.type) || (context.parentCollection && context.parentCollection.type)) {
                 let parentType = context.parentCommunity ? 'Community' : 'Collection';
                 if (context['parent' + parentType].ready) {

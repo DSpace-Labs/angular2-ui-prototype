@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { DSpaceConstants } from '../dspace.constants';
+import { DSpaceConstantsService } from './dspace-constants.service';
 
 /**
  * Injectable service to cache session context which have been visited.
@@ -9,12 +9,12 @@ import { DSpaceConstants } from '../dspace.constants';
  */
 @Injectable()
 export class PagingStoreService {
-    
+
     /**
      * A map of the visited item pages.
      */
     private itemPages: Map<number, any>;
-    
+
     /**
      * A map of the visited collection pages.
      */
@@ -24,13 +24,13 @@ export class PagingStoreService {
      * A map of the visited community pages.
      */
     private communityPages: Map<number, any>;
-    
+
     /**
-     * 
+     *
      * @param dspaceConstants
-     *      DSpaceConstants is a singleton service with constants.
+     *      DSpaceConstantsService is a singleton service with constants.
      */
-    constructor(private dspaceConstants: DSpaceConstants) {
+    constructor(private dspaceConstants: DSpaceConstantsService) {
         this.itemPages = new Map<number, any>();
         this.collectionPages = new Map<number, any>();
         this.communityPages = new Map<number, any>();
@@ -53,7 +53,7 @@ export class PagingStoreService {
     }
 
     /**
-     * Method to add context page to the store. 
+     * Method to add context page to the store.
      *
      * @param type
      *      community, collection, or item
@@ -70,7 +70,7 @@ export class PagingStoreService {
     }
 
     /**
-     * Method to clear pages by type and id. 
+     * Method to clear pages by type and id.
      *
      * @param context
      *      context: community, collection, or item

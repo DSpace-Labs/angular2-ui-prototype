@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 
 import { BreadcrumbService } from '../services/breadcrumb.service';
-import { DSpaceDirectory } from '../../dspace/dspace.directory';
+import { DSpaceHierarchyService } from '../../dspace/services/dspace-hierarchy.service';
 import { PagingStoreService } from '../../dspace/services/paging-store.service';
 import { PaginationService } from '../services/pagination.service';
 
@@ -52,21 +52,21 @@ export class PaginationComponent implements OnInit {
      * A number that represents the previous page.
      */
     private previous: number;
-    
+
     /**
      * A number that represents the next page.
      */
     private next: number;
-    
+
      /**
      * A number array that represents options for a context pagination limit.
      */
     private limitOptions: Array<number>;
-    
+
     /**
-     * 
+     *
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param pagingStore
      *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param paginationService
@@ -76,12 +76,12 @@ export class PaginationComponent implements OnInit {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(private dspace: DSpaceDirectory,
+    constructor(private dspace: DSpaceHierarchyService,
                 private pagingStore: PagingStoreService,
                 private paginationService: PaginationService,
                 private breadcrumbService: BreadcrumbService,
                 private router: Router) {
-        this.limitOptions = paginationService.getLimitOptions();    
+        this.limitOptions = paginationService.getLimitOptions();
     }
 
      /**
@@ -101,7 +101,7 @@ export class PaginationComponent implements OnInit {
 
     /**
      * Method to page on the dashboard. Does not navigate, only requests next page.
-     * 
+     *
      * @param page
      *          The page being navigated to.
      */
