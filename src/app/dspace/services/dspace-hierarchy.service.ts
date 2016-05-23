@@ -1,48 +1,50 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { DSpaceService } from './services/dspace.service';
-import { PagingStoreService } from './services/paging-store.service';
-import { DSpaceConstants } from './dspace.constants';
-import { PaginationService } from '../navigation/services/pagination.service';
-import { ObjectUtil } from '../utilities/commons/object.util'
+import { DSpaceService } from './dspace.service';
+import { PagingStoreService } from './paging-store.service';
+import { DSpaceConstantsService } from './dspace-constants.service';
+import { PaginationService } from '../../navigation/services/pagination.service';
+import { ObjectUtil } from '../../utilities/commons/object.util'
 
 /**
- * Injectable service to provide navigation and context.
+ * Injectable service to provide navigation and context within the DSpace
+ * hierarchy of objects. Essentially, this performs Browse by Community/Collection
+ * functionality.
  */
 @Injectable()
-export class DSpaceDirectory {
+export class DSpaceHierarchyService {
 
     /**
-     * The DSpace directory.
+     * The DSpace hierarchy
      */
-    public directory: Array<Object>;
+    public hierarchy: Array<Object>;
 
     /**
-     * Whether directory is being loaded.
+     * Whether hierarchy is being loaded.
      */
     private loading: boolean;
 
     /**
-     * Whether directory is ready.
+     * Whether hierarchy is ready.
      */
     private ready: boolean;
 
     /**
-     * 
-     * @param dspaceService 
+     *
+     * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace REST API.
-     * @param pagingStore 
+     * @param pagingStore
      *      PagingStoreService is a singleton service to cache context which have already been requested.
      * @param dspaceConstants
-     *      DSpaceConstants is a singleton service with constants.
-     * @param paginationService 
+     *      DSpaceConstantsService is a singleton service with constants.
+     * @param paginationService
      *      PaginationService is a singleton service for pagination controls.
      */
     constructor(private dspaceService: DSpaceService,
                 private pagingStore: PagingStoreService,
-                private dspaceConstants: DSpaceConstants,
+                private dspaceConstants: DSpaceConstantsService,
                 private paginationService: PaginationService) {
-        this.directory = new Array<Object>();
+        this.hierarchy = new Array<Object>();
         this.loading = false;
         this.ready = false;
     }
@@ -72,7 +74,7 @@ export class DSpaceDirectory {
         }
         else {
             this.ready = false;
-            this.loadDirectory();
+            this.loadHierarchy();
         }
     }
 
@@ -95,15 +97,15 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Method to perform initial loading of the directory.
+     * Method to perform initial loading of the hierarchy.
      * Calls prepare with the top community results.
      */
-    loadDirectory(): void {
+    loadHierarchy(): void {
         if (!this.ready) {
             if (!this.loading) {
                 this.loading = true;
                 this.dspaceService.fetchTopCommunities().subscribe(topCommunities => {
-                    this.directory = this.prepare(null, topCommunities);
+                    this.hierarchy = this.prepare(null, topCommunities);
                 },
                 error => {
                     console.error('Error: ' + JSON.stringify(error, null, 4));
@@ -164,27 +166,27 @@ export class DSpaceDirectory {
      */
     loadObj(type, id, page?, limit?): Promise<any> {
         // needed to be used within scope of promise
-        let directory = this;
+        let hierarchy = this;
         return new Promise(function (resolve, reject) {
             let parent;
             let useCachedContext = false;
-            let directoryContext = directory.find(type, id);
-            if(directoryContext) {
+            let hierarchyContext = hierarchy.find(type, id);
+            if(hierarchyContext) {
                 useCachedContext = true;
-                if(type == 'item' && !directoryContext.fullItem) {
+                if(type == 'item' && !hierarchyContext.fullItem) {
                     useCachedContext = false;
                 }
             }
             if (useCachedContext) {
-                parent = directoryContext.type == 'item' ? directoryContext.parentCollection : directoryContext.parentCommunity;
-                directory.paging(directoryContext, page, limit);
-                directory.prepare(parent, directoryContext);
-                resolve(directoryContext);
+                parent = hierarchyContext.type == 'item' ? hierarchyContext.parentCollection : hierarchyContext.parentCommunity;
+                hierarchy.paging(hierarchyContext, page, limit);
+                hierarchy.prepare(parent, hierarchyContext);
+                resolve(hierarchyContext);
             }
             else {
-                directory.dspaceService['fetch' + directory.dspaceConstants[type].METHOD](id).subscribe(context => {
+                hierarchy.dspaceService['fetch' + hierarchy.dspaceConstants[type].METHOD](id).subscribe(context => {
                     if(context.type == "item") {
-                        parent = directory.find(context.parentCollection.type, context.parentCollection.id);
+                        parent = hierarchy.find(context.parentCollection.type, context.parentCollection.id);
                         if(parent) {
                             for(let item of parent.items) {
                                 if(item.id == context.id) {
@@ -199,19 +201,19 @@ export class DSpaceDirectory {
                             }
                         }
                         else {
-                            console.log('item parent is not in directory');
+                            console.log('item parent is not in hierarchy');
                         }
                     }
                     else {
                         if(context.parentCommunity) {
-                            parent = directory.find(context.parentCommunity.type, context.parentCommunity.id);
+                            parent = hierarchy.find(context.parentCommunity.type, context.parentCommunity.id);
                             if(!parent) {
-                                console.log('parent is not in directory');
+                                console.log('parent is not in hierarchy');
                             }
                         }
                     }
-                    directory.paging(context, page, limit);
-                    directory.prepare(parent, context);
+                    hierarchy.paging(context, page, limit);
+                    hierarchy.prepare(parent, context);
                     context.ready = true;
                     resolve(context);
                 },
@@ -226,7 +228,7 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Method to find the contex in the directory.
+     * Method to find the context in the hierarchy.
      *
      * @param type
      *      string: community, collection, or item
@@ -234,21 +236,21 @@ export class DSpaceDirectory {
      *      current context id which needing to load context details
      */
     find(type, id): any {
-        return this.recursiveFind(this.directory, type, id);
+        return this.recursiveFind(this.hierarchy, type, id);
     }
 
     /**
-     * Method to recursively search the directory to find the contex by type and id.
+     * Method to recursively search the hierarchy to find the context by type and id.
      *
-     * @param directory
-     *      level of recursion in the directory
+     * @param hierarchy
+     *      level of recursion in the hierarchy
      * @param type
      *      string: community, collection, or item
      * @param id
      *      current context id which needing to load context details
      */
-    recursiveFind(directory, type, id): any {
-        for(let context of directory) {
+    recursiveFind(hierarchy, type, id): any {
+        for(let context of hierarchy) {
             if(context.type == type && context.id == id) {
                 return context;
             }
@@ -273,7 +275,7 @@ export class DSpaceDirectory {
         }
         return null;
     }
-    
+
     /**
      * Method to apply pagination to context.
      *
@@ -304,7 +306,7 @@ export class DSpaceDirectory {
      *     The context list: items, collections, subcommunities or the context itself.
      */
     prepare(context, obj): Array<any> {
-        if (Array.isArray(obj)) 
+        if (Array.isArray(obj))
             return this.process(context, obj);
         else {
             this.enhance(obj);
@@ -326,20 +328,20 @@ export class DSpaceDirectory {
     }
 
     /**
-     * Method to make relationships with provided context and 
-     * place expanded property and toggle methods on a given context 
+     * Method to make relationships with provided context and
+     * place expanded property and toggle methods on a given context
      * if not an item.
      * Sets the parent community or collection if applicable.
-     * 
+     *
      * @param context
      *      current context in which needing to process relations.
      * @param list
      *     The context list: items, collections, subcommunities or the context itself
-     * 
+     *
      */
     process(context, list): Array<any> {
         // needed to be used within scope of forEach
-        let directory = this;
+        let hierarchy = this;
         list.forEach(current => {
             if (context) {
                 if (current.type == 'item') {
@@ -349,7 +351,7 @@ export class DSpaceDirectory {
                     current.parentCommunity = context;
                 }
             }
-            directory.enhance(current);
+            hierarchy.enhance(current);
             if (current.type != 'item') {
                 current.expanded = false;
                 current.toggle = function () {
@@ -359,11 +361,11 @@ export class DSpaceDirectory {
                             // any item content navigation loading
                         }
                         else if (this.type == 'collection') {
-                            directory.loadNav('item', this);
+                            hierarchy.loadNav('item', this);
                         }
                         else {
-                            directory.loadNav('community', this);
-                            directory.loadNav('collection', this);
+                            hierarchy.loadNav('community', this);
+                            hierarchy.loadNav('collection', this);
                         }
                     }
                 }
@@ -384,5 +386,5 @@ export class DSpaceDirectory {
         }
         context.component = "/" + this.dspaceConstants[context.type].COMPONENT;
     }
-    
+
 }

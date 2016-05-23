@@ -54,7 +54,6 @@ export class AppSidebarHelper
         let helpComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.help.header")
             .id("helpheader")
-            .index(100)
             .addChild(aboutComponent)
             .build();
         this.sidebarService.addSection(helpComponent);
@@ -75,7 +74,7 @@ export class AppSidebarHelper
 
         let logoutComponent = RouteSidebarSection.getBuilder()
             .name("sidebar.account.logout")
-            .route("Home")
+            .route("Logout")
             .id("account-logout")
             .visible(false)
             .visibilityObservable(this.authorization.userObservable)
@@ -85,51 +84,16 @@ export class AppSidebarHelper
             .name("sidebar.account.header")
             .addChildren([loginComponent,registerComponent,logoutComponent])
             .id("my-account")
+            .index(0) // show this as the first component
             .build();
 
         this.sidebarService.addSection(accountComponent);
 
-        // build submissions
-        let createSubmissionComponent = RouteSidebarSection.getBuilder()
-            .name("sidebar.submissions.submit")
-            .route("Home")
-            .build();
-
-
-        let submissionComponent = RouteSidebarSection.getBuilder()
-            .name('sidebar.submissions.header')
-            .id('submissions')
-            .visible(false)
-            .visibilityObservable(this.authorization.userObservable)
-            .addChild(createSubmissionComponent)
-            .build(); // need to change this visibility depending on the authorization service
-
-        this.sidebarService.addSection(submissionComponent);
-
-        let createComComponent = RouteSidebarSection.getBuilder()
-            .name("sidebar.context-dashboard.create-community")
-            .id("createcommunity")
-            .route("CommunityCreate")
-            .build();
-
-
-        let contextComponent = RouteSidebarSection.getBuilder()
-            .name("sidebar.context-dashboard.header")
-            .id("appcontext")
-            .visible(false)
-            .visibilityObservable(this.authorization.userObservable)
-            .addChild(createComComponent)
-            .build();
-
-        this.sidebarService.addSection(contextComponent);
-
-        // we only push this one, because this one is the only one that needs to get deleted when we navigate away.
-        this.sections.push(contextComponent);
     }
 
 
     /**
-     *  Normally does not get called as this component contains the default sidebar entries
+     * This should not remove anything at the moment, because the sidebar gets populated with standard components in the app-component.
      */
     removeSections()
     {

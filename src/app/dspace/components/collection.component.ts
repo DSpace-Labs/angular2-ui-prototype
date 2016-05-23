@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
-import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 
 import { ContainerHomeComponent } from "./container-home.component";
@@ -22,7 +22,7 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 @Component({
     selector: 'collection',
     directives: [ ContainerHomeComponent, ItemListComponent ],
-    template: ` 
+    template: `
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>
                     <item-list *ngIf="collection.items.length > 0" [collection]="collection" [items]="collection.items"></item-list>
@@ -48,14 +48,14 @@ export class CollectionComponent implements OnDestroy {
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param sidebarService
      *      SidebarService is a singleton service to interact with the sidebar component.
      */
     constructor(private params: RouteParams, 
-                private dspace: DSpaceDirectory, 
+                private dspace: DSpaceHierarchyService, 
                 private breadcrumbService: BreadcrumbService,
                 private sidebarService : SidebarService,
                 private authorization : AuthorizationService) {

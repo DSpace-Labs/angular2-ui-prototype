@@ -53,7 +53,9 @@ export class CommunitySidebarHelper
 
         let browseChildSection = RouteSidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("CommunityEdit",{id: this.community.id})
+            .route("E404")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .build();
 
         let createCommunity = RouteSidebarSection.getBuilder()

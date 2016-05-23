@@ -17,7 +17,7 @@ import { TranslateService } from "ng2-translate/ng2-translate";
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { DSpaceService } from '../services/dspace.service';
-import { DSpaceDirectory } from '../dspace.directory';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { FormService } from '../../utilities/form/form.service';
 import { NotificationService } from '../../utilities/notification/notification.service';
 
@@ -44,24 +44,47 @@ import { Metadatum } from '../models/metadatum.model';
     template: `
                 <h3>Create Item</h3>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
+
+                <!-- Display the form -->
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
+                    <!-- As long as the default form has a Type input field, we'll display it first -->
+                    <!-- Select to change form to a given type, which loads a new type-based form -->
+                    <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
+                        <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
+                    </select>
+                    <!-- Add bitstreams/files -->
                     <item-bitstream-add [files]="files"
                                         (addBitstreamEmitter)="addBitstream($event)"
                                         (removeBitstreamEmitter)="removeBitstream($event)">
                     </item-bitstream-add>
+                    <!-- Display all other form inputs (based on type, if exists) -->
                     <item-metadata-input [form]="form" [metadatumInputs]="metadatumInputs"
                                          (addMetadatumInputEmitter)="addMetadatumInput($event)"
                                          (removeMetadatumInputEmitter)="removeMetadatumInput($event)">
                     </item-metadata-input>
+                    <!-- Form buttons -->
                     <div class="pull-right">
                         <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
                         <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">Submit</button>
                     </div>
-
                 </form>
               `
 })
 export class ItemCreateComponent extends FormSecureComponent {
+
+    /**
+     * Selected type from options within default to generic item.json form
+     */
+    private selected = {
+        "gloss": "",
+        "value": "",
+        "form": "item"
+    };
+
+    /**
+     * Type input from the initial item.json
+     */
+    private typeInput: FormInput;
 
     /**
      * Metadata input fields.
@@ -87,7 +110,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
      * @param dspace
-     *      DSpaceDirectory is a singleton service to interact with the dspace directory.
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
      * @param formService
@@ -102,7 +125,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceDirectory,
+                private dspace: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -118,12 +141,30 @@ export class ItemCreateComponent extends FormSecureComponent {
     init(): void {
         this.item = new Item();
         this.files = new Array<any>();
-        this.formService.getForm('item').subscribe(inputs => {
+        this.formService.getForm(this.selected.form).subscribe(inputs => {
             // For an item, the form consists of MetadatumInputs
             this.metadatumInputs = inputs;
+
+            // If not yet found, locate our Type input (so we can enable type-based forms if found)
+            // NOTE: it is recommended that the default form (item.json) define the type input!
+            if(!this.hasTypeInput()) {
+                this.typeInput = this.findTypeInput(inputs);
+            }
+
+            // Ensure the type input is NOT in the list of form inputs.
+            // As the type input controls the form, it will be managed separately,
+            // and we don't want the field duplicated.
+            if(this.hasTypeInput()) {
+                this.removeMetadatumInput(this.typeInput);
+            }
+
             let formControls = {};
+
+            // For each input in our form
             for(let input of this.metadatumInputs) {
+                // set default value
                 input.value = input.default ? input.default : '';
+                // create validators for field
                 let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
             }
@@ -132,19 +173,8 @@ export class ItemCreateComponent extends FormSecureComponent {
             this.active = true;
         },
         errors => {
-            console.log(errors);
+            console.error('Error: ' + errors);
         });
-    }
-
-    /**
-     * Sets the item values with ngModel values from inputs.
-     */
-    setModelValues(): void {
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.item[input.key] = input.value;
-            }
-        }
     }
 
     /**
@@ -154,7 +184,18 @@ export class ItemCreateComponent extends FormSecureComponent {
         for(let input of this.metadatumInputs) {
             if(input.value) {
                 this.item.addMetadata(new Metadatum(input)); // use addMetadata to trigger changedetection
+                // set item name equal dc.title
+                if(input.key == "dc.title") {
+                    this.item.name = input.value;
+                }
             }
+        }
+        // If we have a type input, we need to add its metadata separately
+        // as it won't be in the list of form inputs above.
+        // Add the type value based on the currently selected type.
+        if(this.hasTypeInput()) {
+            this.typeInput.value = this.selected.value;
+            this.item.addMetadata(new Metadatum(this.typeInput));
         }
     }
 
@@ -259,7 +300,6 @@ export class ItemCreateComponent extends FormSecureComponent {
         let token = this.authorization.user.token;
         let currentContext = this.contextProvider.context;
         this.processing = true;
-        this.setModelValues();
         this.setMetadataValues();
         this.dspaceService.createItem(this.item.sanitize(), token, currentContext.id).subscribe(response => {
             if(response.status == 200) {
@@ -282,10 +322,42 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         },
         error => {
-            console.log(error);
+            console.error(error);
             this.processing = false;
             this.notificationService.notify('app', 'DANGER', this.translate.instant('item.create.error', { name: this.item.name }));
         });
+    }
+
+    /**
+     * Find and set the type input in this form (based on all form inputs)
+     * If found, remove it from the list of form fields, as we'll
+     * display it at the top of the page instead.
+     */
+    private findTypeInput(inputs: Array<FormInput>): FormInput {
+        let typeInput = undefined;
+
+        // Loop through inputs, finding our Type input
+        for(let input of inputs) {
+            if(input.key == "dc.type") {
+                typeInput = input;
+                break;
+            }
+        }
+        return typeInput;
+    }
+
+    /**
+     *
+     */
+    private hasTypeInput(): boolean {
+        return this.typeInput ? true : false;
+    }
+
+    /**
+     *
+     */
+    private typeSelected($event): void {
+        this.init();
     }
 
 }

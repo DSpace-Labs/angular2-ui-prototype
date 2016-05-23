@@ -1,10 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 
 /**
- * Some constants.
+ * Service which provides some constants for interaction with the DSpace REST API
  */
 @Injectable()
-export class DSpaceConstants {
+export class DSpaceConstantsService {
 
     /**
      * Constants for items
