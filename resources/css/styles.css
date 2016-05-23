@@ -90,9 +90,14 @@ html, body {
     margin-top:10px;
 }
 
+.sidebar-menu > section{
+    border:1px solid #ddd;
+    border-bottom:none;
+}
 .sidebar-section {
     margin-bottom: 40px;
 }
+
 .sidebar-section ul {
     list-style: none;
     padding: 0;
@@ -113,7 +118,7 @@ html, body {
 }
 .sidebar-section > ul > li {
     border: 1px solid #ddd;
-    border-top: 0;
+   /* border-top: 0;*/
 }
 .sidebar-section > ul > li:last-child {
     margin-bottom: 0;

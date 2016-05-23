@@ -17,13 +17,13 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div *ngIf="sidebarcomponent.visible" class="sidebar-simple-section-element">
+            <div *ngIf="sidebarcomponent.visible" class="">
             <!-- if this component has children we want to render it w/o a link -->
 
-            <div *ngIf="isRouteSection()" class="">
+            <div *ngIf="isRouteSection()" class="panel panel-default">
                 <!-- this is rendered if there is a route -->
                 <div *ngIf="!hasDestination()" class="panel-heading">
-                    <span>{{ sidebarcomponent.componentName | translate}}</span>
+                    <h3 class="panel-title">{{ sidebarcomponent.componentName | translate}}</h3>
                 </div>
 
                 <div *ngIf="hasDestination()" class="sidebar-link">
