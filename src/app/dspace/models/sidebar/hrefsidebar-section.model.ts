@@ -170,7 +170,6 @@ class Builder
      */
     build() : SidebarSection
     {
-        console.log("starting observable");
         this.section.startObserving();
         return this.section;
     }
