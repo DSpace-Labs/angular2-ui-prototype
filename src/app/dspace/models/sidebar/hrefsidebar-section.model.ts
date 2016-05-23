@@ -8,10 +8,6 @@ import { SidebarSection } from './sidebar-section.model';
 export class HrefSidebarSection extends SidebarSection
 {
 
-    /**
-     *
-     */
-    urlname : string; // name for i18n
 
 
     /**
@@ -157,9 +153,8 @@ class Builder
     }
 
 
-    url(name : string, url : string)
+    url(url : string)
     {
-        this.section.urlname = name;
         this.section.url = url;
         return this;
     }
