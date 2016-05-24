@@ -41,33 +41,36 @@ import { User } from './dspace/models/user.model';
                   NotificationComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <!-- When clicked toggle navCollapsed setting -->
-                            <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
+                <!--TODO separate out header-->
+                <header>
+                    <nav class="navbar">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <!-- When clicked toggle navCollapsed setting -->
+                                <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
+                            </div>
+                            <!-- Collapse this menu when navCollapse is true -->
+                            <div [collapse]="navCollapsed" class="collapse navbar-collapse">
+                                <ul class="nav navbar-nav">
+                                    <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right" *ngIf="!user">
+                                        <!--<li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>-->
+                                        <li><a [routerLink]="['Login']" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right" *ngIf="user">
+                                    <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
+                                    <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <!-- Collapse this menu when navCollapse is true -->
-                        <div [collapse]="navCollapsed" class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right" *ngIf="!user">
-                                <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
-                                <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
-                                <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                    </nav>
+                </header>
 
                 <breadcrumb></breadcrumb>
                 <div class="container">
