@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { ContextProviderService } from '../../../dspace/services/context-provider.service';
@@ -31,23 +31,29 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                             <div class="row">
                                 <div class="col-md-11 col-xs-10">
                                     <fieldset class="form-group">
-                                        <input  class="form-control" required [(ngModel)]="sectionName"  type="text"/>
+                                        <input class="form-control" required [(ngModel)]="sectionName"  type="text"/>
                                     </fieldset>
                                 </div>
                             </div>
                         </td>
                     </tr>
+
+                    <!-- and now for the metadata things -->
+                    <tr *ngFor="let entry of entries let i = index">
+                        <td>
+                            <fieldset>
+                                <label>Url <input class="form-control" [(ngModel)]="entry.sectionUrl" required type="text"/></label>
+                                <label>Name <input class="form-control" [(ngModel)]="entry.sectionUrlName" required type="text"/></label>
+                                <label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>
+                                <!-- only show the addition on the first? -->
+                                <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addSectionField()"></span>
+                                <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
+                            </fieldset>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
-            <form id="addsidebarsection">
-                <fieldset>
-                    <label>Url:<input [(ngModel)]="sectionUrl" required type="text"/></label>
-                    <label>Url name: <input [(ngModel)]="sectionUrlName" required type="text"/></label>
-                    <label>Index:<input [(ngModel)]="sectionIndex" type="text"/></label>
-                    <button value="Add" (click)="addSection()">Add</button>
-                </fieldset>
-            </form>
-
         `
 })
 
@@ -59,31 +65,44 @@ export class AdminSidebarComponent
 {
     // at the moment we can only add the hrefsidebar
 
-    sectionName : string;
-    sectionUrl : string;
-    sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
-    sectionUrlName: string;
 
+    entries : Array<SidebarEntry>;
 
     // test the addition thingie
     /**
      *
      */
-    //@Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
+    //@Output('addSectionDataInput') addSectionDataInput: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
 
     constructor(private sidebarService : SidebarService)
     {
-
+        this.entries = new Array<SidebarEntry>();
+        this.addSectionField(); // create the first section
     }
 
+    addSectionField()
+    {
+        this.entries.push(new SidebarEntry());
+        this.entries = this.entries.slice(0);
+    }
+
+    removeSectionField(index)
+    {
+        this.entries.splice(index,1);
+    }
 
     addSection()
     {
-        console.log("section name: " + this.sectionName);
-        // create new sidebar based on the data that I got here.
-        // will need to switch over the ones that are set.
-        // or I can pass undefined and have the builder check these thigns?
+        // loop over all the entries.
+
+
+        this.entries.forEach(x =>
+        {
+            console.log(x.sectionUrlName);
+        });
+
+        /*
         let sidebarComponent = SidebarSection.getBuilder()
                                 .url(this.sectionUrl).index(this.sectionIndex).name(this.sectionUrlName)
                                 .id(this.sectionName+"-"+this.sectionUrl).build(); // generate a section id oursevles?
@@ -97,6 +116,19 @@ export class AdminSidebarComponent
                             .addChild(sidebarComponent)
                             .id(this.sectionName)
                             .build();
+
         this.sidebarService.addSection(mainComponent);
+        */
     }
+}
+
+class SidebarEntry
+{
+
+    sectionName : string;
+    sectionUrl : string;
+    sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
+    sectionUrlName: string;
+
+
 }
