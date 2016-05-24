@@ -54,13 +54,8 @@ export class ItemSidebarHelper
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
-        let viewItemChildSection = SidebarSection.getBuilder()
-            .name("sidebar.item-context.view")
-            .route('Items',{id:this.item.id})
-            .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")
-            .addChild(viewItemChildSection)
             .addChild(editItemChildSection)
             .id("itemsidebar")
             .index(2)

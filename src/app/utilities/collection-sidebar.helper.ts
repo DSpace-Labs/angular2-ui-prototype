@@ -45,10 +45,6 @@ export class CollectionSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
-        let homeChildSection =  SidebarSection.getBuilder()
-            .name("sidebar.context-collection.view")
-            .route("Collections",{id : this.collection.id})
-            .build();
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
@@ -67,7 +63,7 @@ export class CollectionSidebarHelper
         let collectionSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
-            .addChildren([homeChildSection,browseChildSection,addItemSection])
+            .addChildren([browseChildSection,addItemSection])
             .build();
         this.sidebarService.addSection(collectionSection);
         this.sections.push(collectionSection);

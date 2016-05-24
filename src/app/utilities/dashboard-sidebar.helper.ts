@@ -53,7 +53,7 @@ export class DashboardSidebarHelper
         let contextComponent = SidebarSection.getBuilder()
             .name("sidebar.context-dashboard.header")
             .id("appcontext")
-            .visible(false)
+            .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .addChild(createComComponent)
             .build();

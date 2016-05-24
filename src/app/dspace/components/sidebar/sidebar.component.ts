@@ -18,8 +18,8 @@ import {SidebarSectionComponent} from './sidebar-section.component';
 
             <div id="sidebar" class="sidebar-offcanvas">
                 <aside class="sidebar-menu">
-                    <section *ngFor="let component of sidebarComponents" class="">
-                        <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
+                    <section *ngFor="let component of sidebarComponents">
+                        <sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
                     </section>
                 </aside>
             </div>
@@ -38,6 +38,16 @@ export class SidebarComponent
      *
      */
     private sidebarComponents;
+
+
+    /**
+     *
+     * @returns {any}
+     */
+    visibleComponent()
+    {
+        return this.sidebarComponents.filter(x => x.visible);
+    }
 
 
     /**

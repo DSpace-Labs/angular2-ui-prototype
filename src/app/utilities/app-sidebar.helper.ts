@@ -43,6 +43,7 @@ export class AppSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
+        /*
         let aboutComponent = SidebarSection.getBuilder()
             .name("About")
             .route("Home")
@@ -55,14 +56,13 @@ export class AppSidebarHelper
             .addChild(aboutComponent)
             .build();
         this.sidebarService.addSection(helpComponent);
-
-        let otherComponent = SidebarSection.getBuilder().name("sidebar-test").id("testid").route("Home").visible(true).build();
+        */
+        //let otherComponent = SidebarSection.getBuilder().name("sidebar-test").id("testid").route("Home").visible(true).build(); test another level of indentation
 
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
             .visible(true)
-            .addChild(otherComponent)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 

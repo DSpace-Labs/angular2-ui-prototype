@@ -45,10 +45,6 @@ export class CommunitySidebarHelper
         {
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
-        let homeChildSection =  SidebarSection.getBuilder()
-            .name("sidebar.context-community.view")
-            .route("Communities",{id : this.community.id})
-            .build();
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
@@ -74,7 +70,7 @@ export class CommunitySidebarHelper
         let communitySection = SidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
-            .addChildren([homeChildSection,browseChildSection,createCollection,createCommunity])
+            .addChildren([browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);
         this.sections.push(communitySection);
