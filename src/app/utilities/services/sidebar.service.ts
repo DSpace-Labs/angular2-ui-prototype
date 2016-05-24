@@ -138,5 +138,14 @@ export class SidebarService
             return foundSection;
         }
     }
+
+    /**
+     * Returns the top-level sections.
+     * (Sections that are not a child)
+     */
+    getTopSections()
+    {
+        return this.components.filter(x => x.id.indexOf("custom") > -1);
+    }
 }
 

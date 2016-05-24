@@ -79,9 +79,27 @@ export class AdminSidebarComponent
     constructor(private sidebarService : SidebarService)
     {
         this.entries = new Array<SidebarEntry>();
+
+        let atmireLink = SidebarSection.getBuilder().name("atmire").id("custom-sidebar-section.atmire").url("http://www.atmire.com").build();
+        let customSection = SidebarSection.getBuilder().name("Resources").id("custom-sidebar-section").addChild(atmireLink).build();
+        this.sidebarService.addSection(customSection);
+
+        // Let's see what happens when I already have an entry.
+        // maybe store the user-specific sections as starting with 'user'
+
         this.addSectionField(); // create the first section
     }
 
+    // populate with the sections that already exist.
+    // in the future needs to be loeaded from a file.
+    populateForm()
+    {
+
+        let customSections = this.sidebarService.getTopSections();
+
+        // now we populate our system based on this.
+        // one section per top-level, put the children underneath this
+    }
 
 
     addSectionField()
@@ -120,23 +138,14 @@ export class AdminSidebarComponent
 
         this.sidebarService.addSection(mainComponent);
 
-        /*
-        let sidebarComponent = SidebarSection.getBuilder()
-                                .url(this.sectionUrl).index(this.sectionIndex).name(this.sectionUrlName)
-                                .id(this.sectionName+"-"+this.sectionUrl).build(); // generate a section id oursevles?
-
-
-
-
-        // if the main component Id already exists, look up the component, and add to the existing component.
-
-        */
     }
 }
 
 class SidebarEntry
 {
 
+    // a top-level only has a name, not a url. That is one way to notice the difference.
+    // but the children need to be attached to the parent somehow.
     sectionName : string;
     sectionUrl : string;
     sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
