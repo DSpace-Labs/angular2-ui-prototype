@@ -19,7 +19,7 @@ import { SidebarSectionComponent } from './sidebar-section.component';
             <!-- put this all in a table -->
 
             <table class="table table-striped">
-                <tbody>
+                <tbody *ngFor="let entry of entries #j=index"> <!-- one tbody for each resource? -->
                     <tr>
                         <td>
                             <div class="row"> <!-- name of label-->
@@ -30,8 +30,9 @@ import { SidebarSectionComponent } from './sidebar-section.component';
 
                             <div class="row">
                                 <div class="col-md-11 col-xs-10">
-                                    <fieldset class="form-group">
-                                        <input class="form-control" required [(ngModel)]="sectionName"  type="text"/>
+                                    <fieldset class="">
+                                        <input class="form-control" required [(ngModel)]="entry.componentName"  type="text"/> <!-- here we want to show a plus somewhere? -->
+                                         <span *ngIf="j==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addSectionField()"></span> <!-- this to add a whole section -->
                                     </fieldset>
                                 </div>
                             </div>
@@ -39,19 +40,21 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                     </tr>
 
                     <!-- and now for the metadata things -->
-                    <tr *ngFor="let entry of entries let i = index">
+                    <!-- we loop over the children but we will, for now, just do it with one level -->
+                    <tr *ngFor="let child of entry.childsections let i = index">
                         <td>
                             <fieldset>
-                                <label>Name <input class="form-control" [(ngModel)]="entry.sectionName" required type="text"/></label>
-                                <label>Url <input class="form-control" [(ngModel)]="entry.sectionUrl" required type="text"/></label>
-                                <label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>
+                                <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
+                                <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
+                                <!--<label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>-->
                                 <!-- only show the addition on the first? -->
-                                <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addSectionField()"></span>
+                                <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
                                 <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
                             </fieldset>
                         </td>
                     </tr>
                 </tbody>
+
             </table>
 
           <button type="button" class="btn btn-primary btn-sm" (click)="addSection()">Create section</button>
@@ -73,12 +76,12 @@ export class AdminSidebarComponent
     /**
      *
      */
-    entries : Array<SidebarEntry>;
+    entries : Array<SidebarSection>;
 
 
     constructor(private sidebarService : SidebarService)
     {
-        this.entries = new Array<SidebarEntry>();
+        this.entries = new Array<SidebarSection>();
 
         let atmireLink = SidebarSection.getBuilder().name("atmire").id("custom-sidebar-section.atmire").url("http://www.atmire.com").build();
         let customSection = SidebarSection.getBuilder().name("Resources").id("custom-sidebar-section").addChild(atmireLink).build();
@@ -87,25 +90,37 @@ export class AdminSidebarComponent
         // Let's see what happens when I already have an entry.
         // maybe store the user-specific sections as starting with 'user'
 
-        this.addSectionField(); // create the first section
+        // this.addSectionField(); // create the first section
+
+        this.populateForm();
     }
 
     // populate with the sections that already exist.
     // in the future needs to be loeaded from a file.
     populateForm()
     {
-
         let customSections = this.sidebarService.getTopSections();
+        this.entries = customSections.slice(0);
 
         // now we populate our system based on this.
         // one section per top-level, put the children underneath this
     }
 
 
+    // add a top-level section
     addSectionField()
     {
-        this.entries.push(new SidebarEntry());
-        this.entries = this.entries.slice(0);
+        // generate the "custom id"
+        console.log("added a field");
+        this.sidebarService.addSection(SidebarSection.getBuilder().id("custom-something-else").name("nothing!").addChild(new SidebarSection()).build()); // set some name by default, the user will need to provide a name though
+        this.entries = this.sidebarService.getTopSections().slice(0);
+    }
+
+
+    addChildSectionField(parent : SidebarSection)
+    {
+        console.log("adding to: " + parent.componentName);
+        parent.childsections.push(new SidebarSection());
     }
 
     removeSectionField(index)
@@ -113,34 +128,9 @@ export class AdminSidebarComponent
         this.entries.splice(index,1);
     }
 
-    addSection()
-    {
-
-        let sections : Array<SidebarSection> = new Array<SidebarSection>();
-        this.entries.forEach(entry =>
-        {
-            let section = SidebarSection.getBuilder()
-                        .name(entry.sectionName)
-                        .url(entry.sectionUrl)
-                        .index(entry.sectionIndex) // does not need to be set
-                        .build();
-
-            sections.push(section);
-        });
-
-
-        // add sections to main
-        let mainComponent = SidebarSection.getBuilder()
-            .name(this.sectionName)
-            .addChildren(sections)
-            .id(this.sectionName)
-            .build();
-
-        this.sidebarService.addSection(mainComponent);
-
-    }
 }
 
+/*
 class SidebarEntry
 {
 
@@ -150,5 +140,5 @@ class SidebarEntry
     sectionUrl : string;
     sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
 
-
 }
+    */
