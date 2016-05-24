@@ -207,5 +207,8 @@
     "sidebar.context-community.create-community": "Create community",
     "sidebar.context-dashboard.header":"Dashboard",
     "sidebar.context-dashboard.create-community": "Create new top-level community",
+
+    "sidebar.context-admin.header": "Admin",
+    "sidebar.context-admin.alter-sidebar" : "Edit sidebar",
     "setup.title": "Setup"
 }

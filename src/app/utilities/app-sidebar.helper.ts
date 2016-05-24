@@ -93,6 +93,24 @@ export class AppSidebarHelper
         this.sidebarService.addSection(accountComponent);
 
 
+        /* option to style the sidebar, this should only be visible to admins in the future */
+
+        let sidebarEditSection = SidebarSection.getBuilder()
+            .name("sidebar.context-admin.alter-sidebar")
+            .id("alter-sidebar")
+            .route("AdminSidebar")
+            .build();
+
+        let adminSection = SidebarSection.getBuilder()
+            .name("sidebar.context-admin.header")
+            .id("alter-sidebar-heading")
+            .addChild(sidebarEditSection)
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
+            .build();
+
+        this.sidebarService.addSection(adminSection);
+
     }
 
 

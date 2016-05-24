@@ -65,7 +65,14 @@ import { SidebarSectionComponent } from './sidebar-section.component';
 export class AdminSidebarComponent
 {
 
+    /**
+     * Header of the section
+     */
     sectionName : string;
+
+    /**
+     *
+     */
     entries : Array<SidebarEntry>;
 
 
@@ -74,6 +81,8 @@ export class AdminSidebarComponent
         this.entries = new Array<SidebarEntry>();
         this.addSectionField(); // create the first section
     }
+
+
 
     addSectionField()
     {
@@ -102,9 +111,7 @@ export class AdminSidebarComponent
         });
 
 
-        // at the end, add all these to the maincomponent
-
-
+        // add sections to main
         let mainComponent = SidebarSection.getBuilder()
             .name(this.sectionName)
             .addChildren(sections)
