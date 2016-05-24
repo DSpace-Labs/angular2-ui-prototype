@@ -2,10 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { ContextProviderService } from '../../../dspace/services/context-provider.service';
-import {SidebarService} from '../../../utilities/services/sidebar.service.ts';
-import {SidebarSection} from '../../models/sidebar/sidebar-section.model';
-import { HrefSidebarSection } from '../../models/sidebar/hrefsidebar-section.model';
-import {SidebarSectionComponent} from './sidebar-section.component';
+import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
+import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
+import { SidebarSectionComponent } from './sidebar-section.component';
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.
  * Using the sidebarservice
@@ -70,7 +69,7 @@ export class AdminSidebarComponent
     /**
      *
      */
-    @Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
+    //@Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
 
     constructor(private sidebarService : SidebarService)
@@ -85,7 +84,7 @@ export class AdminSidebarComponent
         // create new sidebar based on the data that I got here.
         // will need to switch over the ones that are set.
         // or I can pass undefined and have the builder check these thigns?
-        let sidebarComponent = HrefSidebarSection.getBuilder()
+        let sidebarComponent = SidebarSection.getBuilder()
                                 .url(this.sectionUrl).index(this.sectionIndex).name(this.sectionUrlName)
                                 .id(this.sectionName+"-"+this.sectionUrl).build(); // generate a section id oursevles?
 
@@ -93,7 +92,7 @@ export class AdminSidebarComponent
 
 
         // if the main component Id already exists, look up the component, and add to the existing component.
-        let mainComponent = HrefSidebarSection.getBuilder()
+        let mainComponent = SidebarSection.getBuilder()
                             .name(this.sectionName)
                             .addChild(sidebarComponent)
                             .id(this.sectionName)
