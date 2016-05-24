@@ -70,6 +70,8 @@ export class CommunitySidebarHelper
         let communitySection = SidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .addChildren([browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);
