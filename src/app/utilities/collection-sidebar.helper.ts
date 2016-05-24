@@ -63,6 +63,8 @@ export class CollectionSidebarHelper
         let collectionSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
+            .visible(this.isAuthenticated)
+            .visibilityObservable(this.authorization.userObservable)
             .addChildren([browseChildSection,addItemSection])
             .build();
         this.sidebarService.addSection(collectionSection);
