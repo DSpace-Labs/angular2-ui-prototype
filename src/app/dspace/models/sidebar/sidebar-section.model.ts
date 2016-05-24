@@ -148,7 +148,7 @@ class Route
     /**
      *
      * @param name
-     * @param params
+     * @param paramss
      */
     constructor(public name : string, params?)
     {
@@ -267,6 +267,16 @@ class Builder
     {
         let childRoute = new Route(name,params);
         this.section.Routes.push(childRoute);
+        return this;
+    }
+
+    /**
+     *
+     * @param destination
+     */
+    url(destination : string) : Builder
+    {
+       this.section.url = destination;
         return this;
     }
 

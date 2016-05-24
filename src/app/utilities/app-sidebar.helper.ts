@@ -82,6 +82,7 @@ export class AppSidebarHelper
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
+
         let accountComponent = SidebarSection.getBuilder()
             .name("sidebar.account.header")
             .addChildren([loginComponent,registerComponent,logoutComponent])
@@ -90,6 +91,7 @@ export class AppSidebarHelper
             .build();
 
         this.sidebarService.addSection(accountComponent);
+
 
     }
 
