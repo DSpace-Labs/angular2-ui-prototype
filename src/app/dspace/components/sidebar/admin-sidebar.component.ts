@@ -51,9 +51,10 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                             </fieldset>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
+
+          <button type="button" class="btn btn-primary btn-sm" (click)="addSection()">Create section</button>
         `
 })
 
@@ -63,16 +64,9 @@ import { SidebarSectionComponent } from './sidebar-section.component';
  */
 export class AdminSidebarComponent
 {
-    // at the moment we can only add the hrefsidebar
 
-
+    sectionName : string;
     entries : Array<SidebarEntry>;
-
-    // test the addition thingie
-    /**
-     *
-     */
-    //@Output('addSectionDataInput') addSectionDataInput: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
 
     constructor(private sidebarService : SidebarService)
@@ -94,13 +88,30 @@ export class AdminSidebarComponent
 
     addSection()
     {
-        // loop over all the entries.
 
-
-        this.entries.forEach(x =>
+        let sections = new Array<SidebarSection>;
+        this.entries.forEach(entry =>
         {
-            console.log(x.sectionUrlName);
+            let section = SidebarSection.getBuilder()
+                        .name(entry.sectionName)
+                        .url(entry.sectionUrl)
+                        .index(entry.sectionIndex) // does not need to be set
+                        .build();
+
+            sections.push(section);
         });
+
+
+        // at the end, add all these to the maincomponent
+
+
+        let mainComponent = SidebarSection.getBuilder()
+            .name(this.sectionName)
+            .addChildren(sections)
+            .id(this.sectionName)
+            .build();
+
+        this.sidebarService.addSection(mainComponent);
 
         /*
         let sidebarComponent = SidebarSection.getBuilder()
@@ -111,13 +122,7 @@ export class AdminSidebarComponent
 
 
         // if the main component Id already exists, look up the component, and add to the existing component.
-        let mainComponent = SidebarSection.getBuilder()
-                            .name(this.sectionName)
-                            .addChild(sidebarComponent)
-                            .id(this.sectionName)
-                            .build();
 
-        this.sidebarService.addSection(mainComponent);
         */
     }
 }
@@ -128,7 +133,6 @@ class SidebarEntry
     sectionName : string;
     sectionUrl : string;
     sectionIndex : number; // with a fancy UI, we could have the user just click somewhere in the sidebar.
-    sectionUrlName: string;
 
 
 }
