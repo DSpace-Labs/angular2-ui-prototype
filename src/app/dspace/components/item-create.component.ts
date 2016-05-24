@@ -158,8 +158,10 @@ export class ItemCreateComponent extends FormSecureComponent {
                     input.gloss = this.selected.gloss;
                     // hide field
                     input.hidden = true;
-                    // set typeInput
-                    this.typeInput = input;
+                    // set typeInput if undefined
+                    if(this.typeInput === undefined) {
+                        this.typeInput = input;
+                    }
                 }
                 
                 // create validators for field
