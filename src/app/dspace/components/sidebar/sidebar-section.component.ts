@@ -3,8 +3,6 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
-import { RouteSidebarSection } from '../../models/sidebar/routesidebar-section.model';
-import { HrefSidebarSection } from '../../models/sidebar/hrefsidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
@@ -44,7 +42,6 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
                 <div class="sidebar-section" *ngIf="hasChildren()" >
                     <ul>
                         <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
-                            <p>rendering a child</p>
                            <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
                         </li>
                     </ul>
@@ -83,9 +80,10 @@ export class SidebarSectionComponent implements OnInit
     getAllParams()
     {
         let routes = [];
-        if(this.sidebarcomponent instanceof RouteSidebarSection){
-            let routesidebarsection = this.sidebarcomponent as RouteSidebarSection;
-            routesidebarsection.Routes.forEach(route =>
+
+        // check if the sidebar has routes
+        if(ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes)){
+            this.sidebarcomponent.Routes.forEach(route =>
             {
                 routes.push(route.name);
                 if(route.params!=null)
@@ -124,22 +122,13 @@ export class SidebarSectionComponent implements OnInit
 
     /**
      *
-     * Checks wether there is a route or a url set.
+     * Checks whether there is a route or a url set.
      * @returns {boolean}
      */
     hasDestination() : boolean
     {
-        if(this.sidebarcomponent instanceof RouteSidebarSection)
-        {
-            let routesidebar = this.sidebarcomponent as RouteSidebarSection;
-            return ArrayUtil.isNotEmpty(routesidebar.Routes);
-        }
-        else if(this.sidebarcomponent instanceof HrefSidebarSection)
-        {
-            let hrefsidebar = this.sidebarcomponent as HrefSidebarSection;
-            return ObjectUtil.hasValue(hrefsidebar.url);
-        }
-        return false;
+        // a destination is a url or a route
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes) || ObjectUtil.hasValue(this.sidebarcomponent.url);
     }
 
     /**
@@ -153,7 +142,7 @@ export class SidebarSectionComponent implements OnInit
 
     isRouteSection()
     {
-        return this.sidebarcomponent instanceof RouteSidebarSection;
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes);
     }
 
 }

@@ -2,8 +2,6 @@ import { Inject } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
-import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
-import { HrefSidebarSection } from '../dspace/models/sidebar/hrefsidebar-section.model';
 
 /**
  * Class to populate the dashboard sidebar.
@@ -45,14 +43,14 @@ export class DashboardSidebarHelper
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
 
-        let createComComponent = RouteSidebarSection.getBuilder()
+        let createComComponent = SidebarSection.getBuilder()
             .name("sidebar.context-dashboard.create-community")
             .id("createcommunity")
             .route("CommunityCreate")
             .build();
 
 
-        let contextComponent = RouteSidebarSection.getBuilder()
+        let contextComponent = SidebarSection.getBuilder()
             .name("sidebar.context-dashboard.header")
             .id("appcontext")
             .visible(false)
