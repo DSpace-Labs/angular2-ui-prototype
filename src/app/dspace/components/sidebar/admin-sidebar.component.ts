@@ -42,8 +42,8 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                     <tr *ngFor="let entry of entries let i = index">
                         <td>
                             <fieldset>
+                                <label>Name <input class="form-control" [(ngModel)]="entry.sectionName" required type="text"/></label>
                                 <label>Url <input class="form-control" [(ngModel)]="entry.sectionUrl" required type="text"/></label>
-                                <label>Name <input class="form-control" [(ngModel)]="entry.sectionUrlName" required type="text"/></label>
                                 <label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>
                                 <!-- only show the addition on the first? -->
                                 <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addSectionField()"></span>
@@ -89,7 +89,7 @@ export class AdminSidebarComponent
     addSection()
     {
 
-        let sections = new Array<SidebarSection>;
+        let sections : Array<SidebarSection> = new Array<SidebarSection>();
         this.entries.forEach(entry =>
         {
             let section = SidebarSection.getBuilder()
