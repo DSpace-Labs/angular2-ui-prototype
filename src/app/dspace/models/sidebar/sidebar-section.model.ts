@@ -5,17 +5,12 @@ import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { User } from './../user.model';
 
 /**
- * A class representing a sidebar section
+ * Extension to the sidebarsection which uses routes
  *
- * Implements the hashable interface:
- *  SidebarSection objects with the same attributes will have an identical hashcode
- *
- * Implements the equatable interface:
- *  SidebarSection objects can be compared with the equals() method
- *  two sidebarsection objects with the same hashcode are equal
  */
 export class SidebarSection implements Hashable, Equatable<SidebarSection>
 {
+
 
     // The class variables are set to null for hash
 
@@ -57,6 +52,10 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     childsections : Array<SidebarSection> = new Array<SidebarSection>(); // children of this model.
 
 
+    /**
+     *
+     */
+    lastObservedValue : any;
 
 
     /**
@@ -68,11 +67,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
         this.childsections.push(child);
     }
 
-
-
-
-    lastObservedValue : any;
-
+    /**
+     *
+     */
     startObserving()
     {
         if(this.visibilityObserver != null)
@@ -93,6 +90,31 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
     // interface methods
 
+
+    /**
+     *
+     */
+    Routes : Array<Route>;
+
+
+    url : string;
+
+    /**
+     *
+     */
+    constructor()
+    {
+        this.Routes = new Array<Route>()
+    }
+
+    /**
+     *
+     * @returns {Builder}
+     */
+    static getBuilder() : Builder
+    {
+        return new Builder();
+    }
 
     /**
      * Returns a SHA1 hash of this object, provided by the object-hash library
@@ -116,3 +138,155 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 }
 
+
+/**
+ *
+ */
+class Route
+{
+
+    /**
+     *
+     * @param name
+     * @param paramss
+     */
+    constructor(public name : string, params?)
+    {
+        if(params!=null)
+        {
+            this.params = params;
+        }
+    }
+    params : any[];
+}
+
+
+/**
+ * A class to build a sidebar section
+ */
+class Builder
+{
+
+    /**
+     *
+     */
+    private section : SidebarSection;
+
+    /**
+     *
+     */
+    constructor()
+    {
+        this.section = new SidebarSection();
+    }
+
+    /**
+     *
+     * @param id
+     * @returns {Builder}
+     */
+    id(id : string) : Builder
+    {
+        this.section.id = id;
+        return this;
+    }
+
+    /**
+     *
+     * @param name
+     * @returns {Builder}
+     */
+    name(name : string) : Builder
+    {
+        this.section.componentName = name;
+        return this;
+    }
+
+    /**
+     *
+     * @param index
+     * @returns {Builder}
+     */
+    index(index : number) : Builder
+    {
+        this.section.index = index;
+        return this;
+    }
+
+    /**
+     *
+     * @param visible
+     * @returns {Builder}
+     */
+    visible(visible : boolean) : Builder
+    {
+        this.section.visible = visible;
+        return this;
+    }
+
+    visibilityObservable(observable : any) : Builder
+    {
+        this.section.visibilityObserver = observable;
+        return this;
+    }
+
+    /**
+     *
+     * @param child
+     * @returns {Builder}
+     */
+    addChild(child : SidebarSection) : Builder
+    {
+        this.section.addChild(child);
+        return this;
+    }
+
+
+    /**
+     *
+     * @param children
+     * @returns {Builder}
+     */
+    addChildren(children : Array<SidebarSection>) : Builder
+    {
+        for(let child of children)
+        {
+            this.section.addChild(child);
+        }
+        return this;
+    }
+
+
+    /**
+     *
+     * @param name
+     * @param params
+     * @returns {Builder}
+     */
+    route(name, params?)
+    {
+        let childRoute = new Route(name,params);
+        this.section.Routes.push(childRoute);
+        return this;
+    }
+
+    /**
+     *
+     * @param destination
+     */
+    url(destination : string) : Builder
+    {
+       this.section.url = destination;
+        return this;
+    }
+
+    /**
+     * // initiate the observable
+     * @returns {SidebarSection}
+     */
+    build() : SidebarSection
+    {
+        this.section.startObserving();
+        return this.section;
+    }
+}

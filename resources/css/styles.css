@@ -31,7 +31,7 @@ html, body {
 }
 
 
-.validaiton-helper {
+.validation-helper {
     margin-left: 5px;
 }
 
@@ -86,9 +86,26 @@ html, body {
 
 /* sidebar theming */
 
-.sidebar-section {
-    margin-bottom: 40px;
+
+.sidebar-child div > .sidebar-section > ul >  li > .sidebar-child{
+    padding-left:15px;
 }
+
+.sidebar-heading{
+    border:1px solid #ddd;
+    border-bottom:none; */
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+}
+
+.sidebar-menu{
+    margin-top:10px;
+}
+
+.sidebar-section {
+  /*  margin-bottom: 40px; */
+}
+
 .sidebar-section ul {
     list-style: none;
     padding: 0;
@@ -98,11 +115,9 @@ html, body {
     padding: 0 0 0 15px;
 }
 .sidebar-section > .sidebar-simple-section-element {
-    font-weight: 100;
-    letter-spacing: 0.1em;
     color: #fff;
-    background-color: #1f3f5e;
-    border-color: #1f3f5e;
+    background-color: #222;
+    border-color: #080808;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
 }
@@ -111,7 +126,7 @@ html, body {
 }
 .sidebar-section > ul > li {
     border: 1px solid #ddd;
-    border-top: 0;
+   /* border-top: 0;*/
 }
 .sidebar-section > ul > li:last-child {
     margin-bottom: 0;
@@ -128,6 +143,13 @@ html, body {
 }
 .sidebar-section .sidebar-simple-section-element a:hover, .sidebar-section .sidebar-simple-section-element a:focus, .sidebar-section .sidebar-simple-section-element span:hover, .sidebar-section .sidebar-simple-section-element span:focus {
     text-decoration: none;
+}
+
+.sidebar-child{
+    background-color:white;
+}
+.sidebar-link{
+    color: #337ab7;
 }
 
 

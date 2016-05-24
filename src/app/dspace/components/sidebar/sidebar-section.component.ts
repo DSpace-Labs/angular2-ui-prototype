@@ -3,8 +3,6 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
-import { RouteSidebarSection } from '../../models/sidebar/routesidebar-section.model';
-import { HrefSidebarSection } from '../../models/sidebar/hrefsidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
@@ -17,38 +15,32 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
+            <div *ngIf="sidebarcomponent.visible" class="">
+                <!-- if this component has children we want to render it w/o a link -->
 
-            <!-- if this component has children we want to render it w/o a link -->
-
-            <div *ngIf="isRouteSection()">
-                <!-- this is rendered if there is a route -->
-                <div *ngIf="!hasDestination()" class="panel-heading">
-                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
+                <div *ngIf="isRouteSection()"> <!-- if it is a route section, it also has a destination -->
+                    <div class="sidebar-link">
+                        <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                    </div>
                 </div>
 
-                <div *ngIf="hasDestination()">
-                    <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                <div *ngIf="!isRouteSection()"> <!-- it is not a route section, it may or may not have a destination (url) -->
+                    <div *ngIf="!hasDestination()" class="sidebar-heading">
+                        <span>{{sidebarcomponent.componentName | translate}}</span>
+                    </div>
+                    <div *ngIf="hasDestination()">
+                        <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    </div>
                 </div>
-            </div>
 
-            <div *ngIf="!isRouteSection()"> <!-- it has a url instead of a route -->
-                <div *ngIf="!hasDestination()" class="panel-heading">
-                    <h3 class="panel-title">{{sidebarcomponent.componentName | translate}}</h3>
-                </div>
-                <div *ngIf="hasDestination()">
-                    <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
-                </div>
-            </div>
-
-                <!-- render the children of this component -->
-                <div class="child-section" *ngIf="hasChildren()" >
-                    <ul>
-                        <li *ngFor="let child of visibleChildren()" class="panel">
-                           <sidebar-section *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- render the children of this component -->
+                    <div class="sidebar-section" *ngIf="hasChildren()" >
+                        <ul>
+                            <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
+                               <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
+                            </li>
+                        </ul>
+                    </div>
             </div>
         `
 })
@@ -83,9 +75,10 @@ export class SidebarSectionComponent implements OnInit
     getAllParams()
     {
         let routes = [];
-        if(this.sidebarcomponent instanceof RouteSidebarSection){
-            let routesidebarsection = this.sidebarcomponent as RouteSidebarSection;
-            routesidebarsection.Routes.forEach(route =>
+
+        // check if the sidebar has routes
+        if(ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes)){
+            this.sidebarcomponent.Routes.forEach(route =>
             {
                 routes.push(route.name);
                 if(route.params!=null)
@@ -124,22 +117,13 @@ export class SidebarSectionComponent implements OnInit
 
     /**
      *
-     * Checks wether there is a route or a url set.
+     * Checks whether there is a route or a url set.
      * @returns {boolean}
      */
     hasDestination() : boolean
     {
-        if(this.sidebarcomponent instanceof RouteSidebarSection)
-        {
-            let routesidebar = this.sidebarcomponent as RouteSidebarSection;
-            return ArrayUtil.isNotEmpty(routesidebar.Routes);
-        }
-        else if(this.sidebarcomponent instanceof HrefSidebarSection)
-        {
-            let hrefsidebar = this.sidebarcomponent as HrefSidebarSection;
-            return ObjectUtil.hasValue(hrefsidebar.url);
-        }
-        return false;
+        // a destination is a url or a route
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes) || ObjectUtil.hasValue(this.sidebarcomponent.url);
     }
 
     /**
@@ -151,9 +135,13 @@ export class SidebarSectionComponent implements OnInit
         return false;
     }
 
+    /**
+     *
+     * @returns {boolean}
+     */
     isRouteSection()
     {
-        return this.sidebarcomponent instanceof RouteSidebarSection;
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes);
     }
 
 }

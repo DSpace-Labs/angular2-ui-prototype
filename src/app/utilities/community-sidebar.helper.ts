@@ -1,6 +1,5 @@
 import { Inject } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
-import { RouteSidebarSection } from '../dspace/models/sidebar/routesidebar-section.model';
 import { Community } from '../dspace/models/community.model';
 import { SidebarService } from './services/sidebar.service';
 
@@ -46,36 +45,32 @@ export class CommunitySidebarHelper
         {
             this.isAuthenticated = this.authorization.isAuthenticated();
         }
-        let homeChildSection =  RouteSidebarSection.getBuilder()
-            .name("sidebar.context-community.view")
-            .route("Communities",{id : this.community.id})
-            .build();
 
-        let browseChildSection = RouteSidebarSection.getBuilder()
+        let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("E404")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let createCommunity = RouteSidebarSection.getBuilder()
+        let createCommunity = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-community")
             .route("CommunityCreate")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let createCollection = RouteSidebarSection.getBuilder()
+        let createCollection = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-collection")
             .route("CollectionCreate")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build();
 
-        let communitySection = RouteSidebarSection.getBuilder()
+        let communitySection = SidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
-            .addChildren([homeChildSection,browseChildSection,createCollection,createCommunity])
+            .addChildren([browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);
         this.sections.push(communitySection);
