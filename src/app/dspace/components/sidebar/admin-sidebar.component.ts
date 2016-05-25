@@ -17,45 +17,28 @@ import { SidebarSectionComponent } from './sidebar-section.component';
             <h1>Edit the sidebar</h1>
             <!-- show the sidebar here, with some added options (to add links) -->
             <!-- put this all in a table -->
+                <div *ngFor="let entry of entries let j=index" class="sidebar-edit-section"> <!-- one tbody for each resource? -->
 
-            <table class="table table-striped">
-                <tbody *ngFor="let entry of entries let j=index" class="sidebar-table-section"> <!-- one tbody for each resource? -->
-                        <tr>
-                            <td>
-                                <div class="row"> <!-- name of label-->
-                                    <div class="col-md-11 col-xs-10">
-                                        <label>Section name</label> <!-- i18n -->
-                                    </div>
-                                </div>
+                        <div class="form-group"> <!-- this needs to be on the top -->
+                            <label>Section name<input  placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/></label> <!-- here we want to show a plus somewhere? -->
+                            <label>
+                                <input type="checkbox"> Public?<!-- only show this to logged in users -->
+                            </label>
+                            <span  class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSection(j)"></span>
+                        </div>
 
-                                <div class="row">
-                                    <div class="col-md-11 col-xs-10">
-                                        <fieldset class="">
-                                            <input class="form-control" required [(ngModel)]="entry.componentName"  type="text"/> <!-- here we want to show a plus somewhere? -->
-                                            <span  class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSection(j)"></span>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- and now for the metadata things -->
+                    <form class="form-inline">
                         <!-- we loop over the children but we will, for now, just do it with one level -->
-                        <tr *ngFor="let child of entry.childsections let i = index">
-                            <td>
-                                <fieldset>
-                                    <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
-                                    <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
-                                    <!--<label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>-->
-                                    <!-- only show the addition on the first? -->
-                                    <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                                    <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
-                                </fieldset>
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
-
+                        <div *ngFor="let child of entry.childsections let i = index" class="form-group">
+                            <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
+                            <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
+                            <!--<label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>-->
+                            <!-- only show the addition on the first? -->
+                            <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
+                            <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
+                        </div>
+                  </form>
+                </div>
             <!-- buttons here -->
             <div id="controls">
                  <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">Add section</button>
@@ -101,7 +84,7 @@ export class AdminSidebarComponent
     {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
-        let generatedId : String = "custom-section-" + new Date().getTime();
+        let generatedId : string = "custom-section-" + new Date().getTime();
         this.sidebarService.addSection(SidebarSection.getBuilder().id(generatedId).addChild(new SidebarSection()).build()); // set some name by default, the user will need to provide a name though
         this.entries = this.sidebarService.getTopSections().slice(0);
     }

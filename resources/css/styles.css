@@ -86,10 +86,9 @@ html, body {
 
 /* sidebar theming */
 
-tbody::before{
-    content: '';
-    display: block;
-    height:50px;
+.sidebar-edit-section{
+    border: 1px solid #ddd;
+    margin-bottom:40px;
 }
 
 .sidebar-child div > .sidebar-section > ul >  li > .sidebar-child{
