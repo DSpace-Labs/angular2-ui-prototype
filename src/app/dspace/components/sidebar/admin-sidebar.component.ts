@@ -14,31 +14,33 @@ import { SidebarSectionComponent } from './sidebar-section.component';
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <h1>Edit the sidebar</h1>
-            <!-- show the sidebar here, with some added options (to add links) -->
-            <!-- put this all in a table -->
-                <div *ngFor="let entry of entries let j=index" class="sidebar-edit-section"> <!-- one tbody for each resource? -->
-
-                        <div class="form-group"> <!-- this needs to be on the top -->
-                            <label class="sr-only" >Section name</label> <!-- here we want to show a plus somewhere? -->
-                            <input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/>
+                <h1>Edit the sidebar</h1>
+                <div *ngFor="let entry of entries let j=index" class="panel panel-default"> <!-- one tbody for each resource? -->
+                        <div class="panel-heading"> <!-- this needs to be on the top -->
+                            <label>Section name <input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> <!-- here we want to show a plus somewhere? -->
+                            <!-- to be implemented later 
                             <label>
-                                <input type="checkbox"> Public?<!-- only show this to logged in users -->
+                                <input type="checkbox"> Public?
                             </label>
-                            <span  class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSection(j)"></span>
+                            -->    
+                            <span  class="pull-right glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSection(j)"></span>
                         </div>
                         
-                    <form class="form-inline">
                         <!-- we loop over the children but we will, for now, just do it with one level -->
-                        <div *ngFor="let child of entry.childsections let i = index" class="form-group">
+                        <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
                             <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
                             <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
-                            <!--<label>Index<input class="form-control" [(ngModel)]="entry.sectionIndex" type="text"/></label>-->
-                            <!-- only show the addition on the first? -->
+                            
+                            <!-- to be implemented later
+                            <label>
+                                <input type="checkbox"> Public?
+                            </label>
+                            -->
+                           
+                            <!-- we only show the 'plus symbol' on the first entry -->
                             <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
                             <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
                         </div>
-                  </form>
                 </div>
             <!-- buttons here -->
             <div id="controls">
