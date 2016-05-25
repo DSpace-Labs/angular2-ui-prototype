@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as compression from 'compression';
 
 import 'angular2-universal/polyfills';
 
@@ -62,6 +63,16 @@ let app = express();
 // Root directory of our app is the top level directory (i.e. [src])
 let root = path.join(path.resolve(__dirname, '..'));
 
+// Enable compression of all compressible formats
+// This speeds up initial download of CSS, HTML, JS files, etc.
+app.use(compression());
+
+// Define location of Static Resources
+// Map the /static URL path to the ./dist/server/static local directory
+app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
+// Other static resources (e.g. our compiled app.bundle.js) can be found directly in ./dist
+app.use(express.static(path.join(root, 'dist'), {index:false}));
+
 // Create an express "middleware" function which embeds CORS headers (http://enable-cors.org/)
 // into any response we receive.
 // TODO: Once DSpace's REST API returns CORS headers, this can be removed.
@@ -87,13 +98,8 @@ app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
+// Enable parsing application/json content
 app.use(bodyParser.json());
-
-// Define location of Static Resources
-// Map the /static URL path to the ./dist/server/static local directory
-app.use('/static', express.static(path.join(root, 'dist', 'server', 'static'), {index:false}));
-// Other static resources (e.g. our compiled app.bundle.js) can be found directly in ./dist
-app.use(express.static(path.join(root, 'dist'), {index:false}));
 
 // Port to use
 app.set('port', PORT);
