@@ -1,4 +1,8 @@
 {
+    "404.page-not-found": "page not found",
+    "404.help": "We can't find the page you're looking for. The page may have been moved or deleted. You can use the button below to get back to the home page. ",
+    "404.link.home-page": "Take me to the home page",
+
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
     "collection.name.maxLength": "Collection name must have at most 128 characters.",

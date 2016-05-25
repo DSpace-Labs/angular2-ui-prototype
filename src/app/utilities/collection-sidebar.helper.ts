@@ -55,7 +55,7 @@ export class CollectionSidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("E404")
+            .route("404")
             .visible(this.isAuthenticated)
             .visibilityObservable(this.authorization.userObservable)
             .build()
