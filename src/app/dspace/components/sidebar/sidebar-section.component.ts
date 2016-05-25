@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Main component to render a sidebar-section

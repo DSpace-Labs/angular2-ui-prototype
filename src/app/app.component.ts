@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, RouteConfig, Router,OnDeactivate ,ComponentInstruction } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';

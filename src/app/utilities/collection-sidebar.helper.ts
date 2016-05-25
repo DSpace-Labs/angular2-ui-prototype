@@ -1,4 +1,3 @@
-import { Inject } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';

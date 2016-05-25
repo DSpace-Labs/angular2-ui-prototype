@@ -4,19 +4,15 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContextProviderService } from '../services/context-provider.service';
-import { SidebarService } from '../../utilities/services/sidebar.service';
 
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
 import { BitstreamsComponent } from './item/bitstreams.component';
 import { DateComponent } from './item/date.component';
 import { ItemCollectionComponent } from './item/item-collection.component';
-import { ItemComponent } from './item.component';
-import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import { Metadatum } from '../models/metadatum.model';
 import { Item } from '../models/item.model';
 
 /**
