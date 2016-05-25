@@ -125,11 +125,6 @@
 
     "settings.title": "Settings",
 
-    "item.name.required": "Item name is required.",
-    "item.name.minLength": "Item name must have at least 4 characters.",
-    "item.name.maxLength": "Item name must have at most 128 characters.",
-
-    
     "item.metadata.dc.date.created.required": "Item metadata dc.date.created is required.",
     
 

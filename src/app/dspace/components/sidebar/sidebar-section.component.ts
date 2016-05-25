@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
@@ -6,7 +6,8 @@ import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
- * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.
+ * Main component to render a sidebar-section
+ * Will only render the visible sections, and the children of these elements.
  * Using the sidebarservice
  */
 @Component({
@@ -51,12 +52,12 @@ export class SidebarSectionComponent implements OnInit
 {
 
     /**
-     *
+     *  The current sidebar-section that we will be rendering
      */
     @Input() private sidebarcomponent : SidebarSection;
 
     /**
-     *
+     *  The children of the current sidebar-section
      */
     children : Array<SidebarSection>;
 
@@ -69,7 +70,7 @@ export class SidebarSectionComponent implements OnInit
 
 
     /**
-     * Returns the parameters for the router.
+     * Returns the parameters for the route
      * @returns {Array}
      */
     getAllParams()
@@ -77,8 +78,8 @@ export class SidebarSectionComponent implements OnInit
         let routes = [];
 
         // check if the sidebar has routes
-        if(ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes)){
-            this.sidebarcomponent.Routes.forEach(route =>
+        if(ArrayUtil.isNotEmpty(this.sidebarcomponent.routes)){
+            this.sidebarcomponent.routes.forEach(route =>
             {
                 routes.push(route.name);
                 if(route.params!=null)
@@ -101,13 +102,17 @@ export class SidebarSectionComponent implements OnInit
     }
 
 
+    /**
+     * Returns the children of the current component whom have their visibility set to 'true'
+     * @returns {T[]|SidebarSection[]}
+     */
     visibleChildren()
     {
         return this.children.filter(child => child.visible);
     }
 
     /**
-     *
+     * Checks if the current component has child components
      * @returns {boolean}
      */
     hasChildren() : boolean
@@ -118,30 +123,24 @@ export class SidebarSectionComponent implements OnInit
     /**
      *
      * Checks whether there is a route or a url set.
+     *
      * @returns {boolean}
      */
     hasDestination() : boolean
     {
         // a destination is a url or a route
-        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes) || ObjectUtil.hasValue(this.sidebarcomponent.url);
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.routes) || ObjectUtil.hasValue(this.sidebarcomponent.url);
     }
 
-    /**
-     *
-     * @returns {boolean}
-     */
-    hasParams() : boolean
-    {
-        return false;
-    }
 
     /**
-     *
+     * Will check if the current sidebar-section has routes, if this is the case, it is a 'RouteSection'
+     * In case a URL is provided as well, preference will still be given to the Route.
      * @returns {boolean}
      */
     isRouteSection()
     {
-        return ArrayUtil.isNotEmpty(this.sidebarcomponent.Routes);
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.routes);
     }
 
 }

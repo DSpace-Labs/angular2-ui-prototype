@@ -5,13 +5,12 @@ import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { User } from './../user.model';
 
 /**
- * Extension to the sidebarsection which uses routes
- *
+ * One SidebarSection is equal to one entry in the sidebar
+ * This section can contain a Route, a URL, or neither.
+ * When the Section contains neither a Route nor a URL, it's a "header" to the sidebar
  */
 export class SidebarSection implements Hashable, Equatable<SidebarSection>
 {
-
-
     // The class variables are set to null for hash
 
     /**
@@ -53,9 +52,25 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 
     /**
-     *
+     * Used by the startObserving method, because the logging in/out events generate two events per action
+     * We want to avoid changing the visibility twice for one change to the authorization
      */
     lastObservedValue : any;
+
+
+
+    /**
+     * An array of the routes.
+     * This may contain child-routers and routeparams
+     */
+    routes : Array<Route>;
+
+
+    /**
+     *
+     */
+    url : string;
+
 
 
     /**
@@ -68,7 +83,10 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     }
 
     /**
-     *
+     * If an observable was provided, this will start observing it for changes.
+     * Currently, the observable expected is a userObservable, so we can watch for authentication changes.
+     * e.g, when a user is authenticated, we want to set the visibility of some elements to true/false depending
+     * on whether or not they should be shown.
      */
     startObserving()
     {
@@ -90,21 +108,12 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
     // interface methods
 
-
-    /**
-     *
-     */
-    Routes : Array<Route>;
-
-
-    url : string;
-
     /**
      *
      */
     constructor()
     {
-        this.Routes = new Array<Route>()
+        this.routes = new Array<Route>()
     }
 
     /**
@@ -129,6 +138,8 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
     /**
      * Returns true if the two sidebar-section models have the same hashcode
+     * Their hashcode will be the same if the content of their class variables is identical.
+     *
      * @param other
      * @returns {boolean}
      */
@@ -140,7 +151,7 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 
 /**
- *
+ * A class to store the routing information for a section.
  */
 class Route
 {
@@ -148,7 +159,9 @@ class Route
     /**
      *
      * @param name
-     * @param paramss
+     *      the name of the route, as it appears in the RouteConfig
+     * @param params
+     *  params are the expected parameters for the given route, as they appear in the RouteConfig (e.g, an item ID, collection ID, ..)
      */
     constructor(public name : string, params?)
     {
@@ -224,6 +237,12 @@ class Builder
         return this;
     }
 
+
+    /**
+     *
+     * @param observable
+     * @returns {Builder}
+     */
     visibilityObservable(observable : any) : Builder
     {
         this.section.visibilityObserver = observable;
@@ -260,13 +279,15 @@ class Builder
     /**
      *
      * @param name
+     *      name is name of the route, as it appears in the RouteConfig
      * @param params
+     *      params are the provided parameters expected for a given route, as they appear in the RouteConfig
      * @returns {Builder}
      */
-    route(name, params?)
+    route(name : string, params?)
     {
         let childRoute = new Route(name,params);
-        this.section.Routes.push(childRoute);
+        this.section.routes.push(childRoute);
         return this;
     }
 
@@ -281,12 +302,12 @@ class Builder
     }
 
     /**
-     * // initiate the observable
+     * Returns the sidebar section and starts the observable
      * @returns {SidebarSection}
      */
     build() : SidebarSection
     {
-        this.section.startObserving();
+        this.section.startObserving(); // start the observable
         return this.section;
     }
 }

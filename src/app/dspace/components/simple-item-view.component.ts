@@ -74,7 +74,7 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      */
-    constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService) {
+    constructor(private contextProvider: ContextProviderService) {
         this.item = contextProvider.context;
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
