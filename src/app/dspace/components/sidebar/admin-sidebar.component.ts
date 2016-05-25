@@ -20,13 +20,14 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                 <div *ngFor="let entry of entries let j=index" class="sidebar-edit-section"> <!-- one tbody for each resource? -->
 
                         <div class="form-group"> <!-- this needs to be on the top -->
-                            <label>Section name<input  placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/></label> <!-- here we want to show a plus somewhere? -->
+                            <label class="sr-only" >Section name</label> <!-- here we want to show a plus somewhere? -->
+                            <input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/>
                             <label>
                                 <input type="checkbox"> Public?<!-- only show this to logged in users -->
                             </label>
                             <span  class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSection(j)"></span>
                         </div>
-
+                        
                     <form class="form-inline">
                         <!-- we loop over the children but we will, for now, just do it with one level -->
                         <div *ngFor="let child of entry.childsections let i = index" class="form-group">
