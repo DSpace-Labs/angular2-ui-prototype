@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
+﻿import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, RouteConfig, Router,OnDeactivate ,ComponentInstruction } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';
@@ -12,7 +12,9 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
-import { ContextComponent } from './navigation/components/context.component';
+import { LogoutComponent } from './dspace/components/logout.component';
+import { NotFoundComponent } from './dspace/components/notfound.component';
+
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
 import { ItemComponent } from './dspace/components/item.component';
@@ -24,7 +26,12 @@ import { RegistrationComponent } from './dspace/authorization/registration/regis
 import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
+import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
+import { SidebarService } from './utilities/services/sidebar.service';
+
 import { User } from './dspace/models/user.model';
+
+import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -36,9 +43,11 @@ import { User } from './dspace/models/user.model';
     directives: [ ROUTER_DIRECTIVES,
                   CollapseDirective,
                   BreadcrumbComponent,
-                  ContextComponent,
                   LoginModalComponent,
-                  NotificationComponent ],
+                  NotificationComponent,
+                  SidebarComponent
+                ],
+    
     pipes: [ TranslatePipe ],
     template: `
                 <!--TODO separate out header-->
@@ -75,7 +84,7 @@ import { User } from './dspace/models/user.model';
                 <breadcrumb></breadcrumb>
                 <div class="container">
                     <div class="col-md-4">
-                        <context></context>
+                        <sidebar></sidebar>
                     </div>
                     <div class="col-md-8">
                         <notification [channel]="channel"></notification>
@@ -103,6 +112,10 @@ import { User } from './dspace/models/user.model';
         { path: "/create-collection", name: "CollectionCreate", component: CollectionCreateComponent },
         { path: "/create-item", name: "ItemCreate", component: ItemCreateComponent },
 
+        { path: "/logout", name: "Logout", component: LogoutComponent},
+
+        { path: "/404", name: "E404", component: NotFoundComponent},
+
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
 export class AppComponent implements OnInit {
@@ -117,6 +130,11 @@ export class AppComponent implements OnInit {
      */
     private user: User;
 
+
+    sidebarHelper : AppSidebarHelper;
+
+
+
     /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
@@ -124,7 +142,6 @@ export class AppComponent implements OnInit {
     private navCollapsed: boolean = true;
 
     /**
-     *
      * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param authorization
@@ -133,24 +150,32 @@ export class AppComponent implements OnInit {
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
+     * @param sidebarService
+     *      SidebarService is a singleton service provided by Angular2
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private authorization: AuthorizationService,
                 private translate: TranslateService,
-                private router: Router) {
-        this.user = authorization.user;
-        authorization.userObservable.subscribe(user => {
-            this.user = user;
-        });
-        translate.setDefaultLang('en');
-        translate.use('en');
+                private router: Router,
+                private sidebarService : SidebarService) {
+
+                    this.user = authorization.user;
+
+                    authorization.userObservable.subscribe(user => {
+                        this.user = user;
+                    });
+
+                    translate.setDefaultLang('en');
+                    translate.use('en');
     }
 
     /**
      * Method provided by Angular2. Invoked after the constructor.
      */
-    ngOnInit() {
+    ngOnInit(){
         this.dspace.loadHierarchy();
+        this.sidebarHelper = new AppSidebarHelper(this.sidebarService,this.authorization);
+        this.sidebarHelper.populateSidebar();
     }
 
     /**

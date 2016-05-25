@@ -4,6 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContextProviderService } from '../services/context-provider.service';
+import { SidebarService } from '../../utilities/services/sidebar.service';
 
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
@@ -15,7 +16,9 @@ import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
+import { Metadatum } from '../models/metadatum.model';
 import { Item } from '../models/item.model';
+import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -64,6 +67,8 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
      */
     private item: Item;
 
+
+    private routes : { [name:string] : string } = {};
     /**
      *
      * @param contextProvider
@@ -74,6 +79,8 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
+
+
     }
 
 
@@ -84,6 +91,4 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
     }
-
-
 }

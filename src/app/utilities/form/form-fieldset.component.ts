@@ -15,7 +15,8 @@ import { FormFocusDirective } from './form-focus.directive';
     directives: [ FormFocusDirective, FormValidationMessageComponent ],
     template: `
                 <!-- Based on the *type* of field, display the appropriate input type (e.g. checkbox, text, date, textarea, etc) -->
-                <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [class.has-error]="hasError(input)">
+                <!-- If input is hidden and is required make sure value is set -->
+                <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [hidden]="input.hidden" [class.has-error]="hasError(input)">
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <!-- For accessibility, ensure label references input ID via "for" attribute -->
                     <label [attr.for]="input.id">{{ input.gloss }}</label>
@@ -23,7 +24,7 @@ import { FormFocusDirective } from './form-focus.directive';
                     <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <textarea *ngIf="textAreaInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
-                    <select *ngIf="selectInput(input)" [hidden]="input.hidden" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                         <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                     </select>
                     <form-validation-message [form]="form" [input]="input"></form-validation-message>

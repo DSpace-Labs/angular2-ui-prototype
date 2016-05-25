@@ -10,6 +10,8 @@ import { User } from '../../dspace/models/user.model';
 /**
  * Context aware component for displaying information/functionality of
  * the current context. Can be either a community, collection, or an item.
+ *
+ * @deprecated: replaced by the SidebarComponent. File still left here as reference material
  */
 @Component({
     selector: 'context',

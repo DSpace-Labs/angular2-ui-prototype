@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
@@ -8,6 +8,12 @@ import { ContainerHomeComponent } from "./container-home.component";
 import { ItemListComponent } from './item-list.component';
 
 import { Collection } from "../models/collection.model";
+
+import { SidebarService } from '../../utilities/services/sidebar.service';
+import { SidebarSection } from '../models/sidebar/sidebar-section.model';
+import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.helper';
+
+import { AuthorizationService } from '../authorization/services/authorization.service';
 
 /**
  * Collection component for displaying the current collection.
@@ -23,12 +29,19 @@ import { Collection } from "../models/collection.model";
                 </div>
               `
 })
-export class CollectionComponent {
+export class CollectionComponent implements OnDestroy {
 
     /**
      * An object that represents the current collection.
      */
     private collection: Collection;
+
+
+    /**
+     *
+     */
+    sidebarHelper : CollectionSidebarHelper;
+
 
     /**
      *
@@ -38,14 +51,23 @@ export class CollectionComponent {
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
+     * @param sidebarService
+     *      SidebarService is a singleton service to interact with our sidebar
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private params: RouteParams,
-                private dspace: DSpaceHierarchyService,
-                private breadcrumbService: BreadcrumbService) {
+    constructor(private params: RouteParams, 
+                private dspace: DSpaceHierarchyService, 
+                private breadcrumbService: BreadcrumbService,
+                private sidebarService : SidebarService,
+                private authorization : AuthorizationService) {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
+            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService,this.collection, this.authorization);
+            this.sidebarHelper.populateSidebar();
         });
+
     }
 
     /**
@@ -53,6 +75,12 @@ export class CollectionComponent {
      */
     private collectionProvided(): boolean {
         return this.collection && this.collection.type == 'collection';
+    }
+
+
+    ngOnDestroy()
+    {
+        this.sidebarHelper.removeSections();
     }
 
 }

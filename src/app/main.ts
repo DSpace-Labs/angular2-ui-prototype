@@ -34,6 +34,7 @@ import { NotificationService } from './utilities/notification/notification.servi
 import { PaginationService } from './navigation/services/pagination.service';
 import { PagingStoreService } from './dspace/services/paging-store.service';
 import { StorageService } from './utilities/services/storage.service';
+import { SidebarService } from './utilities/services/sidebar.service';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -70,5 +71,6 @@ bootstrap(AppComponent, [
     PaginationService,
     PagingStoreService,
     StorageService,
-    TranslateService
+    TranslateService,
+    SidebarService
 ]).then(prebootComplete);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ReflectiveInjector } from '@angular/core';
 import {
     RouteConfig,
     RouterOutlet,
@@ -11,6 +11,7 @@ import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
 import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
+import { SidebarService } from "../../utilities/services/sidebar.service";
 
 import { ObjectUtil } from "../../utilities/commons/object.util";
 
@@ -18,6 +19,12 @@ import { SimpleItemViewComponent } from './simple-item-view.component';
 import { FullItemViewComponent } from './full-item-view.component';
 
 import { Item } from "../models/item.model";
+
+import { SidebarSection } from '../models/sidebar/sidebar-section.model';
+import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
+
+import { AuthorizationService } from '../authorization/services/authorization.service';
+
 
 /**
  * Item component for displaying the current item. Routes to simple or item view.
@@ -40,6 +47,14 @@ import { Item } from "../models/item.model";
 ])
 export class ItemComponent implements CanDeactivate {
 
+    item : Item;
+
+
+    sections : SidebarSection[] = [];
+
+    sidebarHelper : ItemSidebarHelper;
+
+
     /**
      *
      * @param params
@@ -50,14 +65,25 @@ export class ItemComponent implements CanDeactivate {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
+     * @param sidebarService
+     *      SidebarService is a singleton service to interact with our sidebar
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
-                private params: RouteParams) {
+                private params: RouteParams,
+                private sidebarService : SidebarService,
+                private authorization : AuthorizationService) {
         dspace.loadObj('item', params.get("id")).then((item:Item) => {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
+            this.item = item;
+
+            // create the sidebar-helper to create the sidebar.
+            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService,this.item,this.authorization);
+            this.sidebarHelper.populateSidebar();
         });
     }
 
@@ -74,6 +100,7 @@ export class ItemComponent implements CanDeactivate {
         if (ObjectUtil.hasValue(this.gsMeta)) {
             this.gsMeta.clearGoogleScholarMetaTags();
         }
+        this.sidebarHelper.removeSections();
         return true;
     }
 
