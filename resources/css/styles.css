@@ -86,6 +86,11 @@ html, body {
 
 /* sidebar theming */
 
+tbody::before{
+    content: '';
+    display: block;
+    height:50px;
+}
 
 .sidebar-child div > .sidebar-section > ul >  li > .sidebar-child{
     padding-left:15px;

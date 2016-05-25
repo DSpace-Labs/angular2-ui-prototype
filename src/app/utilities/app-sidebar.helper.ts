@@ -115,6 +115,12 @@ export class AppSidebarHelper
 
         this.sidebarService.addSection(adminSection);
 
+        // to test the siebar builder.
+        let atmireLink = SidebarSection.getBuilder().name("atmire").id("custom-sidebar-section.atmire").url("http://www.atmire.com").build();
+        let customSection = SidebarSection.getBuilder().name("Resources").id("custom-sidebar-section").addChild(atmireLink).build();
+        this.sidebarService.addSection(customSection);
+
+
     }
 
 
