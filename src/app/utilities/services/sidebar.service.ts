@@ -1,9 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
