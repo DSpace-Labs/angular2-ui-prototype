@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -8,7 +7,6 @@ import { AuthorizationService } from './dspace/authorization/services/authorizat
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
-import { PaginationComponent } from './navigation/components/pagination.component';
 import { TreeComponent } from './navigation/components/tree.component';
 
 import { SidebarService } from './utilities/services/sidebar.service';
