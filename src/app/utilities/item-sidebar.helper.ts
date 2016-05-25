@@ -2,6 +2,7 @@ import { Inject } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Item } from '../dspace/models/item.model';
 import { SidebarService } from './services/sidebar.service';
+import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
 
 
 /**
@@ -26,10 +27,14 @@ export class ItemSidebarHelper
     /**
      *
      * @param sidebarService
+     *       SidebarService is a singleton service to interact with our sidebar
      * @param item
+     *       Item is the current item that has added these sections to the sidebar.
+     *       We want this to provide the ID of the item as RouteParams
      * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private item : Item, private authorization? : any)
+    constructor(private sidebarService : SidebarService, private item : Item, private authorization? : AuthorizationService)
     {
         this.sidebarService = sidebarService;
         this.sections = [];

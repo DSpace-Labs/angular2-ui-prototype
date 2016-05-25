@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
- * Collection component for displaying the current collection.
- * View contains sidebar context and tree hierarchy below current collection.
+ * Component to show a simple 'page not found' message.
  */
 @Component({
     template:
@@ -10,6 +9,11 @@ import { Component } from '@angular/core';
                 <h1>Page not found! </h1>
               `
 })
+
+/**
+ * A simple 404 page.
+ * Redirect the user after x seconds?
+ */
 export class NotFoundComponent {
 
     

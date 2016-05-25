@@ -49,6 +49,10 @@ export class CommunityComponent implements OnDestroy {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param sidebarService
+     *      SidebarService is a singleton service to interact with our sidebar
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumb: BreadcrumbService,

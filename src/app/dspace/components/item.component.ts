@@ -65,6 +65,10 @@ export class ItemComponent implements CanDeactivate {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
+     * @param sidebarService
+     *      SidebarService is a singleton service to interact with our sidebar
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,

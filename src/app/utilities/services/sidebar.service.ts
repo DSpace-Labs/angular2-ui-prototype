@@ -1,4 +1,4 @@
-import { Injectable, Inject} from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Observable';
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
  */
-
 @Injectable()
 export class SidebarService
 {
@@ -21,7 +20,7 @@ export class SidebarService
     private _components : SidebarSection[] = [];
 
     /**
-     *
+     * A subject which we can observe for changes that happen to the sidebar.
      */
     sidebarSubject : Subject<any>;
 
@@ -45,14 +44,18 @@ export class SidebarService
     }
 
     /**
+     * This method orders the sections based on their index
+     * The child-section of a component are also ordered.
+     * If no index is provided, the element will be added to the bottom of the sidebar.
      *
-     * @param section
+     * This function is called recursively (so children at any depth are ordered as well)
+     *
+     * @param sections Array<SidebarSection>
+     *      It is an array of sidebar-sections which we want to order
      */
     filterAndOrderSections(sections : Array<SidebarSection>)
     {
-        // don't filter for them, because we will check visibility in the component
         //sections = sections.filter(section => section.visible); // filter for the visible sections
-
         sections.forEach(section =>
         {
            if(ObjectUtil.isEmpty(section.index))
@@ -107,6 +110,8 @@ export class SidebarService
     }
 
     /**
+     * Changes the visibility of the component with the provided ID.
+     * The sidebar will update by noticing the generated update event, and show/hide the element in the sidebar
      *
      * @param id
      * @param visible

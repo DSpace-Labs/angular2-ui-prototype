@@ -19,5 +19,26 @@
                 "message": "item.metadata.dc.title.maxLength"
             }
         }
+    },
+    {
+        "key": "dc.description",
+        "language": "en",
+        "gloss": "Description",
+        "type": "TEXT",
+        "repeatable": false,
+        "validation": {
+            "required": {
+                "value": false,
+                "message": "item.metadata.dc.description.required"
+            },
+            "minLength": {
+                "value": 8,
+                "message": "item.metadata.dc.description.minLength"
+            },
+            "maxLength": {
+                "value": 512,
+                "message": "item.metadata.dc.description.maxLength"
+            }
+        }
     }
 ]

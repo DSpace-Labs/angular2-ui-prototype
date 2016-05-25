@@ -2,15 +2,16 @@ import { Inject } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
+import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
 
 /**
- * Class to populate the standard sidebar sidebar.
+ * Class to populate the standard  sidebar.
  */
 export class AppSidebarHelper
 {
 
     /**
-     *
+     * The sections contained in the current component
      */
     sections : Array<SidebarSection>;
 
@@ -23,9 +24,11 @@ export class AppSidebarHelper
     /**
      *
      * @param sidebarService
+     *      SidebarService is a singleton service to interact with our sidebar
      * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private authorization? : any)
+    constructor(private sidebarService : SidebarService, private authorization? : AuthorizationService)
     {
         this.sidebarService = sidebarService;
         this.sections = [];
@@ -33,7 +36,8 @@ export class AppSidebarHelper
 
 
     /**
-     * The visibility is bound the the authorizationservice
+     * Populate the sidebar with components that need to be shown on every page
+     * This is the case as 'app' is our root.
      */
     populateSidebar()
     {

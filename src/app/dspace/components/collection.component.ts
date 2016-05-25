@@ -52,7 +52,9 @@ export class CollectionComponent implements OnDestroy {
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param sidebarService
-     *      SidebarService is a singleton service to interact with the sidebar component.
+     *      SidebarService is a singleton service to interact with our sidebar
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
      */
     constructor(private params: RouteParams, 
                 private dspace: DSpaceHierarchyService, 

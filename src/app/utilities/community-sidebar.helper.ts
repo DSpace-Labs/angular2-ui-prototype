@@ -3,6 +3,8 @@ import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Community } from '../dspace/models/community.model';
 import { SidebarService } from './services/sidebar.service';
 
+import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
+
 
 /**
  * Class to populate the sidebar on community pages.
@@ -24,10 +26,14 @@ export class CommunitySidebarHelper
     /**
      *
      * @param sidebarService
+     *       SidebarService is a singleton service to interact with our sidebar
      * @param community
-     * @param userObservable
+     *       Community is the current community that has added this sidebar
+     *       We want this community to provide the ID to the RouteParams.
+     * @param authorization
+     *       AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private community : Community, private authorization? : any)
+    constructor(private sidebarService : SidebarService, private community : Community, private authorization? : AuthorizationService)
     {
         this.sidebarService = sidebarService;
         this.sections = [];

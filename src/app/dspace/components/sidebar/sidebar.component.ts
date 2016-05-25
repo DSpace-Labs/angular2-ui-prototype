@@ -42,18 +42,10 @@ export class SidebarComponent
 
     /**
      *
-     * @returns {any}
-     */
-    visibleComponent()
-    {
-        return this.sidebarComponents.filter(x => x.visible);
-    }
-
-
-    /**
-     *
      * @param contextProvider
+     *      ContextProviderService is a singleton service in which provides current context.
      * @param sidebarService
+     *      SidebarService is a singleton service that provides access to the content of the sidebar
      */
     constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
     {
