@@ -27,7 +27,6 @@ import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
-import { SidebarService } from './utilities/services/sidebar.service';
 
 import { User } from './dspace/models/user.model';
 

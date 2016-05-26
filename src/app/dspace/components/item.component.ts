@@ -10,8 +10,6 @@ import {
 import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 import { GoogleScholarMetadataService } from "../../utilities/services/google-scholar-metadata.service.ts";
-import { MetaTagService } from "../../utilities/meta-tag/meta-tag.service";
-import { SidebarService } from "../../utilities/services/sidebar.service";
 
 import { ObjectUtil } from "../../utilities/commons/object.util";
 
@@ -20,10 +18,8 @@ import { FullItemViewComponent } from './full-item-view.component';
 
 import { Item } from "../models/item.model";
 
-import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
-import { AuthorizationService } from '../authorization/services/authorization.service';
 
 
 /**

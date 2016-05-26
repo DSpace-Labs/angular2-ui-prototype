@@ -2,14 +2,12 @@ import { Component, OnDestroy, Inject } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { TreeComponent } from './navigation/components/tree.component';
 
-import { SidebarService } from './utilities/services/sidebar.service';
 
 import { DashboardSidebarHelper } from './utilities/dashboard-sidebar.helper';
 

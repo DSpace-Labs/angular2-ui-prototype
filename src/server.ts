@@ -49,11 +49,6 @@ import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
 import { SidebarService } from './app/utilities/services/sidebar.service';
 
-import { AppSidebarHelper } from './app/utilities/app-sidebar.helper';
-import { CollectionSidebarHelper } from './app/utilities/collection-sidebar.helper';
-import { CommunitySidebarHelper } from './app/utilities/community-sidebar.helper';
-import { DashboardSidebarHelper } from './app/utilities/dashboard-sidebar.helper';
-import { ItemSidebarHelper } from './app/utilities/item-sidebar.helper';
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
