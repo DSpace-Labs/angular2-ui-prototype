@@ -47,7 +47,7 @@ export class DashboardSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
+            .dirtyTest(() => {return true}) // left in as another example
             .addChild(createComComponent)
             .build();
 

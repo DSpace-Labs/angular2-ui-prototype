@@ -45,7 +45,6 @@ export class ItemSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")
@@ -53,7 +52,6 @@ export class ItemSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .addChild(editItemChildSection)
             .id("itemsidebar")
             .index(2)

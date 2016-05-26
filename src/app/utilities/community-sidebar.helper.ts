@@ -47,7 +47,6 @@ export class CommunitySidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         let createCommunity = SidebarSection.getBuilder()
@@ -57,7 +56,6 @@ export class CommunitySidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         let createCollection = SidebarSection.getBuilder()
@@ -67,7 +65,6 @@ export class CommunitySidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         let communitySection = SidebarSection.getBuilder()
@@ -77,7 +74,6 @@ export class CommunitySidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .addChildren([browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);

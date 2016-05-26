@@ -323,7 +323,6 @@ class Builder
      */
     build() : SidebarSection
     {
-        this.section.startObserving(); // start the observable
         if(this.section.testFunction != null)
         {
             // TODO: if the dirtyTest is null, still execute the observable and just have a function 'return true'

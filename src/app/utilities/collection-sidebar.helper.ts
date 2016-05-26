@@ -43,7 +43,7 @@ export class CollectionSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
+            .dirtyTest(() => {return true}) // left this is as an example
             .build()
 
         let addItemSection = SidebarSection.getBuilder()
@@ -53,7 +53,6 @@ export class CollectionSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         let collectionSection = SidebarSection.getBuilder()
@@ -63,7 +62,6 @@ export class CollectionSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .addChildren([browseChildSection,addItemSection])
             .build();
         this.sidebarService.addSection(collectionSection);
