@@ -43,6 +43,12 @@ export class BitstreamsComponent implements OnInit {
      */
     private originalBitstreams : Array<Bitstream>;
 
+    /**
+     * Verify whether or not this.originalBitstreams is empty
+     *
+     * @returns {boolean}
+     *      true if this.originalBitstreams is not empty, false otherwise
+     */
     hasOriginalBitstreams(): boolean {
         return ArrayUtil.isNotEmpty(this.originalBitstreams);
     }
