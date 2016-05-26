@@ -53,7 +53,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 <!--TODO separate out header-->
                 <header>
                     <nav class="navbar">
-                        <div class="container-fluid">
+                        <div class="container">
                             <div class="navbar-header">
                                 <!-- When clicked toggle navCollapsed setting -->
                                 <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
@@ -81,8 +81,8 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                     </nav>
                 </header>
 
-                <breadcrumb></breadcrumb>
-                <div class="container-fluid">
+                <div class="container">
+                    <breadcrumb></breadcrumb>
                     <div class="row">
                         <div class="col-md-4">
                             <sidebar></sidebar>
@@ -93,7 +93,13 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                         </div>
                     </div>
                 </div>
-
+                <footer>
+                    <div class="container">
+                        <p>
+                            <a href="http://www.dspace.org/">{{"footer.link.dspace" | translate}}</a> {{"footer.copyright" | translate}}
+                        <a href="http://www.duraspace.org/">{{"footer.link.duraspace" | translate}}</a></p>
+                    </div>
+                </footer>
                 <login-modal #login></login-modal>
               `
 })

@@ -1,0 +1,42 @@
+$footer-border-color: $brand-primary;
+$footer-height: 5em;
+$footer-margin-top: 3em;
+$footer-font-size: $font-size-h5;
+$footer-text-color: $gray-lighter;
+$footer-bg-color: $brand-primary;
+
+footer {
+    font-size: $footer-font-size;
+    border-top: 1px solid $footer-border-color;
+    padding-top: 25px;
+    color: $footer-text-color;
+    background-color: $footer-bg-color;
+
+    a {
+        &,
+        &:hover,
+        &:focus {
+            color: $footer-text-color;
+            text-decoration: underline;
+        }
+    }
+}
+
+//sticky footer
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 $footer-height + $footer-margin-top !important;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: $footer-height;
+}
+

@@ -1,7 +1,7 @@
 {
-    "404.page-not-found": "page not found",
     "404.help": "We can't find the page you're looking for. The page may have been moved or deleted. You can use the button below to get back to the home page. ",
     "404.link.home-page": "Take me to the home page",
+    "404.page-not-found": "page not found",
 
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
@@ -35,6 +35,10 @@
     "context.edit-item": "Edit Item",
 
     "dashboard.recent-submissions": "Show recent submissions",
+
+    "footer.copyright": "copyright © 2002-2016",
+    "footer.link.dspace": "DSpace software",
+    "footer.link.duraspace": "DuraSpace",
 
     "header.repository-name": "Angular 2 DSpace UI Prototype",
     "header.home": "Home",
