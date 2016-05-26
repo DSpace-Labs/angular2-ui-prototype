@@ -39,22 +39,31 @@ export class CollectionSidebarHelper extends SidebarHelper
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("E404")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build()
 
         let addItemSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.create-item")
             .route("ItemCreate")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
         let collectionSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.header")
             .id("context-collection")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .addChildren([browseChildSection,addItemSection])
             .build();
         this.sidebarService.addSection(collectionSection);

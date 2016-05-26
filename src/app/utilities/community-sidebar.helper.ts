@@ -43,29 +43,41 @@ export class CommunitySidebarHelper extends SidebarHelper
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
             .route("E404")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
         let createCommunity = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-community")
             .route("CommunityCreate")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
         let createCollection = SidebarSection.getBuilder()
             .name("sidebar.context-community.create-collection")
             .route("CollectionCreate")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
         let communitySection = SidebarSection.getBuilder()
             .name("sidebar.context-community.header")
             .id("context-collection")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .addChildren([browseChildSection,createCollection,createCommunity])
             .build();
         this.sidebarService.addSection(communitySection);

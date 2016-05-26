@@ -56,24 +56,35 @@ export class AppSidebarHelper extends SidebarHelper
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
-            .visible(true)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return !this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
+
+        // end test
 
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")
             .route("Home")
-            .visible(true)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return !this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
         let logoutComponent = SidebarSection.getBuilder()
             .name("sidebar.account.logout")
             .route("Logout")
             .id("account-logout")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
 
 

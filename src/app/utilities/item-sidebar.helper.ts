@@ -41,13 +41,19 @@ export class ItemSidebarHelper extends SidebarHelper
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
             .route("E404") // does not exist yet.
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
+            .dirtyTest(() => {return true})
             .addChild(editItemChildSection)
             .id("itemsidebar")
             .index(2)

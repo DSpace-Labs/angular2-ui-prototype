@@ -24,6 +24,8 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      */
     index : number = null;
 
+    isDirty : any; // checks to see if we need to run the code for our visible parameter again.
+                   // this is our observable that we used to have.
 
     /**
      * Name of the component
@@ -73,6 +75,13 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
 
 
+    testFunction : any;
+
+
+    dirtyObservable : any;
+
+    dirtyTest : any; // code that returns true or false?
+
     /**
      * Add a childsection
      * @param child
@@ -88,8 +97,15 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      * e.g, when a user is authenticated, we want to set the visibility of some elements to true/false depending
      * on whether or not they should be shown.
      */
-    startObserving()
+    startObserving() // this needs to be passed in the function
     {
+
+        /**
+         * if(this.subject.getValue() == user){visible = null}
+         * then set up the observer?
+         * But can I even access visible from this function?
+         * Maybe, but then the coupling seems to be less than ideal.
+         */
         if(this.visibilityObserver != null)
         {
             this.visibilityObserver.subscribe(obs =>
@@ -104,6 +120,17 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
                 }
             });
         }
+    }
+
+    startObservingDirty()
+    {
+        this.visible = this.testFunction();
+        this.dirtyObservable.subscribe(change =>
+        {
+            if (this.dirtyTest()) {
+                this.visible = this.testFunction();
+            }
+        });
     }
 
     // interface methods
@@ -291,6 +318,25 @@ class Builder
         return this;
     }
 
+
+    testFunction(code : any) : Builder // pass the code for our visibility Observable.
+    {
+        this.section.testFunction = code;
+        return this;
+    }
+
+    dirtyObservable(observable: any) : Builder
+    {
+        // we need an observable to observe
+        this.section.dirtyObservable = observable;
+        return this;
+    }
+
+    dirtyTest(code : any) : Builder
+    {
+        this.section.dirtyTest = code;
+        return this;
+    }
     /**
      *
      * @param destination
@@ -301,6 +347,7 @@ class Builder
         return this;
     }
 
+
     /**
      * Returns the sidebar section and starts the observable
      * @returns {SidebarSection}
@@ -308,6 +355,12 @@ class Builder
     build() : SidebarSection
     {
         this.section.startObserving(); // start the observable
+        if(this.section.testFunction != null && this.section.dirtyTest != null)
+        {
+            // TODO: if the dirtyTest is null, still execute the observable and just have a function 'return true'
+            this.section.visible = this.section.testFunction();
+            this.section.startObservingDirty();
+        }
         return this.section;
     }
 }

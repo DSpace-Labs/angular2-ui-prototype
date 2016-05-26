@@ -22,7 +22,7 @@ export class AuthorizationService {
     /**
      * User subject.
      */
-    private userSubject : Subject<User>;
+    userSubject : Subject<User>;
 
     /**
      * User observable.
