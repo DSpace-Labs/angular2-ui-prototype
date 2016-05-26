@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
@@ -9,11 +9,8 @@ import { ItemListComponent } from './item-list.component';
 
 import { Collection } from "../models/collection.model";
 
-import { SidebarService } from '../../utilities/services/sidebar.service';
-import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.helper';
 
-import { AuthorizationService } from '../authorization/services/authorization.service';
 
 /**
  * Collection component for displaying the current collection.
@@ -22,6 +19,7 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 @Component({
     selector: 'collection',
     directives: [ ContainerHomeComponent, ItemListComponent ],
+    providers : [CollectionSidebarHelper],
     template: `
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>
@@ -39,33 +37,23 @@ export class CollectionComponent implements OnDestroy {
 
     /**
      *
-     */
-    sidebarHelper : CollectionSidebarHelper;
-
-
-    /**
-     *
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
      * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param sidebarService
-     *      SidebarService is a singleton service to interact with our sidebar
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
     constructor(private params: RouteParams, 
                 private dspace: DSpaceHierarchyService, 
                 private breadcrumbService: BreadcrumbService,
-                private sidebarService : SidebarService,
-                private authorization : AuthorizationService) {
+                @Inject(CollectionSidebarHelper) private sidebarHelper : CollectionSidebarHelper) {
         dspace.loadObj('collection', params.get('id'), params.get('page'), params.get('limit')).then((collection:Collection) => {
             this.collection = collection;
             breadcrumbService.visit(this.collection);
-            this.sidebarHelper = new CollectionSidebarHelper(this.sidebarService,this.collection, this.authorization);
-            this.sidebarHelper.populateSidebar();
+            this.sidebarHelper.populateSidebar(this.collection);
         });
 
     }

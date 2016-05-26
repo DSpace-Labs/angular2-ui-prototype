@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecat
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Main component to render a sidebar-section
@@ -21,7 +21,7 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
                 <div *ngIf="isRouteSection()"> <!-- if it is a route section, it also has a destination -->
                     <div class="sidebar-link">
-                        <a [routerLink]="getAllParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                        <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@ export class SidebarSectionComponent implements OnInit
      * Returns the parameters for the route
      * @returns {Array}
      */
-    getAllParams()
+    getRouteParams()
     {
         let routes = [];
 
@@ -89,7 +89,7 @@ export class SidebarSectionComponent implements OnInit
             });
             return routes;
         }
-        return null; // well we want to return something else here.
+        return null;
     }
 
 

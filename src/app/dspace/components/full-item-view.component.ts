@@ -8,9 +8,7 @@ import { ContextProviderService } from '../services/context-provider.service';
 import { FullMetadataComponent } from './item/full/full-metadata.component.ts';
 import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
 import { FullCollectionsComponent } from './item/full/full-collections.component';
-import { ItemComponent } from './item.component';
 
-import { Metadatum } from '../models/metadatum.model';
 import { Item } from '../models/item.model';
 
 /**
