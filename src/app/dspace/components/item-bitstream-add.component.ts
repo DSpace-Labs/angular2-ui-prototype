@@ -50,14 +50,14 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                                 <td class="col-md-3 col-xs-2">
                                     <label class="space-top">{{ item.file.name }}</label>
                                 </td>
-                                <td class="col-md-3 col-xs-2">
+                                <td class="col-md-2 col-xs-1">
                                     <label class="space-top">{{ item.file.size }}</label>
                                 </td>
                                 <!-- TODO: This is a slight 'hack'. We want to allow defining a description for files.
                                      In this situation, we'll use the 'alias' field of the ng2-file-upload Item to store the description. -->
-                                <td class="col-md-5 col-xs-4">
+                                <td class="col-md-6 col-xs-5">
                                     <input class="form-control" type="text" id="{{ item?.file?.name }}" [(ngModel)]="item.alias">
-                                </td>-
+                                </td>
                                 <td class="col-xs-1 text-center">
                                     <span class="glyphicon glyphicon-remove clickable space-top" aria-hidden="true" (click)="item.remove()"></span>
                                 </td>
