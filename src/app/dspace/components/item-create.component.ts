@@ -301,20 +301,11 @@ export class ItemCreateComponent extends FormSecureComponent {
                 // If we have files in our upload queue, upload them
                 if (this.uploader.queue.length>0)
                 {
-                    // Save the item and authToken to our custom uploader
-                    // so they can be used in the upload process
-                    this.uploader.item = this.item;
-                    this.uploader.authToken = token;
-
                     // Upload all files
-                    this.uploadAll().subscribe (response => {
+                    this.uploadAll(this.item, token).subscribe (response => {
                         // Finish up the item
                         this.finish(this.item.name, currentContext);
                     });
-
-
-                    // Finish up the item
-                    //this.finish(this.item.name, currentContext);
                 }
                 else {
                     this.finish(this.item.name, currentContext);
@@ -347,8 +338,12 @@ export class ItemCreateComponent extends FormSecureComponent {
     /**
      * Upload all files in queue, returning an Observable which will not complete
      * until all files in queue have been fully uploaded.
+     * @param item
+     *      Item to upload files into
+     * @param token
+     *      Authentication token
      */
-    private uploadAll(): Observable<boolean> {
+    private uploadAll(item: Item, token:string): Observable<boolean> {
         // Return an observer which waits for all uploads to complete
         return Observable.create(observer => {
             // Create a custom FileUploader.onCompleteAll() callback which completes
@@ -357,6 +352,11 @@ export class ItemCreateComponent extends FormSecureComponent {
                 observer.next(true);
                 observer.complete();
             }
+
+            // Save the item and authToken to our custom uploader
+            // so they can be used in the upload process
+            this.uploader.item = item;
+            this.uploader.authToken = token;
 
             // Then, start the upload of all items!
             this.uploader.uploadAll();
