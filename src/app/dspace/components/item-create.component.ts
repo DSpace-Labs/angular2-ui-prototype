@@ -47,6 +47,12 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
     template: `
                 <h1>{{ 'item.create.header' | translate }}</h1>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <div *ngIf="processing">
+                    <label>{{ 'item.file-upload.queue.progress' | translate:{count: uploader.queue.length} }}</label>
+                    <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                    </div>
+                </div>
 
                 <!-- Display the form -->
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
@@ -67,7 +73,7 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
                     </item-metadata-input>
                     <!-- Form buttons -->
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">{{ 'item.create.reset-button' | translate }}<</button>
+                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">{{ 'item.create.reset-button' | translate }}</button>
                         <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">{{ 'item.create.submit-button' | translate }}</button>
                     </div>
                 </form>
@@ -301,13 +307,14 @@ export class ItemCreateComponent extends FormSecureComponent {
                     this.uploader.authToken = token;
 
                     // Upload all files
-                    this.uploader.uploadAll();
+                    this.uploadAll().subscribe (response => {
+                        // Finish up the item
+                        this.finish(this.item.name, currentContext);
+                    });
 
-                    // TODO: Show status of uploads and only complete once uploads are finished!
-                    this.uploader.getNotUploadedItems()
 
                     // Finish up the item
-                    this.finish(this.item.name, currentContext);
+                    //this.finish(this.item.name, currentContext);
                 }
                 else {
                     this.finish(this.item.name, currentContext);
@@ -335,6 +342,25 @@ export class ItemCreateComponent extends FormSecureComponent {
      */
     private typeSelected($event): void {
         this.init();
+    }
+
+    /**
+     * Upload all files in queue, returning an Observable which will not complete
+     * until all files in queue have been fully uploaded.
+     */
+    private uploadAll(): Observable<boolean> {
+        // Return an observer which waits for all uploads to complete
+        return Observable.create(observer => {
+            // Create a custom FileUploader.onCompleteAll() callback which completes
+            // our observer once it is triggered.
+            this.uploader.onCompleteAll = () => {
+                observer.next(true);
+                observer.complete();
+            }
+
+            // Then, start the upload of all items!
+            this.uploader.uploadAll();
+        })
     }
 
 }

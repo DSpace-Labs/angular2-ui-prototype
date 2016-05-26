@@ -105,6 +105,7 @@
     "item.file-upload.queue.size": "Size",
     "item.file-upload.queue.description": "Description (optional)",
     "item.file-upload.queue.remove": "Remove",
+    "item.file-upload.queue.progress": "Uploading {{count}} files",
 
     "item-view.full.full-bitstreams.title": "Files in this item",
     "item-view.full.full-bitstreams.description.name": "name:",
