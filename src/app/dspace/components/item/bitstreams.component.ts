@@ -16,7 +16,7 @@ import { ArrayUtil } from '../../../utilities/commons/array.util'
     directives: [ ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <view-element *ngIf="hasOriginalBitstreams()" [header]="componentTitle | translate">
                     <div *ngFor="let bitstream of originalBitstreams;">
                         <a [attr.href]="bitstream.retrieveLink">
                             <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
@@ -42,6 +42,10 @@ export class BitstreamsComponent implements OnInit {
      * 
      */
     private originalBitstreams : Array<Bitstream>;
+
+    hasOriginalBitstreams(): boolean {
+        return ArrayUtil.isNotEmpty(this.originalBitstreams);
+    }
 
     /**
      * 
