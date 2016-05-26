@@ -20,9 +20,9 @@ export class AppSidebarHelper extends SidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization? : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
-        super(sidebarService); // super implements this as 'protected', this it becomes a class variable of the parent
+        super(sidebarService); // super implements this as 'protected'
     }
 
 
