@@ -20,7 +20,7 @@ import { ArrayUtil } from '../../../utilities/commons/array.util'
                 <view-element *ngIf="hasOriginalBitstreams()" class="simple-item-view-bitstreams">
                     <div *ngFor="let bitstream of originalBitstreams;">
                         <a [attr.href]="bitstream.retrieveLink">
-                            <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
+                            <i aria-hidden="true" class="ion-icon ion-document"></i>
                             <span>{{ bitstream.name }}</span>
                         </a>
                     </div>

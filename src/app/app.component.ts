@@ -69,12 +69,12 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                                     <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav navbar-right" *ngIf="!user">
-                                        <!--<li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>-->
-                                        <li><a [routerLink]="['Login']" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
+                                        <!--<li><a [routerLink]="['/Register']"><span class="ion-icon ion-ios-person-outline space-right"></span>{{ 'header.register' | translate }}</a></li>-->
+                                        <li><a [routerLink]="['Login']" class="clickable"><span class="ion-icon ion-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                    <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
-                                    <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
+                                    <li><a [routerLink]="['/Home']"><span class="ion-icon ion-ios-person-outline space-right"></span>{{ user.fullname }}</a></li>
+                                    <li><a (click)="logout()" class="clickable"><span class="ion-icon ion-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
                                 </ul>
                             </div>
                         </div>

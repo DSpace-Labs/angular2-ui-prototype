@@ -38,7 +38,7 @@ import {
                                     <input class="form-control" type="text" id="{{ file.name }}" [(ngModel)]="file.description">
                                 </td>
                                 <td class="col-xs-1 text-center">
-                                    <span class="glyphicon glyphicon-remove clickable space-top" aria-hidden="true" (click)="removeBitstream(file)"></span>
+                                    <span class="ion-icon ion-ios-close-empty clickable space-top" aria-hidden="true" (click)="removeBitstream(file)"></span>
                                 </td>
                             </tr>
                         </tbody>

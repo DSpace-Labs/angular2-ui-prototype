@@ -141,4 +141,13 @@ html, body {
     line-height: 1.7;
 }
 
+.item-create .ion-icon {
+    font-size: $font-size-h2;
+}
+
+.item-create > tbody > tr > td {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /***********************/

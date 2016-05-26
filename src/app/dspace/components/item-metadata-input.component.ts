@@ -24,7 +24,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
     template: `
                 <hr>
                 <label>Metadata</label>
-                <table class="table table-striped">
+                <table class="table table-striped item-create">
                     <tbody>
                         <!-- Create a new row per metadata field -->
                         <tr *ngFor="let input of metadatumInputs" [hidden]="input.hidden">
@@ -55,8 +55,8 @@ import { FormInput } from '../../utilities/form/form-input.model';
                                     </div>
                                     <!-- If this field is repeatable, add a plus symbol which can be used to add more values -->
                                     <div class="col-xs-1" *ngIf="input.repeatable">
-                                        <span *ngIf="!repeat(input)" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
-                                        <span *ngIf="repeat(input)" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
+                                        <span *ngIf="!repeat(input)" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addMetadatumInput(input)"></span>
+                                        <span *ngIf="repeat(input)" class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeMetadatumInput(input)"></span>
                                     </div>
                                 </div>
                             </td>
