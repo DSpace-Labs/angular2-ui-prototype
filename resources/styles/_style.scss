@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    font-weight: 300;
 }
 
 .space-top {
@@ -86,79 +87,6 @@ html, body {
 /* sidebar theming */
 
 
-.sidebar-child div > .sidebar-section > ul >  li > .sidebar-child{
-    padding-left:15px;
-}
-
-.sidebar-heading{
-    border:1px solid #ddd;
-    border-bottom:none;
-    background-color: #f5f5f5;
-    padding: 10px 15px;
-}
-
-.sidebar-menu{
-    margin-top:10px;
-}
-
-.sidebar-section {
-  /*  margin-bottom: 40px; */
-}
-
-.sidebar-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar-section ul li > * {
-    display: block;
-    padding: 0 0 0 15px;
-}
-.sidebar-section > .sidebar-simple-section-element {
-    color: #fff;
-    background-color: #222;
-    border-color: #080808;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-}
-.sidebar-section > ul {
-    background-color: transparent;
-}
-.sidebar-section > ul > li {
-    border: 1px solid #ddd;
-    border-bottom:none;
-   /* border-top: 0;*/
-}
-
-.sidebar-section > ul > li:last-child{
-    border-bottom:1px solid #ddd;
-}
-
-.sidebar-section > ul > li:last-child {
-    margin-bottom: 0;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-.sidebar-section > ul > li > * {
-    padding-left: 0;
-}
-.sidebar-section .sidebar-simple-section-element a, .sidebar-section .sidebar-simple-section-element span {
-    padding: 10px 15px;
-    display: block;
-    background-color: transparent;
-}
-.sidebar-section .sidebar-simple-section-element a:hover, .sidebar-section .sidebar-simple-section-element a:focus, .sidebar-section .sidebar-simple-section-element span:hover, .sidebar-section .sidebar-simple-section-element span:focus {
-    text-decoration: none;
-}
-
-.sidebar-child{
-    background-color:white;
-}
-.sidebar-link{
-    color: #337ab7;
-}
-
-
 /* bootstrap overrides */
 
 .navbar {
@@ -182,6 +110,35 @@ html, body {
 
 .item-list-url{
     font-size:16px;
+}
+
+.item-full-metadata-data-cell {
+    max-width: 495px;
+    white-space: normal;
+}
+
+.simple-view-element {
+    margin-bottom: $line-height-computed * 2;
+
+    .simple-view-element-header {
+        padding-bottom: (($line-height-computed / 2) - 1);
+        border-bottom: 1px solid $page-header-border-color;
+        font-weight: 600;
+    }
+
+}
+
+.simple-item-view-thumbnail {
+    margin-bottom: $line-height-computed;
+}
+
+.item-full-metadata-label-cell,
+.item-full-metadata-data-cell,
+.item-full-metadata-language-cell,
+.simple-view-element-body p {
+    //optimize legibility for item metadata
+    font-weight: 400;
+    line-height: 1.7;
 }
 
 /***********************/

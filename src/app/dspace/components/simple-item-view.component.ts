@@ -4,21 +4,16 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContextProviderService } from '../services/context-provider.service';
-import { SidebarService } from '../../utilities/services/sidebar.service';
 
 import { AbstractComponent } from './item/abstract.component';
 import { AuthorsComponent } from './item/authors.component';
 import { BitstreamsComponent } from './item/bitstreams.component';
 import { DateComponent } from './item/date.component';
 import { ItemCollectionComponent } from './item/item-collection.component';
-import { ItemComponent } from './item.component';
-import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import { Metadatum } from '../models/metadatum.model';
 import { Item } from '../models/item.model';
-import { SidebarSection } from '../models/sidebar/sidebar-section.model';
 
 /**
  * A simple item view, the user first gets redirected here and can optionally view the full item view.
@@ -40,20 +35,21 @@ import { SidebarSection } from '../models/sidebar/sidebar-section.model';
     template: `
                 <div *ngIf="itemProvided()">
                     <div class="item-summary-view-metadata">
-                        <h1>{{item.name}}</h1>
+                        <h1 class="page-header">{{item.name}}</h1>
                         <div class="row">
                             <div class="col-sm-4">
                                 <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
                                 <item-bitstreams [itemBitstreams]="item.bitstreams"></item-bitstreams>
                                 <item-date [itemData]="item.metadata"></item-date>
                                 <item-authors [itemData]="item.metadata"></item-authors>
-                                <h3>{{ 'item-view.show-full' | translate }}</h3>
-                                <a [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{ 'item-view.show-full' | translate }}</a>
                             </div>
                             <div class="col-sm-8">
                                 <item-abstract [itemData]="item.metadata"></item-abstract>
                                 <item-uri [itemData]="item.metadata"></item-uri>
                                 <item-collection [itemParent]="item.parentCollection"></item-collection>
+                            </div>
+                            <div class="col-xs-12 text-center"> <!--col-xs-12 is only here to ensure it gets the col padding-->
+                                <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{ 'item-view.show-full' | translate }}</a>
                             </div>
                         </div>
                     </div>

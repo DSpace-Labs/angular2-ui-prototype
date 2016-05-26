@@ -14,7 +14,7 @@ import { ViewElementComponent } from './view-element.component';
     directives: [ ROUTER_DIRECTIVES, ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <view-element *ngIf="validParent()" [header]="componentTitle | translate" class="simple-item-view-collection">
                     <a *ngIf="validParent()" [routerLink]="[itemParent.component, {id: itemParent.id}]">{{ itemParent.name }}</a>
                 </view-element>
               `
@@ -32,7 +32,7 @@ export class ItemCollectionComponent {
     private componentTitle: string = "item-view.header.collections";
 
     /**
-     * 
+     * TODO: this should show mapped collections as well.
      */
     private validParent(): number {
         return (this.itemParent && this.itemParent.component && this.itemParent.id);

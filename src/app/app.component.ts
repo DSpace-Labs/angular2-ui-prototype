@@ -82,13 +82,15 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 </header>
 
                 <breadcrumb></breadcrumb>
-                <div class="container">
-                    <div class="col-md-4">
-                        <sidebar></sidebar>
-                    </div>
-                    <div class="col-md-8">
-                        <notification [channel]="channel"></notification>
-                        <router-outlet></router-outlet>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <sidebar></sidebar>
+                        </div>
+                        <div class="col-md-8">
+                            <notification [channel]="channel"></notification>
+                            <router-outlet></router-outlet>
+                        </div>
                     </div>
                 </div>
 
