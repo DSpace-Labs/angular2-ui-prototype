@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle } from '@angular/common';
+
 import { FILE_UPLOAD_DIRECTIVES, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 /**
  * Component which provides the ability to add bitstreams to a queue to be uploaded.
@@ -8,6 +10,7 @@ import { FILE_UPLOAD_DIRECTIVES, FileUploader } from 'ng2-file-upload/ng2-file-u
  */
 @Component({
     selector: 'item-bitstream-add',
+    pipes: [ TranslatePipe ],
     directives: [ CORE_DIRECTIVES,
                   FORM_DIRECTIVES,
                   FILE_UPLOAD_DIRECTIVES,
@@ -15,7 +18,7 @@ import { FILE_UPLOAD_DIRECTIVES, FileUploader } from 'ng2-file-upload/ng2-file-u
                   NgStyle ],
     template: `
                 <hr>
-                <label for="file-upload">Upload File(s)</label>
+                <h4><label for="file-upload">{{ 'item.file-upload.header' | translate }}</label></h4>
                 <div class="row">
                     <div class="col-md-12 col-xs-10">
                         <div ng2FileDrop
@@ -24,9 +27,9 @@ import { FILE_UPLOAD_DIRECTIVES, FileUploader } from 'ng2-file-upload/ng2-file-u
                             [uploader]="uploader"
                             class="well file-drop-zone">
                             <span class="btn btn-primary btn-file">
-                                Choose file(s) <input id="file_upload" type="file" ng2FileSelect [uploader]="uploader" multiple  />
+                                {{ 'item.file-upload.select' | translate }} <input id="file_upload" type="file" ng2FileSelect [uploader]="uploader" multiple  />
                             </span>
-                            OR Drop files here
+                            {{ 'item.file-upload.drop' | translate }}
                         </div>
 
                     </div>
@@ -35,10 +38,11 @@ import { FILE_UPLOAD_DIRECTIVES, FileUploader } from 'ng2-file-upload/ng2-file-u
                     <table class="table table-striped" *ngIf="uploader.queue.length > 0">
                         <thead>
                             <tr>
-                                <td><label>Selected Files ({{uploader.queue.length}})</label></td>
-                                <td><label>Size</label></td>
-                                <td><label>Description (optional)</label></td>
-                                <td><label>Remove</label></td>
+                                <!--<td><label>Selected Files ({{uploader.queue.length}})</label></td>-->
+                                <td><label>{{ 'item.file-upload.queue.selected' | translate:{count: uploader.queue.length} }}</label></td>
+                                <td><label>{{ 'item.file-upload.queue.size' | translate}}</label></td>
+                                <td><label>{{ 'item.file-upload.queue.description' | translate}}</label></td>
+                                <td><label>{{ 'item.file-upload.queue.remove' | translate}}</label></td>
                             </tr>
                         </thead>
                         <tbody>

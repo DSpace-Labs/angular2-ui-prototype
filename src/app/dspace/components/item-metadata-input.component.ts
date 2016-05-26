@@ -23,7 +23,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
     directives: [ FORM_DIRECTIVES, FormValidationMessageComponent ],
     template: `
                 <hr>
-                <label>Specify Metadata</label>
+                <h4><label>{{ 'item.metadata.header' | translate }}</label></h4>
                 <table class="table table-striped">
                     <tbody>
                         <!-- Create a new row per metadata field -->

@@ -12,7 +12,7 @@ import {
 
 import { Observable } from 'rxjs/Rx';
 
-import { TranslateService } from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
@@ -39,12 +39,13 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
 @Component({
     selector: 'item-create',
     bindings: [ FORM_BINDINGS ],
+    pipes: [ TranslatePipe ],
     directives: [ FORM_DIRECTIVES,
                   LoaderComponent,
                   ItemBitstreamAddComponent,
                   ItemMetadataInputComponent ],
     template: `
-                <h3>Create Item</h3>
+                <h1>{{ 'item.create.header' | translate }}</h1>
                 <loader *ngIf="processing" [message]="processingMessage()"></loader>
 
                 <!-- Display the form -->
@@ -52,10 +53,9 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
                     <!-- Add bitstreams/files -->
                     <item-bitstream-add [uploader]="uploader"></item-bitstream-add>
 
-
                     <!-- As long as the default form has a Type input field, we'll display it first -->
                     <!-- Select to change form to a given type, which loads a new type-based form -->
-                    <label *ngIf="hasTypeInput()" for="type">Select Type</label>
+                    <h4><label *ngIf="hasTypeInput()" for="type">{{ 'item.create.type-select' | translate }}</label></h4>
                     <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
                         <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
                     </select>
@@ -67,8 +67,8 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
                     </item-metadata-input>
                     <!-- Form buttons -->
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">Reset</button>
-                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">Submit</button>
+                        <button type="button" class="btn btn-default btn-sm" (click)="reset()">{{ 'item.create.reset-button' | translate }}<</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="disabled()">{{ 'item.create.submit-button' | translate }}</button>
                     </div>
                 </form>
               `
@@ -228,34 +228,6 @@ export class ItemCreateComponent extends FormSecureComponent {
         this.router.navigate(['/Collections', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
-
-    /**
-     * Add bitstream from item being created.
-     *
-     * @param file
-     *      Agmented file to add to item being created
-     */
-    /*private addBitstream(event: any): void {
-        var files = event.srcElement ? event.srcElement.files : event.target.files;
-        for(let file of files) {
-            this.files.push(file);
-        }
-    }*/
-
-    /**
-     * Remove bitstream from item being created.
-     *
-     * @param file
-     *      Agmented file to remove from item being created
-     */
-    /*private removeBitstream(file: any): void {
-        for(let i = this.files.length - 1; i >= 0; i--) {
-            if(this.files[i].name == file.name) {
-                this.files.splice(i, 1);
-                break;
-            }
-        }
-    }*/
 
     /**
      * Add metadatum input to the current form.
