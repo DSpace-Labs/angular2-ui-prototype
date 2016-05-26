@@ -90,38 +90,7 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     {
         this.childsections.push(child);
     }
-
-    /**
-     * If an observable was provided, this will start observing it for changes.
-     * Currently, the observable expected is a userObservable, so we can watch for authentication changes.
-     * e.g, when a user is authenticated, we want to set the visibility of some elements to true/false depending
-     * on whether or not they should be shown.
-     */
-    startObserving() // this needs to be passed in the function
-    {
-
-        /**
-         * if(this.subject.getValue() == user){visible = null}
-         * then set up the observer?
-         * But can I even access visible from this function?
-         * Maybe, but then the coupling seems to be less than ideal.
-         */
-        if(this.visibilityObserver != null)
-        {
-            this.visibilityObserver.subscribe(obs =>
-            {
-                // Well, this solution makes it a lot less usable.
-                // need to implement something like 'ObjectUtil.equals' and make sure all models implement 'Equatable'
-                // note: typescript does not support boolean ^ boolean
-                if(obs instanceof User !== (this.lastObservedValue instanceof User))
-                {
-                    this.visible = !this.visible;
-                    this.lastObservedValue = obs;
-                }
-            });
-        }
-    }
-
+    
     startObservingDirty()
     {
         this.visible = this.testFunction();
@@ -355,9 +324,14 @@ class Builder
     build() : SidebarSection
     {
         this.section.startObserving(); // start the observable
-        if(this.section.testFunction != null && this.section.dirtyTest != null)
+        if(this.section.testFunction != null)
         {
             // TODO: if the dirtyTest is null, still execute the observable and just have a function 'return true'
+
+            if(this.section.dirtyTest == null){
+                this.section.dirtyTest = (() =>{return true});
+            }
+
             this.section.visible = this.section.testFunction();
             this.section.startObservingDirty();
         }

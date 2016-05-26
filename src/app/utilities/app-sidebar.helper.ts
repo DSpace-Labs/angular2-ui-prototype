@@ -60,7 +60,6 @@ export class AppSidebarHelper extends SidebarHelper
                 return !this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         // end test
@@ -73,7 +72,6 @@ export class AppSidebarHelper extends SidebarHelper
                 return !this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
         let logoutComponent = SidebarSection.getBuilder()
@@ -84,7 +82,6 @@ export class AppSidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .dirtyTest(() => {return true})
             .build();
 
 
