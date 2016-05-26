@@ -110,12 +110,13 @@ export class AuthorizationService {
     logout(): Observable<Response> {
 
         let token = this.user.token;
+        this.user = null;
 
         let logoutResponse: Observable<Response> = this.dspaceService.logout(token);
         
         logoutResponse.subscribe(response => {
             if(response.status == 200) {
-                this.user = null;
+//                this.user = null;
 
                 // {
                 //     this.storageService.remove('fullname');

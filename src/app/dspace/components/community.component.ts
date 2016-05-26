@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
@@ -10,9 +10,6 @@ import { TreeComponent } from '../../navigation/components/tree.component';
 import { Community } from "../models/community.model";
 
 import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper';
-import { SidebarService } from '../../utilities/services/sidebar.service';
-
-import { AuthorizationService } from '../authorization/services/authorization.service';
 
 /**
  * Community component for displaying the current community.
@@ -35,12 +32,6 @@ export class CommunityComponent implements OnDestroy {
      */
     private community: Community;
 
-
-    /**
-     *
-     */
-    private sidebarHelper : CommunitySidebarHelper;
-
     /**
      *
      * @param dspace
@@ -49,22 +40,17 @@ export class CommunityComponent implements OnDestroy {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
-     * @param sidebarService
-     *      SidebarService is a singleton service to interact with our sidebar
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumb: BreadcrumbService,
                 private params: RouteParams,
-                private sidebarService : SidebarService,
-                private authorization: AuthorizationService) {
+                @Inject(CommunitySidebarHelper) private sidebarHelper : CommunitySidebarHelper) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             this.community = community;
             breadcrumb.visit(this.community);
-
-            this.sidebarHelper = new CommunitySidebarHelper(sidebarService,this.community, this.authorization);
-            this.sidebarHelper.populateSidebar();
+            this.sidebarHelper.populateSidebar(this.community);
         });
     }
 

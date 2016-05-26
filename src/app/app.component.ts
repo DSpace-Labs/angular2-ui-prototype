@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
@@ -47,7 +47,6 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                   NotificationComponent,
                   SidebarComponent
                 ],
-    
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">
@@ -128,10 +127,6 @@ export class AppComponent implements OnInit {
     private user: User;
 
 
-    sidebarHelper : AppSidebarHelper;
-
-
-
     /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
@@ -147,14 +142,14 @@ export class AppComponent implements OnInit {
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
-     * @param sidebarService
-     *      SidebarService is a singleton service provided by Angular2
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
-    constructor(private dspace: DSpaceHierarchyService,
+     constructor(private dspace: DSpaceHierarchyService,
                 private authorization: AuthorizationService,
                 private translate: TranslateService,
                 private router: Router,
-                private sidebarService : SidebarService) {
+                @Inject(AppSidebarHelper)  sidebarHelper : AppSidebarHelper) {
 
                     this.user = authorization.user;
 
@@ -164,6 +159,7 @@ export class AppComponent implements OnInit {
 
                     translate.setDefaultLang('en');
                     translate.use('en');
+                    sidebarHelper.populateSidebar();
     }
 
     /**
@@ -171,8 +167,6 @@ export class AppComponent implements OnInit {
      */
     ngOnInit(){
         this.dspace.loadHierarchy();
-        this.sidebarHelper = new AppSidebarHelper(this.sidebarService,this.authorization);
-        this.sidebarHelper.populateSidebar();
     }
 
     /**

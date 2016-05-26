@@ -1,14 +1,17 @@
+import { Inject, Injectable } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Community } from '../dspace/models/community.model';
 import { SidebarService } from './services/sidebar.service';
 
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
+import { SidebarHelper  } from './sidebar.helper';
 
 
 /**
  * Class to populate the sidebar on community pages.
  */
-export class CommunitySidebarHelper
+@Injectable()
+export class CommunitySidebarHelper extends SidebarHelper
 {
 
     /**
@@ -32,10 +35,9 @@ export class CommunitySidebarHelper
      * @param authorization
      *       AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private community : Community, private authorization? : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService) // can not put collection in here anymore because we will let DI take care of this.
     {
-        this.sidebarService = sidebarService;
-        this.sections = [];
+        super(sidebarService);
     }
 
 
@@ -43,7 +45,7 @@ export class CommunitySidebarHelper
      * The community sidebar
      *
      */
-    populateSidebar()
+    populateSidebar(community) // pass community for the id of the community.
     {
 
         if(this.authorization != null)

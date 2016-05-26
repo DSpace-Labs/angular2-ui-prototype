@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
     RouteConfig,
     RouterOutlet,
@@ -49,12 +49,6 @@ export class ItemComponent implements CanDeactivate {
 
     item : Item;
 
-
-    sections : SidebarSection[] = [];
-
-    sidebarHelper : ItemSidebarHelper;
-
-
     /**
      *
      * @param params
@@ -65,24 +59,18 @@ export class ItemComponent implements CanDeactivate {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param gsMeta
      *      GoogleScholarMetadataService is a singleton service to set the <meta> tags for google scholar
-     * @param sidebarService
-     *      SidebarService is a singleton service to interact with our sidebar
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
                 private gsMeta: GoogleScholarMetadataService,
                 private params: RouteParams,
-                private sidebarService : SidebarService,
-                private authorization : AuthorizationService) {
+                @Inject(ItemSidebarHelper) private sidebarHelper : ItemSidebarHelper) {
         dspace.loadObj('item', params.get("id")).then((item:Item) => {
             breadcrumbService.visit(item);
             this.gsMeta.setGoogleScholarMetaTags(item);
             this.item = item;
-
-            // create the sidebar-helper to create the sidebar.
-            this.sidebarHelper = new ItemSidebarHelper(this.sidebarService,this.item,this.authorization);
             this.sidebarHelper.populateSidebar();
         });
     }

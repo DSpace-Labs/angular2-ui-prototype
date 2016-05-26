@@ -1,20 +1,16 @@
+import { Inject, Injectable } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Item } from '../dspace/models/item.model';
 import { SidebarService } from './services/sidebar.service';
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
-
+import { SidebarHelper } from './sidebar.helper';
 
 /**
  * Class to populate the sidebar on item-view pages.
  */
-export class ItemSidebarHelper
+@Injectable()
+export class ItemSidebarHelper extends SidebarHelper
 {
-
-    /**
-     *
-     */
-    sections : Array<SidebarSection>;
-
 
     /**
      *
@@ -33,10 +29,9 @@ export class ItemSidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private item : Item, private authorization? : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService,@Inject(AuthorizationService) private authorization : AuthorizationService)
     {
-        this.sidebarService = sidebarService;
-        this.sections = [];
+        super(sidebarService);
     }
 
     /**
@@ -68,14 +63,5 @@ export class ItemSidebarHelper
             .build();
         this.sections.push(itemSection);
         this.sidebarService.addSection(itemSection);
-    }
-
-
-    /**
-     *
-     */
-    removeSections()
-    {
-        this.sections.forEach(section => this.sidebarService.removeSection(section));
     }
 }

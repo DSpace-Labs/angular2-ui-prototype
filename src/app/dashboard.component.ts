@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
@@ -37,32 +37,20 @@ export class DashboardComponent implements OnDestroy {
      */
     private breadcrumb: Breadcrumb = new Breadcrumb('dashboard', true);
 
-
-    /**
-     *
-     */
-    sidebarHelper : DashboardSidebarHelper;
-
     /**
      *
      * @param dspace 
      *      DSpaceHierarchyService is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param sidebarService
-     *      SidebarService is a singleton service to interact with the sidebar component
-     * @param authorization
-     *      AuthorizatinoService is a singleton service to deal with user authorization.
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
-                private sidebarService : SidebarService,
-                private authorization : AuthorizationService) {
+                @Inject(DashboardSidebarHelper) private sidebarHelper : DashboardSidebarHelper) {
         breadcrumbService.visit(this.breadcrumb);
-
-        this.sidebarHelper = new DashboardSidebarHelper(sidebarService, authorization);
         this.sidebarHelper.populateSidebar();
-
     }
 
     ngOnDestroy()
