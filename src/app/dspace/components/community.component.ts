@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 import { RouteParams } from '@angular/router-deprecated';
 
 import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
@@ -9,6 +9,8 @@ import { TreeComponent } from '../../navigation/components/tree.component';
 
 import { Community } from "../models/community.model";
 
+import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper';
+
 /**
  * Community component for displaying the current community.
  * View contains sidebar context and tree hierarchy below current community.
@@ -16,6 +18,7 @@ import { Community } from "../models/community.model";
 @Component({
     selector: 'community',
     directives: [ ContainerHomeComponent, TreeComponent ],
+    providers : [CommunitySidebarHelper],
     template: `
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
@@ -23,7 +26,7 @@ import { Community } from "../models/community.model";
                 </div>
               `
 })
-export class CommunityComponent {
+export class CommunityComponent implements OnDestroy {
 
     /**
      * An object that represents the current community.
@@ -38,13 +41,17 @@ export class CommunityComponent {
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      * @param params
      *      RouteParams is a service provided by Angular2 that contains the current routes parameters.
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumb: BreadcrumbService,
-                private params: RouteParams) {
+                private params: RouteParams,
+                @Inject(CommunitySidebarHelper) private sidebarHelper : CommunitySidebarHelper) {
         dspace.loadObj('community', params.get('id'), params.get('page'), params.get('limit')).then((community:Community) => {
             this.community = community;
             breadcrumb.visit(this.community);
+            this.sidebarHelper.populateSidebar(this.community);
         });
     }
 
@@ -60,6 +67,15 @@ export class CommunityComponent {
      */
     private subCommunitiesAndCollections(community: any): Array<any> {
         return community.subcommunities.concat(community.collections);
+    }
+
+
+    /**
+     *
+     */
+    ngOnDestroy()
+    {
+        this.sidebarHelper.removeSections();
     }
 
 }

@@ -125,5 +125,30 @@
 
     "settings.title": "Settings",
 
+
+    "sidebar.help.header": "Help",
+    "sidebar.help.about": "About",
+    "sidebar.help.feedback": "Feedback",
+    "sidebar.account.header" : "Account",
+    "sidebar.account.login": "Login",
+    "sidebar.account.register": "Register",
+    "sidebar.account.logout" : "Logout",
+    "sidebar.submissions.header": "Submission",
+    "sidebar.submissions.submit": "Submit",
+    "sidebar.item-context.header" : "This item",
+    "sidebar.item-context.view" : "View",
+    "sidebar.item-context.edit" : "Edit",
+    "sidebar.context-collection.header": "Collection",
+    "sidebar.context-collection.view":"View",
+    "sidebar.context-collection.browse" : "Browse",
+    "sidebar.context-collection.edit": "Edit",
+    "sidebar.context-collection.create-item": "Create item",
+    "sidebar.context-community.header": "Community",
+    "sidebar.context-community.edit": "Edit",
+    "sidebar.context-community.view": "View",
+    "sidebar.context-community.create-collection": "Create collection",
+    "sidebar.context-community.create-community": "Create community",
+    "sidebar.context-dashboard.header":"Dashboard",
+    "sidebar.context-dashboard.create-community": "Create new top-level community",
     "setup.title": "Setup"
 }

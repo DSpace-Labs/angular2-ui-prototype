@@ -47,6 +47,8 @@ import { NotificationService } from './app/utilities/notification/notification.s
 import { PaginationService } from './app/navigation/services/pagination.service';
 import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
+import { SidebarService } from './app/utilities/services/sidebar.service';
+
 
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
@@ -143,7 +145,8 @@ function ngApp(req, res) {
             PaginationService,
             PagingStoreService,
             StorageService,
-            TranslateService
+            TranslateService,
+            SidebarService
         ],
         preboot: {
             appRoot: 'dspace',

@@ -10,8 +10,6 @@ import { AuthorsComponent } from './item/authors.component';
 import { BitstreamsComponent } from './item/bitstreams.component';
 import { DateComponent } from './item/date.component';
 import { ItemCollectionComponent } from './item/item-collection.component';
-import { ItemComponent } from './item.component';
-import { MetadataComponent } from './item/metadata.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
@@ -64,6 +62,8 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
      */
     private item: Item;
 
+
+    private routes : { [name:string] : string } = {};
     /**
      *
      * @param contextProvider
@@ -74,6 +74,8 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
         contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
         });
+
+
     }
 
 
@@ -84,6 +86,4 @@ export class SimpleItemViewComponent  { // uses OnInit for testing purposes.
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
     }
-
-
 }
