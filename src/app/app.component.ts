@@ -52,7 +52,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
     template: `
                 <!--TODO separate out header-->
                 <header>
-                    <nav class="navbar">
+                    <nav class="navbar navbar-inverse">
                         <div class="container">
                             <div class="navbar-header">
                                 <!-- When clicked toggle navCollapsed setting -->
@@ -83,16 +83,19 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 
                 <div class="container">
                     <breadcrumb></breadcrumb>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <sidebar></sidebar>
+                    <main>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <sidebar></sidebar>
+                            </div>
+                            <div class="col-md-8">
+                                <notification [channel]="channel"></notification>
+                                <router-outlet></router-outlet>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <notification [channel]="channel"></notification>
-                            <router-outlet></router-outlet>
-                        </div>
-                    </div>
+                    </main>
                 </div>
+                <!--TODO separate out footer-->
                 <footer>
                     <div class="container">
                         <p>

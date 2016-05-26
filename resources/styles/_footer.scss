@@ -1,9 +1,9 @@
-$footer-border-color: $brand-primary;
+$footer-border-color: $navbar-default-border;
 $footer-height: 5em;
 $footer-margin-top: 3em;
 $footer-font-size: $font-size-h5;
-$footer-text-color: $gray-lighter;
-$footer-bg-color: $brand-primary;
+$footer-text-color: $gray;
+$footer-bg-color: $navbar-default-bg;
 
 footer {
     font-size: $footer-font-size;

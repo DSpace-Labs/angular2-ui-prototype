@@ -1,0 +1,7 @@
+.breadcrumb {
+    font-size: $font-size-h5;
+    margin: 0;
+    //negative margins to absorb the padding of the first and last element
+    margin-left: -5px;
+    margin-right: -5px;
+}

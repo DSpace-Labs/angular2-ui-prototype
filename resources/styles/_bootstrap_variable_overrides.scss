@@ -394,12 +394,12 @@ $border-radius-small:       1px !default;
 
 //=== Inverted navbar
 // Reset inverted navbar basics
-//$navbar-inverse-color:                      lighten($gray-light, 15%) !default;
-//$navbar-inverse-bg:                         #222 !default;
-//$navbar-inverse-border:                     darken($navbar-inverse-bg, 10%) !default;
+$navbar-inverse-color:                      $gray-lighter !default;
+$navbar-inverse-bg:                         $brand-primary !default;
+$navbar-inverse-border:                     darken($navbar-inverse-bg, 10%) !default;
 
 // Inverted navbar links
-//$navbar-inverse-link-color:                 lighten($gray-light, 15%) !default;
+$navbar-inverse-link-color:                 $gray-lighter !default;
 //$navbar-inverse-link-hover-color:           #fff !default;
 //$navbar-inverse-link-hover-bg:              transparent !default;
 //$navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color !default;
@@ -792,9 +792,9 @@ $border-radius-small:       1px !default;
 //##
 
 //$breadcrumb-padding-vertical:   8px !default;
-//$breadcrumb-padding-horizontal: 15px !default;
+$breadcrumb-padding-horizontal: 0 !default;
 //** Breadcrumb background color
-//$breadcrumb-bg:                 #f5f5f5 !default;
+$breadcrumb-bg:                 transparent !default;
 //** Breadcrumb text color
 //$breadcrumb-color:              #ccc !default;
 //** Text color of current page in the breadcrumb

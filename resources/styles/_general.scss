@@ -9,3 +9,11 @@ label {
     margin-right: 5px;
     margin-left: 5px;
 }
+
+.page-header {
+    margin-top: 0;
+}
+
+main {
+    margin-top: $grid-gutter-width;
+}
