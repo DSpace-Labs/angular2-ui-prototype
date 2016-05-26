@@ -106,6 +106,8 @@
     "item.file-upload.queue.description": "Description (optional)",
     "item.file-upload.queue.remove": "Remove",
     "item.file-upload.queue.progress": "Uploading {{count}} files",
+    "item.file-upload.queue.error": "File {{name}} could not be added to queue!",
+    "item.file-upload.upload.error": "File {{name}} could not be uploaded!",
 
     "item-view.full.full-bitstreams.title": "Files in this item",
     "item-view.full.full-bitstreams.description.name": "name:",

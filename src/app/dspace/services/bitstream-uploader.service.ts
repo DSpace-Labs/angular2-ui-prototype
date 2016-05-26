@@ -84,18 +84,16 @@ export class BitstreamUploader extends FileUploader {
 
     /**
      * Override callback method. This method is called if a file cannot be added to the queue
-     * @TODO: use i18n
      */
     public onWhenAddingFileFailed(fileItem:any, filter:any, options:any):any {
-        this.notificationService.notify('app', 'DANGER', "File " + fileItem.file.name + " could not be added to queue!");
+        this.notificationService.notify('app', 'DANGER', this.translate.instant('item.file-upload.queue.error', { name: fileItem.file.name }));
     }
 
     /**
      * Override callback method. This method is called if a file cannot be uploaded
-     * @TODO: use i18n
      */
     public onErrorItem(fileItem:any, response:any, status:any, headers:any):any {
-        this.notificationService.notify('app', 'DANGER', "File " + fileItem.file.name + " could not be uploaded!");
+        this.notificationService.notify('app', 'DANGER', this.translate.instant('item.file-upload.upload.error', { name: fileItem.file.name }));
     }
 
 }
