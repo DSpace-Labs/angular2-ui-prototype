@@ -31,6 +31,8 @@ import { FormInput } from '../../utilities/form/form-input.model';
 import { Item } from "../models/item.model";
 import { Metadatum } from '../models/metadatum.model';
 
+import { BitstreamUploader } from '../services/bitstream-uploader.service';
+
 /**
  *
  */
@@ -47,18 +49,17 @@ import { Metadatum } from '../models/metadatum.model';
 
                 <!-- Display the form -->
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="createItem()" novalidate>
+                    <!-- Add bitstreams/files -->
+                    <item-bitstream-add [uploader]="uploader"></item-bitstream-add>
+
 
                     <!-- As long as the default form has a Type input field, we'll display it first -->
                     <!-- Select to change form to a given type, which loads a new type-based form -->
+                    <label *ngIf="hasTypeInput()" for="type">Select Type</label>
                     <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
                         <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
                     </select>
 
-                    <!-- Add bitstreams/files -->
-                    <item-bitstream-add [files]="files"
-                                        (addBitstreamEmitter)="addBitstream($event)"
-                                        (removeBitstreamEmitter)="removeBitstream($event)">
-                    </item-bitstream-add>
                     <!-- Display all other form inputs (based on type, if exists) -->
                     <item-metadata-input [form]="form" [metadatumInputs]="metadatumInputs"
                                          (addMetadatumInputEmitter)="addMetadatumInput($event)"
@@ -90,9 +91,10 @@ export class ItemCreateComponent extends FormSecureComponent {
     private metadatumInputs: Array<FormInput>;
 
     /**
-     * Bitstreams.
+     * Uploader to use. This bitstream uploader manages the
+     * queue of files to upload as well as the upload process itself.
      */
-    private files: Array<any>;
+    public uploader:BitstreamUploader;
 
     /**
      * Item being created. ngModel
@@ -130,26 +132,30 @@ export class ItemCreateComponent extends FormSecureComponent {
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
+
+        // Initialize our uploader
+        this.uploader = new BitstreamUploader(translate, dspaceService, notificationService, {});
+
         this.init();
     }
 
     /**
      * Initialize the item metadata form and validators.
+     * Also called to reinitialize (i.e. reload) the form when a type is selected.
      */
     init(): void {
         this.item = new Item();
-        this.files = new Array<any>();
         this.formService.getForm(this.selected ? this.selected.form : 'item').subscribe(inputs => {
             // For an item, the form consists of MetadatumInputs
             this.metadatumInputs = inputs;
-            
+
             let formControls = {};
 
             // For each input in our form
             for(let input of this.metadatumInputs) {
                 // set default value
                 input.value = input.default ? input.default : '';
-                
+
                 if(input.key == "dc.type") {
                     // set selected to first option
                     this.selected = input.options[0];
@@ -163,7 +169,7 @@ export class ItemCreateComponent extends FormSecureComponent {
                         this.typeInput = input;
                     }
                 }
-                
+
                 // create validators for field
                 let validators = this.formService.createValidators(input);
                 formControls[input.id] = new Control('', Validators.compose(validators));
@@ -195,7 +201,7 @@ export class ItemCreateComponent extends FormSecureComponent {
                 }
             }
         }
-        
+
         // add type to metadata if having type input and not already included
         if(this.hasTypeInput() && !typeIncluded) {
             this.typeInput.value = this.selected.value;
@@ -205,6 +211,7 @@ export class ItemCreateComponent extends FormSecureComponent {
 
     /**
      * Message to display while processing item create.
+     * @return processing message text
      */
     processingMessage(): string {
         return this.translate.instant('item.create.processing', { name: this.item.name });
@@ -212,6 +219,8 @@ export class ItemCreateComponent extends FormSecureComponent {
 
     /**
      * Refresh the form and context, navigate to origin context, and add notification.
+     * @param itemName name of item being created
+     * @param currentContext reference to current location/context
      */
     finish(itemName: string, currentContext: any): void {
         this.reset();
@@ -226,12 +235,12 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param file
      *      Agmented file to add to item being created
      */
-    private addBitstream(event: any): void {
+    /*private addBitstream(event: any): void {
         var files = event.srcElement ? event.srcElement.files : event.target.files;
         for(let file of files) {
             this.files.push(file);
         }
-    }
+    }*/
 
     /**
      * Remove bitstream from item being created.
@@ -239,17 +248,17 @@ export class ItemCreateComponent extends FormSecureComponent {
      * @param file
      *      Agmented file to remove from item being created
      */
-    private removeBitstream(file: any): void {
+    /*private removeBitstream(file: any): void {
         for(let i = this.files.length - 1; i >= 0; i--) {
             if(this.files[i].name == file.name) {
                 this.files.splice(i, 1);
                 break;
             }
         }
-    }
+    }*/
 
     /**
-     * Add metadatum input.
+     * Add metadatum input to the current form.
      *
      * @param input
      *      FormInput to be added to metadata
@@ -265,9 +274,9 @@ export class ItemCreateComponent extends FormSecureComponent {
             }
         }
     }
-    
+
     /**
-     * Removes metadatum input.
+     * Removes metadatum input from the current form.
      *
      * @param input
      *      FormInput to be removed from metadata
@@ -286,6 +295,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      *
      * @param input
      *      FormInput to be cloned
+     * @return new FormInput that is a clone of the one passed in
      */
     private cloneInput(input: FormInput): FormInput {
         let clonedInput = new FormInput(JSON.parse(JSON.stringify(input)));
@@ -305,20 +315,27 @@ export class ItemCreateComponent extends FormSecureComponent {
         let currentContext = this.contextProvider.context;
         this.processing = true;
         this.setMetadataValues();
+        // First, create the item
         this.dspaceService.createItem(this.item.sanitize(), token, currentContext.id).subscribe(response => {
+            // If successful
             if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;
-                if(this.files.length > 0) {
-                    let bitStreamObservables = new Array<any>();
-                    for(let file of this.files) {
-                        bitStreamObservables.push(this.dspaceService.addBitstream(this.item, file, token));
-                    }
-                    Observable.forkJoin(bitStreamObservables).subscribe(bitstreamResponses => {
-                        this.finish(this.item.name, currentContext);
-                    },
-                    errors => {
-                        this.finish(this.item.name, currentContext);
-                    });
+                // If we have files in our upload queue, upload them
+                if (this.uploader.queue.length>0)
+                {
+                    // Save the item and authToken to our custom uploader
+                    // so they can be used in the upload process
+                    this.uploader.item = this.item;
+                    this.uploader.authToken = token;
+
+                    // Upload all files
+                    this.uploader.uploadAll();
+
+                    // TODO: Show status of uploads and only complete once uploads are finished!
+                    this.uploader.getNotUploadedItems()
+
+                    // Finish up the item
+                    this.finish(this.item.name, currentContext);
                 }
                 else {
                     this.finish(this.item.name, currentContext);
@@ -333,14 +350,16 @@ export class ItemCreateComponent extends FormSecureComponent {
     }
 
     /**
-     *
+     * Return whether we have a type input and are using type-based forms
+     * @return true if type input, false otherwise
      */
     private hasTypeInput(): boolean {
         return this.typeInput ? true : false;
     }
 
     /**
-     *
+     * When a new type is selected, re-run init() to reinitialize the form
+     * based on the selected type value.
      */
     private typeSelected($event): void {
         this.init();
