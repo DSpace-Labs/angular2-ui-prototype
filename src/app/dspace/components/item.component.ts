@@ -32,7 +32,7 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 @Component({
     selector: 'item',
     directives: [ RouterOutlet ],
-    providers: [ GoogleScholarMetadataService ],
+    providers: [ GoogleScholarMetadataService, ItemSidebarHelper ],
     template: `
                 <router-outlet></router-outlet>
               `

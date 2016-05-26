@@ -24,6 +24,7 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     selector: "hierarchy",
     pipes: [ TranslatePipe ],
     directives: [ TreeComponent ],
+    providers : [DashboardSidebarHelper],
     template: `
                 <tree [hierarchies]="dspace.hierarchy"></tree>
               `

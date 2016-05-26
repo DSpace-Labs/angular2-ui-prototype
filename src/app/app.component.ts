@@ -47,6 +47,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                   NotificationComponent,
                   SidebarComponent
                 ],
+    providers : [AppSidebarHelper],
     pipes: [ TranslatePipe ],
     template: `
                 <nav class="navbar navbar-inverse">

@@ -127,11 +127,6 @@ function ngApp(req, res) {
             provide(BASE_URL, {useValue: baseUrl}),
         ],
         providers: [
-            AppSidebarHelper,
-            CollectionSidebarHelper,
-            CommunitySidebarHelper,
-            DashboardSidebarHelper,
-            ItemSidebarHelper,
             NODE_ROUTER_PROVIDERS,
             NODE_LOCATION_PROVIDERS,
             NODE_PRELOAD_CACHE_HTTP_PROVIDERS,

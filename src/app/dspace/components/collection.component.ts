@@ -19,6 +19,7 @@ import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.help
 @Component({
     selector: 'collection',
     directives: [ ContainerHomeComponent, ItemListComponent ],
+    providers : [CollectionSidebarHelper],
     template: `
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>

@@ -18,6 +18,7 @@ import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper
 @Component({
     selector: 'community',
     directives: [ ContainerHomeComponent, TreeComponent ],
+    providers : [CommunitySidebarHelper],
     template: `
                 <div *ngIf="communityProvided()">
                     <container-home [container]="community"></container-home>
