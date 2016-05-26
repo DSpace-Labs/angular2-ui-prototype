@@ -12,11 +12,6 @@ import { SidebarHelper } from './sidebar.helper';
 export class AppSidebarHelper extends SidebarHelper
 {
 
-    /**
-     *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
 
     /**
      *
@@ -38,10 +33,9 @@ export class AppSidebarHelper extends SidebarHelper
     populateSidebar()
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
+
+        this.isAuthenticated = this.authorization.isAuthenticated();
+
 
         /*
         let aboutComponent = SidebarSection.getBuilder()

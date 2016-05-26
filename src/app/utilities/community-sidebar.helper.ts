@@ -14,16 +14,6 @@ import { SidebarHelper  } from './sidebar.helper';
 export class CommunitySidebarHelper extends SidebarHelper
 {
 
-    /**
-     *
-     */
-    sections : Array<SidebarSection>;
-
-    /**
-     *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
 
     /**
      *
@@ -48,10 +38,7 @@ export class CommunitySidebarHelper extends SidebarHelper
     populateSidebar(community) // pass community for the id of the community.
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
+        this.isAuthenticated = this.authorization.isAuthenticated();
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")

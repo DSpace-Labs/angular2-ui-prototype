@@ -14,13 +14,6 @@ export class ItemSidebarHelper extends SidebarHelper
 
     /**
      *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
-
-
-    /**
-     *
      * @param sidebarService
      *       SidebarService is a singleton service to interact with our sidebar
      * @param item
@@ -29,7 +22,7 @@ export class ItemSidebarHelper extends SidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService,@Inject(AuthorizationService) private authorization : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
         super(sidebarService);
     }
@@ -42,10 +35,8 @@ export class ItemSidebarHelper extends SidebarHelper
     populateSidebar()
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
+        this.isAuthenticated = this.authorization.isAuthenticated();
+
 
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")

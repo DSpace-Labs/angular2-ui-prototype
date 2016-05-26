@@ -13,11 +13,6 @@ import { SidebarHelper } from './sidebar.helper';
 export class CollectionSidebarHelper extends SidebarHelper
 {
 
-    /**
-     *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
 
     /**
      *
@@ -26,7 +21,7 @@ export class CollectionSidebarHelper extends SidebarHelper
      * @param authorization (optional)
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService,@Inject(AuthorizationService) private authorization : AuthorizationService) // can not put collection in here anymore because we will let DI take care of this.
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService) // can not put collection in here anymore because we will let DI take care of this.
     {
         super(sidebarService); // super implements this as 'protected', this it becomes a class variable of the parent
     }
@@ -39,11 +34,7 @@ export class CollectionSidebarHelper extends SidebarHelper
     populateSidebar(collection) // at the moment the passed collection is not used, but for the future edit links it will be used.
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
-
+        this.isAuthenticated = this.authorization.isAuthenticated();
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")

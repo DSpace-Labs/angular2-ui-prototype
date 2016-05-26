@@ -7,19 +7,22 @@ import { SidebarService } from './services/sidebar.service';
 export abstract class SidebarHelper
 {
 
+
+    /**
+     *
+     * @type {boolean}
+     */
+    isAuthenticated : boolean = false;
+
+
     /**
      * The sections added by the helper.
      */
     sections : Array<SidebarSection>;
 
-
-
-    // checking for authorization here could cause some problems with when exactly the object is injected.
-    // Seems safer to check this in the populate method, in which case we will still have *some* duplication.
-
     /**
-     * We still need the SidebarService here for the 'removeSections' method.
      * @param sidebarService
+     *      SidebarService is a singleton service to interact with the content of the sidebars.
      */
     constructor(protected sidebarService : SidebarService)
     {

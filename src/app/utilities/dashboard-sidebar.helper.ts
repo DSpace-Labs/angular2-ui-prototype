@@ -13,18 +13,12 @@ export class DashboardSidebarHelper extends SidebarHelper
 
     /**
      *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
-
-    /**
-     *
      * @param sidebarService
      *       SidebarService is a singleton service to interact with our sidebar
      * @param authorization
      *       AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService,@Inject(AuthorizationService) private authorization : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
         super(sidebarService);
         console.log("created the dashboard-sidebar-helper");
@@ -38,7 +32,6 @@ export class DashboardSidebarHelper extends SidebarHelper
     {
 
         this.isAuthenticated = this.authorization.isAuthenticated();
-        console.log("Dashboard, authentication: " + this.isAuthenticated);
 
         let createComComponent = SidebarSection.getBuilder()
             .name("sidebar.context-dashboard.create-community")
