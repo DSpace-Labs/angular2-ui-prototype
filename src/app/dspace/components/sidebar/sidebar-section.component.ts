@@ -101,6 +101,10 @@ export class SidebarSectionComponent implements OnInit
         this.children = this.sidebarcomponent.childsections;
     }
 
+    ngOnChanges()
+    {
+    }
+
 
     /**
      * Returns the children of the current component whom have their visibility set to 'true'
@@ -108,6 +112,7 @@ export class SidebarSectionComponent implements OnInit
      */
     visibleChildren()
     {
+         // this needs to run when visible children updates though, right?
         return this.children.filter(child => child.visible);
     }
 

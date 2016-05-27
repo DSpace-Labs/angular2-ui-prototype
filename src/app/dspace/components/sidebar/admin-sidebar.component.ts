@@ -30,7 +30,7 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                         <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
                             <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
                             <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
-                            
+                            <label>Id <input class="form-control" [(ngModel)]="child.id"/></label>
                             <!-- to be implemented later
                             <label>
                                 <input type="checkbox"> Public?
@@ -39,7 +39,7 @@ import { SidebarSectionComponent } from './sidebar-section.component';
                            
                             <!-- we only show the 'plus symbol' on the first entry -->
                             <span *ngIf="i==0" class="glyphicon glyphicon-plus clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                            <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeSectionField(i)"></span>
+                            <span *ngIf="i>0" class="glyphicon glyphicon-remove clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
                         </div>
                 </div>
             <!-- buttons here -->
@@ -88,33 +88,32 @@ export class AdminSidebarComponent
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
         let generatedId : string = "custom-section-" + new Date().getTime();
-        this.sidebarService.addSection(SidebarSection.getBuilder().id(generatedId).addChild(new SidebarSection()).build()); // set some name by default, the user will need to provide a name though
+        let parentSection = SidebarSection.getBuilder().id(generatedId).build();
+        this.addChildSectionField(parentSection);
+        this.sidebarService.addSection(parentSection);
+        // give this parent a child as well.
         this.entries = this.sidebarService.getTopSections().slice(0);
     }
 
 
     addChildSectionField(parent : SidebarSection)
     {
-        parent.childsections.push(new SidebarSection());
+        // need to assign a random ID to the child section. Maybe also store this in the input as a hidden field?
+        let generateId : string = "custom-child-section-" + new Date().getTime();
+        parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
     }
 
     // this actually removed the section
-    removeChildSection(parent, index)
+    removeChildSection(parent, child)
     {
-        // remove the child from the parent.
-        this.entries.splice(index,1);
+        parent.childsections.splice(child,1);
     }
+
 
     removeSection(index)
     {
-        // remove the section at this index.
-        console.log("removing: " + index);
-        // first we find the section, then we call the sidebarservice to remove it.
         let section : SidebarSection = this.entries[index];
-        console.log(section);
-        // now we remove the section.
         this.sidebarService.removeSection(section);
-        // update the UI of this as well.
     }
 
     ngOnDestroy()

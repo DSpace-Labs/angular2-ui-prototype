@@ -103,9 +103,33 @@ export class SidebarService
      */
     removeSection(section : SidebarSection)
     {
+        // we also need to check all the children, actually.
+        // maybe just simply set the component to "null" in the array, and then not return "null" when filtered?
+
+        let c = this.removeFromSections(this._components, section);
+        this._components = c;
+        this.sidebarSubject.next(true);
+
+        /*
         let components = this._components.filter(x => !x.equals(section));
         this._components = components;
         this.sidebarSubject.next(true);
+        */
+    }
+
+    private removeFromSections(sections : Array<SidebarSection>, remove : SidebarSection) : Array<SidebarSection>
+    {
+        let filtered : Array<SidebarSection>= null;
+        sections.forEach(section =>
+        {
+            if(section.childsections!=null)
+            section.childsections = this.removeFromSections(section.childsections, remove);
+            filtered = sections.filter(x => !x.equals(remove));
+        });
+        if(filtered != null){
+            sections = filtered;
+        }
+        return sections;; // change detection does not yet detect it.
     }
 
     /**

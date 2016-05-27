@@ -59,6 +59,7 @@ export class SidebarComponent
         sidebarService.sidebarSubject.subscribe(() =>
         {
             this.sidebarComponents = sidebarService.components;
+            console.log(this.sidebarComponents);
         });
     }
 

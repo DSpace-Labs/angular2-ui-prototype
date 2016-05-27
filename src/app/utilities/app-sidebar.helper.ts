@@ -107,8 +107,10 @@ export class AppSidebarHelper extends SidebarHelper
             .name("sidebar.context-admin.header")
             .id("alter-sidebar-heading")
             .addChild(sidebarEditSection)
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .build();
 
         this.sidebarService.addSection(adminSection);
