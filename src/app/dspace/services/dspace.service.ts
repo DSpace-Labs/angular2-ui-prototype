@@ -9,7 +9,7 @@ import { Item } from '../models/item.model';
 import { URLHelper } from "../../utilities/url.helper";
 
 /**
- * Injectable service to provide an interface with the DSpace REST API 
+ * Injectable service to provide an interface with the DSpace REST API
  * through the utility http service. The responses here are returned as
  * Observables and the content is mapped to a JSON object.
  *
@@ -23,7 +23,7 @@ import { URLHelper } from "../../utilities/url.helper";
 export class DSpaceService {
 
     /**
-     * @param httpService 
+     * @param httpService
      *      HttpService is a singleton service to provide basic xhr requests.
      */
     constructor(private httpService: HttpService) {}
@@ -93,7 +93,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch items of a collection for navigation purposes. 
+     * Method to fetch items of a collection for navigation purposes.
      *
      * @param collectionId
      *      The collection id of which its items are to be fetched.
@@ -115,7 +115,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch details of a community. 
+     * Method to fetch details of a community.
      *
      * @param id
      *      Community id of which to fetch its relationships and other details.
@@ -129,7 +129,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch details of a collection. 
+     * Method to fetch details of a collection.
      *
      * @param id
      *      Collection id of which to fetch its relationships and other details.
@@ -143,7 +143,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to fetch details of an item. 
+     * Method to fetch details of an item.
      *
      * @param id
      *      Item id of which to fetch its relationships and other details.
@@ -157,7 +157,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to login and recieve a token. 
+     * Method to login and recieve a token.
      *
      * @param email
      *      DSpace user email/login
@@ -175,7 +175,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to get user status. 
+     * Method to get user status.
      *
      * @param token
      *      DSpace user token
@@ -190,7 +190,7 @@ export class DSpaceService {
     }
 
     /**
-     * Method to logout. 
+     * Method to logout.
      *
      * @param token
      *      DSpace user token
@@ -288,6 +288,39 @@ export class DSpaceService {
                 { key: 'rest-dspace-token', value: token }
             ]
         }, file, token);
+    }
+
+    /**
+    * Return any array of HTTP Headers necessary to perform a file upload
+    * via the DSpace REST API.
+    *
+    * @param token
+    *      DSpace user token
+    */
+    getFileUploadHeaders(fileType: string, token: string): Array<any> {
+        return  [
+            { name: 'Content-Type', value: fileType },
+            { name: 'Accept', value: 'application/json' },
+            { name: 'rest-dspace-token', value: token }
+        ];
+    }
+
+    /**
+    * Return full upload URL for a given file to a given item
+    *
+    * @param item
+    *      Item in which to add bitstream
+    * @param fileName
+    *      Name of file to upload
+    * @param fileDescription
+    *      Optional file description for file
+    */
+    getFileUploadURL(item: Item, fileName: string, fileDescription: string): string {
+        // If description passed in, create a description parameter
+        let descriptionParam = fileDescription!=undefined ? '&description=' + fileDescription : '';
+        // Create and return full upload path for this file
+        let path = '/items/' + item.id + '/bitstreams?name=' + fileName + descriptionParam;
+        return URLHelper.relativeToAbsoluteRESTURL(path);
     }
 
 }

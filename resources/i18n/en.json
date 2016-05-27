@@ -57,6 +57,8 @@
     "item.language": "Language",
     "item.metadata-number-indicator": "#",
 
+    "item.metadata.header": "Specify Metadata",
+
     "item.metadata.dc.contributor.author.required": "Author is required.",
     "item.metadata.dc.contributor.author.minLength": "Author must have at least 4 characters.",
     "item.metadata.dc.contributor.author.maxLength": "Author must have at most 128 characters.",
@@ -96,9 +98,24 @@
     "item.metadata.dc.type.minLength": "Type must have at least 3 characters.",
     "item.metadata.dc.type.maxLength": "Type must have at most 128 characters.",
 
+    "item.create.header": "Create Item",
+    "item.create.type-select": "Select Type",
+    "item.create.reset-button": "Reset",
+    "item.create.submit-button": "Submit",
     "item.create.processing": "Item {{name}} is being created. Please wait.",
     "item.create.success": "Item {{name}} was created successfully.",
     "item.create.error": "Error creating Item {{name}}.",
+
+    "item.file-upload.header": "Upload file(s)",
+    "item.file-upload.select": "Choose file(s)",
+    "item.file-upload.drop": "OR Drop file(s) here",
+    "item.file-upload.queue.selected": "Selected Files ({{count}})",
+    "item.file-upload.queue.size": "Size",
+    "item.file-upload.queue.description": "Description (optional)",
+    "item.file-upload.queue.remove": "Remove",
+    "item.file-upload.queue.progress": "Uploading {{count}} files",
+    "item.file-upload.queue.error": "File {{name}} could not be added to queue!",
+    "item.file-upload.upload.error": "File {{name}} could not be uploaded!",
 
     "item-view.full.full-bitstreams.title": "Files in this item",
     "item-view.full.full-bitstreams.description.name": "name:",
