@@ -74,13 +74,21 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     url : string;
 
 
-
+    /**
+     * function that executes the visibility check
+     */
     testFunction : any;
 
 
+    /**
+     * Observable to know when the value has changed, and we need to check for the visibility
+     */
     dirtyObservable : any;
 
-    dirtyTest : any; // code that returns true or false?
+    /**
+     * The actual test to know if the new value is a reason to check the visibility.
+     */
+    dirtyTest : any = ( () => {return true;});
 
     /**
      * Add a childsection
@@ -325,12 +333,6 @@ class Builder
     {
         if(this.section.testFunction != null)
         {
-            // TODO: if the dirtyTest is null, still execute the observable and just have a function 'return true'
-
-            if(this.section.dirtyTest == null){
-                this.section.dirtyTest = (() =>{return true});
-            }
-
             this.section.visible = this.section.testFunction();
             this.section.startObservingDirty();
         }
