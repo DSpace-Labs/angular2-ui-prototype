@@ -163,6 +163,13 @@ html, body {
     color: #337ab7;
 }
 
+/** File Upload theming **/
+.file-drop-zone {
+    border: dotted 3px lightgray;
+}
+.file-over-drop-zone {
+    border: dotted 3px red;
+}
 
 /* bootstrap overrides */
 

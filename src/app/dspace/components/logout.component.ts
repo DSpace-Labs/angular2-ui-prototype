@@ -17,8 +17,9 @@ export class LogoutComponent{
      */
     constructor(private authorization : AuthorizationService, private router : Router)
     {
-        authorization.logout();
-        router.navigate(["Dashboard"]);
+        authorization.logout().subscribe(() =>
+        {
+            router.navigate(["Dashboard"])
+        });
     }
-
 }

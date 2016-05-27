@@ -1,27 +1,16 @@
+import { Inject, Injectable } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { Item } from '../dspace/models/item.model';
 import { SidebarService } from './services/sidebar.service';
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
-
+import { SidebarHelper } from './sidebar.helper';
 
 /**
  * Class to populate the sidebar on item-view pages.
  */
-export class ItemSidebarHelper
+@Injectable()
+export class ItemSidebarHelper extends SidebarHelper
 {
-
-    /**
-     *
-     */
-    sections : Array<SidebarSection>;
-
-
-    /**
-     *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
-
 
     /**
      *
@@ -33,10 +22,9 @@ export class ItemSidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private item : Item, private authorization? : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
-        this.sidebarService = sidebarService;
-        this.sections = [];
+        super(sidebarService);
     }
 
     /**
@@ -47,35 +35,28 @@ export class ItemSidebarHelper
     populateSidebar()
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
+        this.isAuthenticated = this.authorization.isAuthenticated();
+
 
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
             .route("E404") // does not exist yet.
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .build();
         let itemSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.header")
-            .visible(this.isAuthenticated)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .addChild(editItemChildSection)
             .id("itemsidebar")
             .index(2)
             .build();
         this.sections.push(itemSection);
         this.sidebarService.addSection(itemSection);
-    }
-
-
-    /**
-     *
-     */
-    removeSections()
-    {
-        this.sections.forEach(section => this.sidebarService.removeSection(section));
     }
 }

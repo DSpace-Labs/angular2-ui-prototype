@@ -1,23 +1,17 @@
+import { Inject, Injectable } from "@angular/core";
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { SidebarService } from './services/sidebar.service';
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
+import { SidebarHelper } from './sidebar.helper';
 
 /**
  * Class to populate the standard  sidebar.
  */
-export class AppSidebarHelper
+
+@Injectable()
+export class AppSidebarHelper extends SidebarHelper
 {
 
-    /**
-     * The sections contained in the current component
-     */
-    sections : Array<SidebarSection>;
-
-    /**
-     *
-     * @type {boolean}
-     */
-    isAuthenticated : boolean = false;
 
     /**
      *
@@ -26,10 +20,9 @@ export class AppSidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(private sidebarService : SidebarService, private authorization? : AuthorizationService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
-        this.sidebarService = sidebarService;
-        this.sections = [];
+        super(sidebarService); // super implements this as 'protected'
     }
 
 
@@ -40,10 +33,9 @@ export class AppSidebarHelper
     populateSidebar()
     {
 
-        if(this.authorization != null)
-        {
-            this.isAuthenticated = this.authorization.isAuthenticated();
-        }
+
+        this.isAuthenticated = this.authorization.isAuthenticated();
+
 
         /*
         let aboutComponent = SidebarSection.getBuilder()
@@ -64,24 +56,32 @@ export class AppSidebarHelper
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
-            .visible(true)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return !this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .build();
+
+        // end test
 
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")
             .route("Home")
-            .visible(true)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return !this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .build();
 
         let logoutComponent = SidebarSection.getBuilder()
             .name("sidebar.account.logout")
             .route("Logout")
             .id("account-logout")
-            .visible(false)
-            .visibilityObservable(this.authorization.userObservable)
+            .testFunction( () => {
+                return this.authorization.isAuthenticated();
+            })
+            .dirtyObservable(this.authorization.userObservable)
             .build();
 
 
@@ -120,15 +120,4 @@ export class AppSidebarHelper
 
 
     }
-
-
-    /**
-     * This should not remove anything at the moment, because the sidebar gets populated with standard components in the app-component.
-     */
-    removeSections()
-    {
-        this.sections.forEach(section => this.sidebarService.removeSection(section));
-    }
-
-
 }

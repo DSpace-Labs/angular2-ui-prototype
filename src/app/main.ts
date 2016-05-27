@@ -36,6 +36,14 @@ import { PagingStoreService } from './dspace/services/paging-store.service';
 import { StorageService } from './utilities/services/storage.service';
 import { SidebarService } from './utilities/services/sidebar.service';
 
+import { AppSidebarHelper } from './utilities/app-sidebar.helper';
+import { CollectionSidebarHelper } from "./utilities/collection-sidebar.helper";
+import { CommunitySidebarHelper } from "./utilities/community-sidebar.helper";
+import { DashboardSidebarHelper } from "./utilities/dashboard-sidebar.helper";
+import { ItemSidebarHelper } from "./utilities/item-sidebar.helper";
+
+import {CollapseDirective} from "ng2-bootstrap/ng2-bootstrap";
+
 // Disable Angular 2's "development mode".
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
 enableProdMode();
@@ -72,5 +80,10 @@ bootstrap(AppComponent, [
     PagingStoreService,
     StorageService,
     TranslateService,
-    SidebarService
+    SidebarService,
+    AppSidebarHelper,
+    CollectionSidebarHelper,
+    CommunitySidebarHelper,
+    DashboardSidebarHelper,
+    ItemSidebarHelper
 ]).then(prebootComplete);

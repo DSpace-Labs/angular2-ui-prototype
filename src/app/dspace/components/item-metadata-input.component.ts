@@ -23,7 +23,7 @@ import { FormInput } from '../../utilities/form/form-input.model';
     directives: [ FORM_DIRECTIVES, FormValidationMessageComponent ],
     template: `
                 <hr>
-                <label>Metadata</label>
+                <h4><label>{{ 'item.metadata.header' | translate }}</label></h4>
                 <table class="table table-striped">
                     <tbody>
                         <!-- Create a new row per metadata field -->
@@ -78,80 +78,84 @@ export class ItemMetadataInputComponent {
     @Input("metadatumInputs") private metadatumInputs: Array<FormInput>;
 
     /**
-     *
+     * Defines an 'addMetadatumInputEmitter' output directive, which passes
+     * events up to the parent component (so they can be acted upon as needed)
      */
     @Output('addMetadatumInputEmitter') addMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
     /**
-     *
+     * Defines a 'removeMetadatumInputEmitter' output directive, which passes
+     * events up to the parent component (so they can be acted upon as needed)
      */
     @Output('removeMetadatumInputEmitter') removeMetadatumInputEmitter: EventEmitter<FormInput> = new EventEmitter<FormInput>();
 
     /**
-     *
+     * This component doesn't actually add metadum inputs, instead it adds this event
+     * to its output, so that the parent component can be notified to add the input.
      */
     private addMetadatumInput(input: FormInput): void {
         this.addMetadatumInputEmitter.next(input);
     }
 
     /**
-     *
+     * This component doesn't actually remove metadum inputs, instead it adds this event
+     * to its output, so that the parent component can be notified to remove the input.
      */
     private removeMetadatumInput(input: FormInput): void {
         this.removeMetadatumInputEmitter.next(input);
     }
 
     /**
-     *
+     * Return whether a given FormInput is a required fields
      */
     private required(input: FormInput): boolean {
         return input.validation.required && input.validation.required.value;
     }
 
     /**
-     *
+     * Return whether a given FormInput is in an error state
      */
     private hasError(input: FormInput): boolean {
         return !this.form.controls[input.id].valid && !this.form.controls[input.id].pristine;
     }
 
     /**
-     *
+     * Return whether a given FormInput is a checkbox
      */
     private checkboxInput(input: FormInput): boolean {
         return input.type == 'CHECKBOX';
     }
 
     /**
-     *
+     * Return whether a given FormInput is a Textbox
      */
     private textInput(input: FormInput): boolean {
         return input.type == 'TEXT';
     }
 
     /**
-     *
+     * Return whether a given FormInput is a date input
      */
     private dateInput(input: FormInput): boolean {
         return input.type == 'DATE';
     }
 
     /**
-     *
+     * Return whether a given FormInput is a TextArea
      */
     private textAreaInput(input: FormInput): boolean {
         return input.type == 'TEXTAREA';
     }
 
     /**
-     *
+     * Return whether a given FormInput is a selectbox / dropdown
      */
     private selectInput(input: FormInput): boolean {
         return input.type == 'SELECT';
     }
 
     /**
-     *
+     * Return whether a given FormInput accepts multiple values.
      */
     private repeat(input: FormInput): boolean {
       return input.repeat ? true : false;
