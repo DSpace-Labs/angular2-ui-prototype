@@ -295,13 +295,22 @@ class Builder
         return this;
     }
 
-
+    /**
+     * 
+     * @param code
+     * @returns {Builder}
+     */
     testFunction(code : any) : Builder // pass the code for our visibility Observable.
     {
         this.section.testFunction = code;
         return this;
     }
 
+    /**
+     * 
+     * @param observable
+     * @returns {Builder}
+     */
     dirtyObservable(observable: any) : Builder
     {
         // we need an observable to observe
@@ -309,6 +318,11 @@ class Builder
         return this;
     }
 
+    /**
+     * overwrites the default dirty check (which just returns true)
+     * @param code
+     * @returns {Builder}
+     */
     dirtyTest(code : any) : Builder
     {
         this.section.dirtyTest = code;
