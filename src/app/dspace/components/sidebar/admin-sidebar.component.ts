@@ -119,8 +119,6 @@ export class AdminSidebarComponent
 
     hasChildren(parent) : boolean
     {
-        console.log("checking for children");
-        console.log(parent);
         return ArrayUtil.isNotEmpty(parent.childsections);
     }
 }

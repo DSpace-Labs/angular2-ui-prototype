@@ -136,7 +136,8 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      *      a SHA1 hash of this object
      */
     hashCode(): string {
-        return hash(this);
+        let hashcode = hash(this);
+        return hashcode;
     }
 
 
