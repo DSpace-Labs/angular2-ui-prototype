@@ -136,7 +136,8 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      *      a SHA1 hash of this object
      */
     hashCode(): string {
-        let hashcode = hash(this);
+        let simpleHash=  <any>hash; // cast to 'any' so typscript does not complain about the options not being defined'
+        let hashcode = simpleHash(this, {algorithm: 'passthrough'});
         return hashcode;
     }
 

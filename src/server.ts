@@ -54,6 +54,11 @@ import { SidebarService } from './app/utilities/services/sidebar.service';
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
 enableProdMode();
 
+// multer
+var multer = require("multer");
+
+
+
 // Default to port 3000
 var PORT = 3000;
 
@@ -63,6 +68,8 @@ let app = express();
 
 // Root directory of our app is the top level directory (i.e. [src])
 let root = path.join(path.resolve(__dirname, '..'));
+
+
 
 // Enable compression of all compressible formats
 // This speeds up initial download of CSS, HTML, JS files, etc.
@@ -99,8 +106,8 @@ app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
-// Enable parsing application/json content
 app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended : true}));
 
 // Port to use
 app.set('port', PORT);
@@ -168,8 +175,59 @@ function ngApp(req, res) {
     });
 }
 
+
+/* multer for file upload  */
+
+var storage = multer.diskStorage({
+    destination : function(req,file,callback){
+        console.log(file);
+        callback(null,'./public/admin/sidebar');
+    },
+    filename : function(req,file,callback){
+        console.log(file);
+        callback(null, file.originalName);
+    }
+});
+
+
+var fs = require('fs');
+var sidebarPath = root+"/resources/userdata/sidebar.json";
+
+// read from the local file
+app.get("/customsidebar",function(req,res){
+
+    // read the file
+    fs.readFile(sidebarPath,"utf8",function(err,data){
+        if(err) console.log(err);
+            res.send(data);
+    });
+
+});
+
+// write to the local file.
+app.post("/customsidebar",function(req,res)
+{
+
+    console.log("request");
+    // console.log(req.body); does not log the compelte body
+    let jsoninput = req.body;
+    let formatted = JSON.stringify(jsoninput);
+    fs.writeFile(sidebarPath,formatted,function (err){
+        if(err){
+            return console.log(err);
+        }
+    });
+    res.send("wrote data");
+
+});
+
+
+
+/* end multer for file upload */
+
 // Specifies that all server-side paths should be routed to our ngApp function (see above)
 app.get('/*', ngApp);
+
 
 // Binds our express app the the specified port (i.e. starts it up) and logs when it is running
 app.listen(PORT, () => {

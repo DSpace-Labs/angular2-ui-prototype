@@ -113,9 +113,9 @@ import { AdminSidebarComponent } from './dspace/components/sidebar/admin-sidebar
 
         { path: "/404", name: "E404", component: NotFoundComponent},
 
-        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
+        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent}
 
-        { path: '/**', redirectTo: [ '/Dashboard' ] }
+    //    { path: '/**', redirectTo: [ '/Dashboard' ] } removed this to test some file loading.
 ])
 export class AppComponent implements OnInit {
 

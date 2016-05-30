@@ -103,7 +103,7 @@ export class SidebarService
      */
     removeSection(section : SidebarSection)
     {
-        let components = this._components.filter(x => !x.equals(section));
+    /*    let components = this._components.filter(x => !x.equals(section));
         if(ArrayUtil.isNotEmpty(components))
         {
             this._components = components;
@@ -113,6 +113,13 @@ export class SidebarService
             let c = this.removeFromSections(this._components, section);
             this._components = c;
         }
+        */
+        let start = Date.now();
+        let c = this.removeFromSections(this._components, section);
+        let res = Date.now()-start;
+        console.log("time difference: " + res);
+        this._components = c;
+
         this.sidebarSubject.next(true);
     }
 

@@ -1,4 +1,5 @@
-import {Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { Http, Response } from '@angular/http';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
@@ -49,6 +50,8 @@ import { ArrayUtil } from "../../../utilities/commons/array.util";
             <!-- buttons here -->
             <div id="controls">
                  <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">Add section</button>
+                 <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">Write to file</button> <!-- just for testing -->
+                 <button type="button" class="btn btn-primary btn-sm" (click)="readSidebarFromFile()">Read from file</button> <!-- just for testing -->
             </div>
 
         `
@@ -67,13 +70,14 @@ export class AdminSidebarComponent
     entries : Array<SidebarSection>;
 
 
-    constructor(private sidebarService : SidebarService)
+    constructor(private sidebarService : SidebarService, private http : Http)
     {
         this.entries = new Array<SidebarSection>();
 
         this.sidebarService.sidebarSubject.subscribe(x => this.populateForm());
 
         this.populateForm();
+
     }
 
     populateForm()
@@ -103,6 +107,70 @@ export class AdminSidebarComponent
     removeChildSection(parent, child)
     {
         parent.childsections.splice(child,1);
+    }
+
+
+    // load the current sidebar.
+    readSidebarFromFile()
+    {
+        // write the custom sidebar sections to a file.
+        // convert the sidebar to json.
+
+        return new Promise((resolve,reject) =>
+        {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        //resolve(JSON.parse(xhr.response));
+                        resolve(JSON.parse(xhr.response));
+                    }else{
+                        reject(xhr.response);
+                    }
+                }
+            }
+            xhr.open("GET","http://localhost:3000/customsidebar",true);
+            xhr.send();
+        }).then(x =>{
+            console.log("done with the promise!");
+            console.log(x);
+            this.entries = null;
+            this.entries = x as Array<SidebarSection>;
+        });
+    }
+
+
+    reloadSidebar(sidebarData : any)
+    {
+        // build sidebar based on some incoming json data
+    }
+
+    /**
+     * Save the current sidebar
+     * @returns {Promise<T>}
+     */
+    writeSidebarToFile()
+    {
+        return new Promise((resolve,reject) =>
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        console.log("posted succesfully");
+                        resolve(xhr.response);
+                    }else{
+                        reject(xhr.response);
+                    }
+                }
+            }
+            xhr.open("POST","http://localhost:3000/customsidebar",true);
+            xhr.setRequestHeader("Content-type","application/json");
+            let jsonString = JSON.stringify(this.entries);
+            console.log(jsonString);
+            xhr.send(jsonString);
+        });
     }
 
 
