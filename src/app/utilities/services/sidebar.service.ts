@@ -103,23 +103,8 @@ export class SidebarService
      */
     removeSection(section : SidebarSection)
     {
-    /*    let components = this._components.filter(x => !x.equals(section));
-        if(ArrayUtil.isNotEmpty(components))
-        {
-            this._components = components;
-        }
-        else
-        {
-            let c = this.removeFromSections(this._components, section);
-            this._components = c;
-        }
-        */
-        let start = Date.now();
         let c = this.removeFromSections(this._components, section);
-        let res = Date.now()-start;
-        console.log("time difference: " + res);
         this._components = c;
-
         this.sidebarSubject.next(true);
     }
 
@@ -133,7 +118,7 @@ export class SidebarService
             {
                 section.childsections = this.removeFromSections(section.childsections, remove);
             }
-            filtered = sections.filter(x => !x.equals(remove));
+            filtered = sections.filter(x => /*!x.equals(remove)*/ x.id != remove.id); // TODO: use .equals again after casting the custom components.
         });
         if(filtered != null){
             sections = filtered;
@@ -180,9 +165,14 @@ export class SidebarService
      * Returns the top-level sections.
      * (Sections that are not a child)
      */
-    getTopSections()
+    getCustomSections()
     {
         return this.components.filter(x => x.id.indexOf("custom") > -1);
+    }
+
+    pushUpdate()
+    {
+        this.sidebarSubject.next(true);
     }
 }
 

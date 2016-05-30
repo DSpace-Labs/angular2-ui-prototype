@@ -50,8 +50,7 @@ import { ArrayUtil } from "../../../utilities/commons/array.util";
             <!-- buttons here -->
             <div id="controls">
                  <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">Add section</button>
-                 <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">Write to file</button> <!-- just for testing -->
-                 <button type="button" class="btn btn-primary btn-sm" (click)="readSidebarFromFile()">Read from file</button> <!-- just for testing -->
+                 <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">Save changes</button> 
             </div>
 
         `
@@ -73,7 +72,6 @@ export class AdminSidebarComponent
     constructor(private sidebarService : SidebarService, private http : Http)
     {
         this.entries = new Array<SidebarSection>();
-
         this.sidebarService.sidebarSubject.subscribe(x => this.populateForm());
 
         this.populateForm();
@@ -82,7 +80,7 @@ export class AdminSidebarComponent
 
     populateForm()
     {
-        let customSections = this.sidebarService.getTopSections();
+        let customSections = this.sidebarService.getCustomSections();
         this.entries = customSections.slice(0);
     }
 
@@ -94,7 +92,7 @@ export class AdminSidebarComponent
         let parentSection = SidebarSection.getBuilder().id(generatedId).build();
         this.addChildSectionField(parentSection);
         this.sidebarService.addSection(parentSection);
-        this.entries = this.sidebarService.getTopSections().slice(0);
+        this.entries = this.sidebarService.getCustomSections().slice(0);
     }
 
 
@@ -102,6 +100,8 @@ export class AdminSidebarComponent
     {
         let generateId : string = "custom-child-section-" + new Date().getTime();
         parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
+        this.entries = this.sidebarService.getCustomSections().slice(0);
+        this.sidebarService.pushUpdate();
     }
 
     removeChildSection(parent, child)
@@ -109,42 +109,6 @@ export class AdminSidebarComponent
         parent.childsections.splice(child,1);
     }
 
-
-    // load the current sidebar.
-    readSidebarFromFile()
-    {
-        // write the custom sidebar sections to a file.
-        // convert the sidebar to json.
-
-        return new Promise((resolve,reject) =>
-        {
-            var xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4){
-                    if(xhr.status == 200){
-                        //resolve(JSON.parse(xhr.response));
-                        resolve(JSON.parse(xhr.response));
-                    }else{
-                        reject(xhr.response);
-                    }
-                }
-            }
-            xhr.open("GET","http://localhost:3000/customsidebar",true);
-            xhr.send();
-        }).then(x =>{
-            console.log("done with the promise!");
-            console.log(x);
-            this.entries = null;
-            this.entries = x as Array<SidebarSection>;
-        });
-    }
-
-
-    reloadSidebar(sidebarData : any)
-    {
-        // build sidebar based on some incoming json data
-    }
 
     /**
      * Save the current sidebar
@@ -158,7 +122,6 @@ export class AdminSidebarComponent
             xhr.onreadystatechange = function() {
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        console.log("posted succesfully");
                         resolve(xhr.response);
                     }else{
                         reject(xhr.response);
@@ -168,7 +131,6 @@ export class AdminSidebarComponent
             xhr.open("POST","http://localhost:3000/customsidebar",true);
             xhr.setRequestHeader("Content-type","application/json");
             let jsonString = JSON.stringify(this.entries);
-            console.log(jsonString);
             xhr.send(jsonString);
         });
     }
@@ -178,11 +140,6 @@ export class AdminSidebarComponent
     {
         let section : SidebarSection = this.entries[index];
         this.sidebarService.removeSection(section);
-    }
-
-    ngOnDestroy()
-    {
-        console.log("saving the edits to the json file");
     }
 
     hasChildren(parent) : boolean
