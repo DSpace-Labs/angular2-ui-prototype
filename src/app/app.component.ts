@@ -27,6 +27,7 @@ import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
+import { NewsComponent } from './dspace/components/news.component';
 
 import { User } from './dspace/models/user.model';
 
@@ -44,7 +45,8 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                   BreadcrumbComponent,
                   LoginModalComponent,
                   NotificationComponent,
-                  SidebarComponent
+                  SidebarComponent,
+                  NewsComponent
                 ],
     providers : [AppSidebarHelper],
     pipes: [ TranslatePipe ],
@@ -111,6 +113,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
         { path: "/logout", name: "Logout", component: LogoutComponent},
 
         { path: "/404", name: "E404", component: NotFoundComponent},
+        { path: "/news", name: "News", component: NewsComponent},
 
         { path: '/**', redirectTo: [ '/Dashboard' ] }
 ])
