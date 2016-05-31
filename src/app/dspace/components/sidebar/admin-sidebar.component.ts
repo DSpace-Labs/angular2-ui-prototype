@@ -7,18 +7,21 @@ import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
 import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
 
+import {  TranslatePipe } from "ng2-translate/ng2-translate";
+
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out which components need to be rendered.
  */
 @Component({
     selector: "admin-sidebar",
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
+    pipes: [ TranslatePipe ],
     template:
         `
-                <h1>Edit the sidebar</h1>
+                <h1>{{'sidebar.admin.edit.header' | translate}}</h1>
                 <div *ngFor="let entry of entries let j=index" class="panel panel-default"> <!-- one tbody for each resource? -->
                         <div class="panel-heading"> <!-- this needs to be on the top -->
-                            <label>Section name <input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> <!-- here we want to show a plus somewhere? -->
+                            <label>{{ 'sidebar.admin.edit.sectionname' | translate }}<input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> <!-- here we want to show a plus somewhere? -->
                             <!-- to be implemented later 
                             <label>
                                 <input type="checkbox"> Public?
@@ -29,8 +32,8 @@ import { ArrayUtil } from "../../../utilities/commons/array.util";
                         
                         <!-- we loop over the children but we will, for now, just do it with one level -->
                         <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
-                            <label>Name <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
-                            <label>Url <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
+                            <label>{{'sidebar.admin.edit.child-section-name' | translate}} <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
+                            <label>{{'sidebar.admin.edit.child-section-url' | translate}} <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
                             <input type="hidden" class="form-control" [(ngModel)]="child.id"/>
                             <!-- to be implemented later
                             <label>
@@ -44,13 +47,13 @@ import { ArrayUtil } from "../../../utilities/commons/array.util";
                         </div>
                         
                         <!-- if there are no children o the current component, we still want to show an add button to add the first child -->
-                        <button *ngIf="!hasChildren(entry)" type="button" class="btn btn-primary btn-sm" (click)="addChildSectionField(entry)">Add child section</button>        
+                        <button *ngIf="!hasChildren(entry)" type="button" class="btn btn-primary btn-sm" (click)="addChildSectionField(entry)">{{'sidebar.admin.edit.add-child' | translate}}</button>        
                         
                 </div>
             <!-- buttons here -->
             <div id="controls">
-                 <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">Add section</button>
-                 <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">Save changes</button> 
+                 <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">{{'sidebar.admin.edit.add-section' | translate}}</button>
+                 <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">{{'sidebar.admin.edit.save' | translate}}</button> 
             </div>
 
         `

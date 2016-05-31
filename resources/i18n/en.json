@@ -143,6 +143,13 @@
     "settings.title": "Settings",
 
 
+    "sidebar.admin.edit.header" : "Edit the sidebar",
+    "sidebar.admin.edit.section-name" : "Section name",
+    "sidebar.admin.edit.child-section-name": "name",
+    "sidebar.admin.edit.child-section-url" : "url",
+    "sidebar.admin.edit.add-child" : "Add child section",
+    "sidebar.admin.edit.add-section" : "Add section",
+    "sidebar.admin.edit.save" : "Save changes",
     "sidebar.help.header": "Help",
     "sidebar.help.about": "About",
     "sidebar.help.feedback": "Feedback",
