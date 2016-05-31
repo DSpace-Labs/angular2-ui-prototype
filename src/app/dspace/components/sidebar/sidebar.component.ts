@@ -42,12 +42,13 @@ import {AuthorizationService} from "../../authorization/services/authorization.s
                         </ul>
                     </div>
                 </div>
-                
-                <section *ngFor="let component of sidebarComponents">
-                    <!--//TODO for sidebar design, I temporarily disabled visibility, turn it back on-->
-                    <!--<sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>-->
-                    <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
-                </section>
+                <div class="sidebar-scroller">
+                    <section *ngFor="let component of sidebarComponents">
+                        <!--//TODO for sidebar design, I temporarily disabled visibility, turn it back on-->
+                        <!--<sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>-->
+                        <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
+                    </section>
+                </div>
             </nav>
         `
 })

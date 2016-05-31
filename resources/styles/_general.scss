@@ -4,9 +4,13 @@ label {
     font-weight: 600;
 }
 
-.no-gutter > [class*='col-'] {
-    padding-right:0;
-    padding-left:0;
+.no-gutter {
+    & > [class*='sidebar-open-'],
+    & > [class*='sidebar-closed-'],
+    & > [class*='col-'] {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }
 
 .ion-icon {

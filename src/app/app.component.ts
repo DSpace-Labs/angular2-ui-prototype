@@ -50,21 +50,23 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                 <!--TODO separate out header-->
                 <div class="container-fluid">
                     <div class="row no-gutter">
-                        <div class="hidden-xs hidden-sm col-md-4 col-lg-3">
+                        <div [ngClass]="{'sidebar-open-sidebar':isSidebarVisible, 'sidebar-closed-sidebar':!isSidebarVisible}">
                             <sidebar></sidebar>
                         </div>
-                        <div class="col-md-8 col-lg-9 sticky-footer-wrapper">
+                        <div [ngClass]="{'sidebar-open-content':isSidebarVisible, 'sidebar-closed-content':!isSidebarVisible, 'sidebar-slider-animating':isSidebarAnimating}" class="sticky-footer-wrapper sidebar-slider">
                             <div class="sticky-footer-everything-else">
                                 <header>
                                     <nav class="navbar navbar-inverse">
                                         <div class="container-fluid content-container-fluid">
-                                            <div>
+                                            <button type="button" (click)="toggleSidebar()" class="sidebar-toggle-button navbar-left clearfix"><i class="ion-arrow-left-b sidebar-toggle-arrow-icon"></i><i class="ion-icon ion-navicon sidebar-toggle-hamburger-icon"></i></button>
+                                            <div class="">
                                                 <a class="navbar-brand" [routerLink]="['/Home']">{{
                                                     'header.repository-name' | translate }}</a>
                                             </div>
                                         </div>
                                     </nav>
                                 </header>
+                                <div class="fixed-header-spacer"></div>
                                 <div class="container-fluid content-container-fluid">
                                     <breadcrumb></breadcrumb>
                                     <main>
@@ -124,6 +126,16 @@ export class AppComponent implements OnInit {
     private channel: string = "app";
 
     /**
+     * Is the sidebar visible or not
+     */
+    isSidebarVisible: boolean;
+
+    /**
+     * Is the sidebar animating
+     */
+    isSidebarAnimating: boolean;
+
+    /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
      */
@@ -145,7 +157,16 @@ export class AppComponent implements OnInit {
                 @Inject(AppSidebarHelper)  sidebarHelper : AppSidebarHelper) {
                     translate.setDefaultLang('en');
                     translate.use('en');
+                    this.initSidebar();
                     sidebarHelper.populateSidebar();
+    }
+
+    /**
+     * Initialize the sidebar properties
+     */
+    private initSidebar(): void {
+        this.isSidebarVisible = true;
+        this.isSidebarAnimating = false;
     }
 
     /**
@@ -153,5 +174,16 @@ export class AppComponent implements OnInit {
      */
     ngOnInit(){
         this.dspace.loadHierarchy();
+    }
+
+    /**
+     * Show or hide the sidebar.
+     */
+    toggleSidebar() {
+        this.isSidebarAnimating = true;
+        this.isSidebarVisible = !this.isSidebarVisible;
+        setTimeout(() => {
+            this.isSidebarAnimating = false;
+        }, 300);
     }
 }

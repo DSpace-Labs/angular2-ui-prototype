@@ -2,6 +2,7 @@
 $sidebar-background-color: #2B3539;
 $sidebar-light-border-color: lighten($sidebar-background-color, 7%);
 $sidebar-dark-border-color: darken($sidebar-background-color, 7%);
+$sidebar-body-border-color: darken($sidebar-background-color, 3%);
 $sidebar-heading-color: $gray-lighter;
 $sidebar-text-color: $gray-light;
 
@@ -13,9 +14,35 @@ $sidebar-text-color: $gray-light;
     @include box-shadow(inset 0 6px 12px rgba(0,0,0,.175));
 }
 
+.sidebar-open-sidebar {
+    position: fixed;
+    @extend  .hidden-xs, .hidden-sm, .col-md-4, .col-lg-3
+}
+
+.sidebar-closed-sidebar {
+    position: fixed;
+    @extend  .hidden-xs, .hidden-sm, .col-md-4, .col-lg-3
+}
+
+.sidebar-open-content {
+    @extend .col-md-8, .col-md-offset-4, .col-lg-9, .col-lg-offset-3
+}
+
+.sidebar-closed-content {
+    @extend .col-xs-12
+}
+
+.sidebar-slider {
+    background: $body-bg;
+    position: relative;
+
+    &.sidebar-slider-animating {
+        @include transition(width 0.3s, margin-left 0.3s);
+    }
+}
+
 .sidebar-header {
     border-bottom: 1px solid $sidebar-light-border-color;
-    margin-bottom: $line-height-computed * 3;
 
     .navbar-inverse {
         background: transparent;
@@ -43,9 +70,20 @@ $sidebar-text-color: $gray-light;
     }
 }
 
+.sidebar-scroller {
+    top: $navbar-height;
+    padding-top: $line-height-computed * 3;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    overflow: auto;
+}
+
 
 .sidebar-section {
     color: $sidebar-text-color;
+    display: block;
 
     .panel {
         background: transparent;
@@ -56,6 +94,7 @@ $sidebar-text-color: $gray-light;
         .panel-body {
             //padding: 0 0 0 $panel-body-padding;
             padding: 0;
+            border-top: 1px solid $sidebar-body-border-color;
         }
     }
 
