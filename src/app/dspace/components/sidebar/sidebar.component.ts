@@ -58,8 +58,7 @@ export class SidebarComponent
         this.sidebarComponents = this.sidebarService.components;
         sidebarService.sidebarSubject.subscribe(() =>
         {
-            this.sidebarComponents = sidebarService.components;
-            console.log("change in the sidebarcomponent");
+            this.sidebarComponents = sidebarService.components.slice(0);
         });
     }
 

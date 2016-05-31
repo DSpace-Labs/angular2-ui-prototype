@@ -170,6 +170,12 @@ export class SidebarService
         return this.components.filter(x => x.id.indexOf("custom") > -1);
     }
 
+    addChildSection(parent, child)
+    {
+        this._components.filter(section => section.id == parent.id).forEach(section => section.childsections.push(child));
+        this.sidebarSubject.next(true);
+    }
+
     pushUpdate()
     {
         this.sidebarSubject.next(true);

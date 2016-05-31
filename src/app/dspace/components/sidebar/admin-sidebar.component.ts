@@ -69,13 +69,19 @@ export class AdminSidebarComponent
     entries : Array<SidebarSection>;
 
 
-    constructor(private sidebarService : SidebarService, private http : Http)
+    constructor(private sidebarService : SidebarService, private http : Http) {
+
+    }
+
+    subscription : any;
+
+    ngOnInit()
     {
+        // onsubscribe error mh.
         this.entries = new Array<SidebarSection>();
-        this.sidebarService.sidebarSubject.subscribe(x => this.populateForm());
+        this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();}); // this only runs the first time?
 
         this.populateForm();
-
     }
 
     populateForm()
@@ -98,14 +104,19 @@ export class AdminSidebarComponent
 
     addChildSectionField(parent : SidebarSection)
     {
-        let generateId : string = "custom-child-section-" + new Date().getTime();
-        parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
+        let generateId : string = "custom-child-section-" + new Date().getTime(); // TODO: move this to the model.
+        //parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
+        let childSection = SidebarSection.getBuilder().id(generateId).build();
+
+        this.sidebarService.addChildSection(parent,childSection);
+
         this.entries = this.sidebarService.getCustomSections().slice(0);
-        this.sidebarService.pushUpdate();
     }
 
     removeChildSection(parent, child)
     {
+        // parent is part of "entries", not of "sidebar".
+        // "still does not explain why it doesn't work after navigation"
         parent.childsections.splice(child,1);
     }
 
@@ -135,6 +146,13 @@ export class AdminSidebarComponent
         });
     }
 
+    ngOnDestroy()
+    {
+        // cancel subscription
+        if(this.subscription){
+            this.subscription.unsubscribe();
+        }
+    }
 
     removeSection(index)
     {
