@@ -80,7 +80,6 @@ export class AdminSidebarComponent
         // onsubscribe error mh.
         this.entries = new Array<SidebarSection>();
         this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();}); // this only runs the first time?
-
         this.populateForm();
     }
 
@@ -94,8 +93,7 @@ export class AdminSidebarComponent
     {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
-        let generatedId : string = "custom-section-" + new Date().getTime();
-        let parentSection = SidebarSection.getBuilder().id(generatedId).build();
+        let parentSection = SidebarSection.getBuilder().generateUserID(true).build();
         this.addChildSectionField(parentSection);
         this.sidebarService.addSection(parentSection);
         this.entries = this.sidebarService.getCustomSections().slice(0);
@@ -104,12 +102,9 @@ export class AdminSidebarComponent
 
     addChildSectionField(parent : SidebarSection)
     {
-        let generateId : string = "custom-child-section-" + new Date().getTime(); // TODO: move this to the model.
         //parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
-        let childSection = SidebarSection.getBuilder().id(generateId).build();
-
+        let childSection = SidebarSection.getBuilder().generateUserID(true).build();
         this.sidebarService.addChildSection(parent,childSection);
-
         this.entries = this.sidebarService.getCustomSections().slice(0);
     }
 

@@ -191,12 +191,19 @@ class Builder
      */
     private section : SidebarSection;
 
+    private generateId = false;
+
     /**
      *
      */
     constructor()
     {
         this.section = new SidebarSection();
+    }
+
+    generateUserID(generate : boolean) : Builder{
+        this.generateId = generate;
+        return this;
     }
 
     /**
@@ -341,6 +348,12 @@ class Builder
     }
 
 
+    private generateID() : string
+    {
+        let generatedId : string = "custom-section-" + new Date().getTime();
+        return generatedId;
+    }
+
     /**
      * Returns the sidebar section and starts the observable
      * @returns {SidebarSection}
@@ -351,6 +364,10 @@ class Builder
         {
             this.section.visible = this.section.testFunction();
             this.section.startObservingDirty();
+        }
+        if(this.generateId)
+        {
+            this.section.id = this.generateID();
         }
         return this.section;
     }
