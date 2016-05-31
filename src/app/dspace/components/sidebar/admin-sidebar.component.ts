@@ -21,7 +21,7 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                 <h1>{{'sidebar.admin.edit.header' | translate}}</h1>
                 <div *ngFor="let entry of entries let j=index" class="panel panel-default"> <!-- one tbody for each resource? -->
                         <div class="panel-heading"> <!-- this needs to be on the top -->
-                            <label>{{ 'sidebar.admin.edit.sectionname' | translate }}<input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> <!-- here we want to show a plus somewhere? -->
+                            <label>{{ 'sidebar.admin.edit.section-name' | translate }}<input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> <!-- here we want to show a plus somewhere? -->
                             <!-- to be implemented later 
                             <label>
                                 <input type="checkbox"> Public?
