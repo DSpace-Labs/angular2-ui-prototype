@@ -28,8 +28,6 @@ import { SetupComponent } from './setup.component';
 
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 
-import { User } from './dspace/models/user.model';
-
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 
 /**
@@ -50,58 +48,48 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
     pipes: [ TranslatePipe ],
     template: `
                 <!--TODO separate out header-->
-                <header>
-                    <nav class="navbar navbar-inverse">
-                        <div class="container">
-                            <div class="navbar-header">
-                                <!-- When clicked toggle navCollapsed setting -->
-                                <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                                <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
-                            </div>
-                            <!-- Collapse this menu when navCollapse is true -->
-                            <div [collapse]="navCollapsed" class="collapse navbar-collapse">
-                                <ul class="nav navbar-nav">
-                                    <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
-                                </ul>
-                                <ul class="nav navbar-nav navbar-right" *ngIf="!user">
-                                        <!--<li><a [routerLink]="['/Register']"><span class="ion-icon ion-ios-person-outline space-right"></span>{{ 'header.register' | translate }}</a></li>-->
-                                        <li><a [routerLink]="['Login']" class="clickable"><span class="ion-icon ion-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
-                                </ul>
-                                <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                    <li><a [routerLink]="['/Home']"><span class="ion-icon ion-ios-person-outline space-right"></span>{{ user.fullname }}</a></li>
-                                    <li><a (click)="logout()" class="clickable"><span class="ion-icon ion-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
-                                </ul>
+                <div class="container-fluid">
+                    <div class="row no-gutter">
+                        <div class="hidden-xs hidden-sm col-md-4 col-lg-3">
+                            <sidebar></sidebar>
+                        </div>
+                        <div class="col-md-8 col-lg-9 sticky-footer-wrapper">
+                            <div class="sticky-footer-everything-else">
+                                <header>
+                                    <nav class="navbar navbar-inverse">
+                                        <div class="container-fluid content-container-fluid">
+                                            <div>
+                                                <a class="navbar-brand" [routerLink]="['/Home']">{{
+                                                    'header.repository-name' | translate }}</a>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </header>
+                                <div class="container-fluid content-container-fluid">
+                                    <breadcrumb></breadcrumb>
+                                    <main>
+                                        <notification [channel]="channel"></notification>
+                                        <router-outlet></router-outlet>
+                                    </main>
+                                    <!--TODO separate out footer-->
+                                    <footer>
+                                        <div class="container-fluid content-container-fluid">
+                                            <!-- <div class="row">
+                                                <div class="col-sm-offset-4 col-lg-offset-3"> -->
+                                                    <p>
+                                                        <a href="http://www.dspace.org/">{{"footer.link.dspace" | translate}}</a>
+                                                        {{"footer.copyright" | translate}}
+                                                        <a href="http://www.duraspace.org/">{{"footer.link.duraspace" | translate}}</a>
+                                                    </p>
+                                                <!-- </div>
+                                            </div> -->
+                                        </div>
+                                    </footer>
+                                </div>
                             </div>
                         </div>
-                    </nav>
-                </header>
-
-                <div class="container">
-                    <breadcrumb></breadcrumb>
-                    <main>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <sidebar></sidebar>
-                            </div>
-                            <div class="col-md-8">
-                                <notification [channel]="channel"></notification>
-                                <router-outlet></router-outlet>
-                            </div>
-                        </div>
-                    </main>
-                </div>
-                <!--TODO separate out footer-->
-                <footer>
-                    <div class="container">
-                        <p>
-                            <a href="http://www.dspace.org/">{{"footer.link.dspace" | translate}}</a> {{"footer.copyright" | translate}}
-                        <a href="http://www.duraspace.org/">{{"footer.link.duraspace" | translate}}</a></p>
                     </div>
-                </footer>
+                </div>
                 <login-modal #login></login-modal>
               `
 })
@@ -136,12 +124,6 @@ export class AppComponent implements OnInit {
     private channel: string = "app";
 
     /**
-     * Logged in user.
-     */
-    private user: User;
-
-
-    /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
      */
@@ -150,8 +132,6 @@ export class AppComponent implements OnInit {
     /**
      * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate
      *      TranslateService
      * @param router
@@ -160,17 +140,9 @@ export class AppComponent implements OnInit {
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
      constructor(private dspace: DSpaceHierarchyService,
-                private authorization: AuthorizationService,
                 private translate: TranslateService,
                 private router: Router,
                 @Inject(AppSidebarHelper)  sidebarHelper : AppSidebarHelper) {
-
-                    this.user = authorization.user;
-
-                    authorization.userObservable.subscribe(user => {
-                        this.user = user;
-                    });
-
                     translate.setDefaultLang('en');
                     translate.use('en');
                     sidebarHelper.populateSidebar();
@@ -182,13 +154,4 @@ export class AppComponent implements OnInit {
     ngOnInit(){
         this.dspace.loadHierarchy();
     }
-
-    /**
-     * Logout.
-     */
-    private logout(): void {
-        this.authorization.logout();
-        this.router.navigate(['/Dashboard']);
-    }
-
 }

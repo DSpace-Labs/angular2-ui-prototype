@@ -20,16 +20,20 @@ footer {
             text-decoration: underline;
         }
     }
+
+    @media(max-width: $screen-xs-max) {
+        text-align: center;
+    }
 }
 
 //sticky footer
-html {
+.sticky-footer-wrapper {
     position: relative;
-    min-height: 100%;
+    min-height: 100vh;
 }
 
-body {
-    margin: 0 0 $footer-height + $footer-margin-top !important;
+.sticky-footer-everything-else {
+    padding: 0 0 $footer-height + $footer-margin-top !important;
 }
 
 footer {

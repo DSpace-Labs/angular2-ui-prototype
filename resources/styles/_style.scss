@@ -85,6 +85,14 @@ html, body {
 /* sidebar theming */
 
 
+/** File Upload theming **/
+.file-drop-zone {
+    border: dotted 3px lightgray;
+}
+.file-over-drop-zone {
+    border: dotted 3px red;
+}
+
 /* bootstrap overrides */
 
 .navbar {

@@ -800,7 +800,7 @@ $breadcrumb-bg:                 transparent !default;
 //** Text color of current page in the breadcrumb
 //$breadcrumb-active-color:       $gray-light !default;
 //** Textual separator for between breadcrumb elements
-//$breadcrumb-separator:          "/" !default;
+$breadcrumb-separator:          "\f3d3" !default;
 
 
 //== Carousel
@@ -864,7 +864,7 @@ $breadcrumb-bg:                 transparent !default;
 //** Blockquote border color
 //$blockquote-border-color:     $gray-lighter !default;
 //** Page header border color
-//$page-header-border-color:    $gray-lighter !default;
+$page-header-border-color:    #ddd !default;
 //** Width of horizontal description list titles
 //$dl-horizontal-offset:        $component-offset-horizontal !default;
 //** Point at which .dl-horizontal becomes horizontal
