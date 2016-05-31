@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
+import { Http } from '@angular/http';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
 import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
 import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
+
 /**
- * Main component to render the sidebar. Will access the sidebarservice to find out how much components need to be rendered.
- * Using the sidebarservice
+ * Main component to render the sidebar. Will access the sidebarservice to find out which components need to be rendered.
  */
 @Component({
     selector: "admin-sidebar",
@@ -57,8 +57,8 @@ import { ArrayUtil } from "../../../utilities/commons/array.util";
 })
 
 /**
- * Component for the admin sidebar.
- * Here we can alter the existing sidebar.
+ * A class for an admin to extend the sidebar
+ * Components can be added. At the moment they can only be headers or static links.
  */
 export class AdminSidebarComponent
 {
@@ -68,13 +68,27 @@ export class AdminSidebarComponent
      */
     entries : Array<SidebarSection>;
 
+    /**
+     * Will store our subscription to the sidebarService.sidebarSubject
+     * Watches for changes that happen on our sidebarSubject.
+     */
+    subscription : any;
 
+    /**
+     *
+     * @param sidebarService
+     *      SidebarService is a singleton service to deal with communication with the sidebar.
+     * @param http
+     *      Http is used to write to our node.js server.
+     */
     constructor(private sidebarService : SidebarService, private http : Http) {
 
     }
 
-    subscription : any;
 
+    /**
+     *
+     */
     ngOnInit()
     {
         // onsubscribe error mh.
@@ -83,12 +97,18 @@ export class AdminSidebarComponent
         this.populateForm();
     }
 
+    /**
+     * Initially populate our fomr
+     */
     populateForm()
     {
         let customSections = this.sidebarService.getCustomSections();
         this.entries = customSections.slice(0);
     }
 
+    /**
+     * Add a top-level section
+     */
     addSectionField()
     {
         // generate a random ID based on the current time in ms.
@@ -100,24 +120,35 @@ export class AdminSidebarComponent
     }
 
 
+    /**
+     * Add a child sectoin to the parent.
+     * @param parent
+     */
     addChildSectionField(parent : SidebarSection)
     {
-        //parent.childsections.push(SidebarSection.getBuilder().id(generateId).build());
-        let childSection = SidebarSection.getBuilder().generateUserID(true).build();
+        let childSection = SidebarSection.getBuilder().generateUserID(true).build(); // let our builder generate an ID.
         this.sidebarService.addChildSection(parent,childSection);
-        this.entries = this.sidebarService.getCustomSections().slice(0);
+        this.entries = this.sidebarService.getCustomSections().slice(0); // update the entries on this page. slice to change reference.
     }
 
+
+    /**
+     * Remove a child section from the parent.
+     * @param parent
+     * @param child
+     */
     removeChildSection(parent, child)
     {
-        // parent is part of "entries", not of "sidebar".
-        // "still does not explain why it doesn't work after navigation"
+        // this should probably be done through the sidebarService.
+        // But doing it this way made the change detection trigger correctly.
+        // TODO: working change detection throught the sidebarService.
         parent.childsections.splice(child,1);
     }
 
 
     /**
-     * Save the current sidebar
+     * Save the configuration of the current sidebar as a JSON string inside a file on the server.
+     * This is done by creating a POST request to our node.js server.
      * @returns {Promise<T>}
      */
     writeSidebarToFile()
@@ -134,13 +165,17 @@ export class AdminSidebarComponent
                     }
                 }
             }
-            xhr.open("POST","http://localhost:3000/customsidebar",true);
+            xhr.open("POST","http://localhost:3000/customsidebar",true); // send a post request to our node.js server.
             xhr.setRequestHeader("Content-type","application/json");
             let jsonString = JSON.stringify(this.entries);
             xhr.send(jsonString);
         });
     }
 
+
+    /**
+     * Destroy our subscription to sidebarService.sidebarSubject.
+     */
     ngOnDestroy()
     {
         // cancel subscription
@@ -149,12 +184,22 @@ export class AdminSidebarComponent
         }
     }
 
+    /**
+     * Remove a section based on the index in the curently rendered form.
+     * @param index
+     */
     removeSection(index)
     {
         let section : SidebarSection = this.entries[index];
         this.sidebarService.removeSection(section);
     }
 
+
+    /**
+     * Returns true if the current element has children
+     * @param parent
+     * @returns {boolean}
+     */
     hasChildren(parent) : boolean
     {
         return ArrayUtil.isNotEmpty(parent.childsections);

@@ -8,7 +8,6 @@ import { Http, Response } from '@angular/http';
 /**
  * Class to populate the standard  sidebar.
  */
-
 @Injectable()
 export class AppSidebarHelper extends SidebarHelper
 {
@@ -117,13 +116,13 @@ export class AppSidebarHelper extends SidebarHelper
 
         this.sidebarService.addSection(adminSection);
 
-        // to test the siebar builder.
-        let atmireLink = SidebarSection.getBuilder().name("atmire").id("custom-sidebar-section.atmire").url("http://www.atmire.com").build();
-        let customSection = SidebarSection.getBuilder().name("Resources").id("custom-sidebar-section").addChild(atmireLink).build();
-        this.sidebarService.addSection(customSection);
     }
 
-    // load the current sidebar.
+    /**
+     * Reads the data in the sidebar file from the server.
+     * Then it adds these sidebarsections (defined in json) to our SidebarService.
+     * @returns {Promise<TResult>|Promise<U>}
+     */
     readSidebarFromFile()
     {
         // write the custom sidebar sections to a file.

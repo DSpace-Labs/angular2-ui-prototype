@@ -24,6 +24,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      */
     index : number = null;
 
+    /**
+     *
+     */
     isDirty : any; // checks to see if we need to run the code for our visible parameter again.
                    // this is our observable that we used to have.
 
@@ -87,6 +90,7 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
     /**
      * The actual test to know if the new value is a reason to check the visibility.
+     * By default we will check on each event, hence the 'return true'.
      */
     dirtyTest : any = ( () => {return true;});
 
@@ -98,7 +102,10 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     {
         this.childsections.push(child);
     }
-    
+
+    /**
+     * Start observing the observalble/subject (can be either one of them)
+     */
     startObservingDirty()
     {
         this.visible = this.testFunction();
@@ -187,20 +194,37 @@ class Builder
 {
 
     /**
+     * Custom prefix for user-added components.
+     * @type {string}
+     */
+    prefix : string = "custom-section-";
+
+    /**
      *
      */
     private section : SidebarSection;
 
+    /**
+     * Indicates whether or not an ID needs to be generated, or is provided by the user.
+     * In the default case, one is provided in code.
+     * The only time we would, at the moment, generate one oursevles is for the 'admin menu'.
+     * @type {boolean}
+     */
     private generateId = false;
 
     /**
-     *
+     * Create a new SidebarSection object.
      */
     constructor()
     {
         this.section = new SidebarSection();
     }
 
+    /**
+     *
+     * @param generate
+     * @returns {Builder}
+     */
     generateUserID(generate : boolean) : Builder{
         this.generateId = generate;
         return this;
@@ -348,9 +372,14 @@ class Builder
     }
 
 
+    /**
+     * returns a generated ID, with a set prefix.
+     * The current time in ms is used to generate the section ID.
+     * @returns {string}
+     */
     private generateID() : string
     {
-        let generatedId : string = "custom-section-" + new Date().getTime();
+        let generatedId : string = this.prefix + new Date().getTime();
         return generatedId;
     }
 

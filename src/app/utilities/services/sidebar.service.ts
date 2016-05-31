@@ -80,7 +80,6 @@ export class SidebarService
     }
 
     /**
-     *
      * create new component or replace existing component based on the component's id.
      * this also has the advantage of setting a new array as the _components array
      * which we want for angular's change detection
@@ -91,7 +90,7 @@ export class SidebarService
         let newComponentArray = this.components.filter(x => x.id != component.id);
         newComponentArray.push(component);
         this._components = newComponentArray;
-        // generate subject event
+        // generate event for our observers.
         this.sidebarSubject.next(true);
     }
 
@@ -109,6 +108,16 @@ export class SidebarService
     }
 
 
+    /**
+     * Will recursively look through all sections, remove the one that matches the section passed as the 'remove' parameter.
+
+     * @param sections
+     *      An array of sections at the current depth through which we will look.
+     * @param remove
+     *      The section that is to be removed.
+     * @returns {Array<SidebarSection>}
+     *      An array of SidebarSections that did not get removed
+     */
     private removeFromSections(sections : Array<SidebarSection>, remove : SidebarSection) : Array<SidebarSection>
     {
         let filtered : Array<SidebarSection>= null;
@@ -170,15 +179,17 @@ export class SidebarService
         return this.components.filter(x => x.id.indexOf("custom") > -1);
     }
 
+
+    /**
+     * 
+     * @param parent
+     * @param child
+     */
     addChildSection(parent, child)
     {
         this._components.filter(section => section.id == parent.id).forEach(section => section.childsections.push(child));
         this.sidebarSubject.next(true);
     }
 
-    pushUpdate()
-    {
-        this.sidebarSubject.next(true);
-    }
 }
 

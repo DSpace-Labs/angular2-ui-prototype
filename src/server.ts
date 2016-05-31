@@ -176,40 +176,35 @@ function ngApp(req, res) {
 }
 
 
-/* multer for file upload  */
-
-var storage = multer.diskStorage({
-    destination : function(req,file,callback){
-        console.log(file);
-        callback(null,'./public/admin/sidebar');
-    },
-    filename : function(req,file,callback){
-        console.log(file);
-        callback(null, file.originalName);
-    }
-});
-
 
 var fs = require('fs');
 var sidebarPath = root+"/resources/userdata/sidebar.json";
 
-// read from the local file
+/**
+ * Reads the local file saved under "sidebarPath" from the server.
+ * the access point is /customsidebar, and it has to be a GET request.
+ * Will send the data, which is in JSON format.
+ */
 app.get("/customsidebar",function(req,res){
 
     // read the file
     fs.readFile(sidebarPath,"utf8",function(err,data){
-        if(err) console.log(err);
-            res.send(data);
+        if(err) {
+            console.log(err); // print the error to the console.
+        }
+        res.send(data);
     });
 
 });
 
-// write to the local file.
+/**
+ * Write the incomming data to a local file.
+ * The file is stored in the specified sidebarPath.
+ * Data is stored in JSON format.
+ */
 app.post("/customsidebar",function(req,res)
 {
 
-    console.log("request");
-    // console.log(req.body); does not log the compelte body
     let jsoninput = req.body;
     let formatted = JSON.stringify(jsoninput);
     fs.writeFile(sidebarPath,formatted,function (err){
@@ -222,8 +217,6 @@ app.post("/customsidebar",function(req,res)
 });
 
 
-
-/* end multer for file upload */
 
 // Specifies that all server-side paths should be routed to our ngApp function (see above)
 app.get('/*', ngApp);
