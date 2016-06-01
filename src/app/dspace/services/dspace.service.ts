@@ -17,7 +17,7 @@ import { URLHelper } from "../../utilities/url.helper";
  * with bracket notation combining fetch with a constant.
  * Such as: dspaceService['fetch' + dspaceKeys[type].METHOD]
  *
- * TODO: map the JSON content to an inheritence model
+ * TODO: map the JSON content to an inheritance model
  */
 @Injectable()
 export class DSpaceService {

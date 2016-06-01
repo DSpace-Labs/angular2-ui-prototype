@@ -3,7 +3,8 @@ import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
 import { SidebarService } from './services/sidebar.service';
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
 import { SidebarHelper } from './sidebar.helper';
-import { Http, Response } from '@angular/http';
+
+import {HttpService} from "./services/http.service";
 
 /**
  * Class to populate the standard  sidebar.
@@ -16,11 +17,13 @@ export class AppSidebarHelper extends SidebarHelper
     /**
      *
      * @param sidebarService
-     *      SidebarService is a singleton service to interact with our sidebar
+     *      SidebarService is a singleton service to interact with the sidebar and the components.
      * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
+     *      AuthorizationService is a singleton service to interact with the authorization
+     * @param httpService
+     *      HttpService is a singleton service to provide basic xhr requests
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, private http : Http)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService)
     {
         super(sidebarService); // super implements this as 'protected'
         this.readSidebarFromFile();
@@ -127,31 +130,16 @@ export class AppSidebarHelper extends SidebarHelper
     {
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
-        return new Promise((resolve,reject) =>
-        {
-            var xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4){
-                    if(xhr.status == 200){
-                        //resolve(JSON.parse(xhr.response));
-                        resolve(JSON.parse(xhr.response));
-                    }else{
-                        reject(xhr.response);
-                    }
-                }
+        this.httpService.get({
+           url : "http://localhost:3000/customsidebar"
+        }).forEach(res =>{
+            for(let section of res){
+                this.sidebarService.addSection(section);
             }
-            xhr.open("GET","http://localhost:3000/customsidebar",true);
-            xhr.send();
-        }).then(x =>{
-            var customEntries = x as Array<SidebarSection>;
-            // parse the manually and add them to the sidebarservice.
-            for(let e of customEntries)
-            {
-                let sidebarE =  <SidebarSection> e;
-                this.sidebarService.addSection(sidebarE);
-            }
-
         });
+
+
+
     }
 }
