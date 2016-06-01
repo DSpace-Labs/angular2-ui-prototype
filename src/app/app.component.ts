@@ -11,8 +11,8 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
-import { LogoutComponent } from './dspace/components/logout.component';
-import { PageNotFoundComponent } from './dspace/components/pagenotfound.component.ts';
+import { LogoutComponent } from './dspace/authorization/logout.component';
+import { PageNotFoundComponent } from './dspace/components/pagenotfound.component';
 
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';
@@ -28,8 +28,8 @@ import { SetupComponent } from './setup.component';
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
-import { SidebarService } from "./utilities/services/sidebar.service";
-import { ViewportService } from "./utilities/services/viewport.service";
+import { SidebarService } from './utilities/services/sidebar.service';
+import { ViewportService } from './utilities/services/viewport.service';
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.

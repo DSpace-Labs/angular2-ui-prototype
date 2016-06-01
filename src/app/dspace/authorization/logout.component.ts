@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { RouteParams, Router } from '@angular/router-deprecated';
-import { AuthorizationService } from '../authorization/services/authorization.service';
+import { AuthorizationService } from './services/authorization.service';
 
 
 /**
@@ -11,14 +11,11 @@ import { AuthorizationService } from '../authorization/services/authorization.se
 })
 export class LogoutComponent{
 
-
     /**
      * Just redirect the user after loging the user out.
      */
-    constructor(private authorization : AuthorizationService, private router : Router)
-    {
-        authorization.logout().subscribe(() =>
-        {
+    constructor(private authorization: AuthorizationService, private router: Router) {
+        authorization.logout().subscribe(null, null, () => {
             router.navigate(["Dashboard"])
         });
     }
