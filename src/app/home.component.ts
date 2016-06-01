@@ -10,7 +10,7 @@ import { TreeComponent } from './navigation/components/tree.component';
 import { NewsComponent } from './dspace/components/news.component';
 
 
-import { DashboardSidebarHelper } from './utilities/dashboard-sidebar.helper';
+import { HomeSidebarHelper } from './utilities/home-sidebar.helper';
 
 
 import { Breadcrumb } from './navigation/models/breadcrumb.model';
@@ -23,7 +23,7 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     selector: "hierarchy",
     pipes: [ TranslatePipe ],
     directives: [ TreeComponent, NewsComponent ],
-    providers : [DashboardSidebarHelper],
+    providers : [HomeSidebarHelper],
     template: `
              
                 <news></news>
@@ -58,7 +58,7 @@ export class HomeComponent implements OnDestroy {
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
-                @Inject(DashboardSidebarHelper) private sidebarHelper : DashboardSidebarHelper) {
+                @Inject(HomeSidebarHelper) private sidebarHelper : HomeSidebarHelper) {
         breadcrumbService.visit(this.breadcrumb);
         this.sidebarHelper.populateSidebar();
     }

@@ -8,7 +8,7 @@ import { SidebarHelper } from './sidebar.helper';
  * Class to populate the dashboard sidebar.
  */
 @Injectable()
-export class DashboardSidebarHelper extends SidebarHelper
+export class HomeSidebarHelper extends SidebarHelper
 {
 
     /**
@@ -33,14 +33,14 @@ export class DashboardSidebarHelper extends SidebarHelper
         this.isAuthenticated = this.authorization.isAuthenticated();
 
         let createComComponent = SidebarSection.getBuilder()
-            .name("sidebar.context-dashboard.create-community")
+            .name("sidebar.context-home.create-community")
             .id("createcommunity")
             .route("CommunityCreate")
             .build();
 
 
         let contextComponent = SidebarSection.getBuilder()
-            .name("sidebar.context-dashboard.header")
+            .name("sidebar.context-home.header")
             .id("appcontext")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();

@@ -39,7 +39,7 @@ import { SidebarService } from './utilities/services/sidebar.service';
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 import { CollectionSidebarHelper } from "./utilities/collection-sidebar.helper";
 import { CommunitySidebarHelper } from "./utilities/community-sidebar.helper";
-import { DashboardSidebarHelper } from "./utilities/dashboard-sidebar.helper";
+import { HomeSidebarHelper } from "./utilities/home-sidebar.helper.ts";
 import { ItemSidebarHelper } from "./utilities/item-sidebar.helper";
 
 import {CollapseDirective} from "ng2-bootstrap/ng2-bootstrap";
@@ -84,6 +84,6 @@ bootstrap(AppComponent, [
     AppSidebarHelper,
     CollectionSidebarHelper,
     CommunitySidebarHelper,
-    DashboardSidebarHelper,
+    HomeSidebarHelper,
     ItemSidebarHelper
 ]).then(prebootComplete);

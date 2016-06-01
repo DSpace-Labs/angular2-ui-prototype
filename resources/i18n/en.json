@@ -161,8 +161,8 @@
     "sidebar.context-community.view": "View",
     "sidebar.context-community.create-collection": "Create collection",
     "sidebar.context-community.create-community": "Create community",
-    "sidebar.context-dashboard.header":"Dashboard",
-    "sidebar.context-dashboard.create-community": "Create new top-level community",
+    "sidebar.context-home.header":"Home",
+    "sidebar.context-home.create-community": "Create new top-level community",
 
     "setup.title": "Setup",
 
