@@ -133,9 +133,13 @@ export class AppSidebarHelper extends SidebarHelper
 
         this.httpService.get({
            url : "http://localhost:3000/customsidebar"
-        }).forEach(res =>{
+        }).forEach(res => {
+            // create a sidebarsection out of the result.
+            // so we can use the normal comparison (full object) instead of only the ID in our filter methods.
+            // Plus, we won't have random objects around the SidebarService which might give problems later on.
             for(let section of res){
-                this.sidebarService.addSection(section);
+                let buildSection = new SidebarSection(section);
+                this.sidebarService.addSection(buildSection);
             }
         });
 

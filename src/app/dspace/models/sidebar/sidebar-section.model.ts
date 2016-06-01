@@ -120,10 +120,20 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     // interface methods
 
     /**
-     *
+     * Optionally construct the object from json data.
+     * This will be used to load saved SidebarSections from disk
+     * Otherwise they would just be added to the SidebarService as 'object' instead of 'SidebarSection'
+     * @param json
      */
-    constructor()
+    constructor(json? : any)
     {
+        if(json) // if we have received json input
+        {
+            this.id = json.id;
+            this.componentName = json.componentName;
+            this.url = json.url;
+            this.childsections = json.childsections; // now the childsections are objects, we need to make these SidebarSections as well.
+        }
         this.routes = new Array<Route>()
     }
 

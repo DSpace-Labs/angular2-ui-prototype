@@ -94,14 +94,16 @@ export class AdminSidebarComponent
      */
     ngOnInit()
     {
-        // onsubscribe error mh.
         this.entries = new Array<SidebarSection>();
         this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();}); // this only runs the first time?
         this.populateForm();
+        // let's print what is actually in here.
+        console.log("entries in admin sidebar");
+        console.log(this.sidebarService.components);
     }
 
     /**
-     * Initially populate our fomr
+     * Initially populate our form
      */
     populateForm()
     {
