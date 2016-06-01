@@ -11,7 +11,10 @@ const SCREEN_LG_MIN = '1200px';
 
 
 /**
- *
+ * A singleton service that classifies the viewport's width as 
+ * large, medium small or extra-small.
+ * 
+ * Responds to changes in viewport size.
  */
 @Injectable()
 export class ViewportService {
@@ -69,15 +72,12 @@ export class ViewportService {
             xsMQL.addListener((mql:MediaQueryList) => {
                 this.isXs.next(mql.matches);
             });
-            //listen for changes
             smMQL.addListener((mql:MediaQueryList) => {
                 this.isSm.next(mql.matches);
             });
-            //listen for changes
             mdMQL.addListener((mql:MediaQueryList) => {
                 this.isMd.next(mql.matches);
             });
-            //listen for changes
             lgMQL.addListener((mql:MediaQueryList) => {
                 this.isLg.next(mql.matches);
             });

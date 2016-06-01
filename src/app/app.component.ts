@@ -137,11 +137,6 @@ export class AppComponent implements OnInit {
     isSidebarAnimating: boolean;
 
     /**
-     * is the viewport smaller than 992px?
-     */
-    isScreenXsOrSm: boolean;
-
-    /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
      */
@@ -156,11 +151,8 @@ export class AppComponent implements OnInit {
      *      Router is a singleton service provided by Angular2.
      * @param sidebarService
      *      SidebarService is a singleton service that provides access to the content of the sidebar
-     * @param zone
-     *      An service for executing work inside or outside of the Angular zone.
-     *      Needed here because angular doesn't automatically integrate with matchMedia
-     *      as a consequence, it won't detect change events from it.
-     *      More info, see http://blog.assaf.co/angular-2-change-detection-zones-and-an-example/
+     * @param viewportService
+     *      A singleton service that classifies the viewport's width
      * @param sidebarHelper
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
