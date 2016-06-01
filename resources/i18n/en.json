@@ -138,6 +138,7 @@
     "login.password.required": "Password is required",
     "login.unauthorized": "Incorrect email or password",
 
+
     "register.title": "Register",
 
     "settings.title": "Settings",
@@ -167,5 +168,6 @@
     "sidebar.context-community.create-community": "Create community",
     "sidebar.context-dashboard.header":"Dashboard",
     "sidebar.context-dashboard.create-community": "Create new top-level community",
+
     "setup.title": "Setup"
 }

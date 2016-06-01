@@ -93,5 +93,7 @@ export class AppSidebarHelper extends SidebarHelper
             .build();
 
         this.sidebarService.addSection(accountComponent);
+
+
     }
 }

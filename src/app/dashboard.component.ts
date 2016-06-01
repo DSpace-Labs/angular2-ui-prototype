@@ -7,6 +7,7 @@ import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { TreeComponent } from './navigation/components/tree.component';
+import { NewsComponent } from './dspace/components/news.component';
 
 
 import { DashboardSidebarHelper } from './utilities/dashboard-sidebar.helper';
@@ -21,9 +22,11 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
 @Component({
     selector: "hierarchy",
     pipes: [ TranslatePipe ],
-    directives: [ TreeComponent ],
+    directives: [ TreeComponent, NewsComponent ],
     providers : [DashboardSidebarHelper],
     template: `
+             
+                <news></news>
                 <tree [hierarchies]="dspace.hierarchy"></tree>
               `
 })
