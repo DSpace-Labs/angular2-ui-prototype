@@ -35,6 +35,7 @@ import { PaginationService } from './navigation/services/pagination.service';
 import { PagingStoreService } from './dspace/services/paging-store.service';
 import { StorageService } from './utilities/services/storage.service';
 import { SidebarService } from './utilities/services/sidebar.service';
+import { ViewportService } from "./utilities/services/viewport.service";
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 import { CollectionSidebarHelper } from "./utilities/collection-sidebar.helper";
@@ -81,6 +82,7 @@ bootstrap(AppComponent, [
     StorageService,
     TranslateService,
     SidebarService,
+    ViewportService,
     AppSidebarHelper,
     CollectionSidebarHelper,
     CommunitySidebarHelper,

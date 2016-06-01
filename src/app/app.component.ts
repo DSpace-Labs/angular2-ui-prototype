@@ -30,6 +30,7 @@ import { SidebarComponent } from './dspace/components/sidebar/sidebar.component'
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 import { SidebarService } from "./utilities/services/sidebar.service";
+import { ViewportService } from "./utilities/services/viewport.service";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -168,27 +169,10 @@ export class AppComponent implements OnInit {
                 private translate:TranslateService,
                 private router:Router,
                 private sidebarService: SidebarService,
-                private zone:NgZone,
+                private viewportService: ViewportService,
                 @Inject(AppSidebarHelper)  private sidebarHelper:AppSidebarHelper) {
         translate.setDefaultLang('en');
         translate.use('en');
-
-        if (typeof matchMedia === "function") { //prevents this running server-side
-            //TODO create a more general ViewportService for this.
-            //TODO it'd be great if we could get this value from bootstrap's $screen-sm-max somehow
-            const mql:MediaQueryList = matchMedia('(max-width: 991px)');
-            //initialize the value
-            this.isScreenXsOrSm = mql.matches;
-            //listen for changes
-            mql.addListener((mql:MediaQueryList) => {
-                zone.run(() => { // Change the property within the zone, CD will run after
-                    this.isScreenXsOrSm = mql.matches;
-                });
-            });
-        }
-        else {
-            this.isScreenXsOrSm = undefined;
-        }
 
         this.initSidebar();
     }
@@ -209,10 +193,12 @@ export class AppComponent implements OnInit {
             }, 300);
         });
 
-        //if we have info about the viewport (i.e. we're on the client)
+        //if we have info about the viewport
         //use it to determine the initial state of the sidebar 
-        if (ObjectUtil.hasValue(this.isScreenXsOrSm)) {
-            this.sidebarService.setSidebarVisibility(!this.isScreenXsOrSm);
+        if (this.viewportService.isSupported) {
+            let isMd = this.viewportService.isMd.getValue();
+            let isLg = this.viewportService.isLg.getValue();
+            this.sidebarService.setSidebarVisibility(isLg || isMd);
         }
         else {
             //otherwise, default to closed.
@@ -220,6 +206,15 @@ export class AppComponent implements OnInit {
         }
 
         this.sidebarHelper.populateSidebar();
+
+        this.router.subscribe(() => {
+            // if the route changes on an XS screen (where the sidebar is fullscreen),
+            // and the sidebar is open, close it.
+            if (this.viewportService.isXs.getValue() &&
+                this.sidebarService.isSidebarVisible.getValue()) {
+                this.sidebarService.setSidebarVisibility(false);
+            }
+        });
     }
 
     /**
