@@ -40,18 +40,18 @@ export class AuthorizationService {
         this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
-        // {
-        //     let fullname = storageService.load('fullname');
-        //     let email = storageService.load('email');
-        //     let token = storageService.load('token');
-        //     if(fullname && email && token) {
-        //         this.user = new User({
-        //             fullname: fullname,
-        //             email: email,
-        //             token: token
-        //         });
-        //     }
-        // }
+        {
+            let fullname = storageService.load('fullname');
+            let email = storageService.load('email');
+            let token = storageService.load('token');
+            if(fullname && email && token) {
+                this.user = new User({
+                    fullname: fullname,
+                    email: email,
+                    token: token
+                });
+            }
+        }
         
     }
 
@@ -90,11 +90,11 @@ export class AuthorizationService {
         statusResponse.subscribe(response => {
             this.user = new User(response);
 
-            // {
-            //     this.storageService.store('fullname', this.user.fullname);
-            //     this.storageService.store('email', this.user.email);
-            //     this.storageService.store('token', this.user.token);
-            // }
+            {
+                this.storageService.store('fullname', this.user.fullname);
+                this.storageService.store('email', this.user.email);
+                this.storageService.store('token', this.user.token);
+            }
 
         },
         error => {
@@ -116,13 +116,13 @@ export class AuthorizationService {
         
         logoutResponse.subscribe(response => {
             if(response.status == 200) {
-//                this.user = null;
+               this.user = null;
 
-                // {
-                //     this.storageService.remove('fullname');
-                //     this.storageService.remove('email');
-                //     this.storageService.remove('token');
-                // }
+                {
+                    this.storageService.remove('fullname');
+                    this.storageService.remove('email');
+                    this.storageService.remove('token');
+                }
 
             }
         },
