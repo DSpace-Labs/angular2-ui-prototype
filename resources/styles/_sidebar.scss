@@ -5,6 +5,8 @@ $sidebar-dark-border-color: darken($sidebar-background-color, 7%);
 $sidebar-body-border-color: darken($sidebar-background-color, 3%);
 $sidebar-heading-color: $gray-lighter;
 $sidebar-text-color: $gray-light;
+$sidebar-subsection-bg-color: rgba(255,255,255, 0.04);
+
 
 .sidebar {
     background: $sidebar-background-color;
@@ -127,6 +129,7 @@ $sidebar-text-color: $gray-light;
 .sidebar-section {
     color: $sidebar-text-color;
     display: block;
+    background: $sidebar-subsection-bg-color;
 
     .panel {
         background: transparent;
@@ -137,7 +140,6 @@ $sidebar-text-color: $gray-light;
         .panel-body {
             //padding: 0 0 0 $panel-body-padding;
             padding: 0;
-            border-top: 1px solid $sidebar-body-border-color;
         }
     }
 
@@ -161,7 +163,7 @@ $sidebar-text-color: $gray-light;
         padding:    $panel-body-padding;
         padding-left:    $panel-body-padding * 2;
         line-height: $line-height-computed;
-        background: rgba(255,255,255, 0.08);
+        background: $sidebar-subsection-bg-color;
 
         &,
         &:hover,
@@ -173,7 +175,7 @@ $sidebar-text-color: $gray-light;
         &:hover {
             padding-left: ($panel-body-padding * 2) - 4px;
             border-left: 4px solid $brand-info;
-            background: rgba(255,255,255, 0.04);
+            background: transparent;
         }
     }
 
@@ -184,5 +186,29 @@ $sidebar-text-color: $gray-light;
 
     & > ul {
         padding: 0;
+    }
+
+    .sidebar-child {
+        display: block;
+
+        .sidebar-heading {
+            border: none;
+            background: $sidebar-subsection-bg-color;
+            .panel-title {
+                padding-left:    $panel-body-padding;
+                color: $sidebar-heading-color;
+            }
+        }
+
+        .sidebar-child {
+            background: $sidebar-subsection-bg-color;
+            .sidebar-link a {
+                padding-left:    $panel-body-padding * 3;
+                &:hover {
+                    padding-left: ($panel-body-padding * 3) - 4px;
+
+                }
+            }
+        }
     }
 }
