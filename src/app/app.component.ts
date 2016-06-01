@@ -1,5 +1,4 @@
-﻿import {ObjectUtil} from "./utilities/commons/object.util";
-﻿import { Component, OnInit, Inject, NgZone } from '@angular/core';
+﻿﻿import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
@@ -62,7 +61,7 @@ import { ViewportService } from "./utilities/services/viewport.service";
                                         <div class="container-fluid content-container-fluid">
                                             <button type="button" (click)="toggleSidebar()" class="sidebar-toggle-button navbar-left clearfix"><i class="ion-arrow-left-b sidebar-toggle-arrow-icon"></i><i class="ion-icon ion-navicon sidebar-toggle-hamburger-icon"></i></button>
                                             <div class="">
-                                                <a class="navbar-brand" [routerLink]="['/Home']">{{
+                                                <a class="navbar-brand" [routerLink]="['/Dashboard']">{{
                                                     'header.repository-name' | translate }}</a>
                                             </div>
                                         </div>
@@ -194,9 +193,11 @@ export class AppComponent implements OnInit {
                 this.isSidebarVisible = isSidebarVisible;
             }, 10);
 
-            //I don't consider this setTimeout to be a hack. It simply ensures that CSS animations
-            //are only active when the sidebar state is changing, not when you're resizing the window
-            //for example
+            //This setTimeout was intended to be here. It removes the "animating" class after
+            //the sidebar animation completes, to ensure that the elements don't animate in
+            //response to other changes, like the resizing of the window for example
+            //I would however like a way to share the duration between this file and the scss
+            //Maybe something webpack can fix?
             setTimeout(() => {
                 this.isSidebarAnimating = false;
             }, 350);

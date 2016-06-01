@@ -23,9 +23,7 @@ import { SidebarHeaderComponent } from "./sidebar-header.component.ts";
                 <sidebar-header></sidebar-header>
                 <div class="sidebar-scroller">
                     <section *ngFor="let component of sidebarComponents">
-                        <!--//TODO for sidebar design, I temporarily disabled visibility, turn it back on-->
-                        <!--<sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>-->
-                        <sidebar-section class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
+                        <sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
                     </section>
                 </div>
             </nav>

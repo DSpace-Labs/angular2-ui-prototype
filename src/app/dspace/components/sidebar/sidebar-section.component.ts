@@ -16,9 +16,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
     template:
         `
-            <!--//TODO for sidebar design, I temporarily disabled visibility, turn it back on-->
-            <!--<div *ngIf="sidebarcomponent.visible" class="panel panel-default">-->
-            <div class="panel panel-default">
+            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
                 <!-- if this component has children we want to render it w/o a link -->
 
                 <!-- it is not a route section, it may or may not have a destination (url) -->
@@ -112,9 +110,7 @@ export class SidebarSectionComponent implements OnInit
      */
     visibleChildren()
     {
-        //TODO for sidebar design, I temporarily disabled visibility, turn it back on
-        // return this.children.filter(child => child.visible);
-        return this.children;
+        return this.children.filter(child => child.visible);
     }
 
     /**
