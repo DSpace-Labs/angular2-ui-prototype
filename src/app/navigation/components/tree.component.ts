@@ -20,10 +20,10 @@ import { PaginationComponent } from './pagination.component';
     template: `
                 <ul class="list-group">
                     <li *ngFor="let hierarchy of hierarchies" class="list-group-item">
-                        <span *ngIf="collapsedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-plus clickable"></span>
-                        <span *ngIf="expandedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-minus clickable"></span>
-                        <span *ngIf="collapsedCollection(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-folder-close clickable"></span>
-                        <span *ngIf="expandedCollection(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-folder-open clickable"></span>
+                        <span *ngIf="collapsedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-plus-empty clickable"></span>
+                        <span *ngIf="expandedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-minus-empty clickable"></span>
+                        <span *ngIf="collapsedCollection(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-plus-empty clickable"></span>
+                        <span *ngIf="expandedCollection(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-minus-empty clickable"></span>
 
                         <!-- Router link -->
                         <a *ngIf="!page(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id}]">{{ hierarchy.name }}</a>

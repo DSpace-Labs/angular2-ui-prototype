@@ -59,7 +59,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                                     <input class="form-control" type="text" id="{{ item?.file?.name }}" [(ngModel)]="item.alias">
                                 </td>
                                 <td class="col-xs-1 text-center">
-                                    <span class="glyphicon glyphicon-remove clickable space-top" aria-hidden="true" (click)="item.remove()"></span>
+                                    <span class="ion-icon ion-ios-close-empty clickable space-top" aria-hidden="true" (click)="item.remove()"></span>
                                 </td>
                             </tr>
                         </tbody>

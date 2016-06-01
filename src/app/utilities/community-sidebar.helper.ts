@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
-import { Community } from '../dspace/models/community.model';
 import { SidebarService } from './services/sidebar.service';
 
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
@@ -42,7 +41,7 @@ export class CommunitySidebarHelper extends SidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("E404")
+            .route("404")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();
             })

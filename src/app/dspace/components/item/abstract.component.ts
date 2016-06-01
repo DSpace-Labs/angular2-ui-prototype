@@ -15,9 +15,9 @@ import { ViewElementComponent } from './view-element.component';
     directives: [ViewElementComponent],
     pipes: [TranslatePipe],
     template: `
-                <view-element *ngIf="hasMetadata()">
-                    <!-- not passed to view-element because it has a special layout options -->
-                    <h3 class="visible-xs">{{componentTitle | translate}}</h3>
+                <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" 
+                    [header]="componentTitle | translate" 
+                    [headerClasses]="['visible-xs']">
                     <div *ngFor="let metadatum of filteredFields;">
                         <p>{{metadatum.value}}</p>
                     </div>
