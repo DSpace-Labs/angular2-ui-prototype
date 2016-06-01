@@ -46,6 +46,7 @@
     "header.register": "Register",
     "header.login": "Login",
     "header.logout": "Logout",
+    "header.profile": "View Profile",
 
     "home.title": "Home",
     "home.welcome1": "Hello, World!",

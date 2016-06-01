@@ -1,10 +1,10 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
+﻿import {ObjectUtil} from "./utilities/commons/object.util";
+﻿import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
-import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { BreadcrumbComponent } from './navigation/components/breadcrumb.component';
@@ -29,6 +29,7 @@ import { SetupComponent } from './setup.component';
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
+import { SidebarService } from "./utilities/services/sidebar.service";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -136,6 +137,11 @@ export class AppComponent implements OnInit {
     isSidebarAnimating: boolean;
 
     /**
+     * is the viewport smaller than 992px?
+     */
+    isScreenXsOrSm: boolean;
+
+    /**
      * Is navbar collapsed?
      * Default to true so that navbar is hidden by default when window is resized.
      */
@@ -148,25 +154,72 @@ export class AppComponent implements OnInit {
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
+     * @param sidebarService
+     *      SidebarService is a singleton service that provides access to the content of the sidebar
+     * @param zone
+     *      An service for executing work inside or outside of the Angular zone.
+     *      Needed here because angular doesn't automatically integrate with matchMedia
+     *      as a consequence, it won't detect change events from it.
+     *      More info, see http://blog.assaf.co/angular-2-change-detection-zones-and-an-example/
      * @param sidebarHelper
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
-     constructor(private dspace: DSpaceHierarchyService,
-                private translate: TranslateService,
-                private router: Router,
-                @Inject(AppSidebarHelper)  sidebarHelper : AppSidebarHelper) {
-                    translate.setDefaultLang('en');
-                    translate.use('en');
-                    this.initSidebar();
-                    sidebarHelper.populateSidebar();
+    constructor(private dspace:DSpaceHierarchyService,
+                private translate:TranslateService,
+                private router:Router,
+                private sidebarService: SidebarService,
+                private zone:NgZone,
+                @Inject(AppSidebarHelper)  private sidebarHelper:AppSidebarHelper) {
+        translate.setDefaultLang('en');
+        translate.use('en');
+
+        if (typeof matchMedia === "function") { //prevents this running server-side
+            //TODO create a more general ViewportService for this.
+            //TODO it'd be great if we could get this value from bootstrap's $screen-sm-max somehow
+            const mql:MediaQueryList = matchMedia('(max-width: 991px)');
+            //initialize the value
+            this.isScreenXsOrSm = mql.matches;
+            //listen for changes
+            mql.addListener((mql:MediaQueryList) => {
+                zone.run(() => { // Change the property within the zone, CD will run after
+                    this.isScreenXsOrSm = mql.matches;
+                });
+            });
+        }
+        else {
+            this.isScreenXsOrSm = undefined;
+        }
+
+        this.initSidebar();
     }
 
     /**
-     * Initialize the sidebar properties
+     * Initialize the sidebar
      */
     private initSidebar(): void {
-        this.isSidebarVisible = true;
         this.isSidebarAnimating = false;
+
+        //Subscribe to the visibility observable of the SidebarService to
+        //detect when the sidebar should open and close
+        this.sidebarService.isSidebarVisible.subscribe((isSidebarVisible: boolean) => {
+            this.isSidebarAnimating = true;
+            this.isSidebarVisible = isSidebarVisible;
+            setTimeout(() => {
+                this.isSidebarAnimating = false;
+            }, 300);
+        });
+
+        //if we have info about the viewport (i.e. we're on the client)
+        //use it to determine the initial state of the sidebar 
+        if (ObjectUtil.hasValue(this.isScreenXsOrSm)) {
+            this.sidebarService.setSidebarVisibility(!this.isScreenXsOrSm);
+        }
+        else {
+            //otherwise, default to closed.
+            this.sidebarService.setSidebarVisibility(false);
+        }
+
+        this.sidebarHelper.populateSidebar();
     }
 
     /**
@@ -180,10 +233,6 @@ export class AppComponent implements OnInit {
      * Show or hide the sidebar.
      */
     toggleSidebar() {
-        this.isSidebarAnimating = true;
-        this.isSidebarVisible = !this.isSidebarVisible;
-        setTimeout(() => {
-            this.isSidebarAnimating = false;
-        }, 300);
+        this.sidebarService.toggleSidebarVisibility();
     }
 }

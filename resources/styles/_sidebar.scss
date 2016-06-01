@@ -14,18 +14,14 @@ $sidebar-text-color: $gray-light;
     @include box-shadow(inset 0 6px 12px rgba(0,0,0,.175));
 }
 
-.sidebar-open-sidebar {
-    position: fixed;
-    @extend  .hidden-xs, .hidden-sm, .col-md-4, .col-lg-3
-}
-
+.sidebar-open-sidebar,
 .sidebar-closed-sidebar {
     position: fixed;
-    @extend  .hidden-xs, .hidden-sm, .col-md-4, .col-lg-3
+    @extend  .col-xs-12, .col-sm-4, .col-lg-3
 }
 
 .sidebar-open-content {
-    @extend .col-md-8, .col-md-offset-4, .col-lg-9, .col-lg-offset-3
+    @extend .hidden-xs, .col-sm-8, .col-sm-offset-4, .col-lg-9, .col-lg-offset-3
 }
 
 .sidebar-closed-content {
@@ -43,6 +39,32 @@ $sidebar-text-color: $gray-light;
 
 .sidebar-header {
     border-bottom: 1px solid $sidebar-light-border-color;
+    position: relative;
+    z-index: $zindex-navbar-fixed;
+
+    .sidebar-header-content {
+        margin: 0;
+        border-bottom: 1px solid $sidebar-dark-border-color;
+    }
+
+    .dropdown.open {
+        background: $sidebar-dark-border-color;
+    }
+
+    .sidebar-header-element {
+        display: block;
+        padding: $nav-link-padding;
+        padding-top:    $navbar-padding-vertical;
+        padding-bottom: $navbar-padding-vertical;
+        line-height: $line-height-computed;
+
+        &,
+        &:hover,
+        &:focus {
+            color: $sidebar-heading-color;
+            text-decoration: none;
+        }
+    }
 
     .navbar-inverse {
         background: transparent;
@@ -51,7 +73,12 @@ $sidebar-text-color: $gray-light;
         .navbar-nav {
             float: none;
             width: 100%;
+            margin: 0;
         }
+    }
+
+    .icon-arrow-down {
+        font-size: 12px;
     }
 }
 
@@ -68,6 +95,10 @@ $sidebar-text-color: $gray-light;
     &.has-left-border {
         border-left: 1px solid $sidebar-light-border-color;
     }
+}
+
+.sidebar-close-button {
+    font-size: 20px;
 }
 
 .sidebar-scroller {

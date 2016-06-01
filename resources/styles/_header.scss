@@ -5,6 +5,7 @@ header {
         border-left: none;
         border-right: none;
         position: fixed;
+        z-index: $zindex-navbar-fixed;
         width: 100%;
     }
 }
