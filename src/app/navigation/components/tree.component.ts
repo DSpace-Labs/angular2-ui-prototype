@@ -1,8 +1,12 @@
 ﻿import { Component, Input } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
+import { TranslatePipe } from "ng2-translate/ng2-translate";
+
 import { ListComponent } from './list.component';
 import { PaginationComponent } from './pagination.component';
+
+
 
 /**
  * Tree component for navigation through the dspace index of
@@ -17,7 +21,9 @@ import { PaginationComponent } from './pagination.component';
                   TreeComponent,
                   ListComponent,
                   PaginationComponent ],
+    pipes : [TranslatePipe],
     template: `
+                <h1>{{ 'tree.header' | translate }}</h1>
                 <ul class="list-group">
                     <li *ngFor="let hierarchy of hierarchies" class="list-group-item">
                         <span *ngIf="collapsedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="glyphicon glyphicon-plus clickable"></span>
@@ -42,6 +48,7 @@ import { PaginationComponent } from './pagination.component';
                 </ul>
               `
 })
+
 export class TreeComponent {
 
     /**
@@ -51,6 +58,13 @@ export class TreeComponent {
      * are lazy loaded.
      */
     @Input() private hierarchies: Array<any>;
+
+    /**
+     * Contains the i18n string to set the title
+     * The string needs to match one in en.json
+     * @type {string}
+     */
+    @Input() private header : string = "hello world";
 
     /**
      *

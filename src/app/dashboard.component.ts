@@ -27,11 +27,19 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     template: `
              
                 <news></news>
-                <tree [hierarchies]="dspace.hierarchy"></tree>
+
+                <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
               `
 })
 export class DashboardComponent implements OnDestroy {
 
+
+    /**
+     * The header to be passed on to our tree.component
+     * This is the i18n string as it occurs in the en.json file
+     * @type {string}
+     */
+    private header : string = "tree.header";
 
     /**
      *
@@ -55,6 +63,9 @@ export class DashboardComponent implements OnDestroy {
         this.sidebarHelper.populateSidebar();
     }
 
+    /**
+     *
+     */
     ngOnDestroy()
     {
         this.sidebarHelper.removeSections();

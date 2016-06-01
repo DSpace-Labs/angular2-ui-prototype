@@ -16,7 +16,7 @@ import { LogoutComponent } from './dspace/components/logout.component';
 import { NotFoundComponent } from './dspace/components/notfound.component';
 
 import { DashboardComponent } from './dashboard.component';
-import { HomeComponent } from './home.component';
+import { ProfileComponent} from './profile.component.ts';
 import { ItemComponent } from './dspace/components/item.component';
 import { ItemCreateComponent } from './dspace/components/item-create.component';
 import { LoginModalComponent } from './dspace/authorization/login/login-modal.component';
@@ -60,7 +60,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" [routerLink]="['/Home']">{{ 'header.repository-name' | translate }}</a>
+                            <a class="navbar-brand" [routerLink]="['Profile']">{{ 'header.repository-name' | translate }}</a>
                         </div>
                         <!-- Collapse this menu when navCollapse is true -->
                         <div [collapse]="navCollapsed" class="collapse navbar-collapse">
@@ -72,7 +72,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                                 <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                <li><a [routerLink]="['/Home']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
+                                <li><a [routerLink]="['Profile']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
                                 <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
                             </ul>
                         </div>
@@ -95,7 +95,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 })
 @RouteConfig([
 
-        { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
+        { path: "/profile", name: "Profile", component: ProfileComponent, useAsDefault: true },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/login", name: "Login", component: LoginFormComponent },

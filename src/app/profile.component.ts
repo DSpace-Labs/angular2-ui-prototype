@@ -14,7 +14,7 @@ import { User } from './dspace/models/user.model';
  * rendering of a simple template. 
  */
 @Component({
-    selector: 'home',
+    selector: 'profile',
     pipes: [ TranslatePipe ],
     template: `
                 <div *ngIf="user">
@@ -22,14 +22,24 @@ import { User } from './dspace/models/user.model';
                     <h4>{{ user.email }}</h4>
                 </div>
                 <hr *ngIf="user">
+                
+                <!--
+                 This was to show how we can iterate over translations provided by the TranslateService (with typescript)
                 <ul>
                     <li *ngFor="let template of serverTemplating">{{ template }}</li>
                 </ul>
+                --> 
+                
+                <h5>This is the profile page.</h5>
               `
 })
-export class HomeComponent {
+
+/**
+ * Component for the profile
+ */
+export class ProfileComponent {
         
-    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
+    private breadcrumb: Breadcrumb = new Breadcrumb('profile', true);
 
     /**
      * Logged in user.
@@ -58,9 +68,13 @@ export class HomeComponent {
         authorization.userObservable.subscribe(user => {
             this.user = user;
         });
-        translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {
+        
+        /*
+            This shows how to use the TranslateService from within typescript instead of as a pipe.
+            translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {
             this.serverTemplating = [res["home.welcome1"], res["home.welcome2"], res["home.welcome3"]];
         });
+        */
     }
 
 

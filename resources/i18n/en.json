@@ -33,16 +33,11 @@
     "dashboard.recent-submissions": "Show recent submissions",
 
     "header.repository-name": "Angular 2 DSpace UI Prototype",
-    "header.home": "Home",
+    "header.profile": "Profile",
     "header.dashboard": "Dashboard",
     "header.register": "Register",
     "header.login": "Login",
     "header.logout": "Logout",
-
-    "home.title": "Home",
-    "home.welcome1": "Hello, World!",
-    "home.welcome2": "This is server side rendered",
-    "home.welcome3": "SEO + javascript",
 
     "item.key": "Key",
     "item.value": "Value",
@@ -169,5 +164,7 @@
     "sidebar.context-dashboard.header":"Dashboard",
     "sidebar.context-dashboard.create-community": "Create new top-level community",
 
-    "setup.title": "Setup"
+    "setup.title": "Setup",
+
+    "tree.header" : "Communities and collections"
 }
