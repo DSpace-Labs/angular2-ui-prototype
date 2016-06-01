@@ -162,9 +162,10 @@ $sidebar-subsection-bg-color: rgba(255,255,255, 0.04);
     .sidebar-link a {
         display: block;
         padding:    $panel-body-padding;
-        padding-left:    $panel-body-padding * 2;
+        padding-left: ($panel-body-padding * 2) - 4px;
         line-height: $line-height-computed;
         background: $sidebar-subsection-bg-color;
+        border-left: 4px solid $sidebar-subsection-bg-color;
 
         &,
         &:hover,
