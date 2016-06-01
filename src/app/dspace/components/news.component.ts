@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     selector : "news",
     template:   ` 
                     <h1> Welcome to the angular2 prototype, for the new DSpace UI</h1>
+                    
                     <p>
                         This project represents the "extended prototype" featuring Angular 2 from the DSpace UI Prototype Challenge. 
                         This prototype is a collaboration by @mire, Cineca, DuraSpace and Texas A&M.
@@ -19,14 +20,14 @@ import { Component } from '@angular/core';
                     </p>
                     
                     <p>
-                        We are currently in phase two of development, which is preparing the prototype for the OR16 Conference in Dublinc. 
+                        We are currently in phase two of development, which is preparing the prototype for the OR16 Conference in Dublin. 
                         This prototype will include, but is not limited to:
-                        <ul>
-                            <li>Basic Authentication</li>
-                            <li>Editing / Creating of communities, Collections, Items</li>
-                            <li>Improved theme (likely similar to Mirage 2)</li>
-                        </ul>
                     </p>
+                    <ul>
+                        <li>Basic Authentication</li>
+                        <li>Editing / Creating of communities, Collections, Items</li>
+                        <li>Improved theme (likely similar to Mirage 2)</li>
+                    </ul>
                     
                 `
 })
