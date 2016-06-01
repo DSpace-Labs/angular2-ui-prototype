@@ -31,7 +31,7 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
                 <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
               `
 })
-export class DashboardComponent implements OnDestroy {
+export class HomeComponent implements OnDestroy {
 
 
     /**
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnDestroy {
      *
      * @type {Breadcrumb}
      */
-    private breadcrumb: Breadcrumb = new Breadcrumb('dashboard', true);
+    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
 
     /**
      *

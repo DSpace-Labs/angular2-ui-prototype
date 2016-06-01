@@ -15,7 +15,7 @@ import { CommunityCreateComponent } from './dspace/components/community-create.c
 import { LogoutComponent } from './dspace/components/logout.component';
 import { NotFoundComponent } from './dspace/components/notfound.component';
 
-import { DashboardComponent } from './dashboard.component';
+import { HomeComponent } from './home.component.ts';
 import { ProfileComponent} from './profile.component.ts';
 import { ItemComponent } from './dspace/components/item.component';
 import { ItemCreateComponent } from './dspace/components/item-create.component';
@@ -65,7 +65,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
                         <!-- Collapse this menu when navCollapse is true -->
                         <div [collapse]="navCollapsed" class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Dashboard']">{{ 'header.dashboard' | translate }}</a></li>
+                                <li><a [routerLink]="['/Home']">{{ 'header.dashboard' | translate }}</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right" *ngIf="!user">
                                 <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
@@ -95,13 +95,13 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 })
 @RouteConfig([
 
-        { path: "/profile", name: "Profile", component: ProfileComponent, useAsDefault: true },
+        { path: "/profile", name: "Profile", component: ProfileComponent,useAsDefault: true  },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/login", name: "Login", component: LoginFormComponent },
         { path: "/register", name: "Register", component: RegistrationComponent },
 
-        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/", name: "Home", component: HomeComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
         { path: "/items/:id/...", name: "Items", component: ItemComponent },
@@ -115,7 +115,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
         { path: "/404", name: "E404", component: NotFoundComponent},
         { path: "/news", name: "News", component: NewsComponent},
 
-        { path: '/**', redirectTo: [ '/Dashboard' ] }
+        { path: '/**', redirectTo: [ 'Home' ] }
 ])
 export class AppComponent implements OnInit {
 
@@ -177,7 +177,7 @@ export class AppComponent implements OnInit {
      */
     private logout(): void {
         this.authorization.logout();
-        this.router.navigate(['/Dashboard']);
+        this.router.navigate(['/Home']);
     }
 
 }
