@@ -35,7 +35,7 @@ import { User } from "../../models/user.model";
                   </div>
                 </div>
                 <div class="col-xs-2 visible-xs">
-                    <a (click)="toggleSidebar()" class="sidebar-close-button sidebar-header-element pull-right"><span
+                    <a (click)="toggleSidebar()" class="sidebar-close-button sidebar-header-element pull-right clickable"><span
                                 class="ion-icon ion-ios-close-outline"></span></a>
                 </div>
             </div>

@@ -187,10 +187,19 @@ export class AppComponent implements OnInit {
         //detect when the sidebar should open and close
         this.sidebarService.isSidebarVisible.subscribe((isSidebarVisible: boolean) => {
             this.isSidebarAnimating = true;
-            this.isSidebarVisible = isSidebarVisible;
+
+            //I don't like this setTimeout but it's the only way I could ensure
+            //the 'animating' css class is always set before the 'visible' class
+            setTimeout(() => {
+                this.isSidebarVisible = isSidebarVisible;
+            }, 10);
+
+            //I don't consider this setTimeout to be a hack. It simply ensures that CSS animations
+            //are only active when the sidebar state is changing, not when you're resizing the window
+            //for example
             setTimeout(() => {
                 this.isSidebarAnimating = false;
-            }, 300);
+            }, 350);
         });
 
         //if we have info about the viewport
