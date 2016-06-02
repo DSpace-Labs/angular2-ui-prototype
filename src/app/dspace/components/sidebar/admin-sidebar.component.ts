@@ -27,7 +27,6 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                                 <input type="checkbox"> Public?
                             </label>
                             -->    
-                            <span  class="ion-icon ion-ios-close-empty clickable pull-right" aria-hidden="true" (click)="removeSection(j)"></span>
                         </div>
                         
                         <!-- we loop over the children but we will, for now, just do it with one level -->
@@ -115,7 +114,7 @@ export class AdminSidebarComponent
     {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
-        let parentSection = SidebarSection.getBuilder().generateUserID(true).build();
+        let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").build();
         this.addChildSectionField(parentSection);
         this.sidebarService.addSection(parentSection);
         this.entries = this.sidebarService.getCustomSections().slice(0);
@@ -128,7 +127,7 @@ export class AdminSidebarComponent
      */
     addChildSectionField(parent : SidebarSection)
     {
-        let childSection = SidebarSection.getBuilder().generateUserID(true).url("http://www.google.com").build(); // let our builder generate an ID.
+        let childSection = SidebarSection.getBuilder().generateUserID(true).url("http://www.google.com").name("untitled").build(); // let our builder generate an ID.
         this.sidebarService.addChildSection(parent,childSection);
         this.entries = this.sidebarService.getCustomSections().slice(0); // update the entries on this page. slice to change reference.
     }

@@ -53,7 +53,7 @@ export class SidebarService
     /**
      * This method orders the sections based on their index
      * The child-section of a component are also ordered.
-     * If no index is provided, the sselement will be added to the bottom of the sidebar.
+     * If no index is provided, the element will be added to the bottom of the sidebar.
      *
      * This function is called recursively (so children at any depth are ordered as well)
      *
