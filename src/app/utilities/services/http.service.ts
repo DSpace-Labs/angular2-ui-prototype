@@ -2,10 +2,7 @@ import { Injectable} from '@angular/core';
 import {
     Http,
     Headers,
-    RequestOptions,
-    Request,
-    RequestMethod,
-    Response
+    RequestOptions
 } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -63,6 +60,7 @@ export class HttpService {
 
         return this.http.post(request.url, body, options);
     }
+
 
     /**
      * Method to make http GET request. This method maps a serialized response

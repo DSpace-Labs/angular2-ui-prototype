@@ -1,4 +1,4 @@
-﻿﻿import { Component, OnInit, Inject, NgZone } from '@angular/core';
+﻿﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
@@ -29,8 +29,9 @@ import { SidebarComponent } from './dspace/components/sidebar/sidebar.component'
 import { NewsComponent } from './dspace/components/news.component';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
-import { SidebarService } from './utilities/services/sidebar.service';
-import { ViewportService } from './utilities/services/viewport.service';
+import { AdminSidebarComponent } from './dspace/components/sidebar/admin-sidebar.component';
+import { SidebarService } from "./utilities/services/sidebar.service";
+import { ViewportService } from "./utilities/services/viewport.service";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -120,7 +121,9 @@ import { ViewportService } from './utilities/services/viewport.service';
         { path: "/404", name: "404", component: PageNotFoundComponent},
         { path: "/news", name: "News", component: NewsComponent},
 
-        { path: '/**', redirectTo: [ 'Home' ] }
+        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
+
+         { path: '/**', redirectTo: [ '/404' ] }
 ])
 export class AppComponent implements OnInit {
 
@@ -154,8 +157,6 @@ export class AppComponent implements OnInit {
      *      Router is a singleton service provided by Angular2.
      * @param sidebarService
      *      SidebarService is a singleton service that provides access to the content of the sidebar
-     * @param viewportService
-     *      A singleton service that classifies the viewport's width
      * @param sidebarHelper
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
@@ -163,7 +164,6 @@ export class AppComponent implements OnInit {
                 private translate:TranslateService,
                 private router:Router,
                 private sidebarService: SidebarService,
-                private viewportService: ViewportService,
                 @Inject(AppSidebarHelper)  private sidebarHelper:AppSidebarHelper) {
         translate.setDefaultLang('en');
         translate.use('en');
@@ -176,6 +176,7 @@ export class AppComponent implements OnInit {
      */
     private initSidebar(): void {
         this.isSidebarAnimating = false;
+        this.isSidebarVisible = this.sidebarService.isSidebarVisible.getValue();
 
         //Subscribe to the visibility observable of the SidebarService to
         //detect when the sidebar should open and close
@@ -198,28 +199,7 @@ export class AppComponent implements OnInit {
             }, 350);
         });
 
-        //if we have info about the viewport
-        //use it to determine the initial state of the sidebar 
-        if (this.viewportService.isSupported) {
-            let isMd = this.viewportService.isMd.getValue();
-            let isLg = this.viewportService.isLg.getValue();
-            this.sidebarService.setSidebarVisibility(isLg || isMd);
-        }
-        else {
-            //otherwise, default to closed.
-            this.sidebarService.setSidebarVisibility(false);
-        }
-
         this.sidebarHelper.populateSidebar();
-
-        this.router.subscribe(() => {
-            // if the route changes on an XS screen (where the sidebar is fullscreen),
-            // and the sidebar is open, close it.
-            if (this.viewportService.isXs.getValue() &&
-                this.sidebarService.isSidebarVisible.getValue()) {
-                this.sidebarService.setSidebarVisibility(false);
-            }
-        });
     }
 
     /**
@@ -235,4 +215,8 @@ export class AppComponent implements OnInit {
     toggleSidebar() {
         this.sidebarService.toggleSidebarVisibility();
     }
+
+
+
+
 }

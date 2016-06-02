@@ -3,6 +3,7 @@ import { Equatable} from "../../../utilities/lang/equatable.interface";
 import { Hashable } from "../../../utilities/lang/hashable.interface";
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { User } from './../user.model';
+import {ArrayUtil} from "../../../utilities/commons/array.util";
 
 /**
  * One SidebarSection is equal to one entry in the sidebar
@@ -24,6 +25,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      */
     index : number = null;
 
+    /**
+     *
+     */
     isDirty : any; // checks to see if we need to run the code for our visible parameter again.
                    // this is our observable that we used to have.
 
@@ -74,13 +78,22 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     url : string;
 
 
-
+    /**
+     * function that executes the visibility check
+     */
     testFunction : any;
 
 
+    /**
+     * Observable to know when the value has changed, and we need to check for the visibility
+     */
     dirtyObservable : any;
 
-    dirtyTest : any; // code that returns true or false?
+    /**
+     * The actual test to know if the new value is a reason to check the visibility.
+     * By default we will check on each event, hence the 'return true'.
+     */
+    dirtyTest : any = ( () => {return true;});
 
     /**
      * Add a childsection
@@ -90,7 +103,10 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     {
         this.childsections.push(child);
     }
-    
+
+    /**
+     * Start observing the observalble/subject (can be either one of them)
+     */
     startObservingDirty()
     {
         this.visible = this.testFunction();
@@ -105,10 +121,30 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
     // interface methods
 
     /**
-     *
+     * Optionally construct the object from json data.
+     * This will be used to load saved SidebarSections from disk
+     * Otherwise they would just be added to the SidebarService as 'object' instead of 'SidebarSection'
+     * @param json
      */
-    constructor()
+    constructor(json? : any)
     {
+        if(json) // if we have received json input
+        {
+            this.id = json.id;
+            this.componentName = json.componentName;
+            this.url = json.url;
+            // just do this for one level now, to test.
+            // Otherwise, if we simply assing this.chilsections to json.childsections, they will be of type 'object'
+            if(ArrayUtil.isNotEmpty(json.childsections)){
+
+                json.childsections.forEach(x =>
+                {
+                    let y = new SidebarSection(x);
+                    this.childsections.push(y);
+                });
+
+            }
+        }
         this.routes = new Array<Route>()
     }
 
@@ -128,7 +164,9 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      *      a SHA1 hash of this object
      */
     hashCode(): string {
-        return hash(this);
+        let simpleHash=  <any>hash; // cast to 'any' so typscript does not complain about the options not being defined'
+        let hashcode = simpleHash(this, {algorithm: 'passthrough'});
+        return hashcode;
     }
 
 
@@ -177,16 +215,40 @@ class Builder
 {
 
     /**
+     * Custom prefix for user-added components.
+     * @type {string}
+     */
+    prefix : string = "custom-section-";
+
+    /**
      *
      */
     private section : SidebarSection;
 
     /**
-     *
+     * Indicates whether or not an ID needs to be generated, or is provided by the user.
+     * In the default case, one is provided in code.
+     * The only time we would, at the moment, generate one oursevles is for the 'admin menu'.
+     * @type {boolean}
+     */
+    private generateId = false;
+
+    /**
+     * Create a new SidebarSection object.
      */
     constructor()
     {
         this.section = new SidebarSection();
+    }
+
+    /**
+     *
+     * @param generate
+     * @returns {Builder}
+     */
+    generateUserID(generate : boolean) : Builder{
+        this.generateId = generate;
+        return this;
     }
 
     /**
@@ -287,13 +349,22 @@ class Builder
         return this;
     }
 
-
+    /**
+     * 
+     * @param code
+     * @returns {Builder}
+     */
     testFunction(code : any) : Builder // pass the code for our visibility Observable.
     {
         this.section.testFunction = code;
         return this;
     }
 
+    /**
+     * 
+     * @param observable
+     * @returns {Builder}
+     */
     dirtyObservable(observable: any) : Builder
     {
         // we need an observable to observe
@@ -301,6 +372,11 @@ class Builder
         return this;
     }
 
+    /**
+     * overwrites the default dirty check (which just returns true)
+     * @param code
+     * @returns {Builder}
+     */
     dirtyTest(code : any) : Builder
     {
         this.section.dirtyTest = code;
@@ -318,6 +394,17 @@ class Builder
 
 
     /**
+     * returns a generated ID, with a set prefix.
+     * The current time in ms is used to generate the section ID.
+     * @returns {string}
+     */
+    private generateID() : string
+    {
+        let generatedId : string = this.prefix + new Date().getTime();
+        return generatedId;
+    }
+
+    /**
      * Returns the sidebar section and starts the observable
      * @returns {SidebarSection}
      */
@@ -325,14 +412,12 @@ class Builder
     {
         if(this.section.testFunction != null)
         {
-            // TODO: if the dirtyTest is null, still execute the observable and just have a function 'return true'
-
-            if(this.section.dirtyTest == null){
-                this.section.dirtyTest = (() =>{return true});
-            }
-
             this.section.visible = this.section.testFunction();
             this.section.startObservingDirty();
+        }
+        if(this.generateId)
+        {
+            this.section.id = this.generateID();
         }
         return this.section;
     }

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
+import { ViewportService } from "./viewport.service";
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -32,12 +34,35 @@ export class SidebarService
 
 
     /**
-     *
+     * @param viewportService
+     *      A singleton service that classifies the viewport's width
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor()
+    constructor(private viewportService: ViewportService,
+                private router:Router
+    )
     {
         this.sidebarSubject = new Subject<any>();
-        this.isSidebarVisible = new BehaviorSubject<boolean>(false);
+        this.isSidebarVisible = new BehaviorSubject<boolean>(true);
+
+        //if we have info about the viewport
+        //use it to determine the initial state of the sidebar
+        if (this.viewportService.isSupported) {
+            let isMd = this.viewportService.isMd.getValue();
+            let isLg = this.viewportService.isLg.getValue();
+            this.setSidebarVisibility(isLg || isMd);
+        }
+
+        this.router.subscribe(() => {
+            // if the route changes on an XS screen (where the sidebar is fullscreen),
+            // and the sidebar is open, close it.
+            if (this.viewportService.isXs.getValue() &&
+                this.isSidebarVisible.getValue()) {
+                this.setSidebarVisibility(false);
+            }
+        });
+
     }
 
 
@@ -88,7 +113,6 @@ export class SidebarService
     }
 
     /**
-     *
      * create new component or replace existing component based on the component's id.
      * this also has the advantage of setting a new array as the _components array
      * which we want for angular's change detection
@@ -99,7 +123,7 @@ export class SidebarService
         let newComponentArray = this.components.filter(x => x.id != component.id);
         newComponentArray.push(component);
         this._components = newComponentArray;
-        // generate subject event
+        // generate event for our observers.
         this.sidebarSubject.next(true);
     }
 
@@ -111,9 +135,37 @@ export class SidebarService
      */
     removeSection(section : SidebarSection)
     {
-        let components = this._components.filter(x => !x.equals(section));
-        this._components = components;
+        let c = this.removeFromSections(this._components, section);
+        this._components = c;
         this.sidebarSubject.next(true);
+    }
+
+
+    /**
+     * Will recursively look through all sections, remove the one that matches the section passed as the 'remove' parameter.
+
+     * @param sections
+     *      An array of sections at the current depth through which we will look.
+     * @param remove
+     *      The section that is to be removed.
+     * @returns {Array<SidebarSection>}
+     *      An array of SidebarSections that did not get removed
+     */
+    private removeFromSections(sections : Array<SidebarSection>, remove : SidebarSection) : Array<SidebarSection>
+    {
+        let filtered : Array<SidebarSection>= null;
+        sections.forEach(section =>
+        {
+            if(section.childsections!=null)
+            {
+                section.childsections = this.removeFromSections(section.childsections, remove);
+            }
+            filtered = sections.filter(x => !x.equals(remove)); // TODO: use .equals again after casting the custom components.
+        });
+        if(filtered != null){
+            sections = filtered;
+        }
+        return sections;
     }
 
     /**
@@ -152,7 +204,28 @@ export class SidebarService
     }
 
     /**
-     * Toggle the visibility of the sidebar 
+     * Returns the top-level sections.
+     * (Sections that are not a child)
+     */
+    getCustomSections()
+    {
+        return this.components.filter(x => x.id.indexOf("custom") > -1);
+    }
+
+
+    /**
+     * 
+     * @param parent
+     * @param child
+     */
+    addChildSection(parent, child)
+    {
+        this._components.filter(section => section.id == parent.id).forEach(section => section.childsections.push(child));
+        this.sidebarSubject.next(true);
+    }
+
+    /**
+     * Toggle the visibility of the sidebar
      */
     toggleSidebarVisibility(): void {
         this.isSidebarVisible.next(!this.isSidebarVisible.getValue());
@@ -166,5 +239,6 @@ export class SidebarService
     setSidebarVisibility(newVisibility: boolean) {
         this.isSidebarVisible.next(newVisibility);
     }
+
 }
 

@@ -43,6 +43,7 @@
     "body-parser": "1.15.1",
     "bootstrap-sass": "3.3.6",
     "compression": "1.6.2",
+    "multer" : "1.1.0",
     "express": "4.13.4",
     "ng2-bootstrap": "1.0.17",
     "ng2-file-upload": "1.0.3",

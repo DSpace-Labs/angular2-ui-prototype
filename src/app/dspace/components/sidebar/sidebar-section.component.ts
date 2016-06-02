@@ -24,7 +24,9 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                     <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
                 </div>
                 <div *ngIf="isExternalLink()">
-                    <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    <div class="sidebar-link">
+                        <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    </div>
                 </div>
 
                 <div *ngIf="isRouteSection()"> <!-- if it is a route section, it also has a destination -->
@@ -110,7 +112,8 @@ export class SidebarSectionComponent implements OnInit
      */
     visibleChildren()
     {
-        return this.children.filter(child => child.visible);
+         // this needs to run when visible children updates though, right?
+        return this.sidebarcomponent.childsections.filter(child => child.visible);
     }
 
     /**
