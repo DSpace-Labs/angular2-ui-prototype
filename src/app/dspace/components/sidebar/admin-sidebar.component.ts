@@ -27,6 +27,8 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                                 <input type="checkbox"> Public?
                             </label>
                             -->    
+                           <span  class="ion-icon ion-ios-close-empty clickable pull-right" aria-hidden="true" (click)="removeSection(j)"></span>
+                     
                         </div>
                         
                         <!-- we loop over the children but we will, for now, just do it with one level -->
@@ -42,7 +44,6 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                            
                             <!-- we only show the 'plus symbol' on the first entry -->
                             <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                            <span class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
                         </div>
                         
                         <!-- if there are no children on the current component, we still want to show an add button to add the first child -->
