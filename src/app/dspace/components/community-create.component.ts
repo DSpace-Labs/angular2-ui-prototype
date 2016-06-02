@@ -131,7 +131,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
         this.reset();
         if(currentContext.root) {
             this.dspace.refresh();
-            this.router.navigate(['/Dashboard']);
+            this.router.navigate(['/Home']);
         }
         else {
             this.dspace.refresh(currentContext);

@@ -6,29 +6,30 @@ import { Component } from '@angular/core';
  */
 @Component({
     selector : "news",
-    template:   ` 
-                    <h1> Welcome to the Angular 2 prototype, for the new DSpace UI</h1>
-                    
+    template:   `
+                    <h1> Welcome to the DSpace Angular 2 UI prototype</h1>
+
                     <p>
-                        This project represents the "extended prototype" featuring Angular 2 from the DSpace UI Prototype Challenge. 
-                        This prototype is a collaboration by @mire, Cineca, DuraSpace and Texas A&M.
+                        This <a href="https://angular.io/">Angular 2</a> UI prototype is a collaboration by @mire, Cineca, DuraSpace and Texas A&M.
                     <p>
-                   
+
                     <p>
-                        The goal of this extended prototype is to evaluate the Angular 2 framework as a plausible DSpace UI platform. 
+                        The goal of this <a href="https://github.com/DSpace-Labs/angular2-ui-prototype">angular2-ui-prototype</a> is to evaluate the Angular 2 framework as a plausible DSpace UI platform.
                         This includes evaluating whether it meets the SEO needs of Google Scholar.
                     </p>
-                    
+
                     <p>
-                        We are currently in phase two of development, which is preparing the prototype for the OR16 Conference in Dublin. 
-                        This prototype will include, but is not limited to:
+                        We are currently in phase two of development, which is preparing the prototype for the OR16 Conference in Dublin.
+                        This phase includes, but is not limited to:
                     </p>
                     <ul>
-                        <li>Basic Authentication</li>
-                        <li>Editing / Creating of communities, Collections, Items</li>
-                        <li>Improved theme (likely similar to Mirage 2)</li>
+                        <li>Basic Authentication / Authorization</li>
+                        <li>Ability to create Communities, Collections, Items</li>
+                        <li>Improved theme (loosely based on Mirage 2)</li>
+                        <li>Dynamically editable sidebar menu</li>
+                        <li>Configurable, type-based deposit forms</li>
                     </ul>
-                    
+
                 `
 })
 

@@ -22,10 +22,12 @@ import { PaginationComponent } from './pagination.component';
                   ListComponent,
                   PaginationComponent ],
     pipes : [TranslatePipe],
-    template: `
-                <h1>{{ 'tree.header' | translate }}</h1>
+    template: ` <!-- If a header i18n key is passed in, display it -->
+                <h1 *ngIf="header">{{ header | translate }}</h1>
                 <ul class="list-group">
+                    <!-- Create an unordered list of all objects in our hierarchy, including expanded sub-hierarchies -->
                     <li *ngFor="let hierarchy of hierarchies" class="list-group-item">
+                        <!-- Display clickable open/close icons -->
                         <span *ngIf="collapsedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-plus-empty clickable"></span>
                         <span *ngIf="expandedCommunity(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-minus-empty clickable"></span>
                         <span *ngIf="collapsedCollection(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-plus-empty clickable"></span>
@@ -36,11 +38,14 @@ import { PaginationComponent } from './pagination.component';
                         <a *ngIf="pageWithoutLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page}]">{{ hierarchy.name }}</a>
                         <a *ngIf="pageWithLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page, limit: hierarchy.limit}]">{{ hierarchy.name }}</a>
 
+                        <!-- Display item counts for Communities / Collections -->
                         <span *ngIf="community(hierarchy)" class="badge">{{ hierarchy.countItems }}</span>
                         <span *ngIf="collection(hierarchy)" class="badge">{{ hierarchy.numberItems }}</span>
+                        <!-- If Community expanded, show sub-tree of child communities / collections -->
                         <div *ngIf="expandedCommunity(hierarchy)">
                             <tree [hierarchies]="subCommunitiesAndCollections(hierarchy)"></tree>
                         </div>
+                        <!-- If Collection expanded, show pagination list of items -->
                         <div *ngIf="expandedCollectionWithItems(hierarchy)">
                             <list [collection]="hierarchy"></list>
                         </div>
@@ -64,7 +69,7 @@ export class TreeComponent {
      * The string needs to match one in en.json
      * @type {string}
      */
-    @Input() private header : string = "hello world";
+    @Input() private header : string = "";
 
     /**
      *

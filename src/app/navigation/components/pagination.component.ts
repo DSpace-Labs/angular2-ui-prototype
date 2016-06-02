@@ -89,7 +89,7 @@ export class PaginationComponent implements OnInit {
      */
     ngOnInit() {
         // TODO: figure out a better way to do this
-        if(this.router.hostComponent.name == "DashboardComponent" || this.router.hostComponent.name == "CommunityComponent") {
+        if(this.router.hostComponent.name == "HomeComponent" || this.router.hostComponent.name == "CommunityComponent") {
             this.component = "/"
         }
         else {
@@ -100,7 +100,7 @@ export class PaginationComponent implements OnInit {
     }
 
     /**
-     * Method to page on the dashboard. Does not navigate, only requests next page.
+     * Method to page. Does not navigate, only requests next page.
      *
      * @param page
      *          The page being navigated to.
@@ -113,7 +113,7 @@ export class PaginationComponent implements OnInit {
             id:  this.context.id,
             page:  this.context.page
         })
-        // only page here if on dashboard or community component and paging this context id
+        // only page here if on homepage or community component and paging this context id
         if(this.component == "/" && this.context.id == id) {
             this.context.page = page;
             this.context.offset = this.context.page > 1 ? (this.context.page - 1) * this.context.limit : 0;

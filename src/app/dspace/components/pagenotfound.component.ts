@@ -20,7 +20,7 @@ import {Breadcrumb} from "../../navigation/models/breadcrumb.model";
                     <p>{{"404.help" | translate}}</p>
                     <br>
                     <p class="text-center">
-                      <a [routerLink]="['/Dashboard']" class="btn btn-primary">{{"404.link.home-page" | translate}}</a>
+                      <a [routerLink]="['/Home']" class="btn btn-primary">{{"404.link.home-page" | translate}}</a>
                     </p>
                 </div>
               `
