@@ -37,7 +37,7 @@ export class CollectionSidebarHelper extends SidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("404")
+            .action("Edit")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();
             })
@@ -63,7 +63,9 @@ export class CollectionSidebarHelper extends SidebarHelper
             .dirtyObservable(this.authorization.userObservable)
             .addChildren([browseChildSection,addItemSection])
             .build();
+
         this.sidebarService.addSection(collectionSection);
+
         this.sections.push(collectionSection);
     }
 }

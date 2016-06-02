@@ -73,7 +73,7 @@ export class LoginFormComponent extends LoginComponent {
             if(response.status == 200) {
                 let token = response.text();
                 this.authorization.status(token).subscribe(response => {
-                    this.router.navigate(['Profile']);
+                    this.router.navigate(['Home']);
                 },
                 error => {
                     this.processing = false;

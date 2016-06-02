@@ -71,6 +71,11 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
      */
     routes : Array<Route>;
 
+    /**
+     * An array of the actions.
+     */
+    actions : Array<String>;
+
 
     /**
      *
@@ -145,7 +150,8 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
 
             }
         }
-        this.routes = new Array<Route>()
+        this.routes = new Array<Route>();
+        this.actions = new Array<String>();
     }
 
     /**
@@ -346,6 +352,18 @@ class Builder
     {
         let childRoute = new Route(name,params);
         this.section.routes.push(childRoute);
+        return this;
+    }
+
+    /**
+     *
+     * @param name
+     *      name is name of the action, as it appears in the SidebarService
+     * @returns {Builder}
+     */
+    action(name : string)
+    {
+        this.section.actions.push(name);
         return this;
     }
 

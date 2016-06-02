@@ -13,8 +13,7 @@ import {HttpService} from "./http.service";
  * A class for the sidebar service, to remove and add components to the sidebar.
  */
 @Injectable()
-export class SidebarService
-{
+export class SidebarService {
 
     /**
      * breaking away from the style guide here because we want some logic in the getter.
@@ -33,7 +32,6 @@ export class SidebarService
      */
     isSidebarVisible: BehaviorSubject<boolean>;
 
-
     /**
      * @param viewportService
      *      A singleton service that classifies the viewport's width
@@ -41,9 +39,9 @@ export class SidebarService
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private viewportService: ViewportService,
-                private router:Router, private httpService : HttpService
-    )
-    {
+                private router: Router, 
+                private httpService: HttpService) {
+        
         this.sidebarSubject = new Subject<any>();
         this.isSidebarVisible = new BehaviorSubject<boolean>(true);
 
@@ -283,6 +281,10 @@ export class SidebarService
                 this.addSection(buildSection);
             }
         });
+    }
+
+    actionEdit(): void {
+        console.log("toggle edit")
     }
 
 }

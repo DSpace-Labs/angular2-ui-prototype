@@ -1,9 +1,10 @@
-import {Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { SidebarService } from '../../../utilities/services/sidebar.service';
 
 /**
  * Main component to render a sidebar-section
@@ -23,9 +24,16 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                 <div *ngIf="isHeading()" class="panel-heading sidebar-heading clickable" (click)="toggleOpen()">
                     <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
                 </div>
+
                 <div *ngIf="isExternalLink()">
                     <div class="sidebar-link">
                         <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    </div>
+                </div>
+
+                <div *ngIf="isActionSection()"> <!-- if it is a action section, it also has a action -->
+                    <div class="sidebar-link">
+                        <a (click)="performAction()" class="clickable">{{ sidebarcomponent.componentName | translate }}</a>
                     </div>
                 </div>
 
@@ -35,40 +43,38 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                     </div>
                 </div>
 
-                    <!-- render the children of this component -->
-                    <div class="sidebar-section panel-body" *ngIf="isOpen && hasChildren()" >
-                        <ul>
-                            <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
-                               <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
-                            </li>
-                        </ul>
-                    </div>
+                <!-- render the children of this component -->
+                <div class="sidebar-section panel-body" *ngIf="isOpen && hasChildren()" >
+                    <ul>
+                        <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
+                           <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
+                        </li>
+                    </ul>
+                </div>
             </div>
         `
 })
-
-
-
-export class SidebarSectionComponent implements OnInit
-{
+export class SidebarSectionComponent implements OnInit {
 
     /**
      *  The current sidebar-section that we will be rendering
      */
-    @Input() private sidebarcomponent : SidebarSection;
+    @Input() private sidebarcomponent: SidebarSection;
 
     /**
      *  The children of the current sidebar-section
      */
     children : Array<SidebarSection>;
 
+    /**
+     *
+     */
     isOpen: boolean;
 
     /**
      *
      */
-    constructor()
-    {
+    constructor(private sidebarService: SidebarService) {
         this.isOpen = true;
     }
 
@@ -86,7 +92,7 @@ export class SidebarSectionComponent implements OnInit
             this.sidebarcomponent.routes.forEach(route =>
             {
                 routes.push(route.name);
-                if(route.params!=null)
+                if(route.params != null)
                 {
                     routes.push(route.params);
                 }
@@ -148,6 +154,15 @@ export class SidebarSectionComponent implements OnInit
         return ArrayUtil.isNotEmpty(this.sidebarcomponent.routes);
     }
 
+    /**
+     * 
+     * @returns {boolean}
+     */
+    isActionSection() : boolean
+    {
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.actions);
+    }
+
 
     /**
      * Check whether the current sidebar-section should be rendered as a heading.
@@ -157,7 +172,7 @@ export class SidebarSectionComponent implements OnInit
      */
     isHeading() : boolean
     {
-        return !this.isRouteSection() && !this.hasDestination();
+        return !this.isRouteSection() && !this.isActionSection() && !this.hasDestination();
     }
 
 
@@ -169,11 +184,15 @@ export class SidebarSectionComponent implements OnInit
      */
     isExternalLink() : boolean
     {
-        return !this.isRouteSection() && this.hasDestination();
+        return !this.isRouteSection() && !this.isActionSection() && this.hasDestination();
     }
 
     toggleOpen(): void {
         this.isOpen = !this.isOpen;
+    }
+
+    performAction(): void {
+        this.sidebarService["action" + this.sidebarcomponent.actions[0]]();
     }
 
 }

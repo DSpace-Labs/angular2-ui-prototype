@@ -6,7 +6,7 @@ import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
 import { ViewElementComponent } from './view-element.component'
 
-import { ViewComponent } from '../../models/viewcomponent.model';
+import { ViewComponent } from '../../models/view-component.model';
 
 /**
  * Component for the authors of the simple-item-view.

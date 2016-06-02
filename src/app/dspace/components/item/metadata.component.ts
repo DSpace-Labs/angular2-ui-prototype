@@ -4,7 +4,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
-import { ViewComponent } from '../../models/viewcomponent.model';
+import { ViewComponent } from '../../models/view-component.model';
 import { ViewElementComponent } from './view-element.component';
 
 /**

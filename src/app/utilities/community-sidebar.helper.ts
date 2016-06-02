@@ -41,7 +41,7 @@ export class CommunitySidebarHelper extends SidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("404")
+            .action("Edit")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();
             })
@@ -73,9 +73,11 @@ export class CommunitySidebarHelper extends SidebarHelper
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
-            .addChildren([browseChildSection,createCollection,createCommunity])
+            .addChildren([browseChildSection, createCollection, createCommunity])
             .build();
+
         this.sidebarService.addSection(communitySection);
+
         this.sections.push(communitySection);
     }
 

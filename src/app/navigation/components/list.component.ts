@@ -11,8 +11,8 @@ import { PaginationComponent } from './pagination.component';
     selector: 'list',
     directives: [ ROUTER_DIRECTIVES, PaginationComponent ],
     template: `
-                <ul class="list-group">
-                    <li *ngFor="let item of collection.items" class="list-group-item">
+                <ul class="hierarchy-list-group">
+                    <li *ngFor="let item of collection.items" class="hierarchy-list-group-item">
                         <!-- Router Link -->
                         <a [routerLink]="[item.component, {id:item.id}]">{{ item.name }}</a>
                     </li>

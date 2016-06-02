@@ -121,6 +121,8 @@ export class AppSidebarHelper extends SidebarHelper
 
     }
 
+
+
     /**
      * Reads the data in the sidebar file from the server.
      * Then it adds these sidebarsections (defined in json) to our SidebarService.
@@ -131,6 +133,8 @@ export class AppSidebarHelper extends SidebarHelper
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
         this.httpService.get({
+
+            // TODO: use config! and probably url helper
             url : "http://localhost:3000/customsidebar"
         }).forEach(res => {
             // create a sidebarsection out of the result.

@@ -39,7 +39,7 @@ export class ItemSidebarHelper extends SidebarHelper
 
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")
-            .route("404") // does not exist yet.
+            .action("Edit")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();
             })

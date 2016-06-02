@@ -17,8 +17,6 @@ import { SidebarHeaderComponent } from "./sidebar-header.component.ts";
     directives: [ROUTER_DIRECTIVES, SidebarSectionComponent, SidebarHeaderComponent],
     template:
         `
-
-
             <nav class="sidebar">
                 <sidebar-header></sidebar-header>
                 <div class="sidebar-scroller">
@@ -52,8 +50,7 @@ export class SidebarComponent
      *      SidebarService is a singleton service that provides access to the content of the sidebar
      */
     constructor(private contextProvider: ContextProviderService,
-                private sidebarService : SidebarService
-    )
+                private sidebarService : SidebarService)
     {
         if(contextProvider != null) {
             // when we update the context, we could update the sidebar.
