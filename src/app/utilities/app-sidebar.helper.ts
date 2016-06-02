@@ -130,7 +130,6 @@ export class AppSidebarHelper extends SidebarHelper
     {
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
-
         this.httpService.get({
            url : "http://localhost:3000/customsidebar"
         }).forEach(res => {
@@ -142,8 +141,5 @@ export class AppSidebarHelper extends SidebarHelper
                 this.sidebarService.addSection(buildSection);
             }
         });
-
-
-
     }
 }
