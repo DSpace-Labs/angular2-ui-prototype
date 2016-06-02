@@ -25,7 +25,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                 </div>
                 <div *ngIf="isExternalLink()">
                     <div class="sidebar-link">
-                        <a [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                        <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
                     </div>
                 </div>
 
