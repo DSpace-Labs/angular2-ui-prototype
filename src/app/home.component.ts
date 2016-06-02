@@ -16,16 +16,16 @@ import { HomeSidebarHelper } from './utilities/home-sidebar.helper';
 import { Breadcrumb } from './navigation/models/breadcrumb.model';
 
 /**
- * The dashboard component is the main index for browsing. Layout contains a
+ * The home component is the main index for browsing. Layout contains a
  * sidebar context along with the community/collection/item tree.
  */
 @Component({
     selector: "hierarchy",
     pipes: [ TranslatePipe ],
     directives: [ TreeComponent, NewsComponent ],
-    providers : [HomeSidebarHelper],
+    providers : [ HomeSidebarHelper ],
     template: `
-             
+
                 <news></news>
 
                 <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
@@ -39,7 +39,7 @@ export class HomeComponent implements OnDestroy {
      * This is the i18n string as it occurs in the en.json file
      * @type {string}
      */
-    private header : string = "tree.header";
+    private header : string = "home.hierarchy";
 
     /**
      *
@@ -49,7 +49,7 @@ export class HomeComponent implements OnDestroy {
 
     /**
      *
-     * @param dspace 
+     * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.

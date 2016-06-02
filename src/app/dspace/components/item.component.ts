@@ -38,7 +38,7 @@ import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
         { path: "/", name: "SimpleItemView", component: SimpleItemViewComponent, useAsDefault: true },
         { path: "/full", name: "FullItemView", component: FullItemViewComponent },
 
-        { path: '/**', redirectTo: [ '/Dashboard' ] }
+        { path: '/**', redirectTo: [ '/Home' ] }
 
 ])
 export class ItemComponent implements CanDeactivate {

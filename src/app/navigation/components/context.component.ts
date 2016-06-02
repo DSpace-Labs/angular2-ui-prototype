@@ -22,25 +22,25 @@ import { User } from '../../dspace/models/user.model';
                     <div class="panel-heading">
                         <h3 class="panel-title">{{context.name}}</h3>
                     </div>
-                    <div class="panel-body" *ngIf="dashboard()">
+                    <div class="panel-body" *ngIf="home()">
                         <ul *ngIf="user">
                             <li><a [routerLink]="['/CommunityCreate']">{{ 'context.create-community' | translate }}</a></li>
                         </ul>
                     </div>
-                    <div class="panel-body" *ngIf="home()">
-                        
+                    <div class="panel-body" *ngIf="profile()">
+
                     </div>
                     <div class="panel-body" *ngIf="login()">
-                        
+
                     </div>
                     <div class="panel-body" *ngIf="register()">
-                        
+
                     </div>
                     <div class="panel-body" *ngIf="settings()">
-                        
+
                     </div>
                     <div class="panel-body" *ngIf="setup()">
-                        
+
                     </div>
                     <div class="panel-body" *ngIf="community()">
                         <ul *ngIf="user">
@@ -96,15 +96,15 @@ export class ContextComponent {
     /**
      *
      */
-    private dashboard(): boolean {
-        return this.context.type == 'dashboard';
+    private home(): boolean {
+        return this.context.type == 'home';
     }
 
     /**
      *
      */
-    private home(): boolean {
-        return this.context.type == 'home';
+    private profile(): boolean {
+        return this.context.type == 'profile';
     }
 
     /**

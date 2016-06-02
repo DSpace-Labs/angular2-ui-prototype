@@ -34,19 +34,18 @@
     "context.create-item": "Create Item",
     "context.edit-item": "Edit Item",
 
-    "dashboard.recent-submissions": "Show recent submissions",
-
     "footer.copyright": "copyright © 2002-2016",
     "footer.link.dspace": "DSpace software",
     "footer.link.duraspace": "DuraSpace",
 
     "header.repository-name": "Angular 2 DSpace",
     "header.home": "Home",
-    "header.dashboard": "Dashboard",
     "header.register": "Register",
     "header.login": "Login",
     "header.logout": "Logout",
     "header.profile": "View Profile",
+
+    "home.hierarchy": "Communities and Collections",
 
     "item.key": "Key",
     "item.value": "Value",
@@ -182,7 +181,5 @@
     "sidebar.context-admin.header": "Admin",
     "sidebar.context-admin.alter-sidebar" : "Edit sidebar",
 
-    "setup.title": "Setup",
-
-    "tree.header" : "Communities and collections"
+    "setup.title": "Setup"
 }

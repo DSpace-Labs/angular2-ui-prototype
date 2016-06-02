@@ -25,15 +25,15 @@ export class BreadcrumbService {
     emitter: EventEmitter<any>;
 
     /**
-     * 
+     *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      */
     constructor(private contextProvider : ContextProviderService) {
         this.root = {
-            name: 'Dashboard',
-            type: 'dashboard',
-            component: '/Dashboard'
+            name: 'Home',
+            type: 'home',
+            component: '/Home'
         };
         this.emitter = new EventEmitter<any>();
     }
@@ -51,7 +51,7 @@ export class BreadcrumbService {
         this.contextProvider.context = context;
         this.emitter.next({action: 'visit', context: context});
     }
-    
+
     /**
      * Method to emit breadcrumb when it is updated.
      *
@@ -63,14 +63,14 @@ export class BreadcrumbService {
     }
 
     /**
-     * 
+     *
      */
     getRoot(): any {
         return this.root;
     }
 
     /**
-     * 
+     *
      */
     setRoot(root) {
         this.root = root;

@@ -6,7 +6,7 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
 
 /**
  * Breadcrumb component for displaying current set of breadcrumbs of the
- * hierarchy to the given context. e.g. Dashboard / Community / Collection / Item
+ * hierarchy to the given context. e.g. Home / Community / Collection / Item
  */
 @Component({
     selector: 'breadcrumb',

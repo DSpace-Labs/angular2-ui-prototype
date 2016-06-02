@@ -5,7 +5,7 @@ import { AuthorizationService } from '../dspace/authorization/services/authoriza
 import { SidebarHelper } from './sidebar.helper';
 
 /**
- * Class to populate the dashboard sidebar.
+ * Class to populate the homepage sidebar.
  */
 @Injectable()
 export class HomeSidebarHelper extends SidebarHelper
