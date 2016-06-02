@@ -71,7 +71,7 @@ export class AppSidebarHelper extends SidebarHelper
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")
-            .route("Home")
+            .route("404")
             .testFunction( () => {
                 return !this.authorization.isAuthenticated();
             })

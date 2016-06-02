@@ -24,9 +24,11 @@ import { Item } from '../models/item.model';
     pipes: [ TranslatePipe ],
     template: `
                 <div class="main-content" *ngIf="itemProvided()">
-                    <h1>{{item.name}}</h1>
+                    <h1 class="page-header">{{item.name}}</h1>
                     <!-- link to the simple item view -->
-                    <a [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
+                    <div class="text-center">
+                        <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
+                    </div>
                     <div>
                         <!-- the rendering of different parts of the page is delegated to other components -->
                         <item-full-metadata [itemData]="item.metadata"></item-full-metadata>
@@ -34,7 +36,9 @@ import { Item } from '../models/item.model';
                         <item-full-bitstreams [itemBitstreams]="item.bitstreams" [thumbnails]="item.thumbnails"></item-full-bitstreams>
 
                         <item-full-collections [itemParent]="item.parentCollection"></item-full-collections>
-                        <a [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
                     </div>
                 </div>
               `

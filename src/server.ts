@@ -48,6 +48,7 @@ import { PaginationService } from './app/navigation/services/pagination.service'
 import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
 import { SidebarService } from './app/utilities/services/sidebar.service';
+import { ViewportService } from "./app/utilities/services/viewport.service";
 
 
 // Disable Angular 2's "development mode".
@@ -153,7 +154,8 @@ function ngApp(req, res) {
             PagingStoreService,
             StorageService,
             TranslateService,
-            SidebarService
+            SidebarService,
+            ViewportService
         ],
         preboot: {
             appRoot: 'dspace',

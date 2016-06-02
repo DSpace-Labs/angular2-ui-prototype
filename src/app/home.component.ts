@@ -29,7 +29,7 @@ import { User } from './dspace/models/user.model';
 })
 export class HomeComponent {
         
-    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
+    private breadcrumb: Breadcrumb = new Breadcrumb('home', false);
 
     /**
      * Logged in user.

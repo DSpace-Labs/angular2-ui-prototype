@@ -120,31 +120,16 @@ var serverConfig = {
           // off the '/static' URL path (see './src/server.ts'). So, these copy
           // statements make all our static resources available to server-side AND client-side
           new CopyWebpackPlugin([
-            // Copy Bootstrap CSS into 'static/css' (from the bootstrap module)
-            {
-              from: path.join(node_modules, 'bootstrap', 'dist', 'css', 'bootstrap.min.css'),
-              to: path.join('static', 'css', 'bootstrap.min.css')
-            },
-            // Copy Bootstrap CSS map into 'static/css' (from the bootstrap module)
-            {
-              from: path.join(node_modules, 'bootstrap', 'dist', 'css', 'bootstrap.min.css.map'),
-              to: path.join('static', 'css', 'bootstrap.min.css.map')
-            },
             // Copy Bootstrap Fonts into 'static/fonts' (from the bootstrap module)
             // NOTE: Bootstrap CSS references fonts as being at "../fonts/" (relative to CSS)
             {
-              from: path.join(node_modules, 'bootstrap', 'dist', 'fonts'),
+              from: path.join(node_modules, 'bootstrap-sass', 'assets', 'fonts', 'bootstrap'),
               to: path.join('static', 'fonts')
             },
             // Copy any json forms (./resources/forms/) into 'static/forms'
             {
               from: path.join(__dirname, 'resources', 'forms'),
               to: path.join('static', 'forms')
-            },
-            // Copy any CSS overrides (./resources/css/) into 'static/css' subfolder
-            {
-              from: path.join(__dirname, 'resources', 'css'),
-              to: path.join('static', 'css')
             },
             // Copy any images (./resources/images/) into 'static/images' subfolder
             {

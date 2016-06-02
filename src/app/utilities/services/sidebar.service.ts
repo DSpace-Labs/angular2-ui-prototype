@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
-import { Subject } from 'rxjs/Subject';
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -23,6 +25,11 @@ export class SidebarService
      */
     sidebarSubject : Subject<any>;
 
+    /**
+     * A BehaviorSubject to observe the visibility of the sidebar.
+     */
+    isSidebarVisible: BehaviorSubject<boolean>;
+
 
     /**
      *
@@ -30,6 +37,7 @@ export class SidebarService
     constructor()
     {
         this.sidebarSubject = new Subject<any>();
+        this.isSidebarVisible = new BehaviorSubject<boolean>(false);
     }
 
 
@@ -189,6 +197,22 @@ export class SidebarService
     {
         this._components.filter(section => section.id == parent.id).forEach(section => section.childsections.push(child));
         this.sidebarSubject.next(true);
+    }
+
+    /**
+     * Toggle the visibility of the sidebar
+     */
+    toggleSidebarVisibility(): void {
+        this.isSidebarVisible.next(!this.isSidebarVisible.getValue());
+    }
+
+    /**
+     * Set the visibility of the sidebar
+     * @param newVisibility
+     *      A boolean representing the new visibility of the sidebar
+     */
+    setSidebarVisibility(newVisibility: boolean) {
+        this.isSidebarVisible.next(newVisibility);
     }
 
 }

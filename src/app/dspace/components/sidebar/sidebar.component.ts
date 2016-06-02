@@ -5,24 +5,28 @@ import { ContextProviderService } from '../../../dspace/services/context-provide
 import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
 import { SidebarSectionComponent } from './sidebar-section.component';
 
+import { SidebarHeaderComponent } from "./sidebar-header.component.ts";
+
 /**
  * Main component to render the sidebar.
  * Will access the sidebarservice to find out which components need to be rendered.
  */
 @Component({
     selector: "sidebar",
-    directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
+    styles : ["sidebar"],
+    directives: [ROUTER_DIRECTIVES, SidebarSectionComponent, SidebarHeaderComponent],
     template:
         `
 
 
-            <div id="sidebar" class="sidebar-offcanvas">
-                <aside class="sidebar-menu">
+            <nav class="sidebar">
+                <sidebar-header></sidebar-header>
+                <div class="sidebar-scroller">
                     <section *ngFor="let component of sidebarComponents">
                         <sidebar-section *ngIf="component.visible" class="sidebar-section" [sidebarcomponent]="component"></sidebar-section>
                     </section>
-                </aside>
-            </div>
+                </div>
+            </nav>
         `
 })
 
@@ -47,7 +51,9 @@ export class SidebarComponent
      * @param sidebarService
      *      SidebarService is a singleton service that provides access to the content of the sidebar
      */
-    constructor(private contextProvider: ContextProviderService, private sidebarService : SidebarService)
+    constructor(private contextProvider: ContextProviderService,
+                private sidebarService : SidebarService
+    )
     {
         if(contextProvider != null) {
             // when we update the context, we could update the sidebar.
