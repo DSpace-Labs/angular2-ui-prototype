@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
@@ -62,7 +62,7 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
  * A class for an admin to extend the sidebar
  * Components can be added. At the moment they can only be headers or static links.
  */
-export class AdminSidebarComponent
+export class AdminSidebarComponent implements OnInit, OnDestroy
 {
 
     /**
