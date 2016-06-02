@@ -23,7 +23,7 @@ export class AppSidebarHelper extends SidebarHelper
      * @param httpService
      *      HttpService is a singleton service to provide basic xhr requests
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService)
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService : HttpService)
     {
         super(sidebarService); // super implements this as 'protected'
         this.readSidebarFromFile();

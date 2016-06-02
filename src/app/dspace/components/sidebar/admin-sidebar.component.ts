@@ -46,7 +46,7 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                             <span class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
                         </div>
                         
-                        <!-- if there are no children o the current component, we still want to show an add button to add the first child -->
+                        <!-- if there are no children on the current component, we still want to show an add button to add the first child -->
                         <button *ngIf="!hasChildren(entry)" type="button" class="btn btn-primary btn-sm" (click)="addChildSectionField(entry)">{{'sidebar.admin.edit.add-child' | translate}}</button>        
                         
                 </div>
@@ -95,11 +95,8 @@ export class AdminSidebarComponent
     ngOnInit()
     {
         this.entries = new Array<SidebarSection>();
-        this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();}); // this only runs the first time?
+        this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();});
         this.populateForm();
-        // let's print what is actually in here.
-        console.log("entries in admin sidebar");
-        console.log(this.sidebarService.components);
     }
 
     /**
@@ -131,7 +128,7 @@ export class AdminSidebarComponent
      */
     addChildSectionField(parent : SidebarSection)
     {
-        let childSection = SidebarSection.getBuilder().generateUserID(true).build(); // let our builder generate an ID.
+        let childSection = SidebarSection.getBuilder().generateUserID(true).url("http://www.google.com").build(); // let our builder generate an ID.
         this.sidebarService.addChildSection(parent,childSection);
         this.entries = this.sidebarService.getCustomSections().slice(0); // update the entries on this page. slice to change reference.
     }
@@ -146,7 +143,7 @@ export class AdminSidebarComponent
     {
         // this should probably be done through the sidebarService.
         // But doing it this way made the change detection trigger correctly.
-        // TODO: working change detection throught the sidebarService.
+        // TODO: working change detection through the sidebarService.
         parent.childsections.splice(child,1);
     }
 
@@ -166,10 +163,8 @@ export class AdminSidebarComponent
             xhr.onreadystatechange = function() {
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        console.log("this seems to have written succesfully");
                         resolve(xhr.response);
                     }else{
-                        console.log("it broke everything :(");
                         reject(xhr.response);
                     }
                 }
