@@ -11,8 +11,8 @@ import { CollectionComponent } from './dspace/components/collection.component';
 import { CollectionCreateComponent } from './dspace/components/collection-create.component';
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
-import { LogoutComponent } from './dspace/components/logout.component';
-import { PageNotFoundComponent } from './dspace/components/pagenotfound.component.ts';
+import { LogoutComponent } from './dspace/authorization/logout.component';
+import { PageNotFoundComponent } from './dspace/components/pagenotfound.component';
 
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home.component';

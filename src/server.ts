@@ -47,6 +47,7 @@ import { NotificationService } from './app/utilities/notification/notification.s
 import { PaginationService } from './app/navigation/services/pagination.service';
 import { PagingStoreService } from './app/dspace/services/paging-store.service';
 import { StorageService } from './app/utilities/services/storage.service';
+import { TempServerStorageService } from './app/utilities/services/temp-server-storage.service';
 import { SidebarService } from './app/utilities/services/sidebar.service';
 import { ViewportService } from "./app/utilities/services/viewport.service";
 
@@ -139,6 +140,9 @@ function ngApp(req, res) {
                 deps: [ Http ]
             }),
             AuthorizationService,
+            provide(StorageService, {
+                useFactory: () => new TempServerStorageService()
+            }),
             BreadcrumbService,
             ContextProviderService,
             DSpaceConstantsService,
@@ -152,7 +156,6 @@ function ngApp(req, res) {
             NotificationService,
             PaginationService,
             PagingStoreService,
-            StorageService,
             TranslateService,
             SidebarService,
             ViewportService
