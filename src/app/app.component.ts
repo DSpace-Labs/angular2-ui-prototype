@@ -118,9 +118,9 @@ import { ViewportService } from "./utilities/services/viewport.service";
 
         { path: "/404", name: "404", component: PageNotFoundComponent},
 
-        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent}
+        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
 
-    //    { path: '/**', redirectTo: [ '/Dashboard' ] } removed this to test some file loading.
+       { path: '/**', redirectTo: [ '/404' ] }
 ])
 export class AppComponent implements OnInit {
 
