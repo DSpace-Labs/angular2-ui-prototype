@@ -135,7 +135,7 @@ export class SidebarService
             {
                 section.childsections = this.removeFromSections(section.childsections, remove);
             }
-            filtered = sections.filter(x => /*!x.equals(remove)*/ x.id != remove.id); // TODO: use .equals again after casting the custom components.
+            filtered = sections.filter(x => !x.equals(remove)); // TODO: use .equals again after casting the custom components.
         });
         if(filtered != null){
             sections = filtered;
