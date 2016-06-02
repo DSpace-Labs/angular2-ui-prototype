@@ -44,10 +44,9 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                            
                             <!-- we only show the 'plus symbol' on the first entry -->
                             <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                        </div>
-                        
-                        <!-- if there are no children on the current component, we still want to show an add button to add the first child -->
-                        <button *ngIf="!hasChildren(entry)" type="button" class="btn btn-primary btn-sm" (click)="addChildSectionField(entry)">{{'sidebar.admin.edit.add-child' | translate}}</button>        
+                            <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
+                     
+                        </div>    
                         
                 </div>
             <!-- buttons here -->
@@ -115,8 +114,8 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
     {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
-        let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").build();
-        this.addChildSectionField(parentSection);
+        let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").addChild(SidebarSection.getBuilder().name("untitled").generateUserID(true).url("http://www.google.com").build()).build();
+        //this.addChildSectionField(parentSection);
         this.sidebarService.addSection(parentSection);
         this.entries = this.sidebarService.getCustomSections().slice(0);
     }
