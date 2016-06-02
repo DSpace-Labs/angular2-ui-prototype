@@ -16,10 +16,11 @@ import { ArrayUtil } from '../../../utilities/commons/array.util'
     directives: [ ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <view-element [header]="componentTitle | translate">
+                <!--<view-element *ngIf="hasOriginalBitstreams()" [header]="componentTitle | translate">-->
+                <view-element *ngIf="hasOriginalBitstreams()" class="simple-item-view-bitstreams">
                     <div *ngFor="let bitstream of originalBitstreams;">
                         <a [attr.href]="bitstream.retrieveLink">
-                            <i aria-hidden="true" class="glyphicon glyphicon-file"></i>
+                            <i aria-hidden="true" class="ion-icon ion-document"></i>
                             <span>{{ bitstream.name }}</span>
                         </a>
                     </div>
@@ -42,6 +43,16 @@ export class BitstreamsComponent implements OnInit {
      * 
      */
     private originalBitstreams : Array<Bitstream>;
+
+    /**
+     * Verify whether or not this.originalBitstreams is empty
+     *
+     * @returns {boolean}
+     *      true if this.originalBitstreams is not empty, false otherwise
+     */
+    hasOriginalBitstreams(): boolean {
+        return ArrayUtil.isNotEmpty(this.originalBitstreams);
+    }
 
     /**
      * 

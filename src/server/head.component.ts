@@ -20,7 +20,7 @@ export class HeadComponent {
     title: string;
 
     constructor() {
-        this.title = 'DSpace UI';
+        this.title = 'ng2-dspace';
     }
 
     /**

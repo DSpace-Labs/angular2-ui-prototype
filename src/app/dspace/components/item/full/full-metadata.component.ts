@@ -13,7 +13,7 @@ import { ViewElementComponent } from '../view-element.component';
     pipes: [ TranslatePipe ],
     template: `
                 <view-element>
-                    <div id="metadata">
+                    <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="thead-inverse">
                                 <tr>
@@ -24,9 +24,11 @@ import { ViewElementComponent } from '../view-element.component';
                             </thead>
                             <tbody>
                                 <tr *ngFor="let metadatum of itemData">
-                                    <td>{{ metadatum.key }}</td>
-                                    <td class="word-break">{{ metadatum.value }}</td>
-                                    <td>{{ metadatum.language }}</td>
+                                    <td class="item-full-metadata-label-cell">{{ metadatum.key }}</td>
+                                    <td>
+                                        <div class="word-break item-full-metadata-data-cell">{{ metadatum.value }}</div>
+                                    </td>
+                                    <td class="item-full-metadata-language-cell">{{ metadatum.language }}</td>
                                 </tr>
                             </tbody>
                         </table>

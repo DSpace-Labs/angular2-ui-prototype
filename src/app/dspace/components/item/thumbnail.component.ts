@@ -14,7 +14,7 @@ import { Item } from '../../models/item.model';
     selector: 'thumbnail',
     pipes: [TranslatePipe],
     template: `
-                <div class="thumbnail-wrapper">
+                <div class="thumbnail-wrapper simple-item-view-thumbnail">
                     <!-- TODO always renders the placehoder atm; make it use the actual thumbnail if it exists-->
                     <a [attr.href]="" class="image-link">
                         <img class="thumbnail-placeholder" alt="{{ 'item.thumbnail.no-thumbnail' | translate }} [93x120]" src="{{ thumbnailSource }}">

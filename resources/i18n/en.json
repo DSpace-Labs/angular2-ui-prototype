@@ -1,4 +1,8 @@
 {
+    "404.help": "We can't find the page you're looking for. The page may have been moved or deleted. You can use the button below to get back to the home page. ",
+    "404.link.home-page": "Take me to the home page",
+    "404.page-not-found": "page not found",
+
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
     "collection.name.maxLength": "Collection name must have at most 128 characters.",
@@ -32,12 +36,17 @@
 
     "dashboard.recent-submissions": "Show recent submissions",
 
-    "header.repository-name": "Angular 2 DSpace UI Prototype",
-    "header.profile": "Profile",
+    "footer.copyright": "copyright © 2002-2016",
+    "footer.link.dspace": "DSpace software",
+    "footer.link.duraspace": "DuraSpace",
+
+    "header.repository-name": "ng2-dspace",
+    "header.home": "Home",
     "header.dashboard": "Dashboard",
     "header.register": "Register",
     "header.login": "Login",
     "header.logout": "Logout",
+    "header.profile": "View Profile",
 
     "item.key": "Key",
     "item.value": "Value",
@@ -113,13 +122,13 @@
     "item-view.full.full-metadata.thead.key": "Key",
     "item-view.full.full-metadata.thead.value": "Value",
     "item-view.full.full-metadata.thead.lang": "Language",
-    "item-view.header.authors": "author",
-    "item-view.header.bitstreams": "download",
-    "item-view.header.collections": "collections",
-    "item-view.header.date": "date",
-    "item-view.header.metadata": "metadata",
-    "item-view.header.uri": "uri",
-    "item-view.header.abstract": "abstract",
+    "item-view.header.authors": "Author",
+    "item-view.header.bitstreams": "Download",
+    "item-view.header.collections": "Collections",
+    "item-view.header.date": "Date",
+    "item-view.header.metadata": "Metadata",
+    "item-view.header.uri": "URI",
+    "item-view.header.abstract": "Abstract",
     "item-view.show-full": "Show full item record",
     "item-view.show-simple": "Show simple item record",
 

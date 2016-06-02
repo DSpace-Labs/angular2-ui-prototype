@@ -1,10 +1,9 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
+﻿﻿import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { CollapseDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
-import { AuthorizationService } from './dspace/authorization/services/authorization.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { BreadcrumbComponent } from './navigation/components/breadcrumb.component';
@@ -13,7 +12,7 @@ import { CollectionCreateComponent } from './dspace/components/collection-create
 import { CommunityComponent } from './dspace/components/community.component';
 import { CommunityCreateComponent } from './dspace/components/community-create.component';
 import { LogoutComponent } from './dspace/components/logout.component';
-import { NotFoundComponent } from './dspace/components/notfound.component';
+import { PageNotFoundComponent } from './dspace/components/pagenotfound.component.ts';
 
 import { HomeComponent } from './home.component.ts';
 import { ProfileComponent} from './profile.component.ts';
@@ -29,9 +28,9 @@ import { SetupComponent } from './setup.component';
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 import { NewsComponent } from './dspace/components/news.component';
 
-import { User } from './dspace/models/user.model';
-
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
+import { SidebarService } from "./utilities/services/sidebar.service";
+import { ViewportService } from "./utilities/services/viewport.service";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -51,45 +50,51 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
     providers : [AppSidebarHelper],
     pipes: [ TranslatePipe ],
     template: `
-                <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <!-- When clicked toggle navCollapsed setting -->
-                            <button type="button" class="navbar-toggle" (click)="navCollapsed = !navCollapsed">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" [routerLink]="['Profile']">{{ 'header.repository-name' | translate }}</a>
+                <!--TODO separate out header-->
+                <div class="container-fluid">
+                    <div class="row no-gutter">
+                        <div [ngClass]="{'sidebar-open-sidebar':isSidebarVisible, 'sidebar-closed-sidebar':!isSidebarVisible}">
+                            <sidebar></sidebar>
                         </div>
-                        <!-- Collapse this menu when navCollapse is true -->
-                        <div [collapse]="navCollapsed" class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li><a [routerLink]="['/Home']">{{ 'header.dashboard' | translate }}</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right" *ngIf="!user">
-                                <li><a [routerLink]="['/Register']"><span class="glyphicon glyphicon-user space-right"></span>{{ 'header.register' | translate }}</a></li>
-                                <li><a (click)="login.openLoginModal()" class="clickable"><span class="glyphicon glyphicon-log-in space-right"></span>{{ 'header.login' | translate }}</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right" *ngIf="user">
-                                <li><a [routerLink]="['Profile']"><span class="glyphicon glyphicon-user space-right"></span>{{ user.fullname }}</a></li>
-                                <li><a (click)="logout()" class="clickable"><span class="glyphicon glyphicon-log-out space-right"></span>{{ 'header.logout' | translate }}</a></li>
-                            </ul>
+                        <div [ngClass]="{'sidebar-open-content':isSidebarVisible, 'sidebar-closed-content':!isSidebarVisible, 'sidebar-slider-animating':isSidebarAnimating}" class="sticky-footer-wrapper sidebar-slider">
+                            <div class="sticky-footer-everything-else">
+                                <header>
+                                    <nav class="navbar navbar-inverse">
+                                        <div class="container-fluid content-container-fluid">
+                                            <button type="button" (click)="toggleSidebar()" class="sidebar-toggle-button navbar-left clearfix"><i class="ion-arrow-left-b sidebar-toggle-arrow-icon"></i><i class="ion-icon ion-navicon sidebar-toggle-hamburger-icon"></i></button>
+                                            <div class="">
+                                                <a class="navbar-brand" [routerLink]="['/Home']">{{
+                                                    'header.repository-name' | translate }}</a>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </header>
+                                <div class="fixed-header-spacer"></div>
+                                <div class="container-fluid content-container-fluid">
+                                    <breadcrumb></breadcrumb>
+                                    <main>
+                                        <notification [channel]="channel"></notification>
+                                        <router-outlet></router-outlet>
+                                    </main>
+                                    <!--TODO separate out footer-->
+                                    <footer>
+                                        <div class="container-fluid content-container-fluid">
+                                            <!-- <div class="row">
+                                                <div class="col-sm-offset-4 col-lg-offset-3"> -->
+                                                    <p>
+                                                        <a href="http://www.dspace.org/">{{"footer.link.dspace" | translate}}</a>
+                                                        {{"footer.copyright" | translate}}
+                                                        <a href="http://www.duraspace.org/">{{"footer.link.duraspace" | translate}}</a>
+                                                    </p>
+                                                <!-- </div>
+                                            </div> -->
+                                        </div>
+                                    </footer>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </nav>
-
-                <breadcrumb></breadcrumb>
-                <div class="container">
-                    <div class="col-md-4">
-                        <sidebar></sidebar>
-                    </div>
-                    <div class="col-md-8">
-                        <notification [channel]="channel"></notification>
-                        <router-outlet></router-outlet>
                     </div>
                 </div>
-
                 <login-modal #login></login-modal>
               `
 })
@@ -112,7 +117,7 @@ import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 
         { path: "/logout", name: "Logout", component: LogoutComponent},
 
-        { path: "/404", name: "E404", component: NotFoundComponent},
+        { path: "/404", name: "404", component: PageNotFoundComponent},
         { path: "/news", name: "News", component: NewsComponent},
 
         { path: '/**', redirectTo: [ 'Home' ] }
@@ -125,10 +130,14 @@ export class AppComponent implements OnInit {
     private channel: string = "app";
 
     /**
-     * Logged in user.
+     * Is the sidebar visible or not
      */
-    private user: User;
+    isSidebarVisible: boolean;
 
+    /**
+     * Is the sidebar animating
+     */
+    isSidebarAnimating: boolean;
 
     /**
      * Is navbar collapsed?
@@ -139,30 +148,78 @@ export class AppComponent implements OnInit {
     /**
      * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
      * @param translate
      *      TranslateService
      * @param router
      *      Router is a singleton service provided by Angular2.
+     * @param sidebarService
+     *      SidebarService is a singleton service that provides access to the content of the sidebar
+     * @param viewportService
+     *      A singleton service that classifies the viewport's width
      * @param sidebarHelper
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
-     constructor(private dspace: DSpaceHierarchyService,
-                private authorization: AuthorizationService,
-                private translate: TranslateService,
-                private router: Router,
-                @Inject(AppSidebarHelper)  sidebarHelper : AppSidebarHelper) {
+    constructor(private dspace:DSpaceHierarchyService,
+                private translate:TranslateService,
+                private router:Router,
+                private sidebarService: SidebarService,
+                private viewportService: ViewportService,
+                @Inject(AppSidebarHelper)  private sidebarHelper:AppSidebarHelper) {
+        translate.setDefaultLang('en');
+        translate.use('en');
 
-                    this.user = authorization.user;
+        this.initSidebar();
+    }
 
-                    authorization.userObservable.subscribe(user => {
-                        this.user = user;
-                    });
+    /**
+     * Initialize the sidebar
+     */
+    private initSidebar(): void {
+        this.isSidebarAnimating = false;
 
-                    translate.setDefaultLang('en');
-                    translate.use('en');
-                    sidebarHelper.populateSidebar();
+        //Subscribe to the visibility observable of the SidebarService to
+        //detect when the sidebar should open and close
+        this.sidebarService.isSidebarVisible.subscribe((isSidebarVisible: boolean) => {
+            this.isSidebarAnimating = true;
+
+            //I don't like this setTimeout but it's the only way I could ensure
+            //the 'animating' css class is always set before the 'visible' class
+            setTimeout(() => {
+                this.isSidebarVisible = isSidebarVisible;
+            }, 10);
+
+            //This setTimeout was intended to be here. It removes the "animating" class after
+            //the sidebar animation completes, to ensure that the elements don't animate in
+            //response to other changes, like the resizing of the window for example
+            //I would however like a way to share the duration between this file and the scss
+            //Maybe something webpack can fix?
+            setTimeout(() => {
+                this.isSidebarAnimating = false;
+            }, 350);
+        });
+
+        //if we have info about the viewport
+        //use it to determine the initial state of the sidebar 
+        if (this.viewportService.isSupported) {
+            let isMd = this.viewportService.isMd.getValue();
+            let isLg = this.viewportService.isLg.getValue();
+            this.sidebarService.setSidebarVisibility(isLg || isMd);
+        }
+        else {
+            //otherwise, default to closed.
+            this.sidebarService.setSidebarVisibility(false);
+        }
+
+        this.sidebarHelper.populateSidebar();
+
+        this.router.subscribe(() => {
+            // if the route changes on an XS screen (where the sidebar is fullscreen),
+            // and the sidebar is open, close it.
+            if (this.viewportService.isXs.getValue() &&
+                this.sidebarService.isSidebarVisible.getValue()) {
+                this.sidebarService.setSidebarVisibility(false);
+            }
+        });
     }
 
     /**
@@ -173,11 +230,9 @@ export class AppComponent implements OnInit {
     }
 
     /**
-     * Logout.
+     * Show or hide the sidebar.
      */
-    private logout(): void {
-        this.authorization.logout();
-        this.router.navigate(['/Home']);
+    toggleSidebar() {
+        this.sidebarService.toggleSidebarVisibility();
     }
-
 }

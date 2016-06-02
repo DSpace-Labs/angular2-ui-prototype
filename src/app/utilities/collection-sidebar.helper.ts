@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { SidebarSection } from '../dspace/models/sidebar/sidebar-section.model';
-import { Collection } from '../dspace/models/collection.model';
 import { SidebarService } from './services/sidebar.service';
 
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
@@ -38,13 +37,13 @@ export class CollectionSidebarHelper extends SidebarHelper
 
         let browseChildSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.edit")
-            .route("E404")
+            .route("404")
             .testFunction( () => {
                 return this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
             .dirtyTest(() => {return true}) // left this is as an example
-            .build()
+            .build();
 
         let addItemSection = SidebarSection.getBuilder()
             .name("sidebar.context-collection.create-item")

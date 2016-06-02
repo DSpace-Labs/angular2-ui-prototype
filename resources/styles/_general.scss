@@ -1,0 +1,35 @@
+th,
+dt,
+label {
+    font-weight: 600;
+}
+
+.no-gutter {
+    & > [class*='sidebar-open-'],
+    & > [class*='sidebar-closed-'],
+    & > [class*='col-'] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.ion-icon {
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.content-container-fluid {
+    @media(min-width: $screen-sm-min) {
+        padding-left: $grid-gutter-width;
+        padding-right: $grid-gutter-width;
+    }
+}
+
+.page-header {
+    margin-top: 0;
+}
+
+main {
+    margin-top: $grid-gutter-width;
+}
