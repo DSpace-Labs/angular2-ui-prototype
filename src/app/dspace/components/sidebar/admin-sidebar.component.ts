@@ -114,7 +114,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
     {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
-        let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").addChild(SidebarSection.getBuilder().name("untitled").generateUserID(true).url("http://www.google.be").build()).build();
+        let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").addChild(SidebarSection.getBuilder().name("untitled").generateUserID(true).url("http://www.google.com").build()).build();
         //this.addChildSectionField(parentSection);
         this.sidebarService.addSection(parentSection);
         this.entries = this.sidebarService.getCustomSections().slice(0);
