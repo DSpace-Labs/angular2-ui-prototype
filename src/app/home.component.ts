@@ -1,67 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, Inject } from '@angular/core';
 
-import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { AuthorizationService } from './dspace/authorization/services/authorization.service';
+
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
+import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
+
+import { TreeComponent } from './navigation/components/tree.component';
+import { NewsComponent } from './dspace/components/news.component';
+
+
+import { HomeSidebarHelper } from './utilities/home-sidebar.helper';
+
 
 import { Breadcrumb } from './navigation/models/breadcrumb.model';
-import { User } from './dspace/models/user.model';
 
 /**
- * Home component. Intended to be a splash page with news, recent submissions, 
- * and user related content if logged in. Currently demonstrates server-side 
- * rendering of a simple template. 
+ * The dashboard component is the main index for browsing. Layout contains a
+ * sidebar context along with the community/collection/item tree.
  */
 @Component({
-    selector: 'home',
+    selector: "hierarchy",
     pipes: [ TranslatePipe ],
+    directives: [ TreeComponent, NewsComponent ],
+    providers : [HomeSidebarHelper],
     template: `
-                <div *ngIf="user">
-                    <h3>{{ user.fullname }}</h3>
-                    <h4>{{ user.email }}</h4>
-                </div>
-                <hr *ngIf="user">
-                <ul>
-                    <li *ngFor="let template of serverTemplating">{{ template }}</li>
-                </ul>
+             
+                <news></news>
+
+                <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
               `
 })
-export class HomeComponent {
-        
-    private breadcrumb: Breadcrumb = new Breadcrumb('home', false);
+export class HomeComponent implements OnDestroy {
+
 
     /**
-     * Logged in user.
+     * The header to be passed on to our tree.component
+     * This is the i18n string as it occurs in the en.json file
+     * @type {string}
      */
-    private user: User;
-
-    /**
-     * Simple array of strings templated in the view using *ngFor.
-     */
-    private serverTemplating: Array<String>;
+    private header : string = "tree.header";
 
     /**
      *
+     * @type {Breadcrumb}
+     */
+    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
+
+    /**
+     *
+     * @param dspace 
+     *      DSpaceHierarchyService is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
-     * @param authorization
-     *      AuthorizationService is a singleton service to interact with the authorization service.
-     * @param translate
-     *      TranslateService
+     * @param sidebarHelper
+     *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
-    constructor(private breadcrumbService: BreadcrumbService,
-                private authorization: AuthorizationService,
-                private translate : TranslateService) {
+    constructor(private dspace: DSpaceHierarchyService,
+                private breadcrumbService: BreadcrumbService,
+                @Inject(HomeSidebarHelper) private sidebarHelper : HomeSidebarHelper) {
         breadcrumbService.visit(this.breadcrumb);
-        this.user = authorization.user;
-        authorization.userObservable.subscribe(user => {
-            this.user = user;
-        });
-        translate.get(['home.welcome1', 'home.welcome2', 'home.welcome3']).subscribe((res : string) => {
-            this.serverTemplating = [res["home.welcome1"], res["home.welcome2"], res["home.welcome3"]];
-        });
+        this.sidebarHelper.populateSidebar();
     }
 
+    /**
+     *
+     */
+    ngOnDestroy()
+    {
+        this.sidebarHelper.removeSections();
+    }
 
 }

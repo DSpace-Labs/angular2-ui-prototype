@@ -131,7 +131,7 @@ export class AppSidebarHelper extends SidebarHelper
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
         this.httpService.get({
-           url : "http://localhost:3000/customsidebar"
+            url : "http://localhost:3000/customsidebar"
         }).forEach(res => {
             // create a sidebarsection out of the result.
             // so we can use the normal comparison (full object) instead of only the ID in our filter methods.

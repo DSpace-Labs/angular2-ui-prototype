@@ -29,7 +29,7 @@ import { User } from "../../models/user.model";
                         <a [routerLink]="['Logout']" class="dropdown-item">{{'header.logout' | translate }}</a>
                       </li>
                       <li>
-                        <a [routerLink]="['Home']" class="dropdown-item">{{'header.profile' | translate }}</a>
+                        <a [routerLink]="['Profile']" class="dropdown-item">{{'header.profile' | translate }}</a>
                       </li>
                     </ul>
                   </div>

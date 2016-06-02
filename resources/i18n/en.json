@@ -48,11 +48,6 @@
     "header.logout": "Logout",
     "header.profile": "View Profile",
 
-    "home.title": "Home",
-    "home.welcome1": "Hello, World!",
-    "home.welcome2": "This is server side rendered",
-    "home.welcome3": "SEO + javascript",
-
     "item.key": "Key",
     "item.value": "Value",
     "item.language": "Language",
@@ -147,6 +142,7 @@
     "login.password.required": "Password is required",
     "login.unauthorized": "Incorrect email or password",
 
+
     "register.title": "Register",
 
     "settings.title": "Settings",
@@ -181,10 +177,12 @@
     "sidebar.context-community.view": "View",
     "sidebar.context-community.create-collection": "Create collection",
     "sidebar.context-community.create-community": "Create community",
-    "sidebar.context-dashboard.header":"Dashboard",
-    "sidebar.context-dashboard.create-community": "Create new top-level community",
-
+    "sidebar.context-home.header":"Home",
+    "sidebar.context-home.create-community": "Create new top-level community",
     "sidebar.context-admin.header": "Admin",
     "sidebar.context-admin.alter-sidebar" : "Edit sidebar",
-    "setup.title": "Setup"
+
+    "setup.title": "Setup",
+
+    "tree.header" : "Communities and collections"
 }

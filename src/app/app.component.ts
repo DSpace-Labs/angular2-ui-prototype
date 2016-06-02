@@ -14,8 +14,8 @@ import { CommunityCreateComponent } from './dspace/components/community-create.c
 import { LogoutComponent } from './dspace/authorization/logout.component';
 import { PageNotFoundComponent } from './dspace/components/pagenotfound.component';
 
-import { DashboardComponent } from './dashboard.component';
-import { HomeComponent } from './home.component';
+import { HomeComponent } from './home.component.ts';
+import { ProfileComponent} from './profile.component.ts';
 import { ItemComponent } from './dspace/components/item.component';
 import { ItemCreateComponent } from './dspace/components/item-create.component';
 import { LoginModalComponent } from './dspace/authorization/login/login-modal.component';
@@ -26,6 +26,7 @@ import { SettingsComponent } from './settings.component';
 import { SetupComponent } from './setup.component';
 
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
+import { NewsComponent } from './dspace/components/news.component';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
 import { AdminSidebarComponent } from './dspace/components/sidebar/admin-sidebar.component';
@@ -44,7 +45,8 @@ import { ViewportService } from "./utilities/services/viewport.service";
                   BreadcrumbComponent,
                   LoginModalComponent,
                   NotificationComponent,
-                  SidebarComponent
+                  SidebarComponent,
+                  NewsComponent
                 ],
     providers : [AppSidebarHelper],
     pipes: [ TranslatePipe ],
@@ -62,7 +64,7 @@ import { ViewportService } from "./utilities/services/viewport.service";
                                         <div class="container-fluid content-container-fluid">
                                             <button type="button" (click)="toggleSidebar()" class="sidebar-toggle-button navbar-left clearfix"><i class="ion-arrow-left-b sidebar-toggle-arrow-icon"></i><i class="ion-icon ion-navicon sidebar-toggle-hamburger-icon"></i></button>
                                             <div class="">
-                                                <a class="navbar-brand" [routerLink]="['/Dashboard']">{{
+                                                <a class="navbar-brand" [routerLink]="['/Home']">{{
                                                     'header.repository-name' | translate }}</a>
                                             </div>
                                         </div>
@@ -99,13 +101,13 @@ import { ViewportService } from "./utilities/services/viewport.service";
 })
 @RouteConfig([
 
-        { path: "/home", name: "Home", component: HomeComponent, useAsDefault: true },
+        { path: "/profile", name: "Profile", component: ProfileComponent,useAsDefault: true  },
         { path: "/settings", name: "Settings", component: SettingsComponent },
         { path: "/setup", name: "Setup", component: SetupComponent },
         { path: "/login", name: "Login", component: LoginFormComponent },
         { path: "/register", name: "Register", component: RegistrationComponent },
 
-        { path: "/", name: "Dashboard", component: DashboardComponent },
+        { path: "/", name: "Home", component: HomeComponent },
         { path: "/communities/:id", name: "Communities", component: CommunityComponent },
         { path: "/collections/:id", name: "Collections", component: CollectionComponent },
         { path: "/items/:id/...", name: "Items", component: ItemComponent },
@@ -117,10 +119,11 @@ import { ViewportService } from "./utilities/services/viewport.service";
         { path: "/logout", name: "Logout", component: LogoutComponent},
 
         { path: "/404", name: "404", component: PageNotFoundComponent},
+        { path: "/news", name: "News", component: NewsComponent},
 
         { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
 
-       { path: '/**', redirectTo: [ '/404' ] }
+         { path: '/**', redirectTo: [ '/404' ] }
 ])
 export class AppComponent implements OnInit {
 
