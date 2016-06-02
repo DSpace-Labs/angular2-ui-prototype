@@ -3,6 +3,7 @@ import { Equatable} from "../../../utilities/lang/equatable.interface";
 import { Hashable } from "../../../utilities/lang/hashable.interface";
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { User } from './../user.model';
+import {ArrayUtil} from "../../../utilities/commons/array.util";
 
 /**
  * One SidebarSection is equal to one entry in the sidebar
@@ -133,6 +134,13 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
             this.componentName = json.componentName;
             this.url = json.url;
             this.childsections = json.childsections; // now the childsections are objects, we need to make these SidebarSections as well.
+            // just do this for one level now, to test.
+            if(ArrayUtil.isNotEmpty(json.childsections)){
+                for(let e in json.childsections){
+                    let y = new SidebarSection(e);
+                    this.childsections.push(y);
+                }
+            }
         }
         this.routes = new Array<Route>()
     }
