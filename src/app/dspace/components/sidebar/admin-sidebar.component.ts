@@ -186,6 +186,8 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
         if(this.subscription){
             this.subscription.unsubscribe();
         }
+        // reload the sidebar from the server.
+        this.sidebarService.readSidebarFromFile();
     }
 
     /**

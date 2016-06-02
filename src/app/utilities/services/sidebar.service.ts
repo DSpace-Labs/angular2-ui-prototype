@@ -7,6 +7,7 @@ import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.mode
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
 import { ViewportService } from "./viewport.service";
+import {HttpService} from "./http.service";
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -40,7 +41,7 @@ export class SidebarService
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private viewportService: ViewportService,
-                private router:Router
+                private router:Router, private httpService : HttpService
     )
     {
         this.sidebarSubject = new Subject<any>();
@@ -238,6 +239,50 @@ export class SidebarService
      */
     setSidebarVisibility(newVisibility: boolean) {
         this.isSidebarVisible.next(newVisibility);
+    }
+
+
+
+    /**
+     * Reads the data in the sidebar file from the server.
+     * Then it adds these sidebarsections (defined in json) to our SidebarService.
+     * @returns {Promise<TResult>|Promise<U>}
+     */
+    readSidebarFromFile()
+    {
+
+        // first delete the old custom components
+        // we can just find the headers and delete those for now
+        let removeComponents = this.getCustomSections();
+
+        let newComponents = Array<SidebarSection>();
+
+        this._components.forEach(section =>
+        {
+            if(section.id.indexOf("custom") <= -1)
+            {
+                newComponents.push(section);
+            }
+        });
+
+        console.log(newComponents);
+
+        this._components = newComponents.slice(0);
+
+        console.log(this._components);
+        // write the custom sidebar sections to a file.
+        // convert the sidebar to json.
+        this.httpService.get({
+            url : "http://localhost:3000/customsidebar"
+        }).forEach(res => {
+            // create a sidebarsection out of the result.
+            // so we can use the normal comparison (full object) instead of only the ID in our filter methods.
+            // Plus, we won't have random objects around the SidebarService which might give problems later on.
+            for(let section of res){
+                let buildSection = new SidebarSection(section);
+                this.addSection(buildSection);
+            }
+        });
     }
 
 }
