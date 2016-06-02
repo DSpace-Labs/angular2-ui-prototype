@@ -56,6 +56,11 @@ import { ViewportService } from "./app/utilities/services/viewport.service";
 // See: https://angular.io/docs/ts/latest/api/core/enableProdMode-function.html
 enableProdMode();
 
+// multer
+var multer = require("multer");
+
+
+
 // Default to port 3000
 var PORT = 3000;
 
@@ -65,6 +70,8 @@ let app = express();
 
 // Root directory of our app is the top level directory (i.e. [src])
 let root = path.join(path.resolve(__dirname, '..'));
+
+
 
 // Enable compression of all compressible formats
 // This speeds up initial download of CSS, HTML, JS files, etc.
@@ -101,8 +108,8 @@ app.engine('.html', expressEngine);
 app.set('views', __dirname + '/app/view');
 app.set('view engine', 'html');
 
-// Enable parsing application/json content
 app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended : true}));
 
 // Port to use
 app.set('port', PORT);
@@ -173,8 +180,52 @@ function ngApp(req, res) {
     });
 }
 
+
+
+var fs = require('fs');
+var sidebarPath = root+"/resources/userdata/sidebar.json";
+
+/**
+ * Reads the local file saved under "sidebarPath" from the server.
+ * the access point is /customsidebar, and it has to be a GET request.
+ * Will send the data, which is in JSON format.
+ */
+app.get("/customsidebar",function(req,res){
+
+    // read the file
+    fs.readFile(sidebarPath,"utf8",function(err,data){
+        if(err) {
+            console.log(err); // print the error to the console.
+        }
+        res.send(data);
+    });
+
+});
+
+/**
+ * Write the incomming data to a local file.
+ * The file is stored in the specified sidebarPath.
+ * Data is stored in JSON format.
+ */
+app.post("/customsidebar",function(req,res)
+{
+
+    let jsoninput = req.body;
+    let formatted = JSON.stringify(jsoninput);
+    fs.writeFile(sidebarPath,formatted,function (err){
+        if(err){
+            return console.log(err);
+        }
+    });
+    res.send("wrote data");
+
+});
+
+
+
 // Specifies that all server-side paths should be routed to our ngApp function (see above)
 app.get('/*', ngApp);
+
 
 // Binds our express app the the specified port (i.e. starts it up) and logs when it is running
 app.listen(PORT, () => {

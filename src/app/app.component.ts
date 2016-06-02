@@ -28,8 +28,9 @@ import { SetupComponent } from './setup.component';
 import { SidebarComponent } from './dspace/components/sidebar/sidebar.component';
 
 import { AppSidebarHelper } from './utilities/app-sidebar.helper';
-import { SidebarService } from './utilities/services/sidebar.service';
-import { ViewportService } from './utilities/services/viewport.service';
+import { AdminSidebarComponent } from './dspace/components/sidebar/admin-sidebar.component';
+import { SidebarService } from "./utilities/services/sidebar.service";
+import { ViewportService } from "./utilities/services/viewport.service";
 
 /**
  * The main app component. Layout with navbar, breadcrumb, and router-outlet.
@@ -117,7 +118,9 @@ import { ViewportService } from './utilities/services/viewport.service';
 
         { path: "/404", name: "404", component: PageNotFoundComponent},
 
-        { path: '/**', redirectTo: [ '/Dashboard' ] }
+        { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
+
+       { path: '/**', redirectTo: [ '/404' ] }
 ])
 export class AppComponent implements OnInit {
 
@@ -209,4 +212,8 @@ export class AppComponent implements OnInit {
     toggleSidebar() {
         this.sidebarService.toggleSidebarVisibility();
     }
+
+
+
+
 }

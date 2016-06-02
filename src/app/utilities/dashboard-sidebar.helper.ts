@@ -21,7 +21,6 @@ export class DashboardSidebarHelper extends SidebarHelper
     constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
     {
         super(sidebarService);
-        console.log("created the dashboard-sidebar-helper");
     }
 
 

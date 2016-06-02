@@ -84,6 +84,10 @@ html, body {
 
 /* sidebar theming */
 
+.sidebar-edit-section{
+    border: 1px solid #ddd;
+    margin-bottom:40px;
+}
 
 /** File Upload theming **/
 .file-drop-zone {
@@ -147,7 +151,8 @@ html, body {
     line-height: 1.7;
 }
 
-.item-create .ion-icon {
+.item-create .ion-icon,
+.admin-edit-sidebar .ion-icon{
     font-size: $font-size-h2;
 }
 
