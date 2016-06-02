@@ -133,13 +133,16 @@ export class SidebarSection implements Hashable, Equatable<SidebarSection>
             this.id = json.id;
             this.componentName = json.componentName;
             this.url = json.url;
-            this.childsections = json.childsections; // now the childsections are objects, we need to make these SidebarSections as well.
             // just do this for one level now, to test.
+            // Otherwise, if we simply assing this.chilsections to json.childsections, they will be of type 'object'
             if(ArrayUtil.isNotEmpty(json.childsections)){
-                for(let e in json.childsections){
-                    let y = new SidebarSection(e);
+
+                json.childsections.forEach(x =>
+                {
+                    let y = new SidebarSection(x);
                     this.childsections.push(y);
-                }
+                });
+
             }
         }
         this.routes = new Array<Route>()
