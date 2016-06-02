@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 @Component({
     selector : "news",
     template:   ` 
-                    <h1> Welcome to the angular2 prototype, for the new DSpace UI</h1>
+                    <h1> Welcome to the Angular 2 prototype, for the new DSpace UI</h1>
                     
                     <p>
                         This project represents the "extended prototype" featuring Angular 2 from the DSpace UI Prototype Challenge. 
