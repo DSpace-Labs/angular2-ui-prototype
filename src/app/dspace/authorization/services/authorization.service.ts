@@ -40,18 +40,20 @@ export class AuthorizationService {
         this.userSubject = new Subject<User>();
         this.userObservable = this.userSubject.asObservable();
         
-        // {
-        //     let fullname = storageService.load('fullname');
-        //     let email = storageService.load('email');
-        //     let token = storageService.load('token');
-        //     if(fullname && email && token) {
-        //         this.user = new User({
-        //             fullname: fullname,
-        //             email: email,
-        //             token: token
-        //         });
-        //     }
-        // }
+        {
+            let fullname = storageService.load('fullname');
+            let email = storageService.load('email');
+            let token = storageService.load('token');
+            
+            if(fullname && email && token) {
+                this.user = new User({
+                    fullname: fullname,
+                    email: email,
+                    token: token
+                });
+            }
+
+        }
         
     }
 
@@ -90,11 +92,11 @@ export class AuthorizationService {
         statusResponse.subscribe(response => {
             this.user = new User(response);
 
-            // {
-            //     this.storageService.store('fullname', this.user.fullname);
-            //     this.storageService.store('email', this.user.email);
-            //     this.storageService.store('token', this.user.token);
-            // }
+            {
+                this.storageService.store('fullname', this.user.fullname);
+                this.storageService.store('email', this.user.email);
+                this.storageService.store('token', this.user.token);
+            }
 
         },
         error => {
@@ -109,28 +111,41 @@ export class AuthorizationService {
      */
     logout(): Observable<Response> {
 
-        let token = this.user.token;
-        this.user = null;
+        return Observable.create(observer => {
 
-        let logoutResponse: Observable<Response> = this.dspaceService.logout(token);
-        
-        logoutResponse.subscribe(response => {
-            if(response.status == 200) {
-//                this.user = null;
+            // clear user and localStorage no matter the response from dspace REST API
+            this.user = null;
 
-                // {
-                //     this.storageService.remove('fullname');
-                //     this.storageService.remove('email');
-                //     this.storageService.remove('token');
-                // }
-
+            {
+                this.storageService.remove('fullname');
+                this.storageService.remove('email');
+                this.storageService.remove('token');
             }
-        },
-        error => {
-            console.log(error);
-        });
 
-        return logoutResponse;
+            let logoutResponse: Observable<Response> = null;
+            
+            if(this.user && this.user.token) {
+
+                let token = this.user.token;
+                
+                logoutResponse = this.dspaceService.logout(token);
+                
+                logoutResponse.subscribe(response => {
+                    if(response.status == 200) {
+                        console.log("Successfully logged out.");
+                        observer.complete();
+                    }
+                },
+                error => {
+                    console.error(error);
+                    observer.complete();
+                });
+            }
+            else {
+                observer.complete();
+            }
+
+        });
     }
 
     /**
