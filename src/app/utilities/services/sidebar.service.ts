@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
+import { ViewportService } from "./viewport.service";
 
 /**
  * A class for the sidebar service, to remove and add components to the sidebar.
@@ -32,12 +34,35 @@ export class SidebarService
 
 
     /**
-     *
+     * @param viewportService
+     *      A singleton service that classifies the viewport's width
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor()
+    constructor(private viewportService: ViewportService,
+                private router:Router
+    )
     {
         this.sidebarSubject = new Subject<any>();
-        this.isSidebarVisible = new BehaviorSubject<boolean>(false);
+        this.isSidebarVisible = new BehaviorSubject<boolean>(true);
+
+        //if we have info about the viewport
+        //use it to determine the initial state of the sidebar
+        if (this.viewportService.isSupported) {
+            let isMd = this.viewportService.isMd.getValue();
+            let isLg = this.viewportService.isLg.getValue();
+            this.setSidebarVisibility(isLg || isMd);
+        }
+
+        this.router.subscribe(() => {
+            // if the route changes on an XS screen (where the sidebar is fullscreen),
+            // and the sidebar is open, close it.
+            if (this.viewportService.isXs.getValue() &&
+                this.isSidebarVisible.getValue()) {
+                this.setSidebarVisibility(false);
+            }
+        });
+
     }
 
 
