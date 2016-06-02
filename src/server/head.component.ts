@@ -20,7 +20,7 @@ export class HeadComponent {
     title: string;
 
     constructor() {
-        this.title = 'ng2-dspace';
+        this.title = 'Angular 2 DSpace';
     }
 
     /**

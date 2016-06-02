@@ -1,5 +1,5 @@
 {
-  "name": "ng2-dspace",
+  "name": "angular2-dspace-ui-prototype",
   "version": "0.0.1",
   "description": "Angular Universal extended DSpace UI prototype",
   "main": "server.js",
