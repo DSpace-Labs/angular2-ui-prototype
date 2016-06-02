@@ -16,18 +16,15 @@
     "William Welling <wwelling@library.tamu.edu>",
     "Dylan Meeus <dylan.meeus@atmire.com>"
   ],
-  "config": {
-    "node_sass_params": "resources/styles -o dist/server/static/css --precision 10 --source-comments true"
-  },
   "scripts": {
     "global": "npm install --global http-proxy nodemon npm-check-updates rimraf ts-node typedoc typescript typings webpack node-sass",
     "preinstall": "npm run global",
     "postinstall": "typings install",
     "prebuild": "rimraf dist",
-    "build": "webpack && node-sass $npm_package_config_node_sass_params",
+    "build": "webpack && node-sass resources/styles -o dist/server/static/css --precision 10 --source-comments true",
     "clean": "rimraf ./node_modules",
     "docs": "typedoc --options typedoc.json ./src",
-    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\" \"node-sass -w -r $npm_package_config_node_sass_params\"",
+    "watch": "concurrently \"webpack -w\" \"nodemon --debug dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\" \"node-sass -w -r resources/styles -o dist/server/static/css --precision 10 --source-comments true\"",
     "test": "concurrently \"nodemon dist/server/bundle.js\" \"ts-node src/proxy.ts -i true\""
   },
   "dependencies": {
