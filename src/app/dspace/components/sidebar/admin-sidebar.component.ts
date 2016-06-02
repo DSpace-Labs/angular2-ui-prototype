@@ -46,10 +46,7 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
                             <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
                             <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
                      
-                        </div>
-                        
-                        <!-- if there are no children on the current component, we still want to show an add button to add the first child -->
-                        <button *ngIf="!hasChildren(entry)" type="button" class="btn btn-primary btn-sm" (click)="addChildSectionField(entry)">{{'sidebar.admin.edit.add-child' | translate}}</button>        
+                        </div>    
                         
                 </div>
             <!-- buttons here -->
