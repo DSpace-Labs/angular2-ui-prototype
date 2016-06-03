@@ -148,6 +148,8 @@
     "login.unauthorized": "Incorrect email or password",
 
 
+    "update.processing": "Processing updated {{property}}",
+
     "update.success": "Successfully updated {{name}}",
 
     "update.error": "Error while attempting to updated {{name}}",

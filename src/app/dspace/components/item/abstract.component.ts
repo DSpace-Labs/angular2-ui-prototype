@@ -6,20 +6,23 @@ import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
 import { ViewElementComponent } from './view-element.component';
 
+import { InlineEditComponent } from '../inline-edit.component';
+
 /**
  * Component for the authors of the simple-item-view.
  * This component gets a list of all metadata, and filters for the appropriate date to be shown.
  */
 @Component({
     selector: 'item-abstract',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ InlineEditComponent, ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
-                <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" 
-                    [header]="componentTitle | translate" 
-                    [headerClasses]="['visible-xs']">
+                <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" [header]="componentTitle | translate" [headerClasses]="['visible-xs']">
                     <div *ngFor="let metadatum of filteredFields;">
-                        <p>{{metadatum.value}}</p>
+                        <!-- <p>{{metadatum.value}}</p> -->
+
+                        <inline-edit type="p" [model]="metadatum" property="value"></inline-edit>
+
                     </div>
                 </view-element>
               `

@@ -11,6 +11,8 @@ import { FullMetadataComponent } from './item/full/full-metadata.component.ts';
 import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
 import { FullCollectionsComponent } from './item/full/full-collections.component';
 
+import { InlineEditComponent } from './inline-edit.component';
+
 import { Item } from '../models/item.model';
 
 /**
@@ -22,11 +24,14 @@ import { Item } from '../models/item.model';
     directives: [ FullMetadataComponent,
                   FullBitstreamsComponent,
                   FullCollectionsComponent,
+                  InlineEditComponent,
                   ROUTER_DIRECTIVES ],
     pipes: [ TranslatePipe ],
     template: `
                 <div class="main-content" *ngIf="itemProvided()">
-                    <h1 class="page-header">{{ item.name }}</h1>
+                    
+                    <inline-edit type="h1" class="page-header" [model]="item" property="name"></inline-edit>
+
                     <!-- link to the simple item view -->
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>

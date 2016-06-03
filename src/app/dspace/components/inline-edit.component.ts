@@ -21,6 +21,7 @@ import { DSpaceService } from '../services/dspace.service';
 
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
+import { LoaderComponent } from '../../utilities/loader.component';
 
 import { FormInput } from '../../utilities/form/form-input.model';
 import { Metadatum } from '../models/metadatum.model';
@@ -30,9 +31,10 @@ import { Metadatum } from '../models/metadatum.model';
  */
 @Component({
     selector: 'inline-edit',
-    directives: [ FormFieldsetComponent ],
+    directives: [ FormFieldsetComponent, LoaderComponent ],
     pipes: [ TranslatePipe ],
     template: `
+                <loader *ngIf="processing" [message]="processingMessage()"></loader>
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="update()" novalidate>
                     
                     <h1 *ngIf="showH1()" class="{{class}}">{{ model[property] }}</h1>
@@ -43,6 +45,15 @@ import { Metadatum } from '../models/metadatum.model';
                         <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false"></form-fieldset>
 
                     </h1>
+
+                    <p *ngIf="showP()" class="{{class}}">{{ model[property] }}</p>
+                    <p *ngIf="editP()" class="{{class}}">
+
+                        <span *ngIf="!selected">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
+
+                        <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false"></form-fieldset>
+
+                    </p>
 
                 </form>
               `
@@ -84,6 +95,9 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      */
     private subscriptions: Array<any>;
 
+    /**
+     *
+     */
     private key: string;
 
     /**
@@ -217,20 +231,29 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
         }
     }
 
+    /**
+     * Message to display while processing update
+     */
+    processingMessage(): string {
+        return this.translate.instant('update.processing', { property: this.property });
+    }
 
     /**
      * Create item. First creates the item through request and then joins multiple requests for bitstreams.
      */
     private update(): void {
+        
         let token = this.authorization.user.token;
+        
         let currentContext = this.contextProvider.context;
+
         this.processing = true;
 
-        console.log('update')
-
-        console.log(this.model)
 
         this.setModelValues();
+
+
+
 
         let metadatum = new Metadatum({
             key: this.key,
@@ -241,18 +264,11 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
 
         metadata.push(metadatum);
 
-
-        // First, create the item
         this.dspaceService.updateItemMetadata(metadata, token, currentContext.id).subscribe(response => {
-            // If successful
-            if(response.status == 200) {
-                console.log('success')
-                
-                console.log(response)
 
-                //this.model.id = JSON.parse(response.text()).id;
+            if(response.status == 200) {           
                 // If we have files in our upload queue, upload them
-                // if (this.uploader.queue.length>0)
+                // if (this.uploader.queue.length > 0)
                 // {
                 //     // Upload all files
                 //     this.uploadAll(this.item, token).subscribe (response => {
@@ -271,6 +287,8 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
             this.processing = false;
             this.notificationService.notify('item', 'DANGER', this.translate.instant('update.error', { name: name }));
         });
+
+
         
     }
 
@@ -317,6 +335,20 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      */
     editH1(): boolean {
         return this.type == 'h1' && this.isEditing();
+    }
+
+    /**
+     *
+     */
+    showP(): boolean {
+        return this.type == 'p' && !this.isEditing();
+    }
+
+    /**
+     *
+     */
+    editP(): boolean {
+        return this.type == 'p' && this.isEditing();
     }
 
 }

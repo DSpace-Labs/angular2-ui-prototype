@@ -5,11 +5,14 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 import { Metadatum } from '../../../models/metadatum.model'
 import { ViewElementComponent } from '../view-element.component';
 
+import { InlineEditComponent } from '../../inline-edit.component';
+
 /**
  * Renders a table of all metadata entries of an item.
  */
 @Component({
     selector: 'item-full-metadata',
+    directives: [ InlineEditComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <view-element>

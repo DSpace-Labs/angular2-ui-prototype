@@ -41,7 +41,6 @@ import { Item } from '../models/item.model';
                 <div *ngIf="itemProvided()">
                     <div class="item-summary-view-metadata">
                         
-                        <!-- <h1 class="page-header">{{ item.name }}</h1> -->
                         <inline-edit type="h1" class="page-header" [model]="item" property="name"></inline-edit>
 
                         <div class="row">
