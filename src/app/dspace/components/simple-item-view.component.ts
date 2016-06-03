@@ -90,7 +90,6 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
         this.subscription = contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
             if(this.item['editing']) {
-                console.log('add alert');
                 this.notificationService.add('item', this.editingNotification);
             }
         });
@@ -114,7 +113,6 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
      * 
      */
     private exitEditMode(): void {
-        console.log(this.editingNotification)
         this.contextProvider.disableEditMode();
         this.notificationService.remove('item', this.editingNotification);
     }

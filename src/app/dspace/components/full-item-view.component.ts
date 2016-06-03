@@ -76,7 +76,6 @@ export class FullItemViewComponent implements OnDestroy {
         this.subscription = contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
             if(this.item['editing']) {
-                console.log('add alert');
                 this.notificationService.add('item', this.editingNotification);
             }
         });
@@ -100,7 +99,6 @@ export class FullItemViewComponent implements OnDestroy {
      * 
      */
     private exitEditMode(): void {
-        console.log(this.editingNotification)
         this.contextProvider.disableEditMode();
         this.notificationService.remove('item', this.editingNotification);
     }

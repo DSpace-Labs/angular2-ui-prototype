@@ -17,7 +17,7 @@ import { TruncatePipe } from '../../utilities/pipes/truncate.pipe';
                 <ul class="hierarchy-list-group">
                     <li *ngFor="let item of collection.items" class="hierarchy-list-group-item">
                         <!-- Router Link -->
-                        <a [routerLink]="[item.component, {id:item.id}]">{{ item.name | truncate:[50] }}</a>
+                        <a [routerLink]="[item.component, {id:item.id}]">{{ item.name }}</a>
                     </li>
                     <pagination [context]="collection"></pagination>
                 </ul>

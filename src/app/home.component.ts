@@ -57,7 +57,7 @@ export class HomeComponent implements OnDestroy {
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
-                @Inject(HomeSidebarHelper) private sidebarHelper : HomeSidebarHelper) {
+                @Inject(HomeSidebarHelper) private sidebarHelper: HomeSidebarHelper) {
         breadcrumbService.visit(this.breadcrumb);
         this.sidebarHelper.populateSidebar();
     }

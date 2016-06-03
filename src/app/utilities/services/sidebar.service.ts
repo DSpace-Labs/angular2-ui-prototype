@@ -248,7 +248,6 @@ export class SidebarService {
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
         this.httpService.get({
-            //url : "http://localhost:3000/customsidebar"
             url: URLHelper.relativeToAbsoluteUIURL('/custom-sidebar')            
         }).forEach(res => {
             // create a sidebarsection out of the result.
