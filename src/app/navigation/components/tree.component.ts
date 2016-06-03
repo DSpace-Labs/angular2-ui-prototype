@@ -23,7 +23,7 @@ import { TruncatePipe } from '../../utilities/pipes/truncate.pipe';
                   PaginationComponent ],
     pipes: [ TranslatePipe, TruncatePipe ],
     template: ` <!-- If a header i18n key is passed in, display it -->
-                <!-- <h2 *ngIf="header" class="tree-component-header">{{ header | translate }}</h2> -->
+                <h2 *ngIf="header" class="tree-component-header">{{ header | translate }}</h2>
                 <ul class="hierarchy-list-group">
                     <!-- Create an unordered list of all objects in our hierarchy, including expanded sub-hierarchies -->
                     <li *ngFor="let hierarchy of hierarchies" class="hierarchy-list-group-item">
@@ -70,6 +70,13 @@ export class TreeComponent {
      * are lazy loaded.
      */
     @Input() private hierarchies: Array<any>;
+
+    /**
+     * Contains the i18n string to set the title
+     * The string needs to match one in en.json
+     * @type {string}
+     */
+    @Input() private header: string;
 
     /**
      *
