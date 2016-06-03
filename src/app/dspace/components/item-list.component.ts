@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RouteParams } from '@angular/router-deprecated';
-
-import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
-import { DSpaceService } from '../services/dspace.service';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ListEntryComponent } from './item/list/list-entry.component';
 import { Item } from '../models/item.model';
@@ -16,8 +13,10 @@ import { PaginationComponent } from '../../navigation/components/pagination.comp
 @Component({
     selector: 'item-list',
     directives: [ ListEntryComponent, PaginationComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <!-- for each item, we create an item-list-entry element -->
+                <h2 *ngIf="header" class="item-component-header">{{ header | translate }}</h2>
                 <div *ngFor="let item of items" id="list-entries" class="row item-list-row">
                     <list-entry [item]="item"></list-entry>
                 </div>
@@ -36,4 +35,11 @@ export class ItemListComponent {
      */
     @Input() private items: Array<Item>;
 
+
+    /**
+     * Contains the i18n string to set the title
+     * The string needs to match one in en.json
+     * @type {string}
+     */
+    @Input() private header : string;
 }

@@ -23,7 +23,7 @@ import { CollectionSidebarHelper } from '../../utilities/collection-sidebar.help
     template: `
                 <div *ngIf="collectionProvided()">
                     <container-home [container]="collection"></container-home>
-                    <item-list *ngIf="collection.items.length > 0" [collection]="collection" [items]="collection.items"></item-list>
+                    <item-list *ngIf="collection.items.length > 0" [collection]="collection" [items]="collection.items" [header]="'collection.browse.header'"></item-list>
                 </div>
               `
 })

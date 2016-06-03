@@ -23,7 +23,7 @@ import { PaginationComponent } from './pagination.component';
                   PaginationComponent ],
     pipes : [TranslatePipe],
     template: ` <!-- If a header i18n key is passed in, display it -->
-                <h2 *ngIf="header">{{ header | translate }}</h2>
+                <h2 *ngIf="header" class="tree-component-header">{{ header | translate }}</h2>
                 <ul class="list-group">
                     <!-- Create an unordered list of all objects in our hierarchy, including expanded sub-hierarchies -->
                     <li *ngFor="let hierarchy of hierarchies" class="list-group-item">
