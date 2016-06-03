@@ -183,23 +183,23 @@ function ngApp(req, res) {
 
 
 var fs = require('fs');
+
 var sidebarPath = root+"/resources/userdata/sidebar.json";
 
 /**
  * Reads the local file saved under "sidebarPath" from the server.
- * the access point is /customsidebar, and it has to be a GET request.
+ * the access point is /custom-sidebar, and it has to be a GET request.
  * Will send the data, which is in JSON format.
  */
-app.get("/customsidebar",function(req,res){
-
+app.get("/custom-sidebar", function(req,res) {
     // read the file
-    fs.readFile(sidebarPath,"utf8",function(err,data){
+    fs.readFile(sidebarPath, "utf8", function(err, data) {
         if(err) {
-            console.log(err); // print the error to the console.
+            // print the error to the console.
+            console.log(err);
         }
         res.send(data);
     });
-
 });
 
 /**
@@ -207,18 +207,15 @@ app.get("/customsidebar",function(req,res){
  * The file is stored in the specified sidebarPath.
  * Data is stored in JSON format.
  */
-app.post("/customsidebar",function(req,res)
-{
-
+app.post("/custom-sidebar",function(req, res) {
     let jsoninput = req.body;
     let formatted = JSON.stringify(jsoninput);
-    fs.writeFile(sidebarPath,formatted,function (err){
-        if(err){
+    fs.writeFile(sidebarPath, formatted, function(err) {
+        if(err) {
             return console.log(err);
         }
     });
     res.send("wrote data");
-
 });
 
 

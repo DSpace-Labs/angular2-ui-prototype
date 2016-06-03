@@ -15,6 +15,7 @@ import { ObjectUtil } from "../../utilities/commons/object.util";
 
 import { SimpleItemViewComponent } from './simple-item-view.component';
 import { FullItemViewComponent } from './full-item-view.component';
+import { NotificationComponent } from '../../utilities/notification/notification.component';
 
 import { Item } from "../models/item.model";
 
@@ -27,9 +28,10 @@ import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
  */
 @Component({
     selector: 'item',
-    directives: [ RouterOutlet ],
+    directives: [ RouterOutlet, NotificationComponent ],
     providers: [ GoogleScholarMetadataService, ItemSidebarHelper ],
     template: `
+                <notification [channel]="channel"></notification>
                 <router-outlet></router-outlet>
               `
 })
@@ -42,6 +44,11 @@ import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
 ])
 export class ItemComponent implements CanDeactivate {
+        
+    /**
+     * Notification channel.
+     */
+    private channel: string = "item";
 
     item : Item;
 

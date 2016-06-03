@@ -130,6 +130,7 @@
     "item-view.header.abstract": "Abstract",
     "item-view.show-full": "Show full item record",
     "item-view.show-simple": "Show simple item record",
+    "item-view.exit-edit-mode": "Exit edit mode",
 
     "login.title": "Login",
     "login.confirm": "Login",

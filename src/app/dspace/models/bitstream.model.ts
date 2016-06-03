@@ -1,4 +1,4 @@
-import { DSpaceObject } from "./dspaceobject.model";
+import { DSpaceObject } from "./dspace-object.model";
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { StringUtil } from "../../utilities/commons/string.util";
 import { URLHelper } from "../../utilities/url.helper";

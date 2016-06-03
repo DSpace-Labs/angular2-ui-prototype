@@ -6,7 +6,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 import { ListComponent } from './list.component';
 import { PaginationComponent } from './pagination.component';
 
-
+import { TruncatePipe } from '../../utilities/pipes/truncate.pipe';
 
 /**
  * Tree component for navigation through the dspace index of
@@ -21,7 +21,7 @@ import { PaginationComponent } from './pagination.component';
                   TreeComponent,
                   ListComponent,
                   PaginationComponent ],
-    pipes : [TranslatePipe],
+    pipes: [ TranslatePipe, TruncatePipe ],
     template: ` 
                 <ul class="hierarchy-list-group">
                     
@@ -35,16 +35,16 @@ import { PaginationComponent } from './pagination.component';
                         <span *ngIf="expandedCollection(hierarchy)" (click)="hierarchy.toggle()" class="ion-icon ion-ios-arrow-up clickable"></span>
 
                         <!-- Router link -->
-                        <a *ngIf="!page(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id}]">{{ hierarchy.name }}</a>
-                        <a *ngIf="pageWithoutLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page}]">{{ hierarchy.name }}</a>
-                        <a *ngIf="pageWithLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page, limit: hierarchy.limit}]">{{ hierarchy.name }}</a>
+                        <a *ngIf="!page(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id}]">{{ hierarchy.name | truncate:[50] }}</a>
+                        <a *ngIf="pageWithoutLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page}]">{{ hierarchy.name | truncate:[50] }}</a>
+                        <a *ngIf="pageWithLimit(hierarchy)" [routerLink]="[hierarchy.component, {id:hierarchy.id, page: hierarchy.page, limit: hierarchy.limit}]">{{ hierarchy.name | truncate:[50] }}</a>
 
                         <!-- Display item counts for Communities / Collections -->
                         <span *ngIf="community(hierarchy)" class="badge hierarchy-badge">{{ hierarchy.countItems }}</span>
                         <span *ngIf="collection(hierarchy)" class="badge hierarchy-badge">{{ hierarchy.numberItems }}</span>
                         
                         <!-- Short description -->
-                        <p *ngIf="hasShortDescription(hierarchy)" class="hierarchy-short-description">{{ hierarchy.shortDescription }}</p>
+                        <p *ngIf="hasShortDescription(hierarchy)" class="hierarchy-short-description">{{ hierarchy.shortDescription | truncate:[50] }}</p>
 
                         <!-- If Community expanded, show sub-tree of child communities / collections -->
                         <div *ngIf="expandedCommunity(hierarchy)">

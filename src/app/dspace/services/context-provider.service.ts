@@ -45,5 +45,24 @@ export class ContextProviderService {
         this._context = context;
         this.contextSubject.next(this._context);
     }
+    
+    enableEditMode(): void {
+        this.editMode(true);    
+    }
+    
+    disableEditMode(): void {
+        this.editMode(false);    
+    }
+    
+    private editMode(editing: boolean): void {
+        if(editing) {
+            this._context.editing = true;
+        }
+        else {
+            delete this._context.editing;
+        }
+        console.log(this._context)
+        this.contextSubject.next(this._context);
+    }
 
 }

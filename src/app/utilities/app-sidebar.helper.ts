@@ -4,15 +4,14 @@ import { SidebarService } from './services/sidebar.service';
 import { AuthorizationService } from '../dspace/authorization/services/authorization.service';
 import { SidebarHelper } from './sidebar.helper';
 
-import {HttpService} from "./services/http.service";
+import { HttpService } from "./services/http.service";
+import { URLHelper } from "./url.helper";
 
 /**
  * Class to populate the standard  sidebar.
  */
 @Injectable()
-export class AppSidebarHelper extends SidebarHelper
-{
-
+export class AppSidebarHelper extends SidebarHelper {
 
     /**
      *
@@ -23,39 +22,18 @@ export class AppSidebarHelper extends SidebarHelper
      * @param httpService
      *      HttpService is a singleton service to provide basic xhr requests
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService : HttpService)
-    {
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService : HttpService) {
         super(sidebarService); // super implements this as 'protected'
         this.readSidebarFromFile();
     }
-
 
     /**
      * Populate the sidebar with components that need to be shown on every page
      * This is the case as 'app' is our root.
      */
-    populateSidebar()
-    {
-
+    populateSidebar() {
 
         this.isAuthenticated = this.authorization.isAuthenticated();
-
-
-        /*
-        let aboutComponent = SidebarSection.getBuilder()
-            .name("About")
-            .route("Home")
-            .id("about")
-            .build();
-
-        let helpComponent = SidebarSection.getBuilder()
-            .name("sidebar.help.header")
-            .id("helpheader")
-            .addChild(aboutComponent)
-            .build();
-        this.sidebarService.addSection(helpComponent);
-        */
-        //let otherComponent = SidebarSection.getBuilder().name("sidebar-test").id("testid").route("Home").visible(true).build(); test another level of indentation
 
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
@@ -128,14 +106,11 @@ export class AppSidebarHelper extends SidebarHelper
      * Then it adds these sidebarsections (defined in json) to our SidebarService.
      * @returns {Promise<TResult>|Promise<U>}
      */
-    readSidebarFromFile()
-    {
+    readSidebarFromFile() {
         // write the custom sidebar sections to a file.
         // convert the sidebar to json.
         this.httpService.get({
-
-            // TODO: use config! and probably url helper
-            url : "http://localhost:3000/customsidebar"
+            url: URLHelper.relativeToAbsoluteUIURL('/custom-sidebar')
         }).forEach(res => {
             // create a sidebarsection out of the result.
             // so we can use the normal comparison (full object) instead of only the ID in our filter methods.

@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContextProviderService } from '../services/context-provider.service';
+import { NotificationService } from '../../utilities/notification/notification.service';
+import { Notification } from '../../utilities/notification/notification.model';
 
 import { FullMetadataComponent } from './item/full/full-metadata.component.ts';
 import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
@@ -28,6 +30,7 @@ import { Item } from '../models/item.model';
                     <!-- link to the simple item view -->
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
+                        <a *ngIf="contextEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
                     </div>
                     <div>
                         <!-- the rendering of different parts of the page is delegated to other components -->
@@ -39,26 +42,43 @@ import { Item } from '../models/item.model';
                     </div>
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
+                        <a *ngIf="contextEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
                     </div>
                 </div>
               `
 })
-export class FullItemViewComponent {
+export class FullItemViewComponent implements OnDestroy {
 
     /**
      * The current item.
      */
     private item : Item;
+    
+    /**
+     * 
+     */
+    private editingNotification: Notification;
+    
+    /**
+     * 
+     */
+    private subscription: any;
 
     /**
      *
      * @param contextProvider
      *      ContextProviderService is a singleton service in which provides current context.
      */
-    constructor(private contextProvider: ContextProviderService) {
+    constructor(private contextProvider: ContextProviderService,
+                private notificationService: NotificationService) {
         this.item = contextProvider.context;
-        contextProvider.contextObservable.subscribe(currentContext => {
+        this.editingNotification = new Notification('DANGER', "You are in edit mode.");        
+        this.subscription = contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
+            if(this.item['editing']) {
+                console.log('add alert');
+                this.notificationService.add('item', this.editingNotification);
+            }
         });
     }
 
@@ -68,4 +88,29 @@ export class FullItemViewComponent {
     private itemProvided(): boolean {
         return this.item && this.item.type == 'item';
     }
+    
+    /**
+     * 
+     */
+    private contextEditMode(): boolean {
+        return this.item && this.item['editing'];
+    }
+
+    /**
+     * 
+     */
+    private exitEditMode(): void {
+        console.log(this.editingNotification)
+        this.contextProvider.disableEditMode();
+        this.notificationService.remove('item', this.editingNotification);
+    }
+    
+    /**
+     *
+     */
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+        this.exitEditMode();
+    }
+    
 }
