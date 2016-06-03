@@ -38,19 +38,27 @@ import { FormBuilder } from '@angular/common'
                             
                             <!-- we loop over the children but we will, for now, just do it with one level -->
                             <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
-                                <label>{{'sidebar.admin.edit.child-section-name' | translate}} <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
-                                <label>{{'sidebar.admin.edit.child-section-url' | translate}} <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
-                                <input type="hidden" class="form-control" [(ngModel)]="child.id"/>
-                                <!-- to be implemented later
-                                <label>
-                                    <input type="checkbox"> Public?
-                                </label>
-                                -->
-                               
-                                <!-- we only show the 'plus symbol' on the first entry -->
-                                <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                                <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
-                         
+                                <div class="clearfix" >
+                                    <div class="pull-left">
+                                    
+                                        <label> <span>{{'sidebar.admin.edit.child-section-name' | translate}} </span> <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
+                                        <label><span>{{'sidebar.admin.edit.child-section-url' | translate}} </span><input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
+                                        <input type="hidden" class="form-control" [(ngModel)]="child.id"/>
+                                    </div>
+                                    <!-- to be implemented later
+                                    <label>
+                                        <input type="checkbox"> Public?
+                                    </label>
+                                    -->
+                                    
+                                    <!-- we only show the 'plus symbol' on the first entry -->
+                                    <div class="pull-left">
+                                    
+                                        <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable sidebar-ion-placement" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
+                                        <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable sidebar-ion-placement" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
+                                    
+                                    </div>
+                                </div>
                             </div>    
                             
                     </div>
