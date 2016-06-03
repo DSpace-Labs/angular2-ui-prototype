@@ -137,6 +137,11 @@ $sidebar-width-sm-and-up: 300px;
     overflow: auto;
 }
 
+.sidebar-ion-placement {
+    margin-left:10px;
+    margin-bottom: 5px;
+    padding-top:$line-height-computed;
+}
 
 .sidebar-section {
     color: $sidebar-text-color;
