@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 
 import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
 import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
@@ -8,6 +8,11 @@ import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
 
 import {  TranslatePipe } from "ng2-translate/ng2-translate";
+import { FormSecureComponent } from "../../../utilities/form/form-secure.component";
+import { FormService } from "../../../utilities/form/form.service";
+import { AuthorizationService } from "../../authorization/services/authorization.service";
+
+import { FormBuilder } from '@angular/common'
 
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out which components need to be rendered.
@@ -60,8 +65,9 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
 /**
  * A class for an admin to extend the sidebar
  * Components can be added. At the moment they can only be headers or static links.
+ * FormSecureComponent is inherited, so a user can only view this component when s/he is authenticated.
  */
-export class AdminSidebarComponent implements OnInit, OnDestroy
+export class AdminSidebarComponent extends FormSecureComponent implements OnInit, OnDestroy
 {
 
     /**
@@ -75,15 +81,30 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      */
     subscription : any;
 
+
     /**
      *
      * @param sidebarService
-     *      SidebarService is a singleton service to deal with communication with the sidebar.
+     *      SidebarService is a singleton service to interact with the sidebar sections.
      * @param http
-     *      Http is used to write to our node.js server.
+     *      HttpService is a singleton service to create xhr calls.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor(private sidebarService : SidebarService, private http : Http) {
 
+    constructor(private sidebarService : SidebarService,
+                private http : Http,
+                formService : FormService,
+                formBuilder : FormBuilder,
+                authorization : AuthorizationService,
+                router : Router) {
+        super(formService, formBuilder, authorization, router);
     }
 
 
