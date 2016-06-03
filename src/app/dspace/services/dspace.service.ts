@@ -6,6 +6,7 @@ import { HttpService } from '../../utilities/services/http.service';
 import { Community } from '../models/community.model';
 import { Collection } from '../models/collection.model';
 import { Item } from '../models/item.model';
+import { Metadatum } from '../models/metadatum.model';
 import { URLHelper } from "../../utilities/url.helper";
 
 /**
@@ -264,6 +265,31 @@ export class DSpaceService {
                 key: 'rest-dspace-token', value: token
             }],
             data: item
+        });
+    }
+
+
+    /**
+     * Method to update item metadata.
+     *
+     * @param item
+     *      Item being created
+     * @param token
+     *      DSpace user token
+     * @param itemId
+     *      DSpace item id
+     */
+    updateItemMetadata(metadaa: Array<Metadatum>, token: string, itemId: string): Observable<Response> {
+        let path = '/items/' + itemId + '/metadata';
+
+        console.log(metadaa)
+
+        return this.httpService.put({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: metadaa
         });
     }
 

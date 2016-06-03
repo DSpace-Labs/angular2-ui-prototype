@@ -13,8 +13,8 @@ import { ArrayUtil } from '../../../../utilities/commons/array.util'
  */
 @Component({
     selector: 'item-full-bitstreams',
-    directives: [ViewElementComponent, ThumbnailComponent],
-    pipes: [TranslatePipe],
+    directives: [ ViewElementComponent, ThumbnailComponent ],
+    pipes: [ TranslatePipe ],
     template: `
                 <view-element [header]="componentTitle | translate">
                     <div id="bitstreams" class="file-list">

@@ -1,7 +1,5 @@
-import { ControlGroup, Validators } from '@angular/common';
+import { ControlGroup, FormBuilder, Validators } from '@angular/common';
 import { Router } from '@angular/router-deprecated';
-
-import { FormBuilder } from '@angular/common';
 
 import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
 import { FormService } from './form.service';
@@ -54,6 +52,11 @@ export class FormComponent implements Form {
      * Indicates processing in progress.
      */
     processing: boolean = false;
+
+    /**
+     *
+     */
+    subscription: any;
     
     /**
      *

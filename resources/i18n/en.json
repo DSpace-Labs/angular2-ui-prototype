@@ -148,6 +148,11 @@
     "login.unauthorized": "Incorrect email or password",
 
 
+    "update.success": "Successfully updated {{name}}",
+
+    "update.error": "Error while attempting to updated {{name}}",
+    
+
     "register.title": "Register",
 
     "settings.title": "Settings",

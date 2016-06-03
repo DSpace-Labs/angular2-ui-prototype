@@ -19,7 +19,7 @@ import { FormFocusDirective } from './form-focus.directive';
                 <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [hidden]="input.hidden" [class.has-error]="hasError(input)">
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <!-- For accessibility, ensure label references input ID via "for" attribute -->
-                    <label [attr.for]="input.id">{{ input.gloss }}</label>
+                    <label *ngIf="label" [attr.for]="input.id">{{ input.gloss }}</label>
                     <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" [focus]="i == 0">
                     <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
                     <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
@@ -42,6 +42,11 @@ export class FormFieldsetComponent {
      * Item input fields.
      */
     @Input("inputs") private inputs: Array<FormInput>;
+
+    /**
+     * Item input fields.
+     */
+    @Input("label") private label: boolean = true;
 
     /**
      *

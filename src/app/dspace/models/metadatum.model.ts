@@ -34,7 +34,8 @@ export class Metadatum {
         if (ObjectUtil.isNotEmpty(json)) {
             this.key = json.key;
             this.value = json.value;
-            this.language = json.language;
+            // TODO: manage default langauge
+            this.language = json.language ? json.language : 'en_US';
         }
     }
 

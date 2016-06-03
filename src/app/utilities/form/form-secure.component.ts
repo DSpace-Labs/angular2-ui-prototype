@@ -1,4 +1,5 @@
 import { OnActivate, ComponentInstruction, Router } from '@angular/router-deprecated';
+import { OnDestroy } from '@angular/core';
 
 import { FormBuilder } from '@angular/common';
 
@@ -10,7 +11,7 @@ import { FormComponent } from './form.component';
 /**
  *
  */
-export class FormSecureComponent extends FormComponent implements OnActivate {
+export class FormSecureComponent extends FormComponent implements OnActivate, OnDestroy {
 
     /**
      *
@@ -36,6 +37,12 @@ export class FormSecureComponent extends FormComponent implements OnActivate {
     routerOnActivate(next: ComponentInstruction, prev: ComponentInstruction) {
         if (!this.authorization.isAuthenticated()) {
             this.router.navigate(['/Login']);
+        }
+    }
+
+    ngOnDestroy() {
+        if(this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 

@@ -49,7 +49,6 @@ export class SidebarService {
                 private router: Router, 
                 private httpService: HttpService,
                 private contextProvider: ContextProviderService) {
-        
         this.sidebarSubject = new Subject<any>();
         this.isSidebarVisible = new BehaviorSubject<boolean>(true);
 
@@ -288,8 +287,6 @@ export class SidebarService {
     }
 
     actionLogin(): void {
-        console.log(this.login)
-        console.log('open login modal')
         this.login.openLoginModal();
     }
 

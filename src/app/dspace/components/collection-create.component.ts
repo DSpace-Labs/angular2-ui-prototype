@@ -90,7 +90,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
      */
     init(): void {
         this.collection = new Collection();
-        this.formService.getForm('collection').subscribe(inputs => {
+        this.subscription = this.formService.getForm('collection').subscribe(inputs => {
             this.inputs = inputs;
             let formControls = {};
             for(let input of this.inputs) {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
+
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -90,7 +91,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
      */
     init(): void {
         this.community = new Community();
-        this.formService.getForm('community').subscribe(inputs => {
+        this.subscription = this.formService.getForm('community').subscribe(inputs => {
             this.inputs = inputs;
             let formControls = {};
             for(let input of this.inputs) {

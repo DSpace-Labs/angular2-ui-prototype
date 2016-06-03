@@ -15,6 +15,8 @@ import { ItemCollectionComponent } from './item/item-collection.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
+import { InlineEditComponent } from './inline-edit.component';
+
 import { Item } from '../models/item.model';
 
 /**
@@ -30,6 +32,7 @@ import { Item } from '../models/item.model';
                   AuthorsComponent,
                   BitstreamsComponent,
                   DateComponent,
+                  InlineEditComponent,
                   ItemCollectionComponent,
                   ThumbnailComponent,
                   UriComponent ],
@@ -37,7 +40,10 @@ import { Item } from '../models/item.model';
     template: `
                 <div *ngIf="itemProvided()">
                     <div class="item-summary-view-metadata">
-                        <h1 class="page-header">{{ item.name }}</h1>
+                        
+                        <!-- <h1 class="page-header">{{ item.name }}</h1> -->
+                        <inline-edit type="h1" class="page-header" [model]="item" property="name"></inline-edit>
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
