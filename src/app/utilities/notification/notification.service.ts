@@ -18,7 +18,7 @@ export class NotificationService {
     /**
      *
      */
-    private notificationsSubjects : Map<string, Subject<Array<Notification>>>;
+    private notificationsSubjects: Map<string, Subject<Array<Notification>>>;
 
     /**
      *
@@ -45,7 +45,7 @@ export class NotificationService {
         this.notificationsObservables.set(channel, notificationsObservable);
         return notificationsObservable;
     }
-
+    
     /**
      *
      */
@@ -75,6 +75,16 @@ export class NotificationService {
                 break;
             }
         }
+        let notificationsSubject = this.notificationsSubjects.get(channel);
+        notificationsSubject.next(notifications);
+    }
+    
+    /**
+     * 
+     */
+    clear(channel: string): void {
+        let notifications = new Array<Notification>();
+        this.notifications.set(channel, notifications);
         let notificationsSubject = this.notificationsSubjects.get(channel);
         notificationsSubject.next(notifications);
     }

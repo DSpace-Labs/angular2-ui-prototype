@@ -40,7 +40,7 @@ export class HomeComponent implements OnDestroy {
      * This is the i18n string as it occurs in the en.json file
      * @type {string}
      */
-    private header : string = "home.hierarchy";
+    private header: string = "home.hierarchy";
 
     /**
      *
@@ -67,8 +67,7 @@ export class HomeComponent implements OnDestroy {
     /**
      *
      */
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this.sidebarHelper.removeSections();
     }
 

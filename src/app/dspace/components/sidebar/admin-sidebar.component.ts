@@ -7,7 +7,8 @@ import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
 import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
 
-import {  TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { URLHelper } from "../../../utilities/url.helper";
 
 /**
  * Main component to render the sidebar. Will access the sidebarservice to find out which components need to be rendered.
@@ -61,19 +62,18 @@ import {  TranslatePipe } from "ng2-translate/ng2-translate";
  * A class for an admin to extend the sidebar
  * Components can be added. At the moment they can only be headers or static links.
  */
-export class AdminSidebarComponent implements OnInit, OnDestroy
-{
+export class AdminSidebarComponent implements OnInit, OnDestroy {
 
     /**
      *
      */
-    entries : Array<SidebarSection>;
+    entries: Array<SidebarSection>;
 
     /**
      * Will store our subscription to the sidebarService.sidebarSubject
      * Watches for changes that happen on our sidebarSubject.
      */
-    subscription : any;
+    subscription: any;
 
     /**
      *
@@ -82,17 +82,14 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      * @param http
      *      Http is used to write to our node.js server.
      */
-    constructor(private sidebarService : SidebarService, private http : Http) {
-
-    }
-
+    constructor(private sidebarService: SidebarService, private http: Http) {}
 
     /**
      *
      */
-    ngOnInit()
-    {
+    ngOnInit() {
         this.entries = new Array<SidebarSection>();
+        // TODO: refactor variable x explicitly, variable from subscription is kind of important to know
         this.subscription = this.sidebarService.sidebarSubject.subscribe(x => {this.populateForm();});
         this.populateForm();
     }
@@ -100,8 +97,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
     /**
      * Initially populate our form
      */
-    populateForm()
-    {
+    populateForm() {
         let customSections = this.sidebarService.getCustomSections();
         this.entries = customSections.slice(0);
     }
@@ -109,8 +105,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
     /**
      * Add a top-level section
      */
-    addSectionField()
-    {
+    addSectionField() {
         // generate a random ID based on the current time in ms.
         // assign this ID to the SidebarSections with a prefix, so we can easily distinguish which sections were added by users.
         let parentSection = SidebarSection.getBuilder().generateUserID(true).name("untitled").addChild(SidebarSection.getBuilder().name("untitled").generateUserID(true).url("http://www.google.com").build()).build();
@@ -124,8 +119,8 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      * Add a child sectoin to the parent.
      * @param parent
      */
-    addChildSectionField(parent : SidebarSection)
-    {
+    addChildSectionField(parent: SidebarSection) {
+        // TODO: remove hardcoded google url
         let childSection = SidebarSection.getBuilder().generateUserID(true).url("http://www.google.com").name("untitled").build(); // let our builder generate an ID.
         this.sidebarService.addChildSection(parent,childSection);
         this.entries = this.sidebarService.getCustomSections().slice(0); // update the entries on this page. slice to change reference.
@@ -137,8 +132,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      * @param parent
      * @param child
      */
-    removeChildSection(parent, child)
-    {
+    removeChildSection(parent, child) {
         // this should probably be done through the sidebarService.
         // But doing it this way made the change detection trigger correctly.
         // TODO: working change detection through the sidebarService.
@@ -151,25 +145,32 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      * This is done by creating a POST request to our node.js server.
      * @returns {Promise<T>}
      */
-    writeSidebarToFile()
-    {
+    writeSidebarToFile() {
 
         console.log("writing sidebar to file");
-        return new Promise((resolve,reject) =>
-        {
-            var xhr = new XMLHttpRequest();
+        return new Promise((resolve,reject) => {
+            
+            let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4){
-                    if(xhr.status == 200){
+                
+                if(xhr.readyState == 4) {
+                    if(xhr.status == 200) {
                         resolve(xhr.response);
                     }else{
                         reject(xhr.response);
                     }
                 }
+                
             }
-            xhr.open("POST","http://localhost:3000/customsidebar",true); // send a post request to our node.js server.
-            xhr.setRequestHeader("Content-type","application/json");
+            
+            
+            // send a post request to our node.js server.
+            xhr.open("POST", URLHelper.relativeToAbsoluteUIURL('/custom-sidebar'), true);
+            
+            xhr.setRequestHeader("Content-type", "application/json");
+
             let jsonString = JSON.stringify(this.entries);
+
             xhr.send(jsonString);
         });
     }
@@ -178,24 +179,22 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
     /**
      * Destroy our subscription to sidebarService.sidebarSubject.
      */
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         // cancel subscription
-        if(this.subscription){
+        if(this.subscription) {
             this.subscription.unsubscribe();
         }
         // reload the sidebar from the server.
         // timeout as workaround for navigation
-        setTimeout( () => this.sidebarService.readSidebarFromFile(),20);
+        setTimeout(() => this.sidebarService.readSidebarFromFile(), 20);
     }
 
     /**
      * Remove a section based on the index in the curently rendered form.
      * @param index
      */
-    removeSection(index)
-    {
-        let section : SidebarSection = this.entries[index];
+    removeSection(index) {
+        let section: SidebarSection = this.entries[index];
         this.sidebarService.removeSection(section);
     }
 
@@ -205,8 +204,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy
      * @param parent
      * @returns {boolean}
      */
-    hasChildren(parent) : boolean
-    {
+    hasChildren(parent): boolean {
         return ArrayUtil.isNotEmpty(parent.childsections);
     }
 }

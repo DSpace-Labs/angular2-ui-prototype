@@ -2,7 +2,7 @@ import { ObjectUtil } from "../../utilities/commons/object.util";
 
 import { Bitstream } from "./bitstream.model";
 import { ContainerHomepage } from "../interfaces/container-homepage.interface";
-import { DSpaceObject } from "./dspaceobject.model";
+import { DSpaceObject } from "./dspace-object.model";
 
 /**
  * An abstract model class for a DSOContainer, which is a DSpace Object that acts as a container for 

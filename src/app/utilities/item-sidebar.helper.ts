@@ -21,8 +21,7 @@ export class ItemSidebarHelper extends SidebarHelper
      * @param authorization
      *      AuthorizationService is a singleton service to interact with the authorization service.
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService)
-    {
+    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService) {
         super(sidebarService);
     }
 
@@ -31,11 +30,9 @@ export class ItemSidebarHelper extends SidebarHelper
      * Because we need some data from the item to populate the links
      * @param item
      */
-    populateSidebar()
-    {
+    populateSidebar() {
 
         this.isAuthenticated = this.authorization.isAuthenticated();
-
 
         let editItemChildSection = SidebarSection.getBuilder()
             .name("sidebar.item-context.edit")

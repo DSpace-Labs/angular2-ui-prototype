@@ -123,7 +123,7 @@ import { ViewportService } from "./utilities/services/viewport.service";
 
         { path: "/admin-sidebar", name:"AdminSidebar", component : AdminSidebarComponent},
 
-         { path: '/**', redirectTo: [ '/404' ] }
+        { path: '/**', redirectTo: [ '/404' ] }
 ])
 export class AppComponent implements OnInit {
 
@@ -149,7 +149,7 @@ export class AppComponent implements OnInit {
     private navCollapsed: boolean = true;
 
     /**
-     * @param dspace
+     * @param dspaceHierarchy
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param translate
      *      TranslateService
@@ -160,15 +160,13 @@ export class AppComponent implements OnInit {
      * @param sidebarHelper
      *      SidebarHelper is a helper-class to inject the sidebar sections when the user visits this component
      */
-    constructor(private dspace:DSpaceHierarchyService,
-                private translate:TranslateService,
-                private router:Router,
+    constructor(private dspaceHierarchy: DSpaceHierarchyService,
+                private translate: TranslateService,
+                private router: Router,
                 private sidebarService: SidebarService,
-                @Inject(AppSidebarHelper)  private sidebarHelper:AppSidebarHelper) {
+                @Inject(AppSidebarHelper) private sidebarHelper: AppSidebarHelper) {
         translate.setDefaultLang('en');
         translate.use('en');
-
-        this.initSidebar();
     }
 
     /**
@@ -206,7 +204,8 @@ export class AppComponent implements OnInit {
      * Method provided by Angular2. Invoked after the constructor.
      */
     ngOnInit(){
-        this.dspace.loadHierarchy();
+        this.dspaceHierarchy.loadHierarchy();
+        this.initSidebar();
     }
 
     /**
@@ -215,8 +214,5 @@ export class AppComponent implements OnInit {
     toggleSidebar() {
         this.sidebarService.toggleSidebarVisibility();
     }
-
-
-
 
 }

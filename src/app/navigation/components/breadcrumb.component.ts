@@ -4,6 +4,8 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { DSpaceHierarchyService } from '../../dspace/services/dspace-hierarchy.service';
 import { BreadcrumbService } from '../services/breadcrumb.service';
 
+import { TruncatePipe } from '../../utilities/pipes/truncate.pipe';
+
 /**
  * Breadcrumb component for displaying current set of breadcrumbs of the
  * hierarchy to the given context. e.g. Home / Community / Collection / Item
@@ -11,13 +13,14 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
 @Component({
     selector: 'breadcrumb',
     directives: [ ROUTER_DIRECTIVES ],
+    pipes: [ TruncatePipe ],
     template: `
     			<ul class="list-inline breadcrumb">
                     <li *ngFor="let breadcrumb of trail">
-                        <a *ngIf="rootBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="contextBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="contextBreadcrumbWithPage(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name }}</a>
-                        <a *ngIf="contextBreadcrumbWithPageAndLimit(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name }}</a>
+                        <a *ngIf="rootBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component]">{{ breadcrumb.name | truncate:[25] }}</a>
+                        <a *ngIf="contextBreadcrumb(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id }]">{{ breadcrumb.name | truncate:[25] }}</a>
+                        <a *ngIf="contextBreadcrumbWithPage(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page }]">{{ breadcrumb.name | truncate:[25] }}</a>
+                        <a *ngIf="contextBreadcrumbWithPageAndLimit(breadcrumb)" [routerLink]="[breadcrumb.component, { id: breadcrumb.id, page: breadcrumb.page, limit: breadcrumb.limit }]">{{ breadcrumb.name | truncate:[25] }}</a>
                     </li>
                 </ul>
     		  `
