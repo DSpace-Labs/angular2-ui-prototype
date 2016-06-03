@@ -11,42 +11,50 @@ import { User } from "../../models/user.model";
     selector: 'sidebar-header',
     directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES, CORE_DIRECTIVES],
     pipes: [ TranslatePipe ],
-    template:
-        `
-        <div class="sidebar-header">
-            <div class="row no-gutter sidebar-header-content">
-                <div class="col-xs-10 col-sm-12">
-                  <a *ngIf="!user" [routerLink]="['Login']" class="sidebar-header-element"><span
-                        class="ion-icon ion-log-in space-right"></span>{{
-                    'header.login' | translate }}</a>
-                  <div *ngIf="user" dropdown (on-toggle)="toggled($event)">
-                    <a href id="simple-dropdown" class="sidebar-header-element" dropdownToggle>
-                      {{user.fullname }}
-                      <span class="ion-icon ion-ios-arrow-down icon-arrow-down"></span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
-                      <li>
-                        <a [routerLink]="['Logout']" class="dropdown-item">{{'header.logout' | translate }}</a>
-                      </li>
-                      <li>
-                        <a [routerLink]="['Profile']" class="dropdown-item">{{'header.profile' | translate }}</a>
-                      </li>
-                    </ul>
-                  </div>
+    template: `
+                <div class="sidebar-header">
+                    <div class="row no-gutter sidebar-header-content">
+                        <div class="col-xs-10 col-sm-12">
+                            <a *ngIf="showLoginRoute()" [routerLink]="['Login']" class="sidebar-header-element">
+                                <span class="ion-icon ion-log-in space-right"></span>{{ 'header.login' | translate }}
+                            </a>
+                            <a *ngIf="showLoginAction()" class="sidebar-header-element clickable" (click)="sidebarService.actionLogin()">
+                                <span class="ion-icon ion-log-in space-right"></span>{{ 'header.login' | translate }}
+                            </a>
+                            <div *ngIf="user" dropdown (on-toggle)="toggled($event)">
+                                <a href id="simple-dropdown" class="sidebar-header-element" dropdownToggle>
+                                    {{ user.fullname }}<span class="ion-icon ion-ios-arrow-down icon-arrow-down"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                                    <li>
+                                        <a [routerLink]="['Logout']" class="dropdown-item">{{'header.logout' | translate }}</a>
+                                    </li>
+                                    <li>
+                                        <a [routerLink]="['Profile']" class="dropdown-item">{{'header.profile' | translate }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 visible-xs">
+                            <a (click)="toggleSidebar()" class="sidebar-close-button sidebar-header-element pull-right clickable">
+                                <span class="ion-icon ion-ios-close-outline"></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-2 visible-xs">
-                    <a (click)="toggleSidebar()" class="sidebar-close-button sidebar-header-element pull-right clickable"><span
-                                class="ion-icon ion-ios-close-outline"></span></a>
-                </div>
-            </div>
-        </div>
-            `
+              `
 })
 export class SidebarHeaderComponent {
-    public disabled:boolean = false;
-    public status:{ isopen:boolean } = { isopen: false };
-    public items:Array<string> = ['The first choice!',
-        'And another choice for you.', 'but wait! A third!'];
+
+    public disabled: boolean = false;
+    
+    public status: { isopen: boolean } = { isopen: false };
+    
+    public items: Array<string> = [
+        'The first choice!',
+        'And another choice for you.',
+        'but wait! A third!'
+    ];
 
     /**
      * Logged in user.
@@ -60,11 +68,8 @@ export class SidebarHeaderComponent {
      *      SidebarService is a singleton service that provides access to the content of the sidebar
      */
     constructor(private sidebarService : SidebarService,
-                private authorization: AuthorizationService
-    )
-    {
+                private authorization: AuthorizationService) {
         this.user = authorization.user;
-
         authorization.userObservable.subscribe(user => {
             this.user = user;
         });
@@ -76,6 +81,14 @@ export class SidebarHeaderComponent {
      */
     toggleSidebar() {
         this.sidebarService.toggleSidebarVisibility();
+    }
+
+    showLoginRoute(): boolean {
+        return !this.user && this.sidebarService.isRootContext();
+    }
+
+    showLoginAction(): boolean {
+        return !this.user && !this.sidebarService.isRootContext();
     }
 
 }

@@ -84,7 +84,6 @@ export class AdminSidebarComponent extends FormSecureComponent implements OnInit
      */
     subscription: any;
 
-
     /**
      *
      * @param sidebarService

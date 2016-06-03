@@ -22,7 +22,9 @@ export class AppSidebarHelper extends SidebarHelper {
      * @param httpService
      *      HttpService is a singleton service to provide basic xhr requests
      */
-    constructor(@Inject(SidebarService) sidebarService : SidebarService, @Inject(AuthorizationService) private authorization : AuthorizationService, @Inject(HttpService) private httpService : HttpService) {
+    constructor(@Inject(SidebarService) sidebarService: SidebarService, 
+                @Inject(AuthorizationService) private authorization: AuthorizationService,
+                @Inject(HttpService) private httpService : HttpService) {
         super(sidebarService); // super implements this as 'protected'
         this.readSidebarFromFile();
     }
@@ -38,14 +40,12 @@ export class AppSidebarHelper extends SidebarHelper {
         let loginComponent = SidebarSection.getBuilder()
             .name("sidebar.account.login")
             .route("Login")
+            .action("Login")
             .testFunction( () => {
                 return !this.authorization.isAuthenticated();
             })
             .dirtyObservable(this.authorization.userObservable)
             .build();
-
-        // end test
-
 
         let registerComponent = SidebarSection.getBuilder()
             .name("sidebar.account.register")

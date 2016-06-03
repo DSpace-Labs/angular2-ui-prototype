@@ -5,6 +5,8 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { ContextProviderService } from '../../dspace/services/context-provider.service';
 
+import { LoginModalComponent } from '../../dspace/authorization/login/login-modal.component';
+
 import { SidebarSection } from '../../dspace/models/sidebar/sidebar-section.model.ts';
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { ArrayUtil } from "../../utilities/commons/array.util";
@@ -34,6 +36,8 @@ export class SidebarService {
      * A BehaviorSubject to observe the visibility of the sidebar.
      */
     isSidebarVisible: BehaviorSubject<boolean>;
+
+    private _login: LoginModalComponent;
 
     /**
      * @param viewportService
@@ -105,6 +109,14 @@ export class SidebarService {
      */
     set components(components) {
         this.components = components;
+    }
+
+    get login(): LoginModalComponent {
+        return this._login;
+    }
+
+    set login(login: LoginModalComponent) {
+        this._login = login;
     }
 
     /**
@@ -260,6 +272,12 @@ export class SidebarService {
         });
     }
 
+    // Methods to access injected context provider from sidebar service
+
+    isRootContext(): boolean {
+        return this.contextProvider.context ? this.contextProvider.context.root : true;
+    }
+
     // methods used by actions of sidebar
 
     // uses bracket notation to invoke
@@ -267,6 +285,12 @@ export class SidebarService {
 
     actionEdit(): void {
         this.contextProvider.enableEditMode();
+    }
+
+    actionLogin(): void {
+        console.log(this.login)
+        console.log('open login modal')
+        this.login.openLoginModal();
     }
 
 }

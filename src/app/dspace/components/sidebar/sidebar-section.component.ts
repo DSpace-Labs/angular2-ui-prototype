@@ -31,13 +31,13 @@ import { SidebarService } from '../../../utilities/services/sidebar.service';
                     </div>
                 </div>
 
-                <div *ngIf="isActionSection()"> <!-- if it is a action section, it also has a action -->
+                <div *ngIf="showActionSection()"> <!-- if it is a action section, it also has a action -->
                     <div class="sidebar-link">
                         <a (click)="performAction()" class="clickable">{{ sidebarcomponent.componentName | translate }}</a>
                     </div>
                 </div>
 
-                <div *ngIf="isRouteSection()"> <!-- if it is a route section, it also has a destination -->
+                <div *ngIf="showRouteSection()"> <!-- if it is a route section, it also has a destination -->
                     <div class="sidebar-link">
                         <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
                     </div>
@@ -159,6 +159,33 @@ export class SidebarSectionComponent implements OnInit {
         return ArrayUtil.isNotEmpty(this.sidebarcomponent.actions);
     }
 
+    /**
+     *
+     */
+    showRouteSection(): boolean {
+        if(this.isActionSection()) {
+            return this.isRouteSection() && this.isRootContext();
+        }
+        else {
+            return this.isRouteSection();
+        }
+    }
+
+    /**
+     * 
+     */
+    showActionSection(): boolean {
+        if(this.isRouteSection()) {
+            return this.isActionSection() && !this.isRootContext();
+        }
+        else {
+            return this.isActionSection();
+        }
+    }
+
+    isRootContext(): boolean {
+        return this.sidebarService.isRootContext();
+    }
 
     /**
      * Check whether the current sidebar-section should be rendered as a heading.
@@ -169,7 +196,6 @@ export class SidebarSectionComponent implements OnInit {
     isHeading(): boolean {
         return !this.isRouteSection() && !this.isActionSection() && !this.hasDestination();
     }
-
 
     /**
      * Check whether the current sidebar-section should be rendered as an external link.

@@ -50,8 +50,6 @@ export class ItemComponent implements CanDeactivate {
      */
     private channel: string = "item";
 
-    item : Item;
-
     /**
      *
      * @param params
@@ -70,10 +68,9 @@ export class ItemComponent implements CanDeactivate {
                 private gsMeta: GoogleScholarMetadataService,
                 private params: RouteParams,
                 @Inject(ItemSidebarHelper) private sidebarHelper : ItemSidebarHelper) {
-        dspace.loadObj('item', params.get("id")).then((item:Item) => {
+        dspace.loadObj('item', params.get("id")).then((item: Item) => {
             breadcrumbService.visit(item);
-            this.gsMeta.setGoogleScholarMetaTags(item);
-            this.item = item;
+            this.gsMeta.setGoogleScholarMetaTags(item);            
             this.sidebarHelper.populateSidebar();
         });
     }

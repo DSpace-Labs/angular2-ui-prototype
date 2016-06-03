@@ -26,7 +26,7 @@ import { Item } from '../models/item.model';
     pipes: [ TranslatePipe ],
     template: `
                 <div class="main-content" *ngIf="itemProvided()">
-                    <h1 class="page-header">{{item.name}}</h1>
+                    <h1 class="page-header">{{ item.name }}</h1>
                     <!-- link to the simple item view -->
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
@@ -52,7 +52,7 @@ export class FullItemViewComponent implements OnDestroy {
     /**
      * The current item.
      */
-    private item : Item;
+    private item: Item;
     
     /**
      * 

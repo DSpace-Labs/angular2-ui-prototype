@@ -37,7 +37,7 @@ import { Item } from '../models/item.model';
     template: `
                 <div *ngIf="itemProvided()">
                     <div class="item-summary-view-metadata">
-                        <h1 class="page-header">{{item.name}}</h1>
+                        <h1 class="page-header">{{ item.name }}</h1>
                         <div class="row">
                             <div class="col-sm-4">
                                 <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
