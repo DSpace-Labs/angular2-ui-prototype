@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { ContainerHomepage } from "../interfaces/container-homepage.interface";
 import { ContainerLogoComponent } from "./container-logo.component";
@@ -10,15 +11,19 @@ import { ContainerLogoComponent } from "./container-logo.component";
 @Component({
     selector: 'container-home',
     directives: [ ContainerLogoComponent ],
+    pipes: [ TranslatePipe ],
     template: `
-                <h1 class="page-header">{{ container.name }}</h1>
-                <container-logo *ngIf="container.logo" [logo]="container.logo"></container-logo>
-                <div *ngIf="container.introductoryText" class="container-home-intro-text" [innerHTML]="container.introductoryText"></div>
-                <div *ngIf="container.news" class="container-home-news">
-                    <h2>News</h2> <!--TODO i18n-->
-                    <div [innerHTML]="container.sidebarText"></div>
+                <div class="container-home">
+                    <h1 class="page-header">{{ container.name }}</h1>
+                    <!--logo's are commented out, because they aren't consistently available due to https://github.com/DSpace-Labs/angular2-ui-prototype/issues/143-->
+                    <!--<container-logo *ngIf="container.logo" [logo]="container.logo"></container-logo>-->
+                    <div *ngIf="container.introductoryText" class="container-home-intro-text" [innerHTML]="container.introductoryText"></div>
+                    <div *ngIf="container.sidebarText" class="container-home-news">
+                        <h2>{{'container.home.news' | translate}}</h2>
+                        <div [innerHTML]="container.sidebarText"></div>
+                    </div>
+                    <div *ngIf="container.copyrightText" class="container-home-copyright" [innerHTML]="container.copyrightText"></div>
                 </div>
-                <div *ngIf="container.copyrightText" class="container-home-copyright" [innerHTML]="container.copyrightText"></div>
               `
 })
 export class ContainerHomeComponent {

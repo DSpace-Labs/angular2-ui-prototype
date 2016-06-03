@@ -26,7 +26,7 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     providers : [ HomeSidebarHelper ],
     template: `
 
-                <news></news>
+                <news class="home-news"></news>
 
                 <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
               `

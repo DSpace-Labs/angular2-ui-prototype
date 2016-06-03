@@ -161,10 +161,17 @@ html, body {
     padding-right: 0;
 }
 
-.sidebar-ion-placement{
+/* should this be here? */
+.sidebar-ion-placement {
     margin-left:10px;
     margin-bottom: 5px;
     padding-top:$line-height-computed;
+}
+
+.item-component-header,
+.tree-component-header {
+    margin-bottom: $line-height-computed;
+
 }
 
 /***********************/

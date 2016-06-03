@@ -30,6 +30,10 @@ label {
     margin-top: 0;
 }
 
+.lead {
+   font-size: floor(($font-size-base * 1.25));
+}
+
 main {
     margin-top: $grid-gutter-width;
 }

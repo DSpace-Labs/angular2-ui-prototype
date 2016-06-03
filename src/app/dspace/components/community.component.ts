@@ -20,9 +20,9 @@ import { CommunitySidebarHelper } from '../../utilities/community-sidebar.helper
     directives: [ ContainerHomeComponent, TreeComponent ],
     providers : [CommunitySidebarHelper],
     template: `
-                <div *ngIf="communityProvided()">
+                <div *ngIf="communityProvided()" class="community-home">
                     <container-home [container]="community"></container-home>
-                    <tree [hierarchies]="subCommunitiesAndCollections(community)"></tree>
+                    <tree [hierarchies]="subCommunitiesAndCollections(community)" header="community.home.browse"></tree>
                 </div>
               `
 })

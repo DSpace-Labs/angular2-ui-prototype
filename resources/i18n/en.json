@@ -3,6 +3,10 @@
     "404.link.home-page": "Take me to the home page",
     "404.page-not-found": "page not found",
 
+    "container.home.news": "News",
+
+    "collection.browse.header": "Browse",
+
     "collection.name.required": "Collection name is required.",
     "collection.name.minLength": "Collection name must have at least 4 characters.",
     "collection.name.maxLength": "Collection name must have at most 128 characters.",
@@ -16,6 +20,7 @@
     "collection.create.error": "Error creating collection {{name}}.",
 
     "community.recent-submissions": "Show recent submissions",
+    "community.home.browse": "Browse",
 
     "community.name.required": "Community name is required.",
     "community.name.minLength": "Community name must have at least 4 characters.",
@@ -45,7 +50,7 @@
     "header.logout": "Logout",
     "header.profile": "View Profile",
 
-    "home.hierarchy": "Communities and Collections",
+    "home.hierarchy": "Browse",
 
     "item.key": "Key",
     "item.value": "Value",
