@@ -26,7 +26,6 @@ import { LoaderComponent } from '../../utilities/loader.component';
 import { ItemBitstreamAddComponent } from './item-bitstream-add.component';
 import { ItemMetadataInputComponent } from './item-metadata-input.component';
 
-import { Bitstream } from '../models/bitstream.model';
 import { FormInput } from '../../utilities/form/form-input.model';
 import { Item } from "../models/item.model";
 import { Metadatum } from '../models/metadatum.model';

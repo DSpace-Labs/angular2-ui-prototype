@@ -25,15 +25,13 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     directives: [ TreeComponent, NewsComponent ],
     providers : [ HomeSidebarHelper ],
     template: `
-                <news></news>
-
+                <news class="home-news"></news>
                 <!-- If a header i18n key is passed in, display it -->
                 <h1 *ngIf="header">{{ header | translate }}</h1>
                 <tree [hierarchies]="dspace.hierarchy"></tree>
               `
 })
 export class HomeComponent implements OnDestroy {
-
 
     /**
      * The header to be passed on to our tree.component

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { FormBuilder } from '@angular/common'
+import { ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 
 import { SidebarService } from '../../../utilities/services/sidebar.service.ts';
 import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
@@ -8,6 +9,10 @@ import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { FormSecureComponent } from "../../../utilities/form/form-secure.component";
+import { FormService } from "../../../utilities/form/form.service";
+import { AuthorizationService } from "../../authorization/services/authorization.service";
+
 import { URLHelper } from "../../../utilities/url.helper";
 
 /**
@@ -15,54 +20,58 @@ import { URLHelper } from "../../../utilities/url.helper";
  */
 @Component({
     selector: "admin-sidebar",
-    directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
+    directives: [ ROUTER_DIRECTIVES, SidebarSectionComponent ],
     pipes: [ TranslatePipe ],
-    template:
-        `
+    template: `
                 <h1>{{'sidebar.admin.edit.header' | translate}}</h1>
                 <div *ngFor="let entry of entries let j=index" class="admin-edit-sidebar panel panel-default"> 
-                            <div class="panel-heading"> <!-- this needs to be on the top -->
-                                <label>{{ 'sidebar.admin.edit.section-name' | translate }}<input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> 
-                                <!-- to be implemented later 
-                                <label>
-                                    <input type="checkbox"> Public?
-                                </label>
-                                -->    
-                               <span  class="ion-icon ion-ios-close-empty clickable pull-right" aria-hidden="true" (click)="removeSection(j)"></span>
-                         
-                            </div>
-                            
-                            <!-- we loop over the children but we will, for now, just do it with one level -->
-                            <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
-                                <label>{{'sidebar.admin.edit.child-section-name' | translate}} <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
-                                <label>{{'sidebar.admin.edit.child-section-url' | translate}} <input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
-                                <input type="hidden" class="form-control" [(ngModel)]="child.id"/>
-                                <!-- to be implemented later
-                                <label>
-                                    <input type="checkbox"> Public?
-                                </label>
-                                -->
-                               
-                                <!-- we only show the 'plus symbol' on the first entry -->
-                                <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
-                                <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
-                         
-                            </div>    
-                            
+                    <div class="panel-heading"> <!-- this needs to be on the top -->
+                        <label>{{ 'sidebar.admin.edit.section-name' | translate }}<input  class="form-control" placeholder="section name" required [(ngModel)]="entry.componentName"  type="text"/> </label> 
+                        <!-- to be implemented later 
+                        <label>
+                            <input type="checkbox"> Public?
+                        </label>
+                        -->    
+                       <span  class="ion-icon ion-ios-close-empty clickable pull-right" aria-hidden="true" (click)="removeSection(j)"></span>
+                 
                     </div>
+                            
+                    <!-- we loop over the children but we will, for now, just do it with one level -->
+                    <div *ngFor="let child of entry.childsections let i = index" class="panel-body">
+                        <div class="clearfix" >
+                            <div class="pull-left">
+                            
+                                <label> <span>{{'sidebar.admin.edit.child-section-name' | translate}} </span> <input class="form-control" [(ngModel)]="child.componentName" required type="text"/></label>
+                                <label><span>{{'sidebar.admin.edit.child-section-url' | translate}} </span><input class="form-control" [(ngModel)]="child.url" required type="text"/></label>
+                                <input type="hidden" class="form-control" [(ngModel)]="child.id"/>
+                            </div>
+                            <!-- to be implemented later
+                            <label>
+                                <input type="checkbox"> Public?
+                            </label>
+                            -->
+                            <!-- we only show the 'plus symbol' on the first entry -->
+                            <div class="pull-left">
+                                <span *ngIf="i==0" class="ion-icon ion-ios-plus-empty clickable sidebar-ion-placement" aria-hidden="true" (click)="addChildSectionField(entry)"></span>
+                                <span  *ngIf="i>0" class="ion-icon ion-ios-close-empty clickable sidebar-ion-placement" aria-hidden="true" (click)="removeChildSection(entry,i)"></span>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
                 <!-- buttons here -->
                 <div id="controls">
                      <button type="button" class="btn btn-primary btn-sm" (click)="addSectionField()">{{'sidebar.admin.edit.add-section' | translate}}</button>
                      <button type="button" class="btn btn-primary btn-sm" (click)="writeSidebarToFile()">{{'sidebar.admin.edit.save' | translate}}</button> 
                 </div>
-        `
+              `
 })
 
 /**
  * A class for an admin to extend the sidebar
  * Components can be added. At the moment they can only be headers or static links.
+ * FormSecureComponent is inherited, so a user can only view this component when s/he is authenticated.
  */
-export class AdminSidebarComponent implements OnInit, OnDestroy {
+export class AdminSidebarComponent extends FormSecureComponent implements OnInit, OnDestroy {
 
     /**
      *
@@ -75,14 +84,30 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
      */
     subscription: any;
 
+
     /**
      *
      * @param sidebarService
-     *      SidebarService is a singleton service to deal with communication with the sidebar.
+     *      SidebarService is a singleton service to interact with the sidebar sections.
      * @param http
-     *      Http is used to write to our node.js server.
+     *      HttpService is a singleton service to create xhr calls.
+     * @param formService
+     *      FormService is a singleton service to retrieve form data.
+     * @param builder
+     *      FormBuilder is a singleton service provided by Angular2.
+     * @param authorization
+     *      AuthorizationService is a singleton service to interact with the authorization service.
+     * @param router
+     *      Router is a singleton service provided by Angular2.
      */
-    constructor(private sidebarService: SidebarService, private http: Http) {}
+    constructor(private sidebarService: SidebarService,
+                private http: Http,
+                formService: FormService,
+                formBuilder: FormBuilder,
+                authorization: AuthorizationService,
+                router: Router) {
+        super(formService, formBuilder, authorization, router);
+    }
 
     /**
      *

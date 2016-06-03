@@ -1,0 +1,8 @@
+.container-home {
+    margin-bottom: $section-margin-bottom;
+}
+
+.container-home-copyright {
+    @extend .help-block;
+    font-style: italic;
+}
