@@ -27,8 +27,8 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     template: `
                 <news class="home-news"></news>
                 <!-- If a header i18n key is passed in, display it -->
-                <h1 *ngIf="header">{{ header | translate }}</h1>
-                <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
+                <h1 *ngIf="header" class="browse-header">{{ header | translate }}</h1>
+                <tree [hierarchies]="dspace.hierarchy"></tree>
               `
 })
 export class HomeComponent implements OnDestroy {
