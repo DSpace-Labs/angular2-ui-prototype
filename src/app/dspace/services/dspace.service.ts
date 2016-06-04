@@ -289,6 +289,24 @@ export class DSpaceService {
             data: metadata
         });
     }
+    
+    /**
+     * Method to clear item metadata.
+     *
+     * @param token
+     *      DSpace user token
+     * @param itemId
+     *      DSpace item id
+     */
+    clearItemMetadata(token: string, itemId: string): Observable<Response> {
+        let path = '/items/' + itemId + '/metadata';
+        return this.httpService.delete({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
+        });
+    }
 
     /**
      * Method to add bitstream to existing item.

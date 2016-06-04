@@ -191,7 +191,9 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                     
                     // this is a temporary easy way to allow modification of metadata
                     // if it was part of the types create form
-                    this.model.editable = true;
+                    if(this.model.key != 'dc.title') {
+                        this.model.editable = true;
+                    }
                     
 
                     let validators = this.formService.createValidators(input);

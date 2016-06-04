@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
 
-import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
+import { AuthorizationService } from '../../../authorization/services/authorization.service';
+import { DSpaceService } from '../../../services/dspace.service';
 import { ContextProviderService } from '../../../services/context-provider.service';
+import { NotificationService } from '../../../../utilities/notification/notification.service';
 
 import { Metadatum } from '../../../models/metadatum.model'
 import { ViewElementComponent } from '../view-element.component';
@@ -58,13 +61,73 @@ export class FullMetadataComponent {
     /**
      * 
      */
-    constructor(private contextProvider: ContextProviderService) {}
-    
+    constructor(private translate: TranslateService,
+                private contextProvider: ContextProviderService,
+                private notificationService: NotificationService,
+                private dspaceService: DSpaceService,
+                private authorization: AuthorizationService) {}    
     /**
      * 
      */
     remove(metadatum: Metadatum): void {
-        console.log('remove');        
+        
+        console.log(metadatum.key);
+        
+        let token = this.authorization.user.token;
+        
+        let item = this.contextProvider.context;
+        
+        let editableMetadata = new Array<string>();
+        
+        for(let i = item.metadata.length - 1; i > 0; i--) {
+            
+            // temporary easy way to sanatize metadata for REST PUT
+            if(item.metadata[i].editable) {
+                editableMetadata.push(item.metadata[i].key);
+                delete item.metadata[i].editable;
+            }
+            
+            // safer && item.metadata[i].removable
+            if(item.metadata[i].key == metadatum.key) {
+                item.metadata.splice(i, 1);
+            }
+            
+        }
+        
+        console.log(item.metadata)
+        
+        if(item.type == 'item') {
+            console.log('remove');
+            
+            this.dspaceService.clearItemMetadata(token, item.id).subscribe(response => {
+    
+                if(response.status == 200) {
+                    
+                    this.dspaceService.updateItemMetadata(item.metadata, token, item.id).subscribe(response => {
+    
+                        if(response.status == 200) {
+                            
+                            item.metadata.forEach(m => {
+                               if(editableMetadata.indexOf(m.key) > -1) {
+                                    m.editable = true;
+                               }
+                            });
+                            
+                            this.notificationService.notify('item', 'SUCCESS', this.translate.instant('delete.success', { name: metadatum.key }));
+                        }
+                    },
+                    error => {
+                        console.error(error);
+                        this.notificationService.notify('item', 'DANGER', this.translate.instant('delete.error', { name: metadatum.key }));
+                    });
+                    
+                }
+            },
+            error => {
+                console.error(error);
+                this.notificationService.notify('item', 'DANGER', this.translate.instant('delete.error', { name: metadatum.key }));
+            });
+        }
     }
 
     /**

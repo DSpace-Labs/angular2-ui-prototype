@@ -3,7 +3,6 @@ import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { DSpaceService } from '../services/dspace.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { NotificationService } from '../../utilities/notification/notification.service';
 
@@ -71,8 +70,7 @@ export class FullItemViewComponent implements OnDestroy {
      */
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
-                private notificationService: NotificationService,
-                private dspaceService: DSpaceService) {
+                private notificationService: NotificationService) {
         
         this.subscriptions = new Array<any>();
         
