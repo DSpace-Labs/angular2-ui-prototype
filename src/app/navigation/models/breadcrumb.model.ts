@@ -6,6 +6,11 @@ export class Breadcrumb {
     /**
      * 
      */
+    private _id: any;
+    
+    /**
+     * 
+     */
     private _type: string;
 
     /**
@@ -27,13 +32,28 @@ export class Breadcrumb {
      * 
      */
     constructor(value: string, root?: boolean) {
-        value = value.toLowerCase();
+        //value = value.toLowerCase();
+        this.id = false;
         this.type = value;
         this.name = value.charAt(0).toUpperCase() + value.substring(1, value.length);
         this.component = '/' + this.name;
         this.root = root ? root : false;
     }
 
+    /**
+     * 
+     */
+    get id(): any {
+        return this._id;
+    }
+
+    /**
+     * 
+     */
+    set id(id: any) {
+        this._id = id;
+    }
+    
     /**
      * 
      */

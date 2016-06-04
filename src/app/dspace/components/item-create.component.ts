@@ -115,7 +115,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param dspace
+     * @param dspaceHierarchy
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
@@ -131,7 +131,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceHierarchyService,
+                private dspaceHierarchy: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -230,7 +230,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      */
     finish(itemName: string, currentContext: any): void {
         this.reset();
-        this.dspace.refresh(currentContext);
+        this.dspaceHierarchy.refresh(currentContext);
         this.router.navigate(['/Collections', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
@@ -299,10 +299,9 @@ export class ItemCreateComponent extends FormSecureComponent {
             if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;
                 // If we have files in our upload queue, upload them
-                if (this.uploader.queue.length>0)
-                {
+                if (this.uploader.queue.length > 0) {
                     // Upload all files
-                    this.uploadAll(this.item, token).subscribe (response => {
+                    this.uploadAll(this.item, token).subscribe(response => {
                         // Finish up the item
                         this.finish(this.item.name, currentContext);
                     });

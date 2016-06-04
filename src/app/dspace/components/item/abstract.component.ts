@@ -21,7 +21,7 @@ import { InlineEditComponent } from '../inline-edit.component';
                     <div *ngFor="let metadatum of filteredFields;">
                         <!-- <p>{{metadatum.value}}</p> -->
 
-                        <inline-edit type="p" [model]="metadatum" property="value"></inline-edit>
+                        <inline-edit [model]="metadatum" property="value"></inline-edit>
 
                     </div>
                 </view-element>

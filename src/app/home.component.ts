@@ -2,16 +2,13 @@ import { Component, OnDestroy, Inject } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { TreeComponent } from './navigation/components/tree.component';
 import { NewsComponent } from './dspace/components/news.component';
 
-
 import { HomeSidebarHelper } from './utilities/home-sidebar.helper';
-
 
 import { Breadcrumb } from './navigation/models/breadcrumb.model';
 
@@ -42,12 +39,6 @@ export class HomeComponent implements OnDestroy {
 
     /**
      *
-     * @type {Breadcrumb}
-     */
-    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
-
-    /**
-     *
      * @param dspace
      *      DSpaceHierarchyService is a singleton service to interact with the dspace directory.
      * @param breadcrumbService
@@ -58,7 +49,7 @@ export class HomeComponent implements OnDestroy {
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
                 @Inject(HomeSidebarHelper) private sidebarHelper: HomeSidebarHelper) {
-        breadcrumbService.visit(this.breadcrumb);
+        breadcrumbService.visit(new Breadcrumb('home', true));
         this.sidebarHelper.populateSidebar();
     }
 

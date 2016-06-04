@@ -18,15 +18,13 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
 })
 export class SettingsComponent {
 
-    private breadcrumb: Breadcrumb = new Breadcrumb('settings', true);
-
     /**
      *
      * @param breadcrumbService
      *      BreadcrumbService is a singleton service to interact with the breadcrumb component.
      */
     constructor(private breadcrumbService: BreadcrumbService) {
-        breadcrumbService.visit(this.breadcrumb);
+        breadcrumbService.visit(new Breadcrumb('settings', true));
     }
 
 }

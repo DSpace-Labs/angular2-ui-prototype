@@ -16,8 +16,10 @@ import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 import { AuthorizationService } from '../authorization/services/authorization.service';
 import { ContextProviderService } from '../services/context-provider.service';
 import { FormService } from '../../utilities/form/form.service';
+import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
 import { NotificationService } from '../../utilities/notification/notification.service';
 import { DSpaceService } from '../services/dspace.service';
+import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
 
 import { FormSecureComponent } from '../../utilities/form/form-secure.component';
 import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
@@ -34,36 +36,22 @@ import { Metadatum } from '../models/metadatum.model';
     directives: [ FormFieldsetComponent, LoaderComponent ],
     pipes: [ TranslatePipe ],
     template: `
-                <loader *ngIf="processing" [message]="processingMessage()"></loader>
+                <loader *ngIf="processing" [center]="false"></loader>
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="update()" novalidate>
                     
-                    <h1 *ngIf="showH1()" class="{{class}}">{{ model[property] }}</h1>
-                    <h1 *ngIf="editH1()" class="{{class}}">
+                    <span *ngIf="show()" class="{{class}}">{{ model[property] }}</span>
+                    <span *ngIf="edit()" class="{{class}}">
 
                         <span *ngIf="!selected">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
 
-                        <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false"></form-fieldset>
+                        <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false" (onEvent)="execute($event)"></form-fieldset>
 
-                    </h1>
-
-                    <p *ngIf="showP()" class="{{class}}">{{ model[property] }}</p>
-                    <p *ngIf="editP()" class="{{class}}">
-
-                        <span *ngIf="!selected">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
-
-                        <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false"></form-fieldset>
-
-                    </p>
+                    </span>
 
                 </form>
               `
 })
 export class InlineEditComponent extends FormSecureComponent implements AfterContentInit, OnDestroy {
-
-    /**
-     *
-     */
-    @Input() type: string;
 
     /**
      *
@@ -79,7 +67,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      *
      */
     @Input() property: string;
-
+    
     /**
      *
      */
@@ -107,6 +95,8 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                 private contextProvider: ContextProviderService,
                 private notificationService: NotificationService,
                 private dspaceService: DSpaceService,
+                private dspaceHierarchy: DSpaceHierarchyService,
+                private breadcrumbService: BreadcrumbService,
                 formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
@@ -124,16 +114,18 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
     /**
      * Initialize the item metadata form and validators.
      */
-    init(): void {
-
+    init(): void {        
+        
         this.inputs = new Array<FormInput>();
+        
         this.files = new Array<any>();
+        
         this.subscriptions = new Array<any>();
 
         let form = 'item';
 
-        this.key = this.property;
-
+        this.key = this.model.key ? this.model.key : this.property;
+        
         switch(this.model.type) {
 
             case 'item': {
@@ -178,11 +170,12 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                 form = 'community';
             } break;
 
+            default: {
+                
+            }
+
         }
-
-
-        this.files = new Array<any>();
-
+        
         let subscription = this.formService.getForm(form).subscribe(inputs => {
             
             let formControls = {};
@@ -201,7 +194,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
             }
 
             this.form = this.builder.group(formControls);
-
+            
             this.active = true;
         },
         errors => {
@@ -224,6 +217,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      * Sets the community values with ngModel values from inputs.
      */
     setModelValues(): void {
+        // probably can just select 0 of array
         for(let input of this.inputs) {
             if(input.value) {
                 this.model[this.property] = input.value;
@@ -239,71 +233,90 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
     }
 
     /**
-     * Create item. First creates the item through request and then joins multiple requests for bitstreams.
+     * 
      */
-    private update(): void {
-        
-        let token = this.authorization.user.token;
-        
-        let currentContext = this.contextProvider.context;
-
-        this.processing = true;
-
-
-        this.setModelValues();
-
-
-
-
-        let metadatum = new Metadatum({
-            key: this.key,
-            value: this.model[this.property]
-        });
-
-        let metadata = new Array<Metadatum>();
-
-        metadata.push(metadatum);
-
-        this.dspaceService.updateItemMetadata(metadata, token, currentContext.id).subscribe(response => {
-
-            if(response.status == 200) {           
-                // If we have files in our upload queue, upload them
-                // if (this.uploader.queue.length > 0)
-                // {
-                //     // Upload all files
-                //     this.uploadAll(this.item, token).subscribe (response => {
-                //         // Finish up the item
-                //         this.finish(this.item.name, currentContext);
-                //     });
-                // }
-                // else {
-                //     this.finish(this.model['name'], currentContext);
-                // }
-                this.finish(this.model['name'], currentContext);
-            }
-        },
-        error => {
-            console.error(error);
-            this.processing = false;
-            this.notificationService.notify('item', 'DANGER', this.translate.instant('update.error', { name: name }));
-        });
-
-
-        
+    private update(event?: any): void {
+        // check if selected to avoid update onBlur when form submitted or edit canceled
+        if(this.selected) {
+            
+            this.selected = false;
+            
+            let token = this.authorization.user.token;
+            
+            let currentContext = this.contextProvider.context;
+    
+            this.processing = true;
+    
+            this.setModelValues();
+    
+            let metadatum = new Metadatum({
+                key: this.key,
+                value: this.model[this.property],
+                language: this.model.language ? this.model.language : null
+            });
+    
+            let metadata = new Array<Metadatum>();
+    
+            metadata.push(metadatum);
+    
+            this.dspaceService.updateItemMetadata(metadata, token, currentContext.id).subscribe(response => {
+    
+                if(response.status == 200) {
+                    // If we have files in our upload queue, upload them
+                    // if (this.uploader.queue.length > 0)
+                    // {
+                    //     // Upload all files
+                    //     this.uploadAll(this.item, token).subscribe (response => {
+                    //         // Finish up the item
+                    //         this.finish(this.item.name, currentContext);
+                    //     });
+                    // }
+                    // else {
+                    //     this.finish(this.model['name'], currentContext);
+                    // }
+                    this.finish(this.model['name'], currentContext);
+                }
+            },
+            error => {
+                console.error(error);
+                this.processing = false;
+                this.notificationService.notify('item', 'DANGER', this.translate.instant('update.error', { name: name }));
+            });
+        }
     }
-
-
+    
+    /**
+     * cancel the update
+     */
+    cancel(): void {
+        this.selected = false;
+        // probably can just select 0 of array
+        for(let input of this.inputs) {
+            if(input.value) {
+                input.value = this.model[this.property];
+            }
+        }
+    }
+    
     /**
      * Refresh the form and context, navigate to origin context, and add notification.
      * @param itemName name of item being created
      * @param currentContext reference to current location/context
      */
     finish(name: string, currentContext: any): void {
-        this.reset();
-        this.selected = false;
-        this.notificationService.notify('item', 'SUCCESS', this.translate.instant('update.success', { name: name }), 10);
+        this.dspaceHierarchy.refresh(currentContext);
+        this.breadcrumbService.update(currentContext);
+        this.reset();        
+        // this alert is to distracting for inline edit
+        //this.notificationService.notify('item', 'SUCCESS', this.translate.instant('update.success', { name: name }), 10);
     }
-
+    
+    /**
+     * 
+     */
+    execute(action): void {
+        this[action]();
+    }
 
     /**
      *
@@ -320,35 +333,21 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      *
      */
     isEditing(): boolean {
-        return this.model ? this.model['editing'] : false;
+        return this.model ? this.contextProvider.editing : false;
     }
 
     /**
      *
      */
-    showH1(): boolean {
-        return this.type == 'h1' && !this.isEditing();
+    show(): boolean {
+        return !this.isEditing();
     }
 
     /**
      *
      */
-    editH1(): boolean {
-        return this.type == 'h1' && this.isEditing();
-    }
-
-    /**
-     *
-     */
-    showP(): boolean {
-        return this.type == 'p' && !this.isEditing();
-    }
-
-    /**
-     *
-     */
-    editP(): boolean {
-        return this.type == 'p' && this.isEditing();
+    edit(): boolean {
+        return this.isEditing();
     }
 
 }

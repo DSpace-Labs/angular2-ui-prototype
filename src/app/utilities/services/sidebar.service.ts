@@ -37,6 +37,9 @@ export class SidebarService {
      */
     isSidebarVisible: BehaviorSubject<boolean>;
 
+    /**
+     * 
+     */
     private _login: LoginModalComponent;
 
     /**
@@ -283,7 +286,7 @@ export class SidebarService {
     // i.e. action = Edit and runs method sidebarService["action" + "Edit"]
 
     actionEdit(): void {
-        this.contextProvider.enableEditMode();
+        this.contextProvider.editing = true;
     }
 
     actionLogin(): void {

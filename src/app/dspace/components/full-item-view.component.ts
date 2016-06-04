@@ -30,12 +30,12 @@ import { Item } from '../models/item.model';
     template: `
                 <div class="main-content" *ngIf="itemProvided()">
                     
-                    <inline-edit type="h1" class="page-header" [model]="item" property="name"></inline-edit>
+                    <inline-edit class="page-header" [model]="item" property="name"></inline-edit>
 
                     <!-- link to the simple item view -->
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
-                        <a *ngIf="contextEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
+                        <a *ngIf="inEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
                     </div>
                     <div>
                         <!-- the rendering of different parts of the page is delegated to other components -->
@@ -47,7 +47,7 @@ import { Item } from '../models/item.model';
                     </div>
                     <div class="text-center">
                         <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}]">{{ 'item-view.show-simple' | translate }}</a>
-                        <a *ngIf="contextEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
+                        <a *ngIf="inEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
                     </div>
                 </div>
               `
@@ -71,8 +71,6 @@ export class FullItemViewComponent implements OnDestroy {
 
     /**
      *
-     * @param contextProvider
-     *      ContextProviderService is a singleton service in which provides current context.
      */
     constructor(private contextProvider: ContextProviderService,
                 private notificationService: NotificationService) {
@@ -96,15 +94,15 @@ export class FullItemViewComponent implements OnDestroy {
     /**
      * 
      */
-    private contextEditMode(): boolean {
-        return this.item && this.item['editing'];
+    private inEditMode(): boolean {
+        return this.contextProvider.editing;
     }
 
     /**
      * 
      */
     private exitEditMode(): void {
-        this.contextProvider.disableEditMode();
+        this.contextProvider.editing = false;
         this.notificationService.remove('item', this.editingNotification);
     }
     
