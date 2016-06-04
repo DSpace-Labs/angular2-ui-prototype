@@ -40,9 +40,7 @@ import { Item } from '../models/item.model';
     template: `
                 <div *ngIf="itemProvided()">
                     <div class="item-summary-view-metadata">
-                        
                         <inline-edit class="page-header" [model]="item" property="name"></inline-edit>
-
                         <div class="row">
                             <div class="col-sm-4">
                                 <thumbnail [thumbnailLink]="item.thumbnail"></thumbnail>
@@ -57,7 +55,7 @@ import { Item } from '../models/item.model';
                             </div>
                             <div class="col-xs-12 text-center"> <!--col-xs-12 is only here to ensure it gets the col padding-->
                                 <a class="btn btn-default" [routerLink]="[item.component, {id: item.id}, 'FullItemView']">{{ 'item-view.show-full' | translate }}</a>
-                                <a *ngIf="inEditMode()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
+                                <a *ngIf="editing()" class="btn btn-default" (click)="exitEditMode()">{{ 'item-view.exit-edit-mode' | translate }}</a>
                             </div>
                         </div>
                     </div>
@@ -77,9 +75,9 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
     private editingNotification: Notification;
     
     /**
-     * 
+     *
      */
-    private subscription: any;
+    private subscriptions: Array<any>;
 
     /**
      *
@@ -87,16 +85,27 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private notificationService: NotificationService) {
+        
+        this.subscriptions = new Array<any>();
+        
         this.item = contextProvider.context;
-        this.subscription = contextProvider.contextObservable.subscribe(currentContext => {
+        
+        let csub = contextProvider.contextObservable.subscribe(currentContext => {
             this.item = currentContext;
-            if(this.item['editing']) {
+        });
+        
+        this.subscriptions.push(csub);
+        
+        let esub = contextProvider.editingObservable.subscribe(editing => {
+            if(editing) {
                 if(this.editingNotification === undefined) {
-                    this.editingNotification = new Notification('WARNING', this.translate.instant('edit.mode'));
+                    this.editingNotification = new Notification('WARNING', translate.instant('edit.mode'));
                 }
                 this.notificationService.add('item', this.editingNotification);
             }
         });
+        
+        this.subscriptions.push(esub);
     }
 
     /**
@@ -109,7 +118,7 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
     /**
      * 
      */
-    private inEditMode(): boolean {
+    private editing(): boolean {
         return this.contextProvider.editing;
     }
 
@@ -117,6 +126,9 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
      * 
      */
     private exitEditMode(): void {
+        this.subscriptions.forEach(subscription => {
+            subscription.unsubscribe();
+        });
         this.contextProvider.editing = false;
         this.notificationService.remove('item', this.editingNotification);
     }
@@ -125,7 +137,6 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
      *
      */
     ngOnDestroy() {
-        this.subscription.unsubscribe();
         this.exitEditMode();
     }
 

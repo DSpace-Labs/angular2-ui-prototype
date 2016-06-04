@@ -144,6 +144,8 @@ html, body {
     margin-bottom: $line-height-computed;
 }
 
+
+/* if never changed, maybe consolidate */
 .item-full-metadata-label-cell,
 .item-full-metadata-data-cell,
 .item-full-metadata-language-cell,
@@ -151,6 +153,12 @@ html, body {
     //optimize legibility for item metadata
     font-weight: 400;
     line-height: 1.7;
+}
+
+.item-full-metadata-remove-cell {
+	font-weight: 400;
+    line-height: 1.7;
+    text-align: center;
 }
 
 .item-create .ion-icon,

@@ -48,7 +48,7 @@ export class ContextProviderService {
         this.contextObservable = this.contextSubject.asObservable();
         
         this.editingSubject = new Subject<boolean>();
-        this.editingObservable = this.contextSubject.asObservable();
+        this.editingObservable = this.editingSubject.asObservable();
     }
 
     /**

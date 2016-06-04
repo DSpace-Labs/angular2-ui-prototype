@@ -40,9 +40,10 @@ import { Metadatum } from '../models/metadatum.model';
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="update()" novalidate>
                     
                     <span *ngIf="show()" class="{{class}}">{{ model[property] }}</span>
+
                     <span *ngIf="edit()" class="{{class}}">
 
-                        <span *ngIf="!selected">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
+                        <span *ngIf="selectable()">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
 
                         <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false" (onEvent)="execute($event)"></form-fieldset>
 
@@ -72,7 +73,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      *
      */
     private selected: boolean = false;
-
+    
     /**
      * Bitstreams.
      */
@@ -130,7 +131,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
 
             case 'item': {
 
-                let subscription = this.formService.getForm(form).subscribe(inputs => {
+                let fsub1 = this.formService.getForm(form).subscribe(inputs => {
                     let value;
                     this.model.metadata.forEach(metadatum => {
                         if(metadatum.key == 'dc.type') {
@@ -141,7 +142,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                         if(inputs[i].key == 'dc.type') {
                             for(let o in inputs[i].options) {
                                 if(inputs[i].options[o].value == value) {
-                                    form = inputs[i].options[o].form;
+                                    form = inputs[i].options[o].form;                                    
                                     break;
                                 }
                             }
@@ -153,7 +154,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                     console.error('Error: ' + errors);
                 });
 
-                this.subscriptions.push(subscription);
+                this.subscriptions.push(fsub1);
 
 
                 if(this.property == 'name') {
@@ -176,7 +177,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
 
         }
         
-        let subscription = this.formService.getForm(form).subscribe(inputs => {
+        let fsub2 = this.formService.getForm(form).subscribe(inputs => {
             
             let formControls = {};
             for(let input of inputs) {
@@ -186,6 +187,12 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                     input.value = this.model[this.property];
 
                     this.inputs.push(input);
+                    
+                    
+                    // this is a temporary easy way to allow modification of metadata
+                    // if it was part of the types create form
+                    this.model.editable = true;
+                    
 
                     let validators = this.formService.createValidators(input);
                     formControls[input.id] = new Control('', Validators.compose(validators));
@@ -201,7 +208,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
             console.error('Error: ' + errors);
         });
 
-        this.subscriptions.push(subscription);
+        this.subscriptions.push(fsub2);
 
     }
 
@@ -332,7 +339,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
     /**
      *
      */
-    isEditing(): boolean {
+    editing(): boolean {
         return this.model ? this.contextProvider.editing : false;
     }
 
@@ -340,14 +347,28 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      *
      */
     show(): boolean {
-        return !this.isEditing();
+        return !this.editing() || !this.allowed();
     }
 
     /**
      *
      */
     edit(): boolean {
-        return this.isEditing();
+        return this.editing() && this.allowed();
+    }
+    
+    /**
+     *
+     */
+    selectable(): boolean {
+        return !this.selected && this.allowed();
+    }
+    
+    /**
+     *
+     */
+    allowed(): boolean {
+        return this.inputs ? this.inputs.length > 0 : false;
     }
 
 }

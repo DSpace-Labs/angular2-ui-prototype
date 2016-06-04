@@ -126,6 +126,8 @@
     "item-view.full.full-metadata.thead.key": "Key",
     "item-view.full.full-metadata.thead.value": "Value",
     "item-view.full.full-metadata.thead.lang": "Language",
+    "item-view.full.full-metadata.thead.remove": "Remove",
+    
     "item-view.header.authors": "Author",
     "item-view.header.bitstreams": "Download",
     "item-view.header.collections": "Collections",
