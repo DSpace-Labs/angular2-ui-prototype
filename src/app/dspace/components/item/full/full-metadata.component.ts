@@ -79,7 +79,7 @@ export class FullMetadataComponent {
         
         let editableMetadata = new Array<string>();
         
-        for(let i = item.metadata.length - 1; i > 0; i--) {
+        for(let i = item.metadata.length - 1; i >= 0; i--) {
             
             // temporary easy way to sanatize metadata for REST PUT
             if(item.metadata[i].editable) {
@@ -88,7 +88,9 @@ export class FullMetadataComponent {
             }
             
             // safer && item.metadata[i].removable
-            if(item.metadata[i].key == metadatum.key) {
+            if(item.metadata[i].key == metadatum.key && 
+               item.metadata[i].value == metadatum.value &&
+               item.metadata[i].language == metadatum.language) {
                 item.metadata.splice(i, 1);
             }
             
@@ -97,7 +99,6 @@ export class FullMetadataComponent {
         console.log(item.metadata)
         
         if(item.type == 'item') {
-            console.log('remove');
             
             this.dspaceService.clearItemMetadata(token, item.id).subscribe(response => {
     
