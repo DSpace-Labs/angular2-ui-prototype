@@ -152,9 +152,11 @@
     
     "edit.mode": "Edit mode: click the pencil icon to edit field, enter or leave focus to submit, escape to cancel",
 
-    "update.processing": "Processing updated {{property}}",
     "update.success": "Successfully updated {{name}}",
-    "update.error": "Error while attempting to updated {{name}}",
+    "update.error": "Error while attempting to update {{name}}",
+    
+    "delete.success": "Successfully deleted {{name}}",
+    "delete.error": "Error while attempting to delete {{name}}",
     
 
     "register.title": "Register",
