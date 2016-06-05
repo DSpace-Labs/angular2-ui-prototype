@@ -54,9 +54,9 @@ import { InlineEditComponent } from '../../inline-edit.component';
 export class FullMetadataComponent {
 
     /**
-     * 
+     * We get all metadata related to the item in question from the 'full-item-view'
      */
-    @Input() private itemData: Array<Metadatum>; // We get all metadata related to the item in question from the 'full-item-view'
+    @Input() private itemData: Array<Metadatum>; 
     
     /**
      * 
@@ -65,20 +65,24 @@ export class FullMetadataComponent {
                 private contextProvider: ContextProviderService,
                 private notificationService: NotificationService,
                 private dspaceService: DSpaceService,
-                private authorization: AuthorizationService) {}    
+                private authorization: AuthorizationService) {
+
+    }
+        
     /**
      * 
      */
     remove(metadatum: Metadatum): void {
         
-        console.log(metadatum.key);
-        
         let token = this.authorization.user.token;
         
         let item = this.contextProvider.context;
         
+        // have to store a list of the editable metadata to reset the editable property after update
+        // the sanitization removes editable for the REST API to accept the PUT
         let editableMetadata = new Array<string>();
         
+        // removing them from the item's metadata property triggers change detection
         for(let i = item.metadata.length - 1; i >= 0; i--) {
             
             // temporary easy way to sanatize metadata for REST PUT
@@ -87,7 +91,7 @@ export class FullMetadataComponent {
                 delete item.metadata[i].editable;
             }
             
-            // safer && item.metadata[i].removable
+            // remove the metadata being removed
             if(item.metadata[i].key == metadatum.key && 
                item.metadata[i].value == metadatum.value &&
                item.metadata[i].language == metadatum.language) {
@@ -95,8 +99,6 @@ export class FullMetadataComponent {
             }
             
         }
-        
-        console.log(item.metadata)
         
         if(item.type == 'item') {
             

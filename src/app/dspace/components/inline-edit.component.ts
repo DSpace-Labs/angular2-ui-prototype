@@ -117,8 +117,6 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      */
     init(): void {
         
-        console.log(this.model);
-        
         this.inputs = new Array<FormInput>();
         
         this.files = new Array<any>();
@@ -221,19 +219,6 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
         this.selected = true;
     }
 
-
-    /**
-     * Sets the community values with ngModel values from inputs.
-     */
-    setModelValues(): void {
-        // probably can just select 0 of array
-        for(let input of this.inputs) {
-            if(input.value) {
-                this.model[this.property] = input.value;
-            }
-        }
-    }
-
     /**
      * 
      */
@@ -244,40 +229,37 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
             this.selected = false;
             
             this.processing = true;
-            
-            
+
             let token = this.authorization.user.token;
             
-            let currentContext = this.contextProvider.context;
-    
-            this.setModelValues();
-    
-            let metadatum = new Metadatum({
-                key: this.key,
-                value: this.model[this.property],
-                language: this.model.language ? this.model.language : null
-            });
+            let item = this.contextProvider.context;
     
             let metadata = new Array<Metadatum>();
-    
-            metadata.push(metadatum);
-    
-            this.dspaceService.updateItemMetadata(metadata, token, currentContext.id).subscribe(response => {
+
+            item.metadata.forEach(metadatum => {
+
+                // remove the metadata being removed
+                if(metadatum.key == this.key) {
+
+                    // temporary easy way to sanatize metadata for REST PUT
+                    if(metadatum.editable) {
+                        delete metadatum.editable;
+                    }
+
+                    if(metadatum.value == this.model[this.property]) {
+                        metadatum.value = this.inputs[0].value;
+                        this.model[this.property] = metadatum.value;
+                    }
+
+                    metadata.push(metadatum);
+                }
+
+            });
+            
+            this.dspaceService.updateItemMetadata(metadata, token, item.id).subscribe(response => {
     
                 if(response.status == 200) {
-                    // If we have files in our upload queue, upload them
-                    // if (this.uploader.queue.length > 0)
-                    // {
-                    //     // Upload all files
-                    //     this.uploadAll(this.item, token).subscribe (response => {
-                    //         // Finish up the item
-                    //         this.finish(this.item.name, currentContext);
-                    //     });
-                    // }
-                    // else {
-                    //     this.finish(this.model['name'], currentContext);
-                    // }
-                    this.finish(this.model['name'], currentContext);
+                    this.finish(this.property, item);
                 }
             },
             error => {
@@ -293,12 +275,7 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
      */
     cancel(): void {
         this.selected = false;
-        // probably can just select 0 of array
-        for(let input of this.inputs) {
-            if(input.value) {
-                input.value = this.model[this.property];
-            }
-        }
+        this.inputs[0].value = this.model[this.property];
     }
     
     /**

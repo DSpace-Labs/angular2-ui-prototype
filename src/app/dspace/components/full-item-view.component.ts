@@ -112,9 +112,6 @@ export class FullItemViewComponent implements OnDestroy {
      * 
      */
     private exitEditMode(): void {
-        this.subscriptions.forEach(subscription => {
-            subscription.unsubscribe();
-        });
         this.contextProvider.editing = false;
         this.notificationService.remove('item', this.editingNotification);
     }
@@ -123,6 +120,9 @@ export class FullItemViewComponent implements OnDestroy {
      *
      */
     ngOnDestroy() {
+        this.subscriptions.forEach(subscription => {
+            subscription.unsubscribe();
+        });
         this.exitEditMode();
     }
     

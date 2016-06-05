@@ -77,8 +77,10 @@ export class ContextProviderService {
      *
      */
     set editing(editing: boolean) {
-        this._editing = editing;
-        this.editingSubject.next(this._editing);
+        if(this._editing !== editing) {
+            this._editing = editing;
+            this.editingSubject.next(this._editing);
+        }
     }
 
 }

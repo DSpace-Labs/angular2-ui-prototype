@@ -126,9 +126,6 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
      * 
      */
     private exitEditMode(): void {
-        this.subscriptions.forEach(subscription => {
-            subscription.unsubscribe();
-        });
         this.contextProvider.editing = false;
         this.notificationService.remove('item', this.editingNotification);
     }
@@ -137,6 +134,9 @@ export class SimpleItemViewComponent implements OnDestroy { // uses OnInit for t
      *
      */
     ngOnDestroy() {
+        this.subscriptions.forEach(subscription => {
+            subscription.unsubscribe();
+        });
         this.exitEditMode();
     }
 
