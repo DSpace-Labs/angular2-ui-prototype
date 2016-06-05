@@ -188,8 +188,6 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
 
                     input.value = this.model[this.property];
                     
-                    console.log(input)
-                    
                     this.inputs.push(input);
                     
                     // this is a temporary easy way to allow modification of metadata
@@ -245,11 +243,12 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
             
             this.selected = false;
             
+            this.processing = true;
+            
+            
             let token = this.authorization.user.token;
             
             let currentContext = this.contextProvider.context;
-    
-            this.processing = true;
     
             this.setModelValues();
     
