@@ -33,7 +33,6 @@ export class FormService {
     getForm(form: string): Observable<Array<FormInput>> {
         let inputs = this.formStore.get(form);
         if(inputs) {
-            console.log('already have form')
             return Observable.create(observer => {
                 observer.next(inputs);
                 observer.complete();

@@ -19,10 +19,7 @@ import { InlineEditComponent } from '../inline-edit.component';
     template: `
                 <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" [header]="componentTitle | translate" [headerClasses]="['visible-xs']">
                     <div *ngFor="let metadatum of filteredFields;">
-                        <!-- <p>{{metadatum.value}}</p> -->
-
-                        <inline-edit type="p" [model]="metadatum" property="value"></inline-edit>
-
+                        <inline-edit [model]="metadatum" property="value"></inline-edit>
                     </div>
                 </view-element>
               `

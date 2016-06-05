@@ -15,44 +15,44 @@ import { SidebarService } from '../../../utilities/services/sidebar.service';
     selector: "sidebar-section",
     pipes: [ TranslatePipe ],
     directives: [ ROUTER_DIRECTIVES, SidebarSectionComponent ],
-    template:
-        `
-            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
-                <!-- if this component has children we want to render it w/o a link -->
+    template: `
+                <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
 
-                <!-- it is not a route section, it may or may not have a destination (url) -->
-                <div *ngIf="isHeading()" class="panel-heading sidebar-heading clickable" (click)="toggleOpen()">
-                    <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
-                </div>
-
-                <div *ngIf="isExternalLink()">
-                    <div class="sidebar-link">
-                        <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    <!-- if this component has children we want to render it w/o a link -->    
+                    <!-- it is not a route section, it may or may not have a destination (url) -->
+                    <div *ngIf="isHeading()" class="panel-heading sidebar-heading clickable" (click)="toggleOpen()">
+                        <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
                     </div>
-                </div>
 
-                <div *ngIf="showActionSection()"> <!-- if it is a action section, it also has a action -->
-                    <div class="sidebar-link">
-                        <a (click)="performAction()" class="clickable">{{ sidebarcomponent.componentName | translate }}</a>
+                    <div *ngIf="isExternalLink()">
+                        <div class="sidebar-link">
+                            <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                        </div>
                     </div>
-                </div>
 
-                <div *ngIf="showRouteSection()"> <!-- if it is a route section, it also has a destination -->
-                    <div class="sidebar-link">
-                        <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                    <div *ngIf="showActionSection()"> <!-- if it is a action section, it also has a action -->
+                        <div class="sidebar-link">
+                            <a (click)="performAction()" class="clickable">{{ sidebarcomponent.componentName | translate }}</a>
+                        </div>
                     </div>
-                </div>
 
-                <!-- render the children of this component -->
-                <div class="sidebar-section panel-body" *ngIf="isOpen && hasChildren()" >
-                    <ul>
-                        <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
-                           <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
-                        </li>
-                    </ul>
+                    <div *ngIf="showRouteSection()"> <!-- if it is a route section, it also has a destination -->
+                        <div class="sidebar-link">
+                            <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                        </div>
+                    </div>
+
+                    <!-- render the children of this component -->
+                    <div class="sidebar-section panel-body" *ngIf="isOpen && hasChildren()" >
+                        <ul>
+                            <li *ngFor="let child of visibleChildren()" class="sidebar-simple-section-element">
+                               <sidebar-section class="sidebar-child" *ngIf="child" [sidebarcomponent]="child"></sidebar-section>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
-            </div>
-        `
+              `
 })
 export class SidebarSectionComponent implements OnInit {
 

@@ -22,6 +22,23 @@ export class ContextProviderService {
      *
      */
     contextObservable: Observable<any>;
+    
+    
+    /**
+     *
+     */
+    private _editing: boolean = false;
+
+    /**
+     *
+     */
+    private editingSubject : Subject<boolean>;
+
+    /**
+     *
+     */
+    editingObservable: Observable<boolean>;
+    
 
     /**
      *
@@ -29,6 +46,9 @@ export class ContextProviderService {
     constructor() {
         this.contextSubject = new Subject<any>();
         this.contextObservable = this.contextSubject.asObservable();
+        
+        this.editingSubject = new Subject<boolean>();
+        this.editingObservable = this.editingSubject.asObservable();
     }
 
     /**
@@ -46,17 +66,20 @@ export class ContextProviderService {
         this.contextSubject.next(this._context);
     }
     
-    enableEditMode(): void {
-        if(this._context.editing === undefined) {
-            this._context.editing = true;
-            this.contextSubject.next(this._context);
-        }
+    /**
+     *
+     */
+    get editing(): boolean {
+        return this._editing;
     }
-    
-    disableEditMode(): void {
-        if(this._context.editing !== undefined) {
-            delete this._context.editing;
-            this.contextSubject.next(this._context); 
+
+    /**
+     *
+     */
+    set editing(editing: boolean) {
+        if(this._editing !== editing) {
+            this._editing = editing;
+            this.editingSubject.next(this._editing);
         }
     }
 

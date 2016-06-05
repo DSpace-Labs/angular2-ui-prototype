@@ -16,18 +16,14 @@ import { InlineEditComponent } from '../inline-edit.component';
     selector: 'item-authors',
     directives: [ InlineEditComponent, ViewElementComponent ],
     pipes: [ TranslatePipe ],
-    template:
-            `
+    template: `
                 <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate" class="simple-item-view-authors">
                     <!-- calls the view-element component, which takes care of rendering based on the 'header' input parameter, and the child elements of view-element-->
                     <div *ngFor="let metadatum of filteredFields;">
-                        <!-- <p>{{ metadatum.value }}</p> -->
-                        
-                        <inline-edit type="p" [model]="metadatum" property="value"></inline-edit>
-
+                        <inline-edit [model]="metadatum" property="value"></inline-edit>
                     </div>
                 </view-element>
-            `
+              `
 })
 export class AuthorsComponent extends ViewComponent implements OnChanges {
 

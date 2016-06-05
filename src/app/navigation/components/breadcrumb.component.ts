@@ -92,12 +92,12 @@ export class BreadcrumbComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     *
+     * will not work if name of breadcrumb is what is being updated
      */
     private updateBreadcrumb(updatedBreadcrumb): void {
-        for(let breadcrumb of this.trail) {
-            if(breadcrumb.name == updatedBreadcrumb.name) {
-                breadcrumb = updatedBreadcrumb;
+        for(let i in this.trail) {            
+            if(this.trail[i].id == updatedBreadcrumb.id) {
+                this.trail[i] = updatedBreadcrumb;
             }
         }
     }

@@ -38,8 +38,6 @@ import { User } from './dspace/models/user.model';
  * Component for the profile
  */
 export class ProfileComponent {
-        
-    private breadcrumb: Breadcrumb = new Breadcrumb('profile', true);
 
     /**
      * Logged in user.
@@ -63,7 +61,7 @@ export class ProfileComponent {
     constructor(private breadcrumbService: BreadcrumbService,
                 private authorization: AuthorizationService,
                 private translate : TranslateService) {
-        breadcrumbService.visit(this.breadcrumb);
+        breadcrumbService.visit(new Breadcrumb('profile', true));
         this.user = authorization.user;
         authorization.userObservable.subscribe(user => {
             this.user = user;

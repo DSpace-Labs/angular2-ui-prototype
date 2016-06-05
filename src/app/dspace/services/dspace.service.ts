@@ -272,24 +272,39 @@ export class DSpaceService {
     /**
      * Method to update item metadata.
      *
-     * @param item
-     *      Item being created
+     * @param metadata
+     *      Array<Metadatum> being updated
      * @param token
      *      DSpace user token
      * @param itemId
      *      DSpace item id
      */
-    updateItemMetadata(metadaa: Array<Metadatum>, token: string, itemId: string): Observable<Response> {
+    updateItemMetadata(metadata: Array<Metadatum>, token: string, itemId: string): Observable<Response> {
         let path = '/items/' + itemId + '/metadata';
-
-        console.log(metadaa)
-
         return this.httpService.put({
             url: URLHelper.relativeToAbsoluteRESTURL(path),
             headers: [{
                 key: 'rest-dspace-token', value: token
             }],
-            data: metadaa
+            data: metadata
+        });
+    }
+    
+    /**
+     * Method to clear item metadata.
+     *
+     * @param token
+     *      DSpace user token
+     * @param itemId
+     *      DSpace item id
+     */
+    clearItemMetadata(token: string, itemId: string): Observable<Response> {
+        let path = '/items/' + itemId + '/metadata';
+        return this.httpService.delete({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
         });
     }
 

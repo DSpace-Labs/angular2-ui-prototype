@@ -8,6 +8,9 @@ import { SidebarSection } from '../../models/sidebar/sidebar-section.model';
 import { SidebarSectionComponent } from './sidebar-section.component';
 import { ArrayUtil } from "../../../utilities/commons/array.util";
 
+import { BreadcrumbService } from '../../../navigation/services/breadcrumb.service';
+import { Breadcrumb } from '../../../navigation/models/breadcrumb.model';
+
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 import { FormSecureComponent } from "../../../utilities/form/form-secure.component";
 import { FormService } from "../../../utilities/form/form.service";
@@ -19,7 +22,7 @@ import { URLHelper } from "../../../utilities/url.helper";
  * Main component to render the sidebar. Will access the sidebarservice to find out which components need to be rendered.
  */
 @Component({
-    selector: "admin-sidebar",
+    selector: "adminSidebar",
     directives: [ ROUTER_DIRECTIVES, SidebarSectionComponent ],
     pipes: [ TranslatePipe ],
     template: `
@@ -100,12 +103,14 @@ export class AdminSidebarComponent extends FormSecureComponent implements OnInit
      *      Router is a singleton service provided by Angular2.
      */
     constructor(private sidebarService: SidebarService,
+                private breadcrumbService: BreadcrumbService,
                 private http: Http,
                 formService: FormService,
                 formBuilder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, formBuilder, authorization, router);
+         breadcrumbService.visit(new Breadcrumb('adminSidebar', true));
     }
 
     /**

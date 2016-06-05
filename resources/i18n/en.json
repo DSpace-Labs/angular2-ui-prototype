@@ -126,6 +126,8 @@
     "item-view.full.full-metadata.thead.key": "Key",
     "item-view.full.full-metadata.thead.value": "Value",
     "item-view.full.full-metadata.thead.lang": "Language",
+    "item-view.full.full-metadata.thead.remove": "Remove",
+    
     "item-view.header.authors": "Author",
     "item-view.header.bitstreams": "Download",
     "item-view.header.collections": "Collections",
@@ -135,7 +137,9 @@
     "item-view.header.abstract": "Abstract",
     "item-view.show-full": "Show full item record",
     "item-view.show-simple": "Show simple item record",
+    
     "item-view.exit-edit-mode": "Exit edit mode",
+    "item-view.add-metadata": "Add metadata",
 
     "login.title": "Login",
     "login.confirm": "Login",
@@ -147,12 +151,14 @@
     "login.password.required": "Password is required",
     "login.unauthorized": "Incorrect email or password",
 
-
-    "update.processing": "Processing updated {{property}}",
+    
+    "edit.mode": "Edit mode: click the pencil icon to edit field, enter or leave focus to submit, escape to cancel",
 
     "update.success": "Successfully updated {{name}}",
-
-    "update.error": "Error while attempting to updated {{name}}",
+    "update.error": "Error while attempting to update {{name}}",
+    
+    "delete.success": "Successfully deleted {{name}}",
+    "delete.error": "Error while attempting to delete {{name}}",
     
 
     "register.title": "Register",
