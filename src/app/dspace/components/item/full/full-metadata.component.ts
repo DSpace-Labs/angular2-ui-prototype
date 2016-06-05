@@ -47,6 +47,7 @@ import { InlineEditComponent } from '../../inline-edit.component';
                                 </tr>
                             </tbody>
                         </table>
+                        <a *ngIf="editing()" class="btn btn-default pull-right" (click)="addMetadataInline()">{{ 'item-view.add-metadata' | translate }}</a>
                     </div>
                 </view-element>
               `
@@ -131,6 +132,13 @@ export class FullMetadataComponent {
                 this.notificationService.notify('item', 'DANGER', this.translate.instant('delete.error', { name: metadatum.key }));
             });
         }
+    }
+    
+    /**
+     * 
+     */
+    addMetadataInline(): void {
+        
     }
 
     /**
