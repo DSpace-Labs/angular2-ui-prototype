@@ -115,7 +115,9 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
     /**
      * Initialize the item metadata form and validators.
      */
-    init(): void {        
+    init(): void {
+        
+        console.log(this.model);
         
         this.inputs = new Array<FormInput>();
         
@@ -185,16 +187,16 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                 if(input.key == this.key) {
 
                     input.value = this.model[this.property];
-
-                    this.inputs.push(input);
                     
+                    console.log(input)
+                    
+                    this.inputs.push(input);
                     
                     // this is a temporary easy way to allow modification of metadata
                     // if it was part of the types create form
                     if(this.model.key != 'dc.title') {
                         this.model.editable = true;
                     }
-                    
 
                     let validators = this.formService.createValidators(input);
                     formControls[input.id] = new Control('', Validators.compose(validators));
@@ -232,13 +234,6 @@ export class InlineEditComponent extends FormSecureComponent implements AfterCon
                 this.model[this.property] = input.value;
             }
         }
-    }
-
-    /**
-     * Message to display while processing update
-     */
-    processingMessage(): string {
-        return this.translate.instant('update.processing', { property: this.property });
     }
 
     /**

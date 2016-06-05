@@ -114,7 +114,7 @@ export class FullMetadataComponent {
                                }
                             });
                             
-                            this.notificationService.notify('item', 'SUCCESS', this.translate.instant('delete.success', { name: metadatum.key }));
+                            this.notificationService.notify('item', 'SUCCESS', this.translate.instant('delete.success', { name: metadatum.key }), 10);
                         }
                     },
                     error => {
