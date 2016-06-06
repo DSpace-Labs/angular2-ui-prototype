@@ -38,7 +38,7 @@ import { Metadatum } from '../../dspace/models/metadatum.model';
     template: `
                 <loader *ngIf="processing" [center]="false"></loader>
                 <form *ngIf="showForm()" [ngFormModel]="form" (ngSubmit)="update()" novalidate>
-                    
+
                     <span *ngIf="show()" class="{{class}}">{{ model[property] }}</span>
 
                     <span *ngIf="edit()" class="{{class}}">
@@ -257,8 +257,12 @@ export class FormInlineEditComponent extends FormSecureComponent implements Afte
             });
             
             this.dspaceService.updateItemMetadata(metadata, token, item.id).subscribe(response => {
-    
                 if(response.status == 200) {
+
+                    if(this.key == 'dc.title') {
+                        item.name = this.model[this.property];
+                    }
+
                     this.finish(this.property, item);
                 }
             },
@@ -286,7 +290,7 @@ export class FormInlineEditComponent extends FormSecureComponent implements Afte
     finish(name: string, currentContext: any): void {
         this.dspaceHierarchy.refresh(currentContext);
         this.breadcrumbService.update(currentContext);
-        this.reset();        
+        this.reset();
         // this alert is to distracting for inline edit
         //this.notificationService.notify('item', 'SUCCESS', this.translate.instant('update.success', { name: name }), 10);
     }
