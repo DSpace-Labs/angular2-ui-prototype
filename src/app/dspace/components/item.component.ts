@@ -15,6 +15,7 @@ import { ObjectUtil } from "../../utilities/commons/object.util";
 
 import { SimpleItemViewComponent } from './simple-item-view.component';
 import { FullItemViewComponent } from './full-item-view.component';
+import { NotificationComponent } from '../../utilities/notification/notification.component';
 
 import { Item } from "../models/item.model";
 
@@ -27,9 +28,10 @@ import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
  */
 @Component({
     selector: 'item',
-    directives: [ RouterOutlet ],
+    directives: [ RouterOutlet, NotificationComponent ],
     providers: [ GoogleScholarMetadataService, ItemSidebarHelper ],
     template: `
+                <notification [channel]="channel"></notification>
                 <router-outlet></router-outlet>
               `
 })
@@ -42,8 +44,11 @@ import { ItemSidebarHelper } from '../../utilities/item-sidebar.helper';
 
 ])
 export class ItemComponent implements CanDeactivate {
-
-    item : Item;
+        
+    /**
+     * Notification channel.
+     */
+    private channel: string = "item";
 
     /**
      *
@@ -63,10 +68,9 @@ export class ItemComponent implements CanDeactivate {
                 private gsMeta: GoogleScholarMetadataService,
                 private params: RouteParams,
                 @Inject(ItemSidebarHelper) private sidebarHelper : ItemSidebarHelper) {
-        dspace.loadObj('item', params.get("id")).then((item:Item) => {
+        dspace.loadObj('item', params.get("id")).then((item: Item) => {
             breadcrumbService.visit(item);
-            this.gsMeta.setGoogleScholarMetaTags(item);
-            this.item = item;
+            this.gsMeta.setGoogleScholarMetaTags(item);            
             this.sidebarHelper.populateSidebar();
         });
     }

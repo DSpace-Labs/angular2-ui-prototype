@@ -2,16 +2,13 @@ import { Component, OnDestroy, Inject } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
-
 import { BreadcrumbService } from './navigation/services/breadcrumb.service';
 import { DSpaceHierarchyService } from './dspace/services/dspace-hierarchy.service';
 
 import { TreeComponent } from './navigation/components/tree.component';
 import { NewsComponent } from './dspace/components/news.component';
 
-
 import { HomeSidebarHelper } from './utilities/home-sidebar.helper';
-
 
 import { Breadcrumb } from './navigation/models/breadcrumb.model';
 
@@ -25,27 +22,20 @@ import { Breadcrumb } from './navigation/models/breadcrumb.model';
     directives: [ TreeComponent, NewsComponent ],
     providers : [ HomeSidebarHelper ],
     template: `
-
                 <news class="home-news"></news>
-
-                <tree [header]="header" [hierarchies]="dspace.hierarchy"></tree>
+                <!-- If a header i18n key is passed in, display it -->
+                <h1 *ngIf="header" class="browse-header">{{ header | translate }}</h1>
+                <tree [hierarchies]="dspace.hierarchy"></tree>
               `
 })
 export class HomeComponent implements OnDestroy {
-
 
     /**
      * The header to be passed on to our tree.component
      * This is the i18n string as it occurs in the en.json file
      * @type {string}
      */
-    private header : string = "home.hierarchy";
-
-    /**
-     *
-     * @type {Breadcrumb}
-     */
-    private breadcrumb: Breadcrumb = new Breadcrumb('home', true);
+    private header: string = "home.hierarchy";
 
     /**
      *
@@ -58,16 +48,15 @@ export class HomeComponent implements OnDestroy {
      */
     constructor(private dspace: DSpaceHierarchyService,
                 private breadcrumbService: BreadcrumbService,
-                @Inject(HomeSidebarHelper) private sidebarHelper : HomeSidebarHelper) {
-        breadcrumbService.visit(this.breadcrumb);
+                @Inject(HomeSidebarHelper) private sidebarHelper: HomeSidebarHelper) {
+        breadcrumbService.visit(new Breadcrumb('home', true));
         this.sidebarHelper.populateSidebar();
     }
 
     /**
      *
      */
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this.sidebarHelper.removeSections();
     }
 

@@ -3,8 +3,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { Metadatum } from '../../models/metadatum.model'
-import { ViewComponent } from '../../models/viewcomponent.model'
+import { ViewComponent } from '../../models/view-component.model'
 import { ViewElementComponent } from './view-element.component';
+
+import { FormInlineEditComponent } from '../../../utilities/form/form-inline-edit.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -12,17 +14,16 @@ import { ViewElementComponent } from './view-element.component';
  */
 @Component({
     selector: 'item-authors',
-    directives: [ ViewElementComponent ],
+    directives: [ FormInlineEditComponent, ViewElementComponent ],
     pipes: [ TranslatePipe ],
-    template:
-            `
+    template: `
                 <view-element *ngIf="hasMetadata()" [header]="componentTitle | translate" class="simple-item-view-authors">
                     <!-- calls the view-element component, which takes care of rendering based on the 'header' input parameter, and the child elements of view-element-->
                     <div *ngFor="let metadatum of filteredFields;">
-                        <p>{{ metadatum.value }}</p>
+                        <inline-edit [model]="metadatum" property="value"></inline-edit>
                     </div>
                 </view-element>
-            `
+              `
 })
 export class AuthorsComponent extends ViewComponent implements OnChanges {
 

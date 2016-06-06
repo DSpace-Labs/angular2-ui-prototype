@@ -1,4 +1,4 @@
-import { DSpaceObject } from "./dspaceobject.model";
+import { DSpaceObject } from "./dspace-object.model";
 import { ObjectUtil } from "../../utilities/commons/object.util";
 import { StringUtil } from "../../utilities/commons/string.util";
 
@@ -34,7 +34,8 @@ export class Metadatum {
         if (ObjectUtil.isNotEmpty(json)) {
             this.key = json.key;
             this.value = json.value;
-            this.language = json.language;
+            // TODO: manage default langauge
+            this.language = json.language ? json.language : 'en_US';
         }
     }
 

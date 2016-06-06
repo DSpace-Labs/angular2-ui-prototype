@@ -4,7 +4,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
-import { ViewComponent } from '../../models/viewcomponent.model';
+import { ViewComponent } from '../../models/view-component.model';
 import { ViewElementComponent } from './view-element.component';
 
 /**
@@ -43,15 +43,15 @@ export class MetadataComponent extends ViewComponent {
      */
     constructor() {
         super(["dc.contributor.author",
-                       "dc.date.accessioned",
-                       "dc.date.available",
-                       "dc.date.issued",
-                       "dc.identifier.uri",
-                       "dc.rights",
-                       "dc.rights.uri",
-                       "dc.subject",
-                       "dc.title",
-                       "dc.type"]); // list of fields we want to filter for
+               "dc.date.accessioned",
+               "dc.date.available",
+               "dc.date.issued",
+               "dc.identifier.uri",
+               "dc.rights",
+               "dc.rights.uri",
+               "dc.subject",
+               "dc.title",
+               "dc.type"]); // list of fields we want to filter for
     }
 
     /**

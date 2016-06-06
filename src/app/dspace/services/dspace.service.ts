@@ -6,6 +6,7 @@ import { HttpService } from '../../utilities/services/http.service';
 import { Community } from '../models/community.model';
 import { Collection } from '../models/collection.model';
 import { Item } from '../models/item.model';
+import { Metadatum } from '../models/metadatum.model';
 import { URLHelper } from "../../utilities/url.helper";
 
 /**
@@ -37,7 +38,7 @@ export class DSpaceService {
         params.append("limit", '200');
         params.append("offset", '0');
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/top-communities'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/top-communities?expand=logo'),
             search: params
         }).map(json => {
             let topCommunities = new Array<Community>();
@@ -59,7 +60,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/communities'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/communities?expand=logo'),
             search: params
         }).map(json => {
             let communities = new Array<Community>();
@@ -81,7 +82,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/collections'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/collections?expand=logo'),
             search: params
         }).map(json => {
             let collections = new Array<Collection>();
@@ -264,6 +265,46 @@ export class DSpaceService {
                 key: 'rest-dspace-token', value: token
             }],
             data: item
+        });
+    }
+
+
+    /**
+     * Method to update item metadata.
+     *
+     * @param metadata
+     *      Array<Metadatum> being updated
+     * @param token
+     *      DSpace user token
+     * @param itemId
+     *      DSpace item id
+     */
+    updateItemMetadata(metadata: Array<Metadatum>, token: string, itemId: string): Observable<Response> {
+        let path = '/items/' + itemId + '/metadata';
+        return this.httpService.put({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }],
+            data: metadata
+        });
+    }
+    
+    /**
+     * Method to clear item metadata.
+     *
+     * @param token
+     *      DSpace user token
+     * @param itemId
+     *      DSpace item id
+     */
+    clearItemMetadata(token: string, itemId: string): Observable<Response> {
+        let path = '/items/' + itemId + '/metadata';
+        return this.httpService.delete({
+            url: URLHelper.relativeToAbsoluteRESTURL(path),
+            headers: [{
+                key: 'rest-dspace-token', value: token
+            }]
         });
     }
 

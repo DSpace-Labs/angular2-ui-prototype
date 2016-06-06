@@ -67,7 +67,7 @@ export abstract class DSpaceObject extends Pageable {
      *
      * @returns {Array<Metadatum>}
      */
-    getmetadata(): Array<Metadatum> {
+    getMetadata(): Array<Metadatum> {
         return this.metadata;
     }
 

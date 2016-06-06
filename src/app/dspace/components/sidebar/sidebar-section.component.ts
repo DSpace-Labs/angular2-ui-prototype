@@ -1,9 +1,10 @@
-import {Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, RouteConfig, Router } from '@angular/router-deprecated';
 import { ArrayUtil } from '../../../utilities/commons/array.util';
 import { ObjectUtil } from '../../../utilities/commons/object.util';
 import { SidebarSection} from '../../models/sidebar/sidebar-section.model';
 import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { SidebarService } from '../../../utilities/services/sidebar.service';
 
 /**
  * Main component to render a sidebar-section
@@ -12,28 +13,34 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
  */
 @Component({
     selector: "sidebar-section",
-    pipes: [TranslatePipe],
-    directives: [ROUTER_DIRECTIVES, SidebarSectionComponent],
-    template:
-        `
-            <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
-                <!-- if this component has children we want to render it w/o a link -->
+    pipes: [ TranslatePipe ],
+    directives: [ ROUTER_DIRECTIVES, SidebarSectionComponent ],
+    template: `
+                <div *ngIf="sidebarcomponent.visible" class="panel panel-default">
 
-                <!-- it is not a route section, it may or may not have a destination (url) -->
-                <div *ngIf="isHeading()" class="panel-heading sidebar-heading clickable" (click)="toggleOpen()">
-                    <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
-                </div>
-                <div *ngIf="isExternalLink()">
-                    <div class="sidebar-link">
-                        <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                    <!-- if this component has children we want to render it w/o a link -->    
+                    <!-- it is not a route section, it may or may not have a destination (url) -->
+                    <div *ngIf="isHeading()" class="panel-heading sidebar-heading clickable" (click)="toggleOpen()">
+                        <h4 class="panel-title">{{sidebarcomponent.componentName | translate}} <i [ngClass]="{'ion-ios-arrow-up':isOpen, 'ion-ios-arrow-down':!isOpen}" class="pull-right ion-icon ion-ios-arrow-up"></i></h4>
                     </div>
-                </div>
 
-                <div *ngIf="isRouteSection()"> <!-- if it is a route section, it also has a destination -->
-                    <div class="sidebar-link">
-                        <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                    <div *ngIf="isExternalLink()">
+                        <div class="sidebar-link">
+                            <a target="_blank" [href]="sidebarcomponent.url">{{sidebarcomponent.componentName}}</a>
+                        </div>
                     </div>
-                </div>
+
+                    <div *ngIf="showActionSection()"> <!-- if it is a action section, it also has a action -->
+                        <div class="sidebar-link">
+                            <a (click)="performAction()" class="clickable">{{ sidebarcomponent.componentName | translate }}</a>
+                        </div>
+                    </div>
+
+                    <div *ngIf="showRouteSection()"> <!-- if it is a route section, it also has a destination -->
+                        <div class="sidebar-link">
+                            <a [routerLink]="getRouteParams()">{{ sidebarcomponent.componentName | translate }}</a>
+                        </div>
+                    </div>
 
                     <!-- render the children of this component -->
                     <div class="sidebar-section panel-body" *ngIf="isOpen && hasChildren()" >
@@ -43,51 +50,52 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
                             </li>
                         </ul>
                     </div>
-            </div>
-        `
+
+                </div>
+              `
 })
+export class SidebarSectionComponent implements OnInit {
 
-
-
-export class SidebarSectionComponent implements OnInit
-{
-
+    // TODO: refactor to avoid confusion
+    //       variable name is sidebarcomponent, which is not camel case
+    //       while type is SidebarSection, there exists a SidebarComponent
+    
     /**
      *  The current sidebar-section that we will be rendering
      */
-    @Input() private sidebarcomponent : SidebarSection;
+    @Input() private sidebarcomponent: SidebarSection;
 
     /**
      *  The children of the current sidebar-section
      */
-    children : Array<SidebarSection>;
+    children: Array<SidebarSection>;
 
+    /**
+     *
+     */
     isOpen: boolean;
 
     /**
      *
      */
-    constructor()
-    {
+    constructor(private sidebarService: SidebarService) {
         this.isOpen = true;
     }
 
-
+    // TODO: define return type and type of array
+    
     /**
      * Returns the parameters for the route
      * @returns {Array}
      */
-    getRouteParams()
-    {
-        let routes = [];
+    getRouteParams() {
+        let routes = new Array<any>();
 
         // check if the sidebar has routes
         if(ArrayUtil.isNotEmpty(this.sidebarcomponent.routes)){
-            this.sidebarcomponent.routes.forEach(route =>
-            {
+            this.sidebarcomponent.routes.forEach(route => {
                 routes.push(route.name);
-                if(route.params!=null)
-                {
+                if(route.params != null) {
                     routes.push(route.params);
                 }
             });
@@ -100,8 +108,7 @@ export class SidebarSectionComponent implements OnInit
     /**
      *
      */
-    ngOnInit()
-    {
+    ngOnInit() {
         this.children = this.sidebarcomponent.childsections;
     }
 
@@ -110,8 +117,7 @@ export class SidebarSectionComponent implements OnInit
      * Returns the children of the current component whom have their visibility set to 'true'
      * @returns {T[]|SidebarSection[]}
      */
-    visibleChildren()
-    {
+    visibleChildren() {
          // this needs to run when visible children updates though, right?
         return this.sidebarcomponent.childsections.filter(child => child.visible);
     }
@@ -120,8 +126,7 @@ export class SidebarSectionComponent implements OnInit
      * Checks if the current component has child components
      * @returns {boolean}
      */
-    hasChildren() : boolean
-    {
+    hasChildren(): boolean {
         return (ArrayUtil.isNotEmpty(this.children)) ? true : false;
     }
 
@@ -131,8 +136,7 @@ export class SidebarSectionComponent implements OnInit
      *
      * @returns {boolean}
      */
-    hasDestination() : boolean
-    {
+    hasDestination(): boolean {
         // a destination is a url or a route
         return ArrayUtil.isNotEmpty(this.sidebarcomponent.routes) || ObjectUtil.hasValue(this.sidebarcomponent.url);
     }
@@ -143,11 +147,45 @@ export class SidebarSectionComponent implements OnInit
      * In case a URL is provided as well, preference will still be given to the Route.
      * @returns {boolean}
      */
-    isRouteSection() : boolean
-    {
+    isRouteSection(): boolean {
         return ArrayUtil.isNotEmpty(this.sidebarcomponent.routes);
     }
 
+    /**
+     * 
+     * @returns {boolean}
+     */
+    isActionSection(): boolean {
+        return ArrayUtil.isNotEmpty(this.sidebarcomponent.actions);
+    }
+
+    /**
+     *
+     */
+    showRouteSection(): boolean {
+        if(this.isActionSection()) {
+            return this.isRouteSection() && this.isRootContext();
+        }
+        else {
+            return this.isRouteSection();
+        }
+    }
+
+    /**
+     * 
+     */
+    showActionSection(): boolean {
+        if(this.isRouteSection()) {
+            return this.isActionSection() && !this.isRootContext();
+        }
+        else {
+            return this.isActionSection();
+        }
+    }
+
+    isRootContext(): boolean {
+        return this.sidebarService.isRootContext();
+    }
 
     /**
      * Check whether the current sidebar-section should be rendered as a heading.
@@ -155,11 +193,9 @@ export class SidebarSectionComponent implements OnInit
      * @returns {boolean}
      *      true if it isn't a route and doesn't have a destination
      */
-    isHeading() : boolean
-    {
-        return !this.isRouteSection() && !this.hasDestination();
+    isHeading(): boolean {
+        return !this.isRouteSection() && !this.isActionSection() && !this.hasDestination();
     }
-
 
     /**
      * Check whether the current sidebar-section should be rendered as an external link.
@@ -167,13 +203,16 @@ export class SidebarSectionComponent implements OnInit
      * @returns {boolean}
      *      true if it isn't a route and has a destination
      */
-    isExternalLink() : boolean
-    {
-        return !this.isRouteSection() && this.hasDestination();
+    isExternalLink(): boolean {
+        return !this.isRouteSection() && !this.isActionSection() && this.hasDestination();
     }
 
     toggleOpen(): void {
         this.isOpen = !this.isOpen;
+    }
+
+    performAction(): void {
+        this.sidebarService["action" + this.sidebarcomponent.actions[0]]();
     }
 
 }

@@ -56,20 +56,47 @@ export class DSpaceHierarchyService {
      *      Current context
      */
     refresh(context?: any): void {
+        
+        // TODO: reduce redundancy
+        
         if(context) {
-            this.pagingStore.clearPages(context);
-            context.unload();
-            context.limit = null;
+            
             if(context.type == 'community') {
+                
+                this.pagingStore.clearPages(context);
+                context.unload();
+                context.limit = null;
+                
                 context.subcommunities.splice(0, context.subcommunities.length);
                 context.collections.splice(0, context.collections.length);
                 this.loadNav('community', context);
                 this.loadNav('collection', context);
             }
             else if(context.type == 'collection') {
+                
+                this.pagingStore.clearPages(context);
+                context.unload();
+                context.limit = null;
+                
                 context.items.splice(0, context.items.length);
                 this.loadNav('item', context);
+                // currently only used while adding a new item
+                // which needs to increment all its parents total item count
                 this.incrementItemCount(context);
+            }
+            else {
+                console.log('update item')
+                // refresh the parent collection for when an item is updated
+                // could maybe be more granular, such as search and replace with 
+                // the input context seeing how it has the updates
+                // the cache would have to be updated as well
+                
+                this.pagingStore.clearPages(context.parentCollection);
+                context.parentCollection.unload();
+                context.parentCollection.limit = null;
+                
+                context.parentCollection.items.splice(0, context.parentCollection.items.length);
+                this.loadNav('item', context.parentCollection);
             }
         }
         else {

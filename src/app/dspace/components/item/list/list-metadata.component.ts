@@ -59,7 +59,13 @@ export class ListMetadataComponent implements OnInit {
      *
      */
     ngOnInit() {
-        let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.getmetadata(), ["dc.contributor.author", "dc.creator", "dc.contributor", "dc.description.abstract", "dc.date.accessioned"]);
+        let filteredData: Array<Metadatum> = this.metadataHelper.filterMetadata(this.item.getMetadata(), [ 
+            "dc.contributor.author",
+            "dc.creator",
+            "dc.contributor",
+            "dc.description.abstract",
+            "dc.date.accessioned" 
+        ]);
         if (filteredData != null) {
             for (let i:number = 0; i < filteredData.length; i++) {
                 if (filteredData[i].element == "creator") {

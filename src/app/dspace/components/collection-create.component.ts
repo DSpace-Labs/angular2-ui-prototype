@@ -59,7 +59,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param dspace
+     * @param dspaceHierarchy
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
@@ -75,7 +75,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceHierarchyService,
+                private dspaceHierarchy: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -90,7 +90,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
      */
     init(): void {
         this.collection = new Collection();
-        this.formService.getForm('collection').subscribe(inputs => {
+        this.subscription = this.formService.getForm('collection').subscribe(inputs => {
             this.inputs = inputs;
             let formControls = {};
             for(let input of this.inputs) {
@@ -129,7 +129,7 @@ export class CollectionCreateComponent extends FormSecureComponent {
      */
     finish(collectionName: string, currentContext: any): void {
         this.reset();
-        this.dspace.refresh(currentContext);
+        this.dspaceHierarchy.refresh(currentContext);
         this.router.navigate(['/Communities', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('collection.create.success', { name: collectionName }), 15);
     }

@@ -61,6 +61,37 @@ export class HttpService {
         return this.http.post(request.url, body, options);
     }
 
+    /**
+     * Method to make a http PUT request.
+     *
+     * @param request
+     *      an object, {uri: string, data: Object, headers: Array}, used to PUT
+     */
+    put(request: any): any {
+
+        let body = JSON.stringify(request.data);
+
+        let headers = this.buildHeaders(request);
+
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(request.url, body, options);
+    }
+    
+    /**
+     * Method to make a http DELETE request.
+     *
+     * @param request
+     *      an object, {uri: string, data: Object, headers: Array}, used to PUT
+     */
+    delete(request: any): any {
+
+        let headers = this.buildHeaders(request);
+
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.delete(request.url, options);
+    }
 
     /**
      * Method to make http GET request. This method maps a serialized response

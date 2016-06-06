@@ -7,6 +7,7 @@ import { TranslatePipe } from "ng2-translate/ng2-translate";
 
 import { AuthorizationService } from '../services/authorization.service';
 import { FormService } from '../../../utilities/form/form.service';
+import { SidebarService } from "../../../utilities/services/sidebar.service";
 
 import { FormFieldsetComponent } from '../../../utilities/form/form-fieldset.component';
 import { FormModalComponent, ModalAction } from '../../../utilities/form/form-modal.component';
@@ -53,12 +54,14 @@ export class LoginModalComponent extends LoginComponent {
      * @param router
      *      Router is a singleton service provided by Angular2.
      */
-    constructor(formService: FormService,
+    constructor(sidebarService: SidebarService,
+                formService: FormService,
                 builder: FormBuilder,
                 authorization: AuthorizationService,
                 router: Router) {
         super(formService, builder, authorization, router);
         this.init();
+        sidebarService.login = this;
     }
 
     /**
@@ -110,7 +113,7 @@ export class LoginModalComponent extends LoginComponent {
     /**
      * Opens the modal.
      */
-    private openLoginModal(): void {
+    openLoginModal(): void {
         this.login.show();
     }
 

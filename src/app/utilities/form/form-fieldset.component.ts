@@ -1,4 +1,10 @@
-import { Component, Inject, Input } from '@angular/core';
+import { 
+    Component,
+    EventEmitter,
+    Input,
+    Output
+} from '@angular/core';
+
 import { ControlGroup } from '@angular/common';
 
 import { FormValidationMessageComponent } from './form-validation-message.component';
@@ -17,16 +23,24 @@ import { FormFocusDirective } from './form-focus.directive';
                 <!-- Based on the *type* of field, display the appropriate input type (e.g. checkbox, text, date, textarea, etc) -->
                 <!-- If input is hidden and is required make sure value is set -->
                 <fieldset class="form-group" *ngFor="let input of inputs; let i = index" [hidden]="input.hidden" [class.has-error]="hasError(input)">
+                    
                     <input *ngIf="checkboxInput(input)" type="checkbox" name="{{ input.id }}" id="{{ input.id }}" value="true" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    
                     <!-- For accessibility, ensure label references input ID via "for" attribute -->
-                    <label [attr.for]="input.id">{{ input.gloss }}</label>
-                    <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" [focus]="i == 0">
-                    <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-                    <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
-                    <textarea *ngIf="textAreaInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]"></textarea>
-                    <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]">
+                    <label *ngIf="label" [attr.for]="input.id">{{ input.gloss }}</label>
+                    
+                    <input *ngIf="textInput(input)" class="form-control" type="text" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" [focus]="i == 0" (blur)="emitAction('update')" (keyup.Escape)="emitAction('cancel')" autofocus>
+                    
+                    <input *ngIf="passwordInput(input)" class="form-control" type="password" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" (blur)="emitAction('update')" (keyup.Escape)="emitAction('cancel')" autofocus>
+                    
+                    <input *ngIf="dateInput(input)" class="form-control" type="date" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" (blur)="emitAction('update')" (keyup.Escape)="emitAction('cancel')" autofocus>
+                    
+                    <textarea *ngIf="textAreaInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" (blur)="emitAction('update')" (keyup.Escape)="emitAction('cancel')" autofocus></textarea>
+                    
+                    <select *ngIf="selectInput(input)" class="form-control" id="{{ input.id }}" [(ngModel)]="input.value" [ngFormControl]="form.controls[input.id]" (blur)="emitAction('update')" (keyup.Escape)="emitAction('cancel')" autofocus>
                         <option *ngFor="let option of input.options" [value]="option.value">{{ option.gloss }}</option>
                     </select>
+                    
                     <form-validation-message [form]="form" [input]="input"></form-validation-message>
                 </fieldset>
               `
@@ -42,6 +56,23 @@ export class FormFieldsetComponent {
      * Item input fields.
      */
     @Input("inputs") private inputs: Array<FormInput>;
+
+    /**
+     * Item input fields.
+     */
+    @Input("label") private label: boolean = true;
+    
+    /**
+     * 
+     */
+    @Output('onEvent') onEvent: EventEmitter<any> = new EventEmitter<any>();
+    
+    /**
+     * 
+     */
+    private emitAction(action: string): void {
+        this.onEvent.next(action);
+    }
 
     /**
      *

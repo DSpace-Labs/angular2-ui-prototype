@@ -1,10 +1,12 @@
 import { Component, OnChanges, Input } from '@angular/core';
 
 import { TranslatePipe } from "ng2-translate/ng2-translate";
-import { ViewComponent } from '../../models/viewcomponent.model'
+import { ViewComponent } from '../../models/view-component.model'
 import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
 import { ViewElementComponent } from './view-element.component';
+
+import { FormInlineEditComponent } from '../../../utilities/form/form-inline-edit.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -12,14 +14,12 @@ import { ViewElementComponent } from './view-element.component';
  */
 @Component({
     selector: 'item-abstract',
-    directives: [ViewElementComponent],
-    pipes: [TranslatePipe],
+    directives: [ FormInlineEditComponent, ViewElementComponent ],
+    pipes: [ TranslatePipe ],
     template: `
-                <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" 
-                    [header]="componentTitle | translate" 
-                    [headerClasses]="['visible-xs']">
+                <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" [header]="componentTitle | translate" [headerClasses]="['visible-xs']">
                     <div *ngFor="let metadatum of filteredFields;">
-                        <p>{{metadatum.value}}</p>
+                        <inline-edit [model]="metadatum" property="value"></inline-edit>
                     </div>
                 </view-element>
               `

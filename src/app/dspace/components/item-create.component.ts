@@ -58,8 +58,9 @@ import { BitstreamUploader } from '../services/bitstream-uploader.service';
                     <!-- Add bitstreams/files -->
                     <item-bitstream-add [uploader]="uploader"></item-bitstream-add>
 
-                    <!-- As long as the default form has a Type input field, we'll display it first -->
+                    <!-- As long as the default form has a Type input field, we will display it first -->
                     <!-- Select to change form to a given type, which loads a new type-based form -->
+                    
                     <h4><label *ngIf="hasTypeInput()" for="type">{{ 'item.create.type-select' | translate }}</label></h4>
                     <select *ngIf="hasTypeInput()" class="form-control" id="type" [(ngModel)]="selected" (ngModelChange)="typeSelected($event)">>
                         <option *ngFor="let option of typeInput.options" [ngValue]="option">{{ option.gloss }}</option>
@@ -99,7 +100,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      * Uploader to use. This bitstream uploader manages the
      * queue of files to upload as well as the upload process itself.
      */
-    public uploader:BitstreamUploader;
+    public uploader: BitstreamUploader;
 
     /**
      * Item being created. ngModel
@@ -114,7 +115,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param dspace
+     * @param dspaceHierarchy
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
@@ -130,7 +131,7 @@ export class ItemCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceHierarchyService,
+                private dspaceHierarchy: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -150,7 +151,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      */
     init(): void {
         this.item = new Item();
-        this.formService.getForm(this.selected ? this.selected.form : 'item').subscribe(inputs => {
+        this.subscription = this.formService.getForm(this.selected ? this.selected.form : 'item').subscribe(inputs => {
             // For an item, the form consists of MetadatumInputs
             this.metadatumInputs = inputs;
 
@@ -229,7 +230,7 @@ export class ItemCreateComponent extends FormSecureComponent {
      */
     finish(itemName: string, currentContext: any): void {
         this.reset();
-        this.dspace.refresh(currentContext);
+        this.dspaceHierarchy.refresh(currentContext);
         this.router.navigate(['/Collections', { id: currentContext.id }]);
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('item.create.success', { name: itemName }), 15);
     }
@@ -298,10 +299,9 @@ export class ItemCreateComponent extends FormSecureComponent {
             if(response.status == 200) {
                 this.item.id = JSON.parse(response.text()).id;
                 // If we have files in our upload queue, upload them
-                if (this.uploader.queue.length>0)
-                {
+                if (this.uploader.queue.length > 0) {
                     // Upload all files
-                    this.uploadAll(this.item, token).subscribe (response => {
+                    this.uploadAll(this.item, token).subscribe(response => {
                         // Finish up the item
                         this.finish(this.item.name, currentContext);
                     });

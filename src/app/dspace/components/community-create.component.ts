@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
+
 import {
     FORM_DIRECTIVES,
     FORM_BINDINGS,
@@ -59,7 +60,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
      *      ContextProviderService is a singleton service in which provides current context.
      * @param dspaceService
      *      DSpaceService is a singleton service to interact with the dspace service.
-     * @param dspace
+     * @param dspaceHierarchy
      *      DSpaceHierarchyService is a singleton service to interact with the dspace hierarchy.
      * @param notificationService
      *      NotificationService is a singleton service to notify user of alerts.
@@ -75,7 +76,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
     constructor(private translate: TranslateService,
                 private contextProvider: ContextProviderService,
                 private dspaceService: DSpaceService,
-                private dspace: DSpaceHierarchyService,
+                private dspaceHierarchy: DSpaceHierarchyService,
                 private notificationService: NotificationService,
                 formService: FormService,
                 builder: FormBuilder,
@@ -90,7 +91,7 @@ export class CommunityCreateComponent extends FormSecureComponent {
      */
     init(): void {
         this.community = new Community();
-        this.formService.getForm('community').subscribe(inputs => {
+        this.subscription = this.formService.getForm('community').subscribe(inputs => {
             this.inputs = inputs;
             let formControls = {};
             for(let input of this.inputs) {
@@ -130,11 +131,11 @@ export class CommunityCreateComponent extends FormSecureComponent {
     finish(communityName: string, currentContext: any): void {
         this.reset();
         if(currentContext.root) {
-            this.dspace.refresh();
+            this.dspaceHierarchy.refresh();
             this.router.navigate(['/Home']);
         }
         else {
-            this.dspace.refresh(currentContext);
+            this.dspaceHierarchy.refresh(currentContext);
             this.router.navigate(['/Communities', { id: currentContext.id }]);
         }
         this.notificationService.notify('app', 'SUCCESS', this.translate.instant('community.create.success', { name: communityName }), 15);
