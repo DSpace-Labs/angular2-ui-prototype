@@ -15,7 +15,7 @@ import { ItemCollectionComponent } from './item/item-collection.component';
 import { ThumbnailComponent } from './item/thumbnail.component';
 import { UriComponent } from './item/uri.component';
 
-import { InlineEditComponent } from './inline-edit.component';
+import { FormInlineEditComponent } from '../../utilities/form/form-inline-edit.component';
 
 import { Item } from '../models/item.model';
 
@@ -32,7 +32,7 @@ import { Item } from '../models/item.model';
                   AuthorsComponent,
                   BitstreamsComponent,
                   DateComponent,
-                  InlineEditComponent,
+                  FormInlineEditComponent,
                   ItemCollectionComponent,
                   ThumbnailComponent,
                   UriComponent ],

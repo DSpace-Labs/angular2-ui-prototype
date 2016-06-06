@@ -15,7 +15,7 @@ import { FormInput } from './form-input.model';
     directives: [ FORM_DIRECTIVES ],
     template: `
                 <div *ngIf="form.controls[input.id]">
-                    <span [hidden]="hideValidationMessage()" class="validaiton-helper text-danger">
+                    <span [hidden]="hideValidationMessage()" class="validaiton-helper text-danger fixed-validation-size">
                         <span *ngIf="minLengthError()">
                             {{ input.validation.minLength.message | translate }}
                         </span>

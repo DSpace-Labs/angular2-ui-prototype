@@ -10,7 +10,7 @@ import { FullMetadataComponent } from './item/full/full-metadata.component.ts';
 import { FullBitstreamsComponent } from './item/full/full-bitstreams.component';
 import { FullCollectionsComponent } from './item/full/full-collections.component';
 
-import { InlineEditComponent } from './inline-edit.component';
+import { FormInlineEditComponent } from '../../utilities/form/form-inline-edit.component';
 
 import { Item } from '../models/item.model';
 import { Notification } from '../../utilities/notification/notification.model';
@@ -24,7 +24,7 @@ import { Notification } from '../../utilities/notification/notification.model';
     directives: [ FullMetadataComponent,
                   FullBitstreamsComponent,
                   FullCollectionsComponent,
-                  InlineEditComponent,
+                  FormInlineEditComponent,
                   ROUTER_DIRECTIVES ],
     pipes: [ TranslatePipe ],
     template: `

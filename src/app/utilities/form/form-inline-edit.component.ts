@@ -13,20 +13,20 @@ import {
 
 import { TranslateService, TranslatePipe } from "ng2-translate/ng2-translate";
 
-import { AuthorizationService } from '../authorization/services/authorization.service';
-import { ContextProviderService } from '../services/context-provider.service';
-import { FormService } from '../../utilities/form/form.service';
+import { AuthorizationService } from '../../dspace/authorization/services/authorization.service';
+import { ContextProviderService } from '../../dspace/services/context-provider.service';
+import { FormService } from './form.service';
 import { BreadcrumbService } from '../../navigation/services/breadcrumb.service';
-import { NotificationService } from '../../utilities/notification/notification.service';
-import { DSpaceService } from '../services/dspace.service';
-import { DSpaceHierarchyService } from '../services/dspace-hierarchy.service';
+import { NotificationService } from '../notification/notification.service';
+import { DSpaceService } from '../../dspace/services/dspace.service';
+import { DSpaceHierarchyService } from '../../dspace/services/dspace-hierarchy.service';
 
-import { FormSecureComponent } from '../../utilities/form/form-secure.component';
-import { FormFieldsetComponent } from '../../utilities/form/form-fieldset.component';
-import { LoaderComponent } from '../../utilities/loader.component';
+import { FormSecureComponent } from './form-secure.component';
+import { FormFieldsetComponent } from './form-fieldset.component';
+import { LoaderComponent } from '../loader.component';
 
-import { FormInput } from '../../utilities/form/form-input.model';
-import { Metadatum } from '../models/metadatum.model';
+import { FormInput } from './form-input.model';
+import { Metadatum } from '../../dspace/models/metadatum.model';
 
 /**
  * Login form. Uses form-modal component.
@@ -43,7 +43,7 @@ import { Metadatum } from '../models/metadatum.model';
 
                     <span *ngIf="edit()" class="{{class}}">
 
-                        <span *ngIf="selectable()">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable" (click)="select()"></span></span>
+                        <span *ngIf="selectable()">{{ model[property] }} <span class="glyphicon glyphicon-pencil clickable fixed-glyphicon-size" (click)="select()"></span></span>
 
                         <form-fieldset *ngIf="selected" [form]="form" [inputs]="inputs" [label]="false" (onEvent)="execute($event)"></form-fieldset>
 
@@ -52,7 +52,7 @@ import { Metadatum } from '../models/metadatum.model';
                 </form>
               `
 })
-export class InlineEditComponent extends FormSecureComponent implements AfterContentInit, OnDestroy {
+export class FormInlineEditComponent extends FormSecureComponent implements AfterContentInit, OnDestroy {
 
     /**
      *

@@ -6,7 +6,7 @@ import { MetadataHelper } from '../../../utilities/metadata.helper';
 import { Metadatum } from '../../models/metadatum.model'
 import { ViewElementComponent } from './view-element.component';
 
-import { InlineEditComponent } from '../inline-edit.component';
+import { FormInlineEditComponent } from '../../../utilities/form/form-inline-edit.component';
 
 /**
  * Component for the authors of the simple-item-view.
@@ -14,7 +14,7 @@ import { InlineEditComponent } from '../inline-edit.component';
  */
 @Component({
     selector: 'item-abstract',
-    directives: [ InlineEditComponent, ViewElementComponent ],
+    directives: [ FormInlineEditComponent, ViewElementComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" [header]="componentTitle | translate" [headerClasses]="['visible-xs']">

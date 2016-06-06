@@ -10,14 +10,14 @@ import { NotificationService } from '../../../../utilities/notification/notifica
 import { Metadatum } from '../../../models/metadatum.model'
 import { ViewElementComponent } from '../view-element.component';
 
-import { InlineEditComponent } from '../../inline-edit.component';
+import { FormInlineEditComponent } from '../../../../utilities/form/form-inline-edit.component';
 
 /**
  * Renders a table of all metadata entries of an item.
  */
 @Component({
     selector: 'item-full-metadata',
-    directives: [ InlineEditComponent ],
+    directives: [ FormInlineEditComponent ],
     pipes: [ TranslatePipe ],
     template: `
                 <view-element>
