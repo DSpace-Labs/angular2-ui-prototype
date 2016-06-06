@@ -33,9 +33,9 @@ import { FormInlineEditComponent } from '../../../../utilities/form/form-inline-
                             </thead>
                             <tbody>
                                 <tr *ngFor="let metadatum of itemData">
+
                                     <td class="item-full-metadata-label-cell">{{ metadatum.key }}</td>
                                     <td>
-                                        <!-- <div class="word-break item-full-metadata-data-cell">{{ metadatum.value }}</div> -->
                                         <inline-edit class="word-break item-full-metadata-data-cell" [model]="metadatum" property="value"></inline-edit>
                                     </td>
                                     <td class="item-full-metadata-language-cell">{{ metadatum.language }}</td>
@@ -45,6 +45,30 @@ import { FormInlineEditComponent } from '../../../../utilities/form/form-inline-
                                     </td>
                                     
                                 </tr>
+
+
+                                <tr *ngIf="adding">
+
+                                    <td class="item-full-metadata-label-cell">
+
+                                    </td>
+
+                                    <td>
+                                        <div class="word-break item-full-metadata-data-cell">
+
+                                        </div>
+                                    </td>
+
+                                    <td class="item-full-metadata-language-cell">
+
+                                    </td>
+
+                                    <td class="item-full-metadata-remove-cell">
+
+                                    </td>
+
+                                </tr>
+
                             </tbody>
                         </table>
                         <a *ngIf="editing()" class="btn btn-default pull-right" (click)="addMetadataInline()">{{ 'item-view.add-metadata' | translate }}</a>
@@ -57,8 +81,13 @@ export class FullMetadataComponent {
     /**
      * We get all metadata related to the item in question from the 'full-item-view'
      */
-    @Input() private itemData: Array<Metadatum>; 
-    
+    @Input() private itemData: Array<Metadatum>;
+
+    /**
+     *
+     */
+     private adding: boolean = false;
+
     /**
      * 
      */
@@ -138,7 +167,7 @@ export class FullMetadataComponent {
      * 
      */
     addMetadataInline(): void {
-        
+        this.adding = true;
     }
 
     /**

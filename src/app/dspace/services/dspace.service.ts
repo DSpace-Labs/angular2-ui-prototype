@@ -38,7 +38,7 @@ export class DSpaceService {
         params.append("limit", '200');
         params.append("offset", '0');
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/top-communities'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/top-communities?expand=logo'),
             search: params
         }).map(json => {
             let topCommunities = new Array<Community>();
@@ -60,7 +60,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/communities'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/communities?expand=logo'),
             search: params
         }).map(json => {
             let communities = new Array<Community>();
@@ -82,7 +82,7 @@ export class DSpaceService {
         params.append("limit", community.limit);
         params.append("offset", community.offset);
         return this.httpService.get({
-            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/collections'),
+            url: URLHelper.relativeToAbsoluteRESTURL('/communities/' + community.id + '/collections?expand=logo'),
             search: params
         }).map(json => {
             let collections = new Array<Collection>();
