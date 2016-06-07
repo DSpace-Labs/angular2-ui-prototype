@@ -19,7 +19,7 @@ import { FormInlineEditComponent } from '../../../utilities/form/form-inline-edi
     template: `
                 <view-element *ngIf="hasMetadata()" class="simple-item-view-abstract" [header]="componentTitle | translate" [headerClasses]="['visible-xs']">
                     <div *ngFor="let metadatum of filteredFields;">
-                        <inline-edit [model]="metadatum" property="value"></inline-edit>
+                        <inline-edit [model]="metadatum" property="value" [class]="'simple-item-view-abstract-contents'"></inline-edit>
                     </div>
                 </view-element>
               `
